@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,6 +22,7 @@ use PhpOffice\Common\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\Style\Language;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Word2007 settings part writer: word/settings.xml
@@ -270,8 +272,7 @@ class Settings extends AbstractPart
 
     /**
      * Set the magnification
-     *
-     * @param mixed $zoom
+     * @param null|mixed $zoom
      */
     private function setZoom($zoom = null)
     {
@@ -295,17 +296,14 @@ class Settings extends AbstractPart
         );
     }
 
-    /**
-     * @param float|null $hyphenationZone
-     */
-    private function setHyphenationZone($hyphenationZone)
+    private function setHyphenationZone(Absolute $hyphenationZone)
     {
-        if ($hyphenationZone === null) {
+        if (!$hyphenationZone->isSpecified()) {
             return;
         }
 
         $this->settings['w:hyphenationZone'] = array(
-            '@attributes' => array('w:val' => $hyphenationZone),
+            '@attributes' => array('w:val' => $hyphenationZone->toInt('twip')),
         );
     }
 

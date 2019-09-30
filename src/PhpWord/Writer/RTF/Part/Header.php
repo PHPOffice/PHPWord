@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,9 +19,12 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Border;
+use PhpOffice\PhpWord\Style\Colors\BasicColor;
+use PhpOffice\PhpWord\Style\Colors\Hex;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
 /**
  * RTF header part writer
@@ -155,7 +159,7 @@ class Header extends AbstractPart
         $content .= '{';
         $content .= '\colortbl;';
         foreach ($this->colorTable as $color) {
-            list($red, $green, $blue) = Converter::htmlToRgb($color);
+            list($red, $green, $blue) = $color->toRgb();
             $content .= "\\red{$red}\\green{$green}\\blue{$blue};";
         }
         $content .= '}';
@@ -209,17 +213,18 @@ class Header extends AbstractPart
 
     /**
      * Register border colors.
-     *
-     * @param \PhpOffice\PhpWord\Style\Border $style
      */
-    private function registerBorderColor($style)
+    private function registerBorderColor(SectionStyle $style): self
     {
-        $colors = $style->getBorderColor();
-        foreach ($colors as $color) {
-            if ($color !== null) {
-                $this->registerTableItem($this->colorTable, $color);
+        $borders = $style->getBorders();
+        foreach ($borders as $border) {
+            $color = $border->getColor();
+            if ($color->isSpecified()) {
+                $this->registerTableItem($this->colorTable, $color, new Hex('000000'));
             }
         }
+
+        return $this;
     }
 
     /**
@@ -230,7 +235,7 @@ class Header extends AbstractPart
     private function registerFontItems($style)
     {
         $defaultFont = Settings::getDefaultFontName();
-        $defaultColor = Settings::DEFAULT_FONT_COLOR;
+        $defaultColor = new Hex(Settings::DEFAULT_FONT_COLOR);
 
         if ($style instanceof Font) {
             $this->registerTableItem($this->fontTable, $style->getName(), $defaultFont);
@@ -243,10 +248,10 @@ class Header extends AbstractPart
      * Register individual font and color.
      *
      * @param array &$table
-     * @param string $value
-     * @param string $default
+     * @param BasicColor|string $value
+     * @param BasicColor|string $default
      */
-    private function registerTableItem(&$table, $value, $default = null)
+    private function registerTableItem(&$table, $value, $default)
     {
         if (in_array($value, $table) === false && $value !== null && $value != $default) {
             $table[] = $value;

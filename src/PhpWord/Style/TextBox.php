@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,10 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style\Colors\BasicColor;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 /**
  * TextBox style
  *
@@ -27,146 +32,156 @@ class TextBox extends Image
     /**
      * margin top
      *
-     * @var int
+     * @var Absolute
      */
     private $innerMarginTop = null;
 
     /**
      * margin left
      *
-     * @var int
+     * @var Absolute
      */
     private $innerMarginLeft = null;
 
     /**
      * margin right
      *
-     * @var int
+     * @var Absolute
      */
     private $innerMarginRight = null;
 
     /**
      * Cell margin bottom
      *
-     * @var int
+     * @var Absolute
      */
     private $innerMarginBottom = null;
 
     /**
      * border size
      *
-     * @var int
+     * @var Absolute
      */
     private $borderSize = null;
 
     /**
      * border color
      *
-     * @var string
+     * @var BasicColor
      */
     private $borderColor;
 
     /**
      * Set margin top.
-     *
-     * @param int $value
      */
-    public function setInnerMarginTop($value = null)
+    public function setInnerMarginTop(Absolute $value): self
     {
         $this->innerMarginTop = $value;
+
+        return $this;
     }
 
     /**
      * Get margin top
-     *
-     * @return int
      */
-    public function getInnerMarginTop()
+    public function getInnerMarginTop(): Absolute
     {
+        if ($this->innerMarginTop === null) {
+            $this->setInnerMarginTop(new Absolute(null));
+        }
+
         return $this->innerMarginTop;
     }
 
     /**
      * Set margin left.
-     *
-     * @param int $value
      */
-    public function setInnerMarginLeft($value = null)
+    public function setInnerMarginLeft(Absolute $value): self
     {
         $this->innerMarginLeft = $value;
+
+        return $this;
     }
 
     /**
      * Get margin left
-     *
-     * @return int
      */
-    public function getInnerMarginLeft()
+    public function getInnerMarginLeft(): Absolute
     {
+        if ($this->innerMarginLeft === null) {
+            $this->setInnerMarginLeft(new Absolute(null));
+        }
+
         return $this->innerMarginLeft;
     }
 
     /**
      * Set margin right.
-     *
-     * @param int $value
      */
-    public function setInnerMarginRight($value = null)
+    public function setInnerMarginRight(Absolute $value): self
     {
         $this->innerMarginRight = $value;
+
+        return $this;
     }
 
     /**
      * Get margin right
-     *
-     * @return int
      */
-    public function getInnerMarginRight()
+    public function getInnerMarginRight(): Absolute
     {
+        if ($this->innerMarginRight === null) {
+            $this->setInnerMarginRight(new Absolute(null));
+        }
+
         return $this->innerMarginRight;
     }
 
     /**
      * Set margin bottom.
-     *
-     * @param int $value
      */
-    public function setInnerMarginBottom($value = null)
+    public function setInnerMarginBottom(Absolute $value): self
     {
         $this->innerMarginBottom = $value;
+
+        return $this;
     }
 
     /**
      * Get margin bottom
-     *
-     * @return int
      */
-    public function getInnerMarginBottom()
+    public function getInnerMarginBottom(): Absolute
     {
+        if ($this->innerMarginBottom === null) {
+            $this->setInnerMarginBottom(new Absolute(null));
+        }
+
         return $this->innerMarginBottom;
     }
 
     /**
      * Set TLRB cell margin.
      *
-     * @param int $value Margin in twips
+     * @param Absolute $value Margin
      */
-    public function setInnerMargin($value = null)
+    public function setInnerMargin(Absolute $value): self
     {
         $this->setInnerMarginTop($value);
         $this->setInnerMarginLeft($value);
         $this->setInnerMarginRight($value);
         $this->setInnerMarginBottom($value);
+
+        return $this;
     }
 
     /**
      * Get cell margin
      *
-     * @return int[]
+     * @return Absolute[]
      */
     public function getInnerMargin()
     {
-        return array($this->innerMarginLeft, $this->innerMarginTop, $this->innerMarginRight, $this->innerMarginBottom);
+        return array($this->getInnerMarginLeft(), $this->getInnerMarginTop(), $this->getInnerMarginRight(), $this->getInnerMarginBottom());
     }
 
     /**
@@ -180,7 +195,7 @@ class TextBox extends Image
         $margins = $this->getInnerMargin();
         $numMargins = count($margins);
         for ($i = 0; $i < $numMargins; $i++) {
-            if ($margins[$i] !== null) {
+            if ($margins[$i]->toInt('twip') !== null) {
                 $hasInnerMargins = true;
             }
         }
@@ -191,40 +206,46 @@ class TextBox extends Image
     /**
      * Set border size.
      *
-     * @param int $value Size in points
+     * @param Absolute $value Size
      */
-    public function setBorderSize($value = null)
+    public function setBorderSize(Absolute $value): self
     {
         $this->borderSize = $value;
+
+        return $this;
     }
 
     /**
      * Get border size
-     *
-     * @return int
      */
-    public function getBorderSize()
+    public function getBorderSize(): Absolute
     {
+        if ($this->borderSize === null) {
+            $this->borderSize = new Absolute(null);
+        }
+
         return $this->borderSize;
     }
 
     /**
      * Set border color.
-     *
-     * @param string $value
      */
-    public function setBorderColor($value = null)
+    public function setBorderColor(BasicColor $value): self
     {
         $this->borderColor = $value;
+
+        return $this;
     }
 
     /**
      * Get border color
-     *
-     * @return string
      */
-    public function getBorderColor()
+    public function getBorderColor(): BasicColor
     {
+        if ($this->borderColor === null) {
+            $this->borderColor = new Hex(null);
+        }
+
         return $this->borderColor;
     }
 }

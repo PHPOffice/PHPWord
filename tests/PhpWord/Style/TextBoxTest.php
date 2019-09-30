@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,7 +18,11 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Colors\HighlightColor;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use Throwable;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Image
@@ -35,29 +40,38 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
         $object = new TextBox();
 
         $properties = array(
-            'width'             => 200,
-            'height'            => 200,
+            // 'width'             => Absolute::from("twip", 200),
+            // 'height'            => Absolute::from("twip", 200),
             'alignment'         => Jc::START,
-            'marginTop'         => 240,
-            'marginLeft'        => 240,
+            'marginTop'         => Absolute::from('twip', 240),
+            'marginLeft'        => Absolute::from('twip', 240),
             'wrappingStyle'     => 'inline',
             'positioning'       => 'absolute',
             'posHorizontal'     => 'center',
             'posVertical'       => 'top',
             'posHorizontalRel'  => 'margin',
             'posVerticalRel'    => 'page',
-            'innerMarginTop'    => '5',
-            'innerMarginRight'  => '5',
-            'innerMarginBottom' => '5',
-            'innerMarginLeft'   => '5',
-            'borderSize'        => '2',
-            'borderColor'       => 'red',
+            'innerMarginTop'    => Absolute::from('twip', 5),
+            'innerMarginRight'  => Absolute::from('twip', 5),
+            'innerMarginBottom' => Absolute::from('twip', 5),
+            'innerMarginLeft'   => Absolute::from('twip', 5),
+            'borderSize'        => Absolute::from('twip', 2),
+            'borderColor'       => new HighlightColor('red'),
         );
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);
-            $this->assertEquals($value, $object->$get());
+            $result = $object->$get();
+            if ($value instanceof Absolute) {
+                try {
+                    $value = $value->toInt('twip');
+                    $result = $result->toInt('twip');
+                } catch (Throwable $ex) {
+                    throw new Exception("Failed to convert values for property `$key`", 1, $ex);
+                }
+            }
+            $this->assertEquals($value, $result);
         }
     }
 
@@ -69,28 +83,33 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
         $object = new TextBox();
 
         $properties = array(
-            'width'             => 200,
-            'height'            => 200,
+            'width'             => Absolute::from('twip', 200),
+            'height'            => Absolute::from('twip', 200),
             'alignment'         => Jc::START,
-            'marginTop'         => 240,
-            'marginLeft'        => 240,
+            'marginTop'         => Absolute::from('twip', 240),
+            'marginLeft'        => Absolute::from('twip', 240),
             'wrappingStyle'     => 'inline',
             'positioning'       => 'absolute',
             'posHorizontal'     => 'center',
             'posVertical'       => 'top',
             'posHorizontalRel'  => 'margin',
             'posVerticalRel'    => 'page',
-            'innerMarginTop'    => '5',
-            'innerMarginRight'  => '5',
-            'innerMarginBottom' => '5',
-            'innerMarginLeft'   => '5',
-            'borderSize'        => '2',
-            'borderColor'       => 'red',
+            'innerMarginTop'    => Absolute::from('twip', 5),
+            'innerMarginRight'  => Absolute::from('twip', 5),
+            'innerMarginBottom' => Absolute::from('twip', 5),
+            'innerMarginLeft'   => Absolute::from('twip', 5),
+            'borderSize'        => Absolute::from('twip', 2),
+            'borderColor'       => new HighlightColor('red'),
         );
         foreach ($properties as $key => $value) {
             $get = "get{$key}";
             $object->setStyleValue("{$key}", $value);
-            $this->assertEquals($value, $object->$get());
+            $result = $object->$get();
+            if ($value instanceof Absolute) {
+                $result = $result->toInt('twip');
+                $value = $value->toInt('twip');
+            }
+            $this->assertEquals($value, $result);
         }
     }
 
@@ -112,8 +131,8 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 200;
         $object = new TextBox();
-        $object->setWidth($expected);
-        $this->assertEquals($expected, $object->getWidth());
+        $object->setWidth(Absolute::from('twip', $expected));
+        $this->assertEquals($expected, $object->getWidth()->toInt('twip'));
     }
 
     /**
@@ -123,8 +142,8 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 200;
         $object = new TextBox();
-        $object->setHeight($expected);
-        $this->assertEquals($expected, $object->getHeight());
+        $object->setHeight(Absolute::from('twip', $expected));
+        $this->assertEquals($expected, $object->getHeight()->toInt('twip'));
     }
 
     /**
@@ -146,8 +165,8 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 5;
         $object = new TextBox();
-        $object->setMarginTop($expected);
-        $this->assertEquals($expected, $object->getMarginTop());
+        $object->setMarginTop(Absolute::from('twip', $expected));
+        $this->assertEquals($expected, $object->getMarginTop()->toInt('twip'));
     }
 
     /**
@@ -157,8 +176,8 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 5;
         $object = new TextBox();
-        $object->setMarginLeft($expected);
-        $this->assertEquals($expected, $object->getMarginLeft());
+        $object->setMarginLeft(Absolute::from('twip', $expected));
+        $this->assertEquals($expected, $object->getMarginLeft()->toInt('twip'));
     }
 
     /**
@@ -168,8 +187,8 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 5;
         $object = new TextBox();
-        $object->setInnerMarginTop($expected);
-        $this->assertEquals($expected, $object->getInnerMarginTop());
+        $object->setInnerMarginTop(Absolute::from('twip', $expected));
+        $this->assertEquals($expected, $object->getInnerMarginTop()->toInt('twip'));
     }
 
     /**
@@ -245,8 +264,8 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 5;
         $object = new TextBox();
-        $object->setInnerMarginRight($expected);
-        $this->assertEquals($expected, $object->getInnerMarginRight());
+        $object->setInnerMarginRight(Absolute::from('twip', $expected));
+        $this->assertEquals($expected, $object->getInnerMarginRight()->toInt('twip'));
     }
 
     /**
@@ -256,8 +275,8 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 5;
         $object = new TextBox();
-        $object->setInnerMarginBottom($expected);
-        $this->assertEquals($expected, $object->getInnerMarginBottom());
+        $object->setInnerMarginBottom(Absolute::from('twip', $expected));
+        $this->assertEquals($expected, $object->getInnerMarginBottom()->toInt('twip'));
     }
 
     /**
@@ -267,8 +286,8 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 5;
         $object = new TextBox();
-        $object->setInnerMarginLeft($expected);
-        $this->assertEquals($expected, $object->getInnerMarginLeft());
+        $object->setInnerMarginLeft(Absolute::from('twip', $expected));
+        $this->assertEquals($expected, $object->getInnerMarginLeft()->toInt('twip'));
     }
 
     /**
@@ -278,8 +297,10 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 5;
         $object = new TextBox();
-        $object->setInnerMargin($expected);
-        $this->assertEquals(array($expected, $expected, $expected, $expected), $object->getInnerMargin());
+        $object->setInnerMargin(Absolute::from('twip', $expected));
+        $this->assertEquals(array($expected, $expected, $expected, $expected), array_map(function ($value) {
+            return $value->toInt('twip');
+        }, $object->getInnerMargin()));
     }
 
     /**
@@ -289,8 +310,8 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $expected = 2;
         $object = new TextBox();
-        $object->setBorderSize($expected);
-        $this->assertEquals($expected, $object->getBorderSize());
+        $object->setBorderSize(Absolute::from('twip', $expected));
+        $this->assertEquals($expected, $object->getBorderSize()->toInt('twip'));
     }
 
     /**
@@ -298,7 +319,7 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetBorderColor()
     {
-        $expected = 'red';
+        $expected = new HighlightColor('red');
         $object = new TextBox();
         $object->setBorderColor($expected);
         $this->assertEquals($expected, $object->getBorderColor());

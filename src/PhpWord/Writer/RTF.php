@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -106,8 +107,6 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Get last paragraph style.
-     *
-     * @return mixed
      */
     public function getLastParagraphStyle()
     {
@@ -116,8 +115,6 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Set last paragraph style.
-     *
-     * @param mixed $value
      */
     public function setLastParagraphStyle($value = '')
     {

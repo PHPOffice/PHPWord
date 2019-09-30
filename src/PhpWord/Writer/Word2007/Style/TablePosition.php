@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
+
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * TablePosition style writer
@@ -57,6 +60,9 @@ class TablePosition extends AbstractStyle
             $xmlWriter = $this->getXmlWriter();
             $xmlWriter->startElement('w:tblpPr');
             foreach ($values as $property => $value) {
+                if ($value instanceof Absolute) {
+                    $value = $value->toInt('twip');
+                }
                 $xmlWriter->writeAttribute('w:' . $property, $value);
             }
             $xmlWriter->endElement();

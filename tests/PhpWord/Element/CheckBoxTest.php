@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,6 +20,7 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\CheckBox
@@ -59,7 +61,7 @@ class CheckBoxTest extends \PHPUnit\Framework\TestCase
         $oCheckBox = new CheckBox('chkBox', 'CheckBox', 'fontStyle');
         $this->assertEquals('fontStyle', $oCheckBox->getFontStyle());
 
-        $oCheckBox->setFontStyle(array('bold' => true, 'italic' => true, 'size' => 16));
+        $oCheckBox->setFontStyle(array('bold' => true, 'italic' => true, 'size' => Absolute::from('pt', 16)));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oCheckBox->getFontStyle());
     }
 
@@ -81,7 +83,7 @@ class CheckBoxTest extends \PHPUnit\Framework\TestCase
         $oCheckBox = new CheckBox('chkBox', 'CheckBox', 'fontStyle', 'paragraphStyle');
         $this->assertEquals('paragraphStyle', $oCheckBox->getParagraphStyle());
 
-        $oCheckBox->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));
+        $oCheckBox->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => Absolute::from('twip', 100)));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());
     }
 }

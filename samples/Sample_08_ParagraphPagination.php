@@ -1,14 +1,19 @@
 <?php
+declare(strict_types=1);
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 $phpWord->setDefaultParagraphStyle(
     array(
-        'alignment'  => \PhpOffice\PhpWord\SimpleType\Jc::BOTH,
-        'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(12),
-        'spacing'    => 120,
+        'alignment'  => Jc::BOTH,
+        'spaceAfter' => Absolute::from('pt', 12),
+        'spacing'    => Absolute::from('twip', 120),
     )
 );
 
@@ -20,7 +25,7 @@ $section->addText(
         . 'pagination. See "Line and Page Break" tab on paragraph properties '
         . 'window to see the attribute set by these controls.',
     array('bold'  => true),
-    array('space' => array('before' => 360, 'after' => 480))
+    array('space' => array('before' => Absolute::from('twip', 360), 'after' => Absolute::from('twip', 480)))
 );
 
 $section->addText(
@@ -30,7 +35,7 @@ $section->addText(
         . 'itself at the bottom of a page. Set this option to "false" if you want '
         . 'to disable this automatic control.',
     null,
-    array('widowControl' => false, 'indentation' => array('left' => 240, 'right' => 120))
+    array('widowControl' => false, 'indentation' => array('left' => Absolute::from('twip', 240), 'right' => Absolute::from('twip', 120)))
 );
 
 $section->addText(
@@ -39,7 +44,7 @@ $section->addText(
         . 'breaks between paragraphs. Set this option to "true" if you do not want '
         . 'your paragraph to be separated with the next paragraph.',
     null,
-    array('keepNext' => true, 'indentation' => array('firstLine' => 240))
+    array('keepNext' => true, 'indentation' => array('firstLine' => Absolute::from('twip', 240)))
 );
 
 $section->addText(
@@ -48,7 +53,7 @@ $section->addText(
         . 'break within a paragraph. Set this option to "true" if you do not want '
         . 'all lines of your paragraph to be in the same page.',
     null,
-    array('keepLines' => true, 'indentation' => array('left' => 240, 'hanging' => 240))
+    array('keepLines' => true, 'indentation' => array('left' => Absolute::from('twip', 240), 'hanging' => Absolute::from('twip', 240)))
 );
 
 $section->addText('Keep scrolling. More below.');

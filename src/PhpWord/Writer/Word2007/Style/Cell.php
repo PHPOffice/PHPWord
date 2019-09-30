@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,7 +18,13 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Auto;
+use PhpOffice\PhpWord\Style\Lengths\Length;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
 
 /**
  * Cell style writer
@@ -26,8 +33,10 @@ use PhpOffice\PhpWord\Style\Cell as CellStyle;
  */
 class Cell extends AbstractStyle
 {
+    use Border;
+
     /**
-     * @var int Cell width
+     * @var Length Cell width
      */
     private $width;
 
@@ -45,14 +54,7 @@ class Cell extends AbstractStyle
         $xmlWriter->startElement('w:tcPr');
 
         // Width
-        if (!is_null($this->width) || !is_null($style->getWidth())) {
-            $width = is_null($this->width) ? $style->getWidth() : $this->width;
-
-            $xmlWriter->startElement('w:tcW');
-            $xmlWriter->writeAttribute('w:w', $width);
-            $xmlWriter->writeAttribute('w:type', $style->getUnit());
-            $xmlWriter->endElement(); // w:tcW
-        }
+        $this->writeWidth($xmlWriter, $style);
 
         // Text direction
         $textDir = $style->getTextDirection();
@@ -63,18 +65,7 @@ class Cell extends AbstractStyle
         $xmlWriter->writeElementIf(!is_null($vAlign), 'w:vAlign', 'w:val', $vAlign);
 
         // Border
-        if ($style->hasBorder()) {
-            $xmlWriter->startElement('w:tcBorders');
-
-            $styleWriter = new MarginBorder($xmlWriter);
-            $styleWriter->setSizes($style->getBorderSize());
-            $styleWriter->setColors($style->getBorderColor());
-            $styleWriter->setStyles($style->getBorderStyle());
-            $styleWriter->setAttributes(array('defaultColor' => CellStyle::DEFAULT_BORDER_COLOR));
-            $styleWriter->write();
-
-            $xmlWriter->endElement();
-        }
+        $this->writeBorders($xmlWriter, $style);
 
         // Shading
         $shading = $style->getShading();
@@ -92,13 +83,58 @@ class Cell extends AbstractStyle
         $xmlWriter->endElement(); // w:tcPr
     }
 
-    /**
-     * Set width.
-     *
-     * @param int $value
-     */
-    public function setWidth($value = null)
+    protected function writeWidth(XmlWriter $xmlWriter, CellStyle $style)
     {
-        $this->width = $value;
+        $width = is_null($this->width) ? $style->getWidth() : $this->width;
+
+        if ($width instanceof Absolute) {
+            $width = $width->toFloat('twip');
+            $unit = 'dxa';
+        } elseif ($width instanceof Percent) {
+            $width = $width->toFloat() . '%';
+            $unit = 'pct';
+        } elseif ($width instanceof Auto) {
+            $width = null;
+            $unit = 'auto';
+        } else {
+            throw new Exception('Unsupported width `' . get_class($width) . '` provided');
+        }
+
+        if ($width === null && $unit !== 'auto') {
+            return;
+        } elseif ($width !== null && $width == 0) {
+            $width = null;
+            $unit = 'nil';
+        }
+
+        $xmlWriter->startElement('w:tcW');
+        $xmlWriter->writeAttributeIf(null !== $width, 'w:w', $width);
+        $xmlWriter->writeAttribute('w:type', $unit);
+        $xmlWriter->endElement(); // w:tcW
+    }
+
+    protected function writeBorders(XmlWriter $xmlWriter, CellStyle $style)
+    {
+        if (!$style->hasBorder()) {
+            return;
+        }
+
+        $xmlWriter->startElement('w:tcBorders');
+
+        foreach ($style->getBorders() as $side => $border) {
+            $this->writeBorder($xmlWriter, $side, $border);
+        }
+
+        $xmlWriter->endElement();
+    }
+
+    /**
+     * Override width set in style.
+     */
+    public function setWidth(Length $value): self
+    {
+        $this->width = $value->isSpecified() ? $value : null;
+
+        return $this;
     }
 }

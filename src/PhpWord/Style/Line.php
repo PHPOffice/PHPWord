@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord\Style;
+
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Line style
@@ -70,7 +73,7 @@ class Line extends Image
     /**
      * Line Weight
      *
-     * @var int
+     * @var Absolute
      */
     private $weight;
 
@@ -153,23 +156,22 @@ class Line extends Image
 
     /**
      * Get weight
-     *
-     * @return int
      */
-    public function getWeight()
+    public function getWeight(): Absolute
     {
+        if ($this->weight === null) {
+            $this->weight = new Absolute(null);
+        }
+
         return $this->weight;
     }
 
     /**
      * Set weight
-     *
-     * @param int $value Weight in points
-     * @return self
      */
-    public function setWeight($value = null)
+    public function setWeight(Absolute $value): self
     {
-        $this->weight = $this->setNumericVal($value, $this->weight);
+        $this->weight = $value;
 
         return $this;
     }

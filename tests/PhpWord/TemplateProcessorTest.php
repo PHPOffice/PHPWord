@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -251,8 +252,8 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
 
         $values = array(
-            array('userId' => 1, 'userName' => 'Batman', 'userLocation' => 'Gotham City'),
-            array('userId' => 2, 'userName' => 'Superman', 'userLocation' => 'Metropolis'),
+            array('userId' => '1', 'userName' => 'Batman', 'userLocation' => 'Gotham City'),
+            array('userId' => '2', 'userName' => 'Superman', 'userLocation' => 'Metropolis'),
         );
         $templateProcessor->setValue('tableHeader', 'My clonable table');
         $templateProcessor->cloneRowAndSetValues('userId', $values);
@@ -308,6 +309,26 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             array('tableHeader', 'userId', 'userLocation'),
             $templateProcessor->getVariables()
         );
+    }
+
+    /**
+     * @covers ::setValue
+     * @test
+     */
+    public function testSetValueMultipleReplacements()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>';
+
+        Settings::setOutputEscapingEnabled(true);
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValue(array('firstname', 'lastname'), array('Jane', 'Doe'));
+
+        $this->assertContains('Hello Jane Doe', $templateProcessor->getMainPart());
     }
 
     public function testSetComplexValue()
@@ -383,6 +404,82 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @covers \PhpOffice\PhpWord\TemplateProcessor::getSlice
+     */
+    public function testGetSlice()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>';
+
+        $stub = new TestableTemplateProcesor($mainPart);
+        $this->assertEquals(substr($mainPart, 0, 1), $stub->getSlice(0, 1));
+        $this->assertEquals(substr($mainPart, 1, 1), $stub->getSlice(1, 2));
+        $this->assertEquals(substr($mainPart, 1, 182), $stub->getSlice(1, 183));
+        $this->assertEquals(substr($mainPart, 0, 183), $stub->getSlice(0, 183));
+    }
+
+    /**
+     * @depends testGetSlice
+     * @covers \PhpOffice\PhpWord\TemplateProcessor::getSlice
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Start position must be at least 0. `-1` provided
+     */
+    public function testGetSliceNegative()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>';
+
+        $stub = new TestableTemplateProcesor($mainPart);
+        $stub->getSlice(-1);
+    }
+
+    /**
+     * @depends testGetSlice
+     * @covers \PhpOffice\PhpWord\TemplateProcessor::getSlice
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Provided end position `5` is smaller than the start position `9`
+     */
+    public function testGetSliceFlipped()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>';
+
+        $stub = new TestableTemplateProcesor($mainPart);
+        $stub->getSlice(9, 5);
+    }
+
+    /**
+     * @depends testGetSlice
+     * @covers \PhpOffice\PhpWord\TemplateProcessor::getSlice
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Provided end position `184` is longer than the length `183`
+     */
+    public function testGetSliceLong()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>';
+
+        $stub = new TestableTemplateProcesor($mainPart);
+        $stub->getSlice(0, 184);
+    }
+
+    /**
      * @covers ::setImageValue
      * @test
      */
@@ -394,7 +491,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $variablesReplace = array(
                                 'headerValue'       => $imagePath,
                                 'documentContent'   => array('path' => $imagePath, 'width' => 500, 'height' => 500),
-                                'footerValue'       => array('path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false),
+                                'footerValue'       => array('path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => null),
         );
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 
@@ -843,5 +940,19 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $templateProcessor->setUpdateFields(false);
         $this->assertContains('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
+    }
+
+    /**
+     * Helper function to call protected method
+     *
+     * @param string $method
+     */
+    public static function callProtectedMethod($object, $method, array $args = array())
+    {
+        $class = new \ReflectionClass(get_class($object));
+        $method = $class->getMethod($method);
+        $method->setAccessible(true);
+
+        return $method->invokeArgs($object, $args);
     }
 }

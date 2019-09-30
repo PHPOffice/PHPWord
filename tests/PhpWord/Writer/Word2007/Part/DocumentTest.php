@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -22,8 +23,12 @@ use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\Style\BorderSide;
 use PhpOffice\PhpWord\Style\Cell;
+use PhpOffice\PhpWord\Style\Colors;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -79,7 +84,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $style = $section->getStyle();
         $style->setLandscape();
         $style->setPageNumberingStart(2);
-        $style->setBorderSize(240);
+        $style->setBorders(new BorderSide(Absolute::from('eop', 240)));
         $style->setBreakType('nextPage');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -126,8 +131,8 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
 
         $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(1, array('color' => '333333', 'bold' => true));
-        $phpWord->addTitleStyle(2, array('color' => '666666'));
+        $phpWord->addTitleStyle(1, array('color' => new Colors\Hex('333333'), 'bold' => true));
+        $phpWord->addTitleStyle(2, array('color' => new Colors\Hex('666666')));
         $section = $phpWord->addSection();
         $section->addTOC();
         $section->addPageBreak();
@@ -147,9 +152,9 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
                 'positioning'      => 'relative',
                 'posHorizontalRel' => 'margin',
                 'posVerticalRel'   => 'margin',
-                'innerMargin'      => 10,
-                'borderSize'       => 1,
-                'borderColor'      => '#FF0',
+                'innerMargin'      => Absolute::from('eop', 10),
+                'borderSize'       => Absolute::from('eop', 1),
+                'borderColor'      => new Colors\Hex('FF0'),
             )
         );
         $section->addTextBox(array('wrappingStyle' => 'tight', 'positioning' => 'absolute', 'alignment' => Jc::CENTER));
@@ -172,13 +177,13 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $section->addField('PAGE', array('format' => 'ArabicDash'));
         $section->addLine(
             array(
-                'width'       => 10,
-                'height'      => 10,
+                'width'       => Absolute::from('eop', 10),
+                'height'      => Absolute::from('eop', 10),
                 'positioning' => 'absolute',
                 'beginArrow'  => 'block',
                 'endArrow'    => 'open',
                 'dash'        => 'rounddot',
-                'weight'      => 10,
+                'weight'      => Absolute::from('eop', 10),
             )
         );
 
@@ -214,30 +219,30 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     {
         $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
 
-        $tabs = array(new \PhpOffice\PhpWord\Style\Tab('right', 9090));
+        $tabs = array(new \PhpOffice\PhpWord\Style\Tab('right', Absolute::from('twip', 9090)));
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle(
             'pStyle',
             array(
                 'alignment'  => Jc::CENTER,
                 'tabs'       => $tabs,
-                'shading'    => array('fill' => 'FFFF99'),
-                'borderSize' => 4,
+                'shading'    => array('fill' => new Colors\Hex('FFFF99')),
+                'borderSize' => Absolute::from('eop', 4),
             )
         ); // Style #1
         $phpWord->addFontStyle(
             'fStyle',
             array(
-                'size'    => '20',
+                'size'    => Absolute::from('pt', 20),
                 'bold'    => true,
                 'allCaps' => true,
-                'scale'   => 200,
-                'spacing' => 240,
-                'kerning' => 10,
+                'scale'   => new Percent(200),
+                'spacing' => Absolute::from('pt', 240),
+                'kerning' => Absolute::from('pt', 10),
             )
         ); // Style #2
-        $phpWord->addTitleStyle(1, array('color' => '333333', 'doubleStrikethrough' => true)); // Style #3
-        $phpWord->addTableStyle('tStyle', array('borderSize' => 1));
+        $phpWord->addTitleStyle(1, array('color' => new Colors\Hex('333333'), 'doubleStrikethrough' => true)); // Style #3
+        $phpWord->addTableStyle('tStyle', array('borderSize' => Absolute::from('eop', 1)));
         $fontStyle = new Font('text', array('alignment' => Jc::CENTER));
 
         $section = $phpWord->addSection();
@@ -247,7 +252,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $section->addTitle('Title 1', 1);
         $section->addTOC('fStyle');
         $table = $section->addTable('tStyle');
-        $table->setWidth(100);
+        $table->setWidth(Absolute::from('eop', 100));
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         // List item
@@ -275,7 +280,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         $phpWord = new PhpWord();
         $phpWord->addFontStyle($rStyle, array('bold' => true));
-        $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
+        $phpWord->addParagraphStyle($pStyle, array('hanging' => Absolute::from('eop', 120), 'indent' => Absolute::from('eop', 120)));
         $section = $phpWord->addSection();
         $section->addText('Test', $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -292,7 +297,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     public function testWriteTextRun()
     {
         $pStyle = 'pStyle';
-        $aStyle = array('alignment' => Jc::BOTH, 'spaceBefore' => 120, 'spaceAfter' => 120);
+        $aStyle = array('alignment' => Jc::BOTH, 'spaceBefore' => Absolute::from('eop', 120), 'spaceAfter' => Absolute::from('eop', 120));
         $imageSrc = __DIR__ . '/../../../_files/images/earth.jpg';
 
         $phpWord = new PhpWord();
@@ -363,8 +368,8 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
      */
     public function testWriteTextBreak()
     {
-        $fArray = array('size' => 12);
-        $pArray = array('spacing' => 240);
+        $fArray = array('size' => Absolute::from('pt', 12));
+        $pArray = array('spacing' => Absolute::from('twip', 240));
         $fName = 'fStyle';
         $pName = 'pStyle';
 
@@ -389,7 +394,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     public function testWriteImage()
     {
         $phpWord = new PhpWord();
-        $styles = array('alignment' => Jc::START, 'width' => 40, 'height' => 40, 'marginTop' => -1, 'marginLeft' => -1);
+        $styles = array('alignment' => Jc::START, 'width' => Absolute::from('eop', 40), 'height' => Absolute::from('eop', 40), 'marginTop' => Absolute::from('eop', -1), 'marginLeft' => Absolute::from('eop', -1));
         $wraps = array('inline', 'behind', 'infront', 'square', 'tight');
         $section = $phpWord->addSection();
         foreach ($wraps as $wrap) {
@@ -437,7 +442,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     public function testWriteTitle()
     {
         $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
+        $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => Absolute::from('eop', 240)));
         $phpWord->addSection()->addTitle('Test', 1);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -454,8 +459,8 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $pStyle = 'pStyle';
 
         $phpWord = new PhpWord();
-        // $phpWord->addFontStyle($rStyle, array('bold' => true));
-        // $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
+        $phpWord->addFontStyle($rStyle, array('bold' => true));
+        $phpWord->addParagraphStyle($pStyle, array('hanging' => Absolute::from('eop', 120), 'indent' => Absolute::from('eop', 120)));
         $section = $phpWord->addSection();
         $section->addCheckBox('Check1', 'Test', $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -505,15 +510,15 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new PhpWord();
         $styles['name'] = 'Verdana';
-        $styles['size'] = 14;
+        $styles['size'] = Absolute::from('pt', 14);
         $styles['bold'] = true;
         $styles['italic'] = true;
         $styles['underline'] = 'dash';
         $styles['strikethrough'] = true;
         $styles['superScript'] = true;
-        $styles['color'] = 'FF0000';
-        $styles['fgColor'] = 'yellow';
-        $styles['bgColor'] = 'FFFF00';
+        $styles['color'] = new Colors\Hex('FF0000');
+        $styles['fgColor'] = new Colors\HighlightColor('yellow');
+        $styles['bgColor'] = new Colors\Hex('FFFF00');
         $styles['hint'] = 'eastAsia';
         $styles['smallCaps'] = true;
 
@@ -523,26 +528,28 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         $parent = '/w:document/w:body/w:p/w:r/w:rPr';
         $this->assertEquals($styles['name'], $doc->getElementAttribute("{$parent}/w:rFonts", 'w:ascii'));
-        $this->assertEquals($styles['size'] * 2, $doc->getElementAttribute("{$parent}/w:sz", 'w:val'));
+        $this->assertEquals($styles['size']->toInt('hpt'), $doc->getElementAttribute("{$parent}/w:sz", 'w:val'));
         $this->assertTrue($doc->elementExists("{$parent}/w:b"));
         $this->assertTrue($doc->elementExists("{$parent}/w:i"));
         $this->assertEquals($styles['underline'], $doc->getElementAttribute("{$parent}/w:u", 'w:val'));
         $this->assertTrue($doc->elementExists("{$parent}/w:strike"));
         $this->assertEquals('superscript', $doc->getElementAttribute("{$parent}/w:vertAlign", 'w:val'));
-        $this->assertEquals($styles['color'], $doc->getElementAttribute("{$parent}/w:color", 'w:val'));
-        $this->assertEquals($styles['fgColor'], $doc->getElementAttribute("{$parent}/w:highlight", 'w:val'));
+        $this->assertEquals($styles['color']->toHexOrName(), $doc->getElementAttribute("{$parent}/w:color", 'w:val'));
+        $this->assertEquals($styles['fgColor']->toHexOrName(), $doc->getElementAttribute("{$parent}/w:highlight", 'w:val'));
         $this->assertTrue($doc->elementExists("{$parent}/w:smallCaps"));
     }
 
     /**
-     * Tests that if no color is set on a cell a border gets writen with the default color
+     * Tests that if no color is set on a cell a border gets writen with auto color
      */
     public function testWriteDefaultColor()
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $cStyles['borderTopSize'] = 120;
+        $cStyles['bordersFromArray'] = array(
+            'top' => new BorderSide(Absolute::from('eop', 120)),
+        );
 
         $table = $section->addTable();
         $table->addRow();
@@ -550,7 +557,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $cell->addText('Test');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        $this->assertEquals(Cell::DEFAULT_BORDER_COLOR, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top', 'w:color'));
+        $this->assertEquals('auto', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top', 'w:color'));
     }
 
     /**
@@ -559,34 +566,34 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     public function testWriteTableStyle()
     {
         $phpWord = new PhpWord();
-        $rHeight = 120;
-        $cWidth = 120;
+        $rHeight = Absolute::from('eop', 120);
+        $cWidth = Absolute::from('eop', 120);
         $imageSrc = __DIR__ . '/../../../_files/images/earth.jpg';
         $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
 
-        $tStyles['width'] = 50;
-        $tStyles['cellMarginTop'] = 120;
-        $tStyles['cellMarginRight'] = 120;
-        $tStyles['cellMarginBottom'] = 120;
-        $tStyles['cellMarginLeft'] = 120;
+        $tStyles['width'] = Absolute::from('eop', 50);
+        $tStyles['cellMarginTop'] = Absolute::from('eop', 120);
+        $tStyles['cellMarginRight'] = Absolute::from('eop', 120);
+        $tStyles['cellMarginBottom'] = Absolute::from('eop', 120);
+        $tStyles['cellMarginLeft'] = Absolute::from('eop', 120);
         $rStyles['tblHeader'] = true;
         $rStyles['cantSplit'] = true;
         $cStyles['valign'] = 'top';
         $cStyles['textDirection'] = 'btLr';
-        $cStyles['bgColor'] = 'FF0000';
-        $cStyles['borderTopSize'] = 120;
-        $cStyles['borderBottomSize'] = 120;
-        $cStyles['borderLeftSize'] = 120;
-        $cStyles['borderRightSize'] = 120;
-        $cStyles['borderTopColor'] = 'FF0000';
-        $cStyles['borderBottomColor'] = 'FF0000';
-        $cStyles['borderLeftColor'] = 'FF0000';
-        $cStyles['borderRightColor'] = 'FF0000';
+        $cStyles['bgColor'] = new Colors\Hex('FF0000');
+        $cStyles['borderTopSize'] = Absolute::from('eop', 120);
+        $cStyles['borderBottomSize'] = Absolute::from('eop', 120);
+        $cStyles['borderLeftSize'] = Absolute::from('eop', 120);
+        $cStyles['borderRightSize'] = Absolute::from('eop', 120);
+        $cStyles['borderTopColor'] = new Colors\Hex('FF0000');
+        $cStyles['borderBottomColor'] = new Colors\Hex('FF0000');
+        $cStyles['borderLeftColor'] = new Colors\Hex('FF0000');
+        $cStyles['borderRightColor'] = new Colors\Hex('FF0000');
         $cStyles['vMerge'] = 'restart';
 
         $section = $phpWord->addSection();
         $table = $section->addTable($tStyles);
-        $table->setWidth(100);
+        $table->setWidth(Absolute::from('eop', 100));
         $table->addRow($rHeight, $rStyles);
         $cell = $table->addCell($cWidth, $cStyles);
         $cell->addText('Test');
@@ -603,12 +610,12 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $parent = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellMar';
 
         $parent = '/w:document/w:body/w:tbl/w:tr/w:trPr';
-        $this->assertEquals($rHeight, $doc->getElementAttribute("{$parent}/w:trHeight", 'w:val'));
+        $this->assertEquals($rHeight->toInt('twip'), $doc->getElementAttribute("{$parent}/w:trHeight", 'w:val'));
         $this->assertEquals($rStyles['tblHeader'], $doc->getElementAttribute("{$parent}/w:tblHeader", 'w:val'));
         $this->assertEquals($rStyles['cantSplit'], $doc->getElementAttribute("{$parent}/w:cantSplit", 'w:val'));
 
         $parent = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr';
-        $this->assertEquals($cWidth, $doc->getElementAttribute("{$parent}/w:tcW", 'w:w'));
+        $this->assertEquals($cWidth->toInt('twip'), $doc->getElementAttribute("{$parent}/w:tcW", 'w:w'));
         $this->assertEquals($cStyles['valign'], $doc->getElementAttribute("{$parent}/w:vAlign", 'w:val'));
         $this->assertEquals($cStyles['textDirection'], $doc->getElementAttribute("{$parent}/w:textDirection", 'w:val'));
     }
@@ -624,18 +631,18 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $table = $section->addTable();
 
         $table->addRow();
-        $cell = $table->addCell(200);
+        $cell = $table->addCell(Absolute::from('eop', 200));
         $cell->getStyle()->setGridSpan(5);
 
         $table->addRow();
-        $table->addCell(40);
-        $table->addCell(40);
-        $table->addCell(40);
-        $table->addCell(40);
-        $table->addCell(40);
+        $table->addCell(Absolute::from('eop', 40));
+        $table->addCell(Absolute::from('eop', 40));
+        $table->addCell(Absolute::from('eop', 40));
+        $table->addCell(Absolute::from('eop', 40));
+        $table->addCell(Absolute::from('eop', 40));
 
         $table->addRow();
-        $cell = $table->addCell(200, array('borderRightColor' => 'FF0000'));
+        $cell = $table->addCell(Absolute::from('eop', 200), array('borderRightColor' => new Colors\Hex('FF0000')));
         $cell->getStyle()->setGridSpan(5);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -653,7 +660,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $lineNumberingPath = '/w:document/w:body/w:sectPr/w:lnNumType';
 
         $phpWord = new PhpWord();
-        $phpWord->addSection(array('gutter' => 240, 'lineNumbering' => array()));
+        $phpWord->addSection(array('gutter' => Absolute::from('twip', 240), 'lineNumbering' => array()));
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $this->assertEquals(240, $doc->getElement($pageMarginPath)->getAttribute('w:gutter'));

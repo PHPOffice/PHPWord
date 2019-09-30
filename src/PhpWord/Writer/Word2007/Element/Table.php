@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -36,6 +37,8 @@ class Table extends AbstractElement
 {
     /**
      * Write element.
+     *
+     * @see http://officeopenxml.com/WPtableProperties.php
      */
     public function write()
     {
@@ -71,8 +74,7 @@ class Table extends AbstractElement
     /**
      * Write column.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @see http://officeopenxml.com/WPtableGrid.php
      */
     private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
     {
@@ -81,10 +83,7 @@ class Table extends AbstractElement
         $xmlWriter->startElement('w:tblGrid');
         foreach ($cellWidths as $width) {
             $xmlWriter->startElement('w:gridCol');
-            if ($width !== null) {
-                $xmlWriter->writeAttribute('w:w', $width);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
-            }
+            $xmlWriter->writeAttribute('w:w', $width->toInt('twip'));
             $xmlWriter->endElement();
         }
         $xmlWriter->endElement(); // w:tblGrid
@@ -93,8 +92,7 @@ class Table extends AbstractElement
     /**
      * Write row.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Row $row
+     * @see http://officeopenxml.com/WPtableRowProperties.php
      */
     private function writeRow(XMLWriter $xmlWriter, RowElement $row)
     {
@@ -119,8 +117,7 @@ class Table extends AbstractElement
     /**
      * Write cell.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Cell $cell
+     * @see http://officeopenxml.com/WPtableCellProperties-Width.php
      */
     private function writeCell(XMLWriter $xmlWriter, CellElement $cell)
     {
@@ -130,6 +127,7 @@ class Table extends AbstractElement
         $cellStyle = $cell->getStyle();
         if ($cellStyle instanceof CellStyle) {
             $styleWriter = new CellStyleWriter($xmlWriter, $cellStyle);
+            // Override width set in style.
             $styleWriter->setWidth($cell->getWidth());
             $styleWriter->write();
         }

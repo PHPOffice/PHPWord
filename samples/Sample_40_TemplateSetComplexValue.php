@@ -1,33 +1,36 @@
 <?php
+declare(strict_types=1);
 use PhpOffice\PhpWord\Element\Field;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\Style\Colors\HighlightColor;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 include_once 'Sample_Header.php';
 
 // Template processor instance creation
 echo date('H:i:s'), ' Creating new TemplateProcessor instance...', EOL;
-$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('resources/Sample_40_TemplateSetComplexValue.docx');
+$templateProcessor = new TemplateProcessor('resources/Sample_40_TemplateSetComplexValue.docx');
 
 $title = new TextRun();
-$title->addText('This title has been set ', array('bold' => true, 'italic' => true, 'color' => 'blue'));
-$title->addText('dynamically', array('bold' => true, 'italic' => true, 'color' => 'red', 'underline' => 'single'));
+$title->addText('This title has been set ', array('bold' => true, 'italic' => true, 'color' => new HighlightColor('blue')));
+$title->addText('dynamically', array('bold' => true, 'italic' => true, 'color' => new HighlightColor('red'), 'underline' => 'single'));
 $templateProcessor->setComplexBlock('title', $title);
 
 $inline = new TextRun();
-$inline->addText('by a red italic text', array('italic' => true, 'color' => 'red'));
+$inline->addText('by a red italic text', array('italic' => true, 'color' => new HighlightColor('red')));
 $templateProcessor->setComplexValue('inline', $inline);
 
-$table = new Table(array('borderSize' => 12, 'borderColor' => 'green', 'width' => 6000, 'unit' => TblWidth::TWIP));
+$table = new Table(array('borderSize' => Absolute::from('twip', 12), 'borderColor' => new HighlightColor('green'), 'width' => Absolute::from('twip', 6000)));
 $table->addRow();
-$table->addCell(150)->addText('Cell A1');
-$table->addCell(150)->addText('Cell A2');
-$table->addCell(150)->addText('Cell A3');
+$table->addCell(Absolute::from('twip', 150))->addText('Cell A1');
+$table->addCell(Absolute::from('twip', 150))->addText('Cell A2');
+$table->addCell(Absolute::from('twip', 150))->addText('Cell A3');
 $table->addRow();
-$table->addCell(150)->addText('Cell B1');
-$table->addCell(150)->addText('Cell B2');
-$table->addCell(150)->addText('Cell B3');
+$table->addCell(Absolute::from('twip', 150))->addText('Cell B1');
+$table->addCell(Absolute::from('twip', 150))->addText('Cell B2');
+$table->addCell(Absolute::from('twip', 150))->addText('Cell B3');
 $templateProcessor->setComplexBlock('table', $table);
 
 $field = new Field('DATE', array('dateformat' => 'dddd d MMMM yyyy H:mm:ss'), array('PreserveFormat'));

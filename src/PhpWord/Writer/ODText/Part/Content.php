@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -145,8 +146,6 @@ class Content extends AbstractPart
      * Write automatic styles other than fonts and paragraphs.
      *
      * @since 0.11.0
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writeAutoStyles(XMLWriter $xmlWriter)
     {
@@ -167,8 +166,6 @@ class Content extends AbstractPart
 
     /**
      * Write automatic styles.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writeTextStyles(XMLWriter $xmlWriter)
     {
@@ -200,8 +197,6 @@ class Content extends AbstractPart
 
     /**
      * Get automatic styles.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     private function getAutoStyles(PhpWord $phpWord)
     {
@@ -284,7 +279,6 @@ class Content extends AbstractPart
     /**
      * Finds all tracked changes
      *
-     * @param AbstractContainer $container
      * @param \PhpOffice\PhpWord\Element\AbstractElement[] $trackedChanges
      */
     private function collectTrackedChanges(AbstractContainer $container, &$trackedChanges = array())

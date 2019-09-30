@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -26,7 +27,6 @@ abstract class IOFactory
     /**
      * Create new writer
      *
-     * @param PhpWord $phpWord
      * @param string $name
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,6 +20,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Numbering reader
@@ -29,8 +31,6 @@ class Numbering extends AbstractPart
 {
     /**
      * Read numbering.xml.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function read(PhpWord $phpWord)
     {
@@ -89,8 +89,6 @@ class Numbering extends AbstractPart
     /**
      * Read numbering level definition from w:abstractNum and w:num
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $subnode
      * @param int $levelId
      * @return array
      */
@@ -105,9 +103,9 @@ class Numbering extends AbstractPart
         $level['suffix'] = $xmlReader->getAttribute('w:val', $subnode, 'w:suff');
         $level['text'] = $xmlReader->getAttribute('w:val', $subnode, 'w:lvlText');
         $level['alignment'] = $xmlReader->getAttribute('w:val', $subnode, 'w:lvlJc');
-        $level['tab'] = $xmlReader->getAttribute('w:pos', $subnode, 'w:pPr/w:tabs/w:tab');
-        $level['left'] = $xmlReader->getAttribute('w:left', $subnode, 'w:pPr/w:ind');
-        $level['hanging'] = $xmlReader->getAttribute('w:hanging', $subnode, 'w:pPr/w:ind');
+        $level['tab'] = (int) $xmlReader->getAttribute('w:pos', $subnode, 'w:pPr/w:tabs/w:tab');
+        $level['left'] = Absolute::from('twip', (int) $xmlReader->getAttribute('w:left', $subnode, 'w:pPr/w:ind'));
+        $level['hanging'] = Absolute::from('twip', (int) $xmlReader->getAttribute('w:hanging', $subnode, 'w:pPr/w:ind'));
         $level['font'] = $xmlReader->getAttribute('w:ascii', $subnode, 'w:rPr/w:rFonts');
         $level['hint'] = $xmlReader->getAttribute('w:hint', $subnode, 'w:rPr/w:rFonts');
 

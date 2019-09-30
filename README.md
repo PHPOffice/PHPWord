@@ -101,8 +101,13 @@ The following is a basic usage example of the PHPWord library.
 <?php
 require_once 'bootstrap.php';
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 // Creating the new document...
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 
 /* Note: any element you append to a document must reside inside of a Section. */
 
@@ -127,14 +132,14 @@ $section->addText(
     '"Great achievement is usually born of great sacrifice, '
         . 'and is never the result of selfishness." '
         . '(Napoleon Hill)',
-    array('name' => 'Tahoma', 'size' => 10)
+    array('name' => 'Tahoma', 'size' => Absolute::from('pt', 10))
 );
 
 // Adding Text element with font customized using named font style...
 $fontStyleName = 'oneUserDefinedStyle';
 $phpWord->addFontStyle(
     $fontStyleName,
-    array('name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true)
+    array('name' => 'Tahoma', 'size' => Absolute::from('pt', 10), 'color' => new Hex('1B2232'), 'bold' => true)
 );
 $section->addText(
     '"The greatest accomplishment is not in never falling, '
@@ -144,10 +149,10 @@ $section->addText(
 );
 
 // Adding Text element with font customized using explicitly created font style object...
-$fontStyle = new \PhpOffice\PhpWord\Style\Font();
+$fontStyle = new Font();
 $fontStyle->setBold(true);
 $fontStyle->setName('Tahoma');
-$fontStyle->setSize(13);
+$fontStyle->setSize(Absolute::from('pt', 13));
 $myTextElement = $section->addText('"Believe you can and you\'re halfway there." (Theodor Roosevelt)');
 $myTextElement->setFontStyle($fontStyle);
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,13 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
+use PhpOffice\PhpWord\Style\Colors\BasicColor;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Colors\Rgb;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Auto;
+use PhpOffice\PhpWord\Style\Lengths\Length;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Cell
@@ -32,59 +40,112 @@ class CellTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetNormal()
     {
-        $object = new Cell();
+        $cell = new Cell();
 
         $attributes = array(
             'valign'            => VerticalJc::TOP,
             'textDirection'     => Cell::TEXT_DIR_BTLR,
-            'bgColor'           => 'FFFF00',
-            'borderTopSize'     => 120,
-            'borderTopColor'    => 'FFFF00',
-            'borderLeftSize'    => 120,
-            'borderLeftColor'   => 'FFFF00',
-            'borderRightSize'   => 120,
-            'borderRightColor'  => 'FFFF00',
-            'borderBottomSize'  => 120,
-            'borderBottomColor' => 'FFFF00',
+            'bgColor'           => new Hex('FFFF00'),
             'gridSpan'          => 2,
             'vMerge'            => Cell::VMERGE_RESTART,
         );
         foreach ($attributes as $key => $value) {
+            $get = "get$key";
+            $result = $cell->$get();
+            if ($result instanceof BasicColor) {
+                $result = $result->toHex();
+            } elseif ($result instanceof Absolute) {
+                $result = $result->toInt('eop');
+            }
+
+            $this->assertNull($result);
+
             $set = "set{$key}";
-            $get = "get{$key}";
+            $cell->$set($value);
 
-            $this->assertNull($object->$get()); // Init with null value
+            $get = "get$key";
+            $result = $cell->$get();
+            if ($result instanceof BasicColor) {
+                $result = $result->toHex();
+                $value = $value->toHex();
+            }
 
-            $object->$set($value);
-
-            $this->assertEquals($value, $object->$get());
+            $this->assertEquals($value, $result);
         }
     }
 
     /**
-     * Test border color
+     * Test borders
      */
-    public function testBorderColor()
+    public function testBorders()
     {
-        $object = new Cell();
+        $cell = new Cell();
 
-        $value = 'FF0000';
+        $this->assertFalse($cell->hasBorder());
+        $borders = array('top', 'end', 'bottom', 'start');
+        $borderSides = array(
+            array(Absolute::from('pt', rand(1, 20)), new Hex('f93de1'), new BorderStyle('double'), Absolute::from('pt', rand(1, 20)), true),
+            array(Absolute::from('twip', rand(1, 400)), new Hex('000000'), new BorderStyle('outset'), Absolute::from('twip', rand(1, 400)), false),
+            array(Absolute::from('eop', rand(1, 160)), new Rgb(255, 0, 100), new BorderStyle('dotted'), Absolute::from('eop', rand(1, 160)), true),
+        );
+        $lastBorderSide = array(new Absolute(0), new Hex(null), new BorderStyle('single'), new Absolute(0), false);
+        foreach ($borderSides as $key => $borderSide) {
+            $newBorder = new BorderSide(...$borderSide);
 
-        $object->setStyleValue('borderColor', $value);
-        $expected = array($value, $value, $value, $value);
-        $this->assertEquals($expected, $object->getBorderColor());
+            foreach ($borders as $side) {
+                $currentBorder = $cell->getBorder($side);
+                $this->assertEquals($lastBorderSide[0], $currentBorder->getSize(), "Size for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[1], $currentBorder->getColor(), "Color for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[2], $currentBorder->getStyle(), "Style for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[3], $currentBorder->getSpace(), "Space for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[4], $currentBorder->getShadow(), "Shadow for border side #$key for side $side should match last border side still");
+
+                $cell->setBorder($side, $newBorder);
+                $updatedBorder = $cell->getBorder($side);
+                $this->assertEquals($borderSide[0], $updatedBorder->getSize(), "Size for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[1], $updatedBorder->getColor(), "Color for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[2], $updatedBorder->getStyle(), "Style for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[3], $updatedBorder->getSpace(), "Space for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[4], $updatedBorder->getShadow(), "Shadow for border side #$key for side $side should match new border");
+            }
+
+            $lastBorderSide = $borderSide;
+        }
     }
 
     /**
-     * Test border size
+     * Test width
      */
-    public function testBorderSize()
+    public function testWidth()
     {
-        $object = new Cell();
+        $cell = new Cell();
 
-        $value = 120;
-        $expected = array($value, $value, $value, $value);
-        $object->setStyleValue('borderSize', $value);
-        $this->assertEquals($expected, $object->getBorderSize());
+        // Undefined
+        $width = $cell->getWidth();
+        $this->assertInstanceOf(Length::class, $width);
+        $this->assertNull($width->toInt('twip'));
+
+        // Null
+        $cell->setWidth(new Absolute(null));
+        $width = $cell->getWidth();
+        $this->assertInstanceOf(Absolute::class, $width);
+        $this->assertNull($width->toInt('twip'));
+
+        // Absolute
+        $cell->setWidth(Absolute::from('twip', 204));
+        $width = $cell->getWidth();
+        $this->assertInstanceOf(Length::class, $width);
+        $this->assertEquals(204, $width->toInt('twip'));
+
+        // Percent
+        $cell->setWidth(new Percent(50));
+        $width = $cell->getWidth();
+        $this->assertInstanceOf(Percent::class, $width);
+        $this->assertEquals(50, $width->toInt());
+
+        // Auto
+        $cell->setWidth(new Auto());
+        $width = $cell->getWidth();
+        $this->assertInstanceOf(Auto::class, $width);
     }
 }

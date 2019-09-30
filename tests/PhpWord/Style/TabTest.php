@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 /**
  * Test class for PhpOffice\PhpWord\Style\Tab
  *
@@ -33,18 +36,27 @@ class TabTest extends \PHPUnit\Framework\TestCase
         $properties = array(
             'type'     => array(Tab::TAB_STOP_CLEAR, Tab::TAB_STOP_RIGHT),
             'leader'   => array(Tab::TAB_LEADER_NONE, Tab::TAB_LEADER_DOT),
-            'position' => array(0, 10),
+            'position' => array(0, Absolute::from('twip', 10)),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;
             $get = "get{$property}";
             $set = "set{$property}";
 
-            $this->assertEquals($default, $object->$get()); // Default value
+            $result = $object->$get();
+            if ($expected instanceof Absolute) {
+                $result = $result->toInt('twip');
+            }
+            $this->assertEquals($default, $result); // Default value
 
             $object->$set($expected);
 
-            $this->assertEquals($expected, $object->$get()); // New value
+            $result = $object->$get();
+            if ($expected instanceof Absolute) {
+                $expected = $expected->toInt('twip');
+                $result = $result->toInt('twip');
+            }
+            $this->assertEquals($expected, $result); // New value
         }
     }
 }

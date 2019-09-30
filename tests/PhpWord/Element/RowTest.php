@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 /**
  * Test class for PhpOffice\PhpWord\Element\Row
  *
@@ -33,7 +36,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $oRow = new Row();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $oRow);
-        $this->assertNull($oRow->getHeight());
+        $this->assertNull($oRow->getHeight()->toInt('twip'));
         $this->assertInternalType('array', $oRow->getCells());
         $this->assertCount(0, $oRow->getCells());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
@@ -45,9 +48,9 @@ class RowTest extends \PHPUnit\Framework\TestCase
     public function testConstructWithParams()
     {
         $iVal = rand(1, 1000);
-        $oRow = new Row($iVal, array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF'));
+        $oRow = new Row(Absolute::from('twip', $iVal));
 
-        $this->assertEquals($iVal, $oRow->getHeight());
+        $this->assertEquals($iVal, $oRow->getHeight()->toInt('twip'));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }
 

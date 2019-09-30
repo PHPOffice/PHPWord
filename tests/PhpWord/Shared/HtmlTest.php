@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,6 +22,10 @@ use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+use PhpOffice\PhpWord\Style\BorderSide;
+use PhpOffice\PhpWord\Style\BorderStyle;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
@@ -154,27 +159,164 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        Html::addHtml($section, '<p style="line-height: 1.5;">test</p>');
-        Html::addHtml($section, '<p style="line-height: 15pt;">test</p>');
-        Html::addHtml($section, '<p style="line-height: 120%;">test</p>');
-        Html::addHtml($section, '<p style="line-height: 0.17in;">test</p>');
+
+        $heights = array(
+            array('1', Paragraph::LINE_HEIGHT, LineSpacingRule::AUTO),
+            array('1.5', Paragraph::LINE_HEIGHT * 1.5, LineSpacingRule::AUTO),
+            array('2', Paragraph::LINE_HEIGHT * 2, LineSpacingRule::AUTO),
+            array('15pt', 300, LineSpacingRule::EXACT),
+            array('15.5pt', 310, LineSpacingRule::EXACT),
+            array('120%', Paragraph::LINE_HEIGHT * 1.2, LineSpacingRule::AUTO),
+            array('120.5%', round(Paragraph::LINE_HEIGHT * 1.205), LineSpacingRule::AUTO),
+            array('0.17in', 245, LineSpacingRule::EXACT),
+            array('1in', 1440, LineSpacingRule::EXACT),
+        );
+
+        foreach ($heights as $info) {
+            list($height, $expected, $rule) = $info;
+            Html::addHtml($section, '<p style="line-height: ' . $height . ';">test</p>');
+        }
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:spacing'));
-        $this->assertEquals(Paragraph::LINE_HEIGHT * 1.5, $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:spacing', 'w:line'));
-        $this->assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:spacing', 'w:lineRule'));
 
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:spacing'));
-        $this->assertEquals(300, $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:spacing', 'w:line'));
-        $this->assertEquals(LineSpacingRule::EXACT, $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:spacing', 'w:lineRule'));
+        $elem = 0;
+        foreach ($heights as $info) {
+            list($height, $expected, $rule) = $info;
+            $elem += 1;
+            $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[' . $elem . ']/w:pPr/w:spacing'));
+            $this->assertEquals($expected, $doc->getElementAttribute('/w:document/w:body/w:p[' . $elem . ']/w:pPr/w:spacing', 'w:line'));
+            $this->assertEquals($rule, $doc->getElementAttribute('/w:document/w:body/w:p[' . $elem . ']/w:pPr/w:spacing', 'w:lineRule'));
+        }
+    }
 
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[3]/w:pPr/w:spacing'));
-        $this->assertEquals(Paragraph::LINE_HEIGHT * 1.2, $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:pPr/w:spacing', 'w:line'));
-        $this->assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:pPr/w:spacing', 'w:lineRule'));
+    /**
+     * Test text-indent style
+     */
+    public function testParagraphBorderWidths()
+    {
+        $dpi = new HtmlDpi();
+        $borders = array(
+            'border-width: 1px' => array(
+                'top'    => new BorderSide(Absolute::fromPixels($dpi, 1)),
+                'right'  => new BorderSide(Absolute::fromPixels($dpi, 1)),
+                'bottom' => new BorderSide(Absolute::fromPixels($dpi, 1)),
+                'left'   => new BorderSide(Absolute::fromPixels($dpi, 1)),
+            ),
+            'border-width: 1px 2px' => array(
+                'top'    => new BorderSide(Absolute::fromPixels($dpi, 1)),
+                'right'  => new BorderSide(Absolute::fromPixels($dpi, 2)),
+                'bottom' => new BorderSide(Absolute::fromPixels($dpi, 1)),
+                'left'   => new BorderSide(Absolute::fromPixels($dpi, 2)),
+            ),
+            'border-width: 1px 2px 3px' => array(
+                'top'    => new BorderSide(Absolute::fromPixels($dpi, 1)),
+                'right'  => new BorderSide(Absolute::fromPixels($dpi, 2)),
+                'bottom' => new BorderSide(Absolute::fromPixels($dpi, 3)),
+                'left'   => new BorderSide(Absolute::fromPixels($dpi, 2)),
+            ),
+            'border-width: 1px 2px 3px 4px' => array(
+                'top'    => new BorderSide(Absolute::fromPixels($dpi, 1)),
+                'right'  => new BorderSide(Absolute::fromPixels($dpi, 2)),
+                'bottom' => new BorderSide(Absolute::fromPixels($dpi, 3)),
+                'left'   => new BorderSide(Absolute::fromPixels($dpi, 4)),
+            ),
+        );
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $key = -1;
+        foreach ($borders as $css => $borderSides) {
+            $key += 1;
+            Html::addHtml($section, '<p style="' . $css . '">test</p>');
+            foreach ($borderSides as $side => $border) {
+                $this->assertEquals($border, $section->getElement($key)->getParagraphStyle()->getBorder($side), "$side border width should match expectation for css `$css`");
+            }
+        }
+    }
 
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[4]/w:pPr/w:spacing'));
-        $this->assertEquals(244.8, $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:spacing', 'w:line'));
-        $this->assertEquals(LineSpacingRule::EXACT, $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:spacing', 'w:lineRule'));
+    /**
+     * Test text-indent style
+     */
+    public function testParagraphBorderColors()
+    {
+        $borders = array(
+            'border-color: #f00' => array(
+                'top'    => new BorderSide(null, new Hex('f00')),
+                'right'  => new BorderSide(null, new Hex('f00')),
+                'bottom' => new BorderSide(null, new Hex('f00')),
+                'left'   => new BorderSide(null, new Hex('f00')),
+            ),
+            'border-color: #f00 blue' => array(
+                'top'    => new BorderSide(null, new Hex('f00')),
+                'right'  => new BorderSide(null, new Hex('00f')),
+                'bottom' => new BorderSide(null, new Hex('f00')),
+                'left'   => new BorderSide(null, new Hex('00f')),
+            ),
+            'border-color: #f00 blue lime' => array(
+                'top'    => new BorderSide(null, new Hex('f00')),
+                'right'  => new BorderSide(null, new Hex('00f')),
+                'bottom' => new BorderSide(null, new Hex('0f0')),
+                'left'   => new BorderSide(null, new Hex('00f')),
+            ),
+            'border-color: #f00 blue lime #ff0' => array(
+                'top'    => new BorderSide(null, new Hex('f00')),
+                'right'  => new BorderSide(null, new Hex('00f')),
+                'bottom' => new BorderSide(null, new Hex('0f0')),
+                'left'   => new BorderSide(null, new Hex('ff0')),
+            ),
+        );
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $key = -1;
+        foreach ($borders as $css => $borderSides) {
+            $key += 1;
+            Html::addHtml($section, '<p style="' . $css . '">test</p>');
+            foreach ($borderSides as $side => $border) {
+                $this->assertEquals($border, $section->getElement($key)->getParagraphStyle()->getBorder($side), "$side border width should match expectation for css `$css`");
+            }
+        }
+    }
+
+    /**
+     * Test text-indent style
+     */
+    public function testParagraphBorderStyles()
+    {
+        $borders = array(
+            'border-style: solid' => array(
+                'top'    => new BorderSide(null, null, new BorderStyle('single')),
+                'right'  => new BorderSide(null, null, new BorderStyle('single')),
+                'bottom' => new BorderSide(null, null, new BorderStyle('single')),
+                'left'   => new BorderSide(null, null, new BorderStyle('single')),
+            ),
+            'border-style: solid double' => array(
+                'top'    => new BorderSide(null, null, new BorderStyle('single')),
+                'right'  => new BorderSide(null, null, new BorderStyle('double')),
+                'bottom' => new BorderSide(null, null, new BorderStyle('single')),
+                'left'   => new BorderSide(null, null, new BorderStyle('double')),
+            ),
+            'border-style: solid double dotted' => array(
+                'top'    => new BorderSide(null, null, new BorderStyle('single')),
+                'right'  => new BorderSide(null, null, new BorderStyle('double')),
+                'bottom' => new BorderSide(null, null, new BorderStyle('dotted')),
+                'left'   => new BorderSide(null, null, new BorderStyle('double')),
+            ),
+            'border-style: solid double dotted dashed' => array(
+                'top'    => new BorderSide(null, null, new BorderStyle('single')),
+                'right'  => new BorderSide(null, null, new BorderStyle('double')),
+                'bottom' => new BorderSide(null, null, new BorderStyle('dotted')),
+                'left'   => new BorderSide(null, null, new BorderStyle('dashed')),
+            ),
+        );
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $key = -1;
+        foreach ($borders as $css => $borderSides) {
+            $key += 1;
+            Html::addHtml($section, '<p style="' . $css . '">test</p>');
+            foreach ($borderSides as $side => $border) {
+                $this->assertEquals($border, $section->getElement($key)->getParagraphStyle()->getBorder($side), "$side border width should match expectation for css `$css`");
+            }
+        }
     }
 
     /**
@@ -297,7 +439,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
                 <thead>
                     <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
                         <th style="width: 50pt">header a</th>
-                        <th style="width: 50; border-color: #00EE00">header b</th>
+                        <th style="width: 50; border-width: 1px; border-color: #00EE00">header b</th>
                         <th style="border-color: #00AA00 #00BB00 #00CC00 #00DD00; border-width: 3px">header c</th>
                     </tr>
                 </thead>
@@ -316,14 +458,14 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
 
         //check border colors
         $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:top', 'w:color'));
-        $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:right', 'w:color'));
+        $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:end', 'w:color'));
         $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:bottom', 'w:color'));
-        $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:left', 'w:color'));
+        $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:start', 'w:color'));
 
         $this->assertEquals('00AA00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:top', 'w:color'));
-        $this->assertEquals('00BB00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:right', 'w:color'));
+        $this->assertEquals('00BB00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:end', 'w:color'));
         $this->assertEquals('00CC00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:bottom', 'w:color'));
-        $this->assertEquals('00DD00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:left', 'w:color'));
+        $this->assertEquals('00DD00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:start', 'w:color'));
     }
 
     /**
@@ -605,16 +747,61 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     /**
      * Tests parsing hidden text
      */
-    public function testParseHiddenText()
+    public function testParseDisplayNone()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $html = '<p style="display: hidden">This is some hidden text.</p>';
+        $html = '<p style="display: none">This is some hidden text.</p>';
         Html::addHtml($section, $html);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:vanish'));
+    }
+
+    /**
+     * Tests parsing hidden text
+     */
+    public function testParseDisplayFoo()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p style="display: foo">This is some hidden text.</p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:vanish'));
+    }
+
+    /**
+     * Tests parsing hidden text
+     */
+    public function testParseVisibilityHidden()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p style="visibility: hidden">This is some hidden text.</p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:vanish'));
+    }
+
+    /**
+     * Tests parsing unrecognized visibility values
+     */
+    public function testParseVisibilityFoo()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p style="visibility: foo">This is some hidden text.</p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:vanish'));
     }
 
     /**
@@ -631,5 +818,46 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
 
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:spacing'));
         $this->assertEquals(150 * 15, $doc->getElement('/w:document/w:body/w:p/w:r/w:rPr/w:spacing')->getAttribute('w:val'));
+    }
+
+    /**
+     * Test css size to point
+     * @covers \PhpOffice\PhpWord\Shared\Html::cssToLength()
+     */
+    public function testCssToLength()
+    {
+        $this->assertEquals(900, Html::cssToLength('9em')->toFloat());
+        $this->assertEquals(0, Html::cssToLength('0')->toFloat('pt'));
+        $this->assertEquals(10, Html::cssToLength('10pt')->toFloat('pt'));
+        $this->assertEquals(7.5, Html::cssToLength('10px')->toFloat('pt'));
+        $this->assertEquals(720, Html::cssToLength('10in')->toFloat('pt'));
+        $this->assertEquals(7.2, Html::cssToLength('0.1in')->toFloat('pt'));
+        $this->assertEquals(120, Html::cssToLength('10pc')->toFloat('pt'));
+        $this->assertEquals(28.346457, Html::cssToLength('10mm')->toFloat('pt'), '', .00001);
+        $this->assertEquals(283.464567, Html::cssToLength('10cm')->toFloat('pt'), '', .0000001);
+        $this->assertEquals('10', Html::cssToLength('10%')->toFloat(), '', .0000001);
+        // Invalid length
+        $this->assertNull(Html::cssToLength('54mb')->toFloat('pt'), '', .0000001);
+    }
+
+    /**
+     * Test css size to point
+     * @covers \PhpOffice\PhpWord\Shared\Html::cssToAbsolute()
+     */
+    public function testCssToAbsolute()
+    {
+        $this->assertNull(Html::cssToAbsolute('10em')->toFloat('pt'));
+        $this->assertEquals(0, Html::cssToAbsolute('0')->toFloat('pt'));
+        $this->assertEquals(10, Html::cssToAbsolute('10pt')->toFloat('pt'));
+        $this->assertEquals(7.5, Html::cssToAbsolute('10px')->toFloat('pt'));
+        $this->assertEquals(720, Html::cssToAbsolute('10in')->toFloat('pt'));
+        $this->assertEquals(7.2, Html::cssToAbsolute('0.1in')->toFloat('pt'));
+        $this->assertEquals(120, Html::cssToAbsolute('10pc')->toFloat('pt'));
+        $this->assertEquals(28.346457, Html::cssToAbsolute('10mm')->toFloat('pt'), '', .00001);
+        $this->assertEquals(283.464567, Html::cssToAbsolute('10cm')->toFloat('pt'), '', .0000001);
+        // Percents only work for length
+        $this->assertNull(Html::cssToAbsolute('10%')->toFloat('pt'), '', .0000001);
+        // Invalid length
+        $this->assertNull(Html::cssToAbsolute('10mb')->toFloat('pt'), '', .0000001);
     }
 }

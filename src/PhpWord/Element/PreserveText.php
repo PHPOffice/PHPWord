@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -51,8 +52,8 @@ class PreserveText extends AbstractElement
      * Create a new Preserve Text Element
      *
      * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
+     * @param null|mixed $fontStyle
+     * @param null|mixed $paragraphStyle
      */
     public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
@@ -60,7 +61,7 @@ class PreserveText extends AbstractElement
         $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
 
         $this->text = CommonText::toUTF8($text);
-        $matches = preg_split('/({.*?})/', $this->text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $matches = preg_split('/({.*?})/', $this->text ?? '', -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         if (isset($matches[0])) {
             $this->text = $matches;
         }

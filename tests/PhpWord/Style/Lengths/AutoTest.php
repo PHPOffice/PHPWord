@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -15,28 +16,20 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\SimpleType;
-
-use PhpOffice\PhpWord\Shared\AbstractEnum;
+namespace PhpOffice\PhpWord\Style\Lengths;
 
 /**
- * Table Width Units
- *
- * @since 0.15.0
- *
- * @see http://www.datypic.com/sc/ooxml/t-w_ST_TblWidth.html
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Lengths\Auto
  */
-final class TblWidth extends AbstractEnum
+class AutoTest extends \PHPUnit\Framework\TestCase
 {
-    //No Width
-    const NIL = 'nil';
-
-    //Automatically Determined Width
-    const AUTO = 'auto';
-
-    //Width in Fiftieths of a Percent
-    const PERCENT = 'pct';
-
-    //Width in Twentieths of a Point
-    const TWIP = 'dxa';
+    /**
+     * Test initialization
+     */
+    public function test()
+    {
+        $this->assertInstanceOf(Auto::class, new Auto());
+        $this->assertInstanceOf(Auto::class, new Auto());
+        $this->assertTrue((new Auto())->isSpecified());
+    }
 }

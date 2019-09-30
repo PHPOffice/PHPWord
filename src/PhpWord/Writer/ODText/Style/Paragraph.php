@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -35,8 +36,10 @@ class Paragraph extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $marginTop = (is_null($style->getSpaceBefore()) || $style->getSpaceBefore() == 0) ? '0' : round(17.6 / $style->getSpaceBefore(), 2);
-        $marginBottom = (is_null($style->getSpaceAfter()) || $style->getSpaceAfter() == 0) ? '0' : round(17.6 / $style->getSpaceAfter(), 2);
+        $spaceBefore = $style->getSpaceBefore()->toInt('twip');
+        $spaceAfter = $style->getSpaceAfter()->toInt('twip');
+        $marginTop = (is_null($spaceBefore) || $spaceBefore == 0) ? '0' : round(17.6 / $spaceBefore, 2);
+        $marginBottom = (is_null($spaceAfter) || $spaceAfter == 0) ? '0' : round(17.6 / $spaceAfter, 2);
 
         $xmlWriter->startElement('style:style');
         $xmlWriter->writeAttribute('style:name', $style->getStyleName());

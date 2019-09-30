@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,9 +18,13 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\SimpleType\JcTable;
-use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\Style\Colors\BasicColor;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Colors\Rgb;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Auto;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Table
@@ -37,15 +42,18 @@ class TableTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstruct()
     {
-        $styleTable = array('bgColor' => 'FF0000');
-        $styleFirstRow = array('borderBottomSize' => 3);
+        $styleTable = array('bgColor' => new Hex('FF0000'));
+        $styleFirstRow = array('bordersFromArray' => array(
+            'top' => new BorderSide(Absolute::from('eop', 3)),
+        ));
 
         $object = new Table($styleTable, $styleFirstRow);
-        $this->assertEquals('FF0000', $object->getBgColor());
+        $this->assertEquals('FF0000', $object->getBgColor()->toHex());
 
         $firstRow = $object->getFirstRow();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Table', $firstRow);
-        $this->assertEquals(3, $firstRow->getBorderBottomSize());
+        $this->assertEquals(3, $firstRow->getBorder('top')->getSize()->toInt('eop'));
+        $this->assertEquals(0, $firstRow->getBorder('bottom')->getSize()->toInt('eop'));
     }
 
     /**
@@ -55,10 +63,9 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $object = new Table();
 
-        $this->assertNull($object->getBgColor());
+        $this->assertNull($object->getBgColor()->toHex());
         $this->assertEquals(Table::LAYOUT_AUTO, $object->getLayout());
-        $this->assertEquals(TblWidth::AUTO, $object->getUnit());
-        $this->assertNull($object->getIndent());
+        $this->assertInstanceOf(Auto::class, $object->getIndent());
     }
 
     /**
@@ -69,79 +76,119 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $object = new Table();
 
         $attributes = array(
-            'bgColor'            => 'FF0000',
-            'borderTopSize'      => 4,
-            'borderTopColor'     => 'FF0000',
-            'borderLeftSize'     => 4,
-            'borderLeftColor'    => 'FF0000',
-            'borderRightSize'    => 4,
-            'borderRightColor'   => 'FF0000',
-            'borderBottomSize'   => 4,
-            'borderBottomColor'  => 'FF0000',
-            'borderInsideHSize'  => 4,
-            'borderInsideHColor' => 'FF0000',
-            'borderInsideVSize'  => 4,
-            'borderInsideVColor' => 'FF0000',
-            'cellMarginTop'      => 240,
-            'cellMarginLeft'     => 240,
-            'cellMarginRight'    => 240,
-            'cellMarginBottom'   => 240,
+            'bgColor'            => new Hex('FF0000'),
+            'cellMarginTop'      => Absolute::from('eop', 240),
+            'cellMarginLeft'     => Absolute::from('eop', 240),
+            'cellMarginRight'    => Absolute::from('eop', 240),
+            'cellMarginBottom'   => Absolute::from('eop', 240),
             'alignment'          => JcTable::CENTER,
-            'width'              => 100,
-            'unit'               => 'pct',
+            'width'              => new Percent(100),
             'layout'             => Table::LAYOUT_FIXED,
         );
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);
-            $this->assertEquals($value, $object->$get());
+            $result = $object->$get();
+            if ($result instanceof Absolute) {
+                $result = $result->toInt('eop');
+                $value = $value->toInt('eop');
+            } elseif ($result instanceof Percent) {
+                $result = $result->toInt();
+                $value = $value->toInt();
+            } elseif ($result instanceof BasicColor) {
+                $result = $result->toHex();
+                $value = $value->toHex();
+            }
+            $this->assertEquals($value, $result);
         }
     }
 
     /**
-     * Test border color
-     *
-     * Set border color and test if each part has the same color
-     * While looping, push values array to be asserted with getBorderColor
+     * Test borders
      */
-    public function testBorderColor()
+    public function testBorders()
     {
-        $object = new Table();
-        $parts = array('Top', 'Left', 'Right', 'Bottom', 'InsideH', 'InsideV');
+        $table = new Table();
 
-        $value = 'FF0000';
-        $object->setBorderColor($value);
-        $values = array();
-        foreach ($parts as $part) {
-            $get = "getBorder{$part}Color";
-            $values[] = $value;
-            $this->assertEquals($value, $object->$get());
+        $this->assertFalse($table->hasBorder());
+        $borders = array('top', 'bottom', 'start', 'end', 'insideH', 'insideV');
+        $borderSides = array(
+            array(Absolute::from('pt', rand(1, 20)), new Hex('f93de1'), new BorderStyle('double'), Absolute::from('pt', rand(1, 20)), true),
+            array(Absolute::from('twip', rand(1, 400)), new Hex('000000'), new BorderStyle('outset'), Absolute::from('twip', rand(1, 400)), false),
+            array(Absolute::from('eop', rand(1, 160)), new Rgb(255, 0, 100), new BorderStyle('dotted'), Absolute::from('eop', rand(1, 160)), true),
+        );
+        $lastBorderSide = array(new Absolute(0), new Hex(null), new BorderStyle('single'), new Absolute(0), false);
+        foreach ($borderSides as $key => $borderSide) {
+            $newBorder = new BorderSide(...$borderSide);
+
+            foreach ($borders as $side) {
+                $currentBorder = $table->getBorder($side);
+                $this->assertEquals($lastBorderSide[0], $currentBorder->getSize(), "Size for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[1], $currentBorder->getColor(), "Color for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[2], $currentBorder->getStyle(), "Style for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[3], $currentBorder->getSpace(), "Space for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[4], $currentBorder->getShadow(), "Shadow for border side #$key for side $side should match last border side still");
+
+                $table->setBorder($side, $newBorder);
+                $updatedBorder = $table->getBorder($side);
+                $this->assertEquals($borderSide[0], $updatedBorder->getSize(), "Size for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[1], $updatedBorder->getColor(), "Color for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[2], $updatedBorder->getStyle(), "Style for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[3], $updatedBorder->getSpace(), "Space for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[4], $updatedBorder->getShadow(), "Shadow for border side #$key for side $side should match new border");
+            }
+
+            $lastBorderSide = $borderSide;
         }
-        $this->assertEquals($values, $object->getBorderColor());
     }
 
     /**
-     * Test border size
-     *
-     * Set border size and test if each part has the same size
-     * While looping, push values array to be asserted with getBorderSize
-     * Value is in eights of a point, i.e. 4 / 8 = .5pt
+     * Test invalid border
+     * @depends testBorders
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Invalid side `badside` provided
      */
-    public function testBorderSize()
+    public function testGetBorderInvalid()
     {
-        $object = new Table();
-        $parts = array('Top', 'Left', 'Right', 'Bottom', 'InsideH', 'InsideV');
+        $table = new Table();
+        $table->getBorder('badside');
+    }
 
-        $value = 4;
-        $object->setBorderSize($value);
-        $values = array();
-        foreach ($parts as $part) {
-            $get = "getBorder{$part}Size";
-            $values[] = $value;
-            $this->assertEquals($value, $object->$get());
-        }
-        $this->assertEquals($values, $object->getBorderSize());
+    /**
+     * Test invalid border
+     * @depends testBorders
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Size must be specified
+     */
+    public function testSetBorderNullSize()
+    {
+        $table = new Table();
+        $table->getBorder('top')->setSize(new Absolute(null));
+    }
+
+    /**
+     * Test invalid border
+     * @depends testBorders
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Space must be specified
+     */
+    public function testSetBorderNullSpace()
+    {
+        $table = new Table();
+        $table->getBorder('top')->setSpace(new Absolute(null));
+    }
+
+    /**
+     * Test invalid border
+     * @depends testBorders
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Invalid side `badside` provided
+     */
+    public function testSetBorderInvalid()
+    {
+        $table = new Table();
+        $table->setBorder('badside', new BorderSide());
     }
 
     /**
@@ -157,14 +204,16 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $parts = array('Top', 'Left', 'Right', 'Bottom');
 
         $value = 240;
-        $object->setCellMargin($value);
+        $object->setCellMargin(Absolute::from('twip', $value));
         $values = array();
         foreach ($parts as $part) {
             $get = "getCellMargin{$part}";
             $values[] = $value;
-            $this->assertEquals($value, $object->$get());
+            $this->assertEquals($value, $object->$get()->toInt('twip'));
         }
-        $this->assertEquals($values, $object->getCellMargin());
+        $this->assertEquals($values, array_map(function ($value) {
+            return $value->toInt('twip');
+        }, $object->getCellMargin()));
         $this->assertTrue($object->hasMargin());
     }
 
@@ -174,16 +223,22 @@ class TableTest extends \PHPUnit\Framework\TestCase
     public function testSetStyleValue()
     {
         $object = new Table();
-        $object->setStyleValue('borderSize', 120);
-        $object->setStyleValue('cellMargin', 240);
-        $object->setStyleValue('borderColor', '999999');
+        $object->setStyleValue('bordersFromArray', array(
+            'top'     => new BorderSide(Absolute::from('twip', 120)),
+            'bottom'  => new BorderSide(Absolute::from('twip', 120)),
+            'start'   => new BorderSide(Absolute::from('twip', 120)),
+            'end'     => new BorderSide(Absolute::from('twip', 120)),
+            'insideH' => new BorderSide(Absolute::from('twip', 120)),
+            'insideV' => new BorderSide(Absolute::from('twip', 120)),
+        ));
+        $object->setStyleValue('cellMargin', Absolute::from('twip', 240));
 
-        $this->assertEquals(array(120, 120, 120, 120, 120, 120), $object->getBorderSize());
-        $this->assertEquals(array(240, 240, 240, 240), $object->getCellMargin());
-        $this->assertEquals(
-            array('999999', '999999', '999999', '999999', '999999', '999999'),
-            $object->getBorderColor()
-        );
+        $this->assertEquals(array('top' => 120, 'bottom' => 120, 'insideH' => 120, 'insideV' => 120, 'start' => 120, 'end' => 120), array_map(function ($value) {
+            return $value->getSize()->toInt('twip');
+        }, $object->getBorders()));
+        $this->assertEquals(array(240, 240, 240, 240), array_map(function ($value) {
+            return $value->toInt('twip');
+        }, $object->getCellMargin()));
     }
 
     /**
@@ -192,10 +247,10 @@ class TableTest extends \PHPUnit\Framework\TestCase
     public function testTableCellSpacing()
     {
         $object = new Table();
-        $this->assertNull($object->getCellSpacing());
+        $this->assertNull($object->getCellSpacing()->toInt('twip'));
 
-        $object = new Table(array('cellSpacing' => 20));
-        $this->assertEquals(20, $object->getCellSpacing());
+        $object = new Table(array('cellSpacing' => Absolute::from('twip', 20)));
+        $this->assertEquals(20, $object->getCellSpacing()->toInt('twip'));
     }
 
     /**
@@ -213,7 +268,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
     public function testIndent()
     {
-        $indent = new TblWidthComplexType(100, TblWidth::TWIP);
+        $indent = Absolute::from('twip', 100);
 
         $table = new Table(array('indent' => $indent));
 

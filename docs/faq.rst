@@ -18,7 +18,7 @@ the merrier, right?
 I’ve been running PHPWord from CodePlex flawlessly, but I can’t use the latest PHPWord from GitHub. Why?
 --------------------------------------------------------------------------------------------------------
 
-PHPWord requires PHP 5.3+ since 0.8, while PHPWord 0.6.3 from CodePlex
+PHPWord requires PHP7.0+ since 0.17 (PHP 5.3+ since 0.8), while PHPWord 0.6.3 from CodePlex
 can run with PHP 5.2. There’s a lot of new features that we can get from
 PHP 5.3 and it’s been around since 2009! You should upgrade your PHP
 version to use PHPWord 0.8+.

@@ -5,15 +5,33 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 v0.17.0 (?? ??? 2019)
 ----------------------
+This release marked the addition of strict typing and return type declarations (PHP 7+).
+
 ### Added
 - Add RightToLeft table presentation. @troosan #1550
 - Set complex type in template @troosan #1565
 - Add support for page vertical alignment. @troosan #672 #1569
+- Length validation and automatic unit conversion with `PhpOffice\PhpWord\Style\Lengths\{Absolute, Auto, Percent}` @0b10011 #1669
+- Color validation with `PhpOffice\PhpWord\Style\Colors\{BasicColor, SpecialColor}` @0b10011 #1669
+- BorderStyle validation with `PhpOffice\PhpWord\Style\BorderStyle` @0b10011 #1669
+- Support for additional `border-style` values (`hidden`, `groove`, `ridge`, `inset`, and `outset`) in HTML documents @0b10011 #1669
+- Support for all named colors from CSS in HTML documents @0b10011 #1669
+- Support for borders on `Cell` @0b10011 #1669
+- Support for writing percent and auto column widths on `Table` to ODT files @0b10011 #1669
+- Support for `space` and `shadow` on `Border` (and support for writing to Word2007) @0b10011 #1669
+
+### Changed
+- `float` and `int` are no longer supported for lengths. Only `PhpOffice\PhpWord\Style\Lengths\{Absolute, Auto, Percent}` are allowed. @0b10011 #1669
+- `string` is no longer supported for colors. Only `PhpOffice\PhpWord\Style\Colors\{BasicColor, SpecialColor}` is allowed. @0b10011 #1669
+- `string` is no longer supported for border styles. Only `PhpOffice\PhpWord\Style\BorderStyle` is allowed. @0b10011 #1669
 
 ### Fixed
 - Fix HTML border-color parsing. @troosan #1551 #1570
+- Fixed specifying cell widths, background color, etc on `PhpOffice\PhpWord\Style\Cell` @0b10011 #1669
+- Escape arrays of replacements in `TemplateProcessor` @0b10011 #1669
 
 ### Miscellaneous
+-
 - Use embedded http server to test loading of remote images @troosan #
 
 v0.16.0 (30 dec 2018)

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Frame defines the size and position of an object
@@ -29,14 +31,6 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  */
 class Frame extends AbstractStyle
 {
-    /**
-     * Length unit
-     *
-     * @const string
-     */
-    const UNIT_PT = 'pt'; // Mostly for shapes
-    const UNIT_PX = 'px'; // Mostly for images
-
     /**
      * General positioning options.
      *
@@ -95,37 +89,30 @@ class Frame extends AbstractStyle
     private $alignment = '';
 
     /**
-     * Unit
-     *
-     * @var string
-     */
-    private $unit = 'pt';
-
-    /**
      * Width
      *
-     * @var int|float
+     * @var Absolute
      */
     private $width;
 
     /**
      * Height
      *
-     * @var int|float
+     * @var Absolute
      */
     private $height;
 
     /**
      * Leftmost (horizontal) position
      *
-     * @var int|float
+     * @var int|Absolute Default is set with int, but converted to Absolute when read
      */
     private $left = 0;
 
     /**
      * Topmost (vertical) position
      *
-     * @var int|float
+     * @var int|Absolute Default is set with int, but converted to Absolute when read
      */
     private $top = 0;
 
@@ -174,35 +161,35 @@ class Frame extends AbstractStyle
     /**
      * Top wrap distance
      *
-     * @var float
+     * @var Absolute
      */
     private $wrapDistanceTop;
 
     /**
      * Bottom wrap distance
      *
-     * @var float
+     * @var Absolute
      */
     private $wrapDistanceBottom;
 
     /**
      * Left wrap distance
      *
-     * @var float
+     * @var Absolute
      */
     private $wrapDistanceLeft;
 
     /**
      * Right wrap distance
      *
-     * @var float
+     * @var Absolute
      */
     private $wrapDistanceRight;
 
     /**
      * Vertically raised or lowered text
      *
-     * @var int
+     * @var Absolute
      * @see http://www.datypic.com/sc/ooxml/e-w_position-1.html
      */
     private $position;
@@ -270,116 +257,89 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get unit
-     *
-     * @return string
-     */
-    public function getUnit()
-    {
-        return $this->unit;
-    }
-
-    /**
-     * Set unit
-     *
-     * @param string $value
-     * @return self
-     */
-    public function setUnit($value)
-    {
-        $this->unit = $value;
-
-        return $this;
-    }
-
-    /**
      * Get width
-     *
-     * @return int|float
      */
-    public function getWidth()
+    public function getWidth(): Absolute
     {
+        if ($this->width === null) {
+            $this->width = new Absolute(null);
+        }
+
         return $this->width;
     }
 
     /**
      * Set width
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setWidth($value = null)
+    public function setWidth(Absolute $value): self
     {
-        $this->width = $this->setNumericVal($value, null);
+        $this->width = $value;
 
         return $this;
     }
 
     /**
      * Get height
-     *
-     * @return int|float
      */
-    public function getHeight()
+    public function getHeight(): Absolute
     {
+        if ($this->height === null) {
+            $this->height = new Absolute(null);
+        }
+
         return $this->height;
     }
 
     /**
      * Set height
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setHeight($value = null)
+    public function setHeight(Absolute $value): self
     {
-        $this->height = $this->setNumericVal($value, null);
+        $this->height = $value;
 
         return $this;
     }
 
     /**
      * Get left
-     *
-     * @return int|float
      */
-    public function getLeft()
+    public function getLeft(): Absolute
     {
+        if (!$this->left instanceof Absolute) {
+            $this->left = new Absolute($this->left);
+        }
+
         return $this->left;
     }
 
     /**
      * Set left
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setLeft($value = 0)
+    public function setLeft(Absolute $value): self
     {
-        $this->left = $this->setNumericVal($value, 0);
+        $this->left = $value;
 
         return $this;
     }
 
     /**
      * Get topmost position
-     *
-     * @return int|float
      */
-    public function getTop()
+    public function getTop(): Absolute
     {
+        if (!$this->top instanceof Absolute) {
+            $this->top = new Absolute($this->top);
+        }
+
         return $this->top;
     }
 
     /**
      * Set topmost position
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setTop($value = 0)
+    public function setTop(Absolute $value): self
     {
-        $this->top = $this->setNumericVal($value, 0);
+        $this->top = $value;
 
         return $this;
     }
@@ -577,115 +537,112 @@ class Frame extends AbstractStyle
 
     /**
      * Get top distance from text wrap
-     *
-     * @return float
      */
-    public function getWrapDistanceTop()
+    public function getWrapDistanceTop(): Absolute
     {
+        if ($this->wrapDistanceTop === null) {
+            $this->wrapDistanceTop = new Absolute(null);
+        }
+
         return $this->wrapDistanceTop;
     }
 
     /**
      * Set top distance from text wrap
      *
-     * @param int $value
      * @return self
      */
-    public function setWrapDistanceTop($value = null)
+    public function setWrapDistanceTop(Absolute $value)
     {
-        $this->wrapDistanceTop = $this->setFloatVal($value, null);
+        $this->wrapDistanceTop = $value;
 
         return $this;
     }
 
     /**
      * Get bottom distance from text wrap
-     *
-     * @return float
      */
-    public function getWrapDistanceBottom()
+    public function getWrapDistanceBottom(): Absolute
     {
+        if ($this->wrapDistanceBottom === null) {
+            $this->wrapDistanceBottom = new Absolute(null);
+        }
+
         return $this->wrapDistanceBottom;
     }
 
     /**
      * Set bottom distance from text wrap
-     *
-     * @param float $value
-     * @return self
      */
-    public function setWrapDistanceBottom($value = null)
+    public function setWrapDistanceBottom(Absolute $value): self
     {
-        $this->wrapDistanceBottom = $this->setFloatVal($value, null);
+        $this->wrapDistanceBottom = $value;
 
         return $this;
     }
 
     /**
      * Get left distance from text wrap
-     *
-     * @return float
      */
-    public function getWrapDistanceLeft()
+    public function getWrapDistanceLeft(): Absolute
     {
+        if ($this->wrapDistanceLeft === null) {
+            $this->wrapDistanceLeft = new Absolute(null);
+        }
+
         return $this->wrapDistanceLeft;
     }
 
     /**
      * Set left distance from text wrap
-     *
-     * @param float $value
-     * @return self
      */
-    public function setWrapDistanceLeft($value = null)
+    public function setWrapDistanceLeft(Absolute $value): self
     {
-        $this->wrapDistanceLeft = $this->setFloatVal($value, null);
+        $this->wrapDistanceLeft = $value;
 
         return $this;
     }
 
     /**
      * Get right distance from text wrap
-     *
-     * @return float
      */
-    public function getWrapDistanceRight()
+    public function getWrapDistanceRight(): Absolute
     {
+        if ($this->wrapDistanceRight === null) {
+            $this->wrapDistanceRight = new Absolute(null);
+        }
+
         return $this->wrapDistanceRight;
     }
 
     /**
      * Set right distance from text wrap
-     *
-     * @param float $value
-     * @return self
      */
-    public function setWrapDistanceRight($value = null)
+    public function setWrapDistanceRight(Absolute $value): self
     {
-        $this->wrapDistanceRight = $this->setFloatVal($value, null);
+        $this->wrapDistanceRight = $value;
 
         return $this;
     }
 
     /**
      * Get position
-     *
-     * @return int
      */
-    public function getPosition()
+    public function getPosition(): Absolute
     {
+        if ($this->position === null) {
+            $this->position = new Absolute(null);
+        }
+
         return $this->position;
     }
 
     /**
      * Set position
-     *
-     * @param int $value
-     * @return self
      */
-    public function setPosition($value = null)
+    public function setPosition(Absolute $value): self
     {
-        $this->position = $this->setIntVal($value, null);
+        $this->position = $value;
 
         return $this;
     }

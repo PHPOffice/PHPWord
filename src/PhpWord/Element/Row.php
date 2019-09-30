@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Length;
 use PhpOffice\PhpWord\Style\Row as RowStyle;
 
 /**
@@ -29,9 +32,9 @@ class Row extends AbstractElement
     /**
      * Row height
      *
-     * @var int
+     * @var Absolute
      */
-    private $height = null;
+    private $height;
 
     /**
      * Row style
@@ -50,23 +53,23 @@ class Row extends AbstractElement
     /**
      * Create a new table row
      *
-     * @param int $height
-     * @param mixed $style
+     * @param Absolute $height
+     * @param null|mixed $style
      */
-    public function __construct($height = null, $style = null)
+    public function __construct(Absolute $height = null, $style = null)
     {
-        $this->height = $height;
+        $this->height = $height ?? new Absolute(null);
         $this->style = $this->setNewStyle(new RowStyle(), $style, true);
     }
 
     /**
      * Add a cell
      *
-     * @param int $width
-     * @param mixed $style
+     * @param Length $width
+     * @param null|mixed $style
      * @return \PhpOffice\PhpWord\Element\Cell
      */
-    public function addCell($width = null, $style = null)
+    public function addCell(Length $width = null, $style = null)
     {
         $cell = new Cell($width, $style);
         $cell->setParentContainer($this);
@@ -97,10 +100,8 @@ class Row extends AbstractElement
 
     /**
      * Get row height
-     *
-     * @return int
      */
-    public function getHeight()
+    public function getHeight(): Absolute
     {
         return $this->height;
     }

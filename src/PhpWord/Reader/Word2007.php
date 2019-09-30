@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -81,7 +82,6 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read document part.
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param array $relationships
      * @param string $partName
      * @param string $docFile

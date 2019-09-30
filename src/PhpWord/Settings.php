@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,9 @@
  */
 
 namespace PhpOffice\PhpWord;
+
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * PHPWord settings class
@@ -115,7 +119,7 @@ class Settings
 
     /**
      * Default font size
-     * @var int
+     * @var int|Absolute
      */
     private static $defaultFontSize = self::DEFAULT_FONT_SIZE;
 
@@ -363,24 +367,32 @@ class Settings
 
     /**
      * Get default font size
-     *
-     * @return int
      */
-    public static function getDefaultFontSize()
+    public static function getDefaultFontSize(): Absolute
     {
+        if (is_int(self::$defaultFontSize)) {
+            self::$defaultFontSize = Absolute::from('pt', self::$defaultFontSize);
+        }
+
         return self::$defaultFontSize;
     }
 
     /**
      * Set default font size
      *
-     * @param int $value
-     * @return bool
+     * @param float|int|null $value
      */
-    public static function setDefaultFontSize($value)
+    public static function setDefaultFontSizeFromConfig($value): bool
     {
-        $value = (int) $value;
-        if ($value > 0) {
+        return self::setDefaultFontSize(Absolute::from('pt', (float) $value));
+    }
+
+    /**
+     * Set default font size
+     */
+    public static function setDefaultFontSize(Absolute $value): bool
+    {
+        if ($value->toFloat('twip') > 0) {
             self::$defaultFontSize = $value;
 
             return true;
@@ -423,10 +435,14 @@ class Settings
 
         // Set config value
         foreach ($config as $key => $value) {
-            $method = "set{$key}";
-            if (method_exists(__CLASS__, $method)) {
-                self::$method($value);
+            $method = "set{$key}FromConfig";
+            if (!method_exists(__CLASS__, $method)) {
+                $method = "set{$key}";
+                if (!method_exists(__CLASS__, $method)) {
+                    throw new Exception("No method found for key `$key` to set config value");
+                }
             }
+            self::$method($value);
         }
 
         return $config;

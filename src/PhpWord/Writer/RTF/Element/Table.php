@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -20,6 +21,7 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
 use PhpOffice\PhpWord\Element\Cell as CellElement;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Table as TableElement;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Table element RTF writer
@@ -66,7 +68,7 @@ class Table extends AbstractElement
     /**
      * Write column
      *
-     * @param \PhpOffice\PhpWord\Element\Row $row
+     * @todo Add support for percentage widths and auto (https://stackoverflow.com/a/5531449/526741)
      * @return string
      */
     private function writeRowDef(RowElement $row)
@@ -75,11 +77,15 @@ class Table extends AbstractElement
 
         $rightMargin = 0;
         foreach ($row->getCells() as $cell) {
-            $width = $cell->getWidth();
-            $vMerge = $this->getVMerge($cell->getStyle()->getVMerge());
-            if ($width === null) {
-                $width = 720; // Arbitrary default width
+            // Arbitrary default width
+            $width = 720;
+            $cellWidth = $cell->getWidth();
+            if ($cellWidth instanceof Absolute && $cellWidth->isSpecified()) {
+                $width = $cellWidth->toInt('twip');
             }
+            unset($cellWidth);
+
+            $vMerge = $this->getVMerge($cell->getStyle()->getVMerge());
             $rightMargin += $width;
             $content .= "{$vMerge}\cellx{$rightMargin} ";
         }
@@ -90,7 +96,6 @@ class Table extends AbstractElement
     /**
      * Write row
      *
-     * @param \PhpOffice\PhpWord\Element\Row $row
      * @return string
      */
     private function writeRow(RowElement $row)
@@ -108,7 +113,6 @@ class Table extends AbstractElement
     /**
      * Write cell
      *
-     * @param \PhpOffice\PhpWord\Element\Cell $cell
      * @return string
      */
     private function writeCell(CellElement $cell)

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -44,7 +45,7 @@ class Shape extends AbstractElement
      * Create new instance
      *
      * @param string $type
-     * @param mixed $style
+     * @param null|mixed $style
      */
     public function __construct($type, $style = null)
     {

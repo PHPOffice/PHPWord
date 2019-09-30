@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,9 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Colors\Rgb;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Section
@@ -35,33 +39,18 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $oSettings = new Section();
 
         $this->assertEquals('portrait', $oSettings->getOrientation());
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), '', 0.000000001);
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW()->toFloat('twip'), '', .00000001);
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH()->toFloat('twip'), '', .00000001);
         $this->assertEquals('A4', $oSettings->getPaperSize());
 
         $oSettings->setSettingValue('orientation', 'landscape');
         $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), '', 0.000000001);
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW()->toFloat('twip'), '', .00000001);
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH()->toFloat('twip'), '', .00000001);
 
         $iVal = rand(1, 1000);
-        $oSettings->setSettingValue('borderSize', $iVal);
-        $this->assertEquals(array($iVal, $iVal, $iVal, $iVal), $oSettings->getBorderSize());
-        $this->assertEquals($iVal, $oSettings->getBorderBottomSize());
-        $this->assertEquals($iVal, $oSettings->getBorderLeftSize());
-        $this->assertEquals($iVal, $oSettings->getBorderRightSize());
-        $this->assertEquals($iVal, $oSettings->getBorderTopSize());
-
-        $oSettings->setSettingValue('borderColor', 'FF00AA');
-        $this->assertEquals(array('FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'), $oSettings->getBorderColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderBottomColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderLeftColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderRightColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderTopColor());
-
-        $iVal = rand(1, 1000);
-        $oSettings->setSettingValue('headerHeight', $iVal);
-        $this->assertEquals($iVal, $oSettings->getHeaderHeight());
+        $oSettings->setSettingValue('headerHeight', Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oSettings->getHeaderHeight()->toInt('twip'));
 
         $oSettings->setSettingValue('lineNumbering', array());
         $oSettings->setSettingValue(
@@ -69,7 +58,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
             array(
                 'start'     => 1,
                 'increment' => 1,
-                'distance'  => 240,
+                'distance'  => Absolute::from('twip', 240),
                 'restart'   => 'newPage',
             )
         );
@@ -88,20 +77,20 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $oSettings = new Section();
 
         $iVal = rand(1, 1000);
-        $oSettings->setMarginTop($iVal);
-        $this->assertEquals($iVal, $oSettings->getMarginTop());
+        $oSettings->setMarginTop(Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oSettings->getMarginTop()->toInt('twip'));
 
         $iVal = rand(1, 1000);
-        $oSettings->setMarginBottom($iVal);
-        $this->assertEquals($iVal, $oSettings->getMarginBottom());
+        $oSettings->setMarginBottom(Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oSettings->getMarginBottom()->toInt('twip'));
 
         $iVal = rand(1, 1000);
-        $oSettings->setMarginLeft($iVal);
-        $this->assertEquals($iVal, $oSettings->getMarginLeft());
+        $oSettings->setMarginLeft(Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oSettings->getMarginLeft()->toInt('twip'));
 
         $iVal = rand(1, 1000);
-        $oSettings->setMarginRight($iVal);
-        $this->assertEquals($iVal, $oSettings->getMarginRight());
+        $oSettings->setMarginRight(Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oSettings->getMarginRight()->toInt('twip'));
     }
 
     /**
@@ -112,10 +101,10 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), '', 0.000000001);
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW()->toFloat('twip'), '', 0.000000001);
         $iVal = rand(1, 1000);
-        $oSettings->setSettingValue('pageSizeW', $iVal);
-        $this->assertEquals($iVal, $oSettings->getPageSizeW());
+        $oSettings->setSettingValue('pageSizeW', Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oSettings->getPageSizeW()->toFloat('twip'));
     }
 
     /**
@@ -126,10 +115,10 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH()->toFloat('twip'), '', 0.000000001);
         $iVal = rand(1, 1000);
-        $oSettings->setSettingValue('pageSizeH', $iVal);
-        $this->assertEquals($iVal, $oSettings->getPageSizeH());
+        $oSettings->setSettingValue('pageSizeH', Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oSettings->getPageSizeH()->toInt('twip'));
     }
 
     /**
@@ -142,8 +131,8 @@ class SectionTest extends \PHPUnit\Framework\TestCase
 
         $oSettings->setLandscape();
         $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), '', 0.000000001);
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW()->toFloat('twip'), '', 0.000000001);
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH()->toFloat('twip'), '', 0.000000001);
     }
 
     /**
@@ -156,69 +145,47 @@ class SectionTest extends \PHPUnit\Framework\TestCase
 
         $oSettings->setPortrait();
         $this->assertEquals('portrait', $oSettings->getOrientation());
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), '', 0.000000001);
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW()->toFloat('twip'), '', 0.000000001);
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH()->toFloat('twip'), '', 0.000000001);
     }
 
     /**
-     * Set/get border size
+     * Test border color
      */
-    public function testBorderSize()
+    public function testBorders()
     {
-        // Section Settings
-        $oSettings = new Section();
+        $section = new Section();
 
-        $iVal = rand(1, 1000);
-        $oSettings->setBorderSize($iVal);
-        $this->assertEquals(array($iVal, $iVal, $iVal, $iVal), $oSettings->getBorderSize());
-        $this->assertEquals($iVal, $oSettings->getBorderBottomSize());
-        $this->assertEquals($iVal, $oSettings->getBorderLeftSize());
-        $this->assertEquals($iVal, $oSettings->getBorderRightSize());
-        $this->assertEquals($iVal, $oSettings->getBorderTopSize());
+        $this->assertFalse($section->hasBorder());
+        $borders = array('top', 'right', 'bottom', 'left');
+        $borderSides = array(
+            array(Absolute::from('pt', rand(1, 20)), new Hex('f93de1'), new BorderStyle('double'), Absolute::from('pt', rand(1, 20)), true),
+            array(Absolute::from('twip', rand(1, 400)), new Hex('000000'), new BorderStyle('outset'), Absolute::from('twip', rand(1, 400)), false),
+            array(Absolute::from('eop', rand(1, 160)), new Rgb(255, 0, 100), new BorderStyle('dotted'), Absolute::from('eop', rand(1, 160)), true),
+        );
+        $lastBorderSide = array(new Absolute(0), new Hex(null), new BorderStyle('single'), new Absolute(0), false);
+        foreach ($borderSides as $key => $borderSide) {
+            $newBorder = new BorderSide(...$borderSide);
 
-        $iVal = rand(1, 1000);
-        $oSettings->setBorderBottomSize($iVal);
-        $this->assertEquals($iVal, $oSettings->getBorderBottomSize());
+            foreach ($borders as $side) {
+                $currentBorder = $section->getBorder($side);
+                $this->assertEquals($lastBorderSide[0], $currentBorder->getSize(), "Size for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[1], $currentBorder->getColor(), "Color for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[2], $currentBorder->getStyle(), "Style for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[3], $currentBorder->getSpace(), "Space for border side #$key for side $side should match last border side still");
+                $this->assertEquals($lastBorderSide[4], $currentBorder->getShadow(), "Shadow for border side #$key for side $side should match last border side still");
 
-        $iVal = rand(1, 1000);
-        $oSettings->setBorderLeftSize($iVal);
-        $this->assertEquals($iVal, $oSettings->getBorderLeftSize());
+                $section->setBorder($side, $newBorder);
+                $updatedBorder = $section->getBorder($side);
+                $this->assertEquals($borderSide[0], $updatedBorder->getSize(), "Size for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[1], $updatedBorder->getColor(), "Color for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[2], $updatedBorder->getStyle(), "Style for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[3], $updatedBorder->getSpace(), "Space for border side #$key for side $side should match new border");
+                $this->assertEquals($borderSide[4], $updatedBorder->getShadow(), "Shadow for border side #$key for side $side should match new border");
+            }
 
-        $iVal = rand(1, 1000);
-        $oSettings->setBorderRightSize($iVal);
-        $this->assertEquals($iVal, $oSettings->getBorderRightSize());
-
-        $iVal = rand(1, 1000);
-        $oSettings->setBorderTopSize($iVal);
-        $this->assertEquals($iVal, $oSettings->getBorderTopSize());
-    }
-
-    /**
-     * Set/get border color
-     */
-    public function testBorderColor()
-    {
-        // Section Settings
-        $oSettings = new Section();
-
-        $oSettings->setBorderColor('FF00AA');
-        $this->assertEquals(array('FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'), $oSettings->getBorderColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderBottomColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderLeftColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderRightColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderTopColor());
-
-        $oSettings->setBorderBottomColor('BBCCDD');
-        $this->assertEquals('BBCCDD', $oSettings->getBorderBottomColor());
-
-        $oSettings->setBorderLeftColor('CCDDEE');
-        $this->assertEquals('CCDDEE', $oSettings->getBorderLeftColor());
-
-        $oSettings->setBorderRightColor('11EE22');
-        $this->assertEquals('11EE22', $oSettings->getBorderRightColor());
-
-        $oSettings->setBorderTopColor('22FF33');
-        $this->assertEquals('22FF33', $oSettings->getBorderTopColor());
+            $lastBorderSide = $borderSide;
+        }
     }
 
     /**
@@ -246,14 +213,22 @@ class SectionTest extends \PHPUnit\Framework\TestCase
     {
         $oSettings = new Section();
 
-        $this->assertEquals(720, $oSettings->getHeaderHeight());
+        $this->assertEquals(720, $oSettings->getHeaderHeight()->toInt('twip'));
 
         $iVal = rand(1, 1000);
-        $oSettings->setHeaderHeight($iVal);
-        $this->assertEquals($iVal, $oSettings->getHeaderHeight());
+        $oSettings->setHeaderHeight(Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oSettings->getHeaderHeight()->toInt('twip'));
+    }
 
+    /**
+     * Set/get header height
+     * @expectedException \TypeError
+     * @expectedExceptionMessageRegExp /^(Argument 1 passed to PhpOffice\\PhpWord\\Style\\Section::setHeaderHeight\(\) must be an instance of PhpOffice\\PhpWord\\Style\\Lengths\\Absolute, none given|Too few arguments to function PhpOffice\\PhpWord\\Style\\Section::setHeaderHeight\(\), 0 passed)/
+     */
+    public function testHeaderMissing()
+    {
+        $oSettings = new Section();
         $oSettings->setHeaderHeight();
-        $this->assertEquals(720, $oSettings->getHeaderHeight());
     }
 
     /**
@@ -264,14 +239,22 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertEquals(720, $oSettings->getFooterHeight());
+        $this->assertEquals(720, $oSettings->getFooterHeight()->toInt('twip'));
 
         $iVal = rand(1, 1000);
-        $oSettings->setFooterHeight($iVal);
-        $this->assertEquals($iVal, $oSettings->getFooterHeight());
+        $oSettings->setFooterHeight(Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oSettings->getFooterHeight()->toInt('twip'));
+    }
 
+    /**
+     * Set/get footer height
+     * @expectedException \TypeError
+     * @expectedExceptionMessageRegExp /^(Argument 1 passed to PhpOffice\\PhpWord\\Style\\Section::setFooterHeight\(\) must be an instance of PhpOffice\\PhpWord\\Style\\Lengths\\Absolute, none given|Too few arguments to function PhpOffice\\PhpWord\\Style\\Section::setFooterHeight\(\), 0 passed)/
+     */
+    public function testFooterEmpty()
+    {
+        $oSettings = new Section();
         $oSettings->setFooterHeight();
-        $this->assertEquals(720, $oSettings->getFooterHeight());
     }
 
     /**
@@ -304,14 +287,23 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $oSettings = new Section();
 
         // Default
-        $this->assertEquals(720, $oSettings->getColsSpace());
+        $this->assertEquals(720, $oSettings->getColsSpace()->toInt('twip'));
 
         $iVal = rand(1, 1000);
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $oSettings->setColsSpace($iVal));
-        $this->assertEquals($iVal, $oSettings->getColsSpace());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $oSettings->setColsSpace(Absolute::from('twip', $iVal)));
+        $this->assertEquals($iVal, $oSettings->getColsSpace()->toInt('twip'));
+    }
 
+    /**
+     * Set/get column spacing
+     * PHP 7.1+
+     * @expectedException \TypeError
+     * @expectedExceptionMessageRegExp /^(Argument 1 passed to PhpOffice\\PhpWord\\Style\\Section::setColsSpace\(\) must be an instance of PhpOffice\\PhpWord\\Style\\Lengths\\Absolute, none given|Too few arguments to function PhpOffice\\PhpWord\\Style\\Section::setColsSpace\(\), 0 passed)/
+     */
+    public function testColumnsSpaceEmpty()
+    {
+        $oSettings = new Section();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $oSettings->setColsSpace());
-        $this->assertEquals(720, $oSettings->getColsSpace());
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,6 +22,8 @@ use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\HTML
@@ -70,9 +73,9 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
         $phpWord->addTitleStyle(1, array('bold' => true));
         $phpWord->addFontStyle(
             'Font',
-            array('name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => 'FF0000')
+            array('name' => 'Verdana', 'size' => Absolute::from('pt', 11), 'color' => new Hex('FF0000'))
         );
-        $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER, 'spaceAfter' => 20, 'spaceBefore' => 20));
+        $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER, 'spaceAfter' => Absolute::from('eop', 20), 'spaceBefore' => Absolute::from('eop', 20)));
         $section = $phpWord->addSection();
         $section->addBookmark('top');
         $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');

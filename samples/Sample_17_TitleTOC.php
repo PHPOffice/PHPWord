@@ -1,22 +1,27 @@
 <?php
+declare(strict_types=1);
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 $phpWord->getSettings()->setUpdateFields(true);
 
 // New section
 $section = $phpWord->addSection();
 
 // Define styles
-$fontStyle12 = array('spaceAfter' => 60, 'size' => 12);
-$fontStyle10 = array('size' => 10);
-$phpWord->addTitleStyle(null, array('size' => 22, 'bold' => true));
-$phpWord->addTitleStyle(1, array('size' => 20, 'color' => '333333', 'bold' => true));
-$phpWord->addTitleStyle(2, array('size' => 16, 'color' => '666666'));
-$phpWord->addTitleStyle(3, array('size' => 14, 'italic' => true));
-$phpWord->addTitleStyle(4, array('size' => 12));
+$fontStyle12 = array('spaceAfter' => Absolute::from('twip', 60), 'size' => Absolute::from('pt', 12));
+$fontStyle10 = array('size' => Absolute::from('pt', 10));
+$phpWord->addTitleStyle(null, array('size' => Absolute::from('pt', 22), 'bold' => true));
+$phpWord->addTitleStyle(1, array('size' => Absolute::from('pt', 20), 'color' => new Hex('333333'), 'bold' => true));
+$phpWord->addTitleStyle(2, array('size' => Absolute::from('pt', 16), 'color' => new Hex('666666')));
+$phpWord->addTitleStyle(3, array('size' => Absolute::from('pt', 14), 'italic' => true));
+$phpWord->addTitleStyle(4, array('size' => Absolute::from('pt', 12)));
 
 // Add text elements
 $section->addTitle('Table of contents 1', 0);

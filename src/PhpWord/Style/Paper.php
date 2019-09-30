@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,7 +18,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Paper size from ISO/IEC 29500-1:2012 pg. 1656-1657
@@ -118,14 +119,14 @@ class Paper extends AbstractStyle
     /**
      * Width
      *
-     * @var float (twip)
+     * @var Absolute
      */
     private $width;
 
     /**
      * Height
      *
-     * @var float (twip)
+     * @var Absolute
      */
     private $height;
 
@@ -161,33 +162,24 @@ class Paper extends AbstractStyle
 
         list($width, $height, $unit) = $this->sizes[$this->size];
 
-        if ($unit == 'mm') {
-            $this->width = Converter::cmToTwip($width / 10);
-            $this->height = Converter::cmToTwip($height / 10);
-        } else {
-            $this->width = Converter::inchToTwip($width);
-            $this->height = Converter::inchToTwip($height);
-        }
+        $this->width = Absolute::from($unit, $width);
+        $this->height = Absolute::from($unit, $height);
 
         return $this;
     }
 
     /**
      * Get width
-     *
-     * @return float
      */
-    public function getWidth()
+    public function getWidth(): Absolute
     {
         return $this->width;
     }
 
     /**
      * Get height
-     *
-     * @return float
      */
-    public function getHeight()
+    public function getHeight(): Absolute
     {
         return $this->height;
     }

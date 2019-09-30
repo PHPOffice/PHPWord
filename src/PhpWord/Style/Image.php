@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord\Style;
+
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Image and memory image style
@@ -61,7 +64,6 @@ class Image extends Frame
     public function __construct()
     {
         parent::__construct();
-        $this->setUnit(self::UNIT_PT);
 
         // Backward compatibility setting
         // @todo Remove on 1.0.0
@@ -74,22 +76,16 @@ class Image extends Frame
 
     /**
      * Get margin top
-     *
-     * @return int|float
      */
-    public function getMarginTop()
+    public function getMarginTop(): Absolute
     {
         return $this->getTop();
     }
 
     /**
      * Set margin top
-     *
-     * @ignoreScrutinizerPatch
-     * @param int|float $value
-     * @return self
      */
-    public function setMarginTop($value = 0)
+    public function setMarginTop(Absolute $value): self
     {
         $this->setTop($value);
 
@@ -98,22 +94,16 @@ class Image extends Frame
 
     /**
      * Get margin left
-     *
-     * @return int|float
      */
-    public function getMarginLeft()
+    public function getMarginLeft(): Absolute
     {
         return $this->getLeft();
     }
 
     /**
      * Set margin left
-     *
-     * @ignoreScrutinizerPatch
-     * @param int|float $value
-     * @return self
      */
-    public function setMarginLeft($value = 0)
+    public function setMarginLeft(Absolute $value): self
     {
         $this->setLeft($value);
 

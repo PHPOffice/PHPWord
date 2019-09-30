@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -33,7 +34,6 @@ class MPDF extends AbstractRenderer implements WriterInterface
      * Overridden to set the correct includefile, only needed for MPDF 5
      *
      * @codeCoverageIgnore
-     * @param PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord)
     {

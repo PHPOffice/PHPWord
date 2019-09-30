@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * List item style
@@ -141,7 +143,6 @@ class ListItem extends AbstractStyle
 
     /**
      * Set numbering Id. Same numId means same list
-     * @param mixed $numInt
      */
     public function setNumId($numInt)
     {
@@ -270,7 +271,11 @@ class ListItem extends AbstractStyle
             $level['level'] = $key;
             for ($i = 0; $i < $numProperties; $i++) {
                 $property = $properties[$i];
-                $level[$property] = $levelProperties[$i];
+                $value = $levelProperties[$i];
+                if ($property === 'left' || $property === 'hanging' || $property === 'tabPos') {
+                    $value = Absolute::from('twip', (int) $value);
+                }
+                $level[$property] = $value;
             }
             $style['levels'][$key] = $level;
         }

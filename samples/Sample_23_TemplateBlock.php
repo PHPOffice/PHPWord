@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 include_once 'Sample_Header.php';
 
 // Template processor instance creation

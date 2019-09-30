@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -38,8 +39,6 @@ class Document extends AbstractPart
 
     /**
      * Read document.xml.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function read(PhpWord $phpWord)
     {
@@ -97,8 +96,6 @@ class Document extends AbstractPart
     /**
      * Read w:sectPr
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
      * @ignoreScrutinizerPatch
      * @return array
      */
@@ -107,23 +104,22 @@ class Document extends AbstractPart
         $styleDefs = array(
             'breakType'     => array(self::READ_VALUE, 'w:type'),
             'vAlign'        => array(self::READ_VALUE, 'w:vAlign'),
-            'pageSizeW'     => array(self::READ_VALUE, 'w:pgSz', 'w:w'),
-            'pageSizeH'     => array(self::READ_VALUE, 'w:pgSz', 'w:h'),
+            'pageSizeW'     => array(self::READ_TWIP, 'w:pgSz', 'w:w'),
+            'pageSizeH'     => array(self::READ_TWIP, 'w:pgSz', 'w:h'),
             'orientation'   => array(self::READ_VALUE, 'w:pgSz', 'w:orient'),
             'colsNum'       => array(self::READ_VALUE, 'w:cols', 'w:num'),
-            'colsSpace'     => array(self::READ_VALUE, 'w:cols', 'w:space'),
-            'marginTop'     => array(self::READ_VALUE, 'w:pgMar', 'w:top'),
-            'marginLeft'    => array(self::READ_VALUE, 'w:pgMar', 'w:left'),
-            'marginBottom'  => array(self::READ_VALUE, 'w:pgMar', 'w:bottom'),
-            'marginRight'   => array(self::READ_VALUE, 'w:pgMar', 'w:right'),
-            'headerHeight'  => array(self::READ_VALUE, 'w:pgMar', 'w:header'),
-            'footerHeight'  => array(self::READ_VALUE, 'w:pgMar', 'w:footer'),
-            'gutter'        => array(self::READ_VALUE, 'w:pgMar', 'w:gutter'),
+            'colsSpace'     => array(self::READ_TWIP, 'w:cols', 'w:space'),
+            'marginTop'     => array(self::READ_TWIP, 'w:pgMar', 'w:top'),
+            'marginLeft'    => array(self::READ_TWIP, 'w:pgMar', 'w:left'),
+            'marginBottom'  => array(self::READ_TWIP, 'w:pgMar', 'w:bottom'),
+            'marginRight'   => array(self::READ_TWIP, 'w:pgMar', 'w:right'),
+            'headerHeight'  => array(self::READ_TWIP, 'w:pgMar', 'w:header'),
+            'footerHeight'  => array(self::READ_TWIP, 'w:pgMar', 'w:footer'),
+            'gutter'        => array(self::READ_TWIP, 'w:pgMar', 'w:gutter'),
         );
         $styles = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
 
         // Header and footer
-        // @todo Cleanup this part
         $nodes = $xmlReader->getElements('*', $domNode);
         foreach ($nodes as $node) {
             if ($node->nodeName == 'w:headerReference' || $node->nodeName == 'w:footerReference') {
@@ -141,8 +137,6 @@ class Document extends AbstractPart
     /**
      * Read w:p node.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $node
      * @param \PhpOffice\PhpWord\Element\Section &$section
      *
      * @todo <w:lastRenderedPageBreak>
@@ -170,8 +164,6 @@ class Document extends AbstractPart
     /**
      * Read w:sectPr node.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $node
      * @param \PhpOffice\PhpWord\Element\Section &$section
      */
     private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)

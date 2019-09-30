@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -76,14 +77,13 @@ class Styles extends AbstractPart
     /**
      * Write default font and other default styles.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\AbstractStyle[] $styles
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
         $fontName = $phpWord->getDefaultFontName();
-        $fontSize = $phpWord->getDefaultFontSize();
+        $fontSize = $phpWord->getDefaultFontSize()->toInt('hpt');
         $language = $phpWord->getSettings()->getThemeFontLang();
         $latinLanguage = ($language == null || $language->getLatin() === null) ? 'en-US' : $language->getLatin();
 
@@ -98,10 +98,10 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('w:cs', $fontName);
         $xmlWriter->endElement(); // w:rFonts
         $xmlWriter->startElement('w:sz');
-        $xmlWriter->writeAttribute('w:val', $fontSize * 2);
+        $xmlWriter->writeAttribute('w:val', $fontSize);
         $xmlWriter->endElement(); // w:sz
         $xmlWriter->startElement('w:szCs');
-        $xmlWriter->writeAttribute('w:val', $fontSize * 2);
+        $xmlWriter->writeAttribute('w:val', $fontSize);
         $xmlWriter->endElement(); // w:szCs
         $xmlWriter->startElement('w:lang');
         $xmlWriter->writeAttribute('w:val', $latinLanguage);
@@ -161,9 +161,7 @@ class Styles extends AbstractPart
     /**
      * Write font style.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $styleName
-     * @param \PhpOffice\PhpWord\Style\Font $style
      */
     private function writeFontStyle(XMLWriter $xmlWriter, $styleName, FontStyle $style)
     {
@@ -229,9 +227,7 @@ class Styles extends AbstractPart
     /**
      * Write paragraph style.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $styleName
-     * @param \PhpOffice\PhpWord\Style\Paragraph $style
      */
     private function writeParagraphStyle(XMLWriter $xmlWriter, $styleName, ParagraphStyle $style)
     {
@@ -261,9 +257,7 @@ class Styles extends AbstractPart
     /**
      * Write table style.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $styleName
-     * @param \PhpOffice\PhpWord\Style\Table $style
      */
     private function writeTableStyle(XMLWriter $xmlWriter, $styleName, TableStyle $style)
     {

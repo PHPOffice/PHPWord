@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -131,7 +132,6 @@ abstract class AbstractStyle
      *
      * @param \PhpOffice\PhpWord\Style\AbstractStyle $substyleObject
      * @param string $substyleProperty
-     * @return mixed
      * @since 0.12.0
      */
     public function getChildStyleValue($substyleObject, $substyleProperty)
@@ -218,22 +218,6 @@ abstract class AbstractStyle
     }
 
     /**
-     * Set numeric value
-     *
-     * @param mixed $value
-     * @param int|float|null $default
-     * @return int|float|null
-     */
-    protected function setNumericVal($value, $default = null)
-    {
-        if (!is_numeric($value)) {
-            $value = $default;
-        }
-
-        return $value;
-    }
-
-    /**
      * Set integer value: Convert string that contains only numeric into integer
      *
      * @param int|null $value
@@ -255,39 +239,19 @@ abstract class AbstractStyle
     }
 
     /**
-     * Set float value: Convert string that contains only numeric into float
-     *
-     * @param mixed $value
-     * @param float|null $default
-     * @return float|null
-     */
-    protected function setFloatVal($value, $default = null)
-    {
-        if (is_string($value) && (preg_match('/[^\d\.\,]/', $value) == 0)) {
-            $value = (float) $value;
-        }
-        if (!is_numeric($value)) {
-            $value = $default;
-        }
-
-        return $value;
-    }
-
-    /**
      * Set enum value
      *
-     * @param mixed $value
      * @param array $enum
-     * @param mixed $default
+     * @param null|mixed $value
+     * @param null|mixed $default
      *
      * @throws \InvalidArgumentException
-     * @return mixed
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
-        if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
+        if ($value != null && trim((string) $value) != '' && !empty($enum) && !in_array($value, $enum)) {
             throw new \InvalidArgumentException("Invalid style value: {$value} Options:" . implode(',', $enum));
-        } elseif ($value === null || trim($value) == '') {
+        } elseif ($value === null || trim((string) $value) == '') {
             $value = $default;
         }
 
@@ -297,10 +261,8 @@ abstract class AbstractStyle
     /**
      * Set object value
      *
-     * @param mixed $value
      * @param string $styleName
      * @param mixed &$style
-     * @return mixed
      */
     protected function setObjectVal($value, $styleName, &$style)
     {
@@ -341,7 +303,6 @@ abstract class AbstractStyle
      *
      * @deprecated 0.11.0
      *
-     * @param array $style
      *
      * @return self
      *

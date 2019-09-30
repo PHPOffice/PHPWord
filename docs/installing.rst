@@ -8,7 +8,7 @@ Requirements
 
 Mandatory:
 
-- PHP 5.3.3+
+- PHP 7+
 - `XML Parser <http://www.php.net/manual/en/xml.installation.php>`__ extension
 - `Zend\\Escaper <http://framework.zend.com/manual/current/en/modules/zend.escaper.introduction.html>`__ component
 - Zend\\Stdlib component
@@ -34,7 +34,7 @@ Example:
 
     {
         "require": {
-           "phpoffice/phpword": "v0.14.*"
+           "phpoffice/phpword": "v0.16.*"
         }
     }
 

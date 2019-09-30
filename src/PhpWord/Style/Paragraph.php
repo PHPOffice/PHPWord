@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,9 +19,10 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\Common\Text;
-use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
 
 /**
  * Paragraph style
@@ -49,10 +51,12 @@ use PhpOffice\PhpWord\SimpleType\TextAlignment;
  *
  * @see  http://www.schemacentral.com/sc/ooxml/t-w_CT_PPr.html
  */
-class Paragraph extends Border
+class Paragraph extends AbstractStyle
 {
+    use Border;
+
     /**
-     * @const int One line height equals 240 twip
+     * @const Absolute One line height equals 240 twip
      */
     const LINE_HEIGHT = 240;
 
@@ -61,7 +65,7 @@ class Paragraph extends Border
      *
      * @var array
      */
-    protected $aliases = array('line-height' => 'lineHeight', 'line-spacing' => 'spacing');
+    protected $aliases = array('line-height' => 'lineHeight', 'line-spacing' => 'space');
 
     /**
      * Parent style
@@ -99,7 +103,7 @@ class Paragraph extends Border
     /**
      * Text line height
      *
-     * @var int
+     * @var Percent
      */
     private $lineHeight;
 
@@ -191,15 +195,11 @@ class Paragraph extends Border
      * Set Style value
      *
      * @param string $key
-     * @param mixed $value
      * @return self
      */
     public function setStyleValue($key, $value)
     {
         $key = Text::removeUnderscorePrefix($key);
-        if ('indent' == $key || 'hanging' == $key) {
-            $value = $value * 720;
-        }
 
         return parent::setStyleValue($key, $value);
     }
@@ -296,6 +296,17 @@ class Paragraph extends Border
         return $this->setAlignment($value);
     }
 
+    protected function getAllowedSides(): array
+    {
+        return array(
+            'top',
+            'bottom',
+            'left',
+            'right',
+            'between',
+        );
+    }
+
     /**
      * Get parent style ID
      *
@@ -355,7 +366,7 @@ class Paragraph extends Border
     /**
      * Set shading
      *
-     * @param mixed $value
+     * @param null|mixed $value
      * @return self
      */
     public function setIndentation($value = null)
@@ -367,42 +378,34 @@ class Paragraph extends Border
 
     /**
      * Get indentation
-     *
-     * @return int
      */
-    public function getIndent()
+    public function getIndent(): Absolute
     {
-        return $this->getChildStyleValue($this->indentation, 'left');
+        return $this->getChildStyleValue($this->indentation, 'left') ?? new Absolute(null);
     }
 
     /**
      * Set indentation
      *
-     * @param int $value
      * @return self
      */
-    public function setIndent($value = null)
+    public function setIndent(Absolute $value)
     {
         return $this->setIndentation(array('left' => $value));
     }
 
     /**
      * Get hanging
-     *
-     * @return int
      */
-    public function getHanging()
+    public function getHanging(): Absolute
     {
-        return $this->getChildStyleValue($this->indentation, 'hanging');
+        return $this->getChildStyleValue($this->indentation, 'hanging') ?? new Absolute(null);
     }
 
     /**
      * Set hanging
-     *
-     * @param int $value
-     * @return self
      */
-    public function setHanging($value = null)
+    public function setHanging(Absolute $value): self
     {
         return $this->setIndentation(array('hanging' => $value));
     }
@@ -421,9 +424,9 @@ class Paragraph extends Border
     /**
      * Set spacing
      *
-     * @param mixed $value
-     * @return self
      * @todo Rename to setSpacing in 1.0
+     * @param null|mixed $value
+     * @return self
      */
     public function setSpace($value = null)
     {
@@ -434,63 +437,50 @@ class Paragraph extends Border
 
     /**
      * Get space before paragraph
-     *
-     * @return int
      */
-    public function getSpaceBefore()
+    public function getSpaceBefore(): Absolute
     {
-        return $this->getChildStyleValue($this->spacing, 'before');
+        return $this->getChildStyleValue($this->spacing, 'before') ?? new Absolute(null);
     }
 
     /**
      * Set space before paragraph
-     *
-     * @param int $value
-     * @return self
      */
-    public function setSpaceBefore($value = null)
+    public function setSpaceBefore(Absolute $value): self
     {
         return $this->setSpace(array('before' => $value));
     }
 
     /**
      * Get space after paragraph
-     *
-     * @return int
      */
-    public function getSpaceAfter()
+    public function getSpaceAfter(): Absolute
     {
-        return $this->getChildStyleValue($this->spacing, 'after');
+        return $this->getChildStyleValue($this->spacing, 'after') ?? new Absolute(null);
     }
 
     /**
      * Set space after paragraph
      *
-     * @param int $value
      * @return self
      */
-    public function setSpaceAfter($value = null)
+    public function setSpaceAfter(Absolute $value)
     {
         return $this->setSpace(array('after' => $value));
     }
 
     /**
      * Get spacing between lines
-     *
-     * @return int|float
      */
-    public function getSpacing()
+    public function getSpacing(): Absolute
     {
-        return $this->getChildStyleValue($this->spacing, 'line');
+        return $this->getChildStyleValue($this->spacing, 'line') ?? new Absolute(null);
     }
 
     /**
      * Set spacing between lines
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setSpacing($value = null)
+    public function setSpacing(Absolute $value): self
     {
         return $this->setSpace(array('line' => $value));
     }
@@ -518,10 +508,8 @@ class Paragraph extends Border
 
     /**
      * Get line height
-     *
-     * @return int|float
      */
-    public function getLineHeight()
+    public function getLineHeight(): Percent
     {
         return $this->lineHeight;
     }
@@ -529,23 +517,13 @@ class Paragraph extends Border
     /**
      * Set the line height
      *
-     * @param int|float|string $lineHeight
-     *
-     * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
      * @return self
      */
-    public function setLineHeight($lineHeight)
+    public function setLineHeight(Percent $lineHeight)
     {
-        if (is_string($lineHeight)) {
-            $lineHeight = (float) (preg_replace('/[^0-9\.\,]/', '', $lineHeight));
-        }
-
-        if ((!is_int($lineHeight) && !is_float($lineHeight)) || !$lineHeight) {
-            throw new InvalidStyleException('Line height must be a valid number');
-        }
-
         $this->lineHeight = $lineHeight;
-        $this->setSpacing(($lineHeight - 1) * self::LINE_HEIGHT);
+        $lineHeight = $lineHeight->toFloat();
+        $this->setSpacing(Absolute::from('twip', ($lineHeight - 100) / 100 * self::LINE_HEIGHT));
         $this->setSpacingLineRule(\PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO);
 
         return $this;
@@ -775,7 +753,7 @@ class Paragraph extends Border
     /**
      * Set shading
      *
-     * @param mixed $value
+     * @param null|mixed $value
      * @return self
      */
     public function setShading($value = null)

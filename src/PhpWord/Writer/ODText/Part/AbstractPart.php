@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -35,8 +36,6 @@ abstract class AbstractPart extends Word2007AbstractPart
 
     /**
      * Write common root attributes.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     protected function writeCommonRootAttributes(XMLWriter $xmlWriter)
     {
@@ -71,8 +70,6 @@ abstract class AbstractPart extends Word2007AbstractPart
 
     /**
      * Write font faces declaration.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     protected function writeFontFaces(XMLWriter $xmlWriter)
     {

@@ -1,9 +1,14 @@
 <?php
+declare(strict_types=1);
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Colors\HighlightColor;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 
 // New section
 $section = $phpWord->addSection();
@@ -13,16 +18,16 @@ $section = $phpWord->addSection();
 $section->addText('Horizontal Line (Inline style):');
 $section->addLine(
     array(
-        'width'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4),
-        'height'      => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(0),
+        'width'       => Absolute::from('cm', 4),
+        'height'      => Absolute::from('cm', 0),
         'positioning' => 'absolute',
     )
 );
 $section->addText('Vertical Line (Inline style):');
 $section->addLine(
     array(
-        'width'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(0),
-        'height'      => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(1),
+        'width'       => Absolute::from('cm', 0),
+        'height'      => Absolute::from('cm', 1),
         'positioning' => 'absolute',
     )
 );
@@ -32,23 +37,23 @@ $section->addTextBreak(1);
 $section->addText('Positioned Line (red):');
 $section->addLine(
     array(
-        'width'            => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4),
-        'height'           => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(1),
+        'width'            => Absolute::from('cm', 4),
+        'height'           => Absolute::from('cm', 1),
         'positioning'      => 'absolute',
         'posHorizontalRel' => 'page',
         'posVerticalRel'   => 'page',
-        'marginLeft'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(10),
-        'marginTop'        => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(8),
+        'marginLeft'       => Absolute::from('cm', 10),
+        'marginTop'        => Absolute::from('cm', 8),
         'wrappingStyle'    => \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_SQUARE,
-        'color'            => 'red',
+        'color'            => new HighlightColor('red'),
     )
 );
 
 $section->addText('Horizontal Formatted Line');
 $section->addLine(
     array(
-        'width'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15),
-        'height'      => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(0),
+        'width'       => Absolute::from('cm', 15),
+        'height'      => Absolute::from('cm', 0),
         'positioning' => 'absolute',
         'beginArrow'  => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK,
         'endArrow'    => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_OVAL,

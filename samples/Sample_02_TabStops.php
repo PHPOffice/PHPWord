@@ -1,9 +1,14 @@
 <?php
+declare(strict_types=1);
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Tab;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 
 // Define styles
 $multipleTabsStyleName = 'multipleTab';
@@ -11,18 +16,18 @@ $phpWord->addParagraphStyle(
     $multipleTabsStyleName,
     array(
         'tabs' => array(
-            new \PhpOffice\PhpWord\Style\Tab('left', 1550),
-            new \PhpOffice\PhpWord\Style\Tab('center', 3200),
-            new \PhpOffice\PhpWord\Style\Tab('right', 5300),
+            new Tab('left', Absolute::from('twip', 1550)),
+            new Tab('center', Absolute::from('twip', 3200)),
+            new Tab('right', Absolute::from('twip', 5300)),
         ),
     )
 );
 
 $rightTabStyleName = 'rightTab';
-$phpWord->addParagraphStyle($rightTabStyleName, array('tabs' => array(new \PhpOffice\PhpWord\Style\Tab('right', 9090))));
+$phpWord->addParagraphStyle($rightTabStyleName, array('tabs' => array(new Tab('right', Absolute::from('twip', 9090)))));
 
 $leftTabStyleName = 'centerTab';
-$phpWord->addParagraphStyle($leftTabStyleName, array('tabs' => array(new \PhpOffice\PhpWord\Style\Tab('center', 4680))));
+$phpWord->addParagraphStyle($leftTabStyleName, array('tabs' => array(new Tab('center', Absolute::from('twip', 4680)))));
 
 // New portrait section
 $section = $phpWord->addSection();

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -49,7 +50,7 @@ class Line extends Frame
 
         $xmlWriter->startElement('v:stroke');
 
-        $xmlWriter->writeAttributeIf($style->getWeight() !== null, 'weight', $style->getWeight() . 'pt');
+        $xmlWriter->writeAttributeIf($style->getWeight()->isSpecified(), 'weight', $style->getWeight()->toInt('pt') . 'pt');
         $xmlWriter->writeAttributeIf($style->getColor() !== null, 'color', $style->getColor());
         $xmlWriter->writeAttributeIf($style->getBeginArrow() !== null, 'startarrow', $style->getBeginArrow());
         $xmlWriter->writeAttributeIf($style->getEndArrow() !== null, 'endarrow', $style->getEndArrow());

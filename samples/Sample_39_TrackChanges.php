@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 use PhpOffice\PhpWord\Element\TrackChange;
 
 include_once 'Sample_Header.php';

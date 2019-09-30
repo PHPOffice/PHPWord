@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,9 @@
  */
 
 namespace PhpOffice\PhpWord\Style;
+
+use PhpOffice\PhpWord\Style\Colors\BasicColor;
+use PhpOffice\PhpWord\Style\Colors\Hex;
 
 /**
  * Shading style
@@ -50,14 +54,14 @@ class Shading extends AbstractStyle
     /**
      * Shading pattern color
      *
-     * @var string
+     * @var BasicColor
      */
     private $color;
 
     /**
      * Shading background color
      *
-     * @var string
+     * @var BasicColor
      */
     private $fill;
 
@@ -100,21 +104,20 @@ class Shading extends AbstractStyle
 
     /**
      * Get color
-     *
-     * @return string
      */
-    public function getColor()
+    public function getColor(): BasicColor
     {
+        if ($this->color === null) {
+            $this->color = new Hex(null);
+        }
+
         return $this->color;
     }
 
     /**
      * Set pattern
-     *
-     * @param string $value
-     * @return self
      */
-    public function setColor($value = null)
+    public function setColor(BasicColor $value): self
     {
         $this->color = $value;
 
@@ -123,21 +126,20 @@ class Shading extends AbstractStyle
 
     /**
      * Get fill
-     *
-     * @return string
      */
-    public function getFill()
+    public function getFill(): BasicColor
     {
+        if ($this->fill === null) {
+            $this->fill = new Hex(null);
+        }
+
         return $this->fill;
     }
 
     /**
      * Set fill
-     *
-     * @param string $value
-     * @return self
      */
-    public function setFill($value = null)
+    public function setFill(BasicColor $value): self
     {
         $this->fill = $value;
 

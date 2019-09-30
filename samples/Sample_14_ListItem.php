@@ -1,16 +1,21 @@
 <?php
+declare(strict_types=1);
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 
 // Define styles
 $fontStyleName = 'myOwnStyle';
-$phpWord->addFontStyle($fontStyleName, array('color' => 'FF0000'));
+$phpWord->addFontStyle($fontStyleName, array('color' => new Hex('FF0000')));
 
 $paragraphStyleName = 'P-Style';
-$phpWord->addParagraphStyle($paragraphStyleName, array('spaceAfter' => 95));
+$phpWord->addParagraphStyle($paragraphStyleName, array('spaceAfter' => Absolute::from('twip', 95)));
 
 $multilevelNumberingStyleName = 'multilevel';
 $phpWord->addNumberingStyle(
@@ -18,8 +23,8 @@ $phpWord->addNumberingStyle(
     array(
         'type'   => 'multilevel',
         'levels' => array(
-            array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360),
-            array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
+            array('format' => 'decimal', 'text' => '%1.', 'left' => Absolute::from('twip', 360), 'hanging' => Absolute::from('twip', 360), 'tabPos' => Absolute::from('twip', 360)),
+            array('format' => 'upperLetter', 'text' => '%2.', 'left' => Absolute::from('twip', 720), 'hanging' => Absolute::from('twip', 360), 'tabPos' => Absolute::from('twip', 720)),
         ),
     )
 );
@@ -86,9 +91,9 @@ $phpWord->addNumberingStyle(
           ),
     )
 );
-$phpWord->addTitleStyle(1, array('size' => 16), array('numStyle' => $headingNumberingStyleName, 'numLevel' => 0));
-$phpWord->addTitleStyle(2, array('size' => 14), array('numStyle' => $headingNumberingStyleName, 'numLevel' => 1));
-$phpWord->addTitleStyle(3, array('size' => 12), array('numStyle' => $headingNumberingStyleName, 'numLevel' => 2));
+$phpWord->addTitleStyle(1, array('size' => Absolute::from('pt', 16)), array('numStyle' => $headingNumberingStyleName, 'numLevel' => 0));
+$phpWord->addTitleStyle(2, array('size' => Absolute::from('pt', 14)), array('numStyle' => $headingNumberingStyleName, 'numLevel' => 1));
+$phpWord->addTitleStyle(3, array('size' => Absolute::from('pt', 12)), array('numStyle' => $headingNumberingStyleName, 'numLevel' => 2));
 
 $section->addTitle('Heading 1', 1);
 $section->addTitle('Heading 2', 2);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -43,8 +44,6 @@ class Footnotes extends AbstractPart
 
     /**
      * Read (footnotes|endnotes).xml.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function read(PhpWord $phpWord)
     {
@@ -76,7 +75,6 @@ class Footnotes extends AbstractPart
     /**
      * Searches for the element with the given relationId
      *
-     * @param PhpWord $phpWord
      * @param int $relationId
      * @return \PhpOffice\PhpWord\Element\AbstractContainer|null
      */

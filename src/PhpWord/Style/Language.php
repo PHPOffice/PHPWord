@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -179,7 +180,7 @@ final class Language extends AbstractStyle
      *            The value for the east asian language
      * @return self
      */
-    public function setEastAsia($eastAsia)
+    public function setEastAsia(string $eastAsia)
     {
         $this->eastAsia = $this->validateLocale($eastAsia);
 
@@ -223,10 +224,9 @@ final class Language extends AbstractStyle
     /**
      * Validates that the language passed is in the format xx-xx
      *
-     * @param string $locale
      * @return string
      */
-    private function validateLocale($locale)
+    private function validateLocale(string $locale)
     {
         if (strlen($locale) === 2) {
             return strtolower($locale) . '-' . strtoupper($locale);

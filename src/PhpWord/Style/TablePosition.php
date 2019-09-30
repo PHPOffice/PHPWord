@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,10 +18,13 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 /**
  * TablePosition style
  *
  * @see http://www.datypic.com/sc/ooxml/e-w_tblpPr-1.html
+ * @see http://officeopenxml.com/WPfloatingTables.php
  */
 class TablePosition extends AbstractStyle
 {
@@ -72,28 +76,28 @@ class TablePosition extends AbstractStyle
     /**
      * Distance from left of table to text
      *
-     * @var int
+     * @var Absolute
      */
     private $leftFromText;
 
     /**
      * Distance from right of table to text
      *
-     * @var int
+     * @var Absolute
      */
     private $rightFromText;
 
     /**
      * Distance from top of table to text
      *
-     * @var int
+     * @var Absolute
      */
     private $topFromText;
 
     /**
      * Distance from bottom of table to text
      *
-     * @var int
+     * @var Absolute
      */
     private $bottomFromText;
 
@@ -124,7 +128,7 @@ class TablePosition extends AbstractStyle
     /**
      * Absolute horizontal distance from anchor
      *
-     * @var int
+     * @var Absolute
      */
     private $tblpX;
 
@@ -139,7 +143,7 @@ class TablePosition extends AbstractStyle
     /**
      * Absolute vertical distance from anchor
      *
-     * @var int
+     * @var Absolute
      */
     private $tblpY;
 
@@ -155,92 +159,88 @@ class TablePosition extends AbstractStyle
 
     /**
      * Get distance from left of table to text
-     *
-     * @return int
      */
-    public function getLeftFromText()
+    public function getLeftFromText(): Absolute
     {
+        if ($this->leftFromText === null) {
+            $this->leftFromText = new Absolute(null);
+        }
+
         return $this->leftFromText;
     }
 
     /**
      * Set distance from left of table to text
-     *
-     * @param int $value
-     * @return self
      */
-    public function setLeftFromText($value = null)
+    public function setLeftFromText(Absolute $value): self
     {
-        $this->leftFromText = $this->setNumericVal($value, $this->leftFromText);
+        $this->leftFromText = $value;
 
         return $this;
     }
 
     /**
      * Get distance from right of table to text
-     *
-     * @return int
      */
-    public function getRightFromText()
+    public function getRightFromText(): Absolute
     {
+        if ($this->rightFromText === null) {
+            $this->rightFromText = new Absolute(null);
+        }
+
         return $this->rightFromText;
     }
 
     /**
      * Set distance from right of table to text
-     *
-     * @param int $value
-     * @return self
      */
-    public function setRightFromText($value = null)
+    public function setRightFromText(Absolute $value): self
     {
-        $this->rightFromText = $this->setNumericVal($value, $this->rightFromText);
+        $this->rightFromText = $value;
 
         return $this;
     }
 
     /**
      * Get distance from top of table to text
-     *
-     * @return int
      */
-    public function getTopFromText()
+    public function getTopFromText(): Absolute
     {
+        if ($this->topFromText === null) {
+            $this->topFromText = new Absolute(null);
+        }
+
         return $this->topFromText;
     }
 
     /**
      * Set distance from top of table to text
-     *
-     * @param int $value
-     * @return self
      */
-    public function setTopFromText($value = null)
+    public function setTopFromText(Absolute $value): self
     {
-        $this->topFromText = $this->setNumericVal($value, $this->topFromText);
+        $this->topFromText = $value;
 
         return $this;
     }
 
     /**
      * Get distance from bottom of table to text
-     *
-     * @return int
      */
-    public function getBottomFromText()
+    public function getBottomFromText(): Absolute
     {
+        if ($this->bottomFromText === null) {
+            $this->bottomFromText = new Absolute(null);
+        }
+
         return $this->bottomFromText;
     }
 
     /**
      * Set distance from bottom of table to text
-     *
-     * @param int $value
-     * @return self
      */
-    public function setBottomFromText($value = null)
+    public function setBottomFromText(Absolute $value): self
     {
-        $this->bottomFromText = $this->setNumericVal($value, $this->bottomFromText);
+        $this->bottomFromText = $value;
 
         return $this;
     }
@@ -333,23 +333,22 @@ class TablePosition extends AbstractStyle
 
     /**
      * Get absolute horizontal distance from anchor
-     *
-     * @return int
      */
-    public function getTblpX()
+    public function getTblpX(): Absolute
     {
+        if ($this->tblpX === null) {
+            $this->tblpX = new Absolute(null);
+        }
+
         return $this->tblpX;
     }
 
     /**
      * Set absolute horizontal distance from anchor
-     *
-     * @param int $value
-     * @return self
      */
-    public function setTblpX($value = null)
+    public function setTblpX(Absolute $value): self
     {
-        $this->tblpX = $this->setNumericVal($value, $this->tblpX);
+        $this->tblpX = $value;
 
         return $this;
     }
@@ -387,23 +386,22 @@ class TablePosition extends AbstractStyle
 
     /**
      * Get absolute vertical distance from anchor
-     *
-     * @return int
      */
-    public function getTblpY()
+    public function getTblpY(): Absolute
     {
+        if ($this->tblpY === null) {
+            $this->tblpY = new Absolute(null);
+        }
+
         return $this->tblpY;
     }
 
     /**
      * Set absolute vertical distance from anchor
-     *
-     * @param int $value
-     * @return self
      */
-    public function setTblpY($value = null)
+    public function setTblpY(Absolute $value): self
     {
-        $this->tblpY = $this->setNumericVal($value, $this->tblpY);
+        $this->tblpY = $value;
 
         return $this;
     }

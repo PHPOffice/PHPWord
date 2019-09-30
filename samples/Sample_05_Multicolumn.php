@@ -1,9 +1,13 @@
 <?php
+declare(strict_types=1);
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 $filler = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
         . 'Nulla fermentum, tortor id adipiscing adipiscing, tortor turpis commodo. '
         . 'Donec vulputate iaculis metus, vel luctus dolor hendrerit ac. '
@@ -17,7 +21,7 @@ $section->addText("Normal paragraph. {$filler}");
 $section = $phpWord->addSection(
     array(
         'colsNum'   => 2,
-        'colsSpace' => 1440,
+        'colsSpace' => Absolute::from('twip', 1440),
         'breakType' => 'continuous',
     )
 );
@@ -31,7 +35,7 @@ $section->addText("Normal paragraph again. {$filler}");
 $section = $phpWord->addSection(
     array(
         'colsNum'   => 3,
-        'colsSpace' => 720,
+        'colsSpace' => Absolute::from('twip', 720),
         'breakType' => 'continuous',
     )
 );

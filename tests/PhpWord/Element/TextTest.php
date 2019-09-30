@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,6 +20,7 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Text
@@ -58,7 +60,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
         $oText = new Text('text', 'fontStyle');
         $this->assertEquals('fontStyle', $oText->getFontStyle());
 
-        $oText->setFontStyle(array('bold' => true, 'italic' => true, 'size' => 16));
+        $oText->setFontStyle(array('bold' => true, 'italic' => true, 'size' => Absolute::from('pt', 16)));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oText->getFontStyle());
     }
 
@@ -80,7 +82,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
         $oText = new Text('text', 'fontStyle', 'paragraphStyle');
         $this->assertEquals('paragraphStyle', $oText->getParagraphStyle());
 
-        $oText->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));
+        $oText->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => Absolute::from('twip', 100)));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());
     }
 }

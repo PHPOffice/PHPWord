@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,12 +19,15 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Section settings
  */
-class Section extends Border
+class Section extends AbstractStyle
 {
+    use Border;
+
     /**
      * Page orientation
      *
@@ -64,49 +68,49 @@ class Section extends Border
     /**
      * Page Size Width
      *
-     * @var int|float
+     * @var Absolute
      */
     private $pageSizeW = self::DEFAULT_WIDTH;
 
     /**
      * Page Size Height
      *
-     * @var int|float
+     * @var Absolute
      */
     private $pageSizeH = self::DEFAULT_HEIGHT;
 
     /**
      * Top margin spacing
      *
-     * @var int|float
+     * @var int|Absolute
      */
     private $marginTop = self::DEFAULT_MARGIN;
 
     /**
      * Left margin spacing
      *
-     * @var int|float
+     * @var int|Absolute
      */
     private $marginLeft = self::DEFAULT_MARGIN;
 
     /**
      * Right margin spacing
      *
-     * @var int|float
+     * @var int|Absolute
      */
     private $marginRight = self::DEFAULT_MARGIN;
 
     /**
      * Bottom margin spacing
      *
-     * @var int|float
+     * @var int|Absolute
      */
     private $marginBottom = self::DEFAULT_MARGIN;
 
     /**
      * Page gutter spacing
      *
-     * @var int|float
+     * @var int|Absolute
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_pgMar-1.html
      */
     private $gutter = self::DEFAULT_GUTTER;
@@ -114,14 +118,14 @@ class Section extends Border
     /**
      * Header height
      *
-     * @var int|float
+     * @var int|Absolute
      */
     private $headerHeight = self::DEFAULT_HEADER_HEIGHT;
 
     /**
      * Footer height
      *
-     * @var int|float
+     * @var int|Absolute
      */
     private $footerHeight = self::DEFAULT_FOOTER_HEIGHT;
 
@@ -142,7 +146,7 @@ class Section extends Border
     /**
      * Section spacing between columns
      *
-     * @var int|float
+     * @var int|Absolute
      */
     private $colsSpace = self::DEFAULT_COLUMN_SPACING;
 
@@ -228,25 +232,21 @@ class Section extends Border
      * Set orientation
      *
      * @param string $value
-     * @return self
      */
-    public function setOrientation($value = null)
+    public function setOrientation($value = null): self
     {
         $enum = array(self::ORIENTATION_PORTRAIT, self::ORIENTATION_LANDSCAPE);
         $this->orientation = $this->setEnumVal($value, $enum, $this->orientation);
 
-        /** @var int|float $longSide Type hint */
-        $longSide = $this->pageSizeW >= $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
+        $isWide = $this->pageSizeW->toInt('twip') >= $this->pageSizeH->toInt('twip');
+        $shouldBeWide = $this->orientation === self::ORIENTATION_LANDSCAPE;
 
-        /** @var int|float $shortSide Type hint */
-        $shortSide = $this->pageSizeW < $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
-
-        if ($this->orientation == self::ORIENTATION_PORTRAIT) {
-            $this->pageSizeW = $shortSide;
-            $this->pageSizeH = $longSide;
-        } else {
-            $this->pageSizeW = $longSide;
-            $this->pageSizeH = $shortSide;
+        // If orientation doesn't match dimensions,
+        // swap the dimensions.
+        if ($isWide !== $shouldBeWide) {
+            $newWidth = $this->pageSizeW;
+            $this->pageSizeW = $this->pageSizeH;
+            $this->pageSizeH = $newWidth;
         }
 
         return $this;
@@ -285,25 +285,22 @@ class Section extends Border
     /**
      * Get Page Size Width
      *
-     * @return int|float|null
      *
      * @since 0.12.0
      */
-    public function getPageSizeW()
+    public function getPageSizeW(): Absolute
     {
         return $this->pageSizeW;
     }
 
     /**
-     * @param int|float|null $value
-     *
      * @return \PhpOffice\PhpWord\Style\Section
      *
      * @since 0.12.0
      */
-    public function setPageSizeW($value = null)
+    public function setPageSizeW(Absolute $value): self
     {
-        $this->pageSizeW = $this->setNumericVal($value, self::DEFAULT_WIDTH);
+        $this->pageSizeW = $value;
 
         return $this;
     }
@@ -311,9 +308,9 @@ class Section extends Border
     /**
      * Get Page Size Height
      *
-     * @return int|float|null
+     * @return Absolute
      *
-     * @since 0.12.0
+     * @since 0.12.0: Absolute
      */
     public function getPageSizeH()
     {
@@ -321,176 +318,169 @@ class Section extends Border
     }
 
     /**
-     * @param int|float|null $value
-     *
      * @return \PhpOffice\PhpWord\Style\Section
      *
      * @since 0.12.0
      */
-    public function setPageSizeH($value = null)
+    public function setPageSizeH(Absolute $value): self
     {
-        $this->pageSizeH = $this->setNumericVal($value, self::DEFAULT_HEIGHT);
+        $this->pageSizeH = $value;
 
         return $this;
     }
 
     /**
      * Get Margin Top
-     *
-     * @return int|float
      */
-    public function getMarginTop()
+    public function getMarginTop(): Absolute
     {
+        if (!($this->marginTop instanceof Absolute)) {
+            $this->marginTop = Absolute::from('twip', $this->marginTop);
+        }
+
         return $this->marginTop;
     }
 
     /**
      * Set Margin Top
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setMarginTop($value = null)
+    public function setMarginTop(Absolute $value): self
     {
-        $this->marginTop = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+        $this->marginTop = $value;
 
         return $this;
     }
 
     /**
      * Get Margin Left
-     *
-     * @return int|float
      */
-    public function getMarginLeft()
+    public function getMarginLeft(): Absolute
     {
+        if (!($this->marginLeft instanceof Absolute)) {
+            $this->marginLeft = Absolute::from('twip', $this->marginLeft);
+        }
+
         return $this->marginLeft;
     }
 
     /**
      * Set Margin Left
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setMarginLeft($value = null)
+    public function setMarginLeft(Absolute $value): self
     {
-        $this->marginLeft = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+        $this->marginLeft = $value;
 
         return $this;
     }
 
     /**
      * Get Margin Right
-     *
-     * @return int|float
      */
-    public function getMarginRight()
+    public function getMarginRight(): Absolute
     {
+        if (!($this->marginRight instanceof Absolute)) {
+            $this->marginRight = Absolute::from('twip', $this->marginRight);
+        }
+
         return $this->marginRight;
     }
 
     /**
      * Set Margin Right
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setMarginRight($value = null)
+    public function setMarginRight(Absolute $value): self
     {
-        $this->marginRight = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+        $this->marginRight = $value;
 
         return $this;
     }
 
     /**
      * Get Margin Bottom
-     *
-     * @return int|float
      */
-    public function getMarginBottom()
+    public function getMarginBottom(): Absolute
     {
+        if (!($this->marginBottom instanceof Absolute)) {
+            $this->marginBottom = Absolute::from('twip', $this->marginBottom);
+        }
+
         return $this->marginBottom;
     }
 
     /**
      * Set Margin Bottom
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setMarginBottom($value = null)
+    public function setMarginBottom(Absolute $value): self
     {
-        $this->marginBottom = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+        $this->marginBottom = $value;
 
         return $this;
     }
 
     /**
      * Get gutter
-     *
-     * @return int|float
      */
-    public function getGutter()
+    public function getGutter(): Absolute
     {
+        if (!($this->gutter instanceof Absolute)) {
+            $this->gutter = Absolute::from('twip', $this->gutter);
+        }
+
         return $this->gutter;
     }
 
     /**
      * Set gutter
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setGutter($value = null)
+    public function setGutter(Absolute $value): self
     {
-        $this->gutter = $this->setNumericVal($value, self::DEFAULT_GUTTER);
+        $this->gutter = $value;
 
         return $this;
     }
 
     /**
      * Get Header Height
-     *
-     * @return int|float
      */
-    public function getHeaderHeight()
+    public function getHeaderHeight(): Absolute
     {
+        if (!($this->headerHeight instanceof Absolute)) {
+            $this->headerHeight = Absolute::from('twip', $this->headerHeight);
+        }
+
         return $this->headerHeight;
     }
 
     /**
      * Set Header Height
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setHeaderHeight($value = null)
+    public function setHeaderHeight(Absolute $value): self
     {
-        $this->headerHeight = $this->setNumericVal($value, self::DEFAULT_HEADER_HEIGHT);
+        $this->headerHeight = $value;
 
         return $this;
     }
 
     /**
      * Get Footer Height
-     *
-     * @return int|float
      */
-    public function getFooterHeight()
+    public function getFooterHeight(): Absolute
     {
+        if (!($this->footerHeight instanceof Absolute)) {
+            $this->footerHeight = Absolute::from('twip', $this->footerHeight);
+        }
+
         return $this->footerHeight;
     }
 
     /**
      * Set Footer Height
      *
-     * @param int|float $value
      * @return self
      */
-    public function setFooterHeight($value = null)
+    public function setFooterHeight(Absolute $value)
     {
-        $this->footerHeight = $this->setNumericVal($value, self::DEFAULT_FOOTER_HEIGHT);
+        $this->footerHeight = $value;
 
         return $this;
     }
@@ -543,23 +533,22 @@ class Section extends Border
 
     /**
      * Get Section Space Between Columns
-     *
-     * @return int|float
      */
-    public function getColsSpace()
+    public function getColsSpace(): Absolute
     {
+        if (!($this->colsSpace instanceof Absolute)) {
+            $this->colsSpace = Absolute::from('twip', $this->colsSpace);
+        }
+
         return $this->colsSpace;
     }
 
     /**
      * Set Section Space Between Columns
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setColsSpace($value = null)
+    public function setColsSpace(Absolute $value): self
     {
-        $this->colsSpace = $this->setNumericVal($value, self::DEFAULT_COLUMN_SPACING);
+        $this->colsSpace = $value;
 
         return $this;
     }
@@ -600,7 +589,7 @@ class Section extends Border
     /**
      * Set line numbering
      *
-     * @param mixed $value
+     * @param null|mixed $value
      * @return self
      */
     public function setLineNumbering($value = null)

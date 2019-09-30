@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -37,7 +38,7 @@ class Shadow extends AbstractStyle
 
         $xmlWriter->startElement('v:shadow');
         $xmlWriter->writeAttribute('on', 't');
-        $xmlWriter->writeAttributeIf($style->getColor() !== null, 'color', $style->getColor());
+        $xmlWriter->writeAttributeIf($style->getColor()->isSpecified(), 'color', $style->getColor()->toHexOrName());
         $xmlWriter->writeAttributeIf($style->getOffset() !== null, 'offset', $style->getOffset());
         $xmlWriter->endElement();
     }

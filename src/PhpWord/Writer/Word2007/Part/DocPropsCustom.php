@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -51,10 +52,10 @@ class DocPropsCustom extends AbstractPart
             $xmlWriter->writeAttribute('name', $property);
             switch ($propertyType) {
                 case 'i':
-                    $xmlWriter->writeElement('vt:i4', $propertyValue);
+                    $xmlWriter->writeElement('vt:i4', (string) $propertyValue);
                     break;
                 case 'f':
-                    $xmlWriter->writeElement('vt:r8', $propertyValue);
+                    $xmlWriter->writeElement('vt:r8', (string) $propertyValue);
                     break;
                 case 'b':
                     $xmlWriter->writeElement('vt:bool', ($propertyValue) ? 'true' : 'false');
@@ -63,11 +64,11 @@ class DocPropsCustom extends AbstractPart
                     if ($propertyValue instanceof \DateTime) {
                         $xmlWriter->writeElement('vt:filetime', $propertyValue->format($this->dateFormat));
                     } else {
-                        $xmlWriter->writeElement('vt:filetime', date($this->dateFormat, $propertyValue));
+                        $xmlWriter->writeElement('vt:filetime', date($this->dateFormat, (int) $propertyValue));
                     }
                     break;
                 default:
-                    $xmlWriter->writeElement('vt:lpwstr', $propertyValue);
+                    $xmlWriter->writeElement('vt:lpwstr', (string) $propertyValue);
                     break;
             }
             $xmlWriter->endElement(); // property

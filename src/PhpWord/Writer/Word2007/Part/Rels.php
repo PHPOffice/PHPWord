@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -49,7 +50,6 @@ class Rels extends AbstractPart
     /**
      * Write relationships.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param array $xmlRels
      * @param array $mediaRels
      * @param int $relId
@@ -76,7 +76,6 @@ class Rels extends AbstractPart
     /**
      * Write media relationships.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param int $relId
      * @param array $mediaRel
      */
@@ -87,8 +86,8 @@ class Rels extends AbstractPart
         $targetMapping = array('image' => 'media/', 'object' => 'embeddings/');
 
         $mediaType = $mediaRel['type'];
-        $type = isset($typeMapping[$mediaType]) ? $typeMapping[$mediaType] : $mediaType;
-        $targetPrefix = isset($targetMapping[$mediaType]) ? $targetMapping[$mediaType] : '';
+        $type = $typeMapping[$mediaType] ?? $mediaType;
+        $targetPrefix = $targetMapping[$mediaType] ?? '';
         $target = $mediaRel['target'];
         $targetMode = ($type == 'hyperlink') ? 'External' : '';
 
@@ -101,7 +100,6 @@ class Rels extends AbstractPart
      * Format:
      * <Relationship Id="rId..." Type="http://..." Target="....xml" TargetMode="..." />
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param int $relId Relationship ID
      * @param string $type Relationship type
      * @param string $target Relationship target
@@ -109,12 +107,10 @@ class Rels extends AbstractPart
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    private function writeRel(XMLWriter $xmlWriter, $relId, $type, $target, $targetMode = '')
+    private function writeRel(XMLWriter $xmlWriter, int $relId, string $type, string $target, string $targetMode = '')
     {
         if ($type != '' && $target != '') {
-            if (strpos($relId, 'rId') === false) {
-                $relId = 'rId' . $relId;
-            }
+            $relId = 'rId' . $relId;
             $xmlWriter->startElement('Relationship');
             $xmlWriter->writeAttribute('Id', $relId);
             $xmlWriter->writeAttribute('Type', 'http://schemas.openxmlformats.org/' . $type);

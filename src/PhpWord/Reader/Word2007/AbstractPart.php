@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,12 +18,21 @@
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use DOMElement;
 use PhpOffice\Common\XMLReader;
-use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\Row;
+use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\BorderStyle;
+use PhpOffice\PhpWord\Style\Colors\BasicColor;
+use PhpOffice\PhpWord\Style\Colors\HighlightColor;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Auto;
+use PhpOffice\PhpWord\Style\Lengths\Length;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
 
 /**
  * Abstract part reader
@@ -39,10 +49,15 @@ abstract class AbstractPart
      * @const int
      */
     const READ_VALUE = 'attributeValue';            // Read attribute value
+    const READ_COLOR = 'color';            // Read attribute value
+    const READ_HIGHLIGHT = 'highlightColor';            // Read attribute value
     const READ_EQUAL = 'attributeEquals';           // Read `true` when attribute value equals specified value
     const READ_TRUE = 'attributeTrue';              // Read `true` when element exists
     const READ_FALSE = 'attributeFalse';            // Read `false` when element exists
-    const READ_SIZE = 'attributeMultiplyByTwo';     // Read special attribute value for Font::$size
+    const READ_HPT = 'attributeMultiplyByTwo';     // Read special attribute value for Font::$size
+    const READ_EOP = 'eop';
+    const READ_TWIP = 'twip';
+    const READ_BORDER_STYLE = 'borderStyle';
 
     /**
      * Document file
@@ -95,14 +110,12 @@ abstract class AbstractPart
     /**
      * Read w:p.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
      *
      * @todo Get font style for preserve text
      */
-    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
+    protected function readParagraph(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart = 'document')
     {
         // Paragraph style
         $paragraphStyle = null;
@@ -202,15 +215,13 @@ abstract class AbstractPart
     /**
      * Read w:r.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
-     * @param mixed $paragraphStyle
+     * @param null|mixed $paragraphStyle
      *
      * @todo Footnote paragraph style
      */
-    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
+    protected function readRun(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
     {
         if (in_array($domNode->nodeName, array('w:ins', 'w:del', 'w:smartTag', 'w:hyperlink'))) {
             $nodes = $xmlReader->getElements('*', $domNode);
@@ -229,14 +240,11 @@ abstract class AbstractPart
     /**
      * Parses nodes under w:r
      *
-     * @param XMLReader $xmlReader
-     * @param \DOMElement $node
-     * @param AbstractContainer $parent
      * @param string $docPart
-     * @param mixed $paragraphStyle
-     * @param mixed $fontStyle
+     * @param null|mixed $paragraphStyle
+     * @param null|mixed $fontStyle
      */
-    protected function readRunChild(XMLReader $xmlReader, \DOMElement $node, AbstractContainer $parent, $docPart, $paragraphStyle = null, $fontStyle = null)
+    protected function readRunChild(XMLReader $xmlReader, DOMElement $node, AbstractContainer $parent, $docPart, $paragraphStyle = null, $fontStyle = null)
     {
         $runParent = $node->parentNode->parentNode;
         if ($node->nodeName == 'w:footnoteReference') {
@@ -316,12 +324,9 @@ abstract class AbstractPart
     /**
      * Read w:tbl.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
-     * @param mixed $parent
      * @param string $docPart
      */
-    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
+    protected function readTable(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart = 'document')
     {
         // Table style
         $tblStyle = null;
@@ -334,39 +339,69 @@ abstract class AbstractPart
         $tblNodes = $xmlReader->getElements('*', $domNode);
         foreach ($tblNodes as $tblNode) {
             if ('w:tblGrid' == $tblNode->nodeName) { // Column
-                // @todo Do something with table columns
+                // Do something with this data
             } elseif ('w:tr' == $tblNode->nodeName) { // Row
-                $rowHeight = $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight');
-                $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
-                $rowHRule = $rowHRule == 'exact';
-                $rowStyle = array(
-                    'tblHeader'   => $xmlReader->elementExists('w:trPr/w:tblHeader', $tblNode),
-                    'cantSplit'   => $xmlReader->elementExists('w:trPr/w:cantSplit', $tblNode),
-                    'exactHeight' => $rowHRule,
-                );
+                $this->readTableRow($xmlReader, $table, $tblNode, $docPart);
+            }
+        }
+    }
 
-                $row = $table->addRow($rowHeight, $rowStyle);
-                $rowNodes = $xmlReader->getElements('*', $tblNode);
-                foreach ($rowNodes as $rowNode) {
-                    if ('w:trPr' == $rowNode->nodeName) { // Row style
-                        // @todo Do something with row style
-                    } elseif ('w:tc' == $rowNode->nodeName) { // Cell
-                        $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
-                        $cellStyle = null;
-                        $cellStyleNode = $xmlReader->getElement('w:tcPr', $rowNode);
-                        if (!is_null($cellStyleNode)) {
-                            $cellStyle = $this->readCellStyle($xmlReader, $cellStyleNode);
-                        }
+    /**
+     * Reads row properties and cells
+     * @todo Add tests
+     */
+    protected function readTableRow(XmlReader $xmlReader, Table $table, DOMElement $tblNode, $docPart)
+    {
+        $rowHeight = Absolute::fromMixed('twip', $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight'));
+        $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
+        $rowHRule = $rowHRule == 'exact';
+        $rowStyle = array(
+            'tblHeader'   => $xmlReader->elementExists('w:trPr/w:tblHeader', $tblNode),
+            'cantSplit'   => $xmlReader->elementExists('w:trPr/w:cantSplit', $tblNode),
+            'exactHeight' => $rowHRule,
+        );
 
-                        $cell = $row->addCell($cellWidth, $cellStyle);
-                        $cellNodes = $xmlReader->getElements('*', $rowNode);
-                        foreach ($cellNodes as $cellNode) {
-                            if ('w:p' == $cellNode->nodeName) { // Paragraph
-                                $this->readParagraph($xmlReader, $cellNode, $cell, $docPart);
-                            }
-                        }
-                    }
-                }
+        $row = $table->addRow($rowHeight, $rowStyle);
+        $rowNodes = $xmlReader->getElements('*', $tblNode);
+        foreach ($rowNodes as $rowNode) {
+            if ('w:trPr' == $rowNode->nodeName) { // Row style
+                // Do something with row style
+            } elseif ('w:tc' == $rowNode->nodeName) { // Cell
+                $this->readTableCell($xmlReader, $row, $rowNode, $docPart);
+            }
+        }
+    }
+
+    /**
+     * Reads table cell
+     * @todo Add tests
+     */
+    protected function readTableCell(XmlReader $xmlReader, Row $row, DOMElement $rowNode, $docPart)
+    {
+        $type = $xmlReader->getAttribute('w:type', $rowNode, 'w:tcPr/w:tcW');
+        if ($type === 'auto') {
+            $cellWidth = new Auto();
+        } elseif ($type === 'dxa') {
+            $cellWidth = Absolute::fromMixed('twip', $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW'));
+        } elseif ($type === 'pct') {
+            $cellWidth = Percent::fromMixed($xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW'));
+        } elseif ($type === 'nil') {
+            $cellWidth = new Absolute(null);
+        } else {
+            trigger_error(sprintf('Cell width type `%s` is not supported', $type), E_USER_WARNING);
+            $cellWidth = new Absolute(null);
+        }
+        $cellStyle = null;
+        $cellStyleNode = $xmlReader->getElement('w:tcPr', $rowNode);
+        if (!is_null($cellStyleNode)) {
+            $cellStyle = $this->readCellStyle($xmlReader, $cellStyleNode);
+        }
+
+        $cell = $row->addCell($cellWidth, $cellStyle);
+        $cellNodes = $xmlReader->getElements('*', $rowNode);
+        foreach ($cellNodes as $cellNode) {
+            if ('w:p' == $cellNode->nodeName) { // Paragraph
+                $this->readParagraph($xmlReader, $cellNode, $cell, $docPart);
             }
         }
     }
@@ -374,11 +409,9 @@ abstract class AbstractPart
     /**
      * Read w:pPr.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
      * @return array|null
      */
-    protected function readParagraphStyle(XMLReader $xmlReader, \DOMElement $domNode)
+    protected function readParagraphStyle(XMLReader $xmlReader, DOMElement $domNode)
     {
         if (!$xmlReader->elementExists('w:pPr', $domNode)) {
             return null;
@@ -390,10 +423,10 @@ abstract class AbstractPart
             'alignment'           => array(self::READ_VALUE, 'w:jc'),
             'basedOn'             => array(self::READ_VALUE, 'w:basedOn'),
             'next'                => array(self::READ_VALUE, 'w:next'),
-            'indent'              => array(self::READ_VALUE, 'w:ind', 'w:left'),
-            'hanging'             => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
-            'spaceAfter'          => array(self::READ_VALUE, 'w:spacing', 'w:after'),
-            'spaceBefore'         => array(self::READ_VALUE, 'w:spacing', 'w:before'),
+            'indent'              => array(self::READ_TWIP, 'w:ind', 'w:left'),
+            'hanging'             => array(self::READ_TWIP, 'w:ind', 'w:hanging'),
+            'spaceAfter'          => array(self::READ_TWIP, 'w:spacing', 'w:after'),
+            'spaceBefore'         => array(self::READ_TWIP, 'w:spacing', 'w:before'),
             'widowControl'        => array(self::READ_FALSE, 'w:widowControl'),
             'keepNext'            => array(self::READ_TRUE,  'w:keepNext'),
             'keepLines'           => array(self::READ_TRUE,  'w:keepLines'),
@@ -409,11 +442,9 @@ abstract class AbstractPart
     /**
      * Read w:rPr
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
      * @return array|null
      */
-    protected function readFontStyle(XMLReader $xmlReader, \DOMElement $domNode)
+    protected function readFontStyle(XMLReader $xmlReader, DOMElement $domNode)
     {
         if (is_null($domNode)) {
             return null;
@@ -431,8 +462,8 @@ abstract class AbstractPart
             'styleName'           => array(self::READ_VALUE, 'w:rStyle'),
             'name'                => array(self::READ_VALUE, 'w:rFonts', array('w:ascii', 'w:hAnsi', 'w:eastAsia', 'w:cs')),
             'hint'                => array(self::READ_VALUE, 'w:rFonts', 'w:hint'),
-            'size'                => array(self::READ_SIZE,  array('w:sz', 'w:szCs')),
-            'color'               => array(self::READ_VALUE, 'w:color'),
+            'size'                => array(self::READ_HPT,  array('w:sz', 'w:szCs')),
+            'color'               => array(self::READ_COLOR, 'w:color'),
             'underline'           => array(self::READ_VALUE, 'w:u'),
             'bold'                => array(self::READ_TRUE,  'w:b'),
             'italic'              => array(self::READ_TRUE,  'w:i'),
@@ -442,10 +473,10 @@ abstract class AbstractPart
             'allCaps'             => array(self::READ_TRUE,  'w:caps'),
             'superScript'         => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'superscript'),
             'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
-            'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
+            'fgColor'             => array(self::READ_HIGHLIGHT, 'w:highlight'),
             'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
             'lang'                => array(self::READ_VALUE, 'w:lang'),
-            'position'            => array(self::READ_VALUE, 'w:position'),
+            'position'            => array(self::READ_TWIP, 'w:position'),
             'hidden'              => array(self::READ_TRUE,  'w:vanish'),
         );
 
@@ -455,12 +486,10 @@ abstract class AbstractPart
     /**
      * Read w:tblPr
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
      * @return string|array|null
      * @todo Capture w:tblStylePr w:type="firstRow"
      */
-    protected function readTableStyle(XMLReader $xmlReader, \DOMElement $domNode)
+    protected function readTableStyle(XMLReader $xmlReader, DOMElement $domNode)
     {
         $style = null;
         $margins = array('top', 'left', 'bottom', 'right');
@@ -474,17 +503,17 @@ abstract class AbstractPart
                 $styleDefs = array();
                 foreach ($margins as $side) {
                     $ucfSide = ucfirst($side);
-                    $styleDefs["cellMargin$ucfSide"] = array(self::READ_VALUE, "w:tblCellMar/w:$side", 'w:w');
+                    $styleDefs["cellMargin$ucfSide"] = array(self::READ_TWIP, "w:tblCellMar/w:$side", 'w:w');
                 }
                 foreach ($borders as $side) {
                     $ucfSide = ucfirst($side);
-                    $styleDefs["border{$ucfSide}Size"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz');
-                    $styleDefs["border{$ucfSide}Color"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:color');
-                    $styleDefs["border{$ucfSide}Style"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:val');
+                    $styleDefs["border{$ucfSide}Size"] = array(self::READ_EOP, "w:tblBorders/w:$side", 'w:sz');
+                    $styleDefs["border{$ucfSide}Color"] = array(self::READ_COLOR, "w:tblBorders/w:$side", 'w:color');
+                    $styleDefs["border{$ucfSide}Style"] = array(self::READ_BORDER_STYLE, "w:tblBorders/w:$side", 'w:val');
                 }
                 $styleDefs['layout'] = array(self::READ_VALUE, 'w:tblLayout', 'w:type');
                 $styleDefs['bidiVisual'] = array(self::READ_TRUE, 'w:bidiVisual');
-                $styleDefs['cellSpacing'] = array(self::READ_VALUE, 'w:tblCellSpacing', 'w:w');
+                $styleDefs['cellSpacing'] = array(self::READ_TWIP,  'w:tblCellSpacing', 'w:w');
                 $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
 
                 $tablePositionNode = $xmlReader->getElement('w:tblpPr', $styleNode);
@@ -505,23 +534,21 @@ abstract class AbstractPart
     /**
      * Read w:tblpPr
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
      * @return array
      */
-    private function readTablePosition(XMLReader $xmlReader, \DOMElement $domNode)
+    private function readTablePosition(XMLReader $xmlReader, DOMElement $domNode)
     {
         $styleDefs = array(
-            'leftFromText'   => array(self::READ_VALUE, '.', 'w:leftFromText'),
-            'rightFromText'  => array(self::READ_VALUE, '.', 'w:rightFromText'),
-            'topFromText'    => array(self::READ_VALUE, '.', 'w:topFromText'),
-            'bottomFromText' => array(self::READ_VALUE, '.', 'w:bottomFromText'),
+            'leftFromText'   => array(self::READ_TWIP, '.', 'w:leftFromText'),
+            'rightFromText'  => array(self::READ_TWIP, '.', 'w:rightFromText'),
+            'topFromText'    => array(self::READ_TWIP, '.', 'w:topFromText'),
+            'bottomFromText' => array(self::READ_TWIP, '.', 'w:bottomFromText'),
             'vertAnchor'     => array(self::READ_VALUE, '.', 'w:vertAnchor'),
             'horzAnchor'     => array(self::READ_VALUE, '.', 'w:horzAnchor'),
             'tblpXSpec'      => array(self::READ_VALUE, '.', 'w:tblpXSpec'),
-            'tblpX'          => array(self::READ_VALUE, '.', 'w:tblpX'),
+            'tblpX'          => array(self::READ_TWIP, '.', 'w:tblpX'),
             'tblpYSpec'      => array(self::READ_VALUE, '.', 'w:tblpYSpec'),
-            'tblpY'          => array(self::READ_VALUE, '.', 'w:tblpY'),
+            'tblpY'          => array(self::READ_TWIP, '.', 'w:tblpY'),
         );
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
@@ -530,36 +557,43 @@ abstract class AbstractPart
     /**
      * Read w:tblInd
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
-     * @return TblWidthComplexType
+     * @see http://officeopenxml.com/WPtableIndent.php
      */
-    private function readTableIndent(XMLReader $xmlReader, \DOMElement $domNode)
+    private function readTableIndent(XMLReader $xmlReader, DOMElement $domNode): Length
     {
         $styleDefs = array(
             'value' => array(self::READ_VALUE, '.', 'w:w'),
             'type'  => array(self::READ_VALUE, '.', 'w:type'),
         );
-        $styleDefs = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+        $defs = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+        if ($defs['type'] === 'dxa') {
+            return Absolute::from('twip', (float) $defs['value']);
+        } elseif ($defs['type'] === 'nil') {
+            return Absolute::from('twip', 0);
+        } elseif ($defs['type'] === 'pct') {
+            return new Absolute(null);
+        } elseif ($defs['type'] === 'auto') {
+            return new Absolute(null);
+        }
 
-        return new TblWidthComplexType((int) $styleDefs['value'], $styleDefs['type']);
+        trigger_error(sprintf('Table indent type `%s` is not supported', $defs['type']), E_USER_WARNING);
+
+        return new Absolute(null);
     }
 
     /**
      * Read w:tcPr
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $domNode
      * @return array
      */
-    private function readCellStyle(XMLReader $xmlReader, \DOMElement $domNode)
+    private function readCellStyle(XMLReader $xmlReader, DOMElement $domNode)
     {
         $styleDefs = array(
             'valign'        => array(self::READ_VALUE, 'w:vAlign'),
             'textDirection' => array(self::READ_VALUE, 'w:textDirection'),
             'gridSpan'      => array(self::READ_VALUE, 'w:gridSpan'),
             'vMerge'        => array(self::READ_VALUE, 'w:vMerge'),
-            'bgColor'       => array(self::READ_VALUE, 'w:shd', 'w:fill'),
+            'bgColor'       => array(self::READ_COLOR, 'w:shd', 'w:fill'),
         );
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
@@ -568,22 +602,21 @@ abstract class AbstractPart
     /**
      * Returns the first child element found
      *
-     * @param XMLReader $xmlReader
-     * @param \DOMElement $parentNode
+     * @param DOMElement $parentNode
      * @param string|array $elements
      * @return string|null
      */
-    private function findPossibleElement(XMLReader $xmlReader, \DOMElement $parentNode = null, $elements)
+    private function findPossibleElement(XMLReader $xmlReader, DOMElement $parentNode = null, $elements)
     {
-        if (is_array($elements)) {
-            //if element is an array, we take the first element that exists in the XML
-            foreach ($elements as $possibleElement) {
-                if ($xmlReader->elementExists($possibleElement, $parentNode)) {
-                    return $possibleElement;
-                }
-            }
-        } else {
+        if (!is_array($elements)) {
             return $elements;
+        }
+
+        //if element is an array, we take the first element that exists in the XML
+        foreach ($elements as $possibleElement) {
+            if ($xmlReader->elementExists($possibleElement, $parentNode)) {
+                return $possibleElement;
+            }
         }
 
         return null;
@@ -592,12 +625,10 @@ abstract class AbstractPart
     /**
      * Returns the first attribute found
      *
-     * @param XMLReader $xmlReader
-     * @param \DOMElement $node
      * @param string|array $attributes
      * @return string|null
      */
-    private function findPossibleAttribute(XMLReader $xmlReader, \DOMElement $node, $attributes)
+    private function findPossibleAttribute(XMLReader $xmlReader, DOMElement $node, $attributes)
     {
         //if attribute is an array, we take the first attribute that exists in the XML
         if (is_array($attributes)) {
@@ -616,13 +647,12 @@ abstract class AbstractPart
     /**
      * Read style definition
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
-     * @param \DOMElement $parentNode
+     * @param DOMElement $parentNode
      * @param array $styleDefs
      * @ignoreScrutinizerPatch
      * @return array
      */
-    protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode = null, $styleDefs = array())
+    protected function readStyleDefs(XMLReader $xmlReader, DOMElement $parentNode = null, $styleDefs = array())
     {
         $styles = array();
 
@@ -659,21 +689,29 @@ abstract class AbstractPart
      * @param string $method
      * @ignoreScrutinizerPatch
      * @param string|null $attributeValue
-     * @param mixed $expected
-     * @return mixed
      */
     private function readStyleDef($method, $attributeValue, $expected)
     {
         $style = $attributeValue;
 
-        if (self::READ_SIZE == $method) {
-            $style = $attributeValue / 2;
+        if (self::READ_EOP == $method) {
+            $style = Absolute::fromMixed('eop', $attributeValue);
+        } elseif (self::READ_TWIP == $method) {
+            $style = Absolute::fromMixed('twip', $attributeValue);
+        } elseif (self::READ_HPT == $method) {
+            $style = Absolute::fromMixed('hpt', $attributeValue);
+        } elseif (self::READ_BORDER_STYLE == $method) {
+            $style = BorderStyle::fromMixed($attributeValue);
         } elseif (self::READ_TRUE == $method) {
             $style = $this->isOn($attributeValue);
         } elseif (self::READ_FALSE == $method) {
             $style = !$this->isOn($attributeValue);
         } elseif (self::READ_EQUAL == $method) {
             $style = $attributeValue == $expected;
+        } elseif (self::READ_COLOR == $method) {
+            $style = BasicColor::fromMixed($attributeValue);
+        } elseif (self::READ_HIGHLIGHT == $method) {
+            $style = new HighlightColor($attributeValue);
         }
 
         return $style;

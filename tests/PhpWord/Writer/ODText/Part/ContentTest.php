@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -52,9 +54,9 @@ class ContentTest extends \PHPUnit\Framework\TestCase
         $docProps->setCustomProperty('Company', 'PHPWord');
 
         $phpWord->setDefaultFontName('Verdana');
-        $phpWord->addFontStyle('Font', array('size' => 11));
+        $phpWord->addFontStyle('Font', array('size' => Absolute::from('pt', 11)));
         $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));
-        $phpWord->addTableStyle('tblStyle', array('width' => 100));
+        $phpWord->addTableStyle('tblStyle', array('width' => Absolute::from('twip', 100)));
 
         $section = $phpWord->addSection(array('colsNum' => 2));
         $section->addText($expected);
@@ -65,14 +67,14 @@ class ContentTest extends \PHPUnit\Framework\TestCase
         $section->addTextBreak();
         $section->addPageBreak();
         $section->addListItem('Test list item');
-        $section->addImage($imageSrc, array('width' => 50));
+        $section->addImage($imageSrc, array('width' => Absolute::from('twip', 50)));
         $section->addObject($objectSrc);
         $section->addTOC();
 
         $textrun = $section->addTextRun();
         $textrun->addText('Test text run');
 
-        $table = $section->addTable(array('width' => 50));
+        $table = $section->addTable(array('width' => Absolute::from('twip', 50)));
         $cell = $table->addRow()->addCell();
         $cell = $table->addRow()->addCell();
         $cell->addText('Test');
@@ -102,7 +104,7 @@ class ContentTest extends \PHPUnit\Framework\TestCase
     public function testWriteNoStyle()
     {
         $phpWord = new PhpWord();
-        $phpWord->addFontStyle('Font', array('size' => 11));
+        $phpWord->addFontStyle('Font', array('size' => Absolute::from('pt', 11)));
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 

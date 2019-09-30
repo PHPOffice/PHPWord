@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -118,7 +119,6 @@ class Field extends Text
      * Writes a macrobutton field
      *
      * //TODO A lot of code duplication with general method, should maybe be refactored
-     * @param \PhpOffice\PhpWord\Element\Field $element
      */
     protected function writeMacrobutton(\PhpOffice\PhpWord\Element\Field $element)
     {

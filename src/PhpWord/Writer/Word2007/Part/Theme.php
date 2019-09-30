@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,9 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\Style\Colors\SystemColor;
+use PhpOffice\PhpWord\Style\Theme\Theme as ThemeStyle;
+
 /**
  * Word2007 theme writer: word/theme/theme1.xml
  *
@@ -25,6 +29,13 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
  */
 class Theme extends AbstractPart
 {
+    private $theme;
+
+    public function __construct()
+    {
+        $this->theme = new ThemeStyle();
+    }
+
     /**
      * Write part
      *
@@ -55,45 +66,23 @@ class Theme extends AbstractPart
      */
     private function writeColorScheme()
     {
-        $str = '';
+        $name = 'Office';
+        $colors = $this->theme->getColorScheme()->getColors();
 
-        $str .= '<a:clrScheme name="Office">';
-        $str .= '<a:dk1>';
-        $str .= '<a:sysClr val="windowText" lastClr="000000" />';
-        $str .= '</a:dk1>';
-        $str .= '<a:lt1>';
-        $str .= '<a:sysClr val="window" lastClr="FFFFFF" />';
-        $str .= '</a:lt1>';
-        $str .= '<a:dk2>';
-        $str .= '<a:srgbClr val="1F497D" />';
-        $str .= '</a:dk2>';
-        $str .= '<a:lt2>';
-        $str .= '<a:srgbClr val="EEECE1" />';
-        $str .= '</a:lt2>';
-        $str .= '<a:accent1>';
-        $str .= '<a:srgbClr val="4F81BD" />';
-        $str .= '</a:accent1>';
-        $str .= '<a:accent2>';
-        $str .= '<a:srgbClr val="C0504D" />';
-        $str .= '</a:accent2>';
-        $str .= '<a:accent3>';
-        $str .= '<a:srgbClr val="9BBB59" />';
-        $str .= '</a:accent3>';
-        $str .= '<a:accent4>';
-        $str .= '<a:srgbClr val="8064A2" />';
-        $str .= '</a:accent4>';
-        $str .= '<a:accent5>';
-        $str .= '<a:srgbClr val="4BACC6" />';
-        $str .= '</a:accent5>';
-        $str .= '<a:accent6>';
-        $str .= '<a:srgbClr val="F79646" />';
-        $str .= '</a:accent6>';
-        $str .= '<a:hlink>';
-        $str .= '<a:srgbClr val="0000FF" />';
-        $str .= '</a:hlink>';
-        $str .= '<a:folHlink>';
-        $str .= '<a:srgbClr val="800080" />';
-        $str .= '</a:folHlink>';
+        $str = '<a:clrScheme name="' . htmlentities($name, ENT_XML1) . '">';
+
+        foreach ($colors as $tag => $color) {
+            $str .= '<a:' . htmlentities($tag, ENT_XML1) . '>';
+
+            if ($color instanceof SystemColor) {
+                $str .= '<a:sysClr val="' . htmlentities($color->getName(), ENT_XML1) . '" lastClr="' . htmlentities($color->getLastColor()->toHex() ?? 'auto', ENT_XML1) . '" />';
+            } else {
+                $str .= '<a:srgbClr val="' . htmlentities($color->toHex() ?? 'auto', ENT_XML1) . '" />';
+            }
+
+            $str .= '</a:dk1>';
+        }
+
         $str .= '</a:clrScheme>';
 
         return $str;
@@ -106,78 +95,30 @@ class Theme extends AbstractPart
      */
     private function writeFontScheme()
     {
+        $fontScheme = $this->theme->getFontScheme();
+
         $str = '';
 
         $str .= '<a:fontScheme name="Office">';
 
+        $headingFonts = $fontScheme->getHeadingFonts();
         $str .= '<a:majorFont>';
-        $str .= '<a:latin typeface="Cambria" />';
-        $str .= '<a:ea typeface="" />';
-        $str .= '<a:cs typeface="" />';
-        $str .= '<a:font script="Jpan" typeface="ＭＳ ゴシック" />';
-        $str .= '<a:font script="Hang" typeface="맑은 고딕" />';
-        $str .= '<a:font script="Hans" typeface="宋体" />';
-        $str .= '<a:font script="Hant" typeface="新細明體" />';
-        $str .= '<a:font script="Arab" typeface="Times New Roman" />';
-        $str .= '<a:font script="Hebr" typeface="Times New Roman" />';
-        $str .= '<a:font script="Thai" typeface="Angsana New" />';
-        $str .= '<a:font script="Ethi" typeface="Nyala" />';
-        $str .= '<a:font script="Beng" typeface="Vrinda" />';
-        $str .= '<a:font script="Gujr" typeface="Shruti" />';
-        $str .= '<a:font script="Khmr" typeface="MoolBoran" />';
-        $str .= '<a:font script="Knda" typeface="Tunga" />';
-        $str .= '<a:font script="Guru" typeface="Raavi" />';
-        $str .= '<a:font script="Cans" typeface="Euphemia" />';
-        $str .= '<a:font script="Cher" typeface="Plantagenet Cherokee" />';
-        $str .= '<a:font script="Yiii" typeface="Microsoft Yi Baiti" />';
-        $str .= '<a:font script="Tibt" typeface="Microsoft Himalaya" />';
-        $str .= '<a:font script="Thaa" typeface="MV Boli" />';
-        $str .= '<a:font script="Deva" typeface="Mangal" />';
-        $str .= '<a:font script="Telu" typeface="Gautami" />';
-        $str .= '<a:font script="Taml" typeface="Latha" />';
-        $str .= '<a:font script="Syrc" typeface="Estrangelo Edessa" />';
-        $str .= '<a:font script="Orya" typeface="Kalinga" />';
-        $str .= '<a:font script="Mlym" typeface="Kartika" />';
-        $str .= '<a:font script="Laoo" typeface="DokChampa" />';
-        $str .= '<a:font script="Sinh" typeface="Iskoola Pota" />';
-        $str .= '<a:font script="Mong" typeface="Mongolian Baiti" />';
-        $str .= '<a:font script="Viet" typeface="Times New Roman" />';
-        $str .= '<a:font script="Uigh" typeface="Microsoft Uighur" />';
+        $str .= '<a:latin typeface="' . htmlentities($headingFonts->getLatin(), ENT_XML1) . '" />';
+        $str .= '<a:ea typeface="' . htmlentities($headingFonts->getEastAsian(), ENT_XML1) . '" />';
+        $str .= '<a:cs typeface="' . htmlentities($headingFonts->getComplexScript(), ENT_XML1) . '" />';
+        foreach ($headingFonts->getFonts() as $script => $font) {
+            $str .= '<a:font script="' . htmlentities($script, ENT_XML1) . '" typeface="' . htmlentities($font, ENT_XML1) . '" />';
+        }
         $str .= '</a:majorFont>';
 
+        $bodyFonts = $fontScheme->getBodyFonts();
         $str .= '<a:minorFont>';
-        $str .= '<a:latin typeface="Calibri" />';
-        $str .= '<a:ea typeface="" />';
-        $str .= '<a:cs typeface="" />';
-        $str .= '<a:font script="Jpan" typeface="ＭＳ 明朝" />';
-        $str .= '<a:font script="Hang" typeface="맑은 고딕" />';
-        $str .= '<a:font script="Hans" typeface="宋体" />';
-        $str .= '<a:font script="Hant" typeface="新細明體" />';
-        $str .= '<a:font script="Arab" typeface="Arial" />';
-        $str .= '<a:font script="Hebr" typeface="Arial" />';
-        $str .= '<a:font script="Thai" typeface="Cordia New" />';
-        $str .= '<a:font script="Ethi" typeface="Nyala" />';
-        $str .= '<a:font script="Beng" typeface="Vrinda" />';
-        $str .= '<a:font script="Gujr" typeface="Shruti" />';
-        $str .= '<a:font script="Khmr" typeface="DaunPenh" />';
-        $str .= '<a:font script="Knda" typeface="Tunga" />';
-        $str .= '<a:font script="Guru" typeface="Raavi" />';
-        $str .= '<a:font script="Cans" typeface="Euphemia" />';
-        $str .= '<a:font script="Cher" typeface="Plantagenet Cherokee" />';
-        $str .= '<a:font script="Yiii" typeface="Microsoft Yi Baiti" />';
-        $str .= '<a:font script="Tibt" typeface="Microsoft Himalaya" />';
-        $str .= '<a:font script="Thaa" typeface="MV Boli" />';
-        $str .= '<a:font script="Deva" typeface="Mangal" />';
-        $str .= '<a:font script="Telu" typeface="Gautami" />';
-        $str .= '<a:font script="Taml" typeface="Latha" />';
-        $str .= '<a:font script="Syrc" typeface="Estrangelo Edessa" />';
-        $str .= '<a:font script="Orya" typeface="Kalinga" />';
-        $str .= '<a:font script="Mlym" typeface="Kartika" />';
-        $str .= '<a:font script="Laoo" typeface="DokChampa" />';
-        $str .= '<a:font script="Sinh" typeface="Iskoola Pota" />';
-        $str .= '<a:font script="Mong" typeface="Mongolian Baiti" />';
-        $str .= '<a:font script="Viet" typeface="Arial" />';
-        $str .= '<a:font script="Uigh" typeface="Microsoft Uighur" />';
+        $str .= '<a:latin typeface="' . htmlentities($bodyFonts->getLatin(), ENT_XML1) . '" />';
+        $str .= '<a:ea typeface="' . htmlentities($bodyFonts->getEastAsian(), ENT_XML1) . '" />';
+        $str .= '<a:cs typeface="' . htmlentities($bodyFonts->getComplexScript(), ENT_XML1) . '" />';
+        foreach ($bodyFonts->getFonts() as $script => $font) {
+            $str .= '<a:font script="' . htmlentities($script, ENT_XML1) . '" typeface="' . htmlentities($font, ENT_XML1) . '" />';
+        }
         $str .= '</a:minorFont>';
 
         $str .= '</a:fontScheme>';

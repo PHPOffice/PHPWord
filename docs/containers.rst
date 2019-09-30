@@ -23,9 +23,11 @@ section. Example:
 
 .. code-block:: php
 
+    use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
     $sectionStyle = array(
         'orientation' => 'landscape',
-        'marginTop' => 600,
+        'marginTop' => Absolute::from('twip', 600),
         'colsNum' => 2,
     );
 

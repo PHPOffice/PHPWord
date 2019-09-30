@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -96,9 +97,6 @@ class Numbering extends AbstractPart
 
     /**
      * Write level.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\NumberingLevel $level
      */
     private function writeLevel(XMLWriter $xmlWriter, NumberingLevel $level)
     {
@@ -137,8 +135,6 @@ class Numbering extends AbstractPart
      *
      * @since 0.11.0
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\NumberingLevel $level
      * @todo Use paragraph style writer
      */
     private function writeParagraph(XMLWriter $xmlWriter, NumberingLevel $level)
@@ -152,13 +148,13 @@ class Numbering extends AbstractPart
         $xmlWriter->startElement('w:tabs');
         $xmlWriter->startElement('w:tab');
         $xmlWriter->writeAttribute('w:val', 'num');
-        $xmlWriter->writeAttributeIf($tabPos !== null, 'w:pos', $tabPos);
+        $xmlWriter->writeAttributeIf($tabPos->isSpecified(), 'w:pos', $tabPos->toInt('twip'));
         $xmlWriter->endElement(); // w:tab
         $xmlWriter->endElement(); // w:tabs
 
         $xmlWriter->startElement('w:ind');
-        $xmlWriter->writeAttributeIf($left !== null, 'w:left', $left);
-        $xmlWriter->writeAttributeIf($hanging !== null, 'w:hanging', $hanging);
+        $xmlWriter->writeAttributeIf($left->isSpecified(), 'w:left', $left->toInt('twip'));
+        $xmlWriter->writeAttributeIf($hanging->isSpecified(), 'w:hanging', $hanging->toInt('twip'));
         $xmlWriter->endElement(); // w:ind
 
         $xmlWriter->endElement(); // w:pPr
@@ -169,8 +165,6 @@ class Numbering extends AbstractPart
      *
      * @since 0.11.0
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\NumberingLevel $level
      * @todo Use font style writer
      */
     private function writeFont(XMLWriter $xmlWriter, NumberingLevel $level)
@@ -196,6 +190,6 @@ class Numbering extends AbstractPart
      */
     private function getRandomHexNumber($length = 8)
     {
-        return strtoupper(substr(md5(rand()), 0, $length));
+        return strtoupper(substr(md5((string) rand()), 0, $length));
     }
 }

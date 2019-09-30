@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,12 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Auto;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
+use PhpOffice\PhpWord\Style\Table as TableStyle;
+
 /**
  * Table style writer
  *
@@ -29,10 +36,13 @@ class Table extends AbstractStyle
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Style\Table $style Type hint */
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Table) {
+        if ($style === null) {
             return;
+        } elseif (is_string($style)) {
+            throw new Exception(sprintf('Incorrect value provided for style. `%s` expected, `string(%s)` provided', TableStyle::class, $style));
+        } elseif (!$style instanceof TableStyle) {
+            throw new Exception(sprintf('Incorrect value provided for style. %s expected, %s provided', TableStyle::class, get_class($style)));
         }
         $xmlWriter = $this->getXmlWriter();
 
@@ -52,11 +62,21 @@ class Table extends AbstractStyle
 
         for ($i = 0; $i < $countCellWidths; $i++) {
             $width = $cellWidths[$i];
+            if ($width instanceof Percent) {
+                $width = number_format($width->toFloat(), 2) . '%';
+            } elseif ($width instanceof Absolute) {
+                $width = $width->toFloat('cm') . 'cm';
+            } elseif ($width instanceof Auto) {
+                $width = null;
+            } else {
+                throw new Exception('Unsupported width `' . get_class($width) . '` provided');
+            }
+
             $xmlWriter->startElement('style:style');
             $xmlWriter->writeAttribute('style:name', $style->getStyleName() . '.' . $i);
             $xmlWriter->writeAttribute('style:family', 'table-column');
             $xmlWriter->startElement('style:table-column-properties');
-            $xmlWriter->writeAttribute('style:column-width', number_format($width * 0.0017638889, 2, '.', '') . 'cm');
+            $xmlWriter->writeAttributeIf($width !== null, 'style:column-width', $width);
             $xmlWriter->endElement(); // style:table-column-properties
             $xmlWriter->endElement(); // style:style
         }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,9 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style\Colors;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 /**
  * Test class for PhpOffice\PhpWord\Element\Table
  *
@@ -34,7 +38,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $oTable);
         $this->assertNull($oTable->getStyle());
-        $this->assertNull($oTable->getWidth());
+        $this->assertNull($oTable->getWidth()->toInt('twip'));
         $this->assertEquals(array(), $oTable->getRows());
         $this->assertCount(0, $oTable->getRows());
     }
@@ -54,7 +58,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
      */
     public function testStyleArray()
     {
-        $oTable = new Table(array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80));
+        $oTable = new Table(array('borderSize' => Absolute::from('eop', 6), 'borderColor' => new Colors\Hex('006699'), 'cellMargin' => Absolute::from('eop', 80)));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Table', $oTable->getStyle());
     }
@@ -66,8 +70,8 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $oTable = new Table();
         $iVal = rand(1, 1000);
-        $oTable->setWidth($iVal);
-        $this->assertEquals($iVal, $oTable->getWidth());
+        $oTable->setWidth(Absolute::from('twip', $iVal));
+        $this->assertEquals($iVal, $oTable->getWidth()->toInt('twip'));
     }
 
     /**

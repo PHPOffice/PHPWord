@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -68,7 +69,7 @@ class Document extends AbstractPart
         $content .= '{';
         $content .= '\info';
         foreach ($properties as $property) {
-            $method = 'get' . (isset($mapping[$property]) ? $mapping[$property] : $property);
+            $method = 'get' . ($mapping[$property] ?? $property);
             if (!in_array($property, $dateFields) && Settings::isOutputEscapingEnabled()) {
                 $value = $this->escaper->escape($docProps->$method());
             } else {
@@ -104,7 +105,7 @@ class Document extends AbstractPart
         $content .= '\nowidctlpar'; // No widow/orphan control
         $content .= '\lang' . $langId;
         $content .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
-        $content .= '\fs' . (Settings::getDefaultFontSize() * 2); // Set the font size in half-points
+        $content .= '\fs' . Settings::getDefaultFontSize()->toInt('hpt'); // Set the font size in half-points
         $content .= PHP_EOL;
 
         return $content;

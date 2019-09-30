@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -69,9 +70,6 @@ class Comments extends AbstractPart
 
     /**
      * Write comment item.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Comment $comment
      */
     protected function writeComment(XMLWriter $xmlWriter, Comment $comment)
     {

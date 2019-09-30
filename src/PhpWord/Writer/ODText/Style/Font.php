@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -44,16 +45,16 @@ class Font extends AbstractStyle
         $font = $style->getName();
         $xmlWriter->writeAttributeIf($font != '', 'style:font-name', $font);
         $xmlWriter->writeAttributeIf($font != '', 'style:font-name-complex', $font);
-        $size = $style->getSize();
 
         // Size
-        $xmlWriter->writeAttributeIf(is_numeric($size), 'fo:font-size', $size . 'pt');
-        $xmlWriter->writeAttributeIf(is_numeric($size), 'style:font-size-asian', $size . 'pt');
-        $xmlWriter->writeAttributeIf(is_numeric($size), 'style:font-size-complex', $size . 'pt');
+        $size = $style->getSize()->toInt('pt');
+        $xmlWriter->writeAttributeIf($size !== null, 'fo:font-size', $size . 'pt');
+        $xmlWriter->writeAttributeIf($size !== null, 'style:font-size-asian', $size . 'pt');
+        $xmlWriter->writeAttributeIf($size !== null, 'style:font-size-complex', $size . 'pt');
 
         // Color
-        $color = $style->getColor();
-        $xmlWriter->writeAttributeIf($color != '', 'fo:color', '#' . $color);
+        $color = $style->getColor()->toHexOrName(true);
+        $xmlWriter->writeAttributeIf($color != '', 'fo:color', $color);
 
         // Bold & italic
         $xmlWriter->writeAttributeIf($style->isBold(), 'fo:font-weight', 'bold');

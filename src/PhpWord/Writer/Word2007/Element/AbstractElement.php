@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -58,8 +59,6 @@ abstract class AbstractElement
     /**
      * Create new instance
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      */
     public function __construct(XMLWriter $xmlWriter, Element $element, $withoutP = false)

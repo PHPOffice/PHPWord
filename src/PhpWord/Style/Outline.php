@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,10 @@
  */
 
 namespace PhpOffice\PhpWord\Style;
+
+use PhpOffice\PhpWord\Style\Colors\BasicColor;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Outline defines the line/border of the object
@@ -62,23 +67,16 @@ class Outline extends AbstractStyle
     const ARROW_OPEN = 'open';
 
     /**
-     * Unit; No set method for now
-     *
-     * @var string
-     */
-    private $unit = 'pt';
-
-    /**
      * Outline weight
      *
-     * @var int|float
+     * @var Absolute
      */
     private $weight;
 
     /**
      * Outline color
      *
-     * @var string
+     * @var BasicColor
      */
     private $color;
 
@@ -129,55 +127,43 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Get unit
-     *
-     * @return string
-     */
-    public function getUnit()
-    {
-        return $this->unit;
-    }
-
-    /**
      * Get weight
-     *
-     * @return int|float
      */
-    public function getWeight()
+    public function getWeight(): Absolute
     {
+        if ($this->weight === null) {
+            $this->weight = new Absolute(null);
+        }
+
         return $this->weight;
     }
 
     /**
      * Set weight
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setWeight($value = null)
+    public function setWeight(Absolute $value): self
     {
-        $this->weight = $this->setNumericVal($value, null);
+        $this->weight = $value;
 
         return $this;
     }
 
     /**
      * Get color
-     *
-     * @return string
      */
-    public function getColor()
+    public function getColor(): BasicColor
     {
+        if ($this->color === null) {
+            $this->color = new Hex(null);
+        }
+
         return $this->color;
     }
 
     /**
      * Set color
-     *
-     * @param string $value
-     * @return self
      */
-    public function setColor($value = null)
+    public function setColor(BasicColor $value): self
     {
         $this->color = $value;
 

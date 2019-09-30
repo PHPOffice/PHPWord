@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style\BorderSide;
+use PhpOffice\PhpWord\Style\BorderStyle;
+use PhpOffice\PhpWord\Style\Colors\Rgb;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
@@ -42,7 +47,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
     public function testParagraphNumbering()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $phpWord->addParagraphStyle('testStyle', array('indent' => '10'));
+        $phpWord->addParagraphStyle('testStyle', array('indent' => Absolute::from('twip', 10)));
         $section = $phpWord->addSection();
         $section->addText('test', null, array('numStyle' => 'testStyle', 'numLevel' => '1'));
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
@@ -55,7 +60,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('test', null, array('spacing' => 240, 'spacingLineRule' => 'exact'));
+        $section->addText('test', null, array('spacing' => Absolute::from('twip', 240), 'spacingLineRule' => 'exact'));
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p/w:pPr/w:spacing';
@@ -68,7 +73,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('test', null, array('spacing' => 240, 'spacingLineRule' => 'auto'));
+        $section->addText('test', null, array('spacing' => Absolute::from('twip', 240), 'spacingLineRule' => 'auto'));
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p/w:pPr/w:spacing';
@@ -89,5 +94,79 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
         $path = '/w:document/w:body/w:p/w:pPr/w:suppressAutoHyphens';
         $this->assertTrue($doc->elementExists($path));
+    }
+
+    public function testDefaultNoBorders()
+    {
+        $paragraphStyle = new ParagraphStyle();
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('test', null, $paragraphStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p/w:pPr';
+        $this->assertTrue($doc->elementExists($path));
+        $this->assertFalse($doc->elementExists("$path/w:pBdr"));
+    }
+
+    public function testDefaultBorders()
+    {
+        $paragraphStyle = new ParagraphStyle();
+        $paragraphStyle->setBorders(new BorderSide(Absolute::from('pt', 1)));
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('test', null, $paragraphStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p/w:pPr/w:pBdr';
+        $this->assertTrue($doc->elementExists($path));
+        $sides = array(
+            'top',
+            'bottom',
+            'left',
+            'right',
+        );
+        foreach ($sides as $side) {
+            $sidePath = "$path/w:$side";
+            $this->assertTrue($doc->elementExists($sidePath));
+            $this->assertEquals('single', $doc->getElementAttribute($sidePath, 'w:val'), "$side was not set properly");
+            $this->assertEquals('8', $doc->getElementAttribute($sidePath, 'w:sz'), "$side was not set properly");
+            $this->assertEquals('auto', $doc->getElementAttribute($sidePath, 'w:color'), "$side was not set properly");
+            $this->assertEquals('false', $doc->getElementAttribute($sidePath, 'w:shadow'), "$side was not set properly");
+        }
+    }
+
+    public function testBorders()
+    {
+        $paragraphStyle = new ParagraphStyle();
+        $paragraphStyle->setBorders(new BorderSide(
+            Absolute::from('pt', 1),
+            new Rgb(255, 0, 0),
+            new BorderStyle('double')
+        ));
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('test', null, $paragraphStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p/w:pPr/w:pBdr';
+        $this->assertTrue($doc->elementExists($path));
+        $sides = array(
+            'top',
+            'bottom',
+            'left',
+            'right',
+        );
+        foreach ($sides as $side) {
+            $sidePath = "$path/w:$side";
+            $this->assertTrue($doc->elementExists($sidePath));
+            $this->assertEquals('double', $doc->getElementAttribute($sidePath, 'w:val'), "$side was not set properly");
+            $this->assertEquals('8', $doc->getElementAttribute($sidePath, 'w:sz'), "$side was not set properly");
+            $this->assertEquals('FF0000', $doc->getElementAttribute($sidePath, 'w:color'), "$side was not set properly");
+            $this->assertEquals('false', $doc->getElementAttribute($sidePath, 'w:shadow'), "$side was not set properly");
+        }
     }
 }

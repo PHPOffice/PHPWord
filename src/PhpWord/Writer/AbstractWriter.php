@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -124,7 +125,6 @@ abstract class AbstractWriter implements WriterInterface
      * Get writer part
      *
      * @param string $partName Writer part name
-     * @return mixed
      */
     public function getWriterPart($partName = '')
     {
@@ -334,9 +334,6 @@ abstract class AbstractWriter implements WriterInterface
 
     /**
      * Add files to package.
-     *
-     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
-     * @param mixed $elements
      */
     protected function addFilesToPackage(ZipArchive $zip, $elements)
     {

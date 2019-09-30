@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 /**
  * Paragraph indentation style
  *
@@ -26,30 +29,30 @@ namespace PhpOffice\PhpWord\Style;
 class Indentation extends AbstractStyle
 {
     /**
-     * Left indentation (twip)
+     * Left indentation
      *
-     * @var int|float
+     * @var int|Absolute Default is set with int, but converted to Absolute when read
      */
     private $left = 0;
 
     /**
-     * Right indentation (twip)
+     * Right indentation
      *
-     * @var int|float
+     * @var int|Absolute Default is set with int, but converted to Absolute when read
      */
     private $right = 0;
 
     /**
-     * Additional first line indentation (twip)
+     * Additional first line indentation
      *
-     * @var int|float
+     * @var Absolute
      */
     private $firstLine;
 
     /**
-     * Indentation removed from first line (twip)
+     * Indentation removed from first line
      *
-     * @var int|float
+     * @var Absolute
      */
     private $hanging;
 
@@ -65,92 +68,88 @@ class Indentation extends AbstractStyle
 
     /**
      * Get left
-     *
-     * @return int|float
      */
-    public function getLeft()
+    public function getLeft(): Absolute
     {
+        if (!$this->left instanceof Absolute) {
+            $this->left = new Absolute($this->left);
+        }
+
         return $this->left;
     }
 
     /**
      * Set left
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setLeft($value = null)
+    public function setLeft(Absolute $value): self
     {
-        $this->left = $this->setNumericVal($value, $this->left);
+        $this->left = $value;
 
         return $this;
     }
 
     /**
      * Get right
-     *
-     * @return int|float
      */
-    public function getRight()
+    public function getRight(): Absolute
     {
+        if (!$this->right instanceof Absolute) {
+            $this->right = new Absolute($this->right);
+        }
+
         return $this->right;
     }
 
     /**
      * Set right
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setRight($value = null)
+    public function setRight(Absolute $value): self
     {
-        $this->right = $this->setNumericVal($value, $this->right);
+        $this->right = $value;
 
         return $this;
     }
 
     /**
      * Get first line
-     *
-     * @return int|float
      */
-    public function getFirstLine()
+    public function getFirstLine(): Absolute
     {
+        if ($this->firstLine === null) {
+            $this->firstLine = new Absolute(null);
+        }
+
         return $this->firstLine;
     }
 
     /**
      * Set first line
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setFirstLine($value = null)
+    public function setFirstLine(Absolute $value): self
     {
-        $this->firstLine = $this->setNumericVal($value, $this->firstLine);
+        $this->firstLine = $value;
 
         return $this;
     }
 
     /**
      * Get hanging
-     *
-     * @return int|float
      */
-    public function getHanging()
+    public function getHanging(): Absolute
     {
+        if ($this->hanging === null) {
+            $this->hanging = new Absolute(null);
+        }
+
         return $this->hanging;
     }
 
     /**
      * Set hanging
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setHanging($value = null)
+    public function setHanging(Absolute $value): self
     {
-        $this->hanging = $this->setNumericVal($value, $this->hanging);
+        $this->hanging = $value;
 
         return $this;
     }

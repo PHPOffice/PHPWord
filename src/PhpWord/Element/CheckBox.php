@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -38,8 +39,8 @@ class CheckBox extends Text
      *
      * @param string $name
      * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
+     * @param null|mixed $fontStyle
+     * @param null|mixed $paragraphStyle
      */
     public function __construct($name = null, $text = null, $fontStyle = null, $paragraphStyle = null)
     {

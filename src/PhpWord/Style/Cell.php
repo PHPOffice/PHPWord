@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,14 +18,19 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
+use PhpOffice\PhpWord\Style\Colors\BasicColor;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Length;
 
 /**
  * Table cell style
  */
-class Cell extends Border
+class Cell extends AbstractStyle
 {
+    use Border;
+
     /**
      * Vertical alignment constants
      *
@@ -80,13 +86,6 @@ class Cell extends Border
     const VMERGE_CONTINUE = 'continue';
 
     /**
-     * Default border color
-     *
-     * @const string
-     */
-    const DEFAULT_BORDER_COLOR = '000000';
-
-    /**
      * Vertical align (top, center, both, bottom)
      *
      * @var string
@@ -127,16 +126,9 @@ class Cell extends Border
     /**
      * Width
      *
-     * @var int
+     * @var Length
      */
     private $width;
-
-    /**
-     * Width unit
-     *
-     * @var string
-     */
-    private $unit = TblWidth::TWIP;
 
     /**
      * Get vertical align.
@@ -186,27 +178,38 @@ class Cell extends Border
         return $this;
     }
 
+    protected function getAllowedSides(): array
+    {
+        return array(
+            'top',
+            'bottom',
+            'start',
+            'end',
+            'insideH',
+            'insideV',
+            'tl2br',
+            'tr2bl',
+        );
+    }
+
     /**
      * Get background
-     *
-     * @return string
      */
-    public function getBgColor()
+    public function getBgColor(): BasicColor
     {
-        if ($this->shading !== null) {
-            return $this->shading->getFill();
+        if ($this->shading === null) {
+            $this->setBgColor(new Hex(null));
         }
 
-        return null;
+        return $this->shading->getFill();
     }
 
     /**
      * Set background
      *
      * @param string $value
-     * @return self
      */
-    public function setBgColor($value = null)
+    public function setBgColor(BasicColor $value): self
     {
         return $this->setShading(array('fill' => $value));
     }
@@ -270,11 +273,9 @@ class Cell extends Border
 
     /**
      * Set shading
-     *
-     * @param mixed $value
-     * @return self
+     * @param null|mixed $value
      */
-    public function setShading($value = null)
+    public function setShading($value = null): self
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
 
@@ -283,58 +284,23 @@ class Cell extends Border
 
     /**
      * Get cell width
-     *
-     * @return int
      */
-    public function getWidth()
+    public function getWidth(): Length
     {
+        if ($this->width === null) {
+            $this->setWidth(new Absolute(null));
+        }
+
         return $this->width;
     }
 
     /**
      * Set cell width
-     *
-     * @param int $value
-     * @return self
      */
-    public function setWidth($value)
+    public function setWidth(Length $value): self
     {
-        $this->setIntVal($value);
+        $this->width = $value;
 
         return $this;
-    }
-
-    /**
-     * Get width unit
-     *
-     * @return string
-     */
-    public function getUnit()
-    {
-        return $this->unit;
-    }
-
-    /**
-     * Set width unit
-     *
-     * @param string $value
-     */
-    public function setUnit($value)
-    {
-        $this->unit = $this->setEnumVal($value, array(TblWidth::AUTO, TblWidth::PERCENT, TblWidth::TWIP), TblWidth::TWIP);
-
-        return $this;
-    }
-
-    /**
-     * Get default border color
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getDefaultBorderColor()
-    {
-        return self::DEFAULT_BORDER_COLOR;
     }
 }

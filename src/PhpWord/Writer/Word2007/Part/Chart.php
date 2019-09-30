@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -64,8 +65,6 @@ class Chart extends AbstractPart
 
     /**
      * Set chart element.
-     *
-     * @param \PhpOffice\PhpWord\Element\Chart $element
      */
     public function setElement(ChartElement $element)
     {
@@ -99,7 +98,6 @@ class Chart extends AbstractPart
      * Write chart
      *
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_Chart.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writeChart(XMLWriter $xmlWriter)
     {
@@ -121,7 +119,6 @@ class Chart extends AbstractPart
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_AreaChart.html
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_RadarChart.html
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_ScatterChart.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writePlotArea(XMLWriter $xmlWriter)
     {
@@ -209,7 +206,6 @@ class Chart extends AbstractPart
     /**
      * Write series.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param bool $scatter
      */
     private function writeSeries(XMLWriter $xmlWriter, $scatter = false)
@@ -294,7 +290,6 @@ class Chart extends AbstractPart
     /**
      * Write series items.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $type
      * @param array $values
      */
@@ -317,10 +312,10 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
             if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
-                $xmlWriter->writeElement('c:v', $value);
+                $xmlWriter->writeElement('c:v', (string) $value);
             } else {
                 $xmlWriter->startElement('c:v');
-                $xmlWriter->writeRaw($value);
+                $xmlWriter->writeRaw((string) $value);
                 $xmlWriter->endElement(); // c:v
             }
             $xmlWriter->endElement(); // c:pt
@@ -335,7 +330,6 @@ class Chart extends AbstractPart
      * Write axis
      *
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_CatAx.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $type
      */
     private function writeAxis(XMLWriter $xmlWriter, $type)
@@ -400,7 +394,6 @@ class Chart extends AbstractPart
      * Write shape
      *
      * @see  http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param bool $line
      */
     private function writeShape(XMLWriter $xmlWriter, $line = false)

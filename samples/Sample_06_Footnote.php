@@ -1,6 +1,10 @@
 <?php
+declare(strict_types=1);
 use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 include_once 'Sample_Header.php';
 
@@ -11,16 +15,16 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Define styles
 $paragraphStyleName = 'pStyle';
-$phpWord->addParagraphStyle($paragraphStyleName, array('spacing' => 100));
+$phpWord->addParagraphStyle($paragraphStyleName, array('spacing' => Absolute::from('twip', 100)));
 
 $boldFontStyleName = 'BoldText';
 $phpWord->addFontStyle($boldFontStyleName, array('bold' => true));
 
 $coloredFontStyleName = 'ColoredText';
-$phpWord->addFontStyle($coloredFontStyleName, array('color' => 'FF8080', 'bgColor' => 'FFFFCC'));
+$phpWord->addFontStyle($coloredFontStyleName, array('color' => new Hex('FF8080'), 'bgColor' => new Hex('FFFFCC')));
 
 $linkFontStyleName = 'NLink';
-$phpWord->addLinkStyle($linkFontStyleName, array('color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE));
+$phpWord->addLinkStyle($linkFontStyleName, array('color' => new Hex('0000FF'), 'underline' => Font::UNDERLINE_SINGLE));
 
 // New portrait section
 $section = $phpWord->addSection();
@@ -38,7 +42,7 @@ $footnote->addText('But you can insert a manual text break like above, ');
 $footnote->addText('links like ');
 $footnote->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub', $linkFontStyleName);
 $footnote->addText(', image like ');
-$footnote->addImage('resources/_earth.jpg', array('width' => 18, 'height' => 18));
+$footnote->addImage('resources/_earth.jpg', array('width' => Absolute::from('pt', 18), 'height' => Absolute::from('pt', 18)));
 $footnote->addText(', or object like ');
 $footnote->addObject('resources/_sheet.xls');
 $footnote->addText('But you can only put footnote in section, not in header or footer.');

@@ -1,12 +1,16 @@
 <?php
+declare(strict_types=1);
 use PhpOffice\PhpWord\Element\Section;
-use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Image;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 
 // Begin code
 $section = $phpWord->addSection();
@@ -15,7 +19,7 @@ $section->addImage('resources/_mars.jpg');
 
 printSeparator($section);
 $section->addText('Local image with styles:');
-$section->addImage('resources/_earth.jpg', array('width' => 210, 'height' => 210, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
+$section->addImage('resources/_earth.jpg', array('width' => Absolute::from('pt', 210), 'height' => Absolute::from('pt', 210), 'alignment' => Jc::CENTER));
 
 // Remote image
 printSeparator($section);
@@ -40,13 +44,13 @@ foreach ($wrappingStyles as $wrappingStyle) {
         'resources/_earth.jpg',
         array(
             'positioning'        => 'relative',
-            'marginTop'          => -1,
-            'marginLeft'         => 1,
-            'width'              => 80,
-            'height'             => 80,
+            'marginTop'          => Absolute::from('cm', -1),
+            'marginLeft'         => Absolute::from('cm', 1),
+            'width'              => Absolute::from('pt', 80),
+            'height'             => Absolute::from('pt', 80),
             'wrappingStyle'      => $wrappingStyle,
-            'wrapDistanceRight'  => Converter::cmToPoint(1),
-            'wrapDistanceBottom' => Converter::cmToPoint(1),
+            'wrapDistanceRight'  => Absolute::from('cm', 1),
+            'wrapDistanceBottom' => Absolute::from('cm', 1),
         )
     );
     $section->addText($text);
@@ -58,14 +62,14 @@ $section->addText('Absolute positioning: see top right corner of page');
 $section->addImage(
     'resources/_mars.jpg',
     array(
-        'width'            => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'height'           => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'positioning'      => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
-        'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_RIGHT,
-        'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
-        'posVerticalRel'   => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
-        'marginLeft'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.5),
-        'marginTop'        => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(1.55),
+        'width'            => Absolute::from('cm', 3),
+        'height'           => Absolute::from('cm', 3),
+        'positioning'      => Image::POSITION_ABSOLUTE,
+        'posHorizontal'    => Image::POSITION_HORIZONTAL_RIGHT,
+        'posHorizontalRel' => Image::POSITION_RELATIVE_TO_PAGE,
+        'posVerticalRel'   => Image::POSITION_RELATIVE_TO_PAGE,
+        'marginLeft'       => Absolute::from('cm', 15.5),
+        'marginTop'        => Absolute::from('cm', 1.55),
     )
 );
 
@@ -76,20 +80,20 @@ $section->addText('Vertical position top relative to line');
 $section->addImage(
     'resources/_mars.jpg',
     array(
-        'width'            => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'height'           => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'positioning'      => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
-        'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
-        'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
-        'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
-        'posVerticalRel'   => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
+        'width'            => Absolute::from('cm', 3),
+        'height'           => Absolute::from('cm', 3),
+        'positioning'      => Image::POSITION_RELATIVE,
+        'posHorizontal'    => Image::POSITION_HORIZONTAL_CENTER,
+        'posHorizontalRel' => Image::POSITION_RELATIVE_TO_COLUMN,
+        'posVertical'      => Image::POSITION_VERTICAL_TOP,
+        'posVerticalRel'   => Image::POSITION_RELATIVE_TO_LINE,
     )
 );
 
 function printSeparator(Section $section)
 {
     $section->addTextBreak();
-    $lineStyle = array('weight' => 0.2, 'width' => 150, 'height' => 0, 'align' => 'center');
+    $lineStyle = array('weight' => Absolute::from('twip', 0.2), 'width' => Absolute::from('twip', 150), 'height' => Absolute::from('twip', 0), 'align' => 'center');
     $section->addLine($lineStyle);
     $section->addTextBreak(2);
 }

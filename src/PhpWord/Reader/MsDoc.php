@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,6 +22,9 @@ use PhpOffice\Common\Drawing;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\OLERead;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Colors\Rgb;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Reader for Word97
@@ -1741,57 +1745,59 @@ class MsDoc extends AbstractReader implements ReaderInterface
                             switch (dechex($operand)) {
                                 case 0x00:
                                 case 0x01:
-                                    $oStylePrl->styleFont['color'] = '000000';
+                                    $oStylePrl->styleFont['color'] = new Hex('000000');
                                     break;
                                 case 0x02:
-                                    $oStylePrl->styleFont['color'] = '0000FF';
+                                    $oStylePrl->styleFont['color'] = new Hex('0000FF');
                                     break;
                                 case 0x03:
-                                    $oStylePrl->styleFont['color'] = '00FFFF';
+                                    $oStylePrl->styleFont['color'] = new Hex('00FFFF');
                                     break;
                                 case 0x04:
-                                    $oStylePrl->styleFont['color'] = '00FF00';
+                                    $oStylePrl->styleFont['color'] = new Hex('00FF00');
                                     break;
                                 case 0x05:
-                                    $oStylePrl->styleFont['color'] = 'FF00FF';
+                                    $oStylePrl->styleFont['color'] = new Hex('FF00FF');
                                     break;
                                 case 0x06:
-                                    $oStylePrl->styleFont['color'] = 'FF0000';
+                                    $oStylePrl->styleFont['color'] = new Hex('FF0000');
                                     break;
                                 case 0x07:
-                                    $oStylePrl->styleFont['color'] = 'FFFF00';
+                                    $oStylePrl->styleFont['color'] = new Hex('FFFF00');
                                     break;
                                 case 0x08:
-                                    $oStylePrl->styleFont['color'] = 'FFFFFF';
+                                    $oStylePrl->styleFont['color'] = new Hex('FFFFFF');
                                     break;
                                 case 0x09:
-                                    $oStylePrl->styleFont['color'] = '000080';
+                                    $oStylePrl->styleFont['color'] = new Hex('000080');
                                     break;
                                 case 0x0A:
-                                    $oStylePrl->styleFont['color'] = '008080';
+                                    $oStylePrl->styleFont['color'] = new Hex('008080');
                                     break;
                                 case 0x0B:
-                                    $oStylePrl->styleFont['color'] = '008000';
+                                    $oStylePrl->styleFont['color'] = new Hex('008000');
                                     break;
                                 case 0x0C:
-                                    $oStylePrl->styleFont['color'] = '800080';
+                                    $oStylePrl->styleFont['color'] = new Hex('800080');
                                     break;
                                 case 0x0D:
-                                    $oStylePrl->styleFont['color'] = '800080';
+                                    $oStylePrl->styleFont['color'] = new Hex('800080');
                                     break;
                                 case 0x0E:
-                                    $oStylePrl->styleFont['color'] = '808000';
+                                    $oStylePrl->styleFont['color'] = new Hex('808000');
                                     break;
                                 case 0x0F:
-                                    $oStylePrl->styleFont['color'] = '808080';
+                                    $oStylePrl->styleFont['color'] = new Hex('808080');
                                     break;
                                 case 0x10:
-                                    $oStylePrl->styleFont['color'] = 'C0C0C0';
+                                    $oStylePrl->styleFont['color'] = new Hex('C0C0C0');
                             }
                             break;
                         // sprmCHps
                         case 0x43:
-                            $oStylePrl->styleFont['size'] = dechex($operand / 2);
+                            if (is_numeric($operand)) {
+                                $oStylePrl->styleFont['size'] = Absolute::from('pt', $operand);
+                            }
                             break;
                         // sprmCIss
                         case 0x48:
@@ -1854,14 +1860,14 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         // sprmCCv
                         //@see  : http://msdn.microsoft.com/en-us/library/dd952824%28v=office.12%29.aspx
                         case 0x70:
-                            $red = str_pad(dechex(self::getInt1d($this->dataWorkDocument, $pos)), 2, '0', STR_PAD_LEFT);
+                            $red = self::getInt1d($this->dataWorkDocument, $pos);
                             $pos += 1;
-                            $green = str_pad(dechex(self::getInt1d($this->dataWorkDocument, $pos)), 2, '0', STR_PAD_LEFT);
+                            $green = self::getInt1d($this->dataWorkDocument, $pos);
                             $pos += 1;
-                            $blue = str_pad(dechex(self::getInt1d($this->dataWorkDocument, $pos)), 2, '0', STR_PAD_LEFT);
+                            $blue = self::getInt1d($this->dataWorkDocument, $pos);
                             $pos += 1;
                             $pos += 1;
-                            $oStylePrl->styleFont['color'] = $red . $green . $blue;
+                            $oStylePrl->styleFont['color'] = new Rgb($red, $green, $blue);
                             $cbNum -= 4;
                             break;
                         default:
@@ -1884,27 +1890,39 @@ class MsDoc extends AbstractReader implements ReaderInterface
                             break;
                         // sprmSXaPage
                         case 0x1F:
-                            $oStylePrl->styleSection['pageSizeW'] = $operand;
+                            if (is_numeric($operand)) {
+                                $oStylePrl->styleSection['pageSizeW'] = Absolute::from('pt', $operand);
+                            }
                             break;
                         // sprmSYaPage
                         case 0x20:
-                            $oStylePrl->styleSection['pageSizeH'] = $operand;
+                            if (is_numeric($operand)) {
+                                $oStylePrl->styleSection['pageSizeH'] = Absolute::from('pt', $operand);
+                            }
                             break;
                         // sprmSDxaLeft
                         case 0x21:
-                            $oStylePrl->styleSection['marginLeft'] = $operand;
+                            if (is_numeric($operand)) {
+                                $oStylePrl->styleSection['marginLeft'] = Absolute::from('pt', $operand);
+                            }
                             break;
                         // sprmSDxaRight
                         case 0x22:
-                            $oStylePrl->styleSection['marginRight'] = $operand;
+                            if (is_numeric($operand)) {
+                                $oStylePrl->styleSection['marginRight'] = Absolute::from('pt', $operand);
+                            }
                             break;
                         // sprmSDyaTop
                         case 0x23:
-                            $oStylePrl->styleSection['marginTop'] = $operand;
+                            if (is_numeric($operand)) {
+                                $oStylePrl->styleSection['marginTop'] = Absolute::from('pt', $operand);
+                            }
                             break;
                         // sprmSDyaBottom
                         case 0x24:
-                            $oStylePrl->styleSection['marginBottom'] = $operand;
+                            if (is_numeric($operand)) {
+                                $oStylePrl->styleSection['marginBottom'] = Absolute::from('pt', $operand);
+                            }
                             break;
                         // sprmSFBiDi
                         case 0x28:
@@ -2283,7 +2301,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                                     if (isset($oCharacters->style->image)) {
                                         $fileImage = tempnam(sys_get_temp_dir(), 'PHPWord_MsDoc') . '.' . $oCharacters->style->image['format'];
                                         file_put_contents($fileImage, $oCharacters->style->image['data']);
-                                        $oSection->addImage($fileImage, array('width' => $oCharacters->style->image['width'], 'height' => $oCharacters->style->image['height']));
+                                        $oSection->addImage($fileImage, array('width' => Absolute::from('pt', $oCharacters->style->image['width']), 'height' => Absolute::from('pt', $oCharacters->style->image['height'])));
                                         // print_r('>addImage<'.$fileImage.'>'.EOL);
                                     }
                                 }

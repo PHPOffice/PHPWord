@@ -18,8 +18,9 @@
     <rule ref="rulesets/design.xml/DepthOfInheritance" />
     <rule ref="rulesets/design.xml/CouplingBetweenObjects">
         <!-- AbstractContainer needs more coupling (default: 13) -->
+        <!-- Html needs 23 (default: 13) -->
         <properties>
-            <property name="maximum" value="20" />
+            <property name="maximum" value="24" />
         </properties>
     </rule>
     <rule ref="rulesets/design.xml/NumberOfChildren">
