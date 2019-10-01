@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -26,7 +27,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  *
  * @runTestsInSeparateProcesses
  */
-class HTMLTest extends \PHPUnit\Framework\TestCase
+class HTMLTest extends AbstractWebServerEmbeddedTest
 {
     /**
      * Construct
@@ -57,7 +58,7 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
     {
         $localImage = __DIR__ . '/../_files/images/PhpWord.png';
         $archiveImage = 'zip://' . __DIR__ . '/../_files/documents/reader.docx#word/media/image1.jpeg';
-        $gdImage = 'http://php.net/images/logos/php-med-trans-light.gif';
+        $gdImage = self::getRemoteGifImageUrl();
         $objectSrc = __DIR__ . '/../_files/documents/sheet.xls';
         $file = __DIR__ . '/../_files/temp.html';
 

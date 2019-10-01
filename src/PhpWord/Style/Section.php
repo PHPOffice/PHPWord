@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
+
 /**
  * Section settings
  */
@@ -165,6 +167,14 @@ class Section extends Border
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_lnNumType-1.html
      */
     private $lineNumbering;
+
+    /**
+     * Vertical Text Alignment on Page
+     * One of \PhpOffice\PhpWord\SimpleType\VerticalJc
+     *
+     * @var string
+     */
+    private $vAlign;
 
     /**
      * Create new instance
@@ -596,6 +606,30 @@ class Section extends Border
     public function setLineNumbering($value = null)
     {
         $this->setObjectVal($value, 'LineNumbering', $this->lineNumbering);
+
+        return $this;
+    }
+
+    /**
+     * Get vertical alignment
+     *
+     * @return string
+     */
+    public function getVAlign()
+    {
+        return $this->vAlign;
+    }
+
+    /**
+     * Set vertical alignment
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setVAlign($value = null)
+    {
+        VerticalJc::validate($value);
+        $this->vAlign = $value;
 
         return $this;
     }

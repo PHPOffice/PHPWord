@@ -29,7 +29,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnmatchedElements()
     {
-        $elements = array('Container', 'Text', 'Title', 'Link', 'Image', 'Table');
+        $elements = array('Container', 'Text', 'Title', 'Link', 'Image', 'Table', 'Field');
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Element\\' . $element;
             $parentWriter = new RTF();
@@ -38,5 +38,41 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
             $this->assertEquals('', $object->write());
         }
+    }
+
+    public function testPageField()
+    {
+        $parentWriter = new RTF();
+        $element = new \PhpOffice\PhpWord\Element\Field('PAGE');
+        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+
+        $this->assertEquals("{\\field{\\*\\fldinst PAGE}{\\fldrslt}}\\par\n", $field->write());
+    }
+
+    public function testNumpageField()
+    {
+        $parentWriter = new RTF();
+        $element = new \PhpOffice\PhpWord\Element\Field('NUMPAGES');
+        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+
+        $this->assertEquals("{\\field{\\*\\fldinst NUMPAGES}{\\fldrslt}}\\par\n", $field->write());
+    }
+
+    public function testDateField()
+    {
+        $parentWriter = new RTF();
+        $element = new \PhpOffice\PhpWord\Element\Field('DATE', array('dateformat' => 'd MM yyyy H:mm:ss'));
+        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+
+        $this->assertEquals("{\\field{\\*\\fldinst DATE \\\\@ \"d MM yyyy H:mm:ss\"}{\\fldrslt}}\\par\n", $field->write());
+    }
+
+    public function testIndexField()
+    {
+        $parentWriter = new RTF();
+        $element = new \PhpOffice\PhpWord\Element\Field('INDEX');
+        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+
+        $this->assertEquals("{}\\par\n", $field->write());
     }
 }

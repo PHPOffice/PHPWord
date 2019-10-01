@@ -171,6 +171,14 @@ class Table extends Border
     private $columnWidths;
 
     /**
+     * Visually Right to Left Table
+     *
+     * @see  http://www.datypic.com/sc/ooxml/e-w_bidiVisual-1.html
+     * @var bool
+     */
+    private $bidiVisual = false;
+
+    /**
      * Create new table style
      *
      * @param mixed $tableStyle
@@ -774,5 +782,29 @@ class Table extends Border
     public function setColumnWidths(array $value = null)
     {
         $this->columnWidths = $value;
+    }
+
+    /**
+     * Get bidiVisual
+     *
+     * @return bool
+     */
+    public function isBidiVisual()
+    {
+        return $this->bidiVisual;
+    }
+
+    /**
+     * Set bidiVisual
+     *
+     * @param bool $bidi
+     *            Set to true to visually present table as Right to Left
+     * @return self
+     */
+    public function setBidiVisual($bidi)
+    {
+        $this->bidiVisual = $bidi;
+
+        return $this;
     }
 }

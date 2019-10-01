@@ -17,12 +17,14 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
+
 /**
  * Test class for PhpOffice\PhpWord\Element\Header
  *
  * @runTestsInSeparateProcesses
  */
-class HeaderTest extends \PHPUnit\Framework\TestCase
+class HeaderTest extends AbstractWebServerEmbeddedTest
 {
     /**
      * New instance
@@ -125,7 +127,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
     public function testAddImageByUrl()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addImage('http://php.net/images/logos/php-med-trans-light.gif');
+        $element = $oHeader->addImage(self::getRemoteGifImageUrl());
 
         $this->assertCount(1, $oHeader->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);

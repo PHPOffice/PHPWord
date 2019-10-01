@@ -1,13 +1,12 @@
 language: php
 
-dist: precise
+dist: xenial
 
 php:
-    - 5.6
     - 7.1
     - 7.2
     - 7.3
-    - nightly
+    - 7.4snapshot
 
 matrix:
     include:
@@ -15,14 +14,14 @@ matrix:
           env: COVERAGE=1
         - php: 7.3
           env: DEPENDENCIES="--ignore-platform-reqs"
-        - php: nightly
+        - php: 7.4snapshot
           env: DEPENDENCIES="--ignore-platform-reqs"
     exclude:
         - php: 7.2
         - php: 7.3
-        - php: nightly
+        - php: 7.4snapshot
     allow_failures:
-        - php: nightly
+        - php: 7.4snapshot
 
 cache:
     directories:
@@ -35,6 +34,7 @@ env:
 
 before_install:
     ## Packages
+    - sudo rm -f /etc/apt/sources.list.d/mongodb.list  # Makes apt crash on Precise, and we don't need MongoDB
     - sudo apt-get update -qq
     - sudo apt-get install -y graphviz
 
