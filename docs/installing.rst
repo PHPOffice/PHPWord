@@ -34,7 +34,7 @@ Example:
 
     {
         "require": {
-           "phpoffice/phpword": "v0.14.*"
+           "phpoffice/phpword": "v0.17.*"
         }
     }
 
