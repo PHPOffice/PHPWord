@@ -3,18 +3,33 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-v0.17.0 (?? ??? 2019)
+v0.17.0 (01 oct 2019)
 ----------------------
 ### Added
-- Add RightToLeft table presentation. @troosan #1550
+- Add methods setValuesFromArray and cloneRowFromArray to the TemplateProcessor @geraldb-nicat #670
 - Set complex type in template @troosan #1565
+- implement support for section vAlign @troosan #1569
+- ParseStyle for border-color @Gllrm0 #1551
+- Html writer auto invert text color @SailorMax #1387
+- Add RightToLeft table presentation. @troosan #1550
 - Add support for page vertical alignment. @troosan #672 #1569
+- Adding setNumId method for ListItem style @eweso #1329
+- Add support for basic fields in RTF writer. @Samuel-BF #1717
 
 ### Fixed
 - Fix HTML border-color parsing. @troosan #1551 #1570
+- Language::validateLocale should pass with locale 'zxx'. @efpapado #1558
+- can't align center vertically with the text @ter987 #672
+- fix parsing of border-color and add test @troosan #1570
+- TrackChange doesn't handle all return types of \DateTime::createFromFormat(...) @superhaggis #1584
+- To support PreserveText inside sub container @bhattnishant #1637
+- No nested w:pPr elements in ListItemRun. @waltertamboer #1628
+- Ensure that entity_loader disable variable is re-set back to the original setting @seamuslee001 #1585
 
 ### Miscellaneous
-- Use embedded http server to test loading of remote images @troosan #
+- Use embedded http server to test loading of remote images @troosan #1544
+- Change private to protected to be able extending class Html @SpinyMan #1646
+- Fix apt-get crash in Travis CI for PHP 5.3 @mdupont #1707
 
 v0.16.0 (30 dec 2018)
 ----------------------
