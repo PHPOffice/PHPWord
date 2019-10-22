@@ -17,16 +17,54 @@
 
 namespace PhpOffice\PhpWordTests;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Writer\HTML;
+use PhpOffice\PhpWord\Writer\ODText;
+use PhpOffice\PhpWord\Writer\PDF;
+use PhpOffice\PhpWord\Writer\RTF;
+use PhpOffice\PhpWord\Writer\Word2007;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for PhpOffice\PhpWord\IOFactory.
  *
  * @runTestsInSeparateProcesses
  */
-class IOFactoryTest extends \PHPUnit\Framework\TestCase
+class IOFactoryTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        $rendererName = Settings::PDF_RENDERER_DOMPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+    }
+
+    /**
+     * Create all possible writers.
+     *
+     * @dataProvider providerCreateWriter
+     */
+    public function testCreateWriter(string $name, string $expected): void
+    {
+        $phpWord = new PhpWord();
+        $actual = IOFactory::createWriter($phpWord, $name);
+        self::assertInstanceOf($expected, $actual);
+    }
+
+    public function providerCreateWriter(): iterable
+    {
+        return [
+            ['ODText', ODText::class],
+            ['RTF', RTF::class],
+            ['Word2007', Word2007::class],
+            ['HTML', HTML::class],
+            ['PDF', PDF::class],
+        ];
+    }
+
     /**
      * Create existing writer.
      */
@@ -43,7 +81,7 @@ class IOFactoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testNonexistentWriterCanNotBeCreated(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectException(Exception::class);
         IOFactory::createWriter(new PhpWord(), 'Word2006');
     }
 
@@ -63,7 +101,7 @@ class IOFactoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testNonexistentReaderCanNotBeCreated(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectException(Exception::class);
         IOFactory::createReader('Word2006');
     }
 
