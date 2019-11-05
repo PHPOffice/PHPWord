@@ -34,7 +34,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnmatchedElements()
     {
-        $elements = array('Container', 'Footnote', 'Image', 'Link', 'ListItem', 'Table', 'Title', 'Bookmark');
+        $elements = array('Container', 'Footnote', 'Image', 'Link', 'ListItem', 'ListItemRun', 'Table', 'Title', 'Bookmark');
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\HTML\\Element\\' . $element;
             $parentWriter = new HTML();
