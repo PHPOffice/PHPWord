@@ -154,6 +154,59 @@ class Text extends AbstractElement
     }
 
     /**
+     * Write paragraph style
+     *
+     * @return string
+     */
+    private function getParagraphStyle()
+    {
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->element;
+        $style = '';
+        if (!method_exists($element, 'getParagraphStyle')) {
+            return $style;
+        }
+
+        $paragraphStyle = $element->getParagraphStyle();
+        $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
+        if ($pStyleIsObject) {
+            $styleWriter = new ParagraphStyleWriter($paragraphStyle);
+            $style = $styleWriter->write();
+        } elseif (is_string($paragraphStyle)) {
+            $style = $paragraphStyle;
+        }
+        if ($style) {
+            $attribute = $pStyleIsObject ? 'style' : 'class';
+            $style = " {$attribute}=\"{$style}\"";
+        }
+
+        return $style;
+    }
+
+    /**
+     * Get font style.
+     */
+    private function getFontStyle()
+    {
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->element;
+        $style = '';
+        $fontStyle = $element->getFontStyle();
+        $fStyleIsObject = ($fontStyle instanceof Font);
+        if ($fStyleIsObject) {
+            $styleWriter = new FontStyleWriter($fontStyle);
+            $style = $styleWriter->write();
+        } elseif (is_string($fontStyle)) {
+            $style = $fontStyle;
+        }
+        if ($style) {
+            $attribute = $fStyleIsObject ? 'style' : 'class';
+            $this->openingTags = "<span {$attribute}=\"{$style}\">";
+            $this->closingTags = '</span>';
+        }
+    }
+
+    /**
      * writes the track change opening tag
      *
      * @return string the HTML, an empty string if no track change information
@@ -208,58 +261,5 @@ class Text extends AbstractElement
         }
 
         return $content;
-    }
-
-    /**
-     * Write paragraph style
-     *
-     * @return string
-     */
-    private function getParagraphStyle()
-    {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
-        $element = $this->element;
-        $style = '';
-        if (!method_exists($element, 'getParagraphStyle')) {
-            return $style;
-        }
-
-        $paragraphStyle = $element->getParagraphStyle();
-        $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
-        if ($pStyleIsObject) {
-            $styleWriter = new ParagraphStyleWriter($paragraphStyle);
-            $style = $styleWriter->write();
-        } elseif (is_string($paragraphStyle)) {
-            $style = $paragraphStyle;
-        }
-        if ($style) {
-            $attribute = $pStyleIsObject ? 'style' : 'class';
-            $style = " {$attribute}=\"{$style}\"";
-        }
-
-        return $style;
-    }
-
-    /**
-     * Get font style.
-     */
-    private function getFontStyle()
-    {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
-        $element = $this->element;
-        $style = '';
-        $fontStyle = $element->getFontStyle();
-        $fStyleIsObject = ($fontStyle instanceof Font);
-        if ($fStyleIsObject) {
-            $styleWriter = new FontStyleWriter($fontStyle);
-            $style = $styleWriter->write();
-        } elseif (is_string($fontStyle)) {
-            $style = $fontStyle;
-        }
-        if ($style) {
-            $attribute = $fStyleIsObject ? 'style' : 'class';
-            $this->openingTags = "<span {$attribute}=\"{$style}\">";
-            $this->closingTags = '</span>';
-        }
     }
 }
