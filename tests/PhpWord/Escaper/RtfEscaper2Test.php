@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Escaper;
 /**
  * Test class for PhpOffice\PhpWord\Escaper\RTF
  */
-class RtfEscaperTest extends \PHPUnit\Framework\TestCase
+class RtfEscaper2Test extends \PHPUnit\Framework\TestCase
 {
     const HEADER = '\\pard\\nowidctlpar {\\cf0\\f0 ';
     const TRAILER = '}\\par';

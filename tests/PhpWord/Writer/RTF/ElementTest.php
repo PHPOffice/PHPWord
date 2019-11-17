@@ -28,6 +28,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         return str_replace("\r\n", "\n", $field->write());
     }
+
     /**
      * Test unmatched elements
      */
