@@ -15,8 +15,10 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
+namespace PhpOffice\PhpWord\Escaper;
+
 /**
- * Test class for PhpOffice\PhpWord\Writer\RTF\Style subnamespace
+ * Test class for PhpOffice\PhpWord\Escaper\RTF
  */
 class RtfEscaperTest extends \PHPUnit\Framework\TestCase
 {

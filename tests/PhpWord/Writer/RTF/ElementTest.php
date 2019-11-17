@@ -24,7 +24,8 @@ use PhpOffice\PhpWord\Writer\RTF;
  */
 class ElementTest extends \PHPUnit\Framework\TestCase
 {
-    public function removeCr($field) {
+    public function removeCr($field)
+    {
         return str_replace("\r\n", "\n", $field->write());
     }
     /**
