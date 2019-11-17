@@ -24,6 +24,9 @@ use PhpOffice\PhpWord\Writer\RTF;
  */
 class ElementTest extends \PHPUnit\Framework\TestCase
 {
+    public function removeCr($field) {
+        return str_replace("\r\n", "\n", $field->write());
+    }
     /**
      * Test unmatched elements
      */
@@ -46,7 +49,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = new \PhpOffice\PhpWord\Element\Field('PAGE');
         $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
 
-        $this->assertEquals("{\\field{\\*\\fldinst PAGE}{\\fldrslt}}\\par\n", $field->write());
+        $this->assertEquals("{\\field{\\*\\fldinst PAGE}{\\fldrslt}}\\par\n", $this->removeCr($field));
     }
 
     public function testNumpageField()
@@ -55,7 +58,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = new \PhpOffice\PhpWord\Element\Field('NUMPAGES');
         $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
 
-        $this->assertEquals("{\\field{\\*\\fldinst NUMPAGES}{\\fldrslt}}\\par\n", $field->write());
+        $this->assertEquals("{\\field{\\*\\fldinst NUMPAGES}{\\fldrslt}}\\par\n", $this->removeCr($field));
     }
 
     public function testDateField()
@@ -64,7 +67,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = new \PhpOffice\PhpWord\Element\Field('DATE', array('dateformat' => 'd MM yyyy H:mm:ss'));
         $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
 
-        $this->assertEquals("{\\field{\\*\\fldinst DATE \\\\@ \"d MM yyyy H:mm:ss\"}{\\fldrslt}}\\par\n", $field->write());
+        $this->assertEquals("{\\field{\\*\\fldinst DATE \\\\@ \"d MM yyyy H:mm:ss\"}{\\fldrslt}}\\par\n", $this->removeCr($field));
     }
 
     public function testIndexField()
@@ -73,6 +76,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = new \PhpOffice\PhpWord\Element\Field('INDEX');
         $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
 
-        $this->assertEquals("{}\\par\n", $field->write());
+        $this->assertEquals("{}\\par\n", $this->removeCr($field));
     }
 }
