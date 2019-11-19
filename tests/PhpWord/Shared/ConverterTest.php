@@ -114,6 +114,8 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         $values[] = array('FF99DD', array(255, 153, 221)); // 6 characters
         $values[] = array('F9D', array(255, 153, 221)); // 3 characters
         $values[] = array('0F9D', false); // 4 characters
+        $values[] = array(\PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKMAGENTA, array(139, 0, 139));
+        $values[] = array('unknow', array(0, 0, 0)); // 6 characters, invalid
         // Conduct test
         foreach ($values as $value) {
             $result = Converter::htmlToRgb($value[0]);
