@@ -26,7 +26,7 @@ abstract class AbstractWebServerEmbeddedTest extends \PHPUnit\Framework\TestCase
     public static function setUpBeforeClass()
     {
         if (self::isBuiltinServerSupported()) {
-            self::$httpServer = new Process('php -S localhost:8080 -t tests/PhpWord/_files');
+            self::$httpServer = new Process(array('php', '-S', 'localhost:8080', '-t', 'tests/PhpWord/_files'));
             self::$httpServer->start();
             while (!self::$httpServer->isRunning()) {
                 usleep(1000);
