@@ -17,14 +17,12 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Settings;
-
 /**
  * ListItem element HTML writer
  *
  * @since 0.10.0
  */
-class ListItemRun extends ListItem
+class ListItemRun extends TextRun
 {
     /**
      * Write list item
@@ -38,12 +36,7 @@ class ListItemRun extends ListItem
         }
 
         $writer = new Container($this->parentWriter, $this->element);
-
-        if (Settings::isOutputEscapingEnabled()) {
-            $content = '<p>' . $this->escaper->escapeHtml($writer->write()) . '</p>' . PHP_EOL;
-        } else {
-            $content = '<p>' . $writer->write() . '</p>' . PHP_EOL;
-        }
+        $content = $writer->write() . PHP_EOL;
 
         return $content;
     }
