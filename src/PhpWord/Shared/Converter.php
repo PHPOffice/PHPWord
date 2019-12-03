@@ -326,8 +326,9 @@ class Converter
     {
         if ($value[0] == '#') {
             $value = substr($value, 1);
+        } else {
+            $value = self::stringToRgb($value);
         }
-        $value = self::stringToRgb($value);
 
         if (strlen($value) == 6) {
             list($red, $green, $blue) = array($value[0] . $value[1], $value[2] . $value[3], $value[4] . $value[5]);
