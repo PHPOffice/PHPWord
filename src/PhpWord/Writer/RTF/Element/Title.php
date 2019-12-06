@@ -29,24 +29,22 @@ class Title extends Text
         /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
         $element = $this->element;
         $style = $element->getStyle();
-        if (is_string($style)) {
-            $style = str_replace('Heading', 'Heading_', $style);
-            $style = \PhpOffice\PhpWord\Style::getStyle($style);
-            if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
-                $this->fontStyle = $style;
-                $pstyle = $style->getParagraph();
-                if ($pstyle instanceof \PhpOffice\PhpWord\Style\Paragraph && $pstyle->hasPageBreakBefore()) {
-                    $sect = $element->getParent();
-                    if ($sect instanceof \PhpOffice\PhpWord\Element\Section) {
-                        $elems = $sect->getElements();
-                        if ($elems[0] === $element) {
-                            $pstyle = clone $pstyle;
-                            $pstyle->setPageBreakBefore(false);
-                        }
+        $style = str_replace('Heading', 'Heading_', $style);
+        $style = \PhpOffice\PhpWord\Style::getStyle($style);
+        if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
+            $this->fontStyle = $style;
+            $pstyle = $style->getParagraph();
+            if ($pstyle instanceof \PhpOffice\PhpWord\Style\Paragraph && $pstyle->hasPageBreakBefore()) {
+                $sect = $element->getParent();
+                if ($sect instanceof \PhpOffice\PhpWord\Element\Section) {
+                    $elems = $sect->getElements();
+                    if ($elems[0] === $element) {
+                        $pstyle = clone $pstyle;
+                        $pstyle->setPageBreakBefore(false);
                     }
                 }
-                $this->paragraphStyle = $pstyle;
             }
+            $this->paragraphStyle = $pstyle;
         }
     }
 
@@ -57,7 +55,7 @@ class Title extends Text
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
         $element = $this->element;
         $elementClass = str_replace('\\Writer\\RTF', '', get_class($this));
         if (!$element instanceof $elementClass || !is_string($element->getText())) {

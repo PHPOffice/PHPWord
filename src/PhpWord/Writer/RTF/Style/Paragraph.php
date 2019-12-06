@@ -52,8 +52,6 @@ class Paragraph extends AbstractStyle
             Jc::END    => '\qr',
             Jc::CENTER => '\qc',
             Jc::BOTH   => '\qj',
-            "left"     => '\ql',
-            "right"    => '\qr',
         );
 
         $spaceAfter = $style->getSpaceAfter();
