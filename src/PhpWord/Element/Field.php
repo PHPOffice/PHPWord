@@ -117,7 +117,7 @@ class Field extends AbstractElement
     /**
      * Font style
      *
-     * @var \PhpOffice\PhpWord\Style\Font
+     * @var string|\PhpOffice\PhpWord\Style\Font
      */
     protected $fontStyle;
 
