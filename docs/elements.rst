@@ -403,7 +403,9 @@ Currently the following fields are supported:
 
 .. code-block:: php
 
-    $section->addField($fieldType, [$properties], [$options], [$fieldText])
+    $section->addField($fieldType, [$properties], [$options], [$fieldText], [$fontStyle])
+
+- ``$fontStyle``. See :ref:`font-style`.
 
 See ``\PhpOffice\PhpWord\Element\Field`` for list of properties and options available for each field type.
 Options which are not specifically defined can be added. Those must start with a ``\``.
