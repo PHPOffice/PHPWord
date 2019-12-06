@@ -117,7 +117,7 @@ class Document extends AbstractPart
     /**
      * Write titlepg directive if any "f" headers or footers
      *
-     * @param \PhpOffice\PhpWord\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section $section
      * @return string
      */
     private static function writeTitlepg($section)

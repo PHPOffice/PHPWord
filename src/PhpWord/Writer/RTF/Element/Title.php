@@ -26,7 +26,7 @@ class Title extends Text
 {
     protected function getStyles()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
         $element = $this->element;
         $style = $element->getStyle();
         if (is_string($style)) {
