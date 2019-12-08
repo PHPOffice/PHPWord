@@ -33,6 +33,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
      * @covers ::addParagraphStyle
      * @covers ::addFontStyle
      * @covers ::addLinkStyle
+     * @covers ::addNumberingStyle
      * @covers ::addTitleStyle
      * @covers ::addTableStyle
      * @covers ::setDefaultParagraphStyle
@@ -47,6 +48,20 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $paragraph = array('alignment' => Jc::CENTER);
         $font = array('italic' => true, '_bold' => true);
         $table = array('bgColor' => 'CCCCCC');
+        $numbering = array(
+            'type'   => 'multilevel',
+            'levels' => array(
+                array(
+                    'start'     => 1,
+                    'format'    => 'decimal',
+                    'restart'   => 1,
+                    'suffix'    => 'space',
+                    'text'      => '%1.',
+                    'alignment' => Jc::START,
+                ),
+            ),
+        );
+
         $styles = array(
             'Paragraph' => 'Paragraph',
             'Font'      => 'Font',
@@ -54,12 +69,13 @@ class StyleTest extends \PHPUnit\Framework\TestCase
             'Table'     => 'Table',
             'Heading_1' => 'Font',
             'Normal'    => 'Paragraph',
+            'Numbering' => 'Numbering',
         );
 
         Style::addParagraphStyle('Paragraph', $paragraph);
         Style::addFontStyle('Font', $font);
         Style::addLinkStyle('Link', $font);
-        // @todo Style::addNumberingStyle
+        Style::addNumberingStyle('Numbering', $numbering);
         Style::addTitleStyle(1, $font);
         Style::addTableStyle('Table', $table);
         Style::setDefaultParagraphStyle($paragraph);
