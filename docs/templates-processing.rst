@@ -244,3 +244,20 @@ See ``Sample_40_TemplateSetComplexValue.php`` for examples.
     $table->addCell(150)->addText('Cell B2');
     $table->addCell(150)->addText('Cell B3');
     $templateProcessor->setComplexBlock('table', $table);
+    
+save
+"""""""""
+Saves the loaded template within the current directory. Returns the file path.
+
+.. code-block:: php
+
+    $filepath = $templateProcessor->save();
+    
+saveAs
+"""""""""
+Saves a copy of the loaded template in the indicated path.
+
+.. code-block:: php
+    
+    $pathToSave = 'path/to/save/file.ext';
+    $templateProcessor->saveAs($pathToSave);
