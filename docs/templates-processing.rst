@@ -127,7 +127,7 @@ Given a template containing
     This block content will be replaced
     ${/block_name}
 
-The following will replace everything between``${block_name}`` and ``${/block_name}`` with the value passed.
+The following will replace everything between ``${block_name}`` and ``${/block_name}`` with the value passed.
 
 .. code-block:: php
 
