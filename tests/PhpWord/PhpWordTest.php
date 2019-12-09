@@ -225,4 +225,13 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $phpWord->getSection(0)->countElements());
         $this->assertEquals(1, $phpWord->getSection(1)->countElements());
     }
+
+    /**
+     * @covers \PhpOffice\PhpWord\PhpWord::getSettings
+     */
+    public function testGetSettings()
+    {
+        $phpWord = new PhpWord();
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Metadata\\Settings', $phpWord->getSettings());
+    }
 }

@@ -35,6 +35,22 @@ class MediaTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
+     * Get header media elements
+     */
+    public function testGetHeaderMediaElementsWithNull()
+    {
+        $this->assertEquals(array(), Media::getElements('header'));
+    }
+
+    /**
+     * Get footer media elements
+     */
+    public function testGetFooterMediaElementsWithNull()
+    {
+        $this->assertEquals(array(), Media::getElements('footer'));
+    }
+
+    /**
      * Count section media elements
      */
     public function testCountSectionMediaElementsWithNull()

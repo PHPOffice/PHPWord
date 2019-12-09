@@ -27,6 +27,7 @@ abstract class AbstractWebServerEmbeddedTest extends \PHPUnit\Framework\TestCase
     {
         if (self::isBuiltinServerSupported()) {
             $commandLine = 'php -S localhost:8080 -t tests/PhpWord/_files';
+
             /*
              * Make sure to invoke \Symfony\Component\Process\Process correctly
              * regardless of PHP version used.
