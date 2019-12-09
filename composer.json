@@ -70,7 +70,6 @@
         "squizlabs/php_codesniffer": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "phpmd/phpmd": "2.*",
-        "phploc/phploc": "^4.0",
         "dompdf/dompdf":"0.8.*",
         "tecnickcom/tcpdf": "6.*",
         "mpdf/mpdf": "8.*",
