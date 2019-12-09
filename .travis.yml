@@ -6,22 +6,20 @@ php:
     - 7.1
     - 7.2
     - 7.3
-    - 7.4snapshot
+    - 7.4
+    - nightly
 
 matrix:
     include:
         - php: 7.2
           env: COVERAGE=1
-        - php: 7.3
-          env: DEPENDENCIES="--ignore-platform-reqs"
-        - php: 7.4snapshot
+        - php: nightly
           env: DEPENDENCIES="--ignore-platform-reqs"
     exclude:
         - php: 7.2
-        - php: 7.3
-        - php: 7.4snapshot
+        - php: nightly
     allow_failures:
-        - php: 7.4snapshot
+        - php: nightly
 
 cache:
     directories:

@@ -58,7 +58,7 @@
         "fix": "Fixes issues found by PHP-CS"
     },
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "ext-xml": "*",
         "zendframework/zend-escaper": "^2.2",
         "phpoffice/common": "^0.2.9"
@@ -73,7 +73,7 @@
         "phploc/phploc": "^4.0",
         "dompdf/dompdf":"0.8.*",
         "tecnickcom/tcpdf": "6.*",
-        "mpdf/mpdf": "7.*",
+        "mpdf/mpdf": "8.*",
         "php-coveralls/php-coveralls": "^2.0"
     },
     "suggest": {
