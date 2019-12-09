@@ -126,27 +126,27 @@ class Document extends AbstractPart
             $xmlWriter->endElement();
         }
 
-        //footnote properties
-        if ($section->getFootnotePropoperties() !== null) {
+        // Footnote properties
+        if ($section->getFootnoteProperties() !== null) {
             $xmlWriter->startElement('w:footnotePr');
-            if ($section->getFootnotePropoperties()->getPos() != null) {
+            if ($section->getFootnoteProperties()->getPos() != null) {
                 $xmlWriter->startElement('w:pos');
-                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getPos());
+                $xmlWriter->writeAttribute('w:val', $section->getFootnoteProperties()->getPos());
                 $xmlWriter->endElement();
             }
-            if ($section->getFootnotePropoperties()->getNumFmt() != null) {
+            if ($section->getFootnoteProperties()->getNumFmt() != null) {
                 $xmlWriter->startElement('w:numFmt');
-                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumFmt());
+                $xmlWriter->writeAttribute('w:val', $section->getFootnoteProperties()->getNumFmt());
                 $xmlWriter->endElement();
             }
-            if ($section->getFootnotePropoperties()->getNumStart() != null) {
+            if ($section->getFootnoteProperties()->getNumStart() != null) {
                 $xmlWriter->startElement('w:numStart');
-                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumStart());
+                $xmlWriter->writeAttribute('w:val', $section->getFootnoteProperties()->getNumStart());
                 $xmlWriter->endElement();
             }
-            if ($section->getFootnotePropoperties()->getNumRestart() != null) {
+            if ($section->getFootnoteProperties()->getNumRestart() != null) {
                 $xmlWriter->startElement('w:numRestart');
-                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumRestart());
+                $xmlWriter->writeAttribute('w:val', $section->getFootnoteProperties()->getNumRestart());
                 $xmlWriter->endElement();
             }
             $xmlWriter->endElement();

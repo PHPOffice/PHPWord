@@ -75,8 +75,10 @@ Available Paragraph style options:
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
    See ``\PhpOffice\PhpWord\SimpleType\Jc`` class constants for possible values.
 - ``basedOn``. Parent style.
-- ``hanging``. Hanging in *twip*.
-- ``indent``. Indent in *twip*.
+- ``hanging``. Hanging indentation in *half inches*.
+- ``indent``. Indent (left indentation) in *half inches*.
+- ``indentation``. An array of indentation key => value pairs in *twip*. Supports *left*, *right*, *firstLine* and *hanging* indentation.
+   See ``\PhpOffice\PhpWord\Style\Indentation`` for possible identation types.
 - ``keepLines``. Keep all lines on one page, *true* or *false*.
 - ``keepNext``. Keep paragraph with next paragraph, *true* or *false*.
 - ``lineHeight``. Text line height, e.g. *1.0*, *1.5*, etc.
