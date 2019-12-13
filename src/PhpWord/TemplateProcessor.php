@@ -577,6 +577,8 @@ class TemplateProcessor
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
         $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
 
+        $replaced = 0;
+
         foreach ($searchParts as $partFileName => &$partContent) {
             $partVariables = $this->getVariablesForPart($partContent);
 
@@ -586,6 +588,11 @@ class TemplateProcessor
                 });
 
                 foreach ($varsToReplace as $varNameWithArgs) {
+
+                    if($limit >=0 && $replaced >= $limit) {
+                        return;
+                    }
+
                     $varInlineArgs = $this->getImageArgs($varNameWithArgs);
                     $preparedImageAttrs = $this->prepareImageAttrs($replaceImage, $varInlineArgs);
                     $imgPath = $preparedImageAttrs['src'];
