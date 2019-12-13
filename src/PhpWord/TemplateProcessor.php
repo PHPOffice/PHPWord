@@ -588,8 +588,7 @@ class TemplateProcessor
                 });
 
                 foreach ($varsToReplace as $varNameWithArgs) {
-
-                    if($limit >=0 && $replaced >= $limit) {
+                    if ($limit >=0 && $replaced >= $limit) {
                         return;
                     }
 
