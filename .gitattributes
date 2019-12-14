@@ -10,6 +10,7 @@
 # git files
 /.gitignore export-ignore
 /.gitattributes export-ignore
+/.github export-ignore
 
 # project directories
 /build export-ignore
