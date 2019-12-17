@@ -112,7 +112,7 @@ abstract class AbstractPart
             $headingDepth = $this->getHeadingDepth($paragraphStyle);
         }
 
-        // PreserveText
+        // PreserveText with Field support (name and value available for FORMTEXT)
         if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
             $ignoreText = false;
             $textContent = '';
@@ -124,12 +124,19 @@ abstract class AbstractPart
                     $fldCharType = $xmlReader->getAttribute('w:fldCharType', $node, 'w:fldChar');
                     if ('begin' == $fldCharType) {
                         $ignoreText = true;
-                    } elseif ('end' == $fldCharType) {
+                        if ($xmlReader->elementExists('w:fldChar/w:ffData', $node)) {
+                            $ffData=$xmlReader->getElement('w:fldChar/w:ffData',$node);
+                            $fldName = $xmlReader->getAttribute('w:val', $ffData, 'w:name');
+                        }
+                    } elseif ('separate' == $fldCharType) {
                         $ignoreText = false;
                     }
                 }
                 if (!is_null($instrText)) {
-                    $textContent .= '{' . $instrText . '}';
+                    $textContent .= '{' . $instrText .'}';
+                    if($instrText== "FORMTEXT") {        
+                        $textContent .=$fldName.'=';
+                    }
                 } else {
                     if (false === $ignoreText) {
                         $textContent .= $xmlReader->getValue('w:t', $node);
