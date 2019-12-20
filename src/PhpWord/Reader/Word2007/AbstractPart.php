@@ -116,6 +116,7 @@ abstract class AbstractPart
         if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
             $ignoreText = false;
             $textContent = '';
+            $fldName= '';
             $fontStyle = $this->readFontStyle($xmlReader, $domNode);
             $nodes = $xmlReader->getElements('w:r', $domNode);
             foreach ($nodes as $node) {
@@ -134,7 +135,7 @@ abstract class AbstractPart
                 }
                 if (!is_null($instrText)) {
                     $textContent .= '{' . $instrText .'}';
-                    if($instrText== "FORMTEXT") {        
+                    if(trim($instrText)== "FORMTEXT") { //LibreOffice has extra space, ie ' FORMTEXT '  instead of 'FORMTEXT'  
                         $textContent .=$fldName.'=';
                     }
                 } else {
