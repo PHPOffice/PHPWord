@@ -135,7 +135,7 @@ abstract class AbstractPart
                 }
                 if (!is_null($instrText)) {
                     $textContent .= '{' . $instrText .'}';
-                    if (trim($instrText)== "FORMTEXT") { //LibreOffice has extra space, ie ' FORMTEXT '  instead of 'FORMTEXT'  
+                    if (trim($instrText)== "FORMTEXT") {
                         $textContent .=$fldName.'=';
                     }
                 } else {
