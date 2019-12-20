@@ -136,7 +136,7 @@ abstract class AbstractPart
                 if (!is_null($instrText)) {
                     $textContent .= '{' . $instrText . '}';
                     if (trim($instrText) == "FORMTEXT") {
-                        $textContent .= $fldName.'=';
+                        $textContent .= $fldName . '=';
                     }
                 } else {
                     if (false === $ignoreText) {
