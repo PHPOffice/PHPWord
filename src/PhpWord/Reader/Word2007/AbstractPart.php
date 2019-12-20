@@ -116,7 +116,7 @@ abstract class AbstractPart
         if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
             $ignoreText = false;
             $textContent = '';
-            $fldName= '';
+            $fldName = '';
             $fontStyle = $this->readFontStyle($xmlReader, $domNode);
             $nodes = $xmlReader->getElements('w:r', $domNode);
             foreach ($nodes as $node) {
@@ -126,7 +126,7 @@ abstract class AbstractPart
                     if ('begin' == $fldCharType) {
                         $ignoreText = true;
                         if ($xmlReader->elementExists('w:fldChar/w:ffData', $node)) {
-                            $ffData=$xmlReader->getElement('w:fldChar/w:ffData', $node);
+                            $ffData = $xmlReader->getElement('w:fldChar/w:ffData', $node);
                             $fldName = $xmlReader->getAttribute('w:val', $ffData, 'w:name');
                         }
                     } elseif ('separate' == $fldCharType) {
@@ -134,9 +134,9 @@ abstract class AbstractPart
                     }
                 }
                 if (!is_null($instrText)) {
-                    $textContent .= '{' . $instrText .'}';
-                    if (trim($instrText)== "FORMTEXT") {
-                        $textContent .=$fldName.'=';
+                    $textContent .= '{' . $instrText . '}';
+                    if (trim($instrText) == "FORMTEXT") {
+                        $textContent .= $fldName.'=';
                     }
                 } else {
                     if (false === $ignoreText) {
