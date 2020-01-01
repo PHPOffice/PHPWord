@@ -270,6 +270,10 @@ abstract class AbstractPart
 
             $name = $xmlReader->getAttribute('name', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
             $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
+            if ($name === null && $embedId === null) { // some Converters puts images on a different path
+                $name = $xmlReader->getAttribute('name', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
+                $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
+            }
             $target = $this->getMediaTarget($docPart, $embedId);
             if (!is_null($target)) {
                 $imageSource = "zip://{$this->docFile}#{$target}";
