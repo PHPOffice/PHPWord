@@ -134,7 +134,8 @@ class Paragraph extends AbstractStyle
 
         //Indentation
         $indent = $style->getIndentation();
-        if ($indent instanceof \PhpOffice\PhpWord\Style\Indentation) {
+        //if ($indent instanceof \PhpOffice\PhpWord\Style\Indentation) {
+        if (!empty($indent)) {
             $marg = $indent->getLeft();
             $xmlWriter->writeAttributeIf($marg !== null, 'fo:margin-left', (string) ($marg / Converter::INCH_TO_TWIP) . 'in');
             $marg = $indent->getRight();

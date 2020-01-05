@@ -33,6 +33,7 @@ class TextRun extends Text
         $element = $this->getElement();
 
         $xmlWriter->startElement('text:p');
+        /** @scrutinizer ignore-call */
         $pStyle = $element->getParagraphStyle();
         if (!is_string($pStyle)) {
             $pStyle = 'Normal';

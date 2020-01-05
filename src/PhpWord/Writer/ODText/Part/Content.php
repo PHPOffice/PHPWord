@@ -266,7 +266,7 @@ class Content extends AbstractPart
         $elements = $container->getElements();
         foreach ($elements as $element) {
             if ($element instanceof TextRun) {
-                $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
+                $this->getElementStyleTextRun($element, $paragraphStyleCount);
                 $this->getContainerStyle($element, $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Text) {
                 $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
@@ -298,7 +298,7 @@ class Content extends AbstractPart
     /**
      * Get style of individual element
      *
-     * @param \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\TextRun $element
+     * @param \PhpOffice\PhpWord\Element\Text $element
      * @param int $paragraphStyleCount
      * @param int $fontStyleCount
      */
@@ -321,6 +321,37 @@ class Content extends AbstractPart
                 $element->setFontStyle($name);
             }
         }
+        if ($paragraphStyle instanceof Paragraph) {
+            // Paragraph
+            $name = $paragraphStyle->getStyleName();
+            if (!$name) {
+                $paragraphStyleCount++;
+                $style = $phpWord->addParagraphStyle("P{$paragraphStyleCount}", $paragraphStyle);
+                $style->setAuto();
+                $element->setParagraphStyle("P{$paragraphStyleCount}");
+            } else {
+                $element->setParagraphStyle($name);
+            }
+        } else {
+            $paragraphStyleCount++;
+            $parstylename = "P$paragraphStyleCount" . "_$paragraphStyle";
+            $style = $phpWord->addParagraphStyle($parstylename, $paragraphStyle);
+            $style->setAuto();
+            $element->setParagraphStyle($parstylename);
+        }
+    }
+
+    /**
+     * Get style of individual element
+     *
+     * @param \PhpOffice\PhpWord\Element\TextRun $element
+     * @param int $paragraphStyleCount
+     */
+    private function getElementStyleTextRun(&$element, &$paragraphStyleCount)
+    {
+        $paragraphStyle = $element->getParagraphStyle();
+        $phpWord = $this->getParentWriter()->getPhpWord();
+
         if ($paragraphStyle instanceof Paragraph) {
             // Paragraph
             $name = $paragraphStyle->getStyleName();
