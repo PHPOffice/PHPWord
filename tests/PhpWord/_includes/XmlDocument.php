@@ -51,6 +51,37 @@ class XmlDocument
     private $file;
 
     /**
+     * Default file name
+     *
+     * @var string
+     */
+    private $defaultFile = 'word/document.xml';
+
+    /**
+     * Get default file
+     *
+     * @return string
+     */
+    public function getDefaultFile()
+    {
+        return $this->defaultFile;
+    }
+
+    /**
+     * Set default file
+     *
+     * @param string $file
+     * @return string
+     */
+    public function setDefaultFile($file)
+    {
+        $temp = $this->defaultFile;
+        $this->defaultFile = $file;
+
+        return $temp;
+    }
+
+    /**
      * Create new instance
      *
      * @param string $path
@@ -66,8 +97,11 @@ class XmlDocument
      * @param string $file
      * @return \DOMDocument
      */
-    public function getFileDom($file = 'word/document.xml')
+    public function getFileDom($file = '')
     {
+        if (!$file) {
+            $file = $this->defaultFile;
+        }
         if (null !== $this->dom && $file === $this->file) {
             return $this->dom;
         }
@@ -91,8 +125,11 @@ class XmlDocument
      * @param string $file
      * @return \DOMNodeList
      */
-    public function getNodeList($path, $file = 'word/document.xml')
+    public function getNodeList($path, $file = '')
     {
+        if (!$file) {
+            $file = $this->defaultFile;
+        }
         if (null === $this->dom || $file !== $this->file) {
             $this->getFileDom($file);
         }
@@ -112,8 +149,11 @@ class XmlDocument
      * @param string $file
      * @return \DOMElement
      */
-    public function getElement($path, $file = 'word/document.xml')
+    public function getElement($path, $file = '')
     {
+        if (!$file) {
+            $file = $this->defaultFile;
+        }
         $elements = $this->getNodeList($path, $file);
 
         return $elements->item(0);
@@ -147,8 +187,12 @@ class XmlDocument
      * @param   string  $file
      * @return  string
      */
-    public function getElementAttribute($path, $attribute, $file = 'word/document.xml')
+    public function getElementAttribute($path, $attribute, $file = '')
     {
+        if (!$file) {
+            $file = $this->defaultFile;
+        }
+
         return $this->getElement($path, $file)->getAttribute($attribute);
     }
 
@@ -159,8 +203,11 @@ class XmlDocument
      * @param   string  $file
      * @return  string
      */
-    public function elementExists($path, $file = 'word/document.xml')
+    public function elementExists($path, $file = '')
     {
+        if (!$file) {
+            $file = $this->defaultFile;
+        }
         $nodeList = $this->getNodeList($path, $file);
 
         return $nodeList->length != 0;
@@ -173,8 +220,11 @@ class XmlDocument
      * @param string $file
      * @return string
      */
-    public function printXml($path = '/', $file = 'word/document.xml')
+    public function printXml($path = '/', $file = '')
     {
+        if (!$file) {
+            $file = $this->defaultFile;
+        }
         $element = $this->getElement($path, $file);
         if ($element instanceof \DOMDocument) {
             $element->formatOutput = true;

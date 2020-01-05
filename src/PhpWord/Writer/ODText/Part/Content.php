@@ -46,6 +46,7 @@ class Content extends AbstractPart
      * @var array
      */
     private $autoStyles = array('Section' => array(), 'Image' => array(), 'Table' => array());
+    private $imageParagraphStyles = array();
 
     /**
      * Write part
@@ -128,6 +129,9 @@ class Content extends AbstractPart
             $xmlWriter->startElement('text:section');
             $xmlWriter->writeAttribute('text:name', $name);
             $xmlWriter->writeAttribute('text:style-name', $name);
+            $xmlWriter->startElement('text:p');
+            $xmlWriter->writeAttribute('text:style-name', 'SB' . $section->getSectionId());
+            $xmlWriter->endElement();
             $containerWriter = new Container($xmlWriter, $section);
             $containerWriter->write();
             $xmlWriter->endElement(); // text:section
@@ -174,27 +178,57 @@ class Content extends AbstractPart
     {
         $styles = Style::getStyles();
         $paragraphStyleCount = 0;
-        if (count($styles) > 0) {
-            foreach ($styles as $style) {
-                if ($style->isAuto() === true) {
-                    $styleClass = str_replace('\\Style\\', '\\Writer\\ODText\\Style\\', get_class($style));
-                    if (class_exists($styleClass)) {
-                        /** @var \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle $styleWriter Type hint */
-                        $styleWriter = new $styleClass($xmlWriter, $style);
-                        $styleWriter->write();
-                    }
-                    if ($style instanceof Paragraph) {
-                        $paragraphStyleCount++;
-                    }
-                }
-            }
-            if ($paragraphStyleCount == 0) {
+
+        $style = new Paragraph();
+        $style->setStyleName('PB');
+        $style->setAuto();
+        $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
+        $styleWriter->write();
+
+        $sects = $this->getParentWriter()->getPhpWord()->getSections();
+        for ($i = 0; $i < count($sects); ++$i) {
+            $iplus1 = $i + 1;
+            $style = new Paragraph();
+            $style->setStyleName("SB$iplus1");
+            $style->setAuto();
+            $pnstart = $sects[$i]->getStyle()->getPageNumberingStart();
+            $style->setNumLevel($pnstart);
+            $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
+            $styleWriter->write();
+        }
+
+        foreach ($styles as $style) {
+            $sty = $style->getStyleName();
+            if (substr($sty, 0, 8) === 'Heading_') {
                 $style = new Paragraph();
-                $style->setStyleName('P1');
+                $style->setStyleName('HD' . substr($sty, 8));
+                $style->setAuto();
+                $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
+                $styleWriter->write();
+                $style = new Paragraph();
+                $style->setStyleName('HE' . substr($sty, 8));
                 $style->setAuto();
                 $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
                 $styleWriter->write();
             }
+        }
+
+        foreach ($styles as $style) {
+            if ($style->isAuto() === true) {
+                $styleClass = str_replace('\\Style\\', '\\Writer\\ODText\\Style\\', get_class($style));
+                if (class_exists($styleClass)) {
+                    /** @var \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle $styleWriter Type hint */
+                    $styleWriter = new $styleClass($xmlWriter, $style);
+                    $styleWriter->write();
+                }
+                if ($style instanceof Paragraph) {
+                    $paragraphStyleCount++;
+                }
+            }
+        }
+        foreach ($this->imageParagraphStyles as $style) {
+            $styleWriter = new \PhpOffice\PhpWord\Writer\ODText\Style\Paragraph($xmlWriter, $style);
+            $styleWriter->write();
         }
     }
 
@@ -231,6 +265,7 @@ class Content extends AbstractPart
         $elements = $container->getElements();
         foreach ($elements as $element) {
             if ($element instanceof TextRun) {
+                $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
                 $this->getContainerStyle($element, $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Text) {
                 $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
@@ -238,13 +273,19 @@ class Content extends AbstractPart
                 $style = $element->getStyle();
                 $style->setStyleName('fr' . $element->getMediaIndex());
                 $this->autoStyles['Image'][] = $style;
+                $sty = new \PhpOffice\PhpWord\Style\Paragraph();
+                $sty->setStyleName('IM' . $element->getMediaIndex());
+                $sty->setAuto();
+                $sty->setAlignment($style->getAlignment());
+                $this->imageParagraphStyles[] = $sty;
             } elseif ($element instanceof Table) {
                 /** @var \PhpOffice\PhpWord\Style\Table $style */
                 $style = $element->getStyle();
+                if (is_string($style)) {
+                    $style = Style::getStyle($style);
+                }
                 if ($style === null) {
                     $style = new TableStyle();
-                } elseif (is_string($style)) {
-                    $style = Style::getStyle($style);
                 }
                 $style->setStyleName($element->getElementId());
                 $style->setColumnWidths($element->findFirstDefinedCellWidths());
@@ -268,16 +309,34 @@ class Content extends AbstractPart
 
         if ($fontStyle instanceof Font) {
             // Font
-            $fontStyleCount++;
-            $style = $phpWord->addFontStyle("T{$fontStyleCount}", $fontStyle);
-            $style->setAuto();
-            $element->setFontStyle("T{$fontStyleCount}");
-        } elseif ($paragraphStyle instanceof Paragraph) {
+            $name = $fontStyle->getStyleName();
+            if (!$name) {
+                $fontStyleCount++;
+                $style = $phpWord->addFontStyle("T{$fontStyleCount}", $fontStyle, null);
+                $style->setAuto();
+                $style->setParagraph(null);
+                $element->setFontStyle("T{$fontStyleCount}");
+            } else {
+                $element->setFontStyle($name);
+            }
+        }
+        if ($paragraphStyle instanceof Paragraph) {
             // Paragraph
+            $name = $paragraphStyle->getStyleName();
+            if (!$name) {
+                $paragraphStyleCount++;
+                $style = $phpWord->addParagraphStyle("P{$paragraphStyleCount}", $paragraphStyle);
+                $style->setAuto();
+                $element->setParagraphStyle("P{$paragraphStyleCount}");
+            } else {
+                $element->setParagraphStyle($name);
+            }
+        } elseif (is_string($paragraphStyle)) {
             $paragraphStyleCount++;
-            $style = $phpWord->addParagraphStyle("P{$paragraphStyleCount}", array());
+            $parstylename = "P$paragraphStyleCount" . "_$paragraphStyle";
+            $style = $phpWord->addParagraphStyle($parstylename, $paragraphStyle);
             $style->setAuto();
-            $element->setParagraphStyle("P{$paragraphStyleCount}");
+            $element->setParagraphStyle($parstylename);
         }
     }
 
