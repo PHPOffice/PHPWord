@@ -85,7 +85,7 @@ class Paragraph extends Border
     /**
      * Indentation
      *
-     * @var \PhpOffice\PhpWord\Style\Indentation
+     * @var \PhpOffice\PhpWord\Style\Indentation|null
      */
     private $indentation;
 

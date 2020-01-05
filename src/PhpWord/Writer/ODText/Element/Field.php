@@ -41,7 +41,7 @@ class Field extends Text
 
         $type = strtolower($element->getType());
         switch ($type) {
-            case 'date': // Owen 2020-01-02
+            case 'date':
             case 'page':
             case 'numpages':
                 $this->writeDefault($element, $type);
@@ -61,7 +61,7 @@ class Field extends Text
             }
         }
         switch ($type) {
-            case 'date': // Owen 2019-01-02
+            case 'date':
                 $xmlWriter->startElement('text:date');
                 $xmlWriter->writeAttribute('text:fixed', 'false');
                 $xmlWriter->endElement();

@@ -140,16 +140,12 @@ class Styles extends AbstractPart
     /**
      * Convert int in twips to inches/cm then to string and append unit
      *
-     * @param int $twips
-     * @param string $dflt
+     * @param int|float $twips
      * @param float $factor
      * return string
      */
-    private static function cvttwiptostr($twips, $dflt, $factor = 1.0) // Owen 2019-08-06
+    private static function cvttwiptostr($twips, $factor = 1.0)
     {
-        if ($twips === null) {
-            return $dflt;
-        }
         $ins = (string) ($twips * $factor / Converter::INCH_TO_TWIP) . 'in';
         $cms = (string) ($twips * $factor * Converter::INCH_TO_CM / Converter::INCH_TO_TWIP) . 'cm';
 
@@ -161,10 +157,11 @@ class Styles extends AbstractPart
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
-    private function writePageLayout(XMLWriter $xmlWriter) // Owen 2019-06-19
+    private function writePageLayout(XMLWriter $xmlWriter)
     {
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
-        for ($i = 0; $i < count($sections); ++$i) {
+        $countsects = count($sections);
+        for ($i = 0; $i < $countsects; ++$i) {
             $this->writePageLayoutIndiv($xmlWriter, $sections[$i], $i + 1);
         }
     }
@@ -189,23 +186,13 @@ class Styles extends AbstractPart
         } else {
             $botfactor = 1.0;
         }
-        $pwidth = '21.001cm';
-        $pheight = '29.7cm';
-        $orient = 'portrait';
-        $mtop = $mleft = $mright = '2.501cm';
-        $mbottom = '2cm';
-        if ($sty instanceof \PhpOffice\PhpWord\Style\Section) {
-            $ori = $sty->getOrientation();
-            if ($ori !== null) {
-                $orient = $ori;
-            }
-            $pwidth = self::cvttwiptostr($sty->getPageSizeW(), $pwidth);
-            $pheight = self::cvttwiptostr($sty->getPageSizeH(), $pheight);
-            $mtop = self::cvttwiptostr($sty->getMarginTop(), $mtop, $topfactor);
-            $mbottom = self::cvttwiptostr($sty->getMarginBottom(), $mbottom, $botfactor);
-            $mleft = self::cvttwiptostr($sty->getMarginRight(), $mleft);
-            $mright = self::cvttwiptostr($sty->getMarginLeft(), $mright);
-        }
+        $orient = $sty->getOrientation();
+        $pwidth = self::cvttwiptostr($sty->getPageSizeW());
+        $pheight = self::cvttwiptostr($sty->getPageSizeH());
+        $mtop = self::cvttwiptostr($sty->getMarginTop(), $topfactor);
+        $mbottom = self::cvttwiptostr($sty->getMarginBottom(), $botfactor);
+        $mleft = self::cvttwiptostr($sty->getMarginRight());
+        $mright = self::cvttwiptostr($sty->getMarginLeft());
 
         $xmlWriter->startElement('style:page-layout');
         $xmlWriter->writeAttribute('style:name', "Mpm$sectionNbr");
@@ -253,7 +240,7 @@ class Styles extends AbstractPart
         $xmlWriter->endElement(); // style:header-style
 
         $xmlWriter->startElement('style:footer-style');
-        if ($botfactor < 1.0) { // Owen 2019-08-03
+        if ($botfactor < 1.0) {
             $xmlWriter->startElement('style:header-footer-properties');
             $xmlWriter->writeAttribute('fo:min-height', $mbottom);
             $xmlWriter->writeAttribute('fo:margin-top', $mbottom);
@@ -275,7 +262,8 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('office:master-styles');
 
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
-        for ($i = 0; $i < count($sections); ++$i) {
+        $countsects = count($sections);
+        for ($i = 0; $i < $countsects; ++$i) {
             $iplus1 = $i + 1;
             $xmlWriter->startElement('style:master-page');
             $xmlWriter->writeAttribute('style:name', "Standard$iplus1");

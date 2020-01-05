@@ -56,9 +56,7 @@ class Paragraph extends AbstractStyle
                 $styleAuto = true;
                 $mpm = 'Standard' . substr($styleName, 2);
                 $psn = $style->getNumLevel();
-                if (is_numeric($psn)) {
-                    $pagestart = (int) $psn;
-                }
+                $pagestart = $psn;
             } elseif (substr($styleName, 0, 2) === 'HD') {
                 $styleAuto = true;
                 $psm = 'Heading_' . substr($styleName, 2);
@@ -117,7 +115,7 @@ class Paragraph extends AbstractStyle
         $xmlWriter->writeAttributeIf($temp !== '', 'fo:text-align', $temp);
         $temp = $style->getLineHeight();
         $xmlWriter->writeAttributeIf($temp !== null, 'fo:line-height', ((string) ($temp * 100) . '%'));
-        $xmlWriter->writeAttributeIf($style->getPageBreakBefore() === true, 'fo:break-before', 'page');
+        $xmlWriter->writeAttributeIf($style->hasPageBreakBefore() === true, 'fo:break-before', 'page');
 
         $tabs = $style->getTabs();
         if ($tabs !== null && count($tabs) > 0) {

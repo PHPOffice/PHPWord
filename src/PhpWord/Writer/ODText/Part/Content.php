@@ -186,7 +186,8 @@ class Content extends AbstractPart
         $styleWriter->write();
 
         $sects = $this->getParentWriter()->getPhpWord()->getSections();
-        for ($i = 0; $i < count($sects); ++$i) {
+        $countsects = count($sects);
+        for ($i = 0; $i < $countsects; ++$i) {
             $iplus1 = $i + 1;
             $style = new Paragraph();
             $style->setStyleName("SB$iplus1");
@@ -297,7 +298,7 @@ class Content extends AbstractPart
     /**
      * Get style of individual element
      *
-     * @param \PhpOffice\PhpWord\Element\Text $element
+     * @param \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\TextRun $element
      * @param int $paragraphStyleCount
      * @param int $fontStyleCount
      */
@@ -331,7 +332,7 @@ class Content extends AbstractPart
             } else {
                 $element->setParagraphStyle($name);
             }
-        } elseif (is_string($paragraphStyle)) {
+        } else {
             $paragraphStyleCount++;
             $parstylename = "P$paragraphStyleCount" . "_$paragraphStyle";
             $style = $phpWord->addParagraphStyle($parstylename, $paragraphStyle);
