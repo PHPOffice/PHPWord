@@ -252,7 +252,7 @@ class ElementTest extends AbstractTestReader
                             <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
                                 <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
                                     <pic:nvPicPr>
-                                        <pic:cNvPr id="1" name="file_name.jpg"/>
+                                        <pic:cNvPr id="1" name="mars.jpg"/>
                                         <pic:cNvPicPr/>
                                     </pic:nvPicPr>
                                     <pic:blipFill>
@@ -267,9 +267,79 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        //$resolutionXml = '<Relationship Id="rId4" Target="media/mars.jpg" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"/>';
+        $relationships = array(
+            'document' => array(
+                'rId4' => array(
+                    'target' => 'media/mars.jpg',
+                    'type'   => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image',
+                ),
+            ),
+        );
+
+        $media = array(
+            __DIR__ . '/../../_files/images/mars.jpg',
+        );
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml), $relationships, $media);
 
         $elements = $phpWord->getSection(0)->getElements();
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+
+        $children = $elements[0]->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Image', $children[0]);
+    }
+
+    /**
+     * Test reading Drawing with anchors
+     */
+    public function testReadDrawingWithAnchor()
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:drawing xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">
+                    <wp:anchor allowOverlap="1" behindDoc="0" distB="0" distL="0" distR="0" distT="0" layoutInCell="1" locked="0" relativeHeight="2" simplePos="0">
+                        <wp:extent cx="5727700" cy="6621145"/>
+                        <wp:docPr id="1" name="Picture 1"/>
+                        <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+                            <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                                <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                                    <pic:nvPicPr>
+                                        <pic:cNvPr id="1" name="mars.jpg"/>
+                                        <pic:cNvPicPr/>
+                                    </pic:nvPicPr>
+                                    <pic:blipFill>
+                                        <a:blip r:embed="rId4" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+                                        </a:blip>
+                                    </pic:blipFill>
+                                </pic:pic>
+                            </a:graphicData>
+                        </a:graphic>
+                    </wp:anchor>
+                </w:drawing>
+            </w:r>
+        </w:p>';
+
+        //$resolutionXml = '<Relationship Id="rId4" Target="media/mars.jpg" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"/>';
+        $relationships = array(
+            'document' => array(
+                'rId4' => array(
+                    'target' => 'media/mars.jpg',
+                    'type'   => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image',
+                ),
+            ),
+        );
+
+        $media = array(
+            __DIR__ . '/../../_files/images/mars.jpg',
+        );
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml), $relationships, $media);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+
+        $children = $elements[0]->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Image', $children[0]);
     }
 }
