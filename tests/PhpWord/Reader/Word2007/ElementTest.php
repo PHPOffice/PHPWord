@@ -341,5 +341,12 @@ class ElementTest extends AbstractTestReader
 
         $children = $elements[0]->getElements();
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Image', $children[0]);
+
+        $style = $children[0]->getStyle();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Image', $style);
+
+        $this->assertEquals('pt', $style->getUnit());
+        $this->assertEquals('451', $style->getWidth());
+        $this->assertEquals('521.35', $style->getHeight());
     }
 }

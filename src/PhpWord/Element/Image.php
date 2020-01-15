@@ -142,7 +142,7 @@ class Image extends AbstractElement
     public function __construct($source, $style = null, $watermark = false, $name = null)
     {
         $this->source = $source;
-        $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
+        $this->style = $this->setNewStyle(new ImageStyle(), $style, is_null($style));
         $this->setIsWatermark($watermark);
         $this->setName($name);
 
