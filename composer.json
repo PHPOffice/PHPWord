@@ -78,7 +78,7 @@
     },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",
-        "ext-gd2": "Allows adding images",
+        "ext-gd": "Allows adding images",
         "ext-xmlwriter": "Allows writing OOXML and ODF",
         "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
         "dompdf/dompdf": "Allows writing PDF"
