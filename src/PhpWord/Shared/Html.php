@@ -675,7 +675,7 @@ class Html
             $tmpDir = Settings::getTempDir() . '/';
 
             $match = array();
-            preg_match('/data:image\/(\w+);base64,(.+)/', $src, $match);
+            preg_match('/data:image\/(\w+)(?:;.*)?;base64,(.+)/', $src, $match);
 
             $src = $imgFile = $tmpDir . uniqid() . '.' . $match[1];
 
