@@ -21,6 +21,8 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Writer\HTML\Element\Table as TableStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Generic as GenericStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
@@ -142,6 +144,9 @@ class Head extends AbstractPart
                         $name = "p, $name";
                     }
                     $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
+                }
+                if ($style instanceof Table) {
+                    $css .= ".{$name} {" . TableStyleWriter::getTableStyleString($style) . '}' . PHP_EOL;
                 }
             }
         }

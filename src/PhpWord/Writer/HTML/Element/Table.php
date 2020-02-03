@@ -51,7 +51,7 @@ class Table extends AbstractElement
                 $rowCellCount = count($rowCells);
                 for ($j = 0; $j < $rowCellCount; $j++) {
                     $cellStyle = $rowCells[$j]->getStyle();
-                    $cellStyleCss = $this->getTableStyle($cellStyle);
+                    $cellStyleCss = self::getTableStyle($cellStyle);
                     $cellBgColor = $cellStyle->getBgColor();
                     $cellFgColor = null;
                     if ($cellBgColor) {
@@ -121,7 +121,7 @@ class Table extends AbstractElement
      * @param string|\PhpOffice\PhpWord\Style\Table|\PhpOffice\PhpWord\Style\Cell|null $tableStyle
      * @return string
      */
-    private function getTableStyle($tableStyle = null)
+    private static function getTableStyle($tableStyle = null)
     {
         if ($tableStyle == null) {
             return '';
@@ -131,6 +131,23 @@ class Table extends AbstractElement
 
             return $style . '"';
         }
+
+        $style = self::getTableStyleString($tableStyle);
+        if ($style === '') {
+            return '';
+        }
+
+        return ' style="' . $style . '"';
+    }
+
+    /**
+     * Translates Table style in CSS equivalent
+     *
+     * @param string|\PhpOffice\PhpWord\Style\Table|\PhpOffice\PhpWord\Style\Cell $tableStyle
+     * @return string
+     */
+    public static function getTableStyleString($tableStyle)
+    {
         $style = '';
         if (method_exists($tableStyle, 'getLayout')) {
             if ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED) {
@@ -167,10 +184,6 @@ class Table extends AbstractElement
             }
         }
 
-        if ($style === '') {
-            return '';
-        }
-
-        return ' style="' . $style . '"';
+        return $style;
     }
 }

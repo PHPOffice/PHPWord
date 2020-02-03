@@ -109,6 +109,15 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $row2->addCell(null, $bstyle)->addText('Row 2 Cell 1');
         $row2->addCell(null, $bstyle)->addText('Row 2 Cell 2');
 
+        $phpWord->addTableStyle('tstyle', array('borderStyle' => 'solid', 'borderSize' => 5));
+        $table1 = $section->addTable('tstyle');
+        $row1 = $table1->addRow();
+        $row1->addCell(null, 'tstyle')->addText('Row 1 Cell 1');
+        $row1->addCell(null, 'tstyle')->addText('Row 1 Cell 2');
+        $row2 = $table1->addRow();
+        $row2->addCell(null, 'tstyle')->addText('Row 2 Cell 1');
+        $row2->addCell(null, 'tstyle')->addText('Row 2 Cell 2');
+
         $dom = $this->getAsHTML($phpWord);
         $xpath = new \DOMXPath($dom);
 
@@ -169,5 +178,11 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($cssnone, $xpath->query('/html/body/div/table[5]/tr[1]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
         $this->assertEquals($cssnone, $xpath->query('/html/body/div/table[5]/tr[2]/td[1]')->item(0)->attributes->getNamedItem('style')->textContent);
         $this->assertEquals($cssnone, $xpath->query('/html/body/div/table[5]/tr[2]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+
+        $this->assertNull($xpath->query('/html/body/div/table[6]')->item(0)->attributes->getNamedItem('style'));
+        $this->assertEquals('tstyle', $xpath->query('/html/body/div/table[6]')->item(0)->attributes->getNamedItem('class')->textContent);
+        $style = $xpath->query('/html/head/style')->item(0)->textContent;
+        self::assertNotFalse(preg_match('/^[.]tstyle[^\\r\\n]*/m', $style, $matches));
+        self::assertEquals(".tstyle {table-layout: auto;$cssnone}", $matches[0]);
     }
 }
