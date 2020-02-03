@@ -63,7 +63,9 @@ class Font extends AbstractStyle
         $css['display'] = $this->getValueIf($style->isHidden(), 'none');
 
         $whitespace = $style->getHtmlWhiteSpace();
-        $css['white-space'] = $this->getValueIf($whitespace, $whitespace);
+        if ($whitespace) {
+            $css['white-space'] = $whitespace;
+        }
 
         $spacing = $style->getSpacing();
         $css['letter-spacing'] = $this->getValueIf(!is_null($spacing), ($spacing / 20) . 'pt');

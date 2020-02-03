@@ -76,6 +76,9 @@ class Text extends AbstractElement
         $content .= $this->openingText;
         $content .= $this->openingTags;
         if (Settings::isOutputEscapingEnabled()) {
+            // Scrutinizer notes that escapeHTML does not exist on AbstractEscaper.
+            // Nevertheless, it does exist for HTML writer.
+            /** @scrutinizer ignore-call */
             $contenx = $this->escaper->escapeHtml($element->getText());
         } else {
             $contenx = $element->getText();
@@ -264,10 +267,13 @@ class Text extends AbstractElement
                 $style = " style=\"$styl2\"";
             }
             $lang = $fontStyle->getLang();
-        } elseif (is_string($fontStyle)) {
+        } elseif (!empty($fontStyle)) {
             $style = " class=\"$fontStyle\"";
             $styl2 = Style::getStyle($fontStyle);
-            if ($styl2) {
+            if (!empty($styl2)) {
+                // Scrutinizer notes that getLang does not exist on Abstract Style.
+                // Nevertheless, it does exist for Font Style.
+                /** @scrutinizer ignore-call */
                 $lang = $styl2->getLang();
             }
         }

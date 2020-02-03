@@ -94,7 +94,7 @@ class Paragraph extends AbstractStyle
                 $css['margin-right'] = ((string) $inches) . 'in';
             }
         }
-        if ($style->getPageBreakBefore()) {
+        if ($style->hasPageBreakBefore()) {
             $css['page-break-before'] = 'always';
         }
 

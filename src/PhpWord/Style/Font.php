@@ -248,7 +248,7 @@ class Font extends AbstractStyle
     /**
      * Languages
      *
-     * @var \PhpOffice\PhpWord\Style\Language
+     * @var \PhpOffice\PhpWord\Style\Language|null
      */
     private $lang;
 
@@ -856,7 +856,7 @@ class Font extends AbstractStyle
     /**
      * Get language
      *
-     * @return \PhpOffice\PhpWord\Style\Language
+     * @return \PhpOffice\PhpWord\Style\Language|null
      */
     public function getLang()
     {

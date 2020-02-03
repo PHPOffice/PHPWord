@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Writer\AbstractWriter;
+use PhpOffice\PhpWord\Writer\HTML;
 use Zend\Escaper\Escaper;
 
 /**
@@ -27,7 +27,7 @@ use Zend\Escaper\Escaper;
 abstract class AbstractPart
 {
     /**
-     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @var \PhpOffice\PhpWord\Writer\HTML
      */
     private $parentWriter;
 
@@ -47,9 +47,9 @@ abstract class AbstractPart
     abstract public function write();
 
     /**
-     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
+     * @param \PhpOffice\PhpWord\Writer\HTML $writer
      */
-    public function setParentWriter(AbstractWriter $writer = null)
+    public function setParentWriter(HTML $writer = null)
     {
         $this->parentWriter = $writer;
     }
@@ -57,7 +57,7 @@ abstract class AbstractPart
     /**
      * @throws \PhpOffice\PhpWord\Exception\Exception
      *
-     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @return \PhpOffice\PhpWord\Writer\HTML
      */
     public function getParentWriter()
     {
