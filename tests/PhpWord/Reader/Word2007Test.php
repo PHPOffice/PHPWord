@@ -29,6 +29,14 @@ use PhpOffice\PhpWord\TestHelperDOCX;
 class Word2007Test extends \PHPUnit\Framework\TestCase
 {
     /**
+     * Tear down after each test
+     */
+    public function tearDown()
+    {
+        TestHelperDOCX::clear();
+    }
+
+    /**
      * Test canRead() method
      */
     public function testCanRead()

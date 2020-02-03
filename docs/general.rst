@@ -141,6 +141,14 @@ default font by using the following two functions:
     $phpWord->setDefaultFontName('Times New Roman');
     $phpWord->setDefaultFontSize(12);
 
+When generating html/pdf, you can alter the default handling of white space (normal),
+and/or supply a fallback generic font as follows:
+
+.. code-block:: php
+
+    $phpWord->setDefaultHtmlGenericFont('serif');
+    $phpWord->setDefaultHtmlWhiteSpace('pre-wrap');
+
 Document settings
 -----------------
 Settings for the generated document can be set using ``$phpWord->getSettings()``

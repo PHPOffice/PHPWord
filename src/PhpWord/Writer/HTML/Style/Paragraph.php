@@ -75,9 +75,27 @@ class Paragraph extends AbstractStyle
             $after = $spacing->getAfter();
             $css['margin-top'] = $this->getValueIf(!is_null($before), ($before / 20) . 'pt');
             $css['margin-bottom'] = $this->getValueIf(!is_null($after), ($after / 20) . 'pt');
-        } else {
-            $css['margin-top'] = '0';
-            $css['margin-bottom'] = '0';
+        }
+
+        $lht = $style->getLineHeight();
+        if (!is_null($lht)) {
+            $css['line-height'] = $lht;
+        }
+        $ind = $style->getIndentation();
+        if (!is_null($ind)) {
+            $left = $ind->getLeft();
+            if (is_int($left) || is_float($left)) {
+                $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
+                $css['margin-left'] = ((string) $inches) . 'in';
+            }
+            $left = $ind->getRight();
+            if (is_int($left) || is_float($left)) {
+                $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
+                $css['margin-right'] = ((string) $inches) . 'in';
+            }
+        }
+        if ($style->getPageBreakBefore()) {
+            $css['page-break-before'] = 'always';
         }
 
         return $this->assembleCss($css);
