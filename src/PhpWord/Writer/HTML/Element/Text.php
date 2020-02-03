@@ -78,8 +78,9 @@ class Text extends AbstractElement
         if (Settings::isOutputEscapingEnabled()) {
             // Scrutinizer notes that escapeHTML does not exist on AbstractEscaper.
             // Nevertheless, it does exist for HTML writer.
+            $escaper = $this->escaper;
             /** @scrutinizer ignore-call */
-            $contenx = $this->escaper->escapeHtml($element->getText());
+            $contenx = $escaper->escapeHtml($element->getText());
         } else {
             $contenx = $element->getText();
         }

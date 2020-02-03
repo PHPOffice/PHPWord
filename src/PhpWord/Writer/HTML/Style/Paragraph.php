@@ -84,15 +84,11 @@ class Paragraph extends AbstractStyle
         $ind = $style->getIndentation();
         if (!is_null($ind)) {
             $left = $ind->getLeft();
-            if (is_int($left) || is_float($left)) {
-                $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
-                $css['margin-left'] = ((string) $inches) . 'in';
-            }
+            $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
+            $css['margin-left'] = ((string) $inches) . 'in';
             $left = $ind->getRight();
-            if (is_int($left) || is_float($left)) {
-                $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
-                $css['margin-right'] = ((string) $inches) . 'in';
-            }
+            $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
+            $css['margin-right'] = ((string) $inches) . 'in';
         }
         if ($style->hasPageBreakBefore()) {
             $css['page-break-before'] = 'always';
