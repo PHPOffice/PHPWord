@@ -575,9 +575,8 @@ class TemplateProcessor
 
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
-        if(isset($replacesList[0]['align']) and in_array($replacesList[0]['align'],array('left','right','center'))){
+        if (isset($replacesList[0]['align']) and in_array($replacesList[0]['align'], array('left','right','center'))) {
             $imgTpl = '<w:p w:rsidR="0021268F" w:rsidRDefault="00495C2C" w:rsidP="00972DB5"><w:pPr><w:jc w:val="'.$replacesList[0]['align'].'"/></w:pPr><w:r><w:bookmarkStart w:id="0" w:name="_GoBack"/><w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict></w:r><w:bookmarkEnd w:id="0"/></w:p>';
-
         } else {
             $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
         }
