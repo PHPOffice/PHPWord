@@ -76,10 +76,7 @@ class Text extends AbstractElement
         $content .= $this->openingText;
         $content .= $this->openingTags;
         if (Settings::isOutputEscapingEnabled()) {
-            // Scrutinizer notes that escapeHTML does not exist on AbstractEscaper.
-            // Nevertheless, it does exist for HTML writer.
             $escaper = $this->escaper;
-            /** @scrutinizer ignore-call */
             $contenx = $escaper->escapeHtml($element->getText());
         } else {
             $contenx = $element->getText();
@@ -124,10 +121,7 @@ class Text extends AbstractElement
     {
         $content = '';
         if (!$this->withoutP) {
-            $style = '';
-            if (method_exists($this->element, 'getParagraphStyle')) {
-                $style = $this->getParagraphStyle();
-            }
+            $style = $this->getParagraphStyle();
             $content .= "<p{$style}>";
         }
 
@@ -151,10 +145,7 @@ class Text extends AbstractElement
 
         if (!$this->withoutP) {
             if (Settings::isOutputEscapingEnabled()) {
-                // Scrutinizer notes that escapeHTML does not exist on AbstractEscaper.
-                // Nevertheless, it does exist for HTML writer.
                 $escaper = $this->escaper;
-                /** @scrutinizer ignore-call */
                 $contenx = $escaper->escapeHtml($this->closingText);
                 $content .= $contenx;
             } else {
@@ -275,12 +266,10 @@ class Text extends AbstractElement
             $lang = $fontStyle->getLang();
         } elseif (!empty($fontStyle)) {
             $style = " class=\"$fontStyle\"";
-            $styl2 = Style::getStyle($fontStyle);
-            if (!empty($styl2)) {
-                // Scrutinizer notes that getLang does not exist on Abstract Style.
-                // Nevertheless, it does exist for Font Style.
-                /** @scrutinizer ignore-call */
-                $lang = $styl2->getLang();
+            /** @var \PhpOffice\PhpWord\Style\Font $styl3 Type hint */
+            $styl3 = Style::getStyle($fontStyle);
+            if (!empty($styl3)) {
+                $lang = $styl3->getLang();
             }
         }
         if ($lang) {
