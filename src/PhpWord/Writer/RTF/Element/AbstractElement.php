@@ -41,14 +41,19 @@ abstract class AbstractElement extends HTMLAbstractElement
      *
      * @var \PhpOffice\PhpWord\Style\Font
      */
-    private $fontStyle;
+    protected $fontStyle;
 
     /**
      * Paragraph style
      *
      * @var \PhpOffice\PhpWord\Style\Paragraph
      */
-    private $paragraphStyle;
+    protected $paragraphStyle;
+
+    /**
+     * @var \PhpOffice\PhpWord\Escaper\EscaperInterface
+     */
+    protected $escaper;
 
     public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false)
     {
