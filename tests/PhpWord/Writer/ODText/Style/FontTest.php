@@ -209,7 +209,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
     public function testFieldStyles()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $phpWord->addFontStyle('namedstyle', array('color' => '800000'));
+        $namedstyle = $phpWord->addFontStyle('namedstyle', array('color' => '800000'));
         $section = $phpWord->addSection();
         $textrun = $section->addTextRun();
         $fld = $textrun->addField('DATE');
@@ -222,6 +222,9 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $font = new \PhpOffice\PhpWord\Style\Font();
         $font->setColor('000080');
         $fld->setFontStyle($font);
+        $textrun = $section->addTextRun();
+        $fld = $textrun->addField('DATE');
+        $fld->setFontStyle($namedstyle);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
         $s2a = '/office:document-content/office:automatic-styles';
@@ -243,5 +246,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $element = "$s2t/text:p[4]/text:span";
         $this->assertEquals('T2', $doc->getElementAttribute($element, 'text:style-name'));
         $this->assertTrue($doc->elementExists("$element/text:date"));
+        $element = "$s2t/text:p[5]/text:span";
+        $this->assertEquals('namedstyle', $doc->getElementAttribute($element, 'text:style-name'));
     }
 }
