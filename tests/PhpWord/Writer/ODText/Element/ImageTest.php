@@ -21,10 +21,9 @@ use PhpOffice\PhpWord\Style\Image;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Font
+ * Test class for PhpOffice\PhpWord\Writer\ODText\Element\Image
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Frame
- * @runTestsInSeparateProcesses
+ * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Element\Image
  */
 class ImageTest extends \PHPUnit\Framework\TestCase
 {

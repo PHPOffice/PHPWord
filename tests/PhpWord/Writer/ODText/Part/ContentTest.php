@@ -25,7 +25,6 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Writer\ODText\Part\Content
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\Content
- * @runTestsInSeparateProcesses
  */
 class ContentTest extends \PHPUnit\Framework\TestCase
 {

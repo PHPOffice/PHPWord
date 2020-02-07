@@ -431,4 +431,35 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $element = "$s2a/text:p[3]";
         $this->assertEquals('P4', $doc->getElementAttribute($element, 'text:style-name'));
     }
+
+    /**
+     * Test Empty font and paragraph styles
+     */
+    public function testEmptyFontAndParagraphStyles()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $phpWord->addFontStyle('namedfont', array('name' => 'Courier New', 'size' => 8));
+        $phpWord->addParagraphStyle('namedpar', array('lineHeight' => 1.08));
+        $section->addText('Empty Font Style     and Empty Paragraph Style', '', '');
+        $section->addText('Named Font Style     and Empty Paragraph Style', 'namedfont', '');
+        $section->addText('Empty Font Style     and Named Paragraph Style', '', 'namedpar');
+        $section->addText('Named Font Style     and Named Paragraph Style', 'namedfont', 'namedpar');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $s2a = '/office:document-content/office:body/office:text/text:section';
+        $element = "$s2a/text:p[2]";
+        $this->assertEquals('Normal', $doc->getElementAttribute($element, 'text:style-name'));
+        $this->assertEquals(5, $doc->getElementAttribute("$element/text:s", 'text:c'));
+        $this->assertFalse($doc->elementExists("$element/text:span"));
+        $element = "$s2a/text:p[3]";
+        $this->assertEquals('Normal', $doc->getElementAttribute($element, 'text:style-name'));
+        $this->assertEquals('namedfont', $doc->getElementAttribute("$element/text:span", 'text:style-name'));
+        $element = "$s2a/text:p[4]";
+        $this->assertEquals('P1_namedpar', $doc->getElementAttribute($element, 'text:style-name'));
+        $this->assertFalse($doc->elementExists("$element/text:span"));
+        $element = "$s2a/text:p[5]";
+        $this->assertEquals('P2_namedpar', $doc->getElementAttribute($element, 'text:style-name'));
+        $this->assertEquals('namedfont', $doc->getElementAttribute("$element/text:span", 'text:style-name'));
+    }
 }

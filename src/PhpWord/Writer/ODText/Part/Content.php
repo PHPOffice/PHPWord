@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\Field;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
@@ -270,6 +271,8 @@ class Content extends AbstractPart
                 $this->getContainerStyle($element, $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Text) {
                 $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
+            } elseif ($element instanceof Field) {
+                $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Image) {
                 $style = $element->getStyle();
                 $style->setStyleName('fr' . $element->getMediaIndex());
@@ -298,14 +301,18 @@ class Content extends AbstractPart
     /**
      * Get style of individual element
      *
-     * @param \PhpOffice\PhpWord\Element\Text $element
+     * @param \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\Field $element
      * @param int $paragraphStyleCount
      * @param int $fontStyleCount
      */
-    private function getElementStyle(&$element, &$paragraphStyleCount, &$fontStyleCount)
+    private function getElementStyle($element, &$paragraphStyleCount, &$fontStyleCount)
     {
         $fontStyle = $element->getFontStyle();
-        $paragraphStyle = $element->getParagraphStyle();
+        if (method_exists($element, 'getParagraphStyle')) {
+            $paragraphStyle = $element->getParagraphStyle();
+        } else {
+            $paragraphStyle = null;
+        }
         $phpWord = $this->getParentWriter()->getPhpWord();
 
         if ($fontStyle instanceof Font) {
@@ -332,7 +339,7 @@ class Content extends AbstractPart
             } else {
                 $element->setParagraphStyle($name);
             }
-        } else {
+        } elseif ($paragraphStyle) {
             $paragraphStyleCount++;
             $parstylename = "P$paragraphStyleCount" . "_$paragraphStyle";
             $style = $phpWord->addParagraphStyle($parstylename, $paragraphStyle);
@@ -347,7 +354,7 @@ class Content extends AbstractPart
      * @param \PhpOffice\PhpWord\Element\TextRun $element
      * @param int $paragraphStyleCount
      */
-    private function getElementStyleTextRun(&$element, &$paragraphStyleCount)
+    private function getElementStyleTextRun($element, &$paragraphStyleCount)
     {
         $paragraphStyle = $element->getParagraphStyle();
         $phpWord = $this->getParentWriter()->getPhpWord();
@@ -363,7 +370,7 @@ class Content extends AbstractPart
             } else {
                 $element->setParagraphStyle($name);
             }
-        } else {
+        } elseif ($paragraphStyle) {
             $paragraphStyleCount++;
             $parstylename = "P$paragraphStyleCount" . "_$paragraphStyle";
             $style = $phpWord->addParagraphStyle($parstylename, $paragraphStyle);

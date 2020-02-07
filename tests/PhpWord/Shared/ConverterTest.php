@@ -135,5 +135,8 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(120, Converter::cssToPoint('10pc'));
         $this->assertEquals(28.346457, Converter::cssToPoint('10mm'), '', 0.000001);
         $this->assertEquals(283.464567, Converter::cssToPoint('10cm'), '', 0.000001);
+        $this->assertEquals(40, Converter::cssToPixel('30pt'));
+        $this->assertEquals(1.27, Converter::cssToCm('36pt'));
+        $this->assertEquals(127000, Converter::cssToEmu('10pt'));
     }
 }
