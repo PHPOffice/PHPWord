@@ -272,7 +272,7 @@ class Content extends AbstractPart
             } elseif ($element instanceof Text) {
                 $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Field) {
-                $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
+                $this->getElementStyleField($element, $fontStyleCount);
             } elseif ($element instanceof Image) {
                 $style = $element->getStyle();
                 $style->setStyleName('fr' . $element->getMediaIndex());
@@ -301,18 +301,14 @@ class Content extends AbstractPart
     /**
      * Get style of individual element
      *
-     * @param \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\Field $element
+     * @param \PhpOffice\PhpWord\Element\Text $element
      * @param int $paragraphStyleCount
      * @param int $fontStyleCount
      */
     private function getElementStyle($element, &$paragraphStyleCount, &$fontStyleCount)
     {
         $fontStyle = $element->getFontStyle();
-        if (method_exists($element, 'getParagraphStyle')) {
-            $paragraphStyle = $element->getParagraphStyle();
-        } else {
-            $paragraphStyle = null;
-        }
+        $paragraphStyle = $element->getParagraphStyle();
         $phpWord = $this->getParentWriter()->getPhpWord();
 
         if ($fontStyle instanceof Font) {
@@ -345,6 +341,32 @@ class Content extends AbstractPart
             $style = $phpWord->addParagraphStyle($parstylename, $paragraphStyle);
             $style->setAuto();
             $element->setParagraphStyle($parstylename);
+        }
+    }
+
+    /**
+     * Get font style of individual field element
+     *
+     * @param \PhpOffice\PhpWord\Element\Field $element
+     * @param int $paragraphStyleCount
+     * @param int $fontStyleCount
+     */
+    private function getElementStyleField($element, &$fontStyleCount)
+    {
+        $fontStyle = $element->getFontStyle();
+        $phpWord = $this->getParentWriter()->getPhpWord();
+
+        if ($fontStyle instanceof Font) {
+            $name = $fontStyle->getStyleName();
+            if (!$name) {
+                $fontStyleCount++;
+                $style = $phpWord->addFontStyle("T{$fontStyleCount}", $fontStyle, null);
+                $style->setAuto();
+                $style->setParagraph(null);
+                $element->setFontStyle("T{$fontStyleCount}");
+            } else {
+                $element->setFontStyle($name);
+            }
         }
     }
 

@@ -39,8 +39,7 @@ class Title extends AbstractElement
         $hdname = 'HD';
         $sect = $element->getParent();
         if ($sect instanceof \PhpOffice\PhpWord\Element\Section) {
-            $elems = $sect->getElements();
-            if ($elems[0] === $element) {
+            if (self::compareToFirstElement($element, $sect->getElements())) {
                 $hdname = 'HE';
             }
         }
@@ -62,5 +61,19 @@ class Title extends AbstractElement
         }
         $xmlWriter->endElement(); // text:span
         $xmlWriter->endElement(); // text:h
+    }
+
+    /**
+     * Test if element is same as first element in array
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $elem
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractElement[] $elemarray
+     *
+     * @return bool
+     */
+    private static function compareToFirstElement($elem, $elemarray)
+    {
+        return $elem === $elemarray[0];
     }
 }
