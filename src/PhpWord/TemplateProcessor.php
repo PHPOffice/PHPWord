@@ -604,7 +604,7 @@ class TemplateProcessor
                         $wholeTag = $matches[0];
                         array_shift($matches);
                         list($openTag, $prefix, , $postfix, $closeTag) = $matches;
-                        if (isset($replacesList[0]['align']) and in_array($replacesList[0]['align'],array('left', 'right', 'center'))) {
+                        if (isset($replacesList[0]['align']) and in_array($replacesList[0]['align'], array('left', 'right', 'center'))) {
                             $position = '<w:pPr><w:jc w:val="' . $replacesList[0]['align'] . '"/></w:pPr>';
                         } else {
                             $position = '';
