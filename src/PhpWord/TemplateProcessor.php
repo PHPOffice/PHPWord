@@ -574,11 +574,7 @@ class TemplateProcessor
         }
 
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
-        if (isset($replacesList[0]['align']) and in_array($replacesList[0]['align'], array('left', 'right', 'center'))) {
-            $imgTpl = preg_replace('/({{align}})/', $replacesList[0]['align'], '<w:p w:rsidR="0021268F" w:rsidRDefault="00495C2C" w:rsidP="00972DB5"><w:pPr><w:jc w:val="{{align}}"/></w:pPr><w:r><w:bookmarkStart w:id="0" w:name="_GoBack"/><w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict></w:r><w:bookmarkEnd w:id="0"/></w:p>');
-        } else {
-            $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
-        }
+        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
 
         foreach ($searchParts as $partFileName => &$partContent) {
             $partVariables = $this->getVariablesForPart($partContent);
@@ -608,7 +604,12 @@ class TemplateProcessor
                         $wholeTag = $matches[0];
                         array_shift($matches);
                         list($openTag, $prefix, , $postfix, $closeTag) = $matches;
-                        $replaceXml = $openTag . $prefix . $closeTag . $xmlImage . $openTag . $postfix . $closeTag;
+                        if (isset($replacesList[0]['align']) and in_array($replacesList[0]['align'],array('left', 'right', 'center'))) {
+                            $position = '<w:pPr><w:jc w:val="' . $replacesList[0]['align'] . '"/></w:pPr>';
+                        } else {
+                            $position = '';
+                        }
+                        $replaceXml = $openTag . $prefix . $closeTag . $position . $xmlImage . $openTag . $postfix . $closeTag;
                         // replace on each iteration, because in one tag we can have 2+ inline variables => before proceed next variable we need to change $partContent
                         $partContent = $this->setValueForPart($wholeTag, $replaceXml, $partContent, $limit);
                     }
