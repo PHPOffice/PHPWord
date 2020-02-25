@@ -1085,7 +1085,7 @@ class TemplateProcessor
     {
         $results = array();
         for ($i = 1; $i <= $count; $i++) {
-            $results[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
+             $results[] = preg_replace('/\$\{(.*?)(:([^}])*)?\}/', '\${\\1#' . $i . '\\2}', $xmlBlock);
         }
 
         return $results;
