@@ -632,4 +632,23 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:spacing'));
         $this->assertEquals(150 * 15, $doc->getElement('/w:document/w:body/w:p/w:r/w:rPr/w:spacing')->getAttribute('w:val'));
     }
+
+    /**
+     * Tests checkbox input field
+     */
+    public function testInputCheckbox() 
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<input type="checkbox" checked="true" /><input type="checkbox" />';
+        Html::addHtml($section, $html);        
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:fldChar/w:ffData/w:checkBox'));
+        $this->assertEquals(1, $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:fldChar/w:ffData/w:checkBox/w:checked')->getAttribute('w:val'));
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:fldChar/w:ffData/w:checkBox'));
+        $this->assertEquals(0, $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:fldChar/w:ffData/w:checkBox/w:checked')->getAttribute('w:val'));
+    }
 }
