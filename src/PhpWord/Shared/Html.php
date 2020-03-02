@@ -244,11 +244,14 @@ class Html
     protected static function parseInput($node, $element, &$styles)
     {
         $attributes = $node->attributes;
-    
-        if (($type = $attributes->getNamedItem('type')->value) === 'checkbox') {
-            $checked = ($checked = $attributes->getNamedItem('checked')) && $checked->value === "true" ?? false;
-            $textrun = $element->addTextRun();
-            $textrun->addFormField('checkbox')->setValue($checked);
+        $inputType = $attributes->getNamedItem('type')->value;
+
+        switch ($inputType) {
+            case 'checkbox':
+                $checked = ($checked = $attributes->getNamedItem('checked')) && $checked->value === "true" ?? false;
+                $textrun = $element->addTextRun();
+                $textrun->addFormField('checkbox')->setValue($checked);
+                break;
         }
     }
 
