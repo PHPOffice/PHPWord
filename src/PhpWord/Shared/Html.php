@@ -244,8 +244,11 @@ class Html
     protected static function parseInput($node, $element, &$styles)
     {
         $attributes = $node->attributes;
-        $inputType = $attributes->getNamedItem('type')->value;
+        if (null === $attributes->getNamedItem('type')) {
+            return;
+        }
 
+        $inputType = $attributes->getNamedItem('type')->value;
         switch ($inputType) {
             case 'checkbox':
                 $checked = ($checked = $attributes->getNamedItem('checked')) && $checked->value === "true" ?? false;
