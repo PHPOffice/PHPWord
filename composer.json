@@ -60,7 +60,7 @@
     "require": {
         "php": "^5.3.3 || ^7.0",
         "ext-xml": "*",
-        "zendframework/zend-escaper": "^2.2",
+        "laminas/laminas-escaper": "^2.6",
         "phpoffice/common": "^0.2.9"
     },
     "require-dev": {
