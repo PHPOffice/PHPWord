@@ -286,7 +286,7 @@ class Cell extends Border
      */
     public function setWidth($value)
     {
-        $this->setIntVal($value);
+        $this->width = $this->setIntVal($value);
 
         return $this;
     }
