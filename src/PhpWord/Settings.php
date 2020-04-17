@@ -122,7 +122,7 @@ class Settings
 
     /**
      * Default paper
-     * @var int
+     * @var string
      */
     private static $defaultPaper = self::DEFAULT_PAPER;
 
