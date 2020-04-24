@@ -77,10 +77,12 @@ class ImageTest extends AbstractWebServerEmbeddedTest
 
         foreach ($images as $imageData) {
             list($source, $type, $extension, $createFunction, $imageFunction) = $imageData;
+            $nam = ucfirst(strtok($source, '.'));
             $source = __DIR__ . "/../_files/images/{$source}";
-            $image = new Image($source);
+            $image = new Image($source, null, null, $nam);
             $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
             $this->assertEquals($source, $image->getSource());
+            $this->assertEquals($nam, $image->getName());
             $this->assertEquals(md5($source), $image->getMediaId());
             $this->assertEquals($type, $image->getImageType());
             $this->assertEquals($extension, $image->getImageExtension());

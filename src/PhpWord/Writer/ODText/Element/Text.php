@@ -42,12 +42,12 @@ class Text extends AbstractElement
 
         // @todo Commented for TextRun. Should really checkout this value
         // $fStyleIsObject = ($fontStyle instanceof Font) ? true : false;
-        $fStyleIsObject = false;
+        //$fStyleIsObject = false;
 
-        if ($fStyleIsObject) {
-            // Don't never be the case, because I browse all sections for cleaning all styles not declared
-            throw new Exception('PhpWord : $fStyleIsObject wouldn\'t be an object');
-        }
+        //if ($fStyleIsObject) {
+        // Don't never be the case, because I browse all sections for cleaning all styles not declared
+        //    throw new Exception('PhpWord : $fStyleIsObject wouldn\'t be an object');
+        //}
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('text:p'); // text:p

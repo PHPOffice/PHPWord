@@ -157,6 +157,8 @@ class Section extends AbstractContainer
      * @deprecated Use the `getFootnoteProperties` method instead
      *
      * @return FootnoteProperties
+     *
+     * @codeCoverageIgnore
      */
     public function getFootnotePropoperties()
     {
