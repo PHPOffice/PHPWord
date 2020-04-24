@@ -42,7 +42,7 @@ class Title extends AbstractElement
         $text = $this->element->getText();
         if (is_string($text)) {
             $text = HTML::escapeOrNot($text);
-        } elseif ($text instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+        } else {
             $writer = new Container($this->parentWriter, $text);
             $text = $writer->write();
         }
