@@ -18,10 +18,10 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\TrackChange;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
 
@@ -75,12 +75,7 @@ class Text extends AbstractElement
         $content .= $this->writeOpening();
         $content .= $this->openingText;
         $content .= $this->openingTags;
-        if (Settings::isOutputEscapingEnabled()) {
-            $escaper = $this->escaper;
-            $contenx = $escaper->escapeHtml($element->getText());
-        } else {
-            $contenx = $element->getText();
-        }
+        $contenx = HTML::escapeOrNot($element->getText());
         if (!$this->withoutP && !trim($contenx)) {
             $contenx = '&nbsp;';
         }
@@ -144,14 +139,7 @@ class Text extends AbstractElement
         $content .= $this->writeTrackChangeClosing();
 
         if (!$this->withoutP) {
-            if (Settings::isOutputEscapingEnabled()) {
-                $escaper = $this->escaper;
-                $contenx = $escaper->escapeHtml($this->closingText);
-                $content .= $contenx;
-            } else {
-                $content .= $this->closingText;
-            }
-
+            $content .= HTML::escapeOrNot($this->closingText);
             $content .= '</p>' . PHP_EOL;
         }
 

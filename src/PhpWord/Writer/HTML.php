@@ -139,6 +139,20 @@ class HTML extends AbstractWriter implements WriterInterface
     }
 
     /**
+     * Escape string or not depending on setting.
+     *
+     * @param string $txt
+     */
+    public static function escapeOrNot($txt)
+    {
+        if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
+            return htmlspecialchars($txt, ENT_QUOTES | (defined(ENT_SUBSTITUTE) ? ENT_SUBSTITUTE : 0), 'UTF-8');
+        }
+
+        return $txt;
+    }
+
+    /**
      * Write document
      *
      * @deprecated 0.11.0

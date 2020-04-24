@@ -85,7 +85,7 @@ class Font extends AbstractStyle
         if (empty($font)) {
             return '';
         }
-        $fontfamily = "'" . htmlspecialchars($font, ENT_QUOTES) . "'";
+        $fontfamily = "'" . htmlspecialchars($font, ENT_QUOTES, 'UTF-8') . "'";
         if (!empty($genericFont)) {
             $fontfamily .= ", $genericFont";
         }

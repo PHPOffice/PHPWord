@@ -67,12 +67,8 @@ class Table extends AbstractElement
                     if ($cellVMerge === 'restart') {
                         for ($k = $i + 1; $k < $rowCount; $k++) {
                             $kRowCells = $rows[$k]->getCells();
-                            if (isset($kRowCells[$j])) {
-                                if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
-                                    $cellRowSpan++;
-                                } else {
-                                    break;
-                                }
+                            if (isset($kRowCells[$j]) && $kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
+                                $cellRowSpan++;
                             } else {
                                 break;
                             }
@@ -92,13 +88,9 @@ class Table extends AbstractElement
                             // There shouldn't be any content in the subsequent merged cells, but lets check anyway
                             for ($k = $i + 1; $k < $rowCount; $k++) {
                                 $kRowCells = $rows[$k]->getCells();
-                                if (isset($kRowCells[$j])) {
-                                    if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
-                                        $writer = new Container($this->parentWriter, $kRowCells[$j]);
-                                        $content .= $writer->write();
-                                    } else {
-                                        break;
-                                    }
+                                if (isset($kRowCells[$j]) && $kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
+                                    $writer = new Container($this->parentWriter, $kRowCells[$j]);
+                                    $content .= $writer->write();
                                 } else {
                                     break;
                                 }

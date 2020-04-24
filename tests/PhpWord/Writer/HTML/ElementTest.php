@@ -128,12 +128,18 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $row3->addCell(null, array('vMerge' => 'continue'));
         $row3->addCell(500)->addText('third cell being spanned');
 
+        $row4 = $table->addRow();
+        $row4->addCell(1000)->addText('unspanned cell on left');
+        $row4->addCell(500)->addText('unspanned cell on right');
+
         $dom = $this->getAsHTML($phpWord);
         $xpath = new \DOMXPath($dom);
 
         $this->assertEquals(2, $xpath->query('/html/body/div/table/tr[1]/td')->length);
         $this->assertEquals('3', $xpath->query('/html/body/div/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
         $this->assertEquals(1, $xpath->query('/html/body/div/table/tr[2]/td')->length);
+        $this->assertEquals(1, $xpath->query('/html/body/div/table/tr[3]/td')->length);
+        $this->assertEquals(2, $xpath->query('/html/body/div/table/tr[4]/td')->length);
     }
 
     private function getAsHTML(PhpWord $phpWord)

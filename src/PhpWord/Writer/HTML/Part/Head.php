@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Writer\HTML\Element\Table as TableStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Generic as GenericStyleWriter;
@@ -65,7 +66,9 @@ class Head extends AbstractPart
             $method = 'get' . $key;
             if ($docProps->$method() != '') {
                 $content .= '<meta name="' . $value . '"'
-                          . ' content="' . (Settings::isOutputEscapingEnabled() ? $this->escaper->escapeHtmlAttr($docProps->$method()) : $docProps->$method()) . '"'
+                          . ' content="'
+                          . HTML::escapeOrNot($docProps->$method())
+                          . '"'
                           . ' />' . PHP_EOL;
             }
         }
