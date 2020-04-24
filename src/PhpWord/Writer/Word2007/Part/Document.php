@@ -126,7 +126,7 @@ class Document extends AbstractPart
             $xmlWriter->endElement();
         }
 
-        //footnote properties
+        // Footnote properties
         if ($section->getFootnoteProperties() !== null) {
             $xmlWriter->startElement('w:footnotePr');
             if ($section->getFootnoteProperties()->getPos() != null) {
