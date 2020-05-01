@@ -1113,6 +1113,88 @@ class TemplateProcessor
         return $results;
     }
 
+
+/**
+     * replaceBlock analog working more correct way to find blockname container
+     * also working with big block replacement in big documents
+     *
+     *
+     * @param string $blockname
+     * @param string $replacement
+     *
+     * @return string
+     */
+    public function replaceBlockBig($blockname, $replacement)
+    {
+
+        // get all content
+        $data = $this->tempDocumentMainPart;
+
+        // searching the block's opening tag
+        preg_match(
+            '/(?>(<w:p\s(?:(?!<w:p\s).)*?|<w:p>(?:(?!<w:p>).)*?)\${' . $blockname . '}.*?<\/w:p>)/is',
+            $data,
+            $start,
+            PREG_OFFSET_CAPTURE
+        );
+
+        // block not found
+        if (empty($start)) {
+            return $data;
+        }
+
+        $start_offset = $start[0][1];
+
+        // document content before block's opening tag
+        $header = substr($this->tempDocumentMainPart, 0, $start_offset);
+
+        // searching the block's closing tag
+        preg_match(
+            '/(?>(<w:p\s(?:(?!<w:p\s).)*?|<w:p>(?:(?!<w:p>).)*?)\${\/' . $blockname . '}.*?<\/w:p>)/is',
+            $data,
+            $end,
+            PREG_OFFSET_CAPTURE,
+            $start_offset
+        );
+
+        // block not found
+        if (empty($end)) {
+            return $data;
+        }
+
+        // document content after block's opening tag
+        $footer = substr($this->tempDocumentMainPart, $end[0][1] + strlen($end[0][0]));
+
+        // combining results with replacement string
+        $this->tempDocumentMainPart = $header . $replacement . $footer;
+
+    }
+
+
+    /**
+     * Get all content of XML document
+     * Helps get content of another template file for replaceBlockBig in current file
+     *
+     * @return string
+     */
+    public function getAllContent()
+    {
+
+        preg_match(
+            '/<w:body[^>]*>(.*)<\/w:body>/is',
+            $this->tempDocumentMainPart,
+            $matches
+        );
+
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        return '';
+
+    }
+
+
     /**
      * Replace an XML block surrounding a macro with a new block
      *
