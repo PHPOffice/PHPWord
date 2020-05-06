@@ -364,6 +364,9 @@ abstract class AbstractPart
                             if ('w:p' == $cellNode->nodeName) { // Paragraph
                                 $this->readParagraph($xmlReader, $cellNode, $cell, $docPart);
                             }
+                            if ($cellNode->nodeName == 'w:tbl') { // Table
+                                $this->readTable($xmlReader, $cellNode, $cell, $docPart);
+                            }
                         }
                     }
                 }
