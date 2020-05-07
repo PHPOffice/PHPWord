@@ -35,6 +35,16 @@ You can also set multiple values by passing all of them in an array.
 
     $templateProcessor->setValues(array('firstname' => 'John', 'lastname' => 'Doe'));
 
+setChartValue
+"""""""""""""
+Replace a variable by a chart.
+
+.. code-block:: php
+    $categories = array('A', 'B', 'C', 'D', 'E');
+    $series1 = array(1, 3, 2, 5, 4);
+    $chart = new Chart('doughnut', $categories, $series1);
+    $templateProcessor->setChartValue('myChart', $chart);
+
 setImageValue
 """""""""""""
 The search-pattern model for images can be like:
