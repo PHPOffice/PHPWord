@@ -331,7 +331,6 @@ class Chart extends AbstractStyle
                 $this->dataLabelOptions[$option] = $this->setBoolVal($values[$option], $this->dataLabelOptions[$option]);
             }
         }
-        return $this;
     }
 
     /*
@@ -379,7 +378,7 @@ class Chart extends AbstractStyle
      */
     public function setCategoryLabelPosition($labelPosition)
     {
-        $enum = array('none', 'nextTo', 'low', 'high');
+        $enum = array('nextTo', 'low', 'high');
         $this->categoryLabelPosition = $this->setEnumVal($labelPosition, $enum, $this->categoryLabelPosition);
 
         return $this;
