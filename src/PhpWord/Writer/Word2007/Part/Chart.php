@@ -267,22 +267,20 @@ class Chart extends AbstractPart
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
 
                 // check that there are colors
-                if (is_array($colors)) {
+                if (is_array($colors) && count($colors)>0) {
                     // assign a color to each value
                     $valueIndex=0;
                     foreach ($values as $value) {
                         // check that there are still enought colors
-                        if (count($colors)>$colorIndex) {
-                            $xmlWriter->startElement('c:dPt');
-                            $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);
-                            $xmlWriter->startElement('c:spPr');
-                            $xmlWriter->startElement('a:solidFill');
-                            $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++]);
-                            $xmlWriter->endElement(); // a:solidFill
-                            $xmlWriter->endElement(); // c:spPr
-                            $xmlWriter->endElement(); // c:dPt
-                            $valueIndex++;
-                        }
+                        $xmlWriter->startElement('c:dPt');
+                        $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);
+                        $xmlWriter->startElement('c:spPr');
+                        $xmlWriter->startElement('a:solidFill');
+                        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
+                        $xmlWriter->endElement(); // a:solidFill
+                        $xmlWriter->endElement(); // c:spPr
+                        $xmlWriter->endElement(); // c:dPt
+                        $valueIndex++;
                     }
                 }
             }
