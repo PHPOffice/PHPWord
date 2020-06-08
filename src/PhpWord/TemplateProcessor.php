@@ -368,15 +368,14 @@ class TemplateProcessor
         $writerPart->setElement($chart);
 
         // ContentTypes.xml
-        $this->contentTypes['override']["/word/{$filename}"] = 'chart';
-
-        $this->relationships[] = array('target' => $filename, 'type' => 'chart', 'rID' => $rId);
-
         $this->zipClass->addFromString("word/{$filename}", $writerPart->write());
+
+		// add chart to content type
+		$xmlRelationsType = "<Override PartName=\"/word/{$filename}\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.chart+xml\"/>";
+        $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
 
         // Add the chart to relations
         $xmlChartRelation = "<Relationship Id=\"rId{$rId}\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart\" Target=\"charts/chart{$rId}.xml\"/>";
-
         $this->tempDocumentRelations[$this->getMainPartName()] = str_replace('</Relationships>', $xmlChartRelation, $this->tempDocumentRelations[$this->getMainPartName()]) . '</Relationships>';
 
         // Write the chart
