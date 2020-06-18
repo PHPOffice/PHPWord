@@ -370,8 +370,8 @@ class TemplateProcessor
         // ContentTypes.xml
         $this->zipClass->addFromString("word/{$filename}", $writerPart->write());
 
-		// add chart to content type
-		$xmlRelationsType = "<Override PartName=\"/word/{$filename}\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.chart+xml\"/>";
+        // add chart to content type
+        $xmlRelationsType = "<Override PartName=\"/word/{$filename}\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.chart+xml\"/>";
         $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
 
         // Add the chart to relations
