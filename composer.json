@@ -73,7 +73,7 @@
         "phploc/phploc": "2.* || 3.* || 4.*",
         "dompdf/dompdf":"0.8.*",
         "tecnickcom/tcpdf": "6.*",
-        "mpdf/mpdf": "5.7.4 || 6.* || 7.*",
+        "mpdf/mpdf": "5.7.4 || 6.* || 7.* || 8.*",
         "php-coveralls/php-coveralls": "1.1.0 || ^2.0"
     },
     "suggest": {
