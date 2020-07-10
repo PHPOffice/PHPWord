@@ -106,6 +106,19 @@ class Html
                     case 'lang':
                         $styles['lang'] = $attribute->value;
                         break;
+                    case 'width':
+                        // tables, cells
+                        $val = trim($attribute->value);
+                        if(false !== strpos($val, '%')){
+                            // e.g. <table width="100%"> or <td width=50%>
+                            $styles['width'] = intval($val) * 50;
+                            $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
+                        }else{
+                            // e.g. <table width="250> where "250" = 250px (always pixels)
+                            $styles['width'] = Converter::pixelToTwip($val);
+                            $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP;
+                        }
+                        break;
                 }
             }
         }
@@ -361,7 +374,11 @@ class Html
         if (!empty($colspan)) {
             $cellStyles['gridSpan'] = $colspan - 0;
         }
-        $cell = $element->addCell(null, $cellStyles);
+
+        // set cell width to control column widths
+        $width = isset($cellStyles['width']) ? $cellStyles['width'] : null;
+        unset($cellStyles['width']); // would not apply
+        $cell = $element->addCell($width, $cellStyles);
 
         if (self::shouldAddTextRun($node)) {
             return $cell->addTextRun(self::parseInlineStyle($node, $styles['paragraph']));

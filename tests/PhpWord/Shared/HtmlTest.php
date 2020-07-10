@@ -632,4 +632,74 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:spacing'));
         $this->assertEquals(150 * 15, $doc->getElement('/w:document/w:body/w:p/w:r/w:rPr/w:spacing')->getAttribute('w:val'));
     }
+
+    /**
+    * Parse widths in tables and cells, which also allows for controlling column width
+    */
+    public function testParseTableAndCellWidth()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection([
+            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+        ]);
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<table style="border: 1px #000000 solid; width: 100%;">
+    <tr>
+        <td style="width: 25%; border: 1px #000000 solid; text-align: center;">25%</td>
+        <td>
+            <table width="400" style="border: 1px #000000 solid; background-color: #EEEEEE;">
+                <tr>
+                    <th colspan="3" style="border: 1px #000000 solid;">400px</th>
+                </tr>
+                <tr>
+                    <th>T2.R2.C1</th>
+                    <th style="width: 50pt; border: 1px #FF0000 dashed; background-color: #FFFFFF">50pt</th>
+                    <th>T2.R2.C3</th>
+                </tr>
+                <tr>
+                    <th width="300" colspan="2" style="border: 1px #000000 solid;">300px</th>
+                    <th style="border: 1px #000000 solid;">T2.R3.C3</th>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // outer table grid
+        $xpath = '/w:document/w:body/w:tbl/w:tblGrid/w:gridCol';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(25 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        // <td style="width: 25%; ...
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcW';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(25 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('pct', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        // <table width="400" .. 400px = 6000 twips (400 / 96 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr/w:tc/w:tcPr/w:tcW';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(6000, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        // <th style="width: 50pt; .. 50pt = 750 twips (50 / 72 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr[2]/w:tc[2]/w:tcPr/w:tcW';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(1000, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        // <th width="300" .. 300px = 4500 twips (300 / 96 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr[3]/w:tc/w:tcPr/w:tcW';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(4500, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+    }
+
 }
