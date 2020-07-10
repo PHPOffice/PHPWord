@@ -702,4 +702,46 @@ HTML;
         $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
     }
 
+    public function testParseCellspacingRowBgColor()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection([
+            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+        ]);
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<table cellspacing="3" bgColor="lightgreen" width="50%" align="center">
+    <tr>
+        <td>A</td>
+        <td>B</td>
+    </tr>
+    <tr bgcolor="#FF0000">
+        <td>C</td>
+        <td>D</td>
+    </tr>
+</table>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // uncomment to see results
+        file_put_contents('./table_src.html', $html);
+        file_put_contents('./table_result_'.time().'.docx', file_get_contents( TestHelperDOCX::getFile() ) );
+
+        $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellSpacing';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(3 * 15, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:tcPr/w:shd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('lightgreen', $doc->getElement($xpath)->getAttribute('w:fill'));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr[2]/w:tc[1]/w:tcPr/w:shd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('FF0000', $doc->getElement($xpath)->getAttribute('w:fill'));
+    }
+
 }

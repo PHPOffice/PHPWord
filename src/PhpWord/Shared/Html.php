@@ -96,7 +96,7 @@ class Html
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
 
             foreach ($attributes as $attribute) {
-                switch ($attribute->name) {
+                switch (strtolower($attribute->name)) {
                     case 'style':
                         $styles = self::parseStyle($attribute, $styles);
                         break;
@@ -118,6 +118,15 @@ class Html
                             $styles['width'] = Converter::pixelToTwip($val);
                             $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP;
                         }
+                        break;
+                    case 'cellspacing':
+                        // tables e.g. <table cellspacing="2">,  where "2" = 2px (always pixels)
+                        $val = intval($attribute->value).'px';
+                        $styles['cellSpacing'] = Converter::cssToTwip($val);
+                        break;
+                    case 'bgcolor':
+                        // tables, rows, cells e.g. <tr bgColor="#FF0000">
+                        $styles['bgColor'] = trim($attribute->value, '# ');
                         break;
                 }
             }
@@ -519,7 +528,8 @@ class Html
         foreach ($properties as $property) {
             list($cKey, $cValue) = array_pad(explode(':', $property, 2), 2, null);
             $cValue = trim($cValue);
-            switch (trim($cKey)) {
+            $cKey = strtolower(trim($cKey));
+            switch ($cKey) {
                 case 'text-decoration':
                     switch ($cValue) {
                         case 'underline':
