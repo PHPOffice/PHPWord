@@ -844,4 +844,48 @@ HTML;
         $this->assertTrue($doc->elementExists($xpath, $xmlFile));
         $this->assertEquals('lowerRoman', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
     }
+
+    /**
+    * Parse ordered list start & numbering style
+    */
+    public function testParseVerticalAlign()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<table width="100%">
+    <tr>
+        <td width="20%" style="border: 1px #666666 solid;">default</td>
+        <td width="20%" style="vertical-align: top; border: 1px #666666 solid;">top</td>
+        <td width="20%" style="vertical-align: middle; border: 1px #666666 solid;">middle</td>
+        <td width="20%" valign="bottom" style="border: 1px #666666 solid;">bottom</td>
+        <td bgcolor="#DDDDDD"><br/><br/><br/><br/><br/><br/><br/></td>
+    </tr>
+</table>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // uncomment to see results
+        file_put_contents('./table_src.html', $html);
+        file_put_contents('./table_result_'.time().'.docx', file_get_contents( TestHelperDOCX::getFile() ) );
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:vAlign';
+        $this->assertFalse($doc->elementExists($xpath));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc[2]/w:tcPr/w:vAlign';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('top', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc[3]/w:tcPr/w:vAlign';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('center', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc[4]/w:tcPr/w:vAlign';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('bottom', $doc->getElement($xpath)->getAttribute('w:val'));
+    }
 }

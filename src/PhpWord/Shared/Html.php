@@ -96,19 +96,19 @@ class Html
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
 
             foreach ($attributes as $attribute) {
+                $val = trim($attribute->value);
                 switch (strtolower($attribute->name)) {
                     case 'style':
                         $styles = self::parseStyle($attribute, $styles);
                         break;
                     case 'align':
-                        $styles['alignment'] = self::mapAlign($attribute->value);
+                        $styles['alignment'] = self::mapAlign($val);
                         break;
                     case 'lang':
-                        $styles['lang'] = $attribute->value;
+                        $styles['lang'] = $val;
                         break;
                     case 'width':
                         // tables, cells
-                        $val = trim($attribute->value);
                         if(false !== strpos($val, '%')){
                             // e.g. <table width="100%"> or <td width=50%>
                             $styles['width'] = intval($val) * 50;
@@ -126,7 +126,13 @@ class Html
                         break;
                     case 'bgcolor':
                         // tables, rows, cells e.g. <tr bgColor="#FF0000">
-                        $styles['bgColor'] = trim($attribute->value, '# ');
+                        $styles['bgColor'] = trim($val, '# ');
+                        break;
+                    case 'valign':
+                        // cells e.g. <td valign="middle">
+                        if (preg_match('#(?:top|bottom|middle|baseline)#i', $val, $matches)) {
+                            $styles['valign'] = self::mapAlignVertical($matches[0]);
+                        }
                         break;
                 }
             }
@@ -678,6 +684,12 @@ class Html
                         $styles["border{$which}Style"] = self::mapBorderStyle($matches[3]);
                     }
                     break;
+                case 'vertical-align':
+                    // https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
+                    if (preg_match('#(?:top|bottom|middle|sub|baseline)#i', $cValue, $matches)) {
+                        $styles['valign'] = self::mapAlignVertical($matches[0]);
+                    }
+                    break;
             }
         }
 
@@ -839,6 +851,32 @@ class Html
                 return Jc::BOTH;
             default:
                 return Jc::START;
+        }
+    }
+
+    /**
+     * Transforms a HTML/CSS alignment into a \PhpOffice\PhpWord\SimpleType\Jc
+     *
+     * @param string $cssAlignment
+     * @return string|null
+     */
+    protected static function mapAlignVertical($alignment)
+    {
+        $alignment = strtolower($alignment);
+        switch ($alignment) {
+            case 'top':
+            case 'baseline':
+            case 'bottom':
+                return $alignment;
+            case 'middle':
+                return 'center';
+            case 'sub':
+                return 'bottom';
+            case 'text-top':
+            case 'baseline':
+                return 'top';
+            default:
+                return '';
         }
     }
 
