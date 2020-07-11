@@ -183,6 +183,7 @@ class Html
             'img'       => array('Image',       $node,  $element,   $styles,    null,   null,           null),
             'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
             'a'         => array('Link',        $node,  $element,   $styles,    null,   null,           null),
+            'hr'        => array('HorizRule',   $node,  $element,   $styles,    null,   null,           null),
         );
 
         $newElement = null;
@@ -630,10 +631,27 @@ class Html
                     }
                     break;
                 case 'border':
-                    if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+)\s+([a-z]+)/', $cValue, $matches)) {
-                        $styles['borderSize'] = Converter::cssToPoint($matches[1]);
-                        $styles['borderColor'] = trim($matches[2], '#');
-                        $styles['borderStyle'] = self::mapBorderStyle($matches[3]);
+                case 'border-top':
+                case 'border-bottom':
+                case 'border-right':
+                case 'border-left':
+                    // must have exact order [width color style], e.g. "1px #0011CC solid" or "2pt green solid"
+                    // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
+                    if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+|[a-zA-Z]+)\s+([a-z]+)/', $cValue, $matches)) {
+                        if(false !== strpos($cKey, '-')){
+                            $which = explode('-', $cKey)[1];
+                            $which = ucfirst($which); // e.g. bottom -> Bottom
+                        }else{
+                            $which = '';
+                        }
+                        // normalization: in HTML 1px means tinest possible line width, so we cannot convert 1px -> 15 twips, coz line'd be bold, we use smallest twip instead
+                        $size = strtolower(trim($matches[1]));
+                        // (!) BC change: up to ver. 0.17.0 Converter was incorrectly converting to points - Converter::cssToPoint($matches[1])
+                        $size = ($size == '1px') ? 1 : Converter::cssToTwip($size);
+                        // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
+                        $styles["border{$which}Size"] = $size; // twips
+                        $styles["border{$which}Color"] = trim($matches[2], '#');
+                        $styles["border{$which}Style"] = self::mapBorderStyle($matches[3]);
                     }
                     break;
             }
@@ -835,4 +853,39 @@ class Html
 
         return $element->addLink($target, $node->textContent, $styles['font'], $styles['paragraph']);
     }
+
+    /**
+    * Render horizontal rule
+    * Note: Word rule is not the same as HTML's <hr> since it does not support width and thus neither alignment
+    *
+    * @param \DOMNode $node
+    * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+    */
+    protected static function parseHorizRule($node, $element)
+    {
+        $styles = self::parseInlineStyle($node);
+
+        // <hr> is implemented as an empty paragraph - extending 100% inside the section
+        // Some properties may be controlled, e.g. <hr style="border-bottom: 3px #DDDDDD solid; margin-bottom: 0;">
+
+        $fontStyle = $styles + ['size' => 3];
+
+        $paragraphStyle = $styles + [
+            'lineHeight' => 0.25, // multiply default line height - e.g. 1, 1.5 etc
+            'spacing' => 0, // twip
+            'spaceBefore' => 120, // twip, 240/2 (default line height)
+            'spaceAfter' => 120, // twip
+            'borderBottomSize' => empty($styles['line-height']) ? 1 : $styles['line-height'],
+            'borderBottomColor' => empty($styles['color']) ? '000000' : $styles['color'],
+            'borderBottomStyle' => 'single', // same as "solid"
+        ];
+
+        $element->addText("", $fontStyle, $paragraphStyle);
+
+        // Notes: <hr/> cannot be:
+        // - table - throws error "cannot be inside textruns", e.g. lists
+        // - line - that is a shape, has different behaviour
+        // - repeated text, e.g. underline "_", because of unpredictable line wrapping
+    }
+
 }

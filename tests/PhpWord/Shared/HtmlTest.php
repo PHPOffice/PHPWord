@@ -702,6 +702,9 @@ HTML;
         $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
     }
 
+    /**
+    * Test parsing background color for table rows and table cellspacing
+    */
     public function testParseCellspacingRowBgColor()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -726,10 +729,6 @@ HTML;
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
-        // uncomment to see results
-        file_put_contents('./table_src.html', $html);
-        file_put_contents('./table_result_'.time().'.docx', file_get_contents( TestHelperDOCX::getFile() ) );
-
         $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellSpacing';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals(3 * 15, $doc->getElement($xpath)->getAttribute('w:w'));
@@ -742,6 +741,47 @@ HTML;
         $xpath = '/w:document/w:body/w:tbl/w:tr[2]/w:tc[1]/w:tcPr/w:shd';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('FF0000', $doc->getElement($xpath)->getAttribute('w:fill'));
+    }
+
+    /**
+    * Parse horizontal rule
+    */
+    public function testParseHorizRule()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<p>Simple default rule:</p>
+<hr/>
+<p>Custom style rule:</p>
+<hr style="margin-top: 30px; margin-bottom: 0; border-bottom: 5px lightblue solid;" />
+<p>END</p>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // default rule
+        $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:pBdr/w:bottom';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val')); // solid
+        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:sz')); // 1 twip
+        $this->assertEquals('000000', $doc->getElement($xpath)->getAttribute('w:color')); // black
+
+        // custom style rule
+        $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:pBdr/w:bottom';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
+        $this->assertEquals(5 * 15, $doc->getElement($xpath)->getAttribute('w:sz'));
+        $this->assertEquals('lightblue', $doc->getElement($xpath)->getAttribute('w:color'));
+
+        $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(22.5, $doc->getElement($xpath)->getAttribute('w:before'));
+        $this->assertEquals(0, $doc->getElement($xpath)->getAttribute('w:after'));
+        $this->assertEquals(240, $doc->getElement($xpath)->getAttribute('w:line'));
     }
 
 }
