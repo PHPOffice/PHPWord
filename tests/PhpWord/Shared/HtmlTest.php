@@ -784,4 +784,64 @@ HTML;
         $this->assertEquals(240, $doc->getElement($xpath)->getAttribute('w:line'));
     }
 
+    /**
+    * Parse ordered list start & numbering style
+    */
+    public function testParseOrderedList()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<ol>
+    <li>standard ordered list line 1</li>
+    <li>standard ordered list line 2</li>
+</ol>
+
+<ol start="5" type="A">
+    <li>ordered list alphabetical, <span style="background-color: #EEEEEE; color: #FF0000;">line 5 => E</span></li>
+    <li>ordered list alphabetical, <span style="background-color: #EEEEEE; color: #FF0000;">line 6 => F</span></li>
+</ol>
+
+<ol start="3" type="i">
+    <li>ordered list roman lower, line <b>3 => iii</b></li>
+    <li>ordered list roman lower, line <b>4 => iv</b></li>
+</ol>
+
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // compare numbering file
+        $xmlFile = 'word/numbering.xml';
+
+        // default - decimal start = 1
+        $xpath = '/w:numbering/w:abstractNum[1]/w:lvl[1]/w:start';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('1', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        $xpath = '/w:numbering/w:abstractNum[1]/w:lvl[1]/w:numFmt';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('decimal', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        // second list - start = 5, type A = upperLetter
+        $xpath = '/w:numbering/w:abstractNum[2]/w:lvl[1]/w:start';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('5', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        $xpath = '/w:numbering/w:abstractNum[2]/w:lvl[1]/w:numFmt';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('upperLetter', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        // third list - start = 3, type i = lowerRoman
+        $xpath = '/w:numbering/w:abstractNum[3]/w:lvl[1]/w:start';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('3', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        $xpath = '/w:numbering/w:abstractNum[3]/w:lvl[1]/w:numFmt';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('lowerRoman', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+    }
 }

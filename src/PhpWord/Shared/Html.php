@@ -447,7 +447,31 @@ class Html
         } else {
             $data['listdepth'] = 0;
             $styles['list'] = 'listStyle_' . self::$listIndex++;
-            $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
+            $style = $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
+
+            // extract attributes start & type e.g. <ol type="A" start="3">
+            $start = 0;
+            $type = '';
+            foreach ($node->attributes as $attribute) {
+                switch ($attribute->name) {
+                    case 'start':
+                        $start = (int) $attribute->value;
+                        break;
+                    case 'type':
+                        $type = $attribute->value;
+                        break;
+                }
+            }
+
+            $levels = $style->getLevels();
+            /** @var \PhpOffice\PhpWord\Style\NumberingLevel */
+            $level = $levels[0];
+            if($start > 0){
+                $level->setStart($start);
+            }
+            if($type && !!($type = self::mapListType($type))){
+                $level->setFormat($type);
+            }
         }
         if ($node->parentNode->nodeName === 'li') {
             return $element->getParent();
@@ -815,6 +839,28 @@ class Html
                 return Jc::BOTH;
             default:
                 return Jc::START;
+        }
+    }
+
+    /**
+    * Map list style for ordered list
+    *
+    * @param string $cssListType
+    */
+    protected static function mapListType($cssListType)
+    {
+        switch ($cssListType) {
+            case 'a':
+                return NumberFormat::LOWER_LETTER; // a, b, c, ..
+            case 'A':
+                return NumberFormat::UPPER_LETTER; // A, B, C, ..
+            case 'i':
+                return NumberFormat::LOWER_ROMAN; // i, ii, iii, iv, ..
+            case 'I':
+                return NumberFormat::UPPER_ROMAN; // I, II, III, IV, ..
+            case '1':
+            default:
+                return NumberFormat::DECIMAL; // 1, 2, 3, ..
         }
     }
 
