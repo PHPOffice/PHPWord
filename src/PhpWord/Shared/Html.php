@@ -633,11 +633,18 @@ class Html
                     }
                     $styles['italic'] = $tValue;
                     break;
+                case 'margin':
+                    $cValue = Converter::cssToTwip($cValue);
+                    $styles['spaceBefore'] = $cValue;
+                    $styles['spaceAfter'] = $cValue;
+                    break;
                 case 'margin-top':
-                    $styles['spaceBefore'] = Converter::cssToPoint($cValue);
+                    // BC change: up to ver. 0.17.0 incorrectly converted to points - Converter::cssToPoint($cValue)
+                    $styles['spaceBefore'] = Converter::cssToTwip($cValue);
                     break;
                 case 'margin-bottom':
-                    $styles['spaceAfter'] = Converter::cssToPoint($cValue);
+                    // BC change: up to ver. 0.17.0 incorrectly converted to points - Converter::cssToPoint($cValue)
+                    $styles['spaceAfter'] = Converter::cssToTwip($cValue);
                     break;
                 case 'border-color':
                     self::mapBorderColor($styles, $cValue);
@@ -676,7 +683,7 @@ class Html
                         }
                         // normalization: in HTML 1px means tinest possible line width, so we cannot convert 1px -> 15 twips, coz line'd be bold, we use smallest twip instead
                         $size = strtolower(trim($matches[1]));
-                        // (!) BC change: up to ver. 0.17.0 Converter was incorrectly converting to points - Converter::cssToPoint($matches[1])
+                        // BC change: up to ver. 0.17.0 incorrectly converted to points - Converter::cssToPoint($size)
                         $size = ($size == '1px') ? 1 : Converter::cssToTwip($size);
                         // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
                         $styles["border{$which}Size"] = $size; // twips
@@ -732,14 +739,14 @@ class Html
                                 case 'float':
                                     if (trim($v) == 'right') {
                                         $style['hPos'] = \PhpOffice\PhpWord\Style\Image::POS_RIGHT;
-                                        $style['hPosRelTo'] = \PhpOffice\PhpWord\Style\Image::POS_RELTO_PAGE;
+                                        $style['hPosRelTo'] = \PhpOffice\PhpWord\Style\Image::POS_RELTO_MARGIN; // inner section area
                                         $style['pos'] = \PhpOffice\PhpWord\Style\Image::POS_RELATIVE;
                                         $style['wrap'] = \PhpOffice\PhpWord\Style\Image::WRAP_TIGHT;
                                         $style['overlap'] = true;
                                     }
                                     if (trim($v) == 'left') {
                                         $style['hPos'] = \PhpOffice\PhpWord\Style\Image::POS_LEFT;
-                                        $style['hPosRelTo'] = \PhpOffice\PhpWord\Style\Image::POS_RELTO_PAGE;
+                                        $style['hPosRelTo'] = \PhpOffice\PhpWord\Style\Image::POS_RELTO_MARGIN; // inner section area
                                         $style['pos'] = \PhpOffice\PhpWord\Style\Image::POS_RELATIVE;
                                         $style['wrap'] = \PhpOffice\PhpWord\Style\Image::WRAP_TIGHT;
                                         $style['overlap'] = true;

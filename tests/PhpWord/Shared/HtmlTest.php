@@ -779,7 +779,7 @@ HTML;
 
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';
         $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals(22.5, $doc->getElement($xpath)->getAttribute('w:before'));
+        $this->assertEquals(450, $doc->getElement($xpath)->getAttribute('w:before'));
         $this->assertEquals(0, $doc->getElement($xpath)->getAttribute('w:after'));
         $this->assertEquals(240, $doc->getElement($xpath)->getAttribute('w:line'));
     }
@@ -868,10 +868,6 @@ HTML;
 
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-
-        // uncomment to see results
-        file_put_contents('./table_src.html', $html);
-        file_put_contents('./table_result_'.time().'.docx', file_get_contents( TestHelperDOCX::getFile() ) );
 
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:vAlign';
         $this->assertFalse($doc->elementExists($xpath));
