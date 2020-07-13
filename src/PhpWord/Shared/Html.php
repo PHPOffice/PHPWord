@@ -109,11 +109,11 @@ class Html
                         break;
                     case 'width':
                         // tables, cells
-                        if(false !== strpos($val, '%')){
-                            // e.g. <table width="100%"> or <td width=50%>
+                        if (false !== strpos($val, '%')) {
+                            // e.g. <table width="100%"> or <td width="50%">
                             $styles['width'] = intval($val) * 50;
                             $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
-                        }else{
+                        } else {
                             // e.g. <table width="250> where "250" = 250px (always pixels)
                             $styles['width'] = Converter::pixelToTwip($val);
                             $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP;
@@ -472,10 +472,10 @@ class Html
             $levels = $style->getLevels();
             /** @var \PhpOffice\PhpWord\Style\NumberingLevel */
             $level = $levels[0];
-            if($start > 0){
+            if ($start > 0) {
                 $level->setStart($start);
             }
-            if($type && !!($type = self::mapListType($type))){
+            if ($type && !!($type = self::mapListType($type))) {
                 $level->setFormat($type);
             }
         }
@@ -675,10 +675,10 @@ class Html
                     // must have exact order [width color style], e.g. "1px #0011CC solid" or "2pt green solid"
                     // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
                     if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+|[a-zA-Z]+)\s+([a-z]+)/', $cValue, $matches)) {
-                        if(false !== strpos($cKey, '-')){
+                        if (false !== strpos($cKey, '-')) {
                             $which = explode('-', $cKey)[1];
                             $which = ucfirst($which); // e.g. bottom -> Bottom
-                        }else{
+                        } else {
                             $which = '';
                         }
                         // normalization: in HTML 1px means tinest possible line width, so we cannot convert 1px -> 15 twips, coz line'd be bold, we use smallest twip instead
@@ -883,6 +883,10 @@ class Html
             case 'baseline':
                 return 'top';
             default:
+            	// @discuss - which one should apply:
+            	// - Word uses default vert. alignment: top
+            	// - all browsers use default vert. alignment: middle
+            	// Returning empty string means attribute wont be set so use Word default (top).
                 return '';
         }
     }
