@@ -96,13 +96,13 @@ class Html
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
 
             foreach ($attributes as $attribute) {
-                $val = trim($attribute->value);
+                $val = $attribute->value;
                 switch (strtolower($attribute->name)) {
                     case 'style':
                         $styles = self::parseStyle($attribute, $styles);
                         break;
                     case 'align':
-                        $styles['alignment'] = self::mapAlign($val);
+                        $styles['alignment'] = self::mapAlign(trim($val));
                         break;
                     case 'lang':
                         $styles['lang'] = $val;
@@ -121,7 +121,7 @@ class Html
                         break;
                     case 'cellspacing':
                         // tables e.g. <table cellspacing="2">,  where "2" = 2px (always pixels)
-                        $val = intval($attribute->value).'px';
+                        $val = intval($val).'px';
                         $styles['cellSpacing'] = Converter::cssToTwip($val);
                         break;
                     case 'bgcolor':
@@ -475,7 +475,8 @@ class Html
             if ($start > 0) {
                 $level->setStart($start);
             }
-            if ($type && !!($type = self::mapListType($type))) {
+            $type = $type ? self::mapListType($type) : null;
+            if ($type) {
                 $level->setFormat($type);
             }
         }
