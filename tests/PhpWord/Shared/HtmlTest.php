@@ -774,7 +774,7 @@ HTML;
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:pBdr/w:bottom';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
-        $this->assertEquals(5 * 15, $doc->getElement($xpath)->getAttribute('w:sz'));
+        $this->assertEquals(intval(5 * 15 / 2), $doc->getElement($xpath)->getAttribute('w:sz'));
         $this->assertEquals('lightblue', $doc->getElement($xpath)->getAttribute('w:color'));
 
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';

@@ -682,10 +682,14 @@ class Html
                         } else {
                             $which = '';
                         }
-                        // normalization: in HTML 1px means tinest possible line width, so we cannot convert 1px -> 15 twips, coz line'd be bold, we use smallest twip instead
-                        $size = strtolower(trim($matches[1]));
-                        // BC change: up to ver. 0.17.0 incorrectly converted to points - Converter::cssToPoint($size)
-                        $size = ($size == '1px') ? 1 : Converter::cssToTwip($size);
+                        // Note - border width normalization:
+                        // Width of border in Word is calculated differently than HTML borders, usually showing up too bold.
+                        // Smallest 1px (or 1pt) appears in Word like 2-3px/pt in HTML once converted to twips.
+                        // Therefore we need to normalize converted twip value to cca 1/2 of value.
+                        // This may be adjusted, if better ratio or formula found.
+                        // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
+                        $size = Converter::cssToTwip($matches[1]);
+                        $size = intval($size / 2);
                         // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
                         $styles["border{$which}Size"] = $size; // twips
                         $styles["border{$which}Color"] = trim($matches[2], '#');
@@ -884,10 +888,10 @@ class Html
             case 'baseline':
                 return 'top';
             default:
-            	// @discuss - which one should apply:
-            	// - Word uses default vert. alignment: top
-            	// - all browsers use default vert. alignment: middle
-            	// Returning empty string means attribute wont be set so use Word default (top).
+                // @discuss - which one should apply:
+                // - Word uses default vert. alignment: top
+                // - all browsers use default vert. alignment: middle
+                // Returning empty string means attribute wont be set so use Word default (top).
                 return '';
         }
     }
