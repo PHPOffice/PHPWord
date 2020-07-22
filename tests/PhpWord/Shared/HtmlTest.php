@@ -884,4 +884,22 @@ HTML;
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('bottom', $doc->getElement($xpath)->getAttribute('w:val'));
     }
+
+    /**
+    * Fix bug - don't decode double quotes inside double quoted string
+    */
+    public function testDontDecodeAlreadyEncodedDoubleQuotes()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<div style="font-family: Arial, &quot;Helvetice Neue&quot;">This would crash if inline quotes also decoded at loading XML into DOMDocument!</div>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue(is_object($doc));
+    }
 }
