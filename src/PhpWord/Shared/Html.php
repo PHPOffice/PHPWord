@@ -987,5 +987,4 @@ class Html
         // - line - that is a shape, has different behaviour
         // - repeated text, e.g. underline "_", because of unpredictable line wrapping
     }
-
 }
