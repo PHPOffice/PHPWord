@@ -30,39 +30,4 @@ interface EscaperInterface
      * @return mixed
      */
     public function escape($input);
-    
-    /**
-     * @param mixed $input
-     *
-     * @return mixed
-     */
-    public function escapeHtml($input);
-    
-    /**
-     * @param mixed $input
-     *
-     * @return mixed
-     */
-    public function escapeJs($input);
-    
-    /**
-     * @param mixed $input
-     *
-     * @return mixed
-     */
-    public function escapeUrl($input);
-    
-    /**
-     * @param mixed $input
-     *
-     * @return mixed
-     */
-    public function escapeCss($input);
-    
-    /**
-     * @param mixed $input
-     *
-     * @return mixed
-     */
-    public function escapeHtmlAttr($input);
 }
