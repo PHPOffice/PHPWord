@@ -58,4 +58,11 @@ interface EscaperInterface
      * @return mixed
      */
     public function escapeCss($input);
+    
+    /**
+     * @param mixed $input
+     *
+     * @return mixed
+     */
+    public function escapeHtmlAttr($input);
 }
