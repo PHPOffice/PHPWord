@@ -19,7 +19,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
-use Zend\Escaper\Escaper;
+use Laminas\Escaper\Escaper;
 
 /**
  * @since 0.11.0
