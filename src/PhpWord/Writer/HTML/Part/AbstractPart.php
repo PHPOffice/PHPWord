@@ -32,7 +32,7 @@ abstract class AbstractPart
     private $parentWriter;
 
     /**
-     * @var \Zend\Escaper\Escaper
+     * @var \Laminas\Escaper\Escaper
      */
     protected $escaper;
 
