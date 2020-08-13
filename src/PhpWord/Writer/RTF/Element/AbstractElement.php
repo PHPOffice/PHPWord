@@ -123,7 +123,7 @@ abstract class AbstractElement extends HTMLAbstractElement
     protected function writeText($text)
     {
         if (Settings::isOutputEscapingEnabled()) {
-            return $this->escaper->escape($text);
+            return $this->escaper->escapeHtml($text);
         }
 
         return CommonText::toUnicode($text); // todo: replace with `return $text;` later.
