@@ -13,11 +13,11 @@ php:
 matrix:
     include:
         - php: 5.6
-          env: COMPOSER_MEMORY_LIMIT=4G
+          env: COMPOSER_MEMORY_LIMIT=-1
         - php: 7.0
-          env: COVERAGE=1
+          env: COVERAGE=1 COMPOSER_MEMORY_LIMIT=-1
         - php: 7.3
-          env: DEPENDENCIES="--ignore-platform-reqs"
+          env: DEPENDENCIES="--ignore-platform-reqs" COMPOSER_MEMORY_LIMIT=-1
     exclude:
         - php: 5.3
         - php: 5.4
