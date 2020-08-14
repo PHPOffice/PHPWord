@@ -45,27 +45,29 @@ abstract class AbstractEscaper implements EscaperInterface
         return $input;
     }
     
-    public function escapeHtml($input){
+    public function escapeHtml($input)
+    {
         $escaper = new Escaper();
         if (is_array($input)) {
             foreach ($input as &$item) {
                 $item = $escaper->escapeHtml($item);
             }
         } else {
-            $input = $this->escapeHtml($input);
+            $input = $escaper->escapeHtml($input);
         }
 
         return $input;
     }
     
-    public function escapeJs($input){
+    public function escapeJs($input)
+    {
         $escaper = new Escaper();
         if (is_array($input)) {
             foreach ($input as &$item) {
                 $item = $escaper->escapeJs($item);
             }
         } else {
-            $input = $this->escapeJs($input);
+            $input = $escaper->escapeJs($input);
         }
 
         return $input;
@@ -76,14 +78,15 @@ abstract class AbstractEscaper implements EscaperInterface
      *
      * @return mixed
      */
-    public function escapeCss($input){
+    public function escapeCss($input)
+    {
         $escaper = new Escaper();
         if (is_array($input)) {
             foreach ($input as &$item) {
                 $item = $escaper->escapeCss($item);
             }
         } else {
-            $input = $this->escapeCss($input);
+            $input = $escaper->escapeCss($input);
         }
 
         return $input;
@@ -94,14 +97,15 @@ abstract class AbstractEscaper implements EscaperInterface
      *
      * @return mixed
      */
-    public function escapeHtmlAttr($input){
+    public function escapeHtmlAttr($input)
+    {
         $escaper = new Escaper();
         if (is_array($input)) {
             foreach ($input as &$item) {
                 $item = $escaper->escapeHtmlAttr($item);
             }
         } else {
-            $input = $this->escapeHtmlAttr($input);
+            $input = $escaper->escapeHtmlAttr($input);
         }
 
         return $input;
@@ -112,14 +116,15 @@ abstract class AbstractEscaper implements EscaperInterface
      *
      * @return mixed
      */
-    public function escapeUrl($input){
+    public function escapeUrl($input)
+    {
         $escaper = new Escaper();
         if (is_array($input)) {
             foreach ($input as &$item) {
                 $item = $escaper->escapeUrl($item);
             }
         } else {
-            $input = $this->escapeUrl($input);
+            $input = $escaper->escapeUrl($input);
         }
 
         return $input;
