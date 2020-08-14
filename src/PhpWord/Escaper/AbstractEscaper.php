@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Escaper;
 
+use Laminas\Escaper\Escaper;
 /**
  * @since 0.13.0
  *
@@ -39,6 +40,86 @@ abstract class AbstractEscaper implements EscaperInterface
             }
         } else {
             $input = $this->escapeSingleValue($input);
+        }
+
+        return $input;
+    }
+    
+    public function escapeHtml($input){
+        $escaper = new Escaper();
+        if (is_array($input)) {
+            foreach ($input as &$item) {
+                $item = $escaper->escapeHtml($item);
+            }
+        } else {
+            $input = $this->escapeHtml($input);
+        }
+
+        return $input;
+    }
+    
+    public function escapeJs($input){
+        $escaper = new Escaper();
+        if (is_array($input)) {
+            foreach ($input as &$item) {
+                $item = $escaper->escapeJs($item);
+            }
+        } else {
+            $input = $this->escapeJs($input);
+        }
+
+        return $input;
+    }
+    
+    /**
+     * @param mixed $input
+     *
+     * @return mixed
+     */
+    public function escapeCss($input){
+        $escaper = new Escaper();
+        if (is_array($input)) {
+            foreach ($input as &$item) {
+                $item = $escaper->escapeCss($item);
+            }
+        } else {
+            $input = $this->escapeCss($input);
+        }
+
+        return $input;
+    }
+    
+    /**
+     * @param mixed $input
+     *
+     * @return mixed
+     */
+    public function escapeHtmlAttr($input){
+        $escaper = new Escaper();
+        if (is_array($input)) {
+            foreach ($input as &$item) {
+                $item = $escaper->escapeHtmlAttr($item);
+            }
+        } else {
+            $input = $this->escapeHtmlAttr($input);
+        }
+
+        return $input;
+    }
+    
+    /**
+     * @param mixed $input
+     *
+     * @return mixed
+     */
+    public function escapeUrl($input){
+        $escaper = new Escaper();
+        if (is_array($input)) {
+            foreach ($input as &$item) {
+                $item = $escaper->escapeUrl($item);
+            }
+        } else {
+            $input = $this->escapeUrl($input);
         }
 
         return $input;
