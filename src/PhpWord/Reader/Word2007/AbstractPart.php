@@ -259,7 +259,10 @@ abstract class AbstractPart
                 } else {
                     $imageSource = "zip://{$this->docFile}#{$target}";
                 }
-                $parent->addImage($imageSource);
+                $extension = pathinfo($imageSource, PATHINFO_EXTENSION);
+                if($extension !== 'emf' && $extension !== 'wmf') { //windows OS specific images
+                    $parent->addImage($imageSource);
+                }
             }
         } elseif ($node->nodeName == 'w:drawing') {
             // Office 2011 Image
@@ -277,7 +280,11 @@ abstract class AbstractPart
             $target = $this->getMediaTarget($docPart, $embedId);
             if (!is_null($target)) {
                 $imageSource = "zip://{$this->docFile}#{$target}";
-                $parent->addImage($imageSource, null, false, $name);
+                $extension = pathinfo($imageSource, PATHINFO_EXTENSION);
+                if($extension !== 'emf' && $extension !== 'wmf') { //windows OS specific images
+                    $parent->addImage($imageSource, null, false, $name);
+                }
+                
             }
         } elseif ($node->nodeName == 'w:object') {
             // Object
