@@ -296,6 +296,41 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(' INDEX \\c "3" ', $doc->getElement($element)->textContent);
     }
 
+    public function testUnstyledFieldElement()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle('h1', array('name' => 'Courier New', 'size' => 8));
+        $section = $phpWord->addSection();
+
+        $section->addField('PAGE');
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' PAGE ', $doc->getElement($element)->textContent);
+        $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
+        $this->assertFalse($doc->elementExists($sty));
+    }
+
+    public function testStyledFieldElement()
+    {
+        $phpWord = new PhpWord();
+        $stnam = 'h1';
+        $phpWord->addFontStyle($stnam, array('name' => 'Courier New', 'size' => 8));
+        $section = $phpWord->addSection();
+
+        $fld = $section->addField('PAGE');
+        $fld->setFontStyle($stnam);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' PAGE ', $doc->getElement($element)->textContent);
+        $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
+        $this->assertTrue($doc->elementExists($sty));
+        $this->assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
+    }
+
     public function testFieldElementWithComplexText()
     {
         $phpWord = new PhpWord();

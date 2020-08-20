@@ -44,6 +44,10 @@ class Font extends AbstractStyle
             $xmlWriter->startElement('w:rStyle');
             $xmlWriter->writeAttribute('w:val', $this->style);
             $xmlWriter->endElement();
+            $style = \PhpOffice\PhpWord\Style::getStyle($this->style);
+            if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
+                $xmlWriter->writeElementIf($style->isRTL(), 'w:rtl');
+            }
             $xmlWriter->endElement();
         } else {
             $this->writeStyle();
@@ -139,7 +143,7 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning() * 2);
 
         // noProof
-        $xmlWriter->writeElementIf($style->isNoProof() !== null, 'w:noProof', $this->writeOnOf($style->isNoProof()));
+        $xmlWriter->writeElementIf($style->isNoProof() !== null, 'w:noProof', 'w:val', $this->writeOnOf($style->isNoProof()));
 
         // Background-Color
         $shading = $style->getShading();

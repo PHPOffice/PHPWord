@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
+use PhpOffice\PhpWord\Element\Footer;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\RTF\Element\Container;
 use PhpOffice\PhpWord\Writer\RTF\Style\Section as SectionStyleWriter;
@@ -105,9 +106,34 @@ class Document extends AbstractPart
         $content .= '\lang' . $langId;
         $content .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
         $content .= '\fs' . (Settings::getDefaultFontSize() * 2); // Set the font size in half-points
+        if ($docSettings->hasEvenAndOddHeaders()) {
+            $content .= '\\facingp';
+        }
         $content .= PHP_EOL;
 
         return $content;
+    }
+
+    /**
+     * Write titlepg directive if any "f" headers or footers
+     *
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @return string
+     */
+    private static function writeTitlepg($section)
+    {
+        foreach ($section->getHeaders() as $header) {
+            if ($header->getType() === Footer::FIRST) {
+                return '\\titlepg' . PHP_EOL;
+            }
+        }
+        foreach ($section->getFooters() as $header) {
+            if ($header->getType() === Footer::FIRST) {
+                return '\\titlepg' . PHP_EOL;
+            }
+        }
+
+        return '';
     }
 
     /**
@@ -120,10 +146,53 @@ class Document extends AbstractPart
         $content = '';
 
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
+        $evenOdd = $this->getParentWriter()->getPhpWord()->getSettings()->hasEvenAndOddHeaders();
         foreach ($sections as $section) {
             $styleWriter = new SectionStyleWriter($section->getStyle());
             $styleWriter->setParentWriter($this->getParentWriter());
             $content .= $styleWriter->write();
+            $content .= self::writeTitlepg($section);
+
+            foreach ($section->getHeaders() as $header) {
+                $type = $header->getType();
+                if ($evenOdd || $type !== FOOTER::EVEN) {
+                    $content .= '{\\header';
+                    if ($type === Footer::FIRST) {
+                        $content .= 'f';
+                    } elseif ($evenOdd) {
+                        $content .= ($type === FOOTER::EVEN) ? 'l' : 'r';
+                    }
+                    foreach ($header->getElements() as $element) {
+                        $cl = get_class($element);
+                        $cl2 = str_replace('Element', 'Writer\\RTF\\Element', $cl);
+                        if (class_exists($cl2)) {
+                            $elementWriter = new $cl2($this->getParentWriter(), $element);
+                            $content .= $elementWriter->write();
+                        }
+                    }
+                    $content .= '}' . PHP_EOL;
+                }
+            }
+            foreach ($section->getFooters() as $footer) {
+                $type = $footer->getType();
+                if ($evenOdd || $type !== FOOTER::EVEN) {
+                    $content .= '{\\footer';
+                    if ($type === Footer::FIRST) {
+                        $content .= 'f';
+                    } elseif ($evenOdd) {
+                        $content .= ($type === FOOTER::EVEN) ? 'l' : 'r';
+                    }
+                    foreach ($footer->getElements() as $element) {
+                        $cl = get_class($element);
+                        $cl2 = str_replace('Element', 'Writer\\RTF\\Element', $cl);
+                        if (class_exists($cl2)) {
+                            $elementWriter = new $cl2($this->getParentWriter(), $element);
+                            $content .= $elementWriter->write();
+                        }
+                    }
+                    $content .= '}' . PHP_EOL;
+                }
+            }
 
             $elementWriter = new Container($this->getParentWriter(), $section);
             $content .= $elementWriter->write();

@@ -67,6 +67,14 @@ class Paragraph extends AbstractStyle
         $content .= $this->writeIndentation($style->getIndentation());
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore));
         $content .= $this->getValueIf($spaceAfter !== null, '\sa' . round($spaceAfter));
+        $lineHeight = $style->getLineHeight();
+        if ($lineHeight) {
+            $lineHeightAdjusted = (int) ($lineHeight * 240);
+            $content .= "\\sl$lineHeightAdjusted\\slmult1";
+        }
+        if ($style->hasPageBreakBefore()) {
+            $content .= '\\page';
+        }
 
         $styles = $style->getStyleValues();
         $content .= $this->writeTabs($styles['tabs']);

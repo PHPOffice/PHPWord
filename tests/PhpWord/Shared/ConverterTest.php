@@ -108,17 +108,13 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
      */
     public function testHtmlToRGB()
     {
-        // Prepare test values [ original, expected ]
-        $values = array();
-        $values[] = array('#FF99DD', array(255, 153, 221)); // With #
-        $values[] = array('FF99DD', array(255, 153, 221)); // 6 characters
-        $values[] = array('F9D', array(255, 153, 221)); // 3 characters
-        $values[] = array('0F9D', false); // 4 characters
-        // Conduct test
-        foreach ($values as $value) {
-            $result = Converter::htmlToRgb($value[0]);
-            $this->assertEquals($value[1], $result);
-        }
+        $flse = false;
+        $this->assertEquals(array(255, 153, 221), Converter::htmlToRgb('#FF99DD')); // With #
+        $this->assertEquals(array(224, 170, 29), Converter::htmlToRgb('E0AA1D')); // 6 characters
+        $this->assertEquals(array(102, 119, 136), Converter::htmlToRgb('678')); // 3 characters
+        $this->assertEquals($flse, Converter::htmlToRgb('0F9D')); // 4 characters
+        $this->assertEquals(array(0, 0, 0), Converter::htmlToRgb('unknow')); // 6 characters, invalid
+        $this->assertEquals(array(139, 0, 139), Converter::htmlToRgb(\PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKMAGENTA)); // Constant
     }
 
     /**
