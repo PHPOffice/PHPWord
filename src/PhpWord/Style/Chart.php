@@ -67,7 +67,8 @@ class Chart extends AbstractStyle
     private $showLegend = false;
 
     /**
-     * Chart legend Position. 
+     * Chart legend Position.
+     * Possible values are 'r', 't', 'b', 'l', 'tr'
      *
      * @var string
      */
@@ -240,6 +241,7 @@ class Chart extends AbstractStyle
      * Set the colors to use in a chart.
      *
      * @param array $value a list of colors to use in the chart
+     * @return self
      */
     public function setColors($value = array())
     {
@@ -262,6 +264,7 @@ class Chart extends AbstractStyle
      * Set the chart title
      *
      * @param string $value
+     * @return self
      */
     public function setTitle($value = null)
     {
@@ -284,6 +287,7 @@ class Chart extends AbstractStyle
      * Set chart legend visibility
      *
      * @param bool $value
+     * @return self
      */
     public function setShowLegend($value = false)
     {
@@ -312,11 +316,13 @@ class Chart extends AbstractStyle
      *
      * default: right
      *
-     * @param bool $value
+     * @param string $legendPosition
+     * @return self
      */
-    public function setLegendPosition($value = 'r')
+    public function setLegendPosition($legendPosition = 'r')
     {
-        $this->legendPosition = $value;
+        $enum = array('r', 'b', 't', 'l', 'tr');
+        $this->legendPosition = $this->setEnumVal($legendPosition, $enum, $this->legendPosition);
 
         return $this;
     }
@@ -364,7 +370,10 @@ class Chart extends AbstractStyle
     {
         foreach (array_keys($this->dataLabelOptions) as $option) {
             if (isset($values[$option])) {
-                $this->dataLabelOptions[$option] = $this->setBoolVal($values[$option], $this->dataLabelOptions[$option]);
+                $this->dataLabelOptions[$option] = $this->setBoolVal(
+                    $values[$option],
+                    $this->dataLabelOptions[$option]
+                );
             }
         }
     }

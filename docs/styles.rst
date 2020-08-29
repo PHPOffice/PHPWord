@@ -201,6 +201,7 @@ Available Chart style options:
 - ``colors``. A list of colors to use in the chart.
 - ``title``. The title for the chart.
 - ``showLegend``. Show legend, *true* or *false*.
+- ``LegendPosition``. Legend position, *r* (default), *b*, *t*, *l* or *tr*.
 - ``categoryLabelPosition``. Label position for categories, *nextTo* (default), *low* or *high*.
 - ``valueLabelPosition``. Label position for values, *nextTo* (default), *low* or *high*.
 - ``categoryAxisTitle``. The title for the category axis.
