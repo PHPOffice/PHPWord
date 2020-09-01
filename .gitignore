@@ -21,6 +21,3 @@ phpword.ini
 /.project
 /nbproject
 /.php_cs.cache
-docker-compose.yml
-/phpdocker
-/public
