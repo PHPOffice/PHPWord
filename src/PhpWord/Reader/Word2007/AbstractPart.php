@@ -292,6 +292,19 @@ abstract class AbstractPart
             $parent->addTextBreak();
         } elseif ($node->nodeName == 'w:tab') {
             $parent->addText("\t");
+        } elseif ($node->nodeName == 'mc:AlternateContent') {
+            $hasChildren = $node->childNodes->length > 0;
+            
+            if ($hasChildren) {
+                $origin = $node->childNodes->item($node->childNodes->length - 1);
+
+                if ($origin->nodeValue) {
+                    // TextRun
+                    $textContent = htmlspecialchars($origin->nodeValue, ENT_QUOTES, 'UTF-8');
+
+                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                }
+            }
         } elseif ($node->nodeName == 'w:t' || $node->nodeName == 'w:delText') {
             // TextRun
             $textContent = htmlspecialchars($xmlReader->getValue('.', $node), ENT_QUOTES, 'UTF-8');
