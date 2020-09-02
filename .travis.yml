@@ -22,8 +22,6 @@ matrix:
           dist: trusty
         - php: 5.5
           dist: trusty
-        - php: 5.6
-          env: COMPOSER_MEMORY_LIMIT=3G
         - php: 7.0
           env: COVERAGE=1
         - php: 7.3
@@ -53,6 +51,7 @@ before_install:
     - sudo apt-get install -y graphviz
 
 before_script:
+    - export COMPOSER_MEMORY_LIMIT=-1
     ## Deactivate xdebug if we don't do code coverage
     - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini || echo "xdebug not available" ; fi
     ## Composer
