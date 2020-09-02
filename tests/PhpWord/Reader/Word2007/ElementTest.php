@@ -59,12 +59,9 @@ class ElementTest extends AbstractTestReader
         $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
 
         $elements = $phpWord->getSection(0)->getElements();
-
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]->getElement(0));
-
         $text = $elements[0];
-        
         $this->assertEquals('Test node value', trim($text->getElement(0)->getText()));
     }
     
