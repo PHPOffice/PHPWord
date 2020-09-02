@@ -17,7 +17,7 @@ matrix:
     include:
         - php: 5.3
           dist: precise
-          env: COMPOSER_MEMORY_LIMIT=3G
+          env: COMPOSER_MEMORY_LIMIT=6G
         - php: 5.4
           dist: trusty
         - php: 5.5
