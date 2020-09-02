@@ -362,7 +362,9 @@ class Html
             $cellStyles['gridSpan'] = $colspan - 0;
         }
         $cell = $element->addCell(null, $cellStyles);
-
+        
+        if ($cell == null) return $cell;
+        
         if (self::shouldAddTextRun($node)) {
             return $cell->addTextRun(self::parseInlineStyle($node, $styles['paragraph']));
         }
