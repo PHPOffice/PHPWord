@@ -293,14 +293,14 @@ abstract class AbstractPart
         } elseif ($node->nodeName == 'w:tab') {
             $parent->addText("\t");
         } elseif ($node->nodeName == 'mc:AlternateContent') {
-            $hasChildren = $node->childNodes->length > 0;
-            
-            if ($hasChildren) {
-                $origin = $node->childNodes->item($node->childNodes->length - 1);
+            if ($node->hasChildNodes()) {
+                // Get fallback instead of mc:Choice to make sure it is compatible
+                $fallbackElements = $node->getElementsByTagName('Fallback');
 
-                if ($origin->nodeValue) {
+                if ($fallbackElements->length) {
+                    $fallback = $fallbackElements->item(0);
                     // TextRun
-                    $textContent = htmlspecialchars($origin->nodeValue, ENT_QUOTES, 'UTF-8');
+                    $textContent = htmlspecialchars($fallback->nodeValue, ENT_QUOTES, 'UTF-8');
 
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
