@@ -100,6 +100,13 @@ class Settings
     private static $pdfRendererPath = null;
 
     /**
+     * Config to the external Library used for rendering PDF files
+     *
+     * @var string
+     */
+    private static $pdfRendererConfig = null;
+
+    /**
      * Measurement unit
      *
      * @var int|float
@@ -231,6 +238,19 @@ class Settings
     }
 
     /**
+     * Set the config to use for the PDF Rendering Library.
+     *
+     * @param array $libraryConfig
+     * @return string
+     */
+    public static function setPdfRendererConfig($libraryConfig)
+    {
+        self::$pdfRendererConfig = $libraryConfig;
+
+        return true;
+    }
+
+    /**
      * Return the directory path to the PDF Rendering Library.
      *
      * @return string
@@ -238,6 +258,16 @@ class Settings
     public static function getPdfRendererPath()
     {
         return self::$pdfRendererPath;
+    }
+
+    /**
+     * Return the config to instantiate PDF Rendering Library.
+     *
+     * @return array
+     */
+    public static function getPdfRendererConfig()
+    {
+        return self::$pdfRendererConfig;
     }
 
     /**
