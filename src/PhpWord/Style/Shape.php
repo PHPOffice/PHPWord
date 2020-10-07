@@ -168,7 +168,7 @@ class Shape extends AbstractStyle
      */
     public function getFill()
     {
-        return $this->fill;
+        return $this->fill == "auto" ? null : $this->fill;
     }
 
     /**
