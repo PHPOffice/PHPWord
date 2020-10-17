@@ -72,7 +72,9 @@ class Html
         }
 
         // Load DOM
-        $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+        if (\PHP_VERSION_ID < 80000) {
+            $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+        }
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
@@ -80,7 +82,9 @@ class Html
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
-        libxml_disable_entity_loader($orignalLibEntityLoader);
+        if (\PHP_VERSION_ID < 80000) {
+            libxml_disable_entity_loader($orignalLibEntityLoader);
+        }
     }
 
     /**
