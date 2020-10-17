@@ -467,10 +467,11 @@ class Image extends AbstractElement
      * @param string $filename
      * @return bool
      */
-    private function isFile($filename) {
+    private function isFile($filename)
+    {
         try {
             return @file_exists($filename);
-        } catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             return false;
         }
     }
