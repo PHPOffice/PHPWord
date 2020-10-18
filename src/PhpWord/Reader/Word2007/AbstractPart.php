@@ -573,11 +573,11 @@ abstract class AbstractPart
      * Returns the first child element found
      *
      * @param XMLReader $xmlReader
-     * @param \DOMElement $parentNode
-     * @param string|array $elements
+     * @param \DOMElement|null $parentNode
+     * @param string|array|null $elements
      * @return string|null
      */
-    private function findPossibleElement(XMLReader $xmlReader, \DOMElement $parentNode = null, $elements)
+    private function findPossibleElement(XMLReader $xmlReader, \DOMElement $parentNode = null, $elements = null)
     {
         if (is_array($elements)) {
             //if element is an array, we take the first element that exists in the XML
