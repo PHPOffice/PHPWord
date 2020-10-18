@@ -28,8 +28,11 @@ matrix:
           env: DEPENDENCIES="--ignore-platform-reqs"
     exclude:
         - php: 5.3
+          dist: xenial
         - php: 5.4
+          dist: xenial
         - php: 5.5
+          dist: xenial
         - php: 7.0
     allow_failures:
         - php: nightly
