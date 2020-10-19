@@ -59,6 +59,12 @@ before_script:
     ## Composer in PHP versions 5.x requires 3 GB memory
     - if [ ${TRAVIS_PHP_VERSION:0:2} == "5." ]; then export COMPOSER_MEMORY_LIMIT=3G ; fi
     - travis_wait composer install --prefer-source $(if [ -n "$DEPENDENCIES" ]; then echo $DEPENDENCIES; fi)
+    ## PHP 8 require PHPUnit 8
+    - |
+      if [[ ${TRAVIS_PHP_VERSION:0:2} == "8." ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+        travis_wait composer remove phpunit/phpunit --dev --no-interaction --ignore-platform-reqs
+        travis_wait composer require phpunit/phpunit ^8.0 --dev --ignore-platform-reqs
+      fi
     ## PHPDocumentor
     ##- mkdir -p build/docs
     - mkdir -p build/coverage
