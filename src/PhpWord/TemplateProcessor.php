@@ -585,6 +585,9 @@ class TemplateProcessor
                     return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString) . ':/', $partVar);
                 });
 
+                // Exclude multiple same variable name
+                $varsToReplace = array_unique($varsToReplace);
+
                 foreach ($varsToReplace as $varNameWithArgs) {
                     $varInlineArgs = $this->getImageArgs($varNameWithArgs);
                     $preparedImageAttrs = $this->prepareImageAttrs($replaceImage, $varInlineArgs);
