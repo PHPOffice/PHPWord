@@ -94,6 +94,6 @@ class MPDF extends AbstractRenderer implements WriterInterface
         }
 
         // MPDF version > 6.*
-        return '\Mpdf\Mpdf';
+        return \Mpdf\Mpdf::class;
     }
 }

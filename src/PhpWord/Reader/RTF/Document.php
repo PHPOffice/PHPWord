@@ -246,7 +246,7 @@ class Document
     private function flushControl($isControl = false)
     {
         if (1 === preg_match('/^([A-Za-z]+)(-?[0-9]*) ?$/', $this->control, $match)) {
-            list(, $control, $parameter) = $match;
+            [, $control, $parameter] = $match;
             $this->parseControl($control, $parameter);
         }
 
@@ -337,7 +337,7 @@ class Document
         );
 
         if (isset($controls[$control])) {
-            list($function) = $controls[$control];
+            [$function] = $controls[$control];
             if (method_exists($this, $function)) {
                 $directives = $controls[$control];
                 array_shift($directives); // remove the function variable; we won't need it
@@ -353,7 +353,7 @@ class Document
      */
     private function readParagraph($directives)
     {
-        list($property, $value) = $directives;
+        [$property, $value] = $directives;
         $this->textrun = $this->section->addTextRun();
         $this->flags[$property] = $value;
     }
@@ -365,7 +365,7 @@ class Document
      */
     private function readStyle($directives)
     {
-        list($style, $property, $value) = $directives;
+        [$style, $property, $value] = $directives;
         $this->flags['styles'][$style][$property] = $value;
     }
 
@@ -376,7 +376,7 @@ class Document
      */
     private function readSkip($directives)
     {
-        list($property) = $directives;
+        [$property] = $directives;
         $this->flags['property'] = $property;
         $this->flags['skipped'] = true;
     }

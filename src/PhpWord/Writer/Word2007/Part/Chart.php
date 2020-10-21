@@ -306,7 +306,7 @@ class Chart extends AbstractPart
             'xVal' => array('c:xVal', 'c:strLit'),
             'yVal' => array('c:yVal', 'c:numLit'),
         );
-        list($itemType, $itemLit) = $types[$type];
+        [$itemType, $itemLit] = $types[$type];
 
         $xmlWriter->startElement($itemType);
         $xmlWriter->startElement($itemLit);
@@ -345,7 +345,7 @@ class Chart extends AbstractPart
             'cat' => array('c:catAx', 1, 'b', 2),
             'val' => array('c:valAx', 2, 'l', 1),
         );
-        list($axisType, $axisId, $axisPos, $axisCross) = $types[$type];
+        [$axisType, $axisId, $axisPos, $axisCross] = $types[$type];
 
         $xmlWriter->startElement($axisType);
 

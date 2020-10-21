@@ -38,7 +38,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false, $name = null)
  * @method OLEObject addOLEObject(string $source, mixed $style = null)
  * @method TextBox addTextBox(mixed $style = null)
- * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
+ * @method Field addField(string $type = null, array $properties = [], array $options = [], mixed $text = null)
  * @method Line addLine(mixed $lineStyle = null)
  * @method Shape addShape(string $type, mixed $style = null)
  * @method Chart addChart(string $type, array $categories, array $values, array $style = null, $seriesName = null)
@@ -99,7 +99,7 @@ abstract class AbstractContainer extends AbstractElement
             // Special case for TextBreak
             // @todo Remove the `$count` parameter in 1.0.0 to make this element similiar to other elements?
             if ($element == 'TextBreak') {
-                list($count, $fontStyle, $paragraphStyle) = array_pad($args, 3, null);
+                [$count, $fontStyle, $paragraphStyle] = array_pad($args, 3, null);
                 if ($count === null) {
                     $count = 1;
                 }
@@ -109,6 +109,7 @@ abstract class AbstractContainer extends AbstractElement
             } else {
                 // All other elements
                 array_unshift($args, $element); // Prepend element name to the beginning of args array
+
                 return call_user_func_array(array($this, 'addElement'), $args);
             }
         }

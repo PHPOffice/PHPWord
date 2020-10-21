@@ -262,6 +262,7 @@ class OLERead
             $name = str_replace("\x00", "", substr($data, 0, $nameSize));
 
 
+            $this->props = (array) $this->props;
             $this->props[] = array (
                 'name' => $name,
                 'type' => $type,

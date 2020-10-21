@@ -631,7 +631,7 @@ abstract class AbstractPart
         $styles = array();
 
         foreach ($styleDefs as $styleProp => $styleVal) {
-            list($method, $element, $attribute, $expected) = array_pad($styleVal, 4, null);
+            [$method, $element, $attribute, $expected] = array_pad($styleVal, 4, null);
 
             $element = $this->findPossibleElement($xmlReader, $parentNode, $element);
             if ($element === null) {
@@ -644,7 +644,7 @@ abstract class AbstractPart
                 $attribute = $this->findPossibleAttribute($xmlReader, $node, $attribute);
 
                 // Use w:val as default if no attribute assigned
-                $attribute = ($attribute === null) ? 'w:val' : $attribute;
+                $attribute = $attribute ?? 'w:val';
                 $attributeValue = $xmlReader->getAttribute($attribute, $node);
 
                 $styleValue = $this->readStyleDef($method, $attributeValue, $expected);

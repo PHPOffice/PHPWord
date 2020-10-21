@@ -331,9 +331,9 @@ class Converter
         }
 
         if (strlen($value) == 6) {
-            list($red, $green, $blue) = array($value[0] . $value[1], $value[2] . $value[3], $value[4] . $value[5]);
+            [$red, $green, $blue] = array($value[0] . $value[1], $value[2] . $value[3], $value[4] . $value[5]);
         } elseif (strlen($value) == 3) {
-            list($red, $green, $blue) = array($value[0] . $value[0], $value[1] . $value[1], $value[2] . $value[2]);
+            [$red, $green, $blue] = array($value[0] . $value[0], $value[1] . $value[1], $value[2] . $value[2]);
         } else {
             return false;
         }

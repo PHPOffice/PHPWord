@@ -149,7 +149,7 @@ class Settings extends AbstractPart
         $val = $xmlReader->getAttribute('w:val', $node);
 
         if ($percent !== null || $val !== null) {
-            $phpWord->getSettings()->setZoom($percent === null ? $val : $percent);
+            $phpWord->getSettings()->setZoom($percent ?? $val);
         }
     }
 

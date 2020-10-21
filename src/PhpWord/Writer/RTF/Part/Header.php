@@ -155,7 +155,7 @@ class Header extends AbstractPart
         $content .= '{';
         $content .= '\colortbl;';
         foreach ($this->colorTable as $color) {
-            list($red, $green, $blue) = Converter::htmlToRgb($color);
+            [$red, $green, $blue] = Converter::htmlToRgb($color);
             $content .= "\\red{$red}\\green{$green}\\blue{$blue};";
         }
         $content .= '}';

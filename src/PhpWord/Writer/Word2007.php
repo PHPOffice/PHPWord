@@ -175,7 +175,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $elements = Media::getElements($docPart);
         if (!empty($elements)) {
             foreach ($elements as $file => $media) {
-                if (count($media) > 0) {
+                if ((is_countable($media) ? count($media) : 0) > 0) {
                     if (!empty($media)) {
                         $this->addFilesToPackage($zip, $media);
                         $this->registerContentTypes($media);

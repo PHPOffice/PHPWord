@@ -159,7 +159,7 @@ class Paper extends AbstractStyle
     {
         $this->size = $this->setEnumVal($size, array_keys($this->sizes), $this->size);
 
-        list($width, $height, $unit) = $this->sizes[$this->size];
+        [$width, $height, $unit] = $this->sizes[$this->size];
 
         if ($unit == 'mm') {
             $this->width = Converter::cmToTwip($width / 10);

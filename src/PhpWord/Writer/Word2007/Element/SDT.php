@@ -56,7 +56,7 @@ class SDT extends Text
         $xmlWriter->startElement('w:sdtPr');
         $xmlWriter->writeElementIf($alias != null, 'w:alias', 'w:val', $alias);
         $xmlWriter->writeElementBlock('w:lock', 'w:val', 'sdtLocked');
-        $xmlWriter->writeElementBlock('w:id', 'w:val', rand(100000000, 999999999));
+        $xmlWriter->writeElementBlock('w:id', 'w:val', random_int(100000000, 999999999));
         $xmlWriter->writeElementIf($tag != null, 'w:tag', 'w:val', $tag);
         $this->$writeFormField($xmlWriter, $element);
         $xmlWriter->endElement(); // w:sdtPr

@@ -383,7 +383,7 @@ abstract class AbstractWriter implements WriterInterface
         $actualSource = null;
         if ($isArchive) {
             $source = substr($source, 6);
-            list($zipFilename, $imageFilename) = explode('#', $source);
+            [$zipFilename, $imageFilename] = explode('#', $source);
 
             $zip = new ZipArchive();
             if ($zip->open($zipFilename) !== false) {

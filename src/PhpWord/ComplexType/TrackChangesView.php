@@ -77,7 +77,7 @@ final class TrackChangesView
      */
     public function setMarkup($markup)
     {
-        $this->markup = $markup === null ? true : $markup;
+        $this->markup = $markup ?? true;
     }
 
     /**
@@ -98,7 +98,7 @@ final class TrackChangesView
      */
     public function setComments($comments)
     {
-        $this->comments = $comments === null ? true : $comments;
+        $this->comments = $comments ?? true;
     }
 
     /**
@@ -119,7 +119,7 @@ final class TrackChangesView
      */
     public function setInsDel($insDel)
     {
-        $this->insDel = $insDel === null ? true : $insDel;
+        $this->insDel = $insDel ?? true;
     }
 
     /**
@@ -140,7 +140,7 @@ final class TrackChangesView
      */
     public function setFormatting($formatting = null)
     {
-        $this->formatting = $formatting === null ? true : $formatting;
+        $this->formatting = $formatting ?? true;
     }
 
     /**
@@ -161,6 +161,6 @@ final class TrackChangesView
      */
     public function setInkAnnotations($inkAnnotations)
     {
-        $this->inkAnnotations = $inkAnnotations === null ? true : $inkAnnotations;
+        $this->inkAnnotations = $inkAnnotations ?? true;
     }
 }

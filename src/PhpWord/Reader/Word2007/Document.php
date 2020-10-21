@@ -73,7 +73,7 @@ class Document extends AbstractPart
         if (is_array($settings) && isset($settings['hf'])) {
             foreach ($settings['hf'] as $rId => $hfSetting) {
                 if (isset($this->rels['document'][$rId])) {
-                    list($hfType, $xmlFile, $docPart) = array_values($this->rels['document'][$rId]);
+                    [$hfType, $xmlFile, $docPart] = array_values($this->rels['document'][$rId]);
                     $addMethod = "add{$hfType}";
                     $hfObject = $section->$addMethod($hfSetting['type']);
 

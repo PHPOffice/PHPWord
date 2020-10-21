@@ -69,7 +69,7 @@ class MarginBorder extends AbstractStyle
                 if (isset($this->colors[$i])) {
                     $color = $this->colors[$i];
                 }
-                $style = isset($this->styles[$i]) ? $this->styles[$i] : 'single';
+                $style = $this->styles[$i] ?? 'single';
                 $this->writeSide($xmlWriter, $sides[$i], $this->sizes[$i], $color, $style);
             }
         }

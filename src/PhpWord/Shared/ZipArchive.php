@@ -80,7 +80,7 @@ class ZipArchive
      */
     public function __construct()
     {
-        $this->usePclzip = (Settings::getZipClass() != 'ZipArchive');
+        $this->usePclzip = (Settings::getZipClass() != \ZipArchive::class);
         if ($this->usePclzip) {
             if (!defined('PCLZIP_TEMPORARY_DIR')) {
                 define('PCLZIP_TEMPORARY_DIR', Settings::getTempDir() . '/');
@@ -384,7 +384,7 @@ class ZipArchive
         /** @var \PclZip $zip Type hint */
         $zip = $this->zip;
         $list = $zip->listContent();
-        $listCount = count($list);
+        $listCount = is_countable($list) ? count($list) : 0;
         $listIndex = -1;
         for ($i = 0; $i < $listCount; ++$i) {
             if (strtolower($list[$i]['filename']) == strtolower($filename) ||

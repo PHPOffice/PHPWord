@@ -171,19 +171,19 @@ class Html
             // Arguments are passed by reference
             $arguments = array();
             $args = array();
-            list($method, $args[0], $args[1], $args[2], $args[3], $args[4], $args[5]) = $nodes[$node->nodeName];
+            [$method, $args[0], $args[1], $args[2], $args[3], $args[4], $args[5]] = $nodes[$node->nodeName];
             for ($i = 0; $i <= 5; $i++) {
                 if ($args[$i] !== null) {
                     $arguments[$keys[$i]] = &$args[$i];
                 }
             }
             $method = "parse{$method}";
-            $newElement = call_user_func_array(array('PhpOffice\PhpWord\Shared\Html', $method), $arguments);
+            $newElement = call_user_func_array(array(self::class, $method), $arguments);
 
             // Retrieve back variables from arguments
             foreach ($keys as $key) {
                 if (array_key_exists($key, $arguments)) {
-                    $$key = $arguments[$key];
+                    ${$key} = $arguments[$key];
                 }
             }
         }
@@ -500,7 +500,7 @@ class Html
         $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
 
         foreach ($properties as $property) {
-            list($cKey, $cValue) = array_pad(explode(':', $property, 2), 2, null);
+            [$cKey, $cValue] = array_pad(explode(':', $property, 2), 2, null);
             $cValue = trim($cValue);
             switch (trim($cKey)) {
                 case 'text-decoration':
@@ -646,7 +646,7 @@ class Html
                     $styleattr = explode(';', $attribute->value);
                     foreach ($styleattr as $attr) {
                         if (strpos($attr, ':')) {
-                            list($k, $v) = explode(':', $attr);
+                            [$k, $v] = explode(':', $attr);
                             switch ($k) {
                                 case 'float':
                                     if (trim($v) == 'right') {

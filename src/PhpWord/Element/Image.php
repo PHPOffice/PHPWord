@@ -338,7 +338,7 @@ class Image extends AbstractElement
         // Return null if not found
         if ($this->sourceType == self::SOURCE_ARCHIVE) {
             $source = substr($source, 6);
-            list($zipFilename, $imageFilename) = explode('#', $source);
+            [$zipFilename, $imageFilename] = explode('#', $source);
 
             $zip = new ZipArchive();
             if ($zip->open($zipFilename) !== false) {
@@ -417,7 +417,7 @@ class Image extends AbstractElement
         if (!is_array($imageData)) {
             throw new InvalidImageException(sprintf('Invalid image: %s', $this->source));
         }
-        list($actualWidth, $actualHeight, $imageType) = $imageData;
+        [$actualWidth, $actualHeight, $imageType] = $imageData;
 
         // Check image type support
         $supportedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG);
@@ -478,7 +478,7 @@ class Image extends AbstractElement
     {
         $imageData = null;
         $source = substr($source, 6);
-        list($zipFilename, $imageFilename) = explode('#', $source);
+        [$zipFilename, $imageFilename] = explode('#', $source);
 
         $tempFilename = tempnam(Settings::getTempDir(), 'PHPWordImage');
         if (false === $tempFilename) {
