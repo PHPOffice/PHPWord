@@ -365,8 +365,8 @@ abstract class AbstractPart
                                 $this->readParagraph($xmlReader, $cellNode, $cell, $docPart);
                             }
                             if ($cellNode->nodeName == 'w:tbl') { // nested tables
-		                        $this->readTable($xmlReader, $cellNode, $cell, $docPart);
-	                        }
+                                $this->readTable($xmlReader, $cellNode, $cell, $docPart);
+                            }
                         }
                     }
                 }
