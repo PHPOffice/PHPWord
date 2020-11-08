@@ -293,11 +293,11 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $html = '<table align="left" style="width: 50%; border: 6px #0000FF solid;">
+        $html = '<table align="left" style="width: 50%; border: 12px #0000FF double">
                 <thead>
-                    <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
-                        <th style="width: 50pt">header a</th>
-                        <th style="width: 50; border-color: #00EE00">header b</th>
+                    <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold">
+                        <th style="width: 50pt"><p>header a</p></th>
+                        <th style="width: 50; border-color: #00EE00; border-width: 3px"><span>header b</span></th>
                         <th style="border-color: #00AA00 #00BB00 #00CC00 #00DD00; border-width: 3px">header c</th>
                     </tr>
                 </thead>
@@ -324,6 +324,12 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertEquals('00BB00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:right', 'w:color'));
         $this->assertEquals('00CC00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:bottom', 'w:color'));
         $this->assertEquals('00DD00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:left', 'w:color'));
+
+        //check borders are not propagated inside cells
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:p'));
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:p/w:pPr/w:pBdr'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:p'));
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:p/w:pPr/w:pBdr'));
     }
 
     /**
