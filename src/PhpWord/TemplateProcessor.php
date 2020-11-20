@@ -1070,7 +1070,11 @@ class TemplateProcessor
         return preg_replace_callback(
             '/\\' . $brokenMacroOpeningChars . '(?:\\' . $endMacroOpeningChars . '|[^{$]*\>\{)[^' . $macroClosingChars . '$]*\}/U',
             function ($match) {
-                return strip_tags($match[0]);
+                preg_match_all('/<.+?\s*\/?\s*>/si', $match[0], $tags);
+                $tags = implode('', $tags[0]);
+                $tags = str_replace('<w:t>', '<w:t xml:space="preserve">', $tags);
+
+                return strip_tags($match[0]) . $tags;
             },
             $documentPart
         );
