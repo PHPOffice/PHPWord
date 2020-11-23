@@ -190,7 +190,8 @@ abstract class AbstractPart
             }
 
             $headingMatches = array();
-            preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
+            preg_match('/heading(\d)/', mb_strtolower(str_replace(' ', '', $paragraphStyle['styleName'])), $headingMatches);
+
             if (!empty($headingMatches)) {
                 return $headingMatches[1];
             }
@@ -344,8 +345,8 @@ abstract class AbstractPart
                 $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
                 $rowHRule = $rowHRule == 'exact';
                 $rowStyle = array(
-                    'tblHeader'   => $xmlReader->elementExists('w:trPr/w:tblHeader', $tblNode),
-                    'cantSplit'   => $xmlReader->elementExists('w:trPr/w:cantSplit', $tblNode),
+                    'tblHeader' => $xmlReader->elementExists('w:trPr/w:tblHeader', $tblNode),
+                    'cantSplit' => $xmlReader->elementExists('w:trPr/w:cantSplit', $tblNode),
                     'exactHeight' => $rowHRule,
                 );
 
@@ -390,21 +391,21 @@ abstract class AbstractPart
 
         $styleNode = $xmlReader->getElement('w:pPr', $domNode);
         $styleDefs = array(
-            'styleName'           => array(self::READ_VALUE, array('w:pStyle', 'w:name')),
-            'alignment'           => array(self::READ_VALUE, 'w:jc'),
-            'basedOn'             => array(self::READ_VALUE, 'w:basedOn'),
-            'next'                => array(self::READ_VALUE, 'w:next'),
-            'indent'              => array(self::READ_VALUE, 'w:ind', 'w:left'),
-            'hanging'             => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
-            'spaceAfter'          => array(self::READ_VALUE, 'w:spacing', 'w:after'),
-            'spaceBefore'         => array(self::READ_VALUE, 'w:spacing', 'w:before'),
-            'widowControl'        => array(self::READ_FALSE, 'w:widowControl'),
-            'keepNext'            => array(self::READ_TRUE,  'w:keepNext'),
-            'keepLines'           => array(self::READ_TRUE,  'w:keepLines'),
-            'pageBreakBefore'     => array(self::READ_TRUE,  'w:pageBreakBefore'),
-            'contextualSpacing'   => array(self::READ_TRUE,  'w:contextualSpacing'),
-            'bidi'                => array(self::READ_TRUE,  'w:bidi'),
-            'suppressAutoHyphens' => array(self::READ_TRUE,  'w:suppressAutoHyphens'),
+            'styleName' => array(self::READ_VALUE, array('w:pStyle', 'w:name')),
+            'alignment' => array(self::READ_VALUE, 'w:jc'),
+            'basedOn' => array(self::READ_VALUE, 'w:basedOn'),
+            'next' => array(self::READ_VALUE, 'w:next'),
+            'indent' => array(self::READ_VALUE, 'w:ind', 'w:left'),
+            'hanging' => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
+            'spaceAfter' => array(self::READ_VALUE, 'w:spacing', 'w:after'),
+            'spaceBefore' => array(self::READ_VALUE, 'w:spacing', 'w:before'),
+            'widowControl' => array(self::READ_FALSE, 'w:widowControl'),
+            'keepNext' => array(self::READ_TRUE, 'w:keepNext'),
+            'keepLines' => array(self::READ_TRUE, 'w:keepLines'),
+            'pageBreakBefore' => array(self::READ_TRUE, 'w:pageBreakBefore'),
+            'contextualSpacing' => array(self::READ_TRUE, 'w:contextualSpacing'),
+            'bidi' => array(self::READ_TRUE, 'w:bidi'),
+            'suppressAutoHyphens' => array(self::READ_TRUE, 'w:suppressAutoHyphens'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -432,25 +433,25 @@ abstract class AbstractPart
 
         $styleNode = $xmlReader->getElement('w:rPr', $domNode);
         $styleDefs = array(
-            'styleName'           => array(self::READ_VALUE, 'w:rStyle'),
-            'name'                => array(self::READ_VALUE, 'w:rFonts', array('w:ascii', 'w:hAnsi', 'w:eastAsia', 'w:cs')),
-            'hint'                => array(self::READ_VALUE, 'w:rFonts', 'w:hint'),
-            'size'                => array(self::READ_SIZE,  array('w:sz', 'w:szCs')),
-            'color'               => array(self::READ_VALUE, 'w:color'),
-            'underline'           => array(self::READ_VALUE, 'w:u'),
-            'bold'                => array(self::READ_TRUE,  'w:b'),
-            'italic'              => array(self::READ_TRUE,  'w:i'),
-            'strikethrough'       => array(self::READ_TRUE,  'w:strike'),
-            'doubleStrikethrough' => array(self::READ_TRUE,  'w:dstrike'),
-            'smallCaps'           => array(self::READ_TRUE,  'w:smallCaps'),
-            'allCaps'             => array(self::READ_TRUE,  'w:caps'),
-            'superScript'         => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'superscript'),
-            'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
-            'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
-            'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
-            'lang'                => array(self::READ_VALUE, 'w:lang'),
-            'position'            => array(self::READ_VALUE, 'w:position'),
-            'hidden'              => array(self::READ_TRUE,  'w:vanish'),
+            'styleName' => array(self::READ_VALUE, 'w:rStyle'),
+            'name' => array(self::READ_VALUE, 'w:rFonts', array('w:ascii', 'w:hAnsi', 'w:eastAsia', 'w:cs')),
+            'hint' => array(self::READ_VALUE, 'w:rFonts', 'w:hint'),
+            'size' => array(self::READ_SIZE, array('w:sz', 'w:szCs')),
+            'color' => array(self::READ_VALUE, 'w:color'),
+            'underline' => array(self::READ_VALUE, 'w:u'),
+            'bold' => array(self::READ_TRUE, 'w:b'),
+            'italic' => array(self::READ_TRUE, 'w:i'),
+            'strikethrough' => array(self::READ_TRUE, 'w:strike'),
+            'doubleStrikethrough' => array(self::READ_TRUE, 'w:dstrike'),
+            'smallCaps' => array(self::READ_TRUE, 'w:smallCaps'),
+            'allCaps' => array(self::READ_TRUE, 'w:caps'),
+            'superScript' => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'superscript'),
+            'subScript' => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
+            'fgColor' => array(self::READ_VALUE, 'w:highlight'),
+            'rtl' => array(self::READ_TRUE, 'w:rtl'),
+            'lang' => array(self::READ_VALUE, 'w:lang'),
+            'position' => array(self::READ_VALUE, 'w:position'),
+            'hidden' => array(self::READ_TRUE, 'w:vanish'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -516,16 +517,16 @@ abstract class AbstractPart
     private function readTablePosition(XMLReader $xmlReader, \DOMElement $domNode)
     {
         $styleDefs = array(
-            'leftFromText'   => array(self::READ_VALUE, '.', 'w:leftFromText'),
-            'rightFromText'  => array(self::READ_VALUE, '.', 'w:rightFromText'),
-            'topFromText'    => array(self::READ_VALUE, '.', 'w:topFromText'),
+            'leftFromText' => array(self::READ_VALUE, '.', 'w:leftFromText'),
+            'rightFromText' => array(self::READ_VALUE, '.', 'w:rightFromText'),
+            'topFromText' => array(self::READ_VALUE, '.', 'w:topFromText'),
             'bottomFromText' => array(self::READ_VALUE, '.', 'w:bottomFromText'),
-            'vertAnchor'     => array(self::READ_VALUE, '.', 'w:vertAnchor'),
-            'horzAnchor'     => array(self::READ_VALUE, '.', 'w:horzAnchor'),
-            'tblpXSpec'      => array(self::READ_VALUE, '.', 'w:tblpXSpec'),
-            'tblpX'          => array(self::READ_VALUE, '.', 'w:tblpX'),
-            'tblpYSpec'      => array(self::READ_VALUE, '.', 'w:tblpYSpec'),
-            'tblpY'          => array(self::READ_VALUE, '.', 'w:tblpY'),
+            'vertAnchor' => array(self::READ_VALUE, '.', 'w:vertAnchor'),
+            'horzAnchor' => array(self::READ_VALUE, '.', 'w:horzAnchor'),
+            'tblpXSpec' => array(self::READ_VALUE, '.', 'w:tblpXSpec'),
+            'tblpX' => array(self::READ_VALUE, '.', 'w:tblpX'),
+            'tblpYSpec' => array(self::READ_VALUE, '.', 'w:tblpYSpec'),
+            'tblpY' => array(self::READ_VALUE, '.', 'w:tblpY'),
         );
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
@@ -542,11 +543,11 @@ abstract class AbstractPart
     {
         $styleDefs = array(
             'value' => array(self::READ_VALUE, '.', 'w:w'),
-            'type'  => array(self::READ_VALUE, '.', 'w:type'),
+            'type' => array(self::READ_VALUE, '.', 'w:type'),
         );
         $styleDefs = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
 
-        return new TblWidthComplexType((int) $styleDefs['value'], $styleDefs['type']);
+        return new TblWidthComplexType((int)$styleDefs['value'], $styleDefs['type']);
     }
 
     /**
@@ -559,11 +560,11 @@ abstract class AbstractPart
     private function readCellStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         $styleDefs = array(
-            'valign'        => array(self::READ_VALUE, 'w:vAlign'),
+            'valign' => array(self::READ_VALUE, 'w:vAlign'),
             'textDirection' => array(self::READ_VALUE, 'w:textDirection'),
-            'gridSpan'      => array(self::READ_VALUE, 'w:gridSpan'),
-            'vMerge'        => array(self::READ_VALUE, 'w:vMerge'),
-            'bgColor'       => array(self::READ_VALUE, 'w:shd', 'w:fill'),
+            'gridSpan' => array(self::READ_VALUE, 'w:gridSpan'),
+            'vMerge' => array(self::READ_VALUE, 'w:vMerge'),
+            'bgColor' => array(self::READ_VALUE, 'w:shd', 'w:fill'),
         );
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
