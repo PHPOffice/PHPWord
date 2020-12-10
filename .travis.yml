@@ -58,13 +58,17 @@ before_script:
     - composer self-update
     ## Composer in PHP versions 5.x requires 3 GB memory
     - if [ ${TRAVIS_PHP_VERSION:0:2} == "5." ]; then export COMPOSER_MEMORY_LIMIT=3G ; fi
+    ## PHP 8 require PHPUnit 8 (ugly hack for support PHPUnit 7 and 8 together)
+    - |
+      if [[ ${TRAVIS_PHP_VERSION:0:2} == "8." ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+        travis_wait composer remove phpunit/phpunit --dev --no-update --no-interaction
+        travis_wait composer require phpunit/phpunit ^8.0 --dev --no-update
+      fi
+    ## Install composer packages
     - travis_wait composer install --prefer-source $(if [ -n "$DEPENDENCIES" ]; then echo $DEPENDENCIES; fi)
     ## PHP 8 require PHPUnit 8 (ugly hack for support PHPUnit 7 and 8 together)
     - |
       if [[ ${TRAVIS_PHP_VERSION:0:2} == "8." ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
-        travis_wait composer remove phpunit/phpunit --dev --no-interaction --ignore-platform-reqs
-        travis_wait composer require phpunit/phpunit ^8.0 --dev --ignore-platform-reqs
-
         find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function setUpBeforeClass()$/function setUpBeforeClass(): void/' {} \;
         find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function tearDownAfterClass()$/function tearDownAfterClass(): void/' {} \;
         find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function setUp()$/function setUp(): void/' {} \;
