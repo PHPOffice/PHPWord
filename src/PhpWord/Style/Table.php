@@ -216,7 +216,7 @@ class Table extends Border
     }
 
     /**
-     * Set first row
+     * Get first row
      *
      * @return \PhpOffice\PhpWord\Style\Table
      */

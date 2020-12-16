@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 
 /**
  * Paragraph style HTML writer
@@ -78,6 +79,13 @@ class Paragraph extends AbstractStyle
         } else {
             $css['margin-top'] = '0';
             $css['margin-bottom'] = '0';
+        }
+
+        $fontStyle = $style->getFontStyle();
+        if ($fontStyle) {
+            $styleWriter = new FontStyleWriter($fontStyle);
+
+            return $this->assembleCss($css) . ' ' . $styleWriter->write();
         }
 
         return $this->assembleCss($css);

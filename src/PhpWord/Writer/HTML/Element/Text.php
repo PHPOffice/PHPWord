@@ -70,15 +70,23 @@ class Text extends AbstractElement
         $element = $this->element;
         $this->getFontStyle();
 
+        $textContent = $element->getText();
+        if (Settings::isOutputEscapingEnabled()) {
+            $textContent = $this->escaper->escapeHtml($textContent);
+        }
+        if ($textContent === ' ') {
+            $textContent = '&nbsp;';
+        } elseif ($textContent === "\t") {
+            $textContent = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+        } elseif ($textContent === '') {
+            $textContent = '&nbsp;';	// html do not output empty paragraphs => add at least space
+        }
+
         $content = '';
         $content .= $this->writeOpening();
         $content .= $this->openingText;
         $content .= $this->openingTags;
-        if (Settings::isOutputEscapingEnabled()) {
-            $content .= $this->escaper->escapeHtml($element->getText());
-        } else {
-            $content .= $element->getText();
-        }
+        $content .= $textContent;
         $content .= $this->closingTags;
         $content .= $this->closingText;
         $content .= $this->writeClosing();
@@ -116,10 +124,34 @@ class Text extends AbstractElement
         $content = '';
         if (!$this->withoutP) {
             $style = '';
+            $tabs = null;
             if (method_exists($this->element, 'getParagraphStyle')) {
                 $style = $this->getParagraphStyle();
+                $paragraphStyle = $this->element->getParagraphStyle();
+                if (is_object($paragraphStyle)) {
+                    $tabs = $paragraphStyle->getTabs();
+                }
+            } elseif ($this->element instanceof \PhpOffice\PhpWord\Element\Image) {
+                $elementStyle = $this->element->getStyle();
+
+                // Alignment for images work via parent paragraph
+                switch ($elementStyle->getAlignment()) {
+                    case $elementStyle::POSITION_HORIZONTAL_CENTER:
+                        $style = ' style="text-align:center;"';
+                        break;
+                    case $elementStyle::POSITION_HORIZONTAL_RIGHT:
+                        $style = ' style="text-align:right;"';
+                        break;
+                    default: //all others, align left
+                        break;
+                }
             }
-            $content .= "<p{$style}>";
+
+            if ($tabs) {
+                $content .= "<div class=\"paragraph\"{$style}>";
+            } else {
+                $content .= "<p{$style}>";
+            }
         }
 
         //open track change tag
@@ -147,7 +179,19 @@ class Text extends AbstractElement
                 $content .= $this->closingText;
             }
 
-            $content .= '</p>' . PHP_EOL;
+            $tabs = null;
+            if (method_exists($this->element, 'getParagraphStyle')) {
+                $paragraphStyle = $this->element->getParagraphStyle();
+                if (is_object($paragraphStyle)) {
+                    $tabs = $paragraphStyle->getTabs();
+                }
+            }
+
+            if ($tabs) {
+                $content .= '</div>' . PHP_EOL;
+            } else {
+                $content .= '</p>' . PHP_EOL;
+            }
         }
 
         return $content;
