@@ -54,8 +54,8 @@ class Table extends AbstractElement
 
             $borderStyleConverter = array(
                 'single'=> 'solid',
-                'none'	 => 'none',
-                'nil'	  => 'hidden',
+                'none'  => 'none',
+                'nil'   => 'hidden',
                 'dotted'=> 'dotted',
                 'dashed'=> 'dashed',
                 'double'=> 'double',
@@ -131,7 +131,7 @@ class Table extends AbstractElement
                             if ($cellBorderSizes[$k] > 0) {
                                 $borderColor = $cellBorderColors[$k];
                                 if ($borderColor == 'auto') {
-                                    $borderColor = '000';	// TODO: Detect better color
+                                    $borderColor = '000';  // TODO: Detect better color
                                 }
                                 $borderStyle = $cellBorderStyles[$k];
                                 if (isset($borderStyleConverter[$borderStyle])) {

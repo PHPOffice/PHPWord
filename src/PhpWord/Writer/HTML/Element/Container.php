@@ -76,7 +76,7 @@ class Container extends AbstractElement
                 /** @var \PhpOffice\PhpWord\Writer\HTML\Element\AbstractElement $writer Type hint */
                 $writer = new $writerClass($this->parentWriter, $element, $withoutP);
                 if ($tabsCfg && (count($tabsCfg) > $tabsIdx) && ($writerClass == $this->namespace . '\\Text') && ($element->getText() == "\t")) {
-                    $this->SetupTabStopElement($elementsContent, $currentColumnIdx, $currentFontStyle, $tabsCfg, $tabsIdx, $prevColumnSize);
+                    $this->setupTabStopElement($elementsContent, $currentColumnIdx, $currentFontStyle, $tabsCfg, $tabsIdx, $prevColumnSize);
 
                     // setup new tabs start
                     $currentFontStyle = array();
@@ -92,7 +92,7 @@ class Container extends AbstractElement
         }
 
         if ($tabsCfg) {
-            $this->SetupTabStopElement($elementsContent, $currentColumnIdx, $currentFontStyle, $tabsCfg, $tabsIdx, $prevColumnSize);
+            $this->setupTabStopElement($elementsContent, $currentColumnIdx, $currentFontStyle, $tabsCfg, $tabsIdx, $prevColumnSize);
             if (is_null($elementsContent[$currentColumnIdx])) {
                 $elementsContent[$currentColumnIdx] = ($currentColumnIdx > 1 ? '</td>' : '') . '<td class="tabstop">';
             }
@@ -104,7 +104,7 @@ class Container extends AbstractElement
         return $content;
     }
 
-    private function SetupTabStopElement(&$elementsContent, $currentColumnIdx, $currentFontStyle, $tabsCfg, &$tabsIdx, &$prevColumnSize)
+    private function setupTabStopElement(&$elementsContent, $currentColumnIdx, $currentFontStyle, $tabsCfg, &$tabsIdx, &$prevColumnSize)
     {
         $columnHtml = implode('', array_slice($elementsContent, $currentColumnIdx + 1));
         $columnText = preg_replace("/\s+/", ' ', strip_tags($columnHtml));

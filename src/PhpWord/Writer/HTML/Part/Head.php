@@ -110,11 +110,11 @@ class Head extends AbstractPart
                 'border'        => '0',
             ),
             'p' => array(
-                'margin-top'	   => '0',
+                'margin-top'    => '0',
                 'margin-bottom' => '0',
             ),
             'div.paragraph' => array(
-                'margin'    	   => '0',
+                'margin'        => '0',
                 'margin-bottom' => '0',
             ),
             'table.tabstops'=> array(

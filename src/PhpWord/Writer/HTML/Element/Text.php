@@ -79,7 +79,7 @@ class Text extends AbstractElement
         } elseif ($textContent === "\t") {
             $textContent = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
         } elseif ($textContent === '') {
-            $textContent = '&nbsp;';	// html do not output empty paragraphs => add at least space
+            $textContent = '&nbsp;'; // html do not output empty paragraphs => add at least space
         }
 
         $content = '';
