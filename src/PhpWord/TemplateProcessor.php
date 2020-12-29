@@ -170,7 +170,9 @@ class TemplateProcessor
      */
     protected function transformSingleXml($xml, $xsltProcessor)
     {
-        $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+        if (\PHP_VERSION_ID < 80000) {
+            $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+        }
         $domDocument = new \DOMDocument();
         if (false === $domDocument->loadXML($xml)) {
             throw new Exception('Could not load the given XML document.');
@@ -180,7 +182,9 @@ class TemplateProcessor
         if (false === $transformedXml) {
             throw new Exception('Could not transform the given XML document.');
         }
-        libxml_disable_entity_loader($orignalLibEntityLoader);
+        if (\PHP_VERSION_ID < 80000) {
+            libxml_disable_entity_loader($orignalLibEntityLoader);
+        }
 
         return $transformedXml;
     }

@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use Laminas\Escaper\Escaper;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
-use Zend\Escaper\Escaper;
 
 /**
  * Abstract HTML element writer
@@ -50,7 +50,7 @@ abstract class AbstractElement
     protected $withoutP = false;
 
     /**
-     * @var \Zend\Escaper\Escaper|\PhpOffice\PhpWord\Escaper\AbstractEscaper
+     * @var \Laminas\Escaper\Escaper|\PhpOffice\PhpWord\Escaper\AbstractEscaper
      */
     protected $escaper;
 

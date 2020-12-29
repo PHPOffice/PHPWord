@@ -140,6 +140,11 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
+        // Test is not needed for PHP 8.0, because internally validation throws TypeError exception.
+        if (\PHP_VERSION_ID >= 80000) {
+            $this->markTestSkipped('not needed for PHP 8.0');
+        }
+
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
 
         $xslDomDocument = new \DOMDocument();

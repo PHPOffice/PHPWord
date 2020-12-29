@@ -76,10 +76,14 @@ class XmlDocument
         $this->file = $file;
 
         $file = $this->path . '/' . $file;
-        $orignalLibEntityLoader = libxml_disable_entity_loader(false);
+        if (\PHP_VERSION_ID < 80000) {
+            $orignalLibEntityLoader = libxml_disable_entity_loader(false);
+        }
         $this->dom = new \DOMDocument();
         $this->dom->load($file);
-        libxml_disable_entity_loader($orignalLibEntityLoader);
+        if (\PHP_VERSION_ID < 80000) {
+            libxml_disable_entity_loader($orignalLibEntityLoader);
+        }
 
         return $this->dom;
     }

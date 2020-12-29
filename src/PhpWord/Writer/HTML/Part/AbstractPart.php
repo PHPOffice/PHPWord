@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
+use Laminas\Escaper\Escaper;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
-use Zend\Escaper\Escaper;
 
 /**
  * @since 0.11.0
@@ -32,7 +32,7 @@ abstract class AbstractPart
     private $parentWriter;
 
     /**
-     * @var \Zend\Escaper\Escaper
+     * @var \Laminas\Escaper\Escaper
      */
     protected $escaper;
 
