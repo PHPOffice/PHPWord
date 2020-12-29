@@ -190,7 +190,7 @@ Finds a row in a table row identified by `$search` param and clones it as many t
         ['userId' => 1, 'userName' => 'Batman', 'userAddress' => 'Gotham City'],
         ['userId' => 2, 'userName' => 'Superman', 'userAddress' => 'Metropolis'],
     ];
-    $templateProcessor->cloneRowAndSetValues('userId', );
+    $templateProcessor->cloneRowAndSetValues('userId', $values);
 
 Will result in
 
