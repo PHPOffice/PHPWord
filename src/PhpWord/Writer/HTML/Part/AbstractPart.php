@@ -32,7 +32,6 @@ abstract class AbstractPart
     private $parentWriter;
 
     /**
-
      * @return string
      */
     abstract public function write();
