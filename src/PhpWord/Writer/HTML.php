@@ -146,7 +146,7 @@ class HTML extends AbstractWriter implements WriterInterface
     public static function escapeOrNot($txt)
     {
         if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
-            return htmlspecialchars($txt, ENT_QUOTES | (defined(ENT_SUBSTITUTE) ? ENT_SUBSTITUTE : 0), 'UTF-8');
+            return htmlspecialchars($txt, ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0), 'UTF-8');
         }
 
         return $txt;
