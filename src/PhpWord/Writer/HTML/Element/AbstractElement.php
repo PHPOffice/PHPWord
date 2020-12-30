@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use Laminas\Escaper\Escaper;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
 
