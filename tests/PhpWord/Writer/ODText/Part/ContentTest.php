@@ -25,7 +25,6 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Writer\ODText\Part\Content
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\Content
- * @runTestsInSeparateProcesses
  */
 class ContentTest extends \PHPUnit\Framework\TestCase
 {
@@ -92,7 +91,7 @@ class ContentTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
-        $element = '/office:document-content/office:body/office:text/text:section/text:p';
+        $element = '/office:document-content/office:body/office:text/text:section/text:p[2]';
         $this->assertEquals($expected, $doc->getElement($element, 'content.xml')->nodeValue);
     }
 

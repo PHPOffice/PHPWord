@@ -26,6 +26,11 @@ use PHPUnit\Framework\Assert;
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
+    public function removeCr($field)
+    {
+        return str_replace("\r\n", "\n", $field->write());
+    }
+
     /**
      * Test empty styles
      */
@@ -107,5 +112,45 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $result = $tabWriter->write();
 
         Assert::assertEquals('\tqdec\tx0', $result);
+    }
+
+    public function testRTL()
+    {
+        $parentWriter = new RTF();
+        $element = new \PhpOffice\PhpWord\Element\Text('אב גד', array('RTL'=> true));
+        $text = new \PhpOffice\PhpWord\Writer\RTF\Element\Text($parentWriter, $element);
+        $expect = "\\pard\\nowidctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
+        $this->assertEquals($expect, $this->removeCr($text));
+    }
+
+    public function testPageBreakLineHeight()
+    {
+        $parentWriter = new RTF();
+        $element = new \PhpOffice\PhpWord\Element\Text('New page', null, array('lineHeight' => 1.08, 'pageBreakBefore' => true));
+        $text = new \PhpOffice\PhpWord\Writer\RTF\Element\Text($parentWriter, $element);
+        $expect = "\\pard\\nowidctlpar \\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
+        $this->assertEquals($expect, $this->removeCr($text));
+    }
+
+    public function testPageNumberRestart()
+    {
+        //$parentWriter = new RTF();
+        $phpword = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpword->addSection(array('pageNumberingStart' => 5));
+        $styleWriter = new \PhpOffice\PhpWord\Writer\RTF\Style\Section($section->getStyle());
+        $wstyle = $this->removeCr($styleWriter);
+        // following have default values which might change so don't use them
+        $wstyle = preg_replace('/\\\\pgwsxn\\d+/', '', $wstyle);
+        $wstyle = preg_replace('/\\\\pghsxn\\d+/', '', $wstyle);
+        $wstyle = preg_replace('/\\\\margtsxn\\d+/', '', $wstyle);
+        $wstyle = preg_replace('/\\\\margrsxn\\d+/', '', $wstyle);
+        $wstyle = preg_replace('/\\\\margbsxn\\d+/', '', $wstyle);
+        $wstyle = preg_replace('/\\\\marglsxn\\d+/', '', $wstyle);
+        $wstyle = preg_replace('/\\\\headery\\d+/', '', $wstyle);
+        $wstyle = preg_replace('/\\\\footery\\d+/', '', $wstyle);
+        $wstyle = preg_replace('/\\\\guttersxn\\d+/', '', $wstyle);
+        $wstyle = preg_replace('/  +/', ' ', $wstyle);
+        $expect = "\\sectd \\pgnstarts5\\pgnrestart \n";
+        $this->assertEquals($expect, $wstyle);
     }
 }

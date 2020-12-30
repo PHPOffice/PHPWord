@@ -11,29 +11,30 @@ php:
     - 7.1
     - 7.2
     - 7.3
-    - 7.4snapshot
+    - 7.4
+    - 8.0
 
 matrix:
     include:
         - php: 5.3
           dist: precise
-          env: COMPOSER_MEMORY_LIMIT=3G
         - php: 5.4
           dist: trusty
         - php: 5.5
           dist: trusty
         - php: 7.0
           env: COVERAGE=1
-        - php: 7.3
+        - php: 8.0
           env: DEPENDENCIES="--ignore-platform-reqs"
     exclude:
         - php: 5.3
+          dist: xenial
         - php: 5.4
+          dist: xenial
         - php: 5.5
-        - php: 7.0
-        - php: 7.3
+          dist: xenial
     allow_failures:
-        - php: 7.4snapshot
+        - php: 8.0
 
 cache:
     directories:
@@ -55,7 +56,31 @@ before_script:
     - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini || echo "xdebug not available" ; fi
     ## Composer
     - composer self-update
+    ## Composer in PHP versions 5.x requires 3 GB memory
+    - if [ ${TRAVIS_PHP_VERSION:0:2} == "5." ]; then export COMPOSER_MEMORY_LIMIT=3G ; fi
+    ## PHP 8 require PHPUnit 8 (ugly hack for support PHPUnit 7 and 8 together)
+    - |
+      if [[ ${TRAVIS_PHP_VERSION:0:2} == "8." ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+        travis_wait composer remove phpunit/phpunit --dev --no-update --no-interaction
+        travis_wait composer require phpunit/phpunit ^8.0 --dev --no-update
+      fi
+    ## Install composer packages
     - travis_wait composer install --prefer-source $(if [ -n "$DEPENDENCIES" ]; then echo $DEPENDENCIES; fi)
+    ## PHP 8 require PHPUnit 8 (ugly hack for support PHPUnit 7 and 8 together)
+    - |
+      if [[ ${TRAVIS_PHP_VERSION:0:2} == "8." ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+        find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function setUpBeforeClass()$/function setUpBeforeClass(): void/' {} \;
+        find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function tearDownAfterClass()$/function tearDownAfterClass(): void/' {} \;
+        find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function setUp()$/function setUp(): void/' {} \;
+        find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function tearDown()$/function tearDown(): void/' {} \;
+
+        find ./tests/ -name "*.php" -type f -exec sed -i -e 's/->assertContains(/->assertStringContainsString(/' {} \;
+        find ./tests/ -name "*.php" -type f -exec sed -i -e 's/->assertNotContains(/->assertStringNotContainsString(/' {} \;
+        find ./tests/ -name "*.php" -type f -exec sed -i -e "s/->assertInternalType('array', /->assertIsArray(/" {} \;
+
+        sed -i "s/\$this->addWarning('The @expectedException,/\/\/\$this->addWarning('The @expectedException,/" ./vendor/phpunit/phpunit/src/Framework/TestCase.php
+        sed -i "s/self::createWarning('The optional \$delta/\/\/self::createWarning('The optional \$delta/" ./vendor/phpunit/phpunit/src/Framework/Assert.php
+      fi
     ## PHPDocumentor
     ##- mkdir -p build/docs
     - mkdir -p build/coverage

@@ -44,7 +44,7 @@ class Image extends AbstractElement
         $height = Converter::pixelToCm($style->getHeight());
 
         $xmlWriter->startElement('text:p');
-        $xmlWriter->writeAttribute('text:style-name', 'Standard');
+        $xmlWriter->writeAttribute('text:style-name', 'IM' . $mediaIndex);
 
         $xmlWriter->startElement('draw:frame');
         $xmlWriter->writeAttribute('draw:style-name', 'fr' . $mediaIndex);

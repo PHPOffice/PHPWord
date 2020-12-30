@@ -45,6 +45,18 @@ class MPDF extends AbstractRenderer implements WriterInterface
     }
 
     /**
+     * Gets the implementation of external PDF library that should be used.
+     *
+     * @return Mpdf implementation
+     */
+    protected function createExternalWriterInstance()
+    {
+        $mPdfClass = $this->getMPdfClassName();
+
+        return new $mPdfClass();
+    }
+
+    /**
      * Save PhpWord to file.
      *
      * @param string $filename Name of the file to save as
@@ -58,8 +70,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $orientation = strtoupper('portrait');
 
         //  Create PDF
-        $mPdfClass = $this->getMPdfClassName();
-        $pdf = new $mPdfClass();
+        $pdf = $this->createExternalWriterInstance();
         $pdf->_setPageSize($paperSize, $orientation);
         $pdf->addPage($orientation);
 

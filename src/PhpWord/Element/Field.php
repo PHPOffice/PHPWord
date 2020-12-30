@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style\Font;
+
 /**
  * Field element
  *
@@ -115,9 +117,41 @@ class Field extends AbstractElement
     /**
      * Font style
      *
-     * @var \PhpOffice\PhpWord\Style\Font
+     * @var string|\PhpOffice\PhpWord\Style\Font
      */
     protected $fontStyle;
+
+    /**
+     * Set Font style
+     *
+     * @param string|array|\PhpOffice\PhpWord\Style\Font $style
+     * @return string|\PhpOffice\PhpWord\Style\Font
+     */
+    public function setFontStyle($style = null)
+    {
+        if ($style instanceof Font) {
+            $this->fontStyle = $style;
+        } elseif (is_array($style)) {
+            $this->fontStyle = new Font('text');
+            $this->fontStyle->setStyleByArray($style);
+        } elseif (null === $style) {
+            $this->fontStyle = null;
+        } else {
+            $this->fontStyle = $style;
+        }
+
+        return $this->fontStyle;
+    }
+
+    /**
+     * Get Font style
+     *
+     * @return string|\PhpOffice\PhpWord\Style\Font
+     */
+    public function getFontStyle()
+    {
+        return $this->fontStyle;
+    }
 
     /**
      * Create a new Field Element
@@ -126,13 +160,15 @@ class Field extends AbstractElement
      * @param array $properties
      * @param array $options
      * @param TextRun|string|null $text
+     * @param string|array|\PhpOffice\PhpWord\Style\Font $fontStyle
      */
-    public function __construct($type = null, $properties = array(), $options = array(), $text = null)
+    public function __construct($type = null, $properties = array(), $options = array(), $text = null, $fontStyle = null)
     {
         $this->setType($type);
         $this->setProperties($properties);
         $this->setOptions($options);
         $this->setText($text);
+        $this->setFontStyle($fontStyle);
     }
 
     /**
