@@ -275,7 +275,7 @@ class TemplateProcessor
 
         $where = $this->findContainingXmlBlockForMacro($search, 'w:r');
 
-        if($where === false) {
+        if ($where === false) {
             return ;
         }
 
