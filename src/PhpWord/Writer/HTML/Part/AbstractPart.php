@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
-use Laminas\Escaper\Escaper;
 use PhpOffice\PhpWord\Exception\Exception;
 
 use PhpOffice\PhpWord\Writer\HTML;
