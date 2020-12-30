@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Exception\Exception;
-
 use PhpOffice\PhpWord\Writer\HTML;
 
 /**
