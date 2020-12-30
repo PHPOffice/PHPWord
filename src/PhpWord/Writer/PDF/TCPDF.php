@@ -36,20 +36,6 @@ class TCPDF extends AbstractRenderer implements WriterInterface
      */
     protected $includeFile = 'tcpdf.php';
 
-	/**
-     * Gets the implementation of external PDF library that should be used.
-     *
-     * @param string $orientation Page orientation
-     * @param string $unit Unit measure
-     * @param string $paperSize Paper size
-     *
-     * @return \TCPDF implementation
-     */
-    protected function createExternalWriterInstance($orientation, $unit, $paperSize)
-    {
-        return new \TCPDF($orientation, $unit, $paperSize);
-    }
-
     /**
      * Gets the implementation of external PDF library that should be used.
      *
