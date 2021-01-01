@@ -17,10 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\Common\Text as CommonText;
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\Text as SharedText;
 
 /**
  * Abstract element writer
@@ -207,7 +207,7 @@ abstract class AbstractElement
      */
     protected function getText($text)
     {
-        return CommonText::controlCharacterPHP2OOXML($text);
+        return SharedText::controlCharacterPHP2OOXML($text);
     }
 
     /**
