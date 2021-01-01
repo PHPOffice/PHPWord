@@ -149,11 +149,6 @@ class Document extends AbstractPart
      */
     private function readWPNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
     {
-        // Page break
-        if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
-            $section->addPageBreak(); // PageBreak
-        }
-
         // Paragraph
         $this->readParagraph($xmlReader, $node, $section);
 

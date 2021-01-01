@@ -39,6 +39,6 @@ class PageBreak extends TextBreak
             return '<pagebreak style="page-break-before: always;" pagebreak="true"></pagebreak>';
         }
 
-        return '';
+        return '<div style="line-height:0; margin:0; padding:0; page-break-before: always;"></div>';
     }
 }

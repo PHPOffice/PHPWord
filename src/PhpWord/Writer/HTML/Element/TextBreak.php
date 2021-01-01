@@ -17,6 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
+
 /**
  * TextBreak element HTML writer
  *
@@ -34,9 +37,40 @@ class TextBreak extends AbstractElement
         if ($this->withoutP) {
             $content = '<br />' . PHP_EOL;
         } else {
-            $content = '<p>&nbsp;</p>' . PHP_EOL;
+            $style = $this->getFontStyle();
+            $content = "<p{$style}>&nbsp;</p>" . PHP_EOL;
         }
 
         return $content;
+    }
+
+    /**
+     * Get font style.
+     */
+    private function getFontStyle()
+    {
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->element;
+        $pargraphStyle = $element->getParagraphStyle();
+        if (!$pargraphStyle) {
+            return '';
+        }
+
+        $style = '';
+        $fontStyle = $pargraphStyle->getFontStyle();
+        $fStyleIsObject = ($fontStyle instanceof Font);
+        if ($fStyleIsObject) {
+            $styleWriter = new FontStyleWriter($fontStyle);
+            $style = $styleWriter->write();
+        } elseif (is_string($fontStyle)) {
+            $style = $fontStyle;
+        }
+        if ($style) {
+            $attribute = $fStyleIsObject ? 'style' : 'class';
+
+            return " {$attribute}=\"{$style}\"";
+        }
+
+        return '';
     }
 }

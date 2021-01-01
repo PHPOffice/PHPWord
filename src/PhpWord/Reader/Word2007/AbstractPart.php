@@ -165,7 +165,7 @@ abstract class AbstractPart
             // Text and TextRun
             $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag', $domNode);
             if (0 === $textRunContainers) {
-                $parent->addTextBreak(null, $paragraphStyle);
+                $parent->addTextBreak(null, null, $paragraphStyle);
             } else {
                 $nodes = $xmlReader->getElements('*', $domNode);
                 $paragraph = $parent->addTextRun($paragraphStyle);
@@ -289,9 +289,13 @@ abstract class AbstractPart
                 $parent->addText($textContent, $fontStyle, $paragraphStyle);
             }
         } elseif ($node->nodeName == 'w:br') {
-            $parent->addTextBreak();
+            if ($xmlReader->getAttribute('w:type', $node) == 'page') {
+                $parent->getParent()->addPageBreak(); // PageBreak
+            } else {
+                $parent->addTextBreak(null, null, $paragraphStyle);
+            }
         } elseif ($node->nodeName == 'w:tab') {
-            $parent->addText("\t");
+            $parent->addText("\t", $fontStyle, $paragraphStyle);
         } elseif ($node->nodeName == 'w:t' || $node->nodeName == 'w:delText') {
             // TextRun
             $textContent = htmlspecialchars($xmlReader->getValue('.', $node), ENT_QUOTES, 'UTF-8');
@@ -407,7 +411,35 @@ abstract class AbstractPart
             'suppressAutoHyphens' => array(self::READ_TRUE,  'w:suppressAutoHyphens'),
         );
 
-        return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
+        $styles = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
+
+        // fontStyle
+        if ($xmlReader->elementExists('w:rPr', $styleNode)) {
+            $styles['fontStyle'] = $this->readFontStyle($xmlReader, $styleNode);
+        }
+
+        // tabs config
+        if ($xmlReader->elementExists('w:tabs', $styleNode)) {
+            // http://officeopenxml.com/WPtab.php
+            $tabs = array();
+            $tabsList = $xmlReader->getElements('w:tabs/w:tab', $styleNode);
+            foreach ($tabsList as $tabNode) {
+                $tab = array();
+                $attrs = array('leader', 'pos', 'val'); // pos in twips!
+                foreach ($attrs as $attr) {
+                    if ($val = $xmlReader->getAttribute('w:' . $attr, $tabNode)) {
+                        $tab[$attr] = $val;
+                    }
+                }
+                $tabs[] = $tab;
+            }
+
+            if ($tabs) {
+                $styles['tabs'] = $tabs;
+            }
+        }
+
+        return $styles;
     }
 
     /**
@@ -565,6 +597,18 @@ abstract class AbstractPart
             'vMerge'        => array(self::READ_VALUE, 'w:vMerge'),
             'bgColor'       => array(self::READ_VALUE, 'w:shd', 'w:fill'),
         );
+
+        // border style defs
+        // http://officeopenxml.com/WPtableCellProperties-Borders.php
+        $margins = array('top', 'left', 'bottom', 'right');
+        $borders = array_merge($margins, array('insideH', 'insideV'));
+        foreach ($borders as $side) {
+            $ucfSide = ucfirst($side);
+            $styleDefs["border{$ucfSide}Size"] = array(self::READ_VALUE, "w:tcBorders/w:$side", 'w:sz');
+            $styleDefs["border{$ucfSide}Color"] = array(self::READ_VALUE, "w:tcBorders/w:$side", 'w:color');
+            $styleDefs["border{$ucfSide}Style"] = array(self::READ_VALUE, "w:tcBorders/w:$side", 'w:val');
+//            $styleDefs["border{$ucfSide}Space"] = array(self::READ_VALUE, "w:tcBorders/w:$side", 'w:space');
+        }
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
     }
