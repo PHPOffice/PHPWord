@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
-use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Table as TableElement;
 
@@ -60,7 +60,7 @@ class Table extends AbstractElement
     /**
      * Write column.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Table $element
      */
     private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
@@ -77,7 +77,7 @@ class Table extends AbstractElement
     /**
      * Write row.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Row $row
      */
     private function writeRow(XMLWriter $xmlWriter, RowElement $row)

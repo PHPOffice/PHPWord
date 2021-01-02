@@ -69,7 +69,7 @@ class Settings extends AbstractPart
     /**
      * Write indivual setting, recursive to any child settings.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $settingKey
      * @param array|string $settingValue
      */
