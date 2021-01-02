@@ -66,7 +66,6 @@ class XMLWriterTest extends \PHPUnit\Framework\TestCase
 
         setlocale(LC_NUMERIC, 'de_DE.UTF-8', 'de');
 
-        $this->assertSame('1,2', (string)$value);
         $this->assertSame('<element name="1.2"/>' . chr(10), $xmlWriter->getData());
 
         setlocale(LC_NUMERIC, $currentLocale);
