@@ -23,6 +23,8 @@ use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Font;
 
 /**
  * Abstract part reader
@@ -220,6 +222,24 @@ abstract class AbstractPart
         } elseif ($domNode->nodeName == 'w:r') {
             $fontStyle = $this->readFontStyle($xmlReader, $domNode);
             $nodes = $xmlReader->getElements('*', $domNode);
+
+            if ($fontStyle) {
+              if ($headingDepth = $this->getHeadingDepth($paragraphStyle)) {
+                /** @var Font $heading_style */
+                if ($heading_style = Style::getStyle('Heading_' . $headingDepth)) {
+                  $heading_style = $heading_style->getStyleValues();
+                  $default = new Font();
+                  $default = $default->getStyleValues();
+
+                  foreach (array_diff_key($heading_style['style'], $fontStyle) as $style => $v) {
+                    if ($heading_style['style'][$style] != $default['style'][$style]) {
+                      $fontStyle[$style] = $heading_style['style'][$style];
+                    }
+                  }
+                }
+              }
+            }
+
             foreach ($nodes as $node) {
                 $this->readRunChild($xmlReader, $node, $parent, $docPart, $paragraphStyle, $fontStyle);
             }
