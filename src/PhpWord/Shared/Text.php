@@ -36,8 +36,8 @@ class Text
     {
         for ($i = 0; $i <= 19; ++$i) {
             if ($i != 9 && $i != 10 && $i != 13) {
-                $find                            = '_x' . sprintf('%04s', strtoupper(dechex($i))) . '_';
-                $replace                         = chr($i);
+                $find = '_x' . sprintf('%04s', strtoupper(dechex($i))) . '_';
+                $replace = chr($i);
                 self::$controlCharacters[$find] = $replace;
             }
         }
@@ -69,7 +69,7 @@ class Text
     /**
      * Return a number formatted for being integrated in xml files
      * @param float $number
-     * @param integer $decimals
+     * @param int $decimals
      * @return string
      */
     public static function numberFormat($number, $decimals)
@@ -79,24 +79,25 @@ class Text
 
     /**
      * @param int $dec
-     * @link http://stackoverflow.com/a/7153133/2235790
+     * @see http://stackoverflow.com/a/7153133/2235790
      * @author velcrow
      * @return string
      */
     public static function chr($dec)
     {
-        if ($dec<=0x7F) {
+        if ($dec <= 0x7F) {
             return chr($dec);
         }
-        if ($dec<=0x7FF) {
-            return chr(($dec>>6)+192).chr(($dec&63)+128);
+        if ($dec <= 0x7FF) {
+            return chr(($dec >> 6) + 192) . chr(($dec & 63) + 128);
         }
-        if ($dec<=0xFFFF) {
-            return chr(($dec>>12)+224).chr((($dec>>6)&63)+128).chr(($dec&63)+128);
+        if ($dec <= 0xFFFF) {
+            return chr(($dec >> 12) + 224) . chr((($dec >> 6) & 63) + 128) . chr(($dec & 63) + 128);
         }
-        if ($dec<=0x1FFFFF) {
-            return chr(($dec>>18)+240).chr((($dec>>12)&63)+128).chr((($dec>>6)&63)+128).chr(($dec&63)+128);
+        if ($dec <= 0x1FFFFF) {
+            return chr(($dec >> 18) + 240) . chr((($dec >> 12) & 63) + 128) . chr((($dec >> 6) & 63) + 128) . chr(($dec & 63) + 128);
         }
+
         return '';
     }
 
@@ -119,7 +120,7 @@ class Text
      * Check if a string contains UTF-8 data
      *
      * @param string $value
-     * @return boolean
+     * @return bool
      */
     public static function isUTF8($value = '')
     {
@@ -161,7 +162,7 @@ class Text
      * @param string $text UTF8 text
      * @return array
      * @since 0.11.0
-     * @link http://www.randomchaos.com/documents/?source=php_and_unicode
+     * @see http://www.randomchaos.com/documents/?source=php_and_unicode
      */
     public static function utf8ToUnicode($text)
     {
@@ -201,7 +202,7 @@ class Text
      * @param array $unicode
      * @return string
      * @since 0.11.0
-     * @link http://www.randomchaos.com/documents/?source=php_and_unicode
+     * @see http://www.randomchaos.com/documents/?source=php_and_unicode
      */
     private static function unicodeToEntities($unicode)
     {

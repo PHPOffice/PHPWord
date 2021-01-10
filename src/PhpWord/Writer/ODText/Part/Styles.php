@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 
 /**

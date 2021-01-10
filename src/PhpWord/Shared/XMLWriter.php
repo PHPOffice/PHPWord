@@ -88,7 +88,7 @@ class XMLWriter extends \XMLWriter
             return;
         }
         if (PHP_OS != 'WINNT' && @unlink($this->tempFileName) === false) {
-            throw new \Exception('The file '.$this->tempFileName.' could not be deleted.');
+            throw new \Exception('The file ' . $this->tempFileName . ' could not be deleted.');
         }
     }
 
@@ -104,9 +104,9 @@ class XMLWriter extends \XMLWriter
         }
 
         $this->flush();
+
         return file_get_contents($this->tempFileName);
     }
-
 
     /**
      * Write simple element and attribute(s) block
@@ -118,7 +118,6 @@ class XMLWriter extends \XMLWriter
      * @param string $element
      * @param string|array $attributes
      * @param string $value
-     * @return void
      */
     public function writeElementBlock($element, $attributes, $value = null)
     {
@@ -139,7 +138,6 @@ class XMLWriter extends \XMLWriter
      * @param string $element
      * @param string $attribute
      * @param mixed $value
-     * @return void
      */
     public function writeElementIf($condition, $element, $attribute = null, $value = null)
     {
@@ -160,7 +158,6 @@ class XMLWriter extends \XMLWriter
      * @param bool $condition
      * @param string $attribute
      * @param mixed $value
-     * @return void
      */
     public function writeAttributeIf($condition, $attribute, $value)
     {
@@ -179,6 +176,7 @@ class XMLWriter extends \XMLWriter
         if (is_float($value)) {
             $value = json_encode($value);
         }
+
         return parent::writeAttribute($name, $value);
     }
 }

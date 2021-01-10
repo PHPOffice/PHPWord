@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Table as TableElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Table element writer

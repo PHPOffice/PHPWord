@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Element\FormField as FormFieldElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * FormField element writer

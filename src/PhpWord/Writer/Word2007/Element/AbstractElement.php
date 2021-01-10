@@ -17,10 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Text as SharedText;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Abstract element writer

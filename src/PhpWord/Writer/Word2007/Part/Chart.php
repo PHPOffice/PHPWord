@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Element\Chart as ChartElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Word2007 chart part writer: word/charts/chartx.xml

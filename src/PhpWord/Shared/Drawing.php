@@ -46,6 +46,7 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
+
         return round($pValue / 9525);
     }
 
@@ -71,9 +72,10 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
-        return ((($pValue * 1.333333333) / self::DPI_96) * 2.54);
+
+        return (($pValue * 1.333333333) / self::DPI_96) * 2.54;
     }
-    
+
     /**
      * Convert points width to pixels
      *
@@ -85,6 +87,7 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
+
         return $pValue * 1.333333333;
     }
 
@@ -97,7 +100,7 @@ class Drawing
     public static function pixelsToCentimeters($pValue = 0)
     {
         //return $pValue * 0.028;
-        return (($pValue / self::DPI_96) * 2.54);
+        return ($pValue / self::DPI_96) * 2.54;
     }
 
     /**
@@ -111,6 +114,7 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
+
         return ($pValue / 2.54) * self::DPI_96;
     }
 
@@ -136,13 +140,14 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
+
         return round($pValue / 60000);
     }
 
     /**
      * Convert centimeters width to twips
      *
-     * @param integer $pValue
+     * @param int $pValue
      * @return float
      */
     public static function centimetersToTwips($pValue = 0)
@@ -150,13 +155,14 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
+
         return $pValue * 566.928;
     }
 
     /**
      * Convert twips width to centimeters
      *
-     * @param integer $pValue
+     * @param int $pValue
      * @return float
      */
     public static function twipsToCentimeters($pValue = 0)
@@ -164,13 +170,14 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
+
         return $pValue / 566.928;
     }
 
     /**
      * Convert inches width to twips
      *
-     * @param integer $pValue
+     * @param int $pValue
      * @return float
      */
     public static function inchesToTwips($pValue = 0)
@@ -178,13 +185,14 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
+
         return $pValue * 1440;
     }
 
     /**
      * Convert twips width to inches
      *
-     * @param integer $pValue
+     * @param int $pValue
      * @return float
      */
     public static function twipsToInches($pValue = 0)
@@ -192,13 +200,14 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
+
         return $pValue / 1440;
     }
 
     /**
      * Convert twips width to pixels
      *
-     * @param integer $pValue
+     * @param int $pValue
      * @return float
      */
     public static function twipsToPixels($pValue = 0)
@@ -206,6 +215,7 @@ class Drawing
         if ($pValue == 0) {
             return 0;
         }
+
         return round($pValue / 15.873984);
     }
 

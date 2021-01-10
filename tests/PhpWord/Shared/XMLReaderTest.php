@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Shared;
 /**
  * Test class for XMLReader
  *
- * @coversDefaultClass PhpOffice\PhpWord\Shared\XMLReader
+ * @coversDefaultClass \PhpOffice\PhpWord\Shared\XMLReader
  */
 class XMLReaderTest extends \PHPUnit\Framework\TestCase
 {
@@ -57,7 +57,7 @@ class XMLReaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Test that read from non existing archive throws exception
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testThrowsExceptionOnNonExistingArchive()
     {
@@ -124,7 +124,7 @@ class XMLReaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Test that xpath fails if custom namespace is not registered
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testShouldThowExceptionIfTryingToRegisterNamespaceBeforeReadingDoc()
     {

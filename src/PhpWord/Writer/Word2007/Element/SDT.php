@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Element\SDT as SDTElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Structured document tag element writer

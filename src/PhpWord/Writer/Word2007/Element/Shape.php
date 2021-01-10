@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Element\Shape as ShapeElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Shape as ShapeStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Shape as ShapeStyleWriter;
 

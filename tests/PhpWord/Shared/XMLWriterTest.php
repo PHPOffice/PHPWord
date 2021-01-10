@@ -24,23 +24,21 @@ namespace PhpOffice\PhpWord\Shared;
  */
 class XMLWriterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     */
     public function testConstruct()
     {
         // Memory
         $object = new XMLWriter();
         $object->startElement('element');
-            $object->text('AAA');
+        $object->text('AAA');
         $object->endElement();
-        $this->assertEquals('<element>AAA</element>'.chr(10), $object->getData());
+        $this->assertEquals('<element>AAA</element>' . chr(10), $object->getData());
 
         // Disk
         $object = new XMLWriter(XMLWriter::STORAGE_DISK);
         $object->startElement('element');
-            $object->text('BBB');
+        $object->text('BBB');
         $object->endElement();
-        $this->assertEquals('<element>BBB</element>'.chr(10), $object->getData());
+        $this->assertEquals('<element>BBB</element>' . chr(10), $object->getData());
     }
 
     public function testWriteAttribute()

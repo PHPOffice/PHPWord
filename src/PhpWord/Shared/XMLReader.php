@@ -43,8 +43,8 @@ class XMLReader
      *
      * @param string $zipFile
      * @param string $xmlFile
-     * @return \DOMDocument|false
      * @throws \Exception
+     * @return \DOMDocument|false
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
@@ -112,8 +112,8 @@ class XMLReader
      *
      * @param string $prefix The prefix
      * @param string $namespaceURI The URI of the namespace
-     * @return bool true on success or false on failure
      * @throws \InvalidArgumentException If called before having loaded the DOM document
+     * @return bool true on success or false on failure
      */
     public function registerNamespace($prefix, $namespaceURI)
     {
@@ -123,6 +123,7 @@ class XMLReader
         if ($this->xpath === null) {
             $this->xpath = new \DOMXpath($this->dom);
         }
+
         return $this->xpath->registerNamespace($prefix, $namespaceURI);
     }
 
@@ -192,7 +193,7 @@ class XMLReader
      *
      * @param string $path
      * @param \DOMElement $contextNode
-     * @return integer
+     * @return int
      */
     public function countElements($path, \DOMElement $contextNode = null)
     {
@@ -206,7 +207,7 @@ class XMLReader
      *
      * @param string $path
      * @param \DOMElement $contextNode
-     * @return boolean
+     * @return bool
      */
     public function elementExists($path, \DOMElement $contextNode = null)
     {
