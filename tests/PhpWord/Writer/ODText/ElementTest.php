@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
-use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**

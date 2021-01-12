@@ -24,8 +24,6 @@ matrix:
           dist: trusty
         - php: 7.0
           env: COVERAGE=1
-        - php: 8.0
-          env: DEPENDENCIES="--ignore-platform-reqs"
     exclude:
         - php: 5.3
           dist: xenial
@@ -33,8 +31,6 @@ matrix:
           dist: xenial
         - php: 5.5
           dist: xenial
-    allow_failures:
-        - php: 8.0
 
 cache:
     directories:

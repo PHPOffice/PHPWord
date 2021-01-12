@@ -17,10 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
-use PhpOffice\Common\Text as CommonText;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Escaper\Rtf;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\Text as SharedText;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
@@ -126,7 +126,7 @@ abstract class AbstractElement extends HTMLAbstractElement
             return $this->escaper->escape($text);
         }
 
-        return CommonText::toUnicode($text); // todo: replace with `return $text;` later.
+        return SharedText::toUnicode($text); // todo: replace with `return $text;` later.
     }
 
     /**
