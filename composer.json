@@ -59,7 +59,7 @@
     },
     "require": {
         "php": "^5.3.3 || ^7.0 || ^8.0",
-        "ext-xml": "*",
+        "ext-xml": "*"
     },
     "require-dev": {
         "ext-zip": "*",
