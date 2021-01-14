@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\Common\Text as CommonText;
+use PhpOffice\PhpWord\Shared\Text as SharedText;
 use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
 
 /**
@@ -57,7 +57,7 @@ class ListItem extends AbstractElement
      */
     public function __construct($text, $depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {
-        $this->textObject = new Text(CommonText::toUTF8($text), $fontStyle, $paragraphStyle);
+        $this->textObject = new Text(SharedText::toUTF8($text), $fontStyle, $paragraphStyle);
         $this->depth = $depth;
 
         // Version >= 0.10.0 will pass numbering style name. Older version will use old method

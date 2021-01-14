@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -66,7 +66,7 @@ class Styles extends AbstractPart
     /**
      * Write default styles.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writeDefault(XMLWriter $xmlWriter)
     {
@@ -118,7 +118,7 @@ class Styles extends AbstractPart
     /**
      * Write named styles.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writeNamed(XMLWriter $xmlWriter)
     {
@@ -155,7 +155,7 @@ class Styles extends AbstractPart
     /**
      * call writePageLayoutIndiv to write page layout styles for each page
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writePageLayout(XMLWriter $xmlWriter)
     {
@@ -169,7 +169,7 @@ class Styles extends AbstractPart
     /**
      * Write page layout styles.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Section $section
      * @param int $sectionNbr
      */
@@ -255,7 +255,7 @@ class Styles extends AbstractPart
     /**
      * Write master style.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writeMaster(XMLWriter $xmlWriter)
     {

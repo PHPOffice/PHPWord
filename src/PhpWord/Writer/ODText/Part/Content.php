@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Field;
 use PhpOffice\PhpWord\Element\Image;
@@ -26,6 +25,7 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -151,7 +151,7 @@ class Content extends AbstractPart
      *
      * @since 0.11.0
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writeAutoStyles(XMLWriter $xmlWriter)
     {
@@ -173,7 +173,7 @@ class Content extends AbstractPart
     /**
      * Write automatic styles.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writeTextStyles(XMLWriter $xmlWriter)
     {
