@@ -64,7 +64,7 @@ class ElementTest extends AbstractTestReader
         $text = $elements[0];
         $this->assertEquals('Test node value', trim($text->getElement(0)->getText()));
     }
-    
+
     /**
      * Test reading of textbreak
      */
