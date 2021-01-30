@@ -310,34 +310,29 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $xmlRow = $this->getSlice($rowStart, $rowEnd);
 
         // Check if there's a cell spanning multiple rows.
-        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+        if (preg_match('/table:number-rows-spanned="([0-9]+)"/', $xmlRow, $matches)) {
             // $extraRowStart = $rowEnd;
+            // Number of spanned rows
+            $num = intval($matches[1]);
             $extraRowEnd = $rowEnd;
-            while (true) {
+            for ($i = 0; $i < $num-1; $i++) {
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1);
                 $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
 
-                // If extraRowEnd is lower then 7, there was no next row found.
-                if ($extraRowEnd < 7) {
+                // If extraRowEnd is lower than the end tag, there was no next row found.
+                if ($extraRowEnd < strlen('</table:table-row>')) {
                     break;
                 }
 
-                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
-                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
-                    !preg_match('#<w:vMerge w:val="continue"\s*/>#', $tmpXmlRow)) {
-                    break;
-                }
+                //$tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
                 // This row was a spanned row, update $rowEnd and search for the next row.
                 $rowEnd = $extraRowEnd;
             }
             $xmlRow = $this->getSlice($rowStart, $rowEnd);
         }
-
         $result = $this->getSlice(0, $rowStart);
         $result .= implode($this->indexClonedVariables($numberOfClones, $xmlRow));
         $result .= $this->getSlice($rowEnd);
-
         $this->tempDocumentMainPart = $result;
     }
 
@@ -528,7 +523,10 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
      */
     protected function findRowEnd($offset)
     {
-        return strpos($this->tempDocumentMainPart, '</w:tr>', $offset) + 7;
+        $endMarkup = '</table:table-row>';
+        $position = strpos($this->tempDocumentMainPart, $endMarkup, $offset);
+        if (!$position) throw new Exception("End of text before end of row.");
+        return $position + strlen($endMarkup);
     }
 
     /**
