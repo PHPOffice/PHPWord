@@ -99,10 +99,10 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $oTable = new Table();
         $oTable->addRow();
-        $element = $oTable->addCell();
+        $oTable->addCell();
         $this->assertEquals($oTable->countColumns(), 1);
-        $element = $oTable->addCell();
-        $element = $oTable->addCell();
+        $oTable->addCell();
+        $oTable->addCell();
         $this->assertEquals($oTable->countColumns(), 3);
     }
 }
