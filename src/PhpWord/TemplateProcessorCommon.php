@@ -585,7 +585,6 @@ class TemplateProcessorCommon
         if (0 > $end || strstr($this->getSlice($start, $end), $macro) === false) {
             return false;
         }
-
         return array('start' => $start, 'end' => $end);
     }
 

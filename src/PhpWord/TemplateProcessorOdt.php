@@ -92,6 +92,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
+        $xmlWriter->setIndent(false);
         /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
         $elementWriter = new $objectClass($xmlWriter, $complexType, true);
         $elementWriter->write();
@@ -99,10 +100,10 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $where = $this->findContainingXmlBlockForMacro($search, 'text:p');
         $block = $this->getSlice($where['start'], $where['end']);
         $textParts = $this->splitTextIntoTexts($block);
-        $this->replaceXmlBlock($search, $textParts, 'text:p');
-
         $search = static::ensureMacroCompleted($search);
-        $this->replaceXmlBlock($search, $xmlWriter->getData(), 'text:p');
+        $this->replaceXmlBlock($search, $textParts, 'text:p');
+        $data =  str_replace("\n", '', $xmlWriter->getData());
+        $this->replaceXmlBlock($search, $data, 'text:span');
     }
 
     /**
@@ -115,11 +116,14 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
+        $xmlWriter->setIndent(false);
         /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
         $elementWriter = new $objectClass($xmlWriter, $complexType, false);
         $elementWriter->write();
 
-        $this->replaceXmlBlock($search, $xmlWriter->getData(), 'text:p');
+        $search = static::ensureMacroCompleted($search);
+        $data =  str_replace("\n", '', $xmlWriter->getData());
+        $this->replaceXmlBlock($search, $data, 'text:p');
     }
 
     private function addImage($partFileName, $rid, $imgPath, $imageMimeType)
@@ -352,11 +356,11 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $xmlBlock = null;
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<[^<>]+>\${' . $blockname .'}<\/[^<>]+>)(.*)(<[^<>]+>\${\/'. $blockname . '}<\/[^<>]+>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
-
+        
         if (isset($matches[3])) {
             $xmlBlock = $matches[3];
             if ($indexVariables) {
@@ -378,7 +382,6 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
                 );
             }
         }
-
         return $xmlBlock;
     }
 
@@ -392,7 +395,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
     {
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<[^<>]+>\${' . $blockname .'}<\/[^<>]+>)(.*)(<[^<>]+>\${\/'. $blockname . '}<\/[^<>]+>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -413,13 +416,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
      */
     public function setUpdateFields($update = true)
     {
-        $string = $update ? 'true' : 'false';
-        $matches = array();
-        if (preg_match('/<w:updateFields w:val=\"(true|false|1|0|on|off)\"\/>/', $this->tempDocumentSettingsPart, $matches)) {
-            $this->tempDocumentSettingsPart = str_replace($matches[0], '<w:updateFields w:val="' . $string . '"/>', $this->tempDocumentSettingsPart);
-        } else {
-            $this->tempDocumentSettingsPart = str_replace('</w:settings>', '<w:updateFields w:val="' . $string . '"/></w:settings>', $this->tempDocumentSettingsPart);
-        }
+        return "Not implemented";
     }
 
     /**
@@ -432,7 +429,9 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
     public function save()
     {
         $this->savePart($this->getMainPartName(), $this->tempDocumentMainPart);
-        $this->savePart($this->getSettingsPartName(), $this->tempDocumentSettingsPart);
+        if (strlen($this->tempDocumentSettingsPart) != 0) {
+            $this->savePart($this->getSettingsPartName(), $this->tempDocumentSettingsPart);
+        }
         $this->savePart($this->getStyleName(), $this->tempDocumentHeaders);
         $this->savePart($this->getManifestName(), $this->tempDocumentManifest);
 
@@ -541,15 +540,49 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
             return $text;
         }
         $matches = array();
-        if (preg_match('/(<w:rPr.*<\/w:rPr>)/i', $text, $matches)) {
-            $extractedStyle = $matches[0];
+        if (preg_match('/([^<>]*)(\s[^<>]+)>/', $text, $matches)) {
+            $extractedTag =  $matches[1];
+            $extractedStyle = $matches[2];
         } else {
             $extractedStyle = '';
+            preg_match('/([^<>]*)>/', $text, $matches);
+            $extractedTag =  $matches[1];
         }
-
-        $unformattedText = preg_replace('/>\s+</', '><', $text);
-        $result = str_replace(array('${', '}'), array('</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">${', '}</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'), $unformattedText);
-
-        return str_replace(array('<w:r>' . $extractedStyle . '<w:t xml:space="preserve"></w:t></w:r>', '<w:r><w:t xml:space="preserve"></w:t></w:r>', '<w:t>'), array('', '', '<w:t xml:space="preserve">'), $result);
+        
+        // Text between tags
+        preg_match('/[^<>]*>(.*)<\//',$text, $matches);
+        $cdata = $matches[1];
+        $remainingText = $cdata;
+        preg_match_all('/(\${[^}]*})/',$cdata, $matches);
+        if ($extractedTag == "text:p") {
+            $result = "<" . $extractedTag . $extractedStyle . ">";
+            foreach($matches[1] as $macro) {
+                $beforeText = stristr($remainingText, $macro, $before_needle=true);
+                if (strlen($beforeText) != 0){
+                    $result .= "<text:span>". $beforeText . "</text:span>";
+                    $result .= "<text:span>". $macro . "</text:span>";
+                }
+                $remainingText = substr($remainingText, strlen($beforeText) + strlen($macro));
+            }
+            if ($remainingText != "") {
+                $result .= "<text:span>". $remainingText . "</text:span>";
+            }
+            $result .=  "</" . $extractedTag . ">";
+        }
+        else {
+            $result = '';
+            foreach($matches[1] as $macro) {
+                $beforeText = stristr($remainingText, $macro, $before_needle=true);
+                if (strlen($beforeText) != 0){
+                    $result .= "<text:span" .$extractedStyle . ">". $beforeText . "</text:span>";
+                }
+                $result .= "<text:span" .$extractedStyle . ">". $macro . "</text:span>";
+                $remainingText = substr($remainingText, strlen($beforeText) + strlen($macro));
+            }
+            if ($remainingText != "") {
+                $result .= "<text:span" .$extractedStyle . ">". $remainingText . "</text:span>";
+            }
+        }
+        return  $result;
     }
 }

@@ -204,32 +204,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($docFound);
     }
 
-    
-    /**
-     * @covers ::setValue
-     * @covers ::cloneRow
-     * @covers ::saveAs
-     * @test
-     */
-    public function testCloneRowOdt()
-    {
-        $templateProcessor = new TemplateProcessorOdt(__DIR__ . '/_files/templates/clone-merge.odt');
-
-        $this->assertEquals(
-            array('tableHeader', 'userId', 'userName', 'userLocation'),
-            $templateProcessor->getVariables()
-        );
-
-        $docName = 'clone-test-result.odt';
-        $templateProcessor->setValue('tableHeader', utf8_decode('ééé'));
-        $templateProcessor->cloneRow('userId', 1);
-        $templateProcessor->setValue('userId#1', 'Test');
-        $templateProcessor->saveAs($docName);
-        $docFound = file_exists($docName);
-        unlink($docName);
-        $this->assertTrue($docFound);
-    }
-
     /**
      * @covers ::setValue
      * @covers ::cloneRow
@@ -319,28 +293,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor->setValue($macroNames, $macroValues);
 
         $docName = 'header-footer-test-result.docx';
-        $templateProcessor->saveAs($docName);
-        $docFound = file_exists($docName);
-        unlink($docName);
-        $this->assertTrue($docFound);
-    }
-
-    /**
-     * @covers ::setValue
-     * @covers ::saveAs
-     * @test
-     */
-    public function testMacrosCanBeReplacedInHeaderAndFooterOdt()
-    {
-        $templateProcessor = new TemplateProcessorOdt(__DIR__ . '/_files/templates/header-footer.odt');
-
-        $this->assertEquals(array('documentContent', 'headerValue:100:100', 'footerValue'), $templateProcessor->getVariables());
-
-        $macroNames = array('headerValue', 'documentContent', 'footerValue');
-        $macroValues = array('Header Value', 'Document text.', 'Footer Value');
-        $templateProcessor->setValue($macroNames, $macroValues);
-
-        $docName = 'header-footer-test-result.odt';
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
@@ -513,84 +465,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers ::setImageValue
-     * @test
-     */
-    public function testSetImageValueOdt()
-    {
-        // revoir pour la structure spécifique des ODT
-        $templateProcessor = new TemplateProcessorOdt(__DIR__ . '/_files/templates/header-footer.odt');
-        $imagePath = __DIR__ . '/_files/images/earth.jpg';
-
-        $variablesReplace = array(
-                                'headerValue'       => $imagePath,
-                                'documentContent'   => array('path' => $imagePath, 'width' => 500, 'height' => 500),
-                                'footerValue'       => array('path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false),
-        );
-        $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
-
-        $docName = 'header-footer-images-test-result.odt';
-        $templateProcessor->saveAs($docName);
-
-        $this->assertFileExists($docName, "Generated file '{$docName}' not found!");
-
-        $expectedDocumentZip = new \ZipArchive();
-        $expectedDocumentZip->open($docName);
-        //$expectedContentTypesXml = $expectedDocumentZip->getFromName('[Content_Types].xml');
-        //$expectedDocumentRelationsXml = $expectedDocumentZip->getFromName('word/_rels/document.xml.rels');
-        //$expectedHeaderRelationsXml = $expectedDocumentZip->getFromName('word/_rels/header1.xml.rels');
-        //$expectedFooterRelationsXml = $expectedDocumentZip->getFromName('word/_rels/footer1.xml.rels');
-        $expectedMainPartXml = $expectedDocumentZip->getFromName('content.xml');
-        $expectedStylePartXml = $expectedDocumentZip->getFromName('styles.xml');
-        //$expectedFooterPartXml = $expectedDocumentZip->getFromName('word/footer1.xml');
-        $expectedImage = $expectedDocumentZip->getFromName('Pictures/image_rId0_content.jpeg');
-        if (false === $expectedDocumentZip->close()) {
-            throw new \Exception("Could not close zip file \"{$docName}\".");
-        }
-
-        $this->assertNotEmpty($expectedImage, 'Embed image doesn\'t found.');
-        $this->assertContains('Pictures/image_rId0_content.jpeg', $expectedMainPartXml, 'content.xml missed "Pictures/image5_document.jpeg"');
-        //$this->assertContains('/word/_rels/header1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/header1.xml.rels"');
-        //$this->assertContains('/word/_rels/footer1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/footer1.xml.rels"');
-        $this->assertNotContains('${documentContent}', $expectedMainPartXml, 'content.xml has no image.');
-        $this->assertNotContains('${headerValue}', $expectedStylePartXml, 'styles.xml header has no image.');
-        $this->assertNotContains('${footerValue}', $expectedStylePartXml, 'styles.xml footer has no image.');
-        //$this->assertContains('media/image_rId_document.jpeg', $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
-        //$this->assertContains('media/image_rId11_document.jpeg', $expectedHeaderRelationsXml, 'word/_rels/header1.xml.rels missed "media/image5_document.jpeg"');
-        //$this->assertContains('media/image_rId11_document.jpeg', $expectedFooterRelationsXml, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
-
-        unlink($docName);
-
-        // dynamic generated doc
-        $testFileName = 'images-test-sample.odt';
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection();
-        $section->addText('${Test:width=100:ratio=true}');
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
-        $objWriter->save($testFileName);
-        $this->assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
-
-        $resultFileName = 'images-test-result.odt';
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($testFileName);
-        unlink($testFileName);
-        $templateProcessor->setImageValue('Test', $imagePath);
-        $templateProcessor->setImageValue('Test1', $imagePath);
-        $templateProcessor->setImageValue('Test2', $imagePath);
-        $templateProcessor->saveAs($resultFileName);
-        $this->assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
-
-        $expectedDocumentZip = new \ZipArchive();
-        $expectedDocumentZip->open($resultFileName);
-        $expectedMainPartXml = $expectedDocumentZip->getFromName('content.xml');
-        if (false === $expectedDocumentZip->close()) {
-            throw new \Exception("Could not close zip file \"{$resultFileName}\".");
-        }
-        unlink($resultFileName);
-
-        $this->assertNotContains('${Test}', $expectedMainPartXml, 'content.xml has no image.');
-    }
-
-    /**
      * @covers ::cloneBlock
      * @covers ::deleteBlock
      * @covers ::saveAs
@@ -606,31 +480,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
 
         $docName = 'clone-delete-block-result.docx';
-        $templateProcessor->cloneBlock('CLONEME', 3);
-        $templateProcessor->deleteBlock('DELETEME');
-        $templateProcessor->setValue('blockVariable#3', 'Test');
-        $templateProcessor->saveAs($docName);
-        $docFound = file_exists($docName);
-        unlink($docName);
-        $this->assertTrue($docFound);
-    }
-
-    /**
-     * @covers ::cloneBlock
-     * @covers ::deleteBlock
-     * @covers ::saveAs
-     * @test
-     */
-    public function testCloneDeleteBlockOdt()
-    {
-        $templateProcessor = new TemplateProcessorOdt(__DIR__ . '/_files/templates/clone-delete-block.odt');
-
-        $this->assertEquals(
-            array('DELETEME', '/DELETEME', 'CLONEME', 'blockVariable', '/CLONEME'),
-            $templateProcessor->getVariables()
-        );
-
-        $docName = 'clone-delete-block-result.odt';
         $templateProcessor->cloneBlock('CLONEME', 3);
         $templateProcessor->deleteBlock('DELETEME');
         $templateProcessor->setValue('blockVariable#3', 'Test');
@@ -665,44 +514,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $objWriter->save($templatePath);
 
         $templateProcessor = new TemplateProcessor($templatePath);
-        $variableCount = $templateProcessor->getVariableCount();
-        unlink($templatePath);
-
-        $this->assertEquals(
-            array(
-                'a_field_that_is_present_three_times' => 3,
-                'a_field_that_is_present_twice'       => 2,
-                'a_field_that_is_present_one_time'    => 1,
-            ),
-            $variableCount
-        );
-    }
-
-    /**
-     * @covers ::getVariableCount
-     * @test
-     */
-    public function getVariableCountCountsHowManyTimesEachPlaceholderIsPresentOdt()
-    {
-        // create template with placeholders
-        $phpWord = new PhpWord();
-        $section = $phpWord->addSection();
-        $header = $section->addHeader();
-        $header->addText('${a_field_that_is_present_three_times}');
-        $footer = $section->addFooter();
-        $footer->addText('${a_field_that_is_present_twice}');
-        $section2 = $phpWord->addSection();
-        $section2->addText('
-                ${a_field_that_is_present_one_time}
-                  ${a_field_that_is_present_three_times}
-              ${a_field_that_is_present_twice}
-                   ${a_field_that_is_present_three_times}
-        ');
-        $objWriter = IOFactory::createWriter($phpWord, 'ODText');
-        $templatePath = 'test.odt';
-        $objWriter->save($templatePath);
-
-        $templateProcessor = new TemplateProcessorOdt($templatePath);
         $variableCount = $templateProcessor->getVariableCount();
         unlink($templatePath);
 
@@ -903,18 +714,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     public function testMainPartNameDetection()
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/document22-xml.docx');
-
-        $variables = array('test');
-
-        $this->assertEquals($variables, $templateProcessor->getVariables());
-    }
-
-    /**
-     * @covers ::getMainPartName
-     */
-    public function testMainPartNameDetectionOdt()
-    {
-        $templateProcessor = new TemplateProcessorOdt(__DIR__ . '/_files/templates/document22-xml.odt');
 
         $variables = array('test');
 
