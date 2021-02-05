@@ -3,37 +3,24 @@ language: php
 dist: xenial
 
 php:
-    - 5.3
-    - 5.4
-    - 5.5
-    - 5.6
-    - 7.0
     - 7.1
     - 7.2
     - 7.3
-    - 7.4snapshot
+    - 7.4
+    - nightly
 
 matrix:
     include:
-        - php: 5.3
-          dist: precise
-          env: COMPOSER_MEMORY_LIMIT=3G
-        - php: 5.4
-          dist: trusty
-        - php: 5.5
-          dist: trusty
-        - php: 7.0
+        - php: 7.2
           env: COVERAGE=1
-        - php: 7.3
+        - php: nightly
           env: DEPENDENCIES="--ignore-platform-reqs"
     exclude:
-        - php: 5.3
-        - php: 5.4
-        - php: 5.5
-        - php: 7.0
-        - php: 7.3
+        - php: 7.2
+        - php: nightly
     allow_failures:
-        - php: 7.4snapshot
+        - php: 7.4 #needs an update on dompdf
+        - php: nightly
 
 cache:
     directories:
@@ -69,8 +56,6 @@ script:
     - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php ; fi
     ## PHPUnit
     - ./vendor/bin/phpunit -c ./ $(if [ -n "$COVERAGE" ]; then echo --coverage-text; else echo --no-coverage; fi)
-    ## PHPLOC
-    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phploc src/ ; fi
     ## PHPDocumentor
     ##- if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
 

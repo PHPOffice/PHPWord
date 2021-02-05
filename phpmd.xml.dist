@@ -28,6 +28,6 @@
             <property name="minimum" value="30" />
         </properties>
     </rule>
-    <rule ref="rulesets/unusedcode.xml" />
+    <!--rule ref="rulesets/unusedcode.xml" /-->
     <rule ref="rulesets/controversial.xml" />
 </ruleset>
