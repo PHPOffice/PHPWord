@@ -397,9 +397,11 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $imagePath = __DIR__ . '/_files/images/earth.jpg';
 
         $variablesReplace = array(
-                                'headerValue'       => $imagePath,
-                                'documentContent'   => array('path' => $imagePath, 'width' => 500, 'height' => 500),
-                                'footerValue'       => array('path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false),
+                                'headerValue' => function () use ($imagePath) {
+                                    return $imagePath;
+                                },
+                                'documentContent' => array('path' => $imagePath, 'width' => 500, 'height' => 500),
+                                'footerValue' => array('path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false),
         );
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 

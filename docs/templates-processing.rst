@@ -63,6 +63,11 @@ Example:
 
     $templateProcessor->setImageValue('CompanyLogo', 'path/to/company/logo.png');
     $templateProcessor->setImageValue('UserLogo', array('path' => 'path/to/logo.png', 'width' => 100, 'height' => 100, 'ratio' => false));
+    $templateProcessor->setImageValue('FeatureImage', function () {
+        // Closure will only be executed if the replacement tag is found in the template
+
+        return array('path' => SlowFeatureImageGenerator::make(), 'width' => 100, 'height' => 100, 'ratio' => false);
+    });
 
 cloneBlock
 """"""""""
