@@ -63,7 +63,12 @@ class TestHelperDOCX
             $zip->close();
         }
 
-        return new XmlDocument(Settings::getTempDir() . '/PhpWord_Unit_Test/');
+        $doc = new XmlDocument(Settings::getTempDir() . '/PhpWord_Unit_Test/');
+        if ($writerName === 'ODText') {
+            $doc->setDefaultFile('content.xml');
+        }
+
+        return $doc;
     }
 
     /**

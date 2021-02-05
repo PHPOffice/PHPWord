@@ -36,6 +36,16 @@ class DomPDF extends AbstractRenderer implements WriterInterface
     protected $includeFile = null;
 
     /**
+     * Gets the implementation of external PDF library that should be used.
+     *
+     * @return Dompdf implementation
+     */
+    protected function createExternalWriterInstance()
+    {
+        return new DompdfLib();
+    }
+
+    /**
      * Save PhpWord to file.
      *
      * @param string $filename Name of the file to save as
@@ -49,7 +59,7 @@ class DomPDF extends AbstractRenderer implements WriterInterface
         $orientation = 'portrait';
 
         //  Create PDF
-        $pdf = new DompdfLib();
+        $pdf = $this->createExternalWriterInstance();
         $pdf->setPaper(strtolower($paperSize), $orientation);
         $pdf->loadHtml(str_replace(PHP_EOL, '', $this->getContent()));
         $pdf->render();

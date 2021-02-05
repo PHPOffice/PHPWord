@@ -17,10 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\Common\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\TestHelperDOCX;
@@ -67,6 +67,8 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $phpWord->getSettings()->getDocumentProtection()->setSalt(base64_decode('uq81pJRRGFIY5U+E9gt8tA=='));
         $phpWord->getSettings()->getDocumentProtection()->setAlgorithm(PasswordEncoder::ALGORITHM_MD2);
         $phpWord->getSettings()->getDocumentProtection()->setSpinCount(10);
+        $sect = $phpWord->addSection();
+        $sect->addText('This is a protected document');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -75,6 +77,31 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $path = '/w:settings/w:documentProtection';
         $this->assertTrue($doc->elementExists($path, $file));
         $this->assertEquals('rUuJbk6LuN2/qFyp7IUPQA==', $doc->getElement($path, $file)->getAttribute('w:hash'));
+        $this->assertEquals('1', $doc->getElement($path, $file)->getAttribute('w:cryptAlgorithmSid'));
+        $this->assertEquals('10', $doc->getElement($path, $file)->getAttribute('w:cryptSpinCount'));
+    }
+
+    /**
+     * Test document protection with password without setting salt
+     */
+    public function testDocumentProtectionWithPasswordNoSalt()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->getDocumentProtection()->setEditing('readOnly');
+        $phpWord->getSettings()->getDocumentProtection()->setPassword('testÄö@€!$&');
+        //$phpWord->getSettings()->getDocumentProtection()->setSalt(base64_decode('uq81pJRRGFIY5U+E9gt8tA=='));
+        $phpWord->getSettings()->getDocumentProtection()->setAlgorithm(PasswordEncoder::ALGORITHM_MD2);
+        $phpWord->getSettings()->getDocumentProtection()->setSpinCount(10);
+        $sect = $phpWord->addSection();
+        $sect->addText('This is a protected document');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:documentProtection';
+        $this->assertTrue($doc->elementExists($path, $file));
+        //$this->assertEquals('rUuJbk6LuN2/qFyp7IUPQA==', $doc->getElement($path, $file)->getAttribute('w:hash'));
         $this->assertEquals('1', $doc->getElement($path, $file)->getAttribute('w:cryptAlgorithmSid'));
         $this->assertEquals('10', $doc->getElement($path, $file)->getAttribute('w:cryptSpinCount'));
     }

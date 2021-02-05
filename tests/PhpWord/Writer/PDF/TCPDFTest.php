@@ -33,6 +33,18 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstruct()
     {
+        // TCPDF version 6.3.5 doesn't support PHP 5.3, fixed via https://github.com/tecnickcom/TCPDF/pull/197,
+        // pending new release.
+        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+            return;
+        }
+
+        // TCPDF version 6.3.5 doesn't support PHP 8.0, fixed via https://github.com/tecnickcom/TCPDF/pull/293,
+        // pending new release.
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            return;
+        }
+
         $file = __DIR__ . '/../../_files/tcpdf.pdf';
 
         $phpWord = new PhpWord();

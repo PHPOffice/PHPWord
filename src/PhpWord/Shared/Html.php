@@ -75,7 +75,9 @@ class Html
         $html = preg_replace('/(\>)\s*(\<)/m', '$1$2', $html);
 
         // Load DOM
-        $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+        if (\PHP_VERSION_ID < 80000) {
+            $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+        }
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadHTML($html, LIBXML_NOWARNING);
@@ -83,7 +85,9 @@ class Html
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
-        libxml_disable_entity_loader($orignalLibEntityLoader);
+        if (\PHP_VERSION_ID < 80000) {
+            libxml_disable_entity_loader($orignalLibEntityLoader);
+        }
     }
 
     /**
@@ -181,7 +185,7 @@ class Html
                 }
             }
             $method = "parse{$method}";
-            $newElement = call_user_func_array(array('PhpOffice\PhpWord\Shared\Html', $method), $arguments);
+            $newElement = call_user_func_array(array('PhpOffice\PhpWord\Shared\Html', $method), array_values($arguments));
 
             // Retrieve back variables from arguments
             foreach ($keys as $key) {

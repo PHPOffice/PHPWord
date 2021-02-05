@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Reader;
 
-use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Reader for ODText
