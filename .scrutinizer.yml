@@ -3,6 +3,12 @@ build:
         analysis:
             tests:
                 override: [php-scrutinizer-run]
+    environment:
+        php:
+            version: '7.4'
+            pecl_extensions:
+                - zip
+
 filter:
     excluded_paths: [ 'vendor/*', 'tests/*', 'samples/*', 'src/PhpWord/Shared/PCLZip/*' ]
 

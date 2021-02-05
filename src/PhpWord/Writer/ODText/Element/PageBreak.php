@@ -30,7 +30,7 @@ class PageBreak extends AbstractElement
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('text:p');
-        $xmlWriter->writeAttribute('text:style-name', 'P1');
+        $xmlWriter->writeAttribute('text:style-name', 'PB');
         $xmlWriter->endElement();
     }
 }

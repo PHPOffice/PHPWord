@@ -34,7 +34,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnmatchedElements()
     {
-        $elements = array('Container', 'Footnote', 'Image', 'Link', 'ListItem', 'Table', 'Title', 'Bookmark');
+        $elements = array('Container', 'Footnote', 'Image', 'Link', 'ListItem', 'ListItemRun', 'Table', 'Title', 'Bookmark');
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\HTML\\Element\\' . $element;
             $parentWriter = new HTML();
@@ -161,6 +161,31 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $content = $htmlWriter->getContent();
 
         $this->assertContains($expected, $content);
+    }
+
+    /**
+     * Test write element ListItemRun
+     */
+    public function testListItemRun()
+    {
+        $expected1 = 'List item run 1';
+        $expected2 = 'List item run 1 in bold';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $listItemRun = $section->addListItemRun(0, null, 'MyParagraphStyle');
+        $listItemRun->addText($expected1);
+        $listItemRun->addText($expected2, array('bold' => true));
+
+        $htmlWriter = new HTML($phpWord);
+        $content = $htmlWriter->getContent();
+
+        $dom = new \DOMDocument();
+        $dom->loadHTML($content);
+
+        $this->assertEquals($expected1, $dom->getElementsByTagName('p')->item(0)->textContent);
+        $this->assertEquals($expected2, $dom->getElementsByTagName('p')->item(1)->textContent);
     }
 
     /**
