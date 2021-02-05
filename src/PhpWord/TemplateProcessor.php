@@ -276,7 +276,7 @@ class TemplateProcessor
         $where = $this->findContainingXmlBlockForMacro($search, 'w:r');
 
         if ($where === false) {
-            return ;
+            return;
         }
 
         $block = $this->getSlice($where['start'], $where['end']);
