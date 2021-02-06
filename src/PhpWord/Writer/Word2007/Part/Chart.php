@@ -270,7 +270,7 @@ class Chart extends AbstractPart
                 if (is_array($colors) && count($colors) > 0) {
                     // assign a color to each value
                     $valueIndex = 0;
-                    for ($i = 1; $i < count($values); $i++) {
+                    for ($i = 0; $i < count($values); $i++) {
                         // check that there are still enought colors
                         $xmlWriter->startElement('c:dPt');
                         $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);
