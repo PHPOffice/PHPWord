@@ -209,7 +209,7 @@ class Chart extends AbstractPart
     /**
      * Write series.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param bool $scatter
      */
     private function writeSeries(XMLWriter $xmlWriter, $scatter = false)
