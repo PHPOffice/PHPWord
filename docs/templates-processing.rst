@@ -249,9 +249,20 @@ See ``Sample_40_TemplateSetComplexValue.php`` for examples.
     $table->addCell(150)->addText('Cell B2');
     $table->addCell(150)->addText('Cell B3');
     $templateProcessor->setComplexBlock('table', $table);
-    
+
+setChartValue
+"""""""""""""
+Replace a variable by a chart.
+
+.. code-block:: php
+
+    $categories = array('A', 'B', 'C', 'D', 'E');
+    $series1 = array(1, 3, 2, 5, 4);
+    $chart = new Chart('doughnut', $categories, $series1);
+    $templateProcessor->setChartValue('myChart', $chart);
+
 save
-"""""""""
+""""
 Saves the loaded template within the current directory. Returns the file path.
 
 .. code-block:: php
@@ -259,7 +270,7 @@ Saves the loaded template within the current directory. Returns the file path.
     $filepath = $templateProcessor->save();
     
 saveAs
-"""""""""
+""""""
 Saves a copy of the loaded template in the indicated path.
 
 .. code-block:: php

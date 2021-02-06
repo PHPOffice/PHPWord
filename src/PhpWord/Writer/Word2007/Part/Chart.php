@@ -267,10 +267,10 @@ class Chart extends AbstractPart
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
 
                 // check that there are colors
-                if (is_array($colors) && count($colors)>0) {
+                if (is_array($colors) && count($colors) > 0) {
                     // assign a color to each value
-                    $valueIndex=0;
-                    foreach ($values as $value) {
+                    $valueIndex = 0;
+                    for ($i = 1; $i < count($values); $i++) {
                         // check that there are still enought colors
                         $xmlWriter->startElement('c:dPt');
                         $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);

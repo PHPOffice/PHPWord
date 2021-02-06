@@ -365,12 +365,12 @@ class TemplateProcessor
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         // Get the next relation id
-        $rId= $this->getNextRelationsIndex($this->getMainPartName());
+        $rId = $this->getNextRelationsIndex($this->getMainPartName());
         $chart->setRelationId($rId);
 
         // Define the chart filename
         $filename = "charts/chart{$rId}.xml";
-        
+
         // Get the part writer
         $writerPart = new \PhpOffice\PhpWord\Writer\Word2007\Part\Chart();
         $writerPart->setElement($chart);

@@ -17,23 +17,23 @@ $series1 = array(1, 3, 2, 5, 4);
 $series2 = array(3, 1, 7, 2, 6);
 $series3 = array(8, 3, 2, 5, 4);
 
-$i=0;
+$i = 0;
 foreach ($chartTypes as $chartType) {
-	$chart = new Chart($chartType, $categories, $series1);
+    $chart = new Chart($chartType, $categories, $series1);
 
-	if (in_array($chartType, $twoSeries)) {
-	    $chart->addSeries($categories, $series2);
-	}
-	if (in_array($chartType, $threeSeries)) {
-	    $chart->addSeries($categories, $series3);
-	}
+    if (in_array($chartType, $twoSeries)) {
+        $chart->addSeries($categories, $series2);
+    }
+    if (in_array($chartType, $threeSeries)) {
+        $chart->addSeries($categories, $series3);
+    }
 
-	$chart->getStyle()
-		->setWidth(Converter::inchToEmu(3))
-		->setHeight(Converter::inchToEmu(3));
+    $chart->getStyle()
+        ->setWidth(Converter::inchToEmu(3))
+        ->setHeight(Converter::inchToEmu(3));
 
-	$templateProcessor->setChart("chart{$i}", $chart);
-	$i++;
+    $templateProcessor->setChart("chart{$i}", $chart);
+    $i++;
 }
 
 echo date('H:i:s'), ' Saving the result document...', EOL;
