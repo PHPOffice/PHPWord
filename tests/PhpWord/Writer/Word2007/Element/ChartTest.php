@@ -113,7 +113,7 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         for ($idxp1 = 1; $idxp1 < $numColor; ++$idxp1) {
             $idx = $idxp1; // stacked bar chart is shifted
             $element = $path . "/c:ser/c:dPt[$idxp1]/c:spPr/a:solidFill/a:srgbClr";
-            self::assertEquals($colorArray[$idx-1], $doc->getElementAttribute($element, 'val'), "bar chart idx=$idx");
+            self::assertEquals($colorArray[$idx - 1], $doc->getElementAttribute($element, 'val'), "bar chart idx=$idx");
         }
     }
 
