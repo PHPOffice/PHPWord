@@ -284,7 +284,7 @@ class Html
         $inputType = $attributes->getNamedItem('type')->value;
         switch ($inputType) {
             case 'checkbox':
-                $checked = ($checked = $attributes->getNamedItem('checked')) && $checked->value === "true" ?? false;
+                $checked = ($checked = $attributes->getNamedItem('checked')) && $checked->value === "true" ? true ? false;
                 $textrun = $element->addTextRun();
                 $textrun->addFormField('checkbox')->setValue($checked);
                 break;
