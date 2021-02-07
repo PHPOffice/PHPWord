@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Reader\ODText;
 
-use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Content reader

@@ -133,7 +133,7 @@ class Converter
      * Convert inch to EMU
      *
      * @param float $inch
-     * @return float
+     * @return int
      */
     public static function inchToEmu($inch = 1)
     {
@@ -143,7 +143,7 @@ class Converter
     /**
      * Convert pixel to twip
      *
-     * @param int $pixel
+     * @param float $pixel
      * @return float
      */
     public static function pixelToTwip($pixel = 1)
@@ -154,7 +154,7 @@ class Converter
     /**
      * Convert pixel to centimeter
      *
-     * @param int $pixel
+     * @param float $pixel
      * @return float
      */
     public static function pixelToCm($pixel = 1)
@@ -165,7 +165,7 @@ class Converter
     /**
      * Convert pixel to point
      *
-     * @param int $pixel
+     * @param float $pixel
      * @return float
      */
     public static function pixelToPoint($pixel = 1)
@@ -176,7 +176,7 @@ class Converter
     /**
      * Convert pixel to EMU
      *
-     * @param int $pixel
+     * @param float $pixel
      * @return int
      */
     public static function pixelToEmu($pixel = 1)
@@ -187,7 +187,7 @@ class Converter
     /**
      * Convert point to twip unit
      *
-     * @param int $point
+     * @param float $point
      * @return float
      */
     public static function pointToTwip($point = 1)
@@ -209,7 +209,7 @@ class Converter
     /**
      * Convert point to EMU
      *
-     * @param int $point
+     * @param float $point
      * @return float
      */
     public static function pointToEmu($point = 1)
@@ -231,7 +231,7 @@ class Converter
     /**
      * Convert EMU to pixel
      *
-     * @param int $emu
+     * @param float $emu
      * @return float
      */
     public static function emuToPixel($emu = 1)
@@ -242,7 +242,7 @@ class Converter
     /**
      * Convert pica to point
      *
-     * @param int $pica
+     * @param float $pica
      * @return float
      */
     public static function picaToPoint($pica = 1)
@@ -253,7 +253,7 @@ class Converter
     /**
      * Convert degree to angle
      *
-     * @param int $degree
+     * @param float $degree
      * @return int
      */
     public static function degreeToAngle($degree = 1)
@@ -264,7 +264,7 @@ class Converter
     /**
      * Convert angle to degrees
      *
-     * @param int $angle
+     * @param float $angle
      * @return int
      */
     public static function angleToDegree($angle = 1)
@@ -338,9 +338,9 @@ class Converter
             return false;
         }
 
-        $red = hexdec($red);
-        $green = hexdec($green);
-        $blue = hexdec($blue);
+        $red = ctype_xdigit($red) ? hexdec($red) : 0;
+        $green = ctype_xdigit($green) ? hexdec($green) : 0;
+        $blue = ctype_xdigit($blue) ? hexdec($blue) : 0;
 
         return array($red, $green, $blue);
     }
