@@ -798,7 +798,7 @@ class TemplateProcessor
         $xmlBlock = null;
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<w:p\b(.(?!<w:p\b))*?\${' . $blockname . '}.*?<\/w:p>)(.*?)(<w:p\b(.(?!<w:p\b))*?\${\/' . $blockname . '}.*?<\/w:p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -818,7 +818,7 @@ class TemplateProcessor
 
             if ($replace) {
                 $this->tempDocumentMainPart = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
+                    $matches[1] . $matches[3] . $matches[4],
                     implode('', $cloned),
                     $this->tempDocumentMainPart
                 );
@@ -838,14 +838,14 @@ class TemplateProcessor
     {
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<w:p\b(.(?!<w:p\b))*?\${' . $blockname . '}.*?<\/w:p>)(.*?)(<w:p\b(.(?!<w:p\b))*?\${\/' . $blockname . '}.*?<\/w:p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
 
         if (isset($matches[3])) {
             $this->tempDocumentMainPart = str_replace(
-                $matches[2] . $matches[3] . $matches[4],
+                $matches[1] . $matches[3] . $matches[4],
                 $replacement,
                 $this->tempDocumentMainPart
             );
