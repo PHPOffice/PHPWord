@@ -401,7 +401,7 @@ class Html
         $cell = $element->addCell($width, $cellStyles);
 
         if (self::shouldAddTextRun($node)) {
-            return $cell->addTextRun(self::parseInlineStyle($node, $styles['paragraph']));
+            return $cell->addTextRun(self::filterOutNonInheritedStyles(self::parseInlineStyle($node, $styles['paragraph'])));
         }
 
         return $cell;
@@ -432,13 +432,49 @@ class Html
      */
     protected static function recursiveParseStylesInHierarchy(\DOMNode $node, array $style)
     {
-        $parentStyle = self::parseInlineStyle($node, array());
-        $style = array_merge($parentStyle, $style);
+        $parentStyle = array();
         if ($node->parentNode != null && XML_ELEMENT_NODE == $node->parentNode->nodeType) {
-            $style = self::recursiveParseStylesInHierarchy($node->parentNode, $style);
+            $parentStyle = self::recursiveParseStylesInHierarchy($node->parentNode, array());
         }
+        if ($node->nodeName === '#text') {
+            $parentStyle = array_merge($parentStyle, $style);
+        } else {
+            $parentStyle = self::filterOutNonInheritedStyles($parentStyle);
+        }
+        $style = self::parseInlineStyle($node, $parentStyle);
 
         return $style;
+    }
+
+    /**
+     * Removes non-inherited styles from array
+     *
+     * @param array &$styles
+     */
+    protected static function filterOutNonInheritedStyles(array $styles)
+    {
+        $nonInheritedStyles = array(
+            'borderSize',
+            'borderTopSize',
+            'borderRightSize',
+            'borderBottomSize',
+            'borderLeftSize',
+            'borderColor',
+            'borderTopColor',
+            'borderRightColor',
+            'borderBottomColor',
+            'borderLeftColor',
+            'borderStyle',
+            'spaceAfter',
+            'spaceBefore',
+            'underline',
+            'strikethrough',
+            'hidden',
+        );
+
+        $styles = array_diff_key($styles, array_flip($nonInheritedStyles));
+
+        return $styles;
     }
 
     /**
