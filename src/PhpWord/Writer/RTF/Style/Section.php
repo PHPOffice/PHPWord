@@ -53,6 +53,7 @@ class Section extends AbstractStyle
         $content .= $this->getValueIf($style->getHeaderHeight() !== null, '\headery' . round($style->getHeaderHeight()));
         $content .= $this->getValueIf($style->getFooterHeight() !== null, '\footery' . round($style->getFooterHeight()));
         $content .= $this->getValueIf($style->getGutter() !== null, '\guttersxn' . round($style->getGutter()));
+        $content .= $this->getValueIf($style->getPageNumberingStart() !== null, '\pgnstarts' . $style->getPageNumberingStart() . '\pgnrestart');
         $content .= ' ';
 
         // Borders

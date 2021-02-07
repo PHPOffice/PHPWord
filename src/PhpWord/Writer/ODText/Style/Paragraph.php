@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
+
 /**
  * Font style writer
  *
@@ -35,30 +37,118 @@ class Paragraph extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $marginTop = (is_null($style->getSpaceBefore()) || $style->getSpaceBefore() == 0) ? '0' : round(17.6 / $style->getSpaceBefore(), 2);
-        $marginBottom = (is_null($style->getSpaceAfter()) || $style->getSpaceAfter() == 0) ? '0' : round(17.6 / $style->getSpaceAfter(), 2);
+        $marginTop = $style->getSpaceBefore();
+        $marginBottom = $style->getSpaceAfter();
 
         $xmlWriter->startElement('style:style');
+
+        $styleName = $style->getStyleName();
+        $styleAuto = false;
+        $mpm = '';
+        $psm = '';
+        $pagestart = -1;
+        $breakafter = $breakbefore = $breakauto = false;
+        if ($style->isAuto()) {
+            if (substr($styleName, 0, 2) === 'PB') {
+                $styleAuto = true;
+                $breakafter = true;
+            } elseif (substr($styleName, 0, 2) === 'SB') {
+                $styleAuto = true;
+                $mpm = 'Standard' . substr($styleName, 2);
+                $psn = $style->getNumLevel();
+                $pagestart = $psn;
+            } elseif (substr($styleName, 0, 2) === 'HD') {
+                $styleAuto = true;
+                $psm = 'Heading_' . substr($styleName, 2);
+                $stylep = \PhpOffice\PhpWord\Style::getStyle($psm);
+                if ($stylep instanceof \PhpOffice\PhpWord\Style\Font) {
+                    if (method_exists($stylep, 'getParagraph')) {
+                        $stylep = $stylep->getParagraph();
+                    }
+                }
+                if ($stylep instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+                    if ($stylep->hasPageBreakBefore()) {
+                        $breakbefore = true;
+                    }
+                }
+            } elseif (substr($styleName, 0, 2) === 'HE') {
+                $styleAuto = true;
+                $psm = 'Heading_' . substr($styleName, 2);
+                $breakauto = true;
+            } else {
+                $styleAuto = true;
+                $psm = 'Normal';
+                if (preg_match('/^P\\d+_(\\w+)$/', $styleName, $matches)) {
+                    $psm = $matches[1];
+                }
+            }
+        }
+
         $xmlWriter->writeAttribute('style:name', $style->getStyleName());
         $xmlWriter->writeAttribute('style:family', 'paragraph');
-        if ($style->isAuto()) {
-            $xmlWriter->writeAttribute('style:parent-style-name', 'Standard');
-            $xmlWriter->writeAttribute('style:master-page-name', 'Standard');
+        if ($styleAuto) {
+            $xmlWriter->writeAttributeIf($psm !== '', 'style:parent-style-name', $psm);
+            $xmlWriter->writeAttributeIf($mpm !== '', 'style:master-page-name', $mpm);
         }
 
         $xmlWriter->startElement('style:paragraph-properties');
-        if ($style->isAuto()) {
-            $xmlWriter->writeAttribute('style:page-number', 'auto');
-        } else {
-            $xmlWriter->writeAttribute('fo:margin-top', $marginTop . 'cm');
-            $xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'cm');
-            $xmlWriter->writeAttribute('fo:text-align', $style->getAlignment());
+        if ($styleAuto) {
+            if ($breakafter) {
+                $xmlWriter->writeAttribute('fo:break-after', 'page');
+                $xmlWriter->writeAttribute('fo:margin-top', '0cm');
+                $xmlWriter->writeAttribute('fo:margin-bottom', '0cm');
+            } elseif ($breakbefore) {
+                $xmlWriter->writeAttribute('fo:break-before', 'page');
+            } elseif ($breakauto) {
+                $xmlWriter->writeAttribute('fo:break-before', 'auto');
+            }
+            if ($pagestart > 0) {
+                $xmlWriter->writeAttribute('style:page-number', $pagestart);
+            }
+        }
+        if (!$breakafter && !$breakbefore && !$breakauto) {
+            $twipToPoint = Converter::INCH_TO_TWIP / Converter::INCH_TO_POINT; // 20
+            $xmlWriter->writeAttributeIf($marginTop !== null, 'fo:margin-top', ($marginTop / $twipToPoint) . 'pt');
+            $xmlWriter->writeAttributeIf($marginBottom !== null, 'fo:margin-bottom', ($marginBottom / $twipToPoint) . 'pt');
+        }
+        $temp = $style->getAlignment();
+        $xmlWriter->writeAttributeIf($temp !== '', 'fo:text-align', $temp);
+        $temp = $style->getLineHeight();
+        $xmlWriter->writeAttributeIf($temp !== null, 'fo:line-height', ((string) ($temp * 100) . '%'));
+        $xmlWriter->writeAttributeIf($style->hasPageBreakBefore() === true, 'fo:break-before', 'page');
+
+        $tabs = $style->getTabs();
+        if ($tabs !== null && count($tabs) > 0) {
+            $xmlWriter->startElement('style:tab-stops');
+            foreach ($tabs as $tab) {
+                $xmlWriter->startElement('style:tab-stop');
+                $xmlWriter->writeAttribute('style:type', $tab->getType());
+                $xmlWriter->writeAttribute('style:position', (string) ($tab->getPosition() / Converter::INCH_TO_TWIP) . 'in');
+                $xmlWriter->endElement();
+            }
+            $xmlWriter->endElement();
         }
 
         //Right to left
         $xmlWriter->writeAttributeIf($style->isBidi(), 'style:writing-mode', 'rl-tb');
 
+        //Indentation
+        $indent = $style->getIndentation();
+        //if ($indent instanceof \PhpOffice\PhpWord\Style\Indentation) {
+        if (!empty($indent)) {
+            $marg = $indent->getLeft();
+            $xmlWriter->writeAttributeIf($marg !== null, 'fo:margin-left', (string) ($marg / Converter::INCH_TO_TWIP) . 'in');
+            $marg = $indent->getRight();
+            $xmlWriter->writeAttributeIf($marg !== null, 'fo:margin-right', (string) ($marg / Converter::INCH_TO_TWIP) . 'in');
+        }
+
         $xmlWriter->endElement(); //style:paragraph-properties
+
+        if ($styleAuto && substr($styleName, 0, 2) === 'SB') {
+            $xmlWriter->startElement('style:text-properties');
+            $xmlWriter->writeAttribute('text:display', 'none');
+            $xmlWriter->endElement();
+        }
 
         $xmlWriter->endElement(); //style:style
     }

@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Word2007 contenttypes part writer: [Content_Types].xml
@@ -80,7 +80,7 @@ class ContentTypes extends AbstractPart
     /**
      * Write content types element
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter XML Writer
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
      * @param array $parts
      * @param bool $isDefault
      */

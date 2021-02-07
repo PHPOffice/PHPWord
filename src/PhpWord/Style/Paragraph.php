@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
+use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 
@@ -85,7 +85,7 @@ class Paragraph extends Border
     /**
      * Indentation
      *
-     * @var \PhpOffice\PhpWord\Style\Indentation
+     * @var \PhpOffice\PhpWord\Style\Indentation|null
      */
     private $indentation;
 
@@ -198,7 +198,7 @@ class Paragraph extends Border
     {
         $key = Text::removeUnderscorePrefix($key);
         if ('indent' == $key || 'hanging' == $key) {
-            $value = $value * 720;
+            $value = $value * 720;  // 720 twips is 0.5 inch
         }
 
         return parent::setStyleValue($key, $value);
