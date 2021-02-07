@@ -610,8 +610,8 @@ class TemplateProcessor
                         // replace on each iteration, because in one tag we can have 2+ inline variables => before proceed next variable we need to change $partContent
                         $partContent = $this->setValueForPart($wholeTag, $replaceXml, $partContent, $limit);
                     }
-                    $i++;
-                    if($i >= $limit) {
+
+                    if (++$i >= $limit) {
                         break;
                     }
                 }
