@@ -454,7 +454,7 @@ class Image extends AbstractElement
             } else {
                 $this->sourceType = self::SOURCE_GD;
             }
-        } elseif (@file_exists($this->source)) {
+        } elseif ((strpos($this->source, chr(0)) === false) && @file_exists($this->source)) {
             $this->memoryImage = false;
             $this->sourceType = self::SOURCE_LOCAL;
         } else {

@@ -23,7 +23,6 @@ use PhpOffice\PhpWord\Writer\ODText;
  * Test class for PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart
- * @runTestsInSeparateProcesses
  */
 class AbstractPartTest extends \PHPUnit\Framework\TestCase
 {

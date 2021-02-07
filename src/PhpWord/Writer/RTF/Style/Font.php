@@ -49,6 +49,7 @@ class Font extends AbstractStyle
         }
 
         $content = '';
+        $content .= $this->getValueIf($style->isRTL(), '\rtlch');
         $content .= '\cf' . $this->colorIndex;
         $content .= '\f' . $this->nameIndex;
 

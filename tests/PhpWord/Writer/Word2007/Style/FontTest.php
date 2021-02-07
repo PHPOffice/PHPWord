@@ -51,6 +51,80 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path, $file));
     }
 
+    public function testFontRTLNamed()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $stnam = 'fstyle';
+        $phpWord->addFontStyle($stnam, array(
+            'rtl'  => true,
+            'name' => 'Courier New',
+            'size' => 8,
+            ));
+        $section = $phpWord->addSection();
+        $txt = 'היום יום שני';  // Translation = Today is Monday
+        $section->addText($txt, $stnam);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $element = '/w:document/w:body/w:p/w:r';
+        $txtelem = $element . '/w:t';
+        $styelem = $element . '/w:rPr';
+        $this->assertTrue($doc->elementExists($txtelem));
+        $this->assertEquals($txt, $doc->getElement($txtelem)->textContent);
+        $this->assertTrue($doc->elementExists($styelem));
+        $this->assertTrue($doc->elementExists($styelem . '/w:rStyle'));
+        $this->assertEquals($stnam, $doc->getElementAttribute($styelem . '/w:rStyle', 'w:val'));
+        $this->assertTrue($doc->elementExists($styelem . '/w:rtl'));
+    }
+
+    public function testFontNotRTLNamed()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $stnam = 'fstyle';
+        $phpWord->addFontStyle($stnam, array(
+            //'rtl'  => true,
+            'name' => 'Courier New',
+            'size' => 8,
+            ));
+        $section = $phpWord->addSection();
+        $txt = 'היום יום שני';  // Translation = Today is Monday
+        $section->addText($txt, $stnam);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $element = '/w:document/w:body/w:p/w:r';
+        $txtelem = $element . '/w:t';
+        $styelem = $element . '/w:rPr';
+        $this->assertTrue($doc->elementExists($txtelem));
+        $this->assertEquals($txt, $doc->getElement($txtelem)->textContent);
+        $this->assertTrue($doc->elementExists($styelem));
+        $this->assertTrue($doc->elementExists($styelem . '/w:rStyle'));
+        $this->assertEquals($stnam, $doc->getElementAttribute($styelem . '/w:rStyle', 'w:val'));
+        $this->assertFalse($doc->elementExists($styelem . '/w:rtl'));
+    }
+
+    public function testNoProof()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $fontStyle = array(
+            'noProof' => true,
+            'name'    => 'Courier New',
+            'size'    => 8,
+            );
+        $section = $phpWord->addSection();
+        $txt = 'spellung error';
+        $section->addText($txt, $fontStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $element = '/w:document/w:body/w:p/w:r';
+        $txtelem = $element . '/w:t';
+        $styelem = $element . '/w:rPr';
+        $noproofelem = $styelem . '/w:noProof';
+        $this->assertTrue($doc->elementExists($txtelem));
+        $this->assertEquals($txt, $doc->getElement($txtelem)->textContent);
+        $this->assertTrue($doc->elementExists($styelem));
+        $this->assertTrue($doc->elementExists($noproofelem));
+        $this->assertEquals('1', $doc->getElementAttribute($noproofelem, 'w:val'));
+    }
+
     /**
      * Test writing font with language
      */

@@ -26,6 +26,46 @@ use PhpOffice\PhpWord\Element\TrackChange;
 class ElementTest extends AbstractTestReader
 {
     /**
+     * Test reading of alternate content value
+     */
+    public function testReadAlternateContent()
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <mc:AlternateContent>
+                    <mc:Choice Requires="wps"></mc:Choice>
+                    <mc:Fallback>
+                        <w:pict>
+                            <v:rect>
+                                <v:textbox>
+                                    <w:txbxContent>
+                                        <w:p>
+                                            <w:pPr>
+                                                <w:jc w:val="center"/>
+                                            </w:pPr>
+                                            <w:r>
+                                                <w:t>Test node value</w:t>
+                                            </w:r>
+                                        </w:p>
+                                    </w:txbxContent>
+                                </v:textbox>
+                            </v:rect>
+                        </w:pict>
+                    </mc:Fallback>
+                </mc:AlternateContent>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]->getElement(0));
+        $text = $elements[0];
+        $this->assertEquals('Test node value', trim($text->getElement(0)->getText()));
+    }
+
+    /**
      * Test reading of textbreak
      */
     public function testReadTextBreak()

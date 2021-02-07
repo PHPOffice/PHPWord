@@ -140,6 +140,11 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
+        // Test is not needed for PHP 8.0, because internally validation throws TypeError exception.
+        if (\PHP_VERSION_ID >= 80000) {
+            $this->markTestSkipped('not needed for PHP 8.0');
+        }
+
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
 
         $xslDomDocument = new \DOMDocument();
@@ -392,9 +397,11 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $imagePath = __DIR__ . '/_files/images/earth.jpg';
 
         $variablesReplace = array(
-                                'headerValue'       => $imagePath,
-                                'documentContent'   => array('path' => $imagePath, 'width' => 500, 'height' => 500),
-                                'footerValue'       => array('path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false),
+                                'headerValue' => function () use ($imagePath) {
+                                    return $imagePath;
+                                },
+                                'documentContent' => array('path' => $imagePath, 'width' => 500, 'height' => 500),
+                                'footerValue'     => array('path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false),
         );
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 
