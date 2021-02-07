@@ -636,12 +636,12 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     /**
      * Tests checkbox input field
      */
-    public function testInputCheckbox() 
+    public function testInputCheckbox()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         $html = '<input type="checkbox" checked="true" /><input type="checkbox" />';
-        Html::addHtml($section, $html);        
+        Html::addHtml($section, $html);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
