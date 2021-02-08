@@ -634,8 +634,8 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
-    * Parse widths in tables and cells, which also allows for controlling column width
-    */
+     * Parse widths in tables and cells, which also allows for controlling column width
+     */
     public function testParseTableAndCellWidth()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -703,14 +703,14 @@ HTML;
     }
 
     /**
-    * Test parsing background color for table rows and table cellspacing
-    */
+     * Test parsing background color for table rows and table cellspacing
+     */
     public function testParseCellspacingRowBgColor()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection([
+        $section = $phpWord->addSection(array(
             'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
-        ]);
+        ));
 
         // borders & backgrounds are here just for better visual comparison
         $html = <<<HTML
@@ -744,8 +744,8 @@ HTML;
     }
 
     /**
-    * Parse horizontal rule
-    */
+     * Parse horizontal rule
+     */
     public function testParseHorizRule()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -774,7 +774,7 @@ HTML;
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:pBdr/w:bottom';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
-        $this->assertEquals(intval(5 * 15 / 2), $doc->getElement($xpath)->getAttribute('w:sz'));
+        $this->assertEquals((int) (5 * 15 / 2), $doc->getElement($xpath)->getAttribute('w:sz'));
         $this->assertEquals('lightblue', $doc->getElement($xpath)->getAttribute('w:color'));
 
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';
@@ -785,8 +785,8 @@ HTML;
     }
 
     /**
-    * Parse ordered list start & numbering style
-    */
+     * Parse ordered list start & numbering style
+     */
     public function testParseOrderedList()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -846,8 +846,8 @@ HTML;
     }
 
     /**
-    * Parse ordered list start & numbering style
-    */
+     * Parse ordered list start & numbering style
+     */
     public function testParseVerticalAlign()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -886,8 +886,8 @@ HTML;
     }
 
     /**
-    * Fix bug - don't decode double quotes inside double quoted string
-    */
+     * Fix bug - don't decode double quotes inside double quoted string
+     */
     public function testDontDecodeAlreadyEncodedDoubleQuotes()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -900,6 +900,6 @@ HTML;
 
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        $this->assertTrue(is_object($doc));
+        $this->assertInternalType('object', $doc);
     }
 }
