@@ -23,41 +23,6 @@ namespace PhpOffice\PhpWord\Style;
 class Border extends AbstractStyle
 {
     /**
-     * Border Style Val.
-     * Wordprocessing Paragraphs Borders
-     * Specifies the style of the border. Paragraph borders can be only line borders. (Page borders can also be art borders.) Possible values are:
-     * @see http://officeopenxml.com/WPborders.php
-     * @const string
-     */
-    const BORDER_STYLE_SINGLE = 'single'; //A single line
-    const BORDER_STYLE_DASH_DOT_STROKED = 'dashDotStroked'; //A line with a series of alternating thin and thick strokes
-    const BORDER_STYLE_DASHED = 'dashed'; //A dashed line
-    const BORDER_STYLE_DASH_SMALL_GAP = 'dashSmallGap'; //A dashed line with small gaps
-    const BORDER_STYLE_DOT_DASH = 'dotDash'; //A line with alternating dots and dashes
-    const BORDER_STYLE_DOT_DOT_DASH = 'dotDotDash'; //A line with a repeating dot - dot - dash sequence
-    const BORDER_STYLE_DOTTED = 'dotted'; //A dotted line
-    const BORDER_STYLE_DOUBLE = 'double'; //A double line
-    const BORDER_STYLE_DOUBLE_WAVE = 'doubleWave'; //A double wavy line
-    const BORDER_STYLE_INSET = 'inset'; //An inset set of lines
-    const BORDER_STYLE_NIL = 'nil'; //No border
-    const BORDER_STYLE_NONE = 'none'; //No border
-    const BORDER_STYLE_OUTSET = 'outset'; //An outset set of lines
-    const BORDER_STYLE_THICK = 'thick'; //A single line
-    const BORDER_STYLE_THICK_THIN_LARGE_GAP = 'thickThinLargeGap'; //A thick line contained within a thin line with a large-sized intermediate gap
-    const BORDER_STYLE_THICK_THIN_MEDIUM_GAP = 'thickThinMediumGap'; //A thick line contained within a thin line with a medium-sized intermediate gap
-    const BORDER_STYLE_THICK_THIN_SMALL_GAP = 'thickThinSmallGap'; //A thick line contained within a thin line with a small intermediate gap
-    const BORDER_STYLE_THIN_THICK_LARGE_GAP = 'thinThickLargeGap'; //A thin line contained within a thick line with a large-sized intermediate gap
-    const BORDER_STYLE_THIN_THICK_MEDIUM_GAP = 'thinThickMediumGap'; //A thick line contained within a thin line with a medium-sized intermediate gap
-    const BORDER_STYLE_THIN_THICK_SMALL_GAP = 'thinThickSmallGap'; //A thick line contained within a thin line with a small intermediate gap
-    const BORDER_STYLE_THIN_THICK_THINLARGE_GAP = 'thinThickThinLargeGap'; //A thin-thick-thin line with a large gap
-    const BORDER_STYLE_THIN_THICK_THIN_MEDIUM_GAP = 'thinThickThinMediumGap'; //A thin-thick-thin line with a medium gap
-    const BORDER_STYLE_THIN_THICK_THIN_SMALL_GAP = 'thinThickThinSmallGap'; //A thin-thick-thin line with a small gap
-    const BORDER_STYLE_THREE_D_EMBOSS = 'threeDEmboss'; //A three-staged gradient line, getting darker towards the paragraph
-    const BORDER_STYLE_THREE_D_ENGRAVE = 'threeDEngrave'; //A three-staged gradient like, getting darker away from the paragraph
-    const BORDER_STYLE_TRIPLE = 'triple'; //A triple line
-    const BORDER_STYLE_WAVE = 'wave'; //A wavy line
-    
-    /**
      * Border Top Size
      *
      * @var int|float
