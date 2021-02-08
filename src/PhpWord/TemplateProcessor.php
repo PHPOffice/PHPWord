@@ -1182,7 +1182,7 @@ class TemplateProcessor
      * @param string $blockType XML tag type of block
      * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
      */
-    protected function replaceXmlBlock($macro, $block, $blockType = 'w:p')
+    public function replaceXmlBlock($macro, $block, $blockType = 'w:p')
     {
         $where = $this->findContainingXmlBlockForMacro($macro, $blockType);
         if (is_array($where)) {
