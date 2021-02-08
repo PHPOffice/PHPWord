@@ -639,9 +639,9 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     public function testParseTableAndCellWidth()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection([
+        $section = $phpWord->addSection(array(
             'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
-        ]);
+        ));
 
         // borders & backgrounds are here just for better visual comparison
         $html = <<<HTML
