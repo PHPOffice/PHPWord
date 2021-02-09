@@ -131,6 +131,7 @@ class Chart extends AbstractPart
 
         $title = $style->getTitle();
         $showLegend = $style->isShowLegend();
+        $legendPosition = $style->getLegendPosition();
 
         //Chart title
         if ($title) {
@@ -154,7 +155,7 @@ class Chart extends AbstractPart
 
         //Chart legend
         if ($showLegend) {
-            $xmlWriter->writeRaw('<c:legend><c:legendPos val="r"/></c:legend>');
+            $xmlWriter->writeRaw('<c:legend><c:legendPos val="' . $legendPosition . '"/></c:legend>');
         }
 
         $xmlWriter->startElement('c:plotArea');
