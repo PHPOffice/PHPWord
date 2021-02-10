@@ -132,6 +132,7 @@ class Paragraph extends AbstractStyle
 
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getBorderSize());
+            $styleWriter->setStyles($style->getBorderStyle());
             $styleWriter->setColors($style->getBorderColor());
             $styleWriter->write();
 
