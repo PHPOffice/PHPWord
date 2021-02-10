@@ -25,6 +25,9 @@ $series2 = array(3, 1, 7, 2, 6);
 $series3 = array(8, 3, 2, 5, 4);
 $showGridLines = false;
 $showAxisLabels = false;
+$showLegend = true;
+$legendPosition = 't';
+// r = right, l = left, t = top, b = bottom, tr = top right
 
 foreach ($chartTypes as $chartType) {
     $section->addTitle(ucfirst($chartType), 2);
@@ -33,6 +36,8 @@ foreach ($chartTypes as $chartType) {
     $chart->getStyle()->setShowGridX($showGridLines);
     $chart->getStyle()->setShowGridY($showGridLines);
     $chart->getStyle()->setShowAxisLabels($showAxisLabels);
+    $chart->getStyle()->setShowLegend($showLegend);
+    $chart->getStyle()->setLegendPosition($legendPosition);
     if (in_array($chartType, $twoSeries)) {
         $chart->addSeries($categories, $series2);
     }

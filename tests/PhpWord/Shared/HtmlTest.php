@@ -293,11 +293,11 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $html = '<table align="left" style="width: 50%; border: 6px #0000FF solid;">
+        $html = '<table align="left" style="width: 50%; border: 12px #0000FF double">
                 <thead>
-                    <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
-                        <th style="width: 50pt">header a</th>
-                        <th style="width: 50; border-color: #00EE00">header b</th>
+                    <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold">
+                        <th style="width: 50pt"><p>header a</p></th>
+                        <th style="width: 50; border-color: #00EE00; border-width: 3px"><span>header b</span></th>
                         <th style="border-color: #00AA00 #00BB00 #00CC00 #00DD00; border-width: 3px">header c</th>
                     </tr>
                 </thead>
@@ -324,6 +324,12 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertEquals('00BB00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:right', 'w:color'));
         $this->assertEquals('00CC00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:bottom', 'w:color'));
         $this->assertEquals('00DD00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:left', 'w:color'));
+
+        //check borders are not propagated inside cells
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:p'));
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:p/w:pPr/w:pBdr'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:p'));
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:p/w:pPr/w:pBdr'));
     }
 
     /**
@@ -634,6 +640,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
+<<<<<<< HEAD
      * Tests checkbox input field
      */
     public function testInputCheckbox()
@@ -655,12 +662,16 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
    /**
     * Parse widths in tables and cells, which also allows for controlling column width
     */
+=======
+     * Parse widths in tables and cells, which also allows for controlling column width
+     */
+>>>>>>> branch 'develop' of https://github.com/PHPOffice/PHPWord
     public function testParseTableAndCellWidth()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection([
+        $section = $phpWord->addSection(array(
             'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
-        ]);
+        ));
 
         // borders & backgrounds are here just for better visual comparison
         $html = <<<HTML
@@ -722,14 +733,14 @@ HTML;
     }
 
     /**
-    * Test parsing background color for table rows and table cellspacing
-    */
+     * Test parsing background color for table rows and table cellspacing
+     */
     public function testParseCellspacingRowBgColor()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection([
+        $section = $phpWord->addSection(array(
             'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
-        ]);
+        ));
 
         // borders & backgrounds are here just for better visual comparison
         $html = <<<HTML
@@ -763,8 +774,8 @@ HTML;
     }
 
     /**
-    * Parse horizontal rule
-    */
+     * Parse horizontal rule
+     */
     public function testParseHorizRule()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -793,7 +804,7 @@ HTML;
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:pBdr/w:bottom';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
-        $this->assertEquals(intval(5 * 15 / 2), $doc->getElement($xpath)->getAttribute('w:sz'));
+        $this->assertEquals((int) (5 * 15 / 2), $doc->getElement($xpath)->getAttribute('w:sz'));
         $this->assertEquals('lightblue', $doc->getElement($xpath)->getAttribute('w:color'));
 
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';
@@ -804,8 +815,8 @@ HTML;
     }
 
     /**
-    * Parse ordered list start & numbering style
-    */
+     * Parse ordered list start & numbering style
+     */
     public function testParseOrderedList()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -865,8 +876,8 @@ HTML;
     }
 
     /**
-    * Parse ordered list start & numbering style
-    */
+     * Parse ordered list start & numbering style
+     */
     public function testParseVerticalAlign()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -905,8 +916,8 @@ HTML;
     }
 
     /**
-    * Fix bug - don't decode double quotes inside double quoted string
-    */
+     * Fix bug - don't decode double quotes inside double quoted string
+     */
     public function testDontDecodeAlreadyEncodedDoubleQuotes()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -919,6 +930,6 @@ HTML;
 
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        $this->assertTrue(is_object($doc));
+        $this->assertInternalType('object', $doc);
     }
 }

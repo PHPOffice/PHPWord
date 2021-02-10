@@ -115,7 +115,7 @@ class Html
                         // tables, cells
                         if (false !== strpos($val, '%')) {
                             // e.g. <table width="100%"> or <td width="50%">
-                            $styles['width'] = intval($val) * 50;
+                            $styles['width'] = (int) $val * 50;
                             $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
                         } else {
                             // e.g. <table width="250> where "250" = 250px (always pixels)
@@ -125,7 +125,7 @@ class Html
                         break;
                     case 'cellspacing':
                         // tables e.g. <table cellspacing="2">,  where "2" = 2px (always pixels)
-                        $val = intval($val).'px';
+                        $val = (int) $val . 'px';
                         $styles['cellSpacing'] = Converter::cssToTwip($val);
                         break;
                     case 'bgcolor':
@@ -426,7 +426,7 @@ class Html
         $cell = $element->addCell($width, $cellStyles);
 
         if (self::shouldAddTextRun($node)) {
-            return $cell->addTextRun(self::parseInlineStyle($node, $styles['paragraph']));
+            return $cell->addTextRun(self::filterOutNonInheritedStyles(self::parseInlineStyle($node, $styles['paragraph'])));
         }
 
         return $cell;
@@ -457,13 +457,49 @@ class Html
      */
     protected static function recursiveParseStylesInHierarchy(\DOMNode $node, array $style)
     {
-        $parentStyle = self::parseInlineStyle($node, array());
-        $style = array_merge($parentStyle, $style);
+        $parentStyle = array();
         if ($node->parentNode != null && XML_ELEMENT_NODE == $node->parentNode->nodeType) {
-            $style = self::recursiveParseStylesInHierarchy($node->parentNode, $style);
+            $parentStyle = self::recursiveParseStylesInHierarchy($node->parentNode, array());
         }
+        if ($node->nodeName === '#text') {
+            $parentStyle = array_merge($parentStyle, $style);
+        } else {
+            $parentStyle = self::filterOutNonInheritedStyles($parentStyle);
+        }
+        $style = self::parseInlineStyle($node, $parentStyle);
 
         return $style;
+    }
+
+    /**
+     * Removes non-inherited styles from array
+     *
+     * @param array &$styles
+     */
+    protected static function filterOutNonInheritedStyles(array $styles)
+    {
+        $nonInheritedStyles = array(
+            'borderSize',
+            'borderTopSize',
+            'borderRightSize',
+            'borderBottomSize',
+            'borderLeftSize',
+            'borderColor',
+            'borderTopColor',
+            'borderRightColor',
+            'borderBottomColor',
+            'borderLeftColor',
+            'borderStyle',
+            'spaceAfter',
+            'spaceBefore',
+            'underline',
+            'strikethrough',
+            'hidden',
+        );
+
+        $styles = array_diff_key($styles, array_flip($nonInheritedStyles));
+
+        return $styles;
     }
 
     /**
@@ -706,7 +742,8 @@ class Html
                     // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
                     if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+|[a-zA-Z]+)\s+([a-z]+)/', $cValue, $matches)) {
                         if (false !== strpos($cKey, '-')) {
-                            $which = explode('-', $cKey)[1];
+                            $tmp = explode('-', $cKey);
+                            $which = $tmp[1];
                             $which = ucfirst($which); // e.g. bottom -> Bottom
                         } else {
                             $which = '';
@@ -718,7 +755,7 @@ class Html
                         // This may be adjusted, if better ratio or formula found.
                         // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
                         $size = Converter::cssToTwip($matches[1]);
-                        $size = intval($size / 2);
+                        $size = (int) ($size / 2);
                         // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
                         $styles["border{$which}Size"] = $size; // twips
                         $styles["border{$which}Color"] = trim($matches[2], '#');
@@ -896,9 +933,9 @@ class Html
     }
 
     /**
-     * Transforms a HTML/CSS alignment into a \PhpOffice\PhpWord\SimpleType\Jc
+     * Transforms a HTML/CSS vertical alignment
      *
-     * @param string $cssAlignment
+     * @param string $alignment
      * @return string|null
      */
     protected static function mapAlignVertical($alignment)
@@ -926,10 +963,10 @@ class Html
     }
 
     /**
-    * Map list style for ordered list
-    *
-    * @param string $cssListType
-    */
+     * Map list style for ordered list
+     *
+     * @param string $cssListType
+     */
     protected static function mapListType($cssListType)
     {
         switch ($cssListType) {
@@ -984,12 +1021,12 @@ class Html
     }
 
     /**
-    * Render horizontal rule
-    * Note: Word rule is not the same as HTML's <hr> since it does not support width and thus neither alignment
-    *
-    * @param \DOMNode $node
-    * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-    */
+     * Render horizontal rule
+     * Note: Word rule is not the same as HTML's <hr> since it does not support width and thus neither alignment
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     */
     protected static function parseHorizRule($node, $element)
     {
         $styles = self::parseInlineStyle($node);
@@ -997,19 +1034,19 @@ class Html
         // <hr> is implemented as an empty paragraph - extending 100% inside the section
         // Some properties may be controlled, e.g. <hr style="border-bottom: 3px #DDDDDD solid; margin-bottom: 0;">
 
-        $fontStyle = $styles + ['size' => 3];
+        $fontStyle = $styles + array('size' => 3);
 
-        $paragraphStyle = $styles + [
-            'lineHeight' => 0.25, // multiply default line height - e.g. 1, 1.5 etc
-            'spacing' => 0, // twip
-            'spaceBefore' => 120, // twip, 240/2 (default line height)
-            'spaceAfter' => 120, // twip
-            'borderBottomSize' => empty($styles['line-height']) ? 1 : $styles['line-height'],
+        $paragraphStyle = $styles + array(
+            'lineHeight'        => 0.25, // multiply default line height - e.g. 1, 1.5 etc
+            'spacing'           => 0, // twip
+            'spaceBefore'       => 120, // twip, 240/2 (default line height)
+            'spaceAfter'        => 120, // twip
+            'borderBottomSize'  => empty($styles['line-height']) ? 1 : $styles['line-height'],
             'borderBottomColor' => empty($styles['color']) ? '000000' : $styles['color'],
             'borderBottomStyle' => 'single', // same as "solid"
-        ];
+        );
 
-        $element->addText("", $fontStyle, $paragraphStyle);
+        $element->addText('', $fontStyle, $paragraphStyle);
 
         // Notes: <hr/> cannot be:
         // - table - throws error "cannot be inside textruns", e.g. lists

@@ -798,7 +798,7 @@ class TemplateProcessor
         $xmlBlock = null;
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\${' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -1182,7 +1182,7 @@ class TemplateProcessor
      * @param string $blockType XML tag type of block
      * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
      */
-    protected function replaceXmlBlock($macro, $block, $blockType = 'w:p')
+    public function replaceXmlBlock($macro, $block, $blockType = 'w:p')
     {
         $where = $this->findContainingXmlBlockForMacro($macro, $blockType);
         if (is_array($where)) {
