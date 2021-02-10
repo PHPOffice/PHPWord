@@ -717,7 +717,8 @@ class Html
                     // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
                     if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+|[a-zA-Z]+)\s+([a-z]+)/', $cValue, $matches)) {
                         if (false !== strpos($cKey, '-')) {
-                            $which = explode('-', $cKey)[1];
+                            $tmp = explode('-', $cKey);
+                            $which = $tmp[1];
                             $which = ucfirst($which); // e.g. bottom -> Bottom
                         } else {
                             $which = '';
