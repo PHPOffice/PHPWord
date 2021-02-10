@@ -640,7 +640,6 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
-<<<<<<< HEAD
      * Tests checkbox input field
      */
     public function testInputCheckbox()
@@ -659,13 +658,9 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertEquals(0, $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:fldChar/w:ffData/w:checkBox/w:checked')->getAttribute('w:val'));
     }
 
-   /**
-    * Parse widths in tables and cells, which also allows for controlling column width
-    */
-=======
+    /**
      * Parse widths in tables and cells, which also allows for controlling column width
      */
->>>>>>> branch 'develop' of https://github.com/PHPOffice/PHPWord
     public function testParseTableAndCellWidth()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
