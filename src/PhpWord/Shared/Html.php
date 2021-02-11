@@ -285,7 +285,7 @@ class Html
         switch ($inputType) {
             case 'checkbox':
                 $checked = ($checked = $attributes->getNamedItem('checked')) && $checked->value === "true" ? true : false;
-                $textrun = $element->addTextRun();
+                $textrun = $element->addTextRun($styles['paragraph']);
                 $textrun->addFormField('checkbox')->setValue($checked);
                 break;
         }
