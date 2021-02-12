@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.18.0](https://github.com/PHPOffice/PHPWord/tree/0.18.0) (2021-02-xx)
+## [0.18.0](https://github.com/PHPOffice/PHPWord/tree/0.18.0) (2021-02-12)
 
 [Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.17.0...0.18.0)
 
