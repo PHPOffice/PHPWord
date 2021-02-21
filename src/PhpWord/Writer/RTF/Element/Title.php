@@ -24,4 +24,69 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  */
 class Title extends Text
 {
+    protected function getStyles()
+    {
+        /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
+        $element = $this->element;
+        $style = $element->getStyle();
+        $style = str_replace('Heading', 'Heading_', $style);
+        $style = \PhpOffice\PhpWord\Style::getStyle($style);
+        if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
+            $this->fontStyle = $style;
+            $pstyle = $style->getParagraph();
+            if ($pstyle instanceof \PhpOffice\PhpWord\Style\Paragraph && $pstyle->hasPageBreakBefore()) {
+                $sect = $element->getParent();
+                if ($sect instanceof \PhpOffice\PhpWord\Element\Section) {
+                    $elems = $sect->getElements();
+                    if ($elems[0] === $element) {
+                        $pstyle = clone $pstyle;
+                        $pstyle->setPageBreakBefore(false);
+                    }
+                }
+            }
+            $this->paragraphStyle = $pstyle;
+        }
+    }
+
+    /**
+     * Write element
+     *
+     * @return string
+     */
+    public function write()
+    {
+        /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
+        $element = $this->element;
+        $elementClass = str_replace('\\Writer\\RTF', '', get_class($this));
+        if (!$element instanceof $elementClass || !is_string($element->getText())) {
+            return '';
+        }
+
+        $this->getStyles();
+
+        $content = '';
+
+        $content .= $this->writeOpening();
+        $endout = '';
+        $style = $element->getStyle();
+        if (is_string($style)) {
+            $style = str_replace('Heading', '', $style);
+            if (is_numeric($style)) {
+                $style = (int) $style - 1;
+                if ($style >= 0 && $style <= 8) {
+                    $content .= '{\\outlinelevel' . $style;
+                    $endout = '}';
+                }
+            }
+        }
+
+        $content .= '{';
+        $content .= $this->writeFontStyle();
+        $content .= $this->writeText($element->getText());
+        $content .= '}';
+        $content .= $this->writeClosing();
+        $content .= $endout;
+
+        return $content;
+    }
 }

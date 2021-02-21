@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
-use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Style writer
@@ -30,7 +30,7 @@ abstract class AbstractStyle
     /**
      * XML writer
      *
-     * @var \PhpOffice\Common\XMLWriter
+     * @var \PhpOffice\PhpWord\Shared\XMLWriter
      */
     private $xmlWriter;
 
@@ -49,7 +49,7 @@ abstract class AbstractStyle
     /**
      * Create new instance.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string|\PhpOffice\PhpWord\Style\AbstractStyle $style
      */
     public function __construct(XMLWriter $xmlWriter, $style = null)
@@ -61,7 +61,7 @@ abstract class AbstractStyle
     /**
      * Get XML Writer
      *
-     * @return \PhpOffice\Common\XMLWriter
+     * @return \PhpOffice\PhpWord\Shared\XMLWriter
      */
     protected function getXmlWriter()
     {
@@ -96,7 +96,7 @@ abstract class AbstractStyle
         );
         $unit = Settings::getMeasurementUnit();
         $factor = 1;
-        if (in_array($unit, $factors) && $value != $default) {
+        if (array_key_exists($unit, $factors) && $value != $default) {
             $factor = $factors[$unit];
         }
 
@@ -106,7 +106,7 @@ abstract class AbstractStyle
     /**
      * Write child style.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $name
      * @param mixed $value
      */

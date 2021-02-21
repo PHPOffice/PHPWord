@@ -17,11 +17,11 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Comment;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -249,33 +249,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Test shape elements
-     */
-    public function testChartElements()
-    {
-        $phpWord = new PhpWord();
-        $section = $phpWord->addSection();
-        $style = array('width' => 1000000, 'height' => 1000000, 'showAxisLabels' => true, 'showGridX' => true, 'showGridY' => true);
-
-        $chartTypes = array('pie', 'doughnut', 'bar', 'line', 'area', 'scatter', 'radar');
-        $categories = array('A', 'B', 'C', 'D', 'E');
-        $series1 = array(1, 3, 2, 5, 4);
-        foreach ($chartTypes as $chartType) {
-            $section->addChart($chartType, $categories, $series1, $style);
-        }
-        $section->addChart('pie', $categories, $series1, array('3d' => true));
-
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        $index = 0;
-        foreach ($chartTypes as $chartType) {
-            ++$index;
-            $file = "word/charts/chart{$index}.xml";
-            $path = "/c:chartSpace/c:chart/c:plotArea/c:{$chartType}Chart";
-            $this->assertTrue($doc->elementExists($path, $file));
-        }
-    }
+    // testChartElements moved to Writer/Word2007/Element/ChartTest
 
     public function testFieldElement()
     {
@@ -294,6 +268,41 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = '/w:document/w:body/w:p/w:r/w:instrText';
         $this->assertTrue($doc->elementExists($element));
         $this->assertEquals(' INDEX \\c "3" ', $doc->getElement($element)->textContent);
+    }
+
+    public function testUnstyledFieldElement()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle('h1', array('name' => 'Courier New', 'size' => 8));
+        $section = $phpWord->addSection();
+
+        $section->addField('PAGE');
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' PAGE ', $doc->getElement($element)->textContent);
+        $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
+        $this->assertFalse($doc->elementExists($sty));
+    }
+
+    public function testStyledFieldElement()
+    {
+        $phpWord = new PhpWord();
+        $stnam = 'h1';
+        $phpWord->addFontStyle($stnam, array('name' => 'Courier New', 'size' => 8));
+        $section = $phpWord->addSection();
+
+        $fld = $section->addField('PAGE');
+        $fld->setFontStyle($stnam);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' PAGE ', $doc->getElement($element)->textContent);
+        $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
+        $this->assertTrue($doc->elementExists($sty));
+        $this->assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
     }
 
     public function testFieldElementWithComplexText()
@@ -354,27 +363,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(' MACROBUTTON Zoom100 double click to zoom ', $doc->getElement($element)->textContent);
     }
 
-    /**
-     * Test form fields
-     */
-    public function testFormFieldElements()
-    {
-        $phpWord = new PhpWord();
-        $section = $phpWord->addSection();
-
-        $section->addFormField('textinput')->setName('MyTextBox');
-        $section->addFormField('checkbox')->setDefault(true)->setValue('Your name');
-        $section->addFormField('checkbox')->setDefault(true);
-        $section->addFormField('dropdown')->setEntries(array('Choice 1', 'Choice 2', 'Choice 3'));
-
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        $path = '/w:document/w:body/w:p[%d]/w:r/w:fldChar/w:ffData';
-        $this->assertTrue($doc->elementExists(sprintf($path, 1) . '/w:textInput'));
-        $this->assertTrue($doc->elementExists(sprintf($path, 2) . '/w:checkBox'));
-        $this->assertTrue($doc->elementExists(sprintf($path, 3) . '/w:checkBox'));
-        $this->assertTrue($doc->elementExists(sprintf($path, 4) . '/w:ddList'));
-    }
+    // testFormFieldElements moved to Writer/Word2007/Element/FormFieldTest
 
     /**
      * Test SDT elements

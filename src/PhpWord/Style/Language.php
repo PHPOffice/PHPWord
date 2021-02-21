@@ -228,6 +228,10 @@ final class Language extends AbstractStyle
      */
     private function validateLocale($locale)
     {
+        if ($locale !== null) {
+            $locale = str_replace('_', '-', $locale);
+        }
+
         if (strlen($locale) === 2) {
             return strtolower($locale) . '-' . strtoupper($locale);
         }

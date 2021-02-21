@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Metadata;
 
-use PhpOffice\Common\Microsoft\PasswordEncoder;
+use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\SimpleType\DocProtect;
 
 /**

@@ -17,9 +17,9 @@ $cols = 5;
 $section->addText('Basic table', $header);
 
 $table = $section->addTable();
-for ($r = 1; $r <= 8; $r++) {
+for ($r = 1; $r <= $rows; $r++) {
     $table->addRow();
-    for ($c = 1; $c <= 5; $c++) {
+    for ($c = 1; $c <= $cols; $c++) {
         $table->addCell(1750)->addText("Row {$r}, Cell {$c}");
     }
 }

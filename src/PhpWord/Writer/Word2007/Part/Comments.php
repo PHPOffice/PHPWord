@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Comment;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 
 /**
@@ -70,7 +70,7 @@ class Comments extends AbstractPart
     /**
      * Write comment item.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Comment $comment
      */
     protected function writeComment(XMLWriter $xmlWriter, Comment $comment)

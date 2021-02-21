@@ -58,19 +58,18 @@
         "fix": "Fixes issues found by PHP-CS"
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.1 || ^8",
         "ext-xml": "*",
-        "zendframework/zend-escaper": "^2.2",
-        "phpoffice/common": "^0.2.9"
+        "laminas/laminas-escaper": "^2.2"
     },
     "require-dev": {
         "ext-zip": "*",
         "ext-gd": "*",
-        "phpunit/phpunit": "^7.5",
+        "phpunit/phpunit": "^7.5 || 8.*",
         "squizlabs/php_codesniffer": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "phpmd/phpmd": "2.*",
-        "dompdf/dompdf":"0.8.*",
+        "dompdf/dompdf":"0.8.* || 1.0.*",
         "tecnickcom/tcpdf": "6.*",
         "mpdf/mpdf": "8.*",
         "php-coveralls/php-coveralls": "^2.0"
@@ -89,7 +88,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "0.18-dev",
+            "dev-develop": "0.19-dev",
             "develop_v1.0": "1.0-dev"
         }
     }

@@ -54,6 +54,42 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $section->addImage(__DIR__ . '/../../../_files/images/earth.jpg', $styles);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
+        $path = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:position';
+        $this->assertFalse($doc->elementExists($path));
+        $path = '/w:document/w:body/w:p[1]/w:r/w:pict/v:shape';
+        $this->assertTrue($doc->elementExists($path . '/w10:wrap'));
+        $this->assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));
+
+        $this->assertTrue($doc->elementExists($path));
+        $style = $doc->getElement($path)->getAttribute('style');
+        $this->assertNotNull($style);
+        $this->assertContains('mso-wrap-distance-left:10pt;', $style);
+        $this->assertContains('mso-wrap-distance-right:20pt;', $style);
+        $this->assertContains('mso-wrap-distance-top:30pt;', $style);
+        $this->assertContains('mso-wrap-distance-bottom:40pt;', $style);
+    }
+
+    /**
+     * Test writing image wrapping
+     */
+    public function testWrappingWithPosition()
+    {
+        $styles = array(
+            'wrap'               => Image::WRAP_INLINE,
+            'wrapDistanceLeft'   => 10,
+            'wrapDistanceRight'  => 20,
+            'wrapDistanceTop'    => 30,
+            'wrapDistanceBottom' => 40,
+            'position'           => 10,
+        );
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addImage(__DIR__ . '/../../../_files/images/earth.jpg', $styles);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:position';
+        $this->assertEquals('10', $doc->getElement($path)->getAttribute('w:val'));
         $path = '/w:document/w:body/w:p[1]/w:r/w:pict/v:shape';
         $this->assertTrue($doc->elementExists($path . '/w10:wrap'));
         $this->assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));

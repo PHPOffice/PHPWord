@@ -17,13 +17,13 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\Common\Text;
-use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\Text;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
 class TemplateProcessor
@@ -170,7 +170,9 @@ class TemplateProcessor
      */
     protected function transformSingleXml($xml, $xsltProcessor)
     {
-        $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+        if (\PHP_VERSION_ID < 80000) {
+            $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+        }
         $domDocument = new \DOMDocument();
         if (false === $domDocument->loadXML($xml)) {
             throw new Exception('Could not load the given XML document.');
@@ -180,7 +182,9 @@ class TemplateProcessor
         if (false === $transformedXml) {
             throw new Exception('Could not transform the given XML document.');
         }
-        libxml_disable_entity_loader($orignalLibEntityLoader);
+        if (\PHP_VERSION_ID < 80000) {
+            libxml_disable_entity_loader($orignalLibEntityLoader);
+        }
 
         return $transformedXml;
     }
@@ -274,6 +278,11 @@ class TemplateProcessor
         $elementWriter->write();
 
         $where = $this->findContainingXmlBlockForMacro($search, 'w:r');
+
+        if ($where === false) {
+            return;
+        }
+
         $block = $this->getSlice($where['start'], $where['end']);
         $textParts = $this->splitTextIntoTexts($block);
         $this->replaceXmlBlock($search, $textParts, 'w:r');
@@ -344,6 +353,46 @@ class TemplateProcessor
         foreach ($values as $macro => $replace) {
             $this->setValue($macro, $replace);
         }
+    }
+
+    /**
+     * @param string $search
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
+     */
+    public function setChart($search, \PhpOffice\PhpWord\Element\AbstractElement $chart)
+    {
+        $elementName = substr(get_class($chart), strrpos(get_class($chart), '\\') + 1);
+        $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
+
+        // Get the next relation id
+        $rId = $this->getNextRelationsIndex($this->getMainPartName());
+        $chart->setRelationId($rId);
+
+        // Define the chart filename
+        $filename = "charts/chart{$rId}.xml";
+
+        // Get the part writer
+        $writerPart = new \PhpOffice\PhpWord\Writer\Word2007\Part\Chart();
+        $writerPart->setElement($chart);
+
+        // ContentTypes.xml
+        $this->zipClass->addFromString("word/{$filename}", $writerPart->write());
+
+        // add chart to content type
+        $xmlRelationsType = "<Override PartName=\"/word/{$filename}\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.chart+xml\"/>";
+        $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
+
+        // Add the chart to relations
+        $xmlChartRelation = "<Relationship Id=\"rId{$rId}\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart\" Target=\"charts/chart{$rId}.xml\"/>";
+        $this->tempDocumentRelations[$this->getMainPartName()] = str_replace('</Relationships>', $xmlChartRelation, $this->tempDocumentRelations[$this->getMainPartName()]) . '</Relationships>';
+
+        // Write the chart
+        $xmlWriter = new XMLWriter();
+        $elementWriter = new $objectClass($xmlWriter, $chart, true);
+        $elementWriter->write();
+
+        // Place it in the template
+        $this->replaceXmlBlock($search, '<w:p>' . $xmlWriter->getData() . '</w:p>', 'w:p');
     }
 
     private function getImageArgs($varNameWithArgs)
@@ -447,6 +496,13 @@ class TemplateProcessor
         $width = null;
         $height = null;
         $ratio = null;
+
+        // a closure can be passed as replacement value which after resolving, can contain the replacement info for the image
+        // use case: only when a image if found, the replacement tags can be generated
+        if (is_callable($replaceImage)) {
+            $replaceImage = $replaceImage();
+        }
+
         if (is_array($replaceImage) && isset($replaceImage['path'])) {
             $imgPath = $replaceImage['path'];
             if (isset($replaceImage['width'])) {
@@ -575,8 +631,9 @@ class TemplateProcessor
 
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
-        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
+        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}" stroked="f"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
 
+        $i = 0;
         foreach ($searchParts as $partFileName => &$partContent) {
             $partVariables = $this->getVariablesForPart($partContent);
 
@@ -608,6 +665,10 @@ class TemplateProcessor
                         $replaceXml = $openTag . $prefix . $closeTag . $xmlImage . $openTag . $postfix . $closeTag;
                         // replace on each iteration, because in one tag we can have 2+ inline variables => before proceed next variable we need to change $partContent
                         $partContent = $this->setValueForPart($wholeTag, $replaceXml, $partContent, $limit);
+                    }
+
+                    if (++$i >= $limit) {
+                        break;
                     }
                 }
             }
@@ -737,7 +798,7 @@ class TemplateProcessor
         $xmlBlock = null;
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\${' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -1085,7 +1146,7 @@ class TemplateProcessor
     {
         $results = array();
         for ($i = 1; $i <= $count; $i++) {
-            $results[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
+            $results[] = preg_replace('/\$\{([^:]*?)(:.*?)?\}/', '\${\1#' . $i . '\2}', $xmlBlock);
         }
 
         return $results;
@@ -1121,7 +1182,7 @@ class TemplateProcessor
      * @param string $blockType XML tag type of block
      * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
      */
-    protected function replaceXmlBlock($macro, $block, $blockType = 'w:p')
+    public function replaceXmlBlock($macro, $block, $blockType = 'w:p')
     {
         $where = $this->findContainingXmlBlockForMacro($macro, $blockType);
         if (is_array($where)) {
