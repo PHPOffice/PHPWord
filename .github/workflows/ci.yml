@@ -57,7 +57,7 @@ jobs:
         uses: mheap/phpunit-matcher-action@v1
 
       - name: Test with PHPUnit
-        run: ./vendor/bin/phpunit --teamcity test
+        run: ./vendor/bin/phpunit --teamcity -c ./
 
   php-cs-fixer:
     runs-on: ubuntu-latest
@@ -119,7 +119,7 @@ jobs:
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: Code style with PHP_CodeSniffer
-        run: ./vendor/bin/phpcs -q --report=checkstyle | cs2pr
+        run: ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip --report=checkstyle | cs2pr
 
   coverage:
     runs-on: ubuntu-latest
