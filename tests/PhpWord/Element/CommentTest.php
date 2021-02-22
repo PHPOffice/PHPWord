@@ -66,7 +66,7 @@ class CommentTest extends \PHPUnit\Framework\TestCase
     {
         $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
 
-        $this->assertInternalType('array', $oComment->getElements());
+        $this->assertIsArray($oComment->getElements());
     }
 
     /**

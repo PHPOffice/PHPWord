@@ -36,7 +36,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     private $tempDir;
     private $zipClass;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->compatibility = Settings::hasCompatibility();
         $this->defaultFontSize = Settings::getDefaultFontSize();
@@ -50,7 +50,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->zipClass = Settings::getZipClass();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Settings::setCompatibility($this->compatibility);
         Settings::setDefaultFontSize($this->defaultFontSize);

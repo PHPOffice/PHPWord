@@ -160,7 +160,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $htmlWriter = new HTML($phpWord);
         $content = $htmlWriter->getContent();
 
-        $this->assertContains($expected, $content);
+        $this->assertStringContainsString($expected, $content);
     }
 
     /**

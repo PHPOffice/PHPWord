@@ -31,7 +31,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
     /**
      * Tear down after each test
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
@@ -45,7 +45,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('text', $object->getStyleType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
-        $this->assertInternalType('array', $object->getStyleValues());
+        $this->assertIsArray($object->getStyleValues());
     }
 
     /**

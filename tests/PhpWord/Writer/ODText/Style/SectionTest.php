@@ -28,7 +28,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Executed after each method of the class
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
