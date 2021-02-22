@@ -927,4 +927,44 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertInternalType('object', $doc);
     }
+
+    public function testAddUserDefinedFunction()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $callable = $this->createPartialMock('stdClass', array('__invoke'));
+        $callable->expects(self::once())
+            ->method('__invoke')
+            ->with(
+                $this->callback(function ($node) {
+                    return $node->tagName === 'testTag' && $node->nodeValue === 'This is a custom test tag.';
+                }),
+                $this->identicalTo($section),
+                $this->equalTo(array(
+                    'font' => array(),
+                    'paragraph' => array(),
+                    'list' => array(),
+                    'table' => array(),
+                    'row' => array(),
+                    'cell' => array(),
+                )),
+                $this->equalTo(array()),
+                $this->equalTo('argument1'),
+                $this->equalTo('argument2')
+            )
+            ->willReturn(3);
+
+        Html::addUserDefinedNodeMapping(
+            'testTag',
+            true,
+            true,
+            true,
+            true,
+            'argument1',
+            'argument2',
+            $callable
+        );
+        $html = '<testTag>This is a custom test tag.</testTag>';
+        Html::addHtml($section, $html);
+    }
 }
