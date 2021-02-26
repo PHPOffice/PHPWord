@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  */
 class FootnotesTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }

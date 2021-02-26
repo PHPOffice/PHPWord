@@ -31,7 +31,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
     /**
      * Executed before each method of the class
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
@@ -63,10 +63,10 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path));
         $style = $doc->getElement($path)->getAttribute('style');
         $this->assertNotNull($style);
-        $this->assertContains('mso-wrap-distance-left:10pt;', $style);
-        $this->assertContains('mso-wrap-distance-right:20pt;', $style);
-        $this->assertContains('mso-wrap-distance-top:30pt;', $style);
-        $this->assertContains('mso-wrap-distance-bottom:40pt;', $style);
+        $this->assertStringContainsString('mso-wrap-distance-left:10pt;', $style);
+        $this->assertStringContainsString('mso-wrap-distance-right:20pt;', $style);
+        $this->assertStringContainsString('mso-wrap-distance-top:30pt;', $style);
+        $this->assertStringContainsString('mso-wrap-distance-bottom:40pt;', $style);
     }
 
     /**
@@ -97,9 +97,9 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path));
         $style = $doc->getElement($path)->getAttribute('style');
         $this->assertNotNull($style);
-        $this->assertContains('mso-wrap-distance-left:10pt;', $style);
-        $this->assertContains('mso-wrap-distance-right:20pt;', $style);
-        $this->assertContains('mso-wrap-distance-top:30pt;', $style);
-        $this->assertContains('mso-wrap-distance-bottom:40pt;', $style);
+        $this->assertStringContainsString('mso-wrap-distance-left:10pt;', $style);
+        $this->assertStringContainsString('mso-wrap-distance-right:20pt;', $style);
+        $this->assertStringContainsString('mso-wrap-distance-top:30pt;', $style);
+        $this->assertStringContainsString('mso-wrap-distance-bottom:40pt;', $style);
     }
 }

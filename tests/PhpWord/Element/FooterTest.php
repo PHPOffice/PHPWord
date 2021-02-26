@@ -156,7 +156,7 @@ class FooterTest extends AbstractWebServerEmbeddedTest
     {
         $oFooter = new Footer(1);
 
-        $this->assertInternalType('array', $oFooter->getElements());
+        $this->assertIsArray($oFooter->getElements());
     }
 
     /**

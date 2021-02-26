@@ -268,6 +268,6 @@ class CellTest extends AbstractWebServerEmbeddedTest
     {
         $oCell = new Cell();
 
-        $this->assertInternalType('array', $oCell->getElements());
+        $this->assertIsArray($oCell->getElements());
     }
 }

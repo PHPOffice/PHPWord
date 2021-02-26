@@ -31,7 +31,7 @@ class ContentTest extends \PHPUnit\Framework\TestCase
     /**
      * Executed before each method of the class
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
