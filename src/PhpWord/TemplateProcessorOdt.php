@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
@@ -25,7 +24,6 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
-use PhpOffice\PhpWord\TemplateProcessorCommon;
 
 class TemplateProcessorOdt extends TemplateProcessorCommon
 {
@@ -43,7 +41,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
      *
      * @var string[]
      */
-    protected $tempDocumentManifest = "";
+    protected $tempDocumentManifest = '';
 
     public function __construct($documentTemplate)
     {
@@ -68,7 +66,6 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $this->tempDocumentHeaders = $this->readPartWithRels($this->getStyleName());
         //$this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
     }
-
 
     /**
      * @param string $fileName
@@ -95,7 +92,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $xmlWriter->setIndent(false);
         /**
          * @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter
-*/
+         */
         $elementWriter = new $objectClass($xmlWriter, $complexType, true);
         $elementWriter->write();
 
@@ -104,7 +101,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $textParts = $this->splitTextIntoTexts($block);
         $search = static::ensureMacroCompleted($search);
         $this->replaceXmlBlock($search, $textParts, 'text:p');
-        $data =  str_replace("\n", '', $xmlWriter->getData());
+        $data = str_replace("\n", '', $xmlWriter->getData());
         $this->replaceXmlBlock($search, $data, 'text:span');
     }
 
@@ -120,13 +117,13 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $xmlWriter = new XMLWriter();
         $xmlWriter->setIndent(false);
         /**
- * @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter
-*/
+         * @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter
+         */
         $elementWriter = new $objectClass($xmlWriter, $complexType, false);
         $elementWriter->write();
 
         $search = static::ensureMacroCompleted($search);
-        $data =  str_replace("\n", '', $xmlWriter->getData());
+        $data = str_replace("\n", '', $xmlWriter->getData());
         $this->replaceXmlBlock($search, $data, 'text:p');
     }
 
@@ -158,7 +155,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
 
             // add image to manifest
             $xmlImageRelation = str_replace(array('{NAME}', '{MIME}'), array($imgName, $imageMimeType), $manifestTpl);
-            $this->tempDocumentManifest = str_replace('</manifest:manifest>', $xmlImageRelation, $this->tempDocumentManifest). '</manifest:manifest>';
+            $this->tempDocumentManifest = str_replace('</manifest:manifest>', $xmlImageRelation, $this->tempDocumentManifest) . '</manifest:manifest>';
         }
     }
 
@@ -286,6 +283,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
             $variables,
             $this->getVariablesForPart($this->tempDocumentHeaders)
         );
+
         return array_count_values($variables);
     }
 
@@ -324,9 +322,9 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         if (preg_match('/table:number-rows-spanned="([0-9]+)"/', $xmlRow, $matches)) {
             // $extraRowStart = $rowEnd;
             // Number of spanned rows
-            $num = intval($matches[1]);
+            $num = (int) ($matches[1]);
             $extraRowEnd = $rowEnd;
-            for ($i = 0; $i < $num-1; $i++) {
+            for ($i = 0; $i < $num - 1; $i++) {
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1);
                 $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
 
@@ -363,11 +361,11 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $xmlBlock = null;
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<[^<>]+>\${' . $blockname .'}<\/[^<>]+>)(.*)(<[^<>]+>\${\/'. $blockname . '}<\/[^<>]+>)/is',
+            '/(<\?xml.*)(<[^<>]+>\${' . $blockname . '}<\/[^<>]+>)(.*)(<[^<>]+>\${\/' . $blockname . '}<\/[^<>]+>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
-        
+
         if (isset($matches[3])) {
             $xmlBlock = $matches[3];
             if ($indexVariables) {
@@ -389,6 +387,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
                 );
             }
         }
+
         return $xmlBlock;
     }
 
@@ -402,7 +401,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
     {
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<[^<>]+>\${' . $blockname .'}<\/[^<>]+>)(.*)(<[^<>]+>\${\/'. $blockname . '}<\/[^<>]+>)/is',
+            '/(<\?xml.*)(<[^<>]+>\${' . $blockname . '}<\/[^<>]+>)(.*)(<[^<>]+>\${\/' . $blockname . '}<\/[^<>]+>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -423,7 +422,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
      */
     public function setUpdateFields($update = true)
     {
-        return "Not implemented";
+        return 'Not implemented';
     }
 
     /**
@@ -460,7 +459,6 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
     }
 
     /**
-     *
      * @return string
      */
     protected function getMainPartName()
@@ -469,7 +467,6 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
     }
 
     /**
-     *
      * @return string
      */
     protected function getManifestName()
@@ -532,8 +529,9 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         $endMarkup = '</table:table-row>';
         $position = strpos($this->tempDocumentMainPart, $endMarkup, $offset);
         if (!$position) {
-            throw new Exception("End of text before end of row.");
+            throw new Exception('End of text before end of row.');
         }
+
         return $position + strlen($endMarkup);
     }
 
@@ -550,47 +548,48 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         }
         $matches = array();
         if (preg_match('/([^<>]*)(\s[^<>]+)>/', $text, $matches)) {
-            $extractedTag =  $matches[1];
+            $extractedTag = $matches[1];
             $extractedStyle = $matches[2];
         } else {
             $extractedStyle = '';
             preg_match('/([^<>]*)>/', $text, $matches);
-            $extractedTag =  $matches[1];
+            $extractedTag = $matches[1];
         }
-        
+
         // Text between tags
         preg_match('/[^<>]*>(.*)<\//', $text, $matches);
         $cdata = $matches[1];
         $remainingText = $cdata;
         preg_match_all('/(\${[^}]*})/', $cdata, $matches);
-        if ($extractedTag == "text:p") {
-            $result = "<" . $extractedTag . $extractedStyle . ">";
+        if ($extractedTag == 'text:p') {
+            $result = '<' . $extractedTag . $extractedStyle . '>';
             foreach ($matches[1] as $macro) {
                 $beforeText = stristr($remainingText, $macro, $before_needle = true);
                 if (strlen($beforeText) != 0) {
-                    $result .= "<text:span>". $beforeText . "</text:span>";
-                    $result .= "<text:span>". $macro . "</text:span>";
+                    $result .= '<text:span>' . $beforeText . '</text:span>';
+                    $result .= '<text:span>' . $macro . '</text:span>';
                 }
                 $remainingText = substr($remainingText, strlen($beforeText) + strlen($macro));
             }
-            if ($remainingText != "") {
-                $result .= "<text:span>". $remainingText . "</text:span>";
+            if ($remainingText != '') {
+                $result .= '<text:span>' . $remainingText . '</text:span>';
             }
-            $result .=  "</" . $extractedTag . ">";
+            $result .= '</' . $extractedTag . '>';
         } else {
             $result = '';
             foreach ($matches[1] as $macro) {
                 $beforeText = stristr($remainingText, $macro, $before_needle = true);
                 if (strlen($beforeText) != 0) {
-                    $result .= "<text:span" .$extractedStyle . ">". $beforeText . "</text:span>";
+                    $result .= '<text:span' . $extractedStyle . '>' . $beforeText . '</text:span>';
                 }
-                $result .= "<text:span" .$extractedStyle . ">". $macro . "</text:span>";
+                $result .= '<text:span' . $extractedStyle . '>' . $macro . '</text:span>';
                 $remainingText = substr($remainingText, strlen($beforeText) + strlen($macro));
             }
-            if ($remainingText != "") {
-                $result .= "<text:span" .$extractedStyle . ">". $remainingText . "</text:span>";
+            if ($remainingText != '') {
+                $result .= '<text:span' . $extractedStyle . '>' . $remainingText . '</text:span>';
             }
         }
+
         return  $result;
     }
 }

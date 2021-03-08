@@ -29,7 +29,7 @@ class TestableTemplateProcesorOdt extends TemplateProcessorOdt
     {
         $this->tempDocumentMainPart = $mainPart;
         $this->tempDocumentSettingsPart = $settingsPart;
-        $this->tempDocumentHeaders = "";
+        $this->tempDocumentHeaders = '';
     }
 
     public function fixBrokenMacros($documentPart)

@@ -17,19 +17,15 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
-use PhpOffice\PhpWord\TemplateProcessorCommon;
 
 class TemplateProcessor extends TemplateProcessorCommon
 {
-
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *

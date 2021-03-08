@@ -19,11 +19,8 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
-use PhpOffice\PhpWord\Exception\CopyFileException;
-use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\Text;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
 class TemplateProcessorCommon
@@ -206,7 +203,6 @@ class TemplateProcessorCommon
 
         return $subject;
     }
-
 
     /**
      * Set values from a one-dimensional array of "variable => value"-pairs.
