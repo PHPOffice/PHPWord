@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.18.1](https://github.com/PHPOffice/PHPWord/tree/0.18.1) (2021-03-08)
+
+[Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.18.0...0.18.1)
+
+### Bug fixes
+- Fix BC break in #1946. This package does not replace laminas/laminas-zendframework-bridge [\#2032](https://github.com/PHPOffice/PHPWord/pull/2032) ([mussbach](https://github.com/mussbach))
+
 ## [0.18.0](https://github.com/PHPOffice/PHPWord/tree/0.18.0) (2021-02-12)
 
 [Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.17.0...0.18.0)
