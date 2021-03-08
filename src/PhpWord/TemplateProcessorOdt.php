@@ -10,9 +10,9 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
+ * @see       https://github.com/PHPOffice/PHPWord
+ * @copyright 2010-2018 PHPWord contributors
+ * @license   http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
@@ -83,7 +83,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
     }
 
     /**
-     * @param string $search
+     * @param string                                     $search
      * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexValue($search, \PhpOffice\PhpWord\Element\AbstractElement $complexType)
@@ -93,7 +93,9 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
 
         $xmlWriter = new XMLWriter();
         $xmlWriter->setIndent(false);
-        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        /**
+         * @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter
+*/
         $elementWriter = new $objectClass($xmlWriter, $complexType, true);
         $elementWriter->write();
 
@@ -107,7 +109,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
     }
 
     /**
-     * @param string $search
+     * @param string                                     $search
      * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexBlock($search, \PhpOffice\PhpWord\Element\AbstractElement $complexType)
@@ -117,7 +119,9 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
 
         $xmlWriter = new XMLWriter();
         $xmlWriter->setIndent(false);
-        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        /**
+ * @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter
+*/
         $elementWriter = new $objectClass($xmlWriter, $complexType, false);
         $elementWriter->write();
 
@@ -154,14 +158,14 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
 
             // add image to manifest
             $xmlImageRelation = str_replace(array('{NAME}', '{MIME}'), array($imgName, $imageMimeType), $manifestTpl);
-            $this->tempDocumentManifest = str_replace('</manifest:manifest>', $xmlImageRelation, $this->tempDocumentManifest ). '</manifest:manifest>';
+            $this->tempDocumentManifest = str_replace('</manifest:manifest>', $xmlImageRelation, $this->tempDocumentManifest). '</manifest:manifest>';
         }
     }
 
     /**
      * @param mixed $search
      * @param mixed $replace Path to image, or array("path" => xx, "width" => yy, "height" => zz)
-     * @param int $limit
+     * @param int   $limit
      */
     public function setImageValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
@@ -196,9 +200,12 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
             $partVariables = $this->getVariablesForPart($partContent);
 
             foreach ($searchReplace as $searchString => $replaceImage) {
-                $varsToReplace = array_filter($partVariables, function ($partVar) use ($searchString) {
-                    return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString) . ':/', $partVar);
-                });
+                $varsToReplace = array_filter(
+                    $partVariables,
+                    function ($partVar) use ($searchString) {
+                        return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString) . ':/', $partVar);
+                    }
+                );
 
                 foreach ($varsToReplace as $varNameWithArgs) {
                     $varInlineArgs = $this->getImageArgs($varNameWithArgs);
@@ -235,7 +242,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
      *
      * @param mixed $search
      * @param mixed $replace
-     * @param int $limit
+     * @param int   $limit
      */
     public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
@@ -276,9 +283,9 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
     {
         $variables = $this->getVariablesForPart($this->tempDocumentMainPart);
         $variables = array_merge(
-                $variables,
-                $this->getVariablesForPart($this->tempDocumentHeaders)
-                );
+            $variables,
+            $this->getVariablesForPart($this->tempDocumentHeaders)
+        );
         return array_count_values($variables);
     }
 
@@ -296,7 +303,7 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
      * Clone a table row in a template document.
      *
      * @param string $search
-     * @param int $numberOfClones
+     * @param int    $numberOfClones
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
@@ -344,10 +351,10 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
      * Clone a block.
      *
      * @param string $blockname
-     * @param int $clones How many time the block should be cloned
-     * @param bool $replace
-     * @param bool $indexVariables If true, any variables inside the block will be indexed (postfixed with #1, #2, ...)
-     * @param array $variableReplacements Array containing replacements for macros found inside the block to clone
+     * @param int    $clones               How many time the block should be cloned
+     * @param bool   $replace
+     * @param bool   $indexVariables       If true, any variables inside the block will be indexed (postfixed with #1, #2, ...)
+     * @param array  $variableReplacements Array containing replacements for macros found inside the block to clone
      *
      * @return string|null
      */
@@ -524,14 +531,16 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
     {
         $endMarkup = '</table:table-row>';
         $position = strpos($this->tempDocumentMainPart, $endMarkup, $offset);
-        if (!$position) throw new Exception("End of text before end of row.");
+        if (!$position) {
+            throw new Exception("End of text before end of row.");
+        }
         return $position + strlen($endMarkup);
     }
 
     /**
      * Splits a w:r/w:t into a list of w:r where each ${macro} is in a separate w:r
      *
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     protected function splitTextIntoTexts($text)
@@ -550,15 +559,15 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
         }
         
         // Text between tags
-        preg_match('/[^<>]*>(.*)<\//',$text, $matches);
+        preg_match('/[^<>]*>(.*)<\//', $text, $matches);
         $cdata = $matches[1];
         $remainingText = $cdata;
-        preg_match_all('/(\${[^}]*})/',$cdata, $matches);
+        preg_match_all('/(\${[^}]*})/', $cdata, $matches);
         if ($extractedTag == "text:p") {
             $result = "<" . $extractedTag . $extractedStyle . ">";
-            foreach($matches[1] as $macro) {
-                $beforeText = stristr($remainingText, $macro, $before_needle=true);
-                if (strlen($beforeText) != 0){
+            foreach ($matches[1] as $macro) {
+                $beforeText = stristr($remainingText, $macro, $before_needle = true);
+                if (strlen($beforeText) != 0) {
                     $result .= "<text:span>". $beforeText . "</text:span>";
                     $result .= "<text:span>". $macro . "</text:span>";
                 }
@@ -568,12 +577,11 @@ class TemplateProcessorOdt extends TemplateProcessorCommon
                 $result .= "<text:span>". $remainingText . "</text:span>";
             }
             $result .=  "</" . $extractedTag . ">";
-        }
-        else {
+        } else {
             $result = '';
-            foreach($matches[1] as $macro) {
-                $beforeText = stristr($remainingText, $macro, $before_needle=true);
-                if (strlen($beforeText) != 0){
+            foreach ($matches[1] as $macro) {
+                $beforeText = stristr($remainingText, $macro, $before_needle = true);
+                if (strlen($beforeText) != 0) {
                     $result .= "<text:span" .$extractedStyle . ">". $beforeText . "</text:span>";
                 }
                 $result .= "<text:span" .$extractedStyle . ">". $macro . "</text:span>";
