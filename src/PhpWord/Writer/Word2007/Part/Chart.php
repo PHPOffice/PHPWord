@@ -131,6 +131,7 @@ class Chart extends AbstractPart
 
         $title = $style->getTitle();
         $showLegend = $style->isShowLegend();
+        $legendPosition = $style->getLegendPosition();
 
         //Chart title
         if ($title) {
@@ -154,7 +155,7 @@ class Chart extends AbstractPart
 
         //Chart legend
         if ($showLegend) {
-            $xmlWriter->writeRaw('<c:legend><c:legendPos val="r"/></c:legend>');
+            $xmlWriter->writeRaw('<c:legend><c:legendPos val="' . $legendPosition . '"/></c:legend>');
         }
 
         $xmlWriter->startElement('c:plotArea');
@@ -219,6 +220,7 @@ class Chart extends AbstractPart
         $colors = $style->getColors();
 
         $index = 0;
+        $colorIndex = 0;
         foreach ($series as $seriesItem) {
             $categories = $seriesItem['categories'];
             $values = $seriesItem['values'];
@@ -265,23 +267,21 @@ class Chart extends AbstractPart
                 $this->writeSeriesItem($xmlWriter, 'cat', $categories);
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
 
-                // setting the chart colors was taken from https://github.com/PHPOffice/PHPWord/issues/494
-                if (is_array($colors) && count($colors)) {
-                    // This is a workaround to make each series in a stack chart use a different color
-                    if ($this->options['type'] == 'bar' && stristr($this->options['grouping'], 'stacked')) {
-                        array_shift($colors);
-                    }
-                    $colorIndex = 0;
-                    foreach ($colors as $color) {
+                // check that there are colors
+                if (is_array($colors) && count($colors) > 0) {
+                    // assign a color to each value
+                    $valueIndex = 0;
+                    for ($i = 0; $i < count($values); $i++) {
+                        // check that there are still enought colors
                         $xmlWriter->startElement('c:dPt');
-                        $xmlWriter->writeElementBlock('c:idx', 'val', $colorIndex);
+                        $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);
                         $xmlWriter->startElement('c:spPr');
                         $xmlWriter->startElement('a:solidFill');
-                        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $color);
+                        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
                         $xmlWriter->endElement(); // a:solidFill
                         $xmlWriter->endElement(); // c:spPr
                         $xmlWriter->endElement(); // c:dPt
-                        $colorIndex++;
+                        $valueIndex++;
                     }
                 }
             }

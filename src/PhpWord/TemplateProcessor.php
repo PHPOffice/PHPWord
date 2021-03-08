@@ -101,6 +101,11 @@ class TemplateProcessor extends TemplateProcessorCommon
         $elementWriter->write();
 
         $where = $this->findContainingXmlBlockForMacro($search, 'w:r');
+
+        if ($where === false) {
+            return;
+        }
+
         $block = $this->getSlice($where['start'], $where['end']);
         $textParts = $this->splitTextIntoTexts($block);
         $this->replaceXmlBlock($search, $textParts, 'w:r');
@@ -162,6 +167,78 @@ class TemplateProcessor extends TemplateProcessorCommon
     }
 
     /**
+     * @param string $search
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
+     */
+    public function setChart($search, \PhpOffice\PhpWord\Element\AbstractElement $chart)
+    {
+        $elementName = substr(get_class($chart), strrpos(get_class($chart), '\\') + 1);
+        $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
+
+        // Get the next relation id
+        $rId = $this->getNextRelationsIndex($this->getMainPartName());
+        $chart->setRelationId($rId);
+
+        // Define the chart filename
+        $filename = "charts/chart{$rId}.xml";
+
+        // Get the part writer
+        $writerPart = new \PhpOffice\PhpWord\Writer\Word2007\Part\Chart();
+        $writerPart->setElement($chart);
+
+        // ContentTypes.xml
+        $this->zipClass->addFromString("word/{$filename}", $writerPart->write());
+
+        // add chart to content type
+        $xmlRelationsType = "<Override PartName=\"/word/{$filename}\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.chart+xml\"/>";
+        $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
+
+        // Add the chart to relations
+        $xmlChartRelation = "<Relationship Id=\"rId{$rId}\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart\" Target=\"charts/chart{$rId}.xml\"/>";
+        $this->tempDocumentRelations[$this->getMainPartName()] = str_replace('</Relationships>', $xmlChartRelation, $this->tempDocumentRelations[$this->getMainPartName()]) . '</Relationships>';
+
+        // Write the chart
+        $xmlWriter = new XMLWriter();
+        $elementWriter = new $objectClass($xmlWriter, $chart, true);
+        $elementWriter->write();
+
+        // Place it in the template
+        $this->replaceXmlBlock($search, '<w:p>' . $xmlWriter->getData() . '</w:p>', 'w:p');
+    }
+
+    private function getImageArgs($varNameWithArgs)
+    {
+        $varElements = explode(':', $varNameWithArgs);
+        array_shift($varElements); // first element is name of variable => remove it
+
+        $varInlineArgs = array();
+        // size format documentation: https://msdn.microsoft.com/en-us/library/documentformat.openxml.vml.shape%28v=office.14%29.aspx?f=255&MSPPError=-2147217396
+        foreach ($varElements as $argIdx => $varArg) {
+            if (strpos($varArg, '=')) { // arg=value
+                list($argName, $argValue) = explode('=', $varArg, 2);
+                $argName = strtolower($argName);
+                if ($argName == 'size') {
+                    list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $argValue, 2);
+                } else {
+                    $varInlineArgs[strtolower($argName)] = $argValue;
+                }
+            } elseif (preg_match('/^([0-9]*[a-z%]{0,2}|auto)x([0-9]*[a-z%]{0,2}|auto)$/i', $varArg)) { // 60x40
+                list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $varArg, 2);
+            } else { // :60:40:f
+                switch ($argIdx) {
+                    case 0:
+                        $varInlineArgs['width'] = $varArg;
+                        break;
+                    case 1:
+                        $varInlineArgs['height'] = $varArg;
+                        break;
+                    case 2:
+                        $varInlineArgs['ratio'] = $varArg;
+                        break;
+                }
+            }
+            
+    /**
      * Returns count of all variables in template.
      *
      * @return array
@@ -169,7 +246,6 @@ class TemplateProcessor extends TemplateProcessorCommon
     public function getVariableCount()
     {
         $variables = $this->getVariablesForPart($this->tempDocumentMainPart);
-
         foreach ($this->tempDocumentHeaders as $headerXML) {
             $variables = array_merge(
                 $variables,
@@ -285,6 +361,7 @@ class TemplateProcessor extends TemplateProcessorCommon
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
         $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}" stroked="f"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
 
+        $i = 0;
         foreach ($searchParts as $partFileName => &$partContent) {
             $partVariables = $this->getVariablesForPart($partContent);
 
@@ -316,6 +393,10 @@ class TemplateProcessor extends TemplateProcessorCommon
                         $replaceXml = $openTag . $prefix . $closeTag . $xmlImage . $openTag . $postfix . $closeTag;
                         // replace on each iteration, because in one tag we can have 2+ inline variables => before proceed next variable we need to change $partContent
                         $partContent = $this->setValueForPart($wholeTag, $replaceXml, $partContent, $limit);
+                    }
+
+                    if (++$i >= $limit) {
+                        break;
                     }
                 }
             }
@@ -391,7 +472,7 @@ class TemplateProcessor extends TemplateProcessorCommon
         $xmlBlock = null;
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\${' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
