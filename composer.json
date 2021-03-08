@@ -75,9 +75,6 @@
         "mpdf/mpdf": "5.7.4 || 6.* || 7.* || 8.*",
         "php-coveralls/php-coveralls": "1.1.0 || ^2.0"
     },
-    "replace": {
-        "laminas/laminas-zendframework-bridge": "*"
-    },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",
         "ext-gd2": "Allows adding images",
