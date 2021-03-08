@@ -315,7 +315,7 @@ class TemplateProcessorCommon
         }
     }
 
-    private function prepareImageAttrs($replaceImage, $varInlineArgs)
+    protected function prepareImageAttrs($replaceImage, $varInlineArgs)
     {
         // get image path and size
         $width = null;
