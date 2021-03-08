@@ -315,12 +315,19 @@ class TemplateProcessorCommon
         }
     }
 
-    protected function prepareImageAttrs($replaceImage, $varInlineArgs)
+    private function prepareImageAttrs($replaceImage, $varInlineArgs)
     {
         // get image path and size
         $width = null;
         $height = null;
         $ratio = null;
+
+        // a closure can be passed as replacement value which after resolving, can contain the replacement info for the image
+        // use case: only when a image if found, the replacement tags can be generated
+        if (is_callable($replaceImage)) {
+            $replaceImage = $replaceImage();
+        }
+
         if (is_array($replaceImage) && isset($replaceImage['path'])) {
             $imgPath = $replaceImage['path'];
             if (isset($replaceImage['width'])) {
@@ -514,7 +521,7 @@ class TemplateProcessorCommon
     {
         $results = array();
         for ($i = 1; $i <= $count; $i++) {
-            $results[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
+            $results[] = preg_replace('/\$\{([^:]*?)(:.*?)?\}/', '\${\1#' . $i . '\2}', $xmlBlock);
         }
 
         return $results;
@@ -550,7 +557,7 @@ class TemplateProcessorCommon
      * @param string $blockType XML tag type of block
      * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
      */
-    protected function replaceXmlBlock($macro, $block, $blockType = 'w:p')
+    public function replaceXmlBlock($macro, $block, $blockType = 'w:p')
     {
         $where = $this->findContainingXmlBlockForMacro($macro, $blockType);
         if (is_array($where)) {
@@ -585,6 +592,7 @@ class TemplateProcessorCommon
         if (0 > $end || strstr($this->getSlice($start, $end), $macro) === false) {
             return false;
         }
+
         return array('start' => $start, 'end' => $end);
     }
 

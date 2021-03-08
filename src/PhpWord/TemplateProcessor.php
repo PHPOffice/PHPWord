@@ -206,38 +206,6 @@ class TemplateProcessor extends TemplateProcessorCommon
         $this->replaceXmlBlock($search, '<w:p>' . $xmlWriter->getData() . '</w:p>', 'w:p');
     }
 
-    private function getImageArgs($varNameWithArgs)
-    {
-        $varElements = explode(':', $varNameWithArgs);
-        array_shift($varElements); // first element is name of variable => remove it
-
-        $varInlineArgs = array();
-        // size format documentation: https://msdn.microsoft.com/en-us/library/documentformat.openxml.vml.shape%28v=office.14%29.aspx?f=255&MSPPError=-2147217396
-        foreach ($varElements as $argIdx => $varArg) {
-            if (strpos($varArg, '=')) { // arg=value
-                list($argName, $argValue) = explode('=', $varArg, 2);
-                $argName = strtolower($argName);
-                if ($argName == 'size') {
-                    list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $argValue, 2);
-                } else {
-                    $varInlineArgs[strtolower($argName)] = $argValue;
-                }
-            } elseif (preg_match('/^([0-9]*[a-z%]{0,2}|auto)x([0-9]*[a-z%]{0,2}|auto)$/i', $varArg)) { // 60x40
-                list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $varArg, 2);
-            } else { // :60:40:f
-                switch ($argIdx) {
-                    case 0:
-                        $varInlineArgs['width'] = $varArg;
-                        break;
-                    case 1:
-                        $varInlineArgs['height'] = $varArg;
-                        break;
-                    case 2:
-                        $varInlineArgs['ratio'] = $varArg;
-                        break;
-                }
-            }
-            
     /**
      * Returns count of all variables in template.
      *
