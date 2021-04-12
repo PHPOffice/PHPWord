@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Common Html functions
@@ -35,6 +36,19 @@ class Html
     protected static $listIndex = 0;
     protected static $xpath;
     protected static $options;
+
+    /**
+    * @var array Default heading styles, based on default MS Word styles
+    * Supported styles - https://phpword.readthedocs.io/en/latest/styles.html#font
+    */
+    public static $defaultHeadingStyles = array(
+        'Heading1' => ['size' => 18, 'bold' => true, 'color' => '365F91', 'spaceBefore' => 240, 'spaceAfter' => 240],
+        'Heading2' => ['size' => 16, 'bold' => true, 'color' => '4F81BD', 'spaceBefore' => 220, 'spaceAfter' => 220],
+        'Heading3' => ['size' => 14, 'bold' => true, 'color' => '4F81BD', 'spaceBefore' => 200, 'spaceAfter' => 200],
+        'Heading4' => ['size' => 12, 'bold' => true, 'italic' => true, 'color' => '4F81BD', 'spaceBefore' => 180, 'spaceAfter' => 180],
+        'Heading5' => ['size' => 11, 'color' => '4F81BD', 'spaceBefore' => 150, 'spaceAfter' => 150],
+        'Heading6' => ['size' => 10, 'color' => '4F81BD', 'spaceBefore' => 120, 'spaceAfter' => 120],
+    );
 
     /**
      * Add HTML parts.
@@ -50,6 +64,7 @@ class Html
      * @param array $options:
      *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
      *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
+     *                + APPLY_DEFAULT_STYLE_HEADING => 0|1: enable/disable applying default MS Word styles for H1 .. H6 tags (disabled for BC compatability <= ver. 0.18.1)
      */
     public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null)
     {
@@ -167,12 +182,12 @@ class Html
         $nodes = array(
                               // $method        $node   $element    $styles     $data   $argument1      $argument2
             'p'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
-            'h1'        => array('Heading',     null,   $element,   $styles,    null,   'Heading1',     null),
-            'h2'        => array('Heading',     null,   $element,   $styles,    null,   'Heading2',     null),
-            'h3'        => array('Heading',     null,   $element,   $styles,    null,   'Heading3',     null),
-            'h4'        => array('Heading',     null,   $element,   $styles,    null,   'Heading4',     null),
-            'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
-            'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
+            'h1'        => array('Heading',     $node,  $element,   $styles,    null,   'Heading1',     null),
+            'h2'        => array('Heading',     $node,  $element,   $styles,    null,   'Heading2',     null),
+            'h3'        => array('Heading',     $node,  $element,   $styles,    null,   'Heading3',     null),
+            'h4'        => array('Heading',     $node,  $element,   $styles,    null,   'Heading4',     null),
+            'h5'        => array('Heading',     $node,  $element,   $styles,    null,   'Heading5',     null),
+            'h6'        => array('Heading',     $node,  $element,   $styles,    null,   'Heading6',     null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
@@ -294,18 +309,61 @@ class Html
     /**
      * Parse heading node
      *
+     * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
      * @param string $argument1 Name of heading style
-     * @return \PhpOffice\PhpWord\Element\TextRun
-     *
-     * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
-     * Heading1 - Heading6 are already defined somewhere
+     * @return \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\TextRun
      */
-    protected static function parseHeading($element, &$styles, $argument1)
+    protected static function parseHeading($node, $element, &$styles, $argument1)
     {
-        $styles['paragraph'] = $argument1;
-        $newElement = $element->addTextRun($styles['paragraph']);
+        if (!empty(self::$options['APPLY_DEFAULT_STYLE_HEADING']) || !Style::getStyle($argument1)) {
+            // style enforced or not defined yet - apply inline + default MS Word styles
+
+            $fontStyle = self::parseInlineStyle($node) + self::$defaultHeadingStyles[$argument1];
+            $parStyle = $styles['paragraph'] + $fontStyle;
+
+            if (!empty($node->childNodes)) {
+                // @TODO: support better way of parsing child nodes, even though it's unusual to embed deep node hierarchy into headings
+                // Currently we only parse 1-child-level inside heading, which is sufficient for typical usage.
+                foreach ($node->childNodes as $cNode) {
+                    if ($cNode->nodeType == XML_ELEMENT_NODE) {
+                        switch (strtolower($cNode->nodeName)) {
+                            case 'b':
+                            case 'strong':
+                            case 'bold':
+                                $fontStyle['bold'] = true;
+                                break;
+                            case 'em':
+                            case 'i':
+                                $fontStyle['italic'] = true;
+                                break;
+                            case 'u':
+                                $fontStyle['underline'] = 'single';
+                                break;
+                        }
+
+                        $style = self::parseInlineStyle($cNode);
+
+                        if ($style) {
+                            $fontStyle += $style;
+                            $parStyle += $style;
+                        }
+                    }
+                }
+            }
+
+            // retain partially BC compatability
+            $styles['paragraph'] = $argument1;
+
+            // changed element type - Text allows controlling font & paragraph properties
+            $newElement = $element->addText($node->nodeValue, $fontStyle, $parStyle);
+        } else {
+            // style already defined - BC compatible for versions <= 0.18.1
+            $styles['paragraph'] = $argument1;
+            // note: TextRun does not support controlling font properties
+            $newElement = $element->addTextRun($styles['paragraph']);
+        }
 
         return $newElement;
     }
