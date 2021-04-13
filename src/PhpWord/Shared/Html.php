@@ -23,8 +23,8 @@ use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
-use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Common Html functions
@@ -38,9 +38,9 @@ class Html
     protected static $options;
 
     /**
-    * @var array Default heading styles, based on default MS Word styles
-    * Supported styles - https://phpword.readthedocs.io/en/latest/styles.html#font
-    */
+     * @var array Default heading styles, based on default MS Word styles
+     * Supported styles - https://phpword.readthedocs.io/en/latest/styles.html#font
+     */
     public static $defaultHeadingStyles = array(
         'Heading1' => ['size' => 18, 'bold' => true, 'color' => '365F91', 'spaceBefore' => 240, 'spaceAfter' => 240],
         'Heading2' => ['size' => 16, 'bold' => true, 'color' => '4F81BD', 'spaceBefore' => 220, 'spaceAfter' => 220],

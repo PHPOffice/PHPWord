@@ -957,7 +957,6 @@ HTML;
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('Heading 1', $doc->getElement($xpath)->nodeValue);
 
-
         $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:spacing';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('180', $doc->getElement($xpath)->getAttribute('w:before'));
@@ -983,7 +982,6 @@ HTML;
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('Heading 4', $doc->getElement($xpath)->nodeValue);
 
-
         $xpath = '/w:document/w:body/w:p[3]/w:pPr/w:spacing';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('120', $doc->getElement($xpath)->getAttribute('w:before'));
@@ -1000,7 +998,6 @@ HTML;
         $xpath = '/w:document/w:body/w:p[3]/w:r/w:t';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('Heading 6', $doc->getElement($xpath)->nodeValue);
-
 
         // enforce default MS Word style via option
         Html::addHtml($section, $html, false, true, ['APPLY_DEFAULT_STYLE_HEADING' => 1]);
@@ -1027,7 +1024,6 @@ HTML;
         $xpath = '/w:document/w:body/w:p[4]/w:r/w:t';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('Heading 1', $doc->getElement($xpath)->nodeValue);
-
 
         // apply inline + default H1 .. H6 style + parse child nodes
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
