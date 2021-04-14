@@ -663,19 +663,15 @@ class Html
                     $matches = array();
                     if (preg_match('/([a-z]+)/', $cValue, $matches)) {
                         //$cvalue text and not number
-                        if($cValue == 'normal') {
+                        if ($cValue == 'normal') {
                             $cValue = 1.12;
-                            $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
-                            //we are subtracting 1 line height because the Spacing writer is adding one line
-                            $spacing = ($cValue * Paragraph::LINE_HEIGHT) - Paragraph::LINE_HEIGHT;
-                        }else{
+                        } else {
                             $cValue = 1.13;
-                            $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
-                            //we are subtracting 1 line height because the Spacing writer is adding one line
-                            $spacing = ($cValue * Paragraph::LINE_HEIGHT) - Paragraph::LINE_HEIGHT;
                         }
-                    }
-                    elseif (preg_match('/([0-9]+\.?[0-9]*[a-z]+)/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        //we are subtracting 1 line height because the Spacing writer is adding one line
+                        $spacing = ($cValue * Paragraph::LINE_HEIGHT) - Paragraph::LINE_HEIGHT;
+                    } elseif (preg_match('/([0-9]+\.?[0-9]*[a-z]+)/', $cValue, $matches)) {
                         //matches number with a unit, e.g. 12px, 15pt, 20mm, ...
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::EXACT;
                         $spacing = Converter::cssToTwip($matches[1]);
