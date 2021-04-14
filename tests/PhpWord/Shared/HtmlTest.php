@@ -1000,7 +1000,7 @@ HTML;
         $this->assertEquals('Heading 6', $doc->getElement($xpath)->nodeValue);
 
         // enforce default MS Word style via option
-        Html::addHtml($section, $html, false, true, ['APPLY_DEFAULT_STYLE_HEADING' => 1]);
+        Html::addHtml($section, $html, false, true, array('APPLY_DEFAULT_STYLE_HEADING' => 1));
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         // H1 now applied default style

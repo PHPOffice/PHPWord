@@ -42,12 +42,12 @@ class Html
      * Supported styles - https://phpword.readthedocs.io/en/latest/styles.html#font
      */
     public static $defaultHeadingStyles = array(
-        'Heading1' => ['size' => 18, 'bold' => true, 'color' => '365F91', 'spaceBefore' => 240, 'spaceAfter' => 240],
-        'Heading2' => ['size' => 16, 'bold' => true, 'color' => '4F81BD', 'spaceBefore' => 220, 'spaceAfter' => 220],
-        'Heading3' => ['size' => 14, 'bold' => true, 'color' => '4F81BD', 'spaceBefore' => 200, 'spaceAfter' => 200],
-        'Heading4' => ['size' => 12, 'bold' => true, 'italic' => true, 'color' => '4F81BD', 'spaceBefore' => 180, 'spaceAfter' => 180],
-        'Heading5' => ['size' => 11, 'color' => '4F81BD', 'spaceBefore' => 150, 'spaceAfter' => 150],
-        'Heading6' => ['size' => 10, 'color' => '4F81BD', 'spaceBefore' => 120, 'spaceAfter' => 120],
+        'Heading1' => array('size' => 18, 'bold' => true, 'color' => '365F91', 'spaceBefore' => 240, 'spaceAfter' => 240),
+        'Heading2' => array('size' => 16, 'bold' => true, 'color' => '4F81BD', 'spaceBefore' => 220, 'spaceAfter' => 220),
+        'Heading3' => array('size' => 14, 'bold' => true, 'color' => '4F81BD', 'spaceBefore' => 200, 'spaceAfter' => 200),
+        'Heading4' => array('size' => 12, 'bold' => true, 'italic' => true, 'color' => '4F81BD', 'spaceBefore' => 180, 'spaceAfter' => 180),
+        'Heading5' => array('size' => 11, 'color' => '4F81BD', 'spaceBefore' => 150, 'spaceAfter' => 150),
+        'Heading6' => array('size' => 10, 'color' => '4F81BD', 'spaceBefore' => 120, 'spaceAfter' => 120),
     );
 
     /**
