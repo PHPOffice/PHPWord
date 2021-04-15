@@ -955,7 +955,7 @@ HTML;
 HTML;
 
         // enforce BC compatability via option - heading will render like normal text, only paragraph styling applies if style HeadingX defined
-        Html::addHtml($section, $html, false, true, array('DISABLE_DEFAULT_HEADING_STYLE'));
+        Html::addHtml($section, $html, false, true, array(Html::OPTION_DISABLE_DEFAULT_HEADING_STYLE => 1));
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         //self::dump('Headings-01-BC.docx', $doc, $phpWord);
 
