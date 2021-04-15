@@ -198,7 +198,7 @@ class Html
         }
 
         // underscore separator - hack to retain backward compatability with (formerly incorrectly) named heading styles (<= 0.18.1)
-        $u = in_array(self::OPTION_DISABLE_DEFAULT_HEADING_STYLE, self::$options) ? '' : '_';
+        $u = empty(self::$options[self::OPTION_DISABLE_DEFAULT_HEADING_STYLE]) ? '_' : '';
 
         // Node mapping table
         $nodes = array(
@@ -339,8 +339,8 @@ class Html
      */
     protected static function parseHeading($node, $element, &$styles, $argument1)
     {
-        if (in_array(self::OPTION_DISABLE_DEFAULT_HEADING_STYLE, self::$options)) {
-            // Heading1, Heading2, .. assuming style already defined - BC compatible for versions <= 0.18.1
+        if (!empty(self::$options[self::OPTION_DISABLE_DEFAULT_HEADING_STYLE])) {
+            // retain BC compatability - Heading1, Heading2, .. assuming style already defined for versions <= 0.18.1
             $styles['paragraph'] = $argument1;
             // note: TextRun does not support controlling font properties
             $newElement = $element->addTextRun($styles['paragraph']);
