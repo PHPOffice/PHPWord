@@ -188,7 +188,10 @@ class Chart extends AbstractPart
         // Series
         $this->writeSeries($xmlWriter, isset($this->options['scatter']));
 
-        $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
+        // don't overlap if grouping is 'clustered'
+        if (!isset($this->options['grouping']) || $this->options['grouping'] != 'clustered') {
+            $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
+        }
 
         // Axes
         if (isset($this->options['axes'])) {
