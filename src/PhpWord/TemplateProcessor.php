@@ -1193,6 +1193,30 @@ class TemplateProcessor
     }
 
     /**
+     * Check if the first macro is inside table
+     * @param string $macro
+     *
+     * @return bool
+     */
+    public function isInsideTable($macro)
+    {
+        $macro = static::ensureMacroCompleted($macro);
+
+        $tagPos = strpos($this->tempDocumentMainPart, $macro);
+        $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr ', ((strlen($this->tempDocumentMainPart) - $tagPos) * -1));
+
+        if (!$rowStart) {
+            $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr>', ((strlen($this->tempDocumentMainPart) - $tagPos) * -1));
+        }
+
+        if ($rowStart) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Find start and end of XML block containing the given macro
      * e.g. <w:p>...${macro}...</w:p>
      *
@@ -1309,30 +1333,5 @@ class TemplateProcessor
     protected function textNeedsSplitting($text)
     {
         return preg_match('/[^>]\${|}[^<]/i', $text) == 1;
-    }
-
-    /**
-     * Check if the first macro is inside table
-     * @param string $macro
-     * 
-     * @return bool
-     */
-    public function isInsideTable($macro)
-    {
-        $macro = static::ensureMacroCompleted($macro);
-
-        $tagPos = strpos($this->tempDocumentMainPart, $macro);
-
-        $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr ', ((strlen($this->tempDocumentMainPart) - $tagPos) * -1));
-
-        if (!$rowStart) {
-            $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr>', ((strlen($this->tempDocumentMainPart) - $tagPos) * -1));
-        }
-
-        if ($rowStart) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
