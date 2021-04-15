@@ -43,7 +43,7 @@
         ],
         "check": [
             "php-cs-fixer fix --ansi --dry-run --diff",
-            "phpcs --report-width=200 --report-summary  --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
+            "phpcs --report-width=200 --report-summary --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
             "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
             "@test-no-coverage"
         ],

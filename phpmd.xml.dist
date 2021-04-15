@@ -19,9 +19,9 @@
     <rule ref="rulesets/design.xml/GotoStatement" />
     <rule ref="rulesets/design.xml/DepthOfInheritance" />
     <rule ref="rulesets/design.xml/CouplingBetweenObjects">
-        <!-- AbstractContainer needs more coupling (default: 13) -->
+        <!-- AbstractContainer and Html need more coupling (default: 13) -->
         <properties>
-            <property name="maximum" value="20" />
+            <property name="maximum" value="25" />
         </properties>
     </rule>
     <rule ref="rulesets/design.xml/NumberOfChildren">
@@ -30,6 +30,5 @@
             <property name="minimum" value="30" />
         </properties>
     </rule>
-    <rule ref="rulesets/unusedcode.xml" />
     <rule ref="rulesets/controversial.xml" />
 </ruleset>
