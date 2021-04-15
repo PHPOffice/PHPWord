@@ -942,12 +942,17 @@ HTML;
 
         $html = <<<HTML
 <h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
 <h4>Heading 4</h4>
+<h5>Heading 5</h5>
 <h6>Heading 6</h6>
 HTML;
 
-        Html::addHtml($section, $html);
+        // enforce BC compatability via option - heading will render like normal text, only paragraph styling applies if style HeadingX defined
+        Html::addHtml($section, $html, false, true, array('DISABLE_DEFAULT_HEADING_STYLE'));
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        //self::dump('Headings-01-BC.docx', $doc, $phpWord);
 
         $xpath = '/w:document/w:body/w:p[1]/w:pPr/w:pStyle';
         $this->assertTrue($doc->elementExists($xpath));
@@ -957,161 +962,156 @@ HTML;
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('Heading 1', $doc->getElement($xpath)->nodeValue);
 
-        $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:spacing';
+        $xpath = '/w:document/w:body/w:p[3]/w:pPr/w:pStyle';
         $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('180', $doc->getElement($xpath)->getAttribute('w:before'));
-        $this->assertEquals('180', $doc->getElement($xpath)->getAttribute('w:after'));
-
-        $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:color';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('4F81BD', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('24', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:b';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:i';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[2]/w:r/w:t';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('Heading 4', $doc->getElement($xpath)->nodeValue);
-
-        $xpath = '/w:document/w:body/w:p[3]/w:pPr/w:spacing';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('120', $doc->getElement($xpath)->getAttribute('w:before'));
-        $this->assertEquals('120', $doc->getElement($xpath)->getAttribute('w:after'));
-
-        $xpath = '/w:document/w:body/w:p[3]/w:r/w:rPr/w:color';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('4F81BD', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[3]/w:r/w:rPr/w:sz';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('20', $doc->getElement($xpath)->getAttribute('w:val'));
+        $this->assertEquals('Heading3', $doc->getElement($xpath)->getAttribute('w:val'));
 
         $xpath = '/w:document/w:body/w:p[3]/w:r/w:t';
         $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('Heading 6', $doc->getElement($xpath)->nodeValue);
+        $this->assertEquals('Heading 3', $doc->getElement($xpath)->nodeValue);
 
-        // enforce default MS Word style via option
-        Html::addHtml($section, $html, false, true, array('APPLY_DEFAULT_STYLE_HEADING' => 1));
+        // apply default heading style - create TOC in sidebar
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        //self::dump('Headings-02-default.docx', $doc, $phpWord);
 
-        // H1 now applied default style
-        $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';
+        $xpath = '/w:document/w:body/w:p[1]/w:pPr/w:pStyle';
         $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('240', $doc->getElement($xpath)->getAttribute('w:before'));
-        $this->assertEquals('240', $doc->getElement($xpath)->getAttribute('w:after'));
+        $this->assertEquals('Heading1', $doc->getElement($xpath)->getAttribute('w:val'));
 
-        $xpath = '/w:document/w:body/w:p[4]/w:r/w:rPr/w:color';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('365F91', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[4]/w:r/w:rPr/w:sz';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('36', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[4]/w:r/w:rPr/w:b';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[4]/w:r/w:t';
+        $xpath = '/w:document/w:body/w:p[1]/w:r/w:t';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('Heading 1', $doc->getElement($xpath)->nodeValue);
+
+        $xpath = '/w:document/w:body/w:p[1]/w:bookmarkStart';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $xpath = '/w:document/w:body/w:p[1]/w:bookmarkEnd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $xpath = '/w:document/w:body/w:p[6]/w:pPr/w:pStyle';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading6', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[6]/w:r/w:t';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading 6', $doc->getElement($xpath)->nodeValue);
+
+        $xpath = '/w:document/w:body/w:p[6]/w:bookmarkStart';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('6', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $xpath = '/w:document/w:body/w:p[6]/w:bookmarkEnd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('6', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        // custom default style
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        Html::$defaultHeadingStyles['Heading_1'] = array('size' => 10, 'color' => 'blue', 'spaceBefore' => 100, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_2'] = array('size' => 13, 'color' => 'orange', 'spaceBefore' => 200, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_3'] = array('size' => 16, 'color' => 'green', 'spaceBefore' => 300, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_4'] = array('size' => 19, 'color' => 'FF0000', 'spaceBefore' => 400, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_5'] = array('size' => 22, 'color' => 'black', 'spaceBefore' => 500, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_6'] = array('size' => 25, 'color' => 'gray', 'spaceBefore' => 600, 'spaceAfter' => 120, 'underline' => true);
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        //self::dump('Headings-03-custom.docx', $doc, $phpWord);
+
+        // markup is same as in previous, only global styles changed
+        $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:pStyle';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading2', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[2]/w:r/w:t';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading 2', $doc->getElement($xpath)->nodeValue);
+
+        $xpath = '/w:document/w:body/w:p[2]/w:bookmarkStart';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('2', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $xpath = '/w:document/w:body/w:p[2]/w:bookmarkEnd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('2', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $fontStyle = \PhpOffice\PhpWord\Style::getStyle('Heading_1');
+        $this->assertEquals('10', $fontStyle->getSize());
+        $this->assertEquals('blue', $fontStyle->getColor());
 
         // apply inline + default H1 .. H6 style + parse child nodes
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
 
         $html = <<<HTML
-<h1>Heading 1 default</h1>
-<h1 style="font-size: 40pt; margin-top: 30pt; color: red; text-align: center;">Heading 1 inline style</h1>
-<h5><u>Heading 6 with underline child node</u></h5>
+<h1 style="font-size: 40pt; margin-top: 30pt; color: red; text-align: right;"><b>Heading 1 inline CSS</b></h1>
+<h5 align="center"><u>Heading 6 default style, centered and underlined</u></h5>
 HTML;
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        //self::dump('Headings-04-inline.docx', $doc, $phpWord);
 
-        /*
-        // useful for debugging
-        $xml = $doc->printXml();
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save('unittestHeadings3.docx');
-        */
+        $xpath = '/w:document/w:body/w:p[1]/w:pPr/w:jc';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('end', $doc->getElement($xpath)->getAttribute('w:val'));
 
-        // H1 now applied default style
         $xpath = '/w:document/w:body/w:p[1]/w:pPr/w:spacing';
         $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('240', $doc->getElement($xpath)->getAttribute('w:before'));
-        $this->assertEquals('240', $doc->getElement($xpath)->getAttribute('w:after'));
+        $this->assertEquals('600', $doc->getElement($xpath)->getAttribute('w:before'));
+        $this->assertEquals('120', $doc->getElement($xpath)->getAttribute('w:after'));
 
         $xpath = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:color';
         $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('365F91', $doc->getElement($xpath)->getAttribute('w:val'));
+        $this->assertEquals('red', $doc->getElement($xpath)->getAttribute('w:val'));
 
         $xpath = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:sz';
         $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('36', $doc->getElement($xpath)->getAttribute('w:val'));
+        $this->assertEquals('80', $doc->getElement($xpath)->getAttribute('w:val'));
 
         $xpath = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:b';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:val'));
 
-        $xpath = '/w:document/w:body/w:p[1]/w:r/w:t';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('Heading 1 default', $doc->getElement($xpath)->nodeValue);
-
-        // H1 with inline + default style
-        $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:spacing';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('600', $doc->getElement($xpath)->getAttribute('w:before'));
-        $this->assertEquals('240', $doc->getElement($xpath)->getAttribute('w:after'));
-
         $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:jc';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('center', $doc->getElement($xpath)->getAttribute('w:val'));
 
+        $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:spacing';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('500', $doc->getElement($xpath)->getAttribute('w:before'));
+        $this->assertEquals('120', $doc->getElement($xpath)->getAttribute('w:after'));
+
         $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:color';
         $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('red', $doc->getElement($xpath)->getAttribute('w:val'));
+        $this->assertEquals('black', $doc->getElement($xpath)->getAttribute('w:val'));
 
         $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz';
         $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('80', $doc->getElement($xpath)->getAttribute('w:val'));
+        $this->assertEquals('44', $doc->getElement($xpath)->getAttribute('w:val'));
 
-        $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:b';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[2]/w:r/w:t';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('Heading 1 inline style', $doc->getElement($xpath)->nodeValue);
-
-        // H5 with child node
-        $xpath = '/w:document/w:body/w:p[3]/w:pPr/w:spacing';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('150', $doc->getElement($xpath)->getAttribute('w:before'));
-        $this->assertEquals('150', $doc->getElement($xpath)->getAttribute('w:after'));
-
-        $xpath = '/w:document/w:body/w:p[3]/w:r/w:rPr/w:color';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('4F81BD', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[3]/w:r/w:rPr/w:sz';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('22', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[3]/w:r/w:rPr/w:u';
+        $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:u';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
-
-        $xpath = '/w:document/w:body/w:p[3]/w:r/w:t';
-        $this->assertTrue($doc->elementExists($xpath));
-        $this->assertEquals('Heading 6 with underline child node', $doc->getElement($xpath)->nodeValue);
     }
+
+    /**
+    * Quick dump of generated files for XML & output inspection
+    *
+    * @param string $path e.g. "test001.docx"
+    * @param \XmlDocument $doc
+    * @param \PhpOffice\PhpWord\PhpWord $phpWord
+    */
+    protected static function dump($path, $doc, $phpWord)
+    {
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($path);
+        file_put_contents($path.'.xml', $doc->printXml());
+    }
+
 }
