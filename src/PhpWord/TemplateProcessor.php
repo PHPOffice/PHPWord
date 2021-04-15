@@ -1211,9 +1211,9 @@ class TemplateProcessor
 
         if ($rowStart) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
