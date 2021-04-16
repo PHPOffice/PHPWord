@@ -1056,7 +1056,7 @@ HTML;
 
         $html = <<<HTML
 <h1 style="font-size: 40pt; margin-top: 30pt; color: red; text-align: right;"><b>Heading 1 inline CSS</b></h1>
-<h5 align="center"><u>Heading 6 default style, centered and underlined</u></h5>
+<h5 align="center"><u>Heading 5 default style, centered and underlined</u></h5>
 HTML;
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
@@ -1103,6 +1103,23 @@ HTML;
         $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:u';
         $this->assertTrue($doc->elementExists($xpath));
         $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        // test option "OPTION_REPAIR_XML"
+        if (extension_loaded('tidy')) {
+            $phpWord = new \PhpOffice\PhpWord\PhpWord();
+            $section = $phpWord->addSection();
+            Html::addHtml($section, '<p>Fixed invalid XML - added missing <b>BOLD ending tag</p>', false, true, array(Html::OPTION_REPAIR_XML => true));
+            $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+            //self::dump('Headings-05-repair.docx', $doc, $phpWord);
+
+            $xpath = '/w:document/w:body/w:p[1]/w:r[2]/w:rPr/w:b';
+            $this->assertTrue($doc->elementExists($xpath));
+            $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:val'));
+
+            $xpath = '/w:document/w:body/w:p[1]/w:r[2]/w:t';
+            $this->assertTrue($doc->elementExists($xpath));
+            $this->assertEquals('BOLD ending tag', $doc->getElement($xpath)->nodeValue);
+        }
     }
 
     /**

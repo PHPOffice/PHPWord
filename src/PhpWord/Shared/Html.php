@@ -33,22 +33,24 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class Html
 {
     /**
-    * @var string Supported options - see method addHtml()
-    */
+     * @var string Supported options - see method addHtml()
+     */
     const OPTION_IMG_SRC_SEARCH = 'IMG_SRC_SEARCH';
     const OPTION_IMG_SRC_REPLACE = 'IMG_SRC_REPLACE';
     const OPTION_DISABLE_DEFAULT_HEADING_STYLE = 'DISABLE_DEFAULT_HEADING_STYLE';
+    const OPTION_REPAIR_XML = 'REPAIR_XML';
+
+    /**
+     * @var array Supported options with optional default settings
+     *  - IMG_SRC_SEARCH => 'pattern': optional to speed up images loading from remote url when files can be found locally
+     *  - IMG_SRC_REPLACE => 'replacement': optional to speed up images loading from remote url when files can be found locally
+     *  - DISABLE_DEFAULT_HEADING_STYLE => 1: disable applying default MS Word styles for H1 .. H6 tags (added for backward compatability <= 0.18.1)
+     *  - REPAIR_XML => 1: attempt to fix supplied XML if corrupted. Available only if loaded tidy extension. Disabled by default since it may modify input (whitespaces).
+     */
+    protected static $options = array();
 
     protected static $listIndex = 0;
     protected static $xpath;
-
-    /**
-    * @var array Supported options with optional default settings
-    *  - IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
-    *  - IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
-    *  - DISABLE_DEFAULT_HEADING_STYLE: disable applying default MS Word styles for H1 .. H6 tags (added for backward compatability <= 0.18.1)
-    */
-    protected static $options = array();
 
     /**
      * @var array Default heading styles, based on default MS Word styles
@@ -78,9 +80,10 @@ class Html
      * @param array $options:
      *         + IMG_SRC_SEARCH => 'pattern': optional to speed up images loading from remote url when files can be found locally
      *         + IMG_SRC_REPLACE => 'replacement': optional to speed up images loading from remote url when files can be found locally
-     *         + DISABLE_DEFAULT_HEADING_STYLE => 0|1: disable applying default MS Word styles for H1 .. H6 tags (added for backward compatability <= 0.18.1)
+     *         + DISABLE_DEFAULT_HEADING_STYLE => 1: disable applying default MS Word styles for H1 .. H6 tags (added for backward compatability <= 0.18.1)
+     *         + REPAIR_XML => 1: attempt to fix supplied XML if corrupted. Available only if loaded tidy extension. Disabled by default since it may modify input (whitespaces).
      */
-    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = [])
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = array())
     {
         // ensure proper data type - should be array
         if (!is_array($options)) {
@@ -93,8 +96,19 @@ class Html
          */
         self::$options = $options;
 
-        // Preprocess: remove all line ends, decode HTML entity,
-        // fix ampersand and angle brackets and add body tag for HTML fragments
+        // Preprocess: repair XML (optional), remove line ends, decode HTML entities,
+        // fix ampersand and angle brackets, add body tag for HTML fragments
+        if (!empty(self::$options[self::OPTION_REPAIR_XML]) && extension_loaded('tidy')) {
+            $tidy = new \tidy();
+            $html = $tidy->repairString($html, array(
+                'output-xhtml' => true,
+                'show-body-only' => true,
+                'wrap' => 0, // disable wrapping, default is 68
+                'hide-comments' => 1,
+                'fix-backslash' => 1,
+            ), 'utf8');
+        }
+
         $html = str_replace(array("\n", "\r"), '', $html);
         $html = str_replace(array('&lt;', '&gt;', '&amp;', '&quot;'), array('_lt_', '_gt_', '_amp_', '_quot_'), $html);
         $html = html_entity_decode($html, ENT_QUOTES, 'UTF-8');
@@ -335,7 +349,7 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
      * @param string $argument1 Name of heading style
-     * @return \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\TextRun
+     * @return \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\TextRun|\PhpOffice\PhpWord\Element\Title
      */
     protected static function parseHeading($node, $element, &$styles, $argument1)
     {
@@ -346,8 +360,10 @@ class Html
             $newElement = $element->addTextRun($styles['paragraph']);
         } else {
             // apply default heading style and inline style
-            $fontStyleInline = self::parseInlineStyle($node);
-            $fontStyle = $fontStyleInline + self::$defaultHeadingStyles[$argument1];
+            $fontStyleInline = $fontStyle = self::parseInlineStyle($node);
+            if (!empty(self::$defaultHeadingStyles[$argument1])) {
+                $fontStyle += self::$defaultHeadingStyles[$argument1];
+            }
             $parStyle = $styles['paragraph'] + $fontStyle;
 
             if (!empty($node->childNodes)) {
