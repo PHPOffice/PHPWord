@@ -1123,16 +1123,16 @@ HTML;
     }
 
     /**
-    * Quick dump of generated files for XML & output inspection
-    *
-    * @param string $path e.g. "test001.docx"
-    * @param \XmlDocument $doc
-    * @param \PhpOffice\PhpWord\PhpWord $phpWord
-    */
+     * Quick dump of generated files for XML & output inspection
+     *
+     * @param string $path e.g. "test001.docx"
+     * @param \XmlDocument $doc
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     */
     protected static function dump($path, $doc, $phpWord)
     {
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($path);
-        file_put_contents($path.'.xml', $doc->printXml());
+        file_put_contents($path . '.xml', $doc->printXml());
     }
 }

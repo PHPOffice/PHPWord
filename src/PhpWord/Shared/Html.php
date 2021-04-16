@@ -101,11 +101,11 @@ class Html
         if (!empty(self::$options[self::OPTION_REPAIR_XML]) && extension_loaded('tidy')) {
             $tidy = new \tidy();
             $html = $tidy->repairString($html, array(
-                'output-xhtml' => true,
+                'output-xhtml'   => true,
                 'show-body-only' => true,
-                'wrap' => 0, // disable wrapping, default is 68
-                'hide-comments' => 1,
-                'fix-backslash' => 1,
+                'wrap'           => 0, // disable wrapping, default is 68
+                'hide-comments'  => 1,
+                'fix-backslash'  => 1,
             ), 'utf8');
         }
 
@@ -407,7 +407,7 @@ class Html
                 $word = $element->getPhpWord();
                 $sid = $element->getSectionId(); // 1-based
                 $section = $word->getSection(--$sid); // 0-based
-                $depth = intval(substr($argument1, -1, 1)); // 1 .. 6 (Heading_1..6) or 0 (Title)
+                $depth = (int) substr($argument1, -1, 1); // 1 .. 6 (Heading_1..6) or 0 (Title)
                 $word->addTitleStyle($depth, $fontStyle, $parStyle); // ignored if style for $depth already exists
 
                 // depending on determined depth, HeadingX (depth 1..6) or Title (dept 0) will be added
