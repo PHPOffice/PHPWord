@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,14 +18,14 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Escaper\RegExp;
-use PhpOffice\PhpWord\Escaper\Xml;
-use PhpOffice\PhpWord\Exception\CopyFileException;
-use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\Text;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Shared\Text;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
+use PhpOffice\PhpWord\Exception\CopyFileException;
+use PhpOffice\PhpWord\Escaper\Xml;
+use PhpOffice\PhpWord\Escaper\RegExp;
 
 class TemplateProcessor
 {
@@ -620,8 +621,8 @@ class TemplateProcessor
 
         // collect document parts
         $searchParts = array(
-                            $this->getMainPartName() => &$this->tempDocumentMainPart,
-                            );
+            $this->getMainPartName() => &$this->tempDocumentMainPart,
+        );
         foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
             $searchParts[$this->getHeaderName($headerIndex)] = &$this->tempDocumentHeaders[$headerIndex];
         }
@@ -661,7 +662,7 @@ class TemplateProcessor
                     if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed) . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
                         $wholeTag = $matches[0];
                         array_shift($matches);
-                        list($openTag, $prefix, , $postfix, $closeTag) = $matches;
+                        list($openTag, $prefix,, $postfix, $closeTag) = $matches;
                         $replaceXml = $openTag . $prefix . $closeTag . $xmlImage . $openTag . $postfix . $closeTag;
                         // replace on each iteration, because in one tag we can have 2+ inline variables => before proceed next variable we need to change $partContent
                         $partContent = $this->setValueForPart($wholeTag, $replaceXml, $partContent, $limit);
@@ -747,8 +748,10 @@ class TemplateProcessor
 
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
-                    !preg_match('#<w:vMerge w:val="continue"\s*/>#', $tmpXmlRow)) {
+                if (
+                    !preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue"\s*/>#', $tmpXmlRow)
+                ) {
                     break;
                 }
                 // This row was a spanned row, update $rowEnd and search for the next row.
@@ -1067,7 +1070,11 @@ class TemplateProcessor
     protected function getNextRelationsIndex($documentPartName)
     {
         if (isset($this->tempDocumentRelations[$documentPartName])) {
-            return substr_count($this->tempDocumentRelations[$documentPartName], '<Relationship');
+            $candidate = substr_count($this->tempDocumentRelations[$documentPartName], '<Relationship');
+            while (strpos($this->tempDocumentRelations[$documentPartName], 'Id="rId' . $candidate . '"') !== false) {
+                $candidate++;
+            }
+            return $candidate;
         }
 
         return 1;
