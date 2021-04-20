@@ -82,15 +82,16 @@ class Chart extends AbstractPart
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
+
         $xmlWriter->startElement('c:chartSpace');
         $xmlWriter->writeAttribute('xmlns:c', 'http://schemas.openxmlformats.org/drawingml/2006/chart');
         $xmlWriter->writeAttribute('xmlns:a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-
         $this->writeChart($xmlWriter);
         $this->writeShape($xmlWriter);
 
         $xmlWriter->endElement(); // c:chartSpace
+
 
         return $xmlWriter->getData();
     }
@@ -155,11 +156,40 @@ class Chart extends AbstractPart
 
         //Chart legend
         if ($showLegend) {
-            $xmlWriter->writeRaw('<c:legend><c:legendPos val="' . $legendPosition . '"/></c:legend>');
+            $xmlWriter->startElement('c:legend');
+            $xmlWriter->writeElementBlock('c:legendPos', 'val', $legendPosition);
+            // by #rat
+            if ($style->getLegendPositionInBlock()) {
+                $xmlWriter->startElement('c:layout');
+                $xmlWriter->startElement('c:manualLayout');
+                $xmlWriter->writeElementBlock('c:xMode', 'val', $style->getLegendPositionInBlock()->getXMode());
+                $xmlWriter->writeElementBlock('c:yMode', 'val', $style->getLegendPositionInBlock()->getYMode());
+                $xmlWriter->writeElementBlock('c:x', 'val', $style->getLegendPositionInBlock()->getAxisX());
+                $xmlWriter->writeElementBlock('c:y', 'val', $style->getLegendPositionInBlock()->getAxisY());
+                $xmlWriter->writeElementBlock('c:w', 'val', $style->getLegendPositionInBlock()->getWidth());
+                $xmlWriter->writeElementBlock('c:h', 'val', $style->getLegendPositionInBlock()->getHeight());
+                $xmlWriter->endElement(); // c:manualLayout
+                $xmlWriter->endElement(); // c:layout
+                // by #rat
+            }
+            $xmlWriter->endElement(); // c:legend
         }
 
         $xmlWriter->startElement('c:plotArea');
-        $xmlWriter->writeElement('c:layout');
+        // by #rat
+        $xmlWriter->startElement('c:layout');
+        if ($style->getChartPositionInBlock()) {
+            $xmlWriter->startElement('c:manualLayout');
+            $xmlWriter->writeElementBlock('c:xMode', 'val', $style->getChartPositionInBlock()->getXMode());
+            $xmlWriter->writeElementBlock('c:yMode', 'val', $style->getChartPositionInBlock()->getYMode());
+            $xmlWriter->writeElementBlock('c:x', 'val', $style->getChartPositionInBlock()->getAxisX());
+            $xmlWriter->writeElementBlock('c:y', 'val', $style->getChartPositionInBlock()->getAxisY());
+            $xmlWriter->writeElementBlock('c:w', 'val', $style->getChartPositionInBlock()->getWidth());
+            $xmlWriter->writeElementBlock('c:h', 'val', $style->getChartPositionInBlock()->getHeight());
+            $xmlWriter->endElement(); // c:manualLayout
+        }
+        $xmlWriter->endElement(); // c:layout
+        // by #rat
 
         // Chart
         $chartType = $this->options['type'];
@@ -172,7 +202,9 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:grouping', 'val', 'standard');
         }
         if (isset($this->options['hole'])) {
-            $xmlWriter->writeElementBlock('c:holeSize', 'val', $this->options['hole']);
+            // by #rat
+            $holeSyze = (!empty($style->getHoleSyze())) ? $style->getHoleSyze() : $this->options['hole'];
+            $xmlWriter->writeElementBlock('c:holeSize', 'val', $holeSyze);
         }
         if (isset($this->options['bar'])) {
             $xmlWriter->writeElementBlock('c:barDir', 'val', $this->options['bar']); // bar|col
@@ -279,6 +311,19 @@ class Chart extends AbstractPart
                         $xmlWriter->startElement('a:solidFill');
                         $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
                         $xmlWriter->endElement(); // a:solidFill
+
+                        // by #rat
+                        if ($style->isSchemaSeparator() === true ) {
+                            $xmlWriter->startElement('a:ln');
+                            $xmlWriter->writeAttribute('w', 12700);
+                            $xmlWriter->startElement('a:solidFill');
+                            $xmlWriter->writeElementBlock('a:schemeClr', 'val', 'bg1');
+                            $xmlWriter->endElement(); // a:solidFill
+                            $xmlWriter->endElement(); // a:ln
+                            $xmlWriter->writeElement('a:effectLst');
+                        }
+//                        // by #rat
+
                         $xmlWriter->endElement(); // c:spPr
                         $xmlWriter->endElement(); // c:dPt
                         $valueIndex++;
@@ -346,6 +391,8 @@ class Chart extends AbstractPart
             'val' => array('c:valAx', 2, 'l', 1),
         );
         list($axisType, $axisId, $axisPos, $axisCross) = $types[$type];
+        // #rat
+        $line = $style->showAxes();
 
         $xmlWriter->startElement($axisType);
 
@@ -391,7 +438,7 @@ class Chart extends AbstractPart
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
         $xmlWriter->endElement(); // c:scaling
 
-        $this->writeShape($xmlWriter, true);
+        $this->writeShape($xmlWriter, $line);
 
         $xmlWriter->endElement(); // $axisType
     }

@@ -149,6 +149,46 @@ class Chart extends AbstractStyle
     private $gridX = false;
 
     /**
+     * by #rat
+     * Hole size as a percentage
+     *
+     * @var int
+     */
+    private $holeSize;
+
+    /**
+     * by #rat
+     * chart position parameter ChartManualLayout
+     *
+     * @var ChartManualLayout
+     */
+    private $chartPositionInBlock;
+
+    /**
+     * by #rat
+     * legend position parameter ChartManualLayout
+     *
+     * @var ChartManualLayout
+     */
+    private $legendPositionInBlock;
+
+    /**
+     * by #rat
+     * schema segment separator
+     *
+     * @var bool
+     */
+    private $schemaSeparator = true;
+
+    /**
+     * by #rat
+     * show X and Y Axes
+     *
+     * @var bool
+     */
+    private $axes = true;
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -531,6 +571,134 @@ class Chart extends AbstractStyle
     public function setShowGridX($value = true)
     {
         $this->gridX = $this->setBoolVal($value, $this->gridX);
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     * get hole syze
+     *
+     * Get the Hole Syze
+     * @return int
+     */
+    public function getHoleSyze(): int
+    {
+        return $this->holeSize;
+    }
+
+    /**
+     * by #rat
+     * set hole syze
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setHoleSyze(int $value): self
+    {
+        $this->holeSize = $this->setIntVal($value);
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     * get chart position in block plotArea
+     *
+     * @param int $value
+     * @return ChartManualLayout
+     */
+    public function getChartPositionInBlock(): ChartManualLayout
+    {
+        return $this->chartPositionInBlock;
+    }
+
+    /**
+     * by #rat
+     * set chart position in block plotArea
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setChartPositionInBlock(ChartManualLayout $chartManualLayout): self
+    {
+        $this->chartPositionInBlock = $chartManualLayout;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     * get legend position in block plotArea
+     *
+     * @param int $value
+     * @return ChartManualLayout
+     */
+    public function getLegendPositionInBlock(): ChartManualLayout
+    {
+        return $this->legendPositionInBlock;
+    }
+
+    /**
+     * by #rat
+     * set legend position in block plotArea
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setLegendPositionInBlock(ChartManualLayout $chartManualLayout): self
+    {
+        $this->legendPositionInBlock = $chartManualLayout;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     * checked state schema separator
+     *
+     * @return bool
+     */
+    public function isSchemaSeparator(): bool
+    {
+        return $this->schemaSeparator;
+    }
+
+    /**
+     * by #rat
+     * change state schema separator
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setSchemaSeparator(bool $value): self
+    {
+        $this->schemaSeparator = $this->setBoolVal($value, true);
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     * Show X and Y Axes
+     *
+     * @return bool
+     */
+    public function showAxes(): bool
+    {
+        return $this->axes;
+    }
+
+    /**
+     * by #rat
+     * Set show X and Y Axes
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setShowAxes(bool $value): self
+    {
+        $this->axes = $this->setBoolVal($value, true);
 
         return $this;
     }
