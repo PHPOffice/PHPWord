@@ -203,8 +203,8 @@ class Chart extends AbstractPart
         }
         if (isset($this->options['hole'])) {
             // by #rat
-            $holeSyze = (!empty($style->getHoleSyze())) ? $style->getHoleSyze() : $this->options['hole'];
-            $xmlWriter->writeElementBlock('c:holeSize', 'val', $holeSyze);
+            $holeSize = (!empty($style->getHoleSize())) ? $style->getHoleSize() : $this->options['hole'];
+            $xmlWriter->writeElementBlock('c:holeSize', 'val', $holeSize);
         }
         if (isset($this->options['bar'])) {
             $xmlWriter->writeElementBlock('c:barDir', 'val', $this->options['bar']); // bar|col

@@ -577,24 +577,24 @@ class Chart extends AbstractStyle
 
     /**
      * by #rat
-     * get hole syze
+     * get hole size
      *
-     * Get the Hole Syze
+     * Get the Hole Size
      * @return int
      */
-    public function getHoleSyze(): int
+    public function getHoleSize(): int
     {
         return $this->holeSize;
     }
 
     /**
      * by #rat
-     * set hole syze
+     * set hole size
      *
      * @param int $value
      * @return self
      */
-    public function setHoleSyze(int $value): self
+    public function setHoleSize(int $value): self
     {
         $this->holeSize = $this->setIntVal($value);
 
