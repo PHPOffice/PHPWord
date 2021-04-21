@@ -367,7 +367,7 @@ class Chart extends AbstractStyle
         return $this;
     }
 
-    /*
+    /**
      * Show labels for axis
      *
      * @return bool
@@ -418,7 +418,7 @@ class Chart extends AbstractStyle
         }
     }
 
-    /*
+    /**
      * Show Gridlines for Y-Axis
      *
      * @return bool
