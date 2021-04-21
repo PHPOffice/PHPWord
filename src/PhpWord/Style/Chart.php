@@ -605,10 +605,9 @@ class Chart extends AbstractStyle
      * by #rat
      * get chart position in block plotArea
      *
-     * @param int $value
      * @return ChartManualLayout
      */
-    public function getChartPositionInBlock(): ChartManualLayout
+    public function getChartPositionInBlock()
     {
         return $this->chartPositionInBlock;
     }
@@ -617,7 +616,7 @@ class Chart extends AbstractStyle
      * by #rat
      * set chart position in block plotArea
      *
-     * @param int $value
+     * @param ChartManualLayout $chartManualLayout
      * @return self
      */
     public function setChartPositionInBlock(ChartManualLayout $chartManualLayout): self
@@ -631,10 +630,9 @@ class Chart extends AbstractStyle
      * by #rat
      * get legend position in block plotArea
      *
-     * @param int $value
      * @return ChartManualLayout
      */
-    public function getLegendPositionInBlock(): ChartManualLayout
+    public function getLegendPositionInBlock()
     {
         return $this->legendPositionInBlock;
     }
@@ -643,7 +641,7 @@ class Chart extends AbstractStyle
      * by #rat
      * set legend position in block plotArea
      *
-     * @param int $value
+     * @param ChartManualLayout $chartManualLayout
      * @return self
      */
     public function setLegendPositionInBlock(ChartManualLayout $chartManualLayout): self
