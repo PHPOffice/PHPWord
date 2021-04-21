@@ -24,7 +24,7 @@ class ChartManualLayout
     protected $xMode = 'edge';
 
     /**
-     * axis Y
+     * axis X
      *
      * @var string
      */
@@ -38,14 +38,14 @@ class ChartManualLayout
     protected $axisY = 0;
 
     /**
-     * axis X
+     * height
      *
      * @var string
      */
     protected $height = 1;
 
     /**
-     * axis X
+     * width
      *
      * @var string
      */
@@ -61,6 +61,8 @@ class ChartManualLayout
 
     /**
      * @param string $yMode
+     *
+     * @return self
      */
     public function setYMode(string $yMode): self
     {
@@ -78,6 +80,8 @@ class ChartManualLayout
 
     /**
      * @param string $xMode
+     *
+     * @return self
      */
     public function setXMode(string $xMode): self
     {
@@ -90,15 +94,17 @@ class ChartManualLayout
      */
     public function getAxisX(): string
     {
-        return $this->x;
+        return $this->axisX;
     }
 
     /**
-     * @param string $x
+     * @param string $axisX
+     *
+     * @return self
      */
-    public function setAxisX(string $x): self
+    public function setAxisX(string $axisX): self
     {
-        $this->x = $x;
+        $this->axisX = $axisX;
         return $this;
     }
 
@@ -107,15 +113,17 @@ class ChartManualLayout
      */
     public function getAxisY(): string
     {
-        return $this->y;
+        return $this->axisY;
     }
 
     /**
-     * @param string $y
+     * @param string $axisY
+     *
+     * @return self
      */
-    public function setAxisY(string $y): self
+    public function setAxisY(string $axisY): self
     {
-        $this->y = $y;
+        $this->axisY = $axisY;
         return $this;
     }
 
@@ -129,6 +137,8 @@ class ChartManualLayout
 
     /**
      * @param string $height
+     *
+     * @return self
      */
     public function setHeight(string $height): self
     {
@@ -146,6 +156,8 @@ class ChartManualLayout
 
     /**
      * @param string $width
+     *
+     * @return self
      */
     public function setWidth(string $width): self
     {
