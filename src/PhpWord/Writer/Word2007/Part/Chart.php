@@ -178,7 +178,7 @@ class Chart extends AbstractPart
         $xmlWriter->startElement('c:plotArea');
         // by #rat
         $xmlWriter->startElement('c:layout');
-        if ($style->getChartPositionInBlock()) {
+        if ($style->getLegendPositionInBlock()) {
             $xmlWriter->startElement('c:manualLayout');
             $xmlWriter->writeElementBlock('c:xMode', 'val', $style->getChartPositionInBlock()->getXMode());
             $xmlWriter->writeElementBlock('c:yMode', 'val', $style->getChartPositionInBlock()->getYMode());
