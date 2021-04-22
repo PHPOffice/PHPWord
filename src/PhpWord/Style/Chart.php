@@ -162,7 +162,7 @@ class Chart extends AbstractStyle
      *
      * @var ChartManualLayout
      */
-    private $chartPositionInBlock;
+    private $chartPositionInBlock = null;
 
     /**
      * by #rat
@@ -170,7 +170,7 @@ class Chart extends AbstractStyle
      *
      * @var ChartManualLayout
      */
-    private $legendPositionInBlock;
+    private $legendPositionInBlock = null;
 
     /**
      * by #rat
