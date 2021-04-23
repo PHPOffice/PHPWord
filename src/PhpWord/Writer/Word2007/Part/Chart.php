@@ -260,6 +260,34 @@ class Chart extends AbstractPart
 
             $xmlWriter->startElement('c:ser');
 
+            // by #rat
+            $xmlWriter->startElement('c:spPr');
+            $xmlWriter->startElement('a:solidFill');
+            $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
+            $xmlWriter->endElement(); // a:solidFill
+
+            if ($style->isSchemaSeparator() === true ) {
+                $this->addSchemaSeparator($xmlWriter);
+            } else {
+                $xmlWriter->writeElementBlock('a:ln', 'w', $style->getLineWidth());
+            }
+            $xmlWriter->writeElement('a:effectLst');
+            $xmlWriter->endElement(); // c:spPr
+
+            $xmlWriter->startElement('c:marker');
+            $xmlWriter->writeElementBlock('a:symbol', 'val', $style->getMarkerShape());
+            $xmlWriter->writeElementBlock('a:size', 'val', $style->getMarkerSize());
+            $xmlWriter->startElement('a:ln');
+            $xmlWriter->writeAttribute('w', 12700);
+            $xmlWriter->writeElementBlock('a:schemeClr', 'val', $style->getMarkerColor());
+            $xmlWriter->endElement(); // a:ln
+            $xmlWriter->startElement('a:solidFill');
+            $xmlWriter->writeElement('a:noFill');
+            $xmlWriter->endElement(); // a:solidFill
+            $xmlWriter->writeElement('a:effectLst');
+            $xmlWriter->endElement(); // c:marker
+            // by #rat
+
             $xmlWriter->writeElementBlock('c:idx', 'val', $index);
             $xmlWriter->writeElementBlock('c:order', 'val', $index);
 
@@ -308,37 +336,15 @@ class Chart extends AbstractPart
                         // check that there are still enought colors
                         $xmlWriter->startElement('c:dPt');
                         $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);
-                        $xmlWriter->startElement('c:spPr');
-                        $xmlWriter->startElement('a:solidFill');
-                        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
-                        $xmlWriter->endElement(); // a:solidFill
-                        // by #rat
-                        if ($style->isSchemaSeparator() === true ) {
-                            $xmlWriter->startElement('a:ln');
-                            $xmlWriter->writeAttribute('w', 12700);
-                            $xmlWriter->startElement('a:solidFill');
-                            $xmlWriter->writeElementBlock('a:schemeClr', 'val', 'bg1');
-                            $xmlWriter->endElement(); // a:solidFill
-                            $xmlWriter->endElement(); // a:ln
-                        } else {
-                            $xmlWriter->writeElementBlock('a:ln', 'w', $style->getLineWidth());
-                        }
-                        $xmlWriter->writeElement('a:effectLst');
-                        // by #rat
-                        $xmlWriter->endElement(); // c:spPr
 
-                        $xmlWriter->startElement('c:marker');
-                        $xmlWriter->writeElementBlock('a:symbol', 'val', $style->getMarkerShape());
-                        $xmlWriter->writeElementBlock('a:size', 'val', $style->getMarkerSize());
-                        $xmlWriter->startElement('a:ln');
-                        $xmlWriter->writeAttribute('w', 12700);
-                        $xmlWriter->writeElementBlock('a:schemeClr', 'val', $style->getMarkerColor());
-                        $xmlWriter->endElement(); // a:ln
-                        $xmlWriter->startElement('a:solidFill');
-                        $xmlWriter->writeElement('a:noFill');
-                        $xmlWriter->endElement(); // a:solidFill
-                        $xmlWriter->writeElement('a:effectLst');
-                        $xmlWriter->endElement(); // c:marker
+                        if (in_array($this->options['type'], ['doughnut','pie']) ) {
+                            $xmlWriter->startElement('c:spPr');
+                            $xmlWriter->startElement('a:solidFill');
+                            $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
+                            $xmlWriter->endElement(); // a:solidFill
+                            $this->addSchemaSeparator($xmlWriter);
+                            $xmlWriter->endElement(); // c:spPr
+                        }
 
                         $xmlWriter->endElement(); // c:dPt
                         $valueIndex++;
@@ -561,5 +567,14 @@ class Chart extends AbstractPart
         if ($label !== null) {
             $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $label);
         }
+    }
+
+    private function addSchemaSeparator(XMLWriter $xmlWriter) {
+        $xmlWriter->startElement('a:ln');
+        $xmlWriter->writeAttribute('w', 12700);
+        $xmlWriter->startElement('a:solidFill');
+        $xmlWriter->writeElementBlock('a:schemeClr', 'val', 'bg1');
+        $xmlWriter->endElement(); // a:solidFill
+        $xmlWriter->endElement(); // a:ln
     }
 }
