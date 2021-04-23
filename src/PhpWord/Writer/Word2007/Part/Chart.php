@@ -172,6 +172,7 @@ class Chart extends AbstractPart
                 $xmlWriter->endElement(); // c:layout
                 // by #rat
             }
+            $this->writeLabelStyle($xmlWriter, $style->getTextLegendColor());
             $xmlWriter->endElement(); // c:legend
         }
 
@@ -268,7 +269,7 @@ class Chart extends AbstractPart
                 $xmlWriter->startElement('c:strCache');
                 $xmlWriter->writeElementBlock('c:ptCount', 'val', 1);
                 $xmlWriter->startElement('c:pt');
-                $xmlWriter->writeAttribute('idx', 0);
+                $xmlWriter->writeAttribute('idx', $index);
                 $xmlWriter->startElement('c:v');
                 $xmlWriter->writeRaw($seriesItem['name']);
                 $xmlWriter->endElement(); // c:v
@@ -311,7 +312,6 @@ class Chart extends AbstractPart
                         $xmlWriter->startElement('a:solidFill');
                         $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
                         $xmlWriter->endElement(); // a:solidFill
-
                         // by #rat
                         if ($style->isSchemaSeparator() === true ) {
                             $xmlWriter->startElement('a:ln');
@@ -320,11 +320,26 @@ class Chart extends AbstractPart
                             $xmlWriter->writeElementBlock('a:schemeClr', 'val', 'bg1');
                             $xmlWriter->endElement(); // a:solidFill
                             $xmlWriter->endElement(); // a:ln
-                            $xmlWriter->writeElement('a:effectLst');
+                        } else {
+                            $xmlWriter->writeElementBlock('a:ln', 'w', $style->getLineWidth());
                         }
-//                        // by #rat
-
+                        $xmlWriter->writeElement('a:effectLst');
+                        // by #rat
                         $xmlWriter->endElement(); // c:spPr
+
+                        $xmlWriter->startElement('c:marker');
+                        $xmlWriter->writeElementBlock('a:symbol', 'val', $style->getMarkerShape());
+                        $xmlWriter->writeElementBlock('a:size', 'val', $style->getMarkerSize());
+                        $xmlWriter->startElement('a:ln');
+                        $xmlWriter->writeAttribute('w', 12700);
+                        $xmlWriter->writeElementBlock('a:schemeClr', 'val', $style->getMarkerColor());
+                        $xmlWriter->endElement(); // a:ln
+                        $xmlWriter->startElement('a:solidFill');
+                        $xmlWriter->writeElement('a:noFill');
+                        $xmlWriter->endElement(); // a:solidFill
+                        $xmlWriter->writeElement('a:effectLst');
+                        $xmlWriter->endElement(); // c:marker
+
                         $xmlWriter->endElement(); // c:dPt
                         $valueIndex++;
                     }
@@ -421,18 +436,34 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
             if ($style->showAxisLabels()) {
                 if ($axisType == 'c:catAx') {
-                    $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getCategoryLabelPosition());
+                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle()->getAxisLabelColor(), $style->getCategoryLabelPosition());
                 } else {
-                    $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getValueLabelPosition());
+                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle()->getAxisLabelColor(), $style->getValueLabelPosition());
                 }
             } else {
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none');
             }
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
+
         }
         if (isset($this->options['radar']) || ($type == 'cat' && $style->showGridX()) || ($type == 'val' && $style->showGridY())) {
-            $xmlWriter->writeElement('c:majorGridlines');
+            $xmlWriter->startElement('c:majorGridlines');
+            $xmlWriter->startElement('c:spPr');
+            $xmlWriter->startElement('a:ln');
+            $xmlWriter->writeAttribute('w', '6350');
+            $xmlWriter->writeAttribute('cap', 'flat');
+            $xmlWriter->writeAttribute('cmpd', 'sng');
+            $xmlWriter->writeAttribute('algn', 'ctr');
+            $xmlWriter->startElement('a:solidFill');
+            $xmlWriter->writeElementBlock('a:srgbClr', 'val', 'E5E7EC');
+            $xmlWriter->endElement(); //solidFill
+            $xmlWriter->endElement(); //ln
+            $xmlWriter->writeElement('a:effectLst');
+            $xmlWriter->endElement();// spPr
+            $xmlWriter->endElement();// majorGridlines
         }
+
+
 
         $xmlWriter->startElement('c:scaling');
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
@@ -487,5 +518,48 @@ class Chart extends AbstractPart
         $xmlWriter->endElement(); // end c:tx
         $xmlWriter->writeElementBlock('c:overlay', 'val', '0');
         $xmlWriter->endElement(); // end c:title
+    }
+
+    private function writeLabelStyle(XMLWriter $xmlWriter, $color, $label = null)
+    {
+        $xmlWriter->startElement('c:txPr'); //start c:txPr
+        $xmlWriter->writeElement('a:bodyPr');
+        $xmlWriter->writeAttribute('rot', '-60000000');
+        $xmlWriter->writeAttribute('spcFirstLastPara', '1');
+        $xmlWriter->writeAttribute('vertOverflow', 'ellipsis');
+        $xmlWriter->writeAttribute('vert', 'horz');
+        $xmlWriter->writeAttribute('wrap', 'square');
+        $xmlWriter->writeAttribute('anchor', 'ctr');
+        $xmlWriter->writeAttribute('anchorCtr', '1');
+
+        $xmlWriter->writeElement('a:lstStyle');
+        $xmlWriter->startElement('a:p');
+        $xmlWriter->startElement('a:pPr');
+        $xmlWriter->startElement('a:defRPr');
+        $xmlWriter->writeAttribute('sz', '900');
+        $xmlWriter->writeAttribute('b', '0');
+        $xmlWriter->writeAttribute('i', '0');
+        $xmlWriter->writeAttribute('u', 'none');
+        $xmlWriter->writeAttribute('strike', 'noStrike');
+        $xmlWriter->writeAttribute('kern', '1200');
+        $xmlWriter->writeAttribute('baseline', '0');
+        $xmlWriter->startElement('a:solidFill');
+
+        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $color);
+
+        $xmlWriter->endElement(); // end a:solidFill
+        $xmlWriter->writeElementBlock('a:latin', 'typeface', '+mn-lt');
+        $xmlWriter->writeElementBlock('a:ea', 'typeface', '+mn-ea');
+        $xmlWriter->writeElementBlock('a:cs', 'typeface', '+mn-cs');
+
+        $xmlWriter->endElement(); // end a:defRPr
+        $xmlWriter->endElement(); // end a:pPr
+        $xmlWriter->writeElementBlock('a:rPr', 'lang', 'ru-RU');
+
+        $xmlWriter->endElement(); //end a:p
+        $xmlWriter->endElement(); // end c:txPr
+        if ($label !== null) {
+            $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $label);
+        }
     }
 }

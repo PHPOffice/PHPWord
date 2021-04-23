@@ -189,6 +189,59 @@ class Chart extends AbstractStyle
     private $axes = true;
 
     /**
+     * by #rat
+     * seporator (dot) color
+     *
+     * @var string
+     */
+    protected  $elementSeporatorColor = 'bg1';
+
+    /**
+     * by #rat
+     * marker (dot) shape
+     *
+     * @var string
+     */
+    protected $markerShape = 'circle';
+
+    /**
+     * by #rat
+     * marker(dot) color
+     *
+     * @var string
+     */
+    protected $markerColor = '3279D7';
+
+    /**
+     * by #rat
+     * marker(dot) size
+     *
+     * @var int
+     */
+    protected $markerSize = 3;
+
+    /**
+     * by #rat
+     *
+     * @var string
+     */
+    protected $axisLabelColor  = '000000';
+
+    /**
+     * by #rat
+     *
+     * @var string
+     */
+    protected $lineWidth  = '1200';
+
+    /**
+     * by #rat
+     *
+     * @var string
+     */
+    protected $textLegendColor  = '4A515D';
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -697,6 +750,171 @@ class Chart extends AbstractStyle
     public function setShowAxes(bool $value): self
     {
         $this->axes = $this->setBoolVal($value, true);
+
+        return $this;
+    }
+
+
+
+
+    /**
+     * by #rat
+     *
+     * @return string
+     */
+    public  function getElementSeporatorColor(): string
+    {
+        return $this->elementSeporatorColor;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param string  $elementSeporatorColor
+     * @return self
+     */
+    public  function setElementSeporatorColor(string $elementSeporatorColor): self
+    {
+        $this->elementSeporatorColor = $elementSeporatorColor;
+
+        return $this;
+    }
+
+
+    /**
+     * by #rat
+     *
+     * @return string
+     */
+    public function getMarkerShape(): string
+    {
+        return $this->markerShape;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param string  $markerShape
+     * @return self
+     */
+    public function setMarkerShape(string $markerShape): self
+    {
+        $this->markerShape = $markerShape;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return string
+     */
+    public function getMarkerColor(): string
+    {
+        return $this->markerColor;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param string $markerColor
+     * @return self
+     */
+    public function setMarkerColor(string $markerColor): self
+    {
+        $this->markerColor = $markerColor;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return int
+     */
+    public function getMarkerSize(): int
+    {
+        return $this->markerSize;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param int $markerSize
+     * @return self
+     */
+    public function setMarkerSize(int $markerSize = 3): self
+    {
+        $this->markerSize = $markerSize;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return string
+     */
+    public function getAxisLabelColor(): string
+    {
+        return $this->axisLabelColor;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param string $axisLabelColor
+     * @return self
+     */
+    public function setAxisLabelColor(string $axisLabelColor): self
+    {
+        $this->axisLabelColor = $axisLabelColor;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return string
+     */
+    public function getLineWidth(): string
+    {
+        return $this->lineWidth;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param string $lineWidth
+     * @return self
+     */
+    public function setLineWidth(string $lineWidth): self
+    {
+        $this->lineWidth = $lineWidth;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return string
+     */
+    public function getTextLegendColor(): string
+    {
+        return $this->textLegendColor;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param string $textLegendColor
+     * @return self
+     */
+    public function setTextLegendColor(string $textLegendColor): self
+    {
+        $this->textLegendColor = $textLegendColor;
 
         return $this;
     }
