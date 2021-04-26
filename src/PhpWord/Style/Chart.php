@@ -242,6 +242,20 @@ class Chart extends AbstractStyle
     protected $textLegendColor  = '4A515D';
 
     /**
+     * by #rat
+     *
+     * @var string
+     */
+    protected $showMarker = true;
+
+    /**
+     * by #rat
+     *
+     * @var string
+     */
+    protected $lineGradient = false;
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -754,9 +768,6 @@ class Chart extends AbstractStyle
         return $this;
     }
 
-
-
-
     /**
      * by #rat
      *
@@ -779,7 +790,6 @@ class Chart extends AbstractStyle
 
         return $this;
     }
-
 
     /**
      * by #rat
@@ -915,6 +925,52 @@ class Chart extends AbstractStyle
     public function setTextLegendColor(string $textLegendColor): self
     {
         $this->textLegendColor = $textLegendColor;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return bool
+     */
+    public function isShowMarker(): bool
+    {
+        return $this->showMarker;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param bool
+     * @return self
+     */
+    public function setShowMarker(bool $showMarker): self
+    {
+        $this->showMarker = $showMarker;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return bool
+     */
+    public function isLineGradient(): bool
+    {
+        return $this->lineGradient;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param bool
+     * @return self
+     */
+    public function setLineGradient(bool $lineGradient): self
+    {
+        $this->lineGradient = $lineGradient;
 
         return $this;
     }

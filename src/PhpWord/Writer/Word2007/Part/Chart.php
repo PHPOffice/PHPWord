@@ -52,7 +52,7 @@ class Chart extends AbstractPart
         'line'                   => array('type' => 'line', 'colors' => 0, 'axes' => true),
         'area'                   => array('type' => 'area', 'colors' => 0, 'axes' => true),
         'radar'                  => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
-        'scatter'                => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
+        'scatter'                => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'smoothMarker', 'no3d' => true),
     );
 
     /**
@@ -181,6 +181,7 @@ class Chart extends AbstractPart
         $xmlWriter->startElement('c:layout');
         if ($style->getChartPositionInBlock()) {
             $xmlWriter->startElement('c:manualLayout');
+            $xmlWriter->writeElementBlock('c:layoutTarget', 'val', 'inner');
             $xmlWriter->writeElementBlock('c:xMode', 'val', $style->getChartPositionInBlock()->getXMode());
             $xmlWriter->writeElementBlock('c:yMode', 'val', $style->getChartPositionInBlock()->getYMode());
             $xmlWriter->writeElementBlock('c:x', 'val', $style->getChartPositionInBlock()->getAxisX());
@@ -261,30 +262,54 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:ser');
 
             // by #rat
-            $xmlWriter->startElement('c:spPr');
-            $xmlWriter->startElement('a:solidFill');
-            $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
-            $xmlWriter->endElement(); // a:solidFill
-
-            if ($style->isSchemaSeparator() === true ) {
-                $this->addSchemaSeparator($xmlWriter);
+            if ($scatter) {
+                if ($style->isLineGradient()) {
+                    $this->addGradient($xmlWriter, $colors);
+                } else {
+//                    var_dump();
+                    $xmlWriter->startElement('c:spPr');
+                    $xmlWriter->startElement('a:ln');
+                    $xmlWriter->writeAttribute('w', 12700);
+                    $xmlWriter->startElement('a:solidFill');
+                    $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
+                    $xmlWriter->endElement(); // a:solidFill
+                    $xmlWriter->endElement(); // a:ln
+                    $xmlWriter->writeElement('a:effectLst');
+                    $xmlWriter->endElement(); // c:spPr
+                }
             } else {
-                $xmlWriter->writeElementBlock('a:ln', 'w', $style->getLineWidth());
+                $xmlWriter->startElement('c:spPr');
+                $xmlWriter->startElement('a:solidFill');
+                $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
+                $xmlWriter->endElement(); // a:solidFill
+
+                if ($style->isSchemaSeparator() === true) {
+                    $this->addSchemaSeparator($xmlWriter);
+                } else {
+                    $xmlWriter->writeElementBlock('a:ln', 'w', $style->getLineWidth());
+                }
+                $xmlWriter->writeElement('a:effectLst');
+                $xmlWriter->endElement(); // c:spPr
             }
-            $xmlWriter->writeElement('a:effectLst');
-            $xmlWriter->endElement(); // c:spPr
+            // by #rat
 
             $xmlWriter->startElement('c:marker');
-            $xmlWriter->writeElementBlock('a:symbol', 'val', $style->getMarkerShape());
-            $xmlWriter->writeElementBlock('a:size', 'val', $style->getMarkerSize());
-            $xmlWriter->startElement('a:ln');
-            $xmlWriter->writeAttribute('w', 12700);
-            $xmlWriter->writeElementBlock('a:schemeClr', 'val', $style->getMarkerColor());
-            $xmlWriter->endElement(); // a:ln
-            $xmlWriter->startElement('a:solidFill');
-            $xmlWriter->writeElement('a:noFill');
-            $xmlWriter->endElement(); // a:solidFill
-            $xmlWriter->writeElement('a:effectLst');
+            if ($style->isShowMarker()) {
+                $xmlWriter->writeElementBlock('a:symbol', 'val', $style->getMarkerShape());
+                $xmlWriter->writeElementBlock('a:size', 'val', $style->getMarkerSize());
+                $xmlWriter->startElement('a:spPr');
+                $xmlWriter->startElement('a:ln');
+                $xmlWriter->writeAttribute('w', 12700);
+                $xmlWriter->writeElement('a:noFill');
+                $xmlWriter->endElement(); // a:ln
+                $xmlWriter->startElement('a:solidFill');
+                $xmlWriter->writeElementBlock('a:schemeClr', 'val', $colors[$colorIndex++ % count($colors)]);
+                $xmlWriter->endElement(); // a:solidFill
+                $xmlWriter->writeElement('a:effectLst');
+                $xmlWriter->endElement(); // a:spPr
+            } else {
+                $xmlWriter->writeElementBlock('a:symbol', 'val', 'none');
+            }
             $xmlWriter->endElement(); // c:marker
             // by #rat
 
@@ -317,11 +342,16 @@ class Chart extends AbstractPart
 
             $xmlWriter->endElement(); // c:dLbls
 
-            if (isset($this->options['scatter'])) {
-                $this->writeShape($xmlWriter);
+            if (isset($this->options['scatter']) ) {
+//                $this->writeShape($xmlWriter);
             }
 
             if ($scatter === true) {
+//                var_dump(
+//                    $seriesItem['name'],
+//                    $categories,
+//                    $values
+//                );
                 $this->writeSeriesItem($xmlWriter, 'xVal', $categories);
                 $this->writeSeriesItem($xmlWriter, 'yVal', $values);
             } else {
@@ -352,6 +382,8 @@ class Chart extends AbstractPart
                 }
             }
 
+            $xmlWriter->writeElementBlock('a:smooth', 'val', 1);
+
             $xmlWriter->endElement(); // c:ser
             $index++;
         }
@@ -379,6 +411,7 @@ class Chart extends AbstractPart
         $xmlWriter->writeElementBlock('c:ptCount', 'val', count($values));
 
         $index = 0;
+
         foreach ($values as $value) {
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
@@ -391,6 +424,7 @@ class Chart extends AbstractPart
             }
             $xmlWriter->endElement(); // c:pt
             $index++;
+//            var_dump($value, $itemType);die;
         }
 
         $xmlWriter->endElement(); // $itemLit
@@ -450,7 +484,6 @@ class Chart extends AbstractPart
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none');
             }
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
-
         }
         if (isset($this->options['radar']) || ($type == 'cat' && $style->showGridX()) || ($type == 'val' && $style->showGridY())) {
             $xmlWriter->startElement('c:majorGridlines');
@@ -468,8 +501,6 @@ class Chart extends AbstractPart
             $xmlWriter->endElement();// spPr
             $xmlWriter->endElement();// majorGridlines
         }
-
-
 
         $xmlWriter->startElement('c:scaling');
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
@@ -489,6 +520,7 @@ class Chart extends AbstractPart
      */
     private function writeShape(XMLWriter $xmlWriter, $line = false)
     {
+//        var_dump(1);die;
         $xmlWriter->startElement('c:spPr');
         $xmlWriter->startElement('a:ln');
         if ($line === true) {
@@ -576,5 +608,49 @@ class Chart extends AbstractPart
         $xmlWriter->writeElementBlock('a:schemeClr', 'val', 'bg1');
         $xmlWriter->endElement(); // a:solidFill
         $xmlWriter->endElement(); // a:ln
+    }
+
+    private function addGradient(XMLWriter $xmlWriter, $colors) {
+        $xmlWriter->startElement('c:spPr');
+        $xmlWriter->startElement('a:ln');
+        $xmlWriter->writeAttribute('w', 12500);
+        $xmlWriter->startElement('a:gradFill');
+        $xmlWriter->startElement('a:gsLst');
+
+        $xmlWriter->startElement('a:gs');
+        $xmlWriter->writeAttribute('pos', '0');
+        $xmlWriter->startElement('a:srgbClr');
+        $xmlWriter->writeAttribute('val', $colors[0]);
+        $xmlWriter->writeElementBlock('a:alpha', 'val', '30000');
+        $xmlWriter->endElement(); // a:srgbClr
+        $xmlWriter->endElement(); // a:gs
+
+        $xmlWriter->startElement('a:gs');
+        $xmlWriter->writeAttribute('pos', '20000');
+        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[0]);
+        $xmlWriter->endElement(); // a:gs
+
+        $xmlWriter->startElement('a:gs');
+        $xmlWriter->writeAttribute('pos', '100000');
+        $xmlWriter->startElement('a:srgbClr');
+        $xmlWriter->writeAttribute('val', $colors[0]);
+        $xmlWriter->writeElementBlock('a:alpha', 'val', '30000');
+        $xmlWriter->endElement(); // a:srgbClr
+        $xmlWriter->endElement(); // a:gs
+
+        $xmlWriter->startElement('a:gs');
+        $xmlWriter->writeAttribute('pos', '80000');
+        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[0]);
+        $xmlWriter->endElement(); // a:gs
+
+        $xmlWriter->endElement(); // a:gsLst
+        $xmlWriter->writeElementBlock('a:lin', 'ang', '0');
+        $xmlWriter->writeAttribute('scaled', '0');
+
+        $xmlWriter->endElement(); // a:gradFill
+        $xmlWriter->writeElement('a:round');
+        $xmlWriter->endElement(); // a:ln
+        $xmlWriter->writeElement('a:effectLst');
+        $xmlWriter->endElement(); // c:spPr
     }
 }
