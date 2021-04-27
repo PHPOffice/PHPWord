@@ -162,6 +162,7 @@ class Chart extends AbstractPart
             if ($style->getLegendPositionInBlock()) {
                 $xmlWriter->startElement('c:layout');
                 $xmlWriter->startElement('c:manualLayout');
+//                $xmlWriter->writeElementBlock('c:layoutTarget', 'val', 'inner');
                 $xmlWriter->writeElementBlock('c:xMode', 'val', $style->getLegendPositionInBlock()->getXMode());
                 $xmlWriter->writeElementBlock('c:yMode', 'val', $style->getLegendPositionInBlock()->getYMode());
                 $xmlWriter->writeElementBlock('c:x', 'val', $style->getLegendPositionInBlock()->getAxisX());
@@ -266,12 +267,11 @@ class Chart extends AbstractPart
                 if ($style->isLineGradient()) {
                     $this->addGradient($xmlWriter, $colors);
                 } else {
-//                    var_dump();
                     $xmlWriter->startElement('c:spPr');
                     $xmlWriter->startElement('a:ln');
                     $xmlWriter->writeAttribute('w', 12700);
                     $xmlWriter->startElement('a:solidFill');
-                    $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
+                    $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$index % count($colors)]);
                     $xmlWriter->endElement(); // a:solidFill
                     $xmlWriter->endElement(); // a:ln
                     $xmlWriter->writeElement('a:effectLst');
@@ -280,7 +280,7 @@ class Chart extends AbstractPart
             } else {
                 $xmlWriter->startElement('c:spPr');
                 $xmlWriter->startElement('a:solidFill');
-                $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
+                $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$index % count($colors)]);
                 $xmlWriter->endElement(); // a:solidFill
 
                 if ($style->isSchemaSeparator() === true) {
@@ -298,13 +298,16 @@ class Chart extends AbstractPart
                 $xmlWriter->writeElementBlock('a:symbol', 'val', $style->getMarkerShape());
                 $xmlWriter->writeElementBlock('a:size', 'val', $style->getMarkerSize());
                 $xmlWriter->startElement('a:spPr');
+
+                $xmlWriter->startElement('a:solidFill');
+                $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$index % count($colors)]);
+                $xmlWriter->endElement(); // a:solidFill
+
                 $xmlWriter->startElement('a:ln');
-                $xmlWriter->writeAttribute('w', 12700);
+                $xmlWriter->writeAttribute('w', 9525);
                 $xmlWriter->writeElement('a:noFill');
                 $xmlWriter->endElement(); // a:ln
-                $xmlWriter->startElement('a:solidFill');
-                $xmlWriter->writeElementBlock('a:schemeClr', 'val', $colors[$colorIndex++ % count($colors)]);
-                $xmlWriter->endElement(); // a:solidFill
+
                 $xmlWriter->writeElement('a:effectLst');
                 $xmlWriter->endElement(); // a:spPr
             } else {
@@ -347,11 +350,6 @@ class Chart extends AbstractPart
             }
 
             if ($scatter === true) {
-//                var_dump(
-//                    $seriesItem['name'],
-//                    $categories,
-//                    $values
-//                );
                 $this->writeSeriesItem($xmlWriter, 'xVal', $categories);
                 $this->writeSeriesItem($xmlWriter, 'yVal', $values);
             } else {
@@ -381,7 +379,6 @@ class Chart extends AbstractPart
                     }
                 }
             }
-
             $xmlWriter->writeElementBlock('a:smooth', 'val', 1);
 
             $xmlWriter->endElement(); // c:ser
@@ -398,12 +395,16 @@ class Chart extends AbstractPart
      */
     private function writeSeriesItem(XMLWriter $xmlWriter, $type, $values)
     {
+        $value = ($this->element->getStyle()->isDate()) ? 'numLit' : 'strLit';//#rat
+
+
         $types = array(
             'cat'  => array('c:cat', 'c:strLit'),
             'val'  => array('c:val', 'c:numLit'),
-            'xVal' => array('c:xVal', 'c:strLit'),
+            'xVal' => array('c:xVal', "c:{$value}"),//#rat
             'yVal' => array('c:yVal', 'c:numLit'),
         );
+
         list($itemType, $itemLit) = $types[$type];
 
         $xmlWriter->startElement($itemType);
@@ -424,7 +425,6 @@ class Chart extends AbstractPart
             }
             $xmlWriter->endElement(); // c:pt
             $index++;
-//            var_dump($value, $itemType);die;
         }
 
         $xmlWriter->endElement(); // $itemLit
@@ -441,6 +441,8 @@ class Chart extends AbstractPart
     private function writeAxis(XMLWriter $xmlWriter, $type)
     {
         $style = $this->element->getStyle();
+        $categories = array_column($this->element->getSeries(),'categories');
+
         $types = array(
             'cat' => array('c:catAx', 1, 'b', 2),
             'val' => array('c:valAx', 2, 'l', 1),
@@ -474,6 +476,8 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', $style->getMajorTickPosition());
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
+            $xmlWriter->writeElementBlock('c:numFmt', 'formatCode', '[$-419]d\ mmm;@');
+            $xmlWriter->writeAttribute('sourceLinked', '0');
             if ($style->showAxisLabels()) {
                 if ($axisType == 'c:catAx') {
                     $this->writeLabelStyle($xmlWriter, $this->element->getStyle()->getAxisLabelColor(), $style->getCategoryLabelPosition());
@@ -502,8 +506,14 @@ class Chart extends AbstractPart
             $xmlWriter->endElement();// majorGridlines
         }
 
+
         $xmlWriter->startElement('c:scaling');
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
+        if ($style->isAlongLength() && $types == 'cat' ) {
+            $xmlWriter->writeElementBlock('c:max', 'val', $categories[0][array_key_last($categories[0])]);
+            $xmlWriter->writeElementBlock('c:min', 'val', $categories[0][array_key_first($categories[0])]);
+        }
+
         $xmlWriter->endElement(); // c:scaling
 
         $this->writeShape($xmlWriter, $line);
@@ -520,7 +530,6 @@ class Chart extends AbstractPart
      */
     private function writeShape(XMLWriter $xmlWriter, $line = false)
     {
-//        var_dump(1);die;
         $xmlWriter->startElement('c:spPr');
         $xmlWriter->startElement('a:ln');
         if ($line === true) {

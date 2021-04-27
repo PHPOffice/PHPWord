@@ -256,6 +256,20 @@ class Chart extends AbstractStyle
     protected $lineGradient = false;
 
     /**
+     * by #rat
+     *
+     * @var bool
+     */
+    protected $isDate = false;
+
+    /**
+     * by #rat
+     *
+     * @var bool
+     */
+    protected $isAlongLength = false;
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -971,6 +985,51 @@ class Chart extends AbstractStyle
     public function setLineGradient(bool $lineGradient): self
     {
         $this->lineGradient = $lineGradient;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return bool
+     */
+    public function isDate(): bool
+    {
+        return $this->isDate;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param bool
+     * @return self
+     */
+    public function setDate(bool $date): self
+    {
+        $this->isDate = $date;
+
+        return $this;
+    }
+    /**
+     * by #rat
+     *
+     * @return bool
+     */
+    public function isAlongLength(): bool
+    {
+        return $this->isAlongLength;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param bool
+     * @return self
+     */
+    public function setAlongLength(bool $isAlongLength): self
+    {
+        $this->isAlongLength = $isAlongLength;
 
         return $this;
     }
