@@ -223,6 +223,10 @@ class Chart extends AbstractPart
         // Series
         $this->writeSeries($xmlWriter, isset($this->options['scatter']));
 
+        if ($style->getLineChartGapWidth()) {
+            $xmlWriter->writeElementBlock("c:gapWidth", 'val',  $style->getLineChartGapWidth());
+        }
+
         $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
 
         // Axes
@@ -338,10 +342,13 @@ class Chart extends AbstractPart
             // The c:dLbls was added to make word charts look more like the reports in SurveyGizmo
             // This section needs to be made configurable before a pull request is made
             $xmlWriter->startElement('c:dLbls');
-
+//            var_dump($style->getDataLabelOptions());
             foreach ($style->getDataLabelOptions() as $option => $val) {
+//
+//                $val = (is_array($val)) ?: $val[$index];
                 $xmlWriter->writeElementBlock("c:{$option}", 'val', (int) $val);
             }
+//            die;
 
             $xmlWriter->endElement(); // c:dLbls
 
@@ -365,13 +372,14 @@ class Chart extends AbstractPart
                         $xmlWriter->startElement('c:dPt');
                         $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);
 
-                        if (in_array($this->options['type'], ['doughnut','pie']) ) {
+                        if (in_array($this->options['type'], ['doughnut','pie', 'bar']) ) {
                             $xmlWriter->startElement('c:spPr');
                             $xmlWriter->startElement('a:solidFill');
                             $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
                             $xmlWriter->endElement(); // a:solidFill
                             $this->addSchemaSeparator($xmlWriter);
                             $xmlWriter->endElement(); // c:spPr
+
                         }
 
                         $xmlWriter->endElement(); // c:dPt
@@ -480,9 +488,9 @@ class Chart extends AbstractPart
             $xmlWriter->writeAttribute('sourceLinked', '0');
             if ($style->showAxisLabels()) {
                 if ($axisType == 'c:catAx') {
-                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle()->getAxisLabelColor(), $style->getCategoryLabelPosition());
+                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle()->getAxisLabelCategoryColor(), $style->getCategoryLabelPosition());
                 } else {
-                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle()->getAxisLabelColor(), $style->getValueLabelPosition());
+                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle()->getAxisLabelValueColor(), $style->getValueLabelPosition());
                 }
             } else {
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none');

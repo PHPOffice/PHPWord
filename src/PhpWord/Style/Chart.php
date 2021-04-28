@@ -225,7 +225,14 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    protected $axisLabelColor  = '000000';
+    protected $axisLabelValueColor  = '000000';
+
+    /**
+     * by #rat
+     *
+     * @var string
+     */
+    protected $axisLabelCategoryColor  = '000000';
 
     /**
      * by #rat
@@ -268,6 +275,13 @@ class Chart extends AbstractStyle
      * @var bool
      */
     protected $isAlongLength = false;
+
+    /**
+     * by #rat
+     *
+     * @var int | null
+     */
+    protected $lineChartGapWidth;
 
     /**
      * Create a new instance
@@ -879,20 +893,43 @@ class Chart extends AbstractStyle
      *
      * @return string
      */
-    public function getAxisLabelColor(): string
+    public function getAxisLabelValueColor(): string
     {
-        return $this->axisLabelColor;
+        return $this->axisLabelValueColor;
     }
 
     /**
      * by #rat
      *
-     * @param string $axisLabelColor
+     * @param string $axisLabelValueColor
      * @return self
      */
-    public function setAxisLabelColor(string $axisLabelColor): self
+    public function setAxisLabelValueColor(string $axisLabelValueColor): self
     {
-        $this->axisLabelColor = $axisLabelColor;
+        $this->axisLabelValueColor = $axisLabelValueColor;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return string
+     */
+    public function getAxisLabelCategoryColor(): string
+    {
+        return $this->axisLabelCategoryColor;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param string $axisLabelCategoryColor
+     * @return self
+     */
+    public function setAxisLabelCategoryColor(string $axisLabelCategoryColor): self
+    {
+        $this->axisLabelCategoryColor = $axisLabelCategoryColor;
 
         return $this;
     }
@@ -1011,6 +1048,7 @@ class Chart extends AbstractStyle
 
         return $this;
     }
+
     /**
      * by #rat
      *
@@ -1030,6 +1068,29 @@ class Chart extends AbstractStyle
     public function setAlongLength(bool $isAlongLength): self
     {
         $this->isAlongLength = $isAlongLength;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return bool | null
+     */
+    public function getLineChartGapWidth()
+    {
+        return $this->lineChartGapWidth;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param int | null
+     * @return self
+     */
+    public function setLineChartGapWidth($lineChartGapWidth): self
+    {
+        $this->lineChartGapWidth = $lineChartGapWidth;
 
         return $this;
     }
