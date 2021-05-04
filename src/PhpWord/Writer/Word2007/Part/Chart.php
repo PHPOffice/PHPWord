@@ -373,7 +373,7 @@ class Chart extends AbstractPart
                         $xmlWriter->startElement('c:dPt');
                         $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);
 
-                        if (in_array($this->options['type'], ['doughnut','pie', 'bar']) && count($values) == count($colors)) {
+                        if (in_array($this->options['type'], ['doughnut', 'pie',]) || (!empty($this->options['grouping']) && $this->options['grouping'] == 'clustered')) {
                             $xmlWriter->startElement('c:spPr');
                             $xmlWriter->startElement('a:solidFill');
                             $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);

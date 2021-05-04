@@ -700,7 +700,7 @@ class Chart extends AbstractStyle
      * by #rat
      * get chart position in block plotArea
      *
-     * @return ChartManualLayout
+     * @return ChartManualLayout | null
      */
     public function getChartPositionInBlock()
     {
