@@ -18,14 +18,14 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
- * ListItem element HTML writer
+ * ListItemRun element HTML writer
  *
  * @since 0.10.0
  */
-class ListItemRun extends TextRun
+class ListItemRun extends Text
 {
     /**
-     * Write list item
+     * Write ListItem run
      *
      * @return string
      */
@@ -34,9 +34,11 @@ class ListItemRun extends TextRun
         if (!$this->element instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
             return '';
         }
-
+		$content = '';
+        $content .= $this->writeOpening();
         $writer = new Container($this->parentWriter, $this->element);
-        $content = $writer->write() . PHP_EOL;
+        $content .= $writer->write();
+        $content .= $this->writeClosing();
 
         return $content;
     }
