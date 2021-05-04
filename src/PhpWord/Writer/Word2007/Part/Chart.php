@@ -159,6 +159,7 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:legend');
             $xmlWriter->writeElementBlock('c:legendPos', 'val', $legendPosition);
             // by #rat
+
             if ($style->getLegendPositionInBlock()) {
                 $xmlWriter->startElement('c:layout');
                 $xmlWriter->startElement('c:manualLayout');
@@ -372,7 +373,7 @@ class Chart extends AbstractPart
                         $xmlWriter->startElement('c:dPt');
                         $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);
 
-                        if (in_array($this->options['type'], ['doughnut','pie', 'bar']) ) {
+                        if (in_array($this->options['type'], ['doughnut','pie', 'bar']) && count($values) == count($colors)) {
                             $xmlWriter->startElement('c:spPr');
                             $xmlWriter->startElement('a:solidFill');
                             $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
