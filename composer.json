@@ -91,5 +91,5 @@
         "branch-alias": {
             "dev-develop": "0.18-dev"
         }
-    }
+    },
 }

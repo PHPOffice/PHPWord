@@ -3,6 +3,7 @@
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
  *
+ *
  * PHPWord is free software distributed under the terms of the GNU Lesser
  * General Public License version 3 as published by the Free Software Foundation.
  *
