@@ -28,33 +28,33 @@ class ChartManualLayout
      *
      * @var string
      */
-    protected $axisX = 0;
+    protected $axisX = null;
 
     /**
      * axis Y
      *
      * @var string
      */
-    protected $axisY = 0;
+    protected $axisY = null;
 
     /**
      * height
      *
      * @var string
      */
-    protected $height = 1;
+    protected $height = null;
 
     /**
      * width
      *
      * @var string
      */
-    protected $width = 1;
+    protected $width = null;
 
     /**
      * @return string
      */
-    public function getYMode(): string
+    public function getYMode(): ?string
     {
         return $this->yMode;
     }
@@ -73,7 +73,7 @@ class ChartManualLayout
     /**
      * @return string
      */
-    public function getXMode(): string
+    public function getXMode(): ?string
     {
         return $this->xMode;
     }
@@ -92,7 +92,7 @@ class ChartManualLayout
     /**
      * @return string
      */
-    public function getAxisX(): string
+    public function getAxisX(): ?string
     {
         return $this->axisX;
     }
@@ -102,7 +102,7 @@ class ChartManualLayout
      *
      * @return self
      */
-    public function setAxisX(string $axisX): self
+    public function setAxisX(string $axisX = null): self
     {
         $this->axisX = $axisX;
         return $this;
@@ -111,7 +111,7 @@ class ChartManualLayout
     /**
      * @return string
      */
-    public function getAxisY(): string
+    public function getAxisY(): ?string
     {
         return $this->axisY;
     }
@@ -121,7 +121,7 @@ class ChartManualLayout
      *
      * @return self
      */
-    public function setAxisY(string $axisY): self
+    public function setAxisY(string $axisY = null): self
     {
         $this->axisY = $axisY;
         return $this;
@@ -130,7 +130,7 @@ class ChartManualLayout
     /**
      * @return string
      */
-    public function getHeight(): string
+    public function getHeight(): ?string
     {
         return $this->height;
     }
@@ -140,16 +140,16 @@ class ChartManualLayout
      *
      * @return self
      */
-    public function setHeight(string $height): self
+    public function setHeight(string $height = null): self
     {
         $this->height = $height;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string | null
      */
-    public function getWidth(): string
+    public function getWidth(): ?string
     {
         return $this->width;
     }
@@ -159,7 +159,7 @@ class ChartManualLayout
      *
      * @return self
      */
-    public function setWidth(string $width): self
+    public function setWidth(string $width = null): self
     {
         $this->width = $width;
         return $this;

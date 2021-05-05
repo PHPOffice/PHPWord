@@ -164,12 +164,26 @@ class Chart extends AbstractPart
                 $xmlWriter->startElement('c:layout');
                 $xmlWriter->startElement('c:manualLayout');
 //                $xmlWriter->writeElementBlock('c:layoutTarget', 'val', 'inner');
+
                 $xmlWriter->writeElementBlock('c:xMode', 'val', $style->getLegendPositionInBlock()->getXMode());
                 $xmlWriter->writeElementBlock('c:yMode', 'val', $style->getLegendPositionInBlock()->getYMode());
-                $xmlWriter->writeElementBlock('c:x', 'val', $style->getLegendPositionInBlock()->getAxisX());
-                $xmlWriter->writeElementBlock('c:y', 'val', $style->getLegendPositionInBlock()->getAxisY());
-                $xmlWriter->writeElementBlock('c:w', 'val', $style->getLegendPositionInBlock()->getWidth());
-                $xmlWriter->writeElementBlock('c:h', 'val', $style->getLegendPositionInBlock()->getHeight());
+                if ($style->getLegendPositionInBlock()->getAxisX()) {
+                    $xmlWriter->writeElementBlock('c:x', 'val', $style->getLegendPositionInBlock()->getAxisX());
+                }
+                if ($style->getLegendPositionInBlock()->getAxisY()) {
+                    $xmlWriter->writeElementBlock('c:y', 'val', $style->getLegendPositionInBlock()->getAxisY());
+                }
+                if ($style->getLegendPositionInBlock()->getWidth()) {
+                    $xmlWriter->writeElementBlock('c:w', 'val', $style->getLegendPositionInBlock()->getWidth());
+                }
+                if ($style->getLegendPositionInBlock()->getHeight()) {
+                    $xmlWriter->writeElementBlock('c:h', 'val', $style->getLegendPositionInBlock()->getHeight());
+                }
+
+
+
+
+
                 $xmlWriter->endElement(); // c:manualLayout
                 $xmlWriter->endElement(); // c:layout
                 // by #rat
