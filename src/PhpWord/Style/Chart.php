@@ -182,6 +182,14 @@ class Chart extends AbstractStyle
 
     /**
      * by #rat
+     * schema segment separator
+     *
+     * @var int
+     */
+    private $schemaSeparatorSize = 1200;
+
+    /**
+     * by #rat
      * show X and Y Axes
      *
      * @var bool
@@ -190,11 +198,11 @@ class Chart extends AbstractStyle
 
     /**
      * by #rat
-     * seporator (dot) color
+     * separator (dot) color
      *
      * @var string
      */
-    protected  $elementSeporatorColor = 'bg1';
+    protected  $elementSeparatorColor = 'bg1';
 
     /**
      * by #rat
@@ -251,6 +259,13 @@ class Chart extends AbstractStyle
     /**
      * by #rat
      *
+     * @var int
+     */
+    protected $textLegendSize  = 1000;
+
+    /**
+     * by #rat
+     *
      * @var string
      */
     protected $showMarker = true;
@@ -282,6 +297,16 @@ class Chart extends AbstractStyle
      * @var int | null
      */
     protected $lineChartGapWidth;
+
+    /**
+     * @var int
+     */
+    protected $valSize = 900;
+
+    /**
+     * @var string
+     */
+    protected $valColor = 'bg1';
 
     /**
      * Create a new instance
@@ -773,6 +798,32 @@ class Chart extends AbstractStyle
 
     /**
      * by #rat
+     * checked size schema separator
+     *
+     * @return int
+     */
+    public function getSchemaSeparatorSize(): int
+    {
+        return $this->schemaSeparatorSize;
+    }
+
+    /**
+     * by #rat
+     * add size schema separator
+     *
+     * @param int $schemaSeparatorSize
+     * @return self
+     */
+    public function setSchemaSeparatorSize(int $schemaSeparatorSize): self
+    {
+        $this->schemaSeparatorSize = $schemaSeparatorSize;
+
+        return $this;
+    }
+
+
+    /**
+     * by #rat
      * Show X and Y Axes
      *
      * @return bool
@@ -801,20 +852,20 @@ class Chart extends AbstractStyle
      *
      * @return string
      */
-    public  function getElementSeporatorColor(): string
+    public  function getElementSeparatorColor(): string
     {
-        return $this->elementSeporatorColor;
+        return $this->elementSeparatorColor;
     }
 
     /**
      * by #rat
      *
-     * @param string  $elementSeporatorColor
+     * @param string  $elementSeparatorColor
      * @return self
      */
-    public  function setElementSeporatorColor(string $elementSeporatorColor): self
+    public  function setElementSeparatorColor(string $elementSeparatorColor): self
     {
-        $this->elementSeporatorColor = $elementSeporatorColor;
+        $this->elementSeparatorColor = $elementSeparatorColor;
 
         return $this;
     }
@@ -983,6 +1034,29 @@ class Chart extends AbstractStyle
     /**
      * by #rat
      *
+     * @return int
+     */
+    public function getTextLegendSize(): int
+    {
+        return $this->textLegendSize;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param int $textLegendSize
+     * @return self
+     */
+    public function setTextLegendSize(int $textLegendSize): self
+    {
+        $this->textLegendSize = $textLegendSize;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
      * @return bool
      */
     public function isShowMarker(): bool
@@ -1091,6 +1165,46 @@ class Chart extends AbstractStyle
     public function setLineChartGapWidth($lineChartGapWidth): self
     {
         $this->lineChartGapWidth = $lineChartGapWidth;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getValSize(): int
+    {
+        return $this->valSize;
+    }
+
+    /**
+     * @param int $valSize
+     *
+     * @return self
+     */
+    public function setValSize(int $valSize): self
+    {
+        $this->valSize = $valSize;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValColor(): string
+    {
+        return $this->valColor;
+    }
+
+    /**
+     * @param string $valColor
+     *
+     * @return self
+     */
+    public function setValColor(string $valColor): self
+    {
+        $this->valColor = $valColor;
 
         return $this;
     }
