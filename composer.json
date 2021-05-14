@@ -90,7 +90,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "0.18-dev"
+            "dev-develop": "0.19-dev"
         }
     }
 }
