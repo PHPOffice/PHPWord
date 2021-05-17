@@ -188,7 +188,7 @@ class Chart extends AbstractPart
                 $xmlWriter->endElement(); // c:layout
                 // by #rat
             }
-            $this->writeLabelStyle($xmlWriter, $style->getTextLegendColor());
+            $this->writeLabelStyle($xmlWriter, $style);
             $xmlWriter->endElement(); // c:legend
         }
 
@@ -303,7 +303,7 @@ class Chart extends AbstractPart
                 $xmlWriter->endElement(); // a:solidFill
 
                 if ($style->isSchemaSeparator() === true) {
-                    $this->addSchemaSeparator($xmlWriter);
+                    $this->addSchemaSeparator($xmlWriter, $style);
                 } else {
                     $xmlWriter->writeElementBlock('a:ln', 'w', $style->getLineWidth());
                 }
@@ -357,7 +357,32 @@ class Chart extends AbstractPart
             // The c:dLbls was added to make word charts look more like the reports in SurveyGizmo
             // This section needs to be made configurable before a pull request is made
             $xmlWriter->startElement('c:dLbls');
-//            var_dump($style->getDataLabelOptions());
+
+            if ($style->getDataLabelOptions()['showVal']) {
+                $xmlWriter->startElement('c:txPr');
+                $xmlWriter->startElement('a:bodyPr');
+                $xmlWriter->writeAttribute('wrap', "square");
+                $xmlWriter->writeAttribute('lIns', '38100');
+                $xmlWriter->writeAttribute('tIns', '19050');
+                $xmlWriter->writeAttribute('rIns', '38100');
+                $xmlWriter->writeAttribute('bIns', '19050');
+                $xmlWriter->writeAttribute('anchor', 'ctr');
+                $xmlWriter->writeElement('a:spAutoFit');
+                $xmlWriter->endElement(); // a:bodyPr
+                $xmlWriter->startElement('a:p');
+                $xmlWriter->startElement('a:pPr');
+                $xmlWriter->startElement('a:defRPr');
+                $xmlWriter->writeAttribute('sz', $style->getValSize());
+                $xmlWriter->startElement('a:solidFill');
+                $xmlWriter->writeElementBlock('a:schemeClr', 'val', $style->getValColor());
+                $xmlWriter->endElement(); // a:solidFill
+                $xmlWriter->endElement(); // a:defRPr
+                $xmlWriter->endElement(); // a:pPr
+                $xmlWriter->writeElementBlock('a:endParaRPr', 'lang', "ru-RU");
+                $xmlWriter->endElement(); // a:p
+                $xmlWriter->endElement(); // c:txPr
+            }
+
             foreach ($style->getDataLabelOptions() as $option => $val) {
 //
 //                $val = (is_array($val)) ?: $val[$index];
@@ -392,7 +417,7 @@ class Chart extends AbstractPart
                             $xmlWriter->startElement('a:solidFill');
                             $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
                             $xmlWriter->endElement(); // a:solidFill
-                            $this->addSchemaSeparator($xmlWriter);
+                            $this->addSchemaSeparator($xmlWriter, $style);
                             $xmlWriter->endElement(); // c:spPr
 
                         }
@@ -465,7 +490,6 @@ class Chart extends AbstractPart
     {
         $style = $this->element->getStyle();
         $categories = array_column($this->element->getSeries(),'categories');
-
         $types = array(
             'cat' => array('c:catAx', 1, 'b', 2),
             'val' => array('c:valAx', 2, 'l', 1),
@@ -503,9 +527,9 @@ class Chart extends AbstractPart
             $xmlWriter->writeAttribute('sourceLinked', '0');
             if ($style->showAxisLabels()) {
                 if ($axisType == 'c:catAx') {
-                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle()->getAxisLabelCategoryColor(), $style->getCategoryLabelPosition());
+                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle(), $style->getCategoryLabelPosition());
                 } else {
-                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle()->getAxisLabelValueColor(), $style->getValueLabelPosition());
+                    $this->writeLabelStyle($xmlWriter, $this->element->getStyle(), $style->getValueLabelPosition());
                 }
             } else {
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none');
@@ -532,7 +556,8 @@ class Chart extends AbstractPart
 
         $xmlWriter->startElement('c:scaling');
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
-        if ($style->isAlongLength() && $types == 'cat' ) {
+
+        if ($style->isAlongLength() && $type == 'cat') {
             $xmlWriter->writeElementBlock('c:max', 'val', $categories[0][array_key_last($categories[0])]);
             $xmlWriter->writeElementBlock('c:min', 'val', $categories[0][array_key_first($categories[0])]);
         }
@@ -590,7 +615,7 @@ class Chart extends AbstractPart
         $xmlWriter->endElement(); // end c:title
     }
 
-    private function writeLabelStyle(XMLWriter $xmlWriter, $color, $label = null)
+    private function writeLabelStyle(XMLWriter $xmlWriter, $style, $label = null)
     {
         $xmlWriter->startElement('c:txPr'); //start c:txPr
         $xmlWriter->writeElement('a:bodyPr');
@@ -606,7 +631,7 @@ class Chart extends AbstractPart
         $xmlWriter->startElement('a:p');
         $xmlWriter->startElement('a:pPr');
         $xmlWriter->startElement('a:defRPr');
-        $xmlWriter->writeAttribute('sz', '900');
+        $xmlWriter->writeAttribute('sz', $style->getTextLegendSize());
         $xmlWriter->writeAttribute('b', '0');
         $xmlWriter->writeAttribute('i', '0');
         $xmlWriter->writeAttribute('u', 'none');
@@ -615,7 +640,7 @@ class Chart extends AbstractPart
         $xmlWriter->writeAttribute('baseline', '0');
         $xmlWriter->startElement('a:solidFill');
 
-        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $color);
+        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $style->getTextLegendColor());
 
         $xmlWriter->endElement(); // end a:solidFill
         $xmlWriter->writeElementBlock('a:latin', 'typeface', '+mn-lt');
@@ -633,9 +658,9 @@ class Chart extends AbstractPart
         }
     }
 
-    private function addSchemaSeparator(XMLWriter $xmlWriter) {
+    private function addSchemaSeparator(XMLWriter $xmlWriter, \PhpOffice\PhpWord\Style\Chart $style) {
         $xmlWriter->startElement('a:ln');
-        $xmlWriter->writeAttribute('w', 12700);
+        $xmlWriter->writeAttribute('w', $style->getSchemaSeparatorSize());
         $xmlWriter->startElement('a:solidFill');
         $xmlWriter->writeElementBlock('a:schemeClr', 'val', 'bg1');
         $xmlWriter->endElement(); // a:solidFill
