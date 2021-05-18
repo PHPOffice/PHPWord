@@ -238,9 +238,23 @@ class Chart extends AbstractStyle
     /**
      * by #rat
      *
+     * @var int
+     */
+    protected $axisLabelValueSize  = 1000;
+
+    /**
+     * by #rat
+     *
      * @var string
      */
     protected $axisLabelCategoryColor  = '000000';
+
+    /**
+     * by #rat
+     *
+     * @var int
+     */
+    protected $axisLabelCategorySize  = 900;
 
     /**
      * by #rat
@@ -974,6 +988,29 @@ class Chart extends AbstractStyle
     /**
      * by #rat
      *
+     * @return int
+     */
+    public function getAxisLabelValueSize(): int
+    {
+        return $this->axisLabelValueSize;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param int $axisLabelValueSize
+     * @return self
+     */
+    public function setAxisLabelValueSize(int $axisLabelValueSize): self
+    {
+        $this->axisLabelValueSize = $axisLabelValueSize;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
      * @return string
      */
     public function getAxisLabelCategoryColor(): string
@@ -990,6 +1027,29 @@ class Chart extends AbstractStyle
     public function setAxisLabelCategoryColor(string $axisLabelCategoryColor): self
     {
         $this->axisLabelCategoryColor = $axisLabelCategoryColor;
+
+        return $this;
+    }
+
+    /**
+     * by #rat
+     *
+     * @return int
+     */
+    public function getAxisLabelCategorySize(): int
+    {
+        return $this->axisLabelCategorySize;
+    }
+
+    /**
+     * by #rat
+     *
+     * @param int $axisLabelCategorySize
+     * @return self
+     */
+    public function setAxisLabelCategorySize(int $axisLabelCategorySize): self
+    {
+        $this->axisLabelCategorySize = $axisLabelCategorySize;
 
         return $this;
     }
