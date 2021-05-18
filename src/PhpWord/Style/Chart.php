@@ -309,6 +309,15 @@ class Chart extends AbstractStyle
     protected $valColor = 'bg1';
 
     /**
+     * if you want to change the position of a value on the chart,
+     * you must add the position value to the array instead of " true"
+     * ["inBase", false, "inEnd"], [true, false, true]
+     *
+     * @var array | null
+     */
+    protected $showValList = null;
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -1205,6 +1214,26 @@ class Chart extends AbstractStyle
     public function setValColor(string $valColor): self
     {
         $this->valColor = $valColor;
+
+        return $this;
+    }
+
+    /**
+     * @return array | null
+     */
+    public function getShowValList(): ?array
+    {
+        return $this->showValList;
+    }
+
+    /**
+     * @param array $showValList
+     *
+     * @return self
+     */
+    public function setShowValList(array $showValList): self
+    {
+        $this->showValList = $showValList;
 
         return $this;
     }

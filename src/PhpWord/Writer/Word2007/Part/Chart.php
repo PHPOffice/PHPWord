@@ -359,6 +359,7 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:dLbls');
 
             if ($style->getDataLabelOptions()['showVal']) {
+                var_dump($style->getDataLabelOptions()['showVal']);
                 $xmlWriter->startElement('c:txPr');
                 $xmlWriter->startElement('a:bodyPr');
                 $xmlWriter->writeAttribute('wrap', "square");
@@ -383,10 +384,18 @@ class Chart extends AbstractPart
                 $xmlWriter->endElement(); // c:txPr
             }
 
+            if (is_string($style->getShowValList()[$index])) {
+                $xmlWriter->writeElementBlock("c:dLblPos", 'val', $style->getShowValList()[$index]);
+            }
             foreach ($style->getDataLabelOptions() as $option => $val) {
-//
 //                $val = (is_array($val)) ?: $val[$index];
-                $xmlWriter->writeElementBlock("c:{$option}", 'val', (int) $val);
+                if ($style->getShowValList() && $option == 'showVal' ) {
+//                    var_dump($style->getShowValList());die;
+                    $xmlWriter->writeElementBlock("c:{$option}", 'val', (int) ((bool) $style->getShowValList()[$index]));
+                } else {
+                    $xmlWriter->writeElementBlock("c:{$option}", 'val', (int) $val);
+                }
+
             }
 //            die;
 
@@ -419,7 +428,6 @@ class Chart extends AbstractPart
                             $xmlWriter->endElement(); // a:solidFill
                             $this->addSchemaSeparator($xmlWriter, $style);
                             $xmlWriter->endElement(); // c:spPr
-
                         }
 
                         $xmlWriter->endElement(); // c:dPt
@@ -490,6 +498,7 @@ class Chart extends AbstractPart
     {
         $style = $this->element->getStyle();
         $categories = array_column($this->element->getSeries(),'categories');
+//var_dump($this->element->getSeries());die;
         $types = array(
             'cat' => array('c:catAx', 1, 'b', 2),
             'val' => array('c:valAx', 2, 'l', 1),
