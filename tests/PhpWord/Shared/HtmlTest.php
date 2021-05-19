@@ -497,7 +497,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     public function testParseRemoteImageWithoutExtension()
     {
         // annoyingly I have to use a valid URL to get to the code I need to test, otherwise file_get_contents fails.
-        $src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTABbXr4i-QODqhy7tofHYmTYh05rYPktzacw&amp;usqp=CAU";
+        $src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTABbXr4i-QODqhy7tofHYmTYh05rYPktzacw&amp;usqp=CAU';
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         $html = '<p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTABbXr4i-QODqhy7tofHYmTYh05rYPktzacw&amp;usqp=CAU" data-id="null" alt="How a Random Image can help you to generate creative ideas" title=""/></p>';
@@ -551,7 +551,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $src = 'https://fakedomain.io/images/firefox.png';
         $localPath = __DIR__ . '/../_files/images/';
         $options = array(
-            'IMG_SRC_SEARCH' => 'https://fakedomain.io/images/',
+            'IMG_SRC_SEARCH'  => 'https://fakedomain.io/images/',
             'IMG_SRC_REPLACE' => $localPath,
         );
 
@@ -661,12 +661,12 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
                 }),
                 $this->identicalTo($section),
                 $this->equalTo(array(
-                    'font' => array(),
+                    'font'      => array(),
                     'paragraph' => array(),
-                    'list' => array(),
-                    'table' => array(),
-                    'row' => array(),
-                    'cell' => array(),
+                    'list'      => array(),
+                    'table'     => array(),
+                    'row'       => array(),
+                    'cell'      => array(),
                 )),
                 $this->equalTo(array()),
                 $this->equalTo('argument1'),

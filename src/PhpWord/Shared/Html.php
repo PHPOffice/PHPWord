@@ -36,13 +36,12 @@ class Html
     protected static $xpath;
     protected static $options;
     protected static $userDefinedNodeMappings = array();
-    protected static $contentTypeFileExtensionMap = [
+    protected static $contentTypeFileExtensionMap = array(
         'image/svg+xml' => 'svg',
-        'image/jpeg' => 'jpg',
-        'image/png' => 'png',
-        'image/gif' => 'gif'
-    ];
-
+        'image/jpeg'    => 'jpg',
+        'image/png'     => 'png',
+        'image/gif'     => 'gif',
+    );
 
     /**
      * Add HTML parts.
@@ -695,7 +694,7 @@ class Html
                 if (empty($match) || !isset($match[1])) {
                     $contentType = get_headers($src, 1)['Content-Type'];
 
-                    if(!array_key_exists($contentType, self::$contentTypeFileExtensionMap)){
+                    if (!array_key_exists($contentType, self::$contentTypeFileExtensionMap)) {
                         throw new \Exception("Could not load image $src");
                     }
 
@@ -826,7 +825,7 @@ class Html
     public static function addUserDefinedNodeMapping($htmlTag, $withNode, $withElement, $withStyles, $withData, $argument1, $argument2, $method)
     {
         $args = compact(
-            'withNode', 'withElement','withStyles', 'withData', 'argument1', 'argument2', 'method'
+            'withNode', 'withElement', 'withStyles', 'withData', 'argument1', 'argument2', 'method'
         );
         self::$userDefinedNodeMappings[$htmlTag] = $args;
     }
