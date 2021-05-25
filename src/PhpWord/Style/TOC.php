@@ -42,6 +42,13 @@ class TOC extends Tab
     private $indent = 200;
 
     /**
+     * Indent
+     *
+     * @var string
+     */
+    private $tabColor = '000000';
+
+    /**
      * Create a new TOC Style
      */
     public function __construct()
@@ -110,6 +117,29 @@ class TOC extends Tab
     public function setIndent($value)
     {
         $this->indent = $this->setNumericVal($value, $this->indent);
+
+        return $this;
+    }
+
+    /**
+     * Get Indent
+     *
+     * @return string
+     */
+    public function getTabColor(): string
+    {
+        return $this->tabColor;
+    }
+
+    /**
+     * Set Indent
+     *
+     * @param string
+     * @return self
+     */
+    public function setTabColor(string $value): self
+    {
+        $this->tabColor = $value;
 
         return $this;
     }

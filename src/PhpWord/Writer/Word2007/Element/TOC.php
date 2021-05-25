@@ -102,6 +102,11 @@ class TOC extends AbstractElement
         $xmlWriter->endElement(); // w:r
 
         $xmlWriter->startElement('w:r');
+
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->writeElementBlock('w:color', 'w:val', $tocStyle->getTabColor());
+        $xmlWriter->endElement(); // w:rPr
+
         $xmlWriter->writeElement('w:tab', null);
         $xmlWriter->endElement();
 
