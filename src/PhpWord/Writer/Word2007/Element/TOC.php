@@ -76,6 +76,7 @@ class TOC extends AbstractElement
         $isObject = ($fontStyle instanceof Font) ? true : false;
         $rId = $title->getRelationId();
         $indent = ($title->getDepth() - 1) * $tocStyle->getIndent();
+        $pageNumber = $title->getPageNumber();
 
         $xmlWriter->startElement('w:p');
 
@@ -122,6 +123,22 @@ class TOC extends AbstractElement
         $xmlWriter->text("PAGEREF _Toc{$rId} \h");
         $xmlWriter->endElement();
         $xmlWriter->endElement();
+
+        if ($title->getPageNumber()) {
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:fldChar');
+            $xmlWriter->writeAttribute('w:fldCharType', 'separate');
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:rPr');
+            $xmlWriter->endElement();
+            $xmlWriter->startElement('w:t');
+            $xmlWriter->text($pageNumber);
+            $xmlWriter->endElement(); // w:t
+            $xmlWriter->endElement();
+        }
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
