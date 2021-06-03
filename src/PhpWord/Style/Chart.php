@@ -240,7 +240,7 @@ class Chart extends AbstractStyle
      *
      * @var int
      */
-    protected $axisLabelValueSize  = 1000;
+    protected $axisLabelValueSize  = 900;
 
     /**
      * by #rat
@@ -261,7 +261,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    protected $lineWidth  = '1200';
+    protected $lineWidth  = 12700;
 
     /**
      * by #rat

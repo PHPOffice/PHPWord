@@ -279,13 +279,13 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:ser');
 
             // by #rat
-            if ($scatter) {
+            if ($scatter || $this->options['type'] == 'line') {
                 if ($style->isLineGradient()) {
                     $this->addGradient($xmlWriter, $colors);
                 } else {
                     $xmlWriter->startElement('c:spPr');
                     $xmlWriter->startElement('a:ln');
-                    $xmlWriter->writeAttribute('w', 12700);
+                    $xmlWriter->writeAttribute('w',  $style->getLineWidth());
                     $xmlWriter->startElement('a:solidFill');
                     $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$index % count($colors)]);
                     $xmlWriter->endElement(); // a:solidFill
