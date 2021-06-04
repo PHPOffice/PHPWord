@@ -87,7 +87,7 @@ You can of course also manually edit your composer.json file
 ```json
 {
     "require": {
-       "phpoffice/phpword": "v0.16.*"
+       "phpoffice/phpword": "v0.18.*"
     }
 }
 ```

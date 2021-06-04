@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.18.2](https://github.com/PHPOffice/PHPWord/tree/0.18.2) (2021-06-04)
+
+[Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.18.1...0.18.2)
+
+### Bug fixes
+- when adding image to relationship first check that the generated RID is actually unique [\#2063](https://github.com/PHPOffice/PHPWord/pull/2063) ([tpv-ebben](https://github.com/tpv-ebben))
+- Update chart, don't write 'c:overlap' if grouping is 'clustered' [\#2052](https://github.com/PHPOffice/PHPWord/pull/2052) ([dfsd534](https://github.com/dfsd534))
+- Update Html parser to accept line-height:normal [\#2041](https://github.com/PHPOffice/PHPWord/pull/2041) ([joelgo](https://github.com/joelgo))
+- Fix image border in Word2007 Writer for LibreOffice 7 [\#2021](https://github.com/PHPOffice/PHPWord/pull/2021) ([kamilmmach](https://github.com/kamilmmach))
+
+### Miscellaneous
+- Corrected namespace for Language class in docs. [\#2087](https://github.com/PHPOffice/PHPWord/pull/2087) ([MegaChriz](https://github.com/MegaChriz))
+- Added support for Garamond font [\#2078](https://github.com/PHPOffice/PHPWord/pull/2078) ([artemkolotilkin](https://github.com/artemkolotilkin))
+- Add BorderStyle for Cell Style to documentation [\#2090](https://github.com/PHPOffice/PHPWord/pull/2090) ([DShkrabak](https://github.com/DShkrabak))
+
 ## [0.18.1](https://github.com/PHPOffice/PHPWord/tree/0.18.1) (2021-03-08)
 
 [Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.18.0...0.18.1)
