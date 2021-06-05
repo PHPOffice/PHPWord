@@ -708,6 +708,12 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $fixed = $templateProcessor->fixBrokenMacros('<w:t>$</w:t></w:r><w:bookmarkStart w:id="0" w:name="_GoBack"/><w:bookmarkEnd w:id="0"/><w:r><w:t xml:space="preserve">15,000.00. </w:t></w:r><w:r w:rsidR="0056499B"><w:t>$</w:t></w:r><w:r w:rsidR="00573DFD" w:rsidRPr="00573DFD"><w:rPr><w:iCs/></w:rPr><w:t>{</w:t></w:r><w:proofErr w:type="spellStart"/><w:r w:rsidR="00573DFD" w:rsidRPr="00573DFD"><w:rPr><w:iCs/></w:rPr><w:t>variable_name</w:t></w:r><w:proofErr w:type="spellEnd"/><w:r w:rsidR="00573DFD" w:rsidRPr="00573DFD"><w:rPr><w:iCs/></w:rPr><w:t>}</w:t></w:r>');
         $this->assertEquals('<w:t>$</w:t></w:r><w:bookmarkStart w:id="0" w:name="_GoBack"/><w:bookmarkEnd w:id="0"/><w:r><w:t xml:space="preserve">15,000.00. </w:t></w:r><w:r w:rsidR="0056499B"><w:t>${variable_name}</w:t></w:r>', $fixed);
+
+        $fixed = $templateProcessor->fixBrokenMacros('<w:r><w:t>before ${</w:t></w:r><w:r><w:t xml:space="preserve">variable} </w:t></w:r><w:r><w:t>after</w:t></w:r>');
+        $this->assertEquals('<w:r><w:t>before </w:t></w:r><w:r><w:t xml:space="preserve">${variable} </w:t></w:r><w:r><w:t>after</w:t></w:r>', $fixed);
+
+        $fixed = $templateProcessor->fixBrokenMacros('<w:r><w:t>before ${</w:t></w:r><w:r><w:t>variable</w:t></w:r><w:r><w:t xml:space="preserve">} </w:t></w:r><w:r><w:t>after</w:t></w:r>');
+        $this->assertEquals('<w:r><w:t>before </w:t></w:r><w:r><w:t xml:space="preserve">${variable} </w:t></w:r><w:r><w:t>after</w:t></w:r>', $fixed);
     }
 
     /**

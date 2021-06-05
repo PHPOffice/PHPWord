@@ -961,6 +961,10 @@ class TemplateProcessor
         return preg_replace_callback(
             '/\$(?:\{|[^{$]*\>\{)[^}$]*\}/U',
             function ($match) {
+                if (strpos($match[0], '<w:t xml:space="preserve">') !== false) {
+                    return sprintf('</w:t></w:r><w:r><w:t xml:space="preserve">%s', strip_tags($match[0]));
+                }
+
                 return strip_tags($match[0]);
             },
             $documentPart
