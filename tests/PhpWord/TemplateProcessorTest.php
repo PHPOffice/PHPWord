@@ -851,4 +851,82 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor->setUpdateFields(false);
         $this->assertContains('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
     }
+
+    /**
+     * @covers ::setImageValue
+     * @test
+     */
+    public function testSetImageValueLimit()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/setImageValue-limit.docx');
+        $imagePath = __DIR__ . '/_files/images/earth.jpg';
+
+        $variablesReplace = array(
+                                'picture'   => array('path' => $imagePath, 'width' => 500, 'height' => 500),
+        );
+        $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace, 2);
+
+        $docName = 'setImageValue-limit-test-result.docx';
+        $templateProcessor->saveAs($docName);
+
+        $this->assertFileExists($docName, "Generated file '{$docName}' not found!");
+
+        $expectedDocumentZip = new \ZipArchive();
+        $expectedDocumentZip->open($docName);
+        $expectedContentTypesXml = $expectedDocumentZip->getFromName('[Content_Types].xml');
+        $expectedDocumentRelationsXml = $expectedDocumentZip->getFromName('word/_rels/document.xml.rels');
+        $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+        $expectedImage = $expectedDocumentZip->getFromName('word/media/image_rId14_document.jpeg');
+        if (false === $expectedDocumentZip->close()) {
+            throw new \Exception("Could not close zip file \"{$docName}\".");
+        }
+
+        $this->assertNotEmpty($expectedImage, 'Embed image doesn\'t found.');
+        $this->assertContains('/word/media/image_rId14_document.jpeg', $expectedContentTypesXml, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
+    
+        $this->assertContains('${picture}', $expectedMainPartXml, 'word/document.xml has replace second item.');
+
+        $this->assertSame(1, substr_count($expectedMainPartXml, '${picture}'), 'word/document.xml only first item has been replaced.');
+        $this->assertContains('media/image_rId14_document.jpeg', $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
+
+        unlink($docName);
+    }
+
+    /**
+     * @covers ::setImageValue
+     * @test
+     */
+    public function testSetImageValueNoLimit()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/setImageValue-limit.docx');
+        $imagePath = __DIR__ . '/_files/images/earth.jpg';
+
+        $variablesReplace = array(
+            'picture'   => array('path' => $imagePath, 'width' => 500, 'height' => 500),
+        );
+        $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
+
+        $docName = 'setImageValue-limit-test-result.docx';
+        $templateProcessor->saveAs($docName);
+
+        $this->assertFileExists($docName, "Generated file '{$docName}' not found!");
+
+        $expectedDocumentZip = new \ZipArchive();
+        $expectedDocumentZip->open($docName);
+        $expectedContentTypesXml = $expectedDocumentZip->getFromName('[Content_Types].xml');
+        $expectedDocumentRelationsXml = $expectedDocumentZip->getFromName('word/_rels/document.xml.rels');
+        $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+        $expectedImage = $expectedDocumentZip->getFromName('word/media/image_rId14_document.jpeg');
+        if (false === $expectedDocumentZip->close()) {
+            throw new \Exception("Could not close zip file \"{$docName}\".");
+        }
+
+        $this->assertNotEmpty($expectedImage, 'Embed image doesn\'t found.');
+        $this->assertContains('/word/media/image_rId14_document.jpeg', $expectedContentTypesXml, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
+
+        $this->assertNotContains('${picture}', $expectedMainPartXml, 'word/document.xml has replace second item.');
+        $this->assertContains('media/image_rId14_document.jpeg', $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
+
+        unlink($docName);
+    }
 }
