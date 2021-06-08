@@ -33,11 +33,12 @@ abstract class AbstractTestReader extends \PHPUnit\Framework\TestCase
     /**
      * Builds a PhpWord instance based on the xml passed
      *
-     * @param string $documentXml
-     * @param null|string $stylesXml
+     * @param array $partXmls
+     * @param array $rels
+     * @param array $media
      * @return \PhpOffice\PhpWord\PhpWord
      */
-    protected function getDocumentFromString(array $partXmls = array())
+    protected function getDocumentFromString(array $partXmls = array(), array $rels = array(), array $media = array())
     {
         $file = __DIR__ . '/../_files/temp.docx';
         $zip = new \ZipArchive();
@@ -47,6 +48,14 @@ abstract class AbstractTestReader extends \PHPUnit\Framework\TestCase
                 $zip->addFromString("{$partName}.xml", str_replace('{toReplace}', $partXmls[$partName], $this->parts[$partName]['xml']));
             }
         }
+
+        if (!empty($media)) {
+            $zip->addEmptyDir('media');
+
+            foreach ($media as $image) {
+                $zip->addFile($image, 'media/' . basename($image));
+            }
+        }
         $zip->close();
 
         $phpWord = new PhpWord();
@@ -54,6 +63,11 @@ abstract class AbstractTestReader extends \PHPUnit\Framework\TestCase
             if (array_key_exists($partName, $partXmls)) {
                 $className = $this->parts[$partName]['class'];
                 $reader = new $className($file, "{$partName}.xml");
+
+                if (isset($rels[$partName])) {
+                    $reader->setRels($rels);
+                }
+
                 $reader->read($phpWord);
             }
         }
