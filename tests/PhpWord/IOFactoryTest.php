@@ -24,6 +24,39 @@ namespace PhpOffice\PhpWord;
  */
 class IOFactoryTest extends \PHPUnit\Framework\TestCase
 {
+    public function setUp()
+    {
+        $rendererName = Settings::PDF_RENDERER_DOMPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+    }
+
+    /**
+     * Create all possible writers
+     *
+     * @dataProvider providerCreateWriter
+     *
+     * @param string $name
+     * @param string $expected
+     */
+    public function testCreateWriter($name, $expected)
+    {
+        $phpWord = new PhpWord();
+        $actual = IOFactory::createWriter($phpWord, $name);
+        self::assertInstanceOf($expected, $actual);
+    }
+
+    public function providerCreateWriter()
+    {
+        return array(
+            array('ODText', Writer\ODText::class),
+            array('RTF', Writer\RTF::class),
+            array('Word2007', Writer\Word2007::class),
+            array('HTML', Writer\HTML::class),
+            array('PDF', Writer\PDF::class),
+        );
+    }
+
     /**
      * Create existing writer
      */
