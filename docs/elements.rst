@@ -375,10 +375,12 @@ Checkboxes
 ----------
 
 Checkbox elements can be added to sections or table cells by using ``addCheckBox``.
+``setDefault`` method can be used to change the default state of the checkbox.
 
 .. code-block:: php
 
-    $section->addCheckBox($name, $text, [$fontStyle], [$paragraphStyle])
+    $cb = $section->addCheckBox($name, $text, [$fontStyle], [$paragraphStyle]);
+    $cb->setDefault(true);
 
 - ``$name``. Name of the check box.
 - ``$text``. Text to be displayed in the document.
