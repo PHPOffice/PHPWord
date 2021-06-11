@@ -248,7 +248,16 @@ class PhpWord
      */
     public function addSection($style = null)
     {
-        $section = new Section(count($this->sections) + 1, $style);
+        return $this->addExistingSection(new Section(count($this->sections) + 1, $style));
+    }
+
+    /**
+     * Create a section with another existing section
+     * @param Section $section
+     * @return Section
+     */
+    public function addExistingSection(\PhpOffice\PhpWord\Element\Section $section)
+    {
         $section->setPhpWord($this);
         $this->sections[] = $section;
 
