@@ -56,6 +56,17 @@ class Chart extends AbstractPart
     );
 
     /**
+     * format and option
+     *
+     * @var array
+     */
+    private $format = [
+        'percent' =>['0%', '0.0%'],
+        'date' =>['[$-419]d\ mmm;@'],
+        'time' =>['']
+    ];
+
+    /**
      * Chart options
      *
      * @var array
@@ -457,6 +468,21 @@ class Chart extends AbstractPart
 
         $xmlWriter->startElement($itemType);
         $xmlWriter->startElement($itemLit);
+
+        if ($this->element->getStyle()->isCatFormat() && $type == 'cat') {
+            var_dump(1);
+            $xmlWriter->startElement('c:formatCode');
+            $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->endElement(); // c:v
+        }
+
+        if ($this->element->getStyle()->isValFormat() && $type == 'val') {
+            var_dump($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->startElement('c:formatCode');
+            $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->endElement(); // c:formatCode
+        }
+
         $xmlWriter->writeElementBlock('c:ptCount', 'val', count($values));
 
         $index = 0;
@@ -521,10 +547,11 @@ class Chart extends AbstractPart
         $xmlWriter->writeElementBlock('c:auto', 'val', 1);
 
         if (isset($this->options['axes'])) {
+            $formatCode = (is_string($style->getFormat())) ? $this->format[$style->getFormat()][0] : 'General';
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', $style->getMajorTickPosition());
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
-            $xmlWriter->writeElementBlock('c:numFmt', 'formatCode', '[$-419]d\ mmm;@');
+            $xmlWriter->writeElementBlock('c:numFmt', 'formatCode', $formatCode);
             $xmlWriter->writeAttribute('sourceLinked', '0');
             if ($style->showAxisLabels()) {
                 if ($axisType == 'c:catAx') {

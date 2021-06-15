@@ -332,6 +332,22 @@ class Chart extends AbstractStyle
     protected $showValList = null;
 
     /**
+     * percent, date, time
+     * @var string | null
+     */
+    protected $format = null;
+
+    /**
+     * @var bool
+     */
+    protected $catFormat = false;
+
+    /**
+     * @var bool
+     */
+    protected $valFormat = false;
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -1294,6 +1310,67 @@ class Chart extends AbstractStyle
     public function setShowValList(array $showValList): self
     {
         $this->showValList = $showValList;
+
+        return $this;
+    }
+
+
+    /**
+     * @return string | null
+     */
+    public function getFormat(): ?string
+    {
+        return $this->format;
+    }
+
+    /**
+     * @param string $format
+     *
+     * @return self
+     */
+    public function setFormat(?string $format): self
+    {
+        $this->format = $format;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCatFormat(): bool
+    {
+        return $this->catFormat;
+    }
+
+    /**
+     * @param bool $catFormat
+     *
+     * @return self
+     */
+    public function setCatFormat(bool $catFormat): self
+    {
+        $this->catFormat = $catFormat;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValFormat(): bool
+    {
+        return $this->valFormat;
+    }
+
+    /**
+     * @param bool $valFormat
+     *
+     * @return self
+     */
+    public function setValFormat(bool $valFormat): self
+    {
+        $this->valFormat = $valFormat;
 
         return $this;
     }
