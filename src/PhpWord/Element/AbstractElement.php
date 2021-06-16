@@ -78,6 +78,13 @@ abstract class AbstractElement
     protected $elementId;
 
     /**
+     * Element counter
+     *
+     * @var int
+     */
+    private static $elementCounter = 1;
+
+    /**
      * Relation Id
      *
      * @var int
@@ -113,6 +120,11 @@ abstract class AbstractElement
      * @var string
      */
     private $parentContainer;
+
+    /**
+     * @var AbstractElement
+     */
+    private $parentContainerElement;
 
     /**
      * Has media relation flag; true for Link, Image, and Object
@@ -254,7 +266,7 @@ abstract class AbstractElement
      */
     public function setElementId()
     {
-        $this->elementId = substr(md5(rand()), 0, 6);
+        $this->elementId = 'el' . self::$elementCounter++;
     }
 
     /**
@@ -354,6 +366,8 @@ abstract class AbstractElement
      */
     public function setParentContainer(self $container)
     {
+        $this->setParentContainerElement($container);
+
         $this->parentContainer = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
         $this->parent = $container;
 
@@ -373,6 +387,22 @@ abstract class AbstractElement
 
         $this->setMediaRelation();
         $this->setCollectionRelation();
+    }
+
+    /**
+     * @param AbstractElement $container
+     */
+    public function setParentContainerElement(AbstractElement $container)
+    {
+        $this->parentContainerElement = $container;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentContainerElement()
+    {
+        return $this->parentContainerElement;
     }
 
     /**

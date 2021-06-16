@@ -109,7 +109,7 @@ class Settings extends AbstractPart
             'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
             'w:decimalSymbol'           => array('@attributes' => array('w:val' => $documentSettings->getDecimalSymbol())),
             'w:listSeparator'           => array('@attributes' => array('w:val' => ';')),
-            'w:compat'                  => array(),
+            'w:compat'                  => '',
             'm:mathPr'                  => array(
                 'm:mathFont'   => array('@attributes' => array('m:val' => 'Cambria Math')),
                 'm:brkBin'     => array('@attributes' => array('m:val' => 'before')),
@@ -316,12 +316,14 @@ class Settings extends AbstractPart
     {
         $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
         if ($compatibility->getOoxmlVersion() !== null) {
-            $this->settings['w:compat']['w:compatSetting'] = array(
-                '@attributes' => array(
-                    'w:name' => 'compatibilityMode',
-                    'w:uri'  => 'http://schemas.microsoft.com/office/word',
-                    'w:val'  => $compatibility->getOoxmlVersion(),
-                ),
+            $this->settings['w:compat'] = array(
+                'w:compatSetting' => array(
+                    '@attributes' => array(
+                        'w:name' => 'compatibilityMode',
+                        'w:uri' => 'http://schemas.microsoft.com/office/word',
+                        'w:val' => $compatibility->getOoxmlVersion(),
+                    )
+                )
             );
         }
     }

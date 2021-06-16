@@ -74,4 +74,12 @@ class Cell extends AbstractContainer
     {
         return $this->width;
     }
+
+    /**
+     * @param int $width
+     */
+    public function setWidth($width = null)
+    {
+        $this->width = $width;
+    }
 }

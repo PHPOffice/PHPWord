@@ -107,6 +107,31 @@ class Border extends AbstractStyle
     protected $borderBottomStyle;
 
     /**
+     * Borders Space in points
+     *
+     * @var int|float
+     */
+    protected $bordersSpace = 24;
+
+    /**
+     * Get borders space in points
+     *
+     * @return integer
+     */
+    public function getBordersSpace()
+    {
+        return $this->bordersSpace;
+    }
+
+    /**
+     * @param int $bordersSpace
+     */
+    public function setBordersSpace($bordersSpace)
+    {
+        $this->bordersSpace = $bordersSpace;
+    }
+
+    /**
      * Get border size
      *
      * @return int[]

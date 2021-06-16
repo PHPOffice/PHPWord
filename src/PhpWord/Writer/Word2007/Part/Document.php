@@ -64,6 +64,8 @@ class Document extends AbstractPart
                 $containerWriter->write();
 
                 if ($currentSection == $sectionCount) {
+                    $xmlWriter->startElement('w:p');
+                    $xmlWriter->endElement();
                     $this->writeSectionSettings($xmlWriter, $section);
                 } else {
                     $this->writeSection($xmlWriter, $section);
