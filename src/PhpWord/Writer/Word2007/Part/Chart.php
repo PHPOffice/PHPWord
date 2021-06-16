@@ -63,7 +63,7 @@ class Chart extends AbstractPart
     private $format = [
         'percent' =>['0%', '0.0%'],
         'date' =>['[$-419]d\ mmm;@'],
-        'time' =>['']
+        'time' =>['h:mm;@']
     ];
 
     /**
@@ -470,14 +470,24 @@ class Chart extends AbstractPart
         $xmlWriter->startElement($itemLit);
 
         if ($this->element->getStyle()->isCatFormat() && $type == 'cat') {
-            var_dump(1);
             $xmlWriter->startElement('c:formatCode');
             $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
-            $xmlWriter->endElement(); // c:v
+            $xmlWriter->endElement(); // c:formatCode
         }
 
         if ($this->element->getStyle()->isValFormat() && $type == 'val') {
-            var_dump($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->startElement('c:formatCode');
+            $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->endElement(); // c:formatCode
+        }
+
+        if ($this->element->getStyle()->isXValFormat() && $type == 'xVal') {
+            $xmlWriter->startElement('c:formatCode');
+            $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->endElement(); // c:formatCode
+        }
+
+        if ($this->element->getStyle()->isYValFormat() && $type == 'yVal') {
             $xmlWriter->startElement('c:formatCode');
             $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
             $xmlWriter->endElement(); // c:formatCode
@@ -525,7 +535,11 @@ class Chart extends AbstractPart
         // #rat
         $line = $style->showAxes();
 
-        $xmlWriter->startElement($axisType);
+        if ($style->getFormat() == 'time') {
+            $xmlWriter->startElement('c:valAx');
+        } else {
+            $xmlWriter->startElement($axisType);
+        }
 
         $xmlWriter->writeElementBlock('c:axId', 'val', $axisId);
         $xmlWriter->writeElementBlock('c:axPos', 'val', $axisPos);
@@ -603,6 +617,10 @@ class Chart extends AbstractPart
         $xmlWriter->endElement(); // c:scaling
 
         $this->writeShape($xmlWriter, $line);
+
+        if ($style->getFormat() == 'time') {
+            $xmlWriter->writeElementBlock('c:crossBetween', 'val', 'between');
+        }
 
         $xmlWriter->endElement(); // $axisType
     }
@@ -748,4 +766,5 @@ class Chart extends AbstractPart
         $xmlWriter->writeElement('a:effectLst');
         $xmlWriter->endElement(); // c:spPr
     }
+
 }

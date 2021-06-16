@@ -348,6 +348,16 @@ class Chart extends AbstractStyle
     protected $valFormat = false;
 
     /**
+     * @var bool
+     */
+    protected $xValFormat = false;
+
+    /**
+     * @var bool
+     */
+    protected $yValFormat = false;
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -1374,4 +1384,45 @@ class Chart extends AbstractStyle
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isXValFormat(): bool
+    {
+        return $this->xValFormat;
+    }
+
+    /**
+     * @param bool $xValFormat
+     *
+     * @return self
+     */
+    public function setXValFormat(bool $xValFormat): self
+    {
+        $this->xValFormat = $xValFormat;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isYValFormat(): bool
+    {
+        return $this->yValFormat;
+    }
+
+    /**
+     * @param bool $yValFormat
+     *
+     * @return self
+     */
+    public function setYValFormat(bool $yValFormat): self
+    {
+        $this->yValFormat = $yValFormat;
+
+        return $this;
+    }
+
 }
