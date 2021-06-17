@@ -526,6 +526,7 @@ class Chart extends AbstractPart
     {
         $style = $this->element->getStyle();
         $categories = array_column($this->element->getSeries(),'categories');
+        $series = array_column($this->element->getSeries(),'values');
 
         $types = array(
             'cat' => array('c:catAx', 1, 'b', 2),
@@ -535,7 +536,7 @@ class Chart extends AbstractPart
         // #rat
         $line = $style->showAxes();
 
-        if ($style->getFormat() == 'time') {
+        if ($style->getFormat() == 'time' || count($series) == 1) {
             $xmlWriter->startElement('c:valAx');
         } else {
             $xmlWriter->startElement($axisType);
@@ -618,8 +619,12 @@ class Chart extends AbstractPart
 
         $this->writeShape($xmlWriter, $line);
 
-        if ($style->getFormat() == 'time') {
+        if ($style->getFormat() == 'time' || count($series) == 1) {
             $xmlWriter->writeElementBlock('c:crossBetween', 'val', 'between');
+        }
+
+        if (count($series) == 1 && $type == 'cat' && $style->isDate() && $style->getFormat() != 'time') {
+            $xmlWriter->writeElementBlock('c:majorUnit', 'val', '1');
         }
 
         $xmlWriter->endElement(); // $axisType
