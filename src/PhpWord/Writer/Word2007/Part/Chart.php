@@ -536,7 +536,7 @@ class Chart extends AbstractPart
         // #rat
         $line = $style->showAxes();
 
-        if ($style->getFormat() == 'time' || count($series) == 1) {
+        if ($style->getFormat() == 'time' || ($style->getFormat() == 'date' && count($series) == 1)) {
             $xmlWriter->startElement('c:valAx');
         } else {
             $xmlWriter->startElement($axisType);
@@ -619,7 +619,7 @@ class Chart extends AbstractPart
 
         $this->writeShape($xmlWriter, $line);
 
-        if ($style->getFormat() == 'time' || count($series) == 1) {
+        if ($style->getFormat() == 'time' || ($style->getFormat() == 'date' && count($series) == 1)) {
             $xmlWriter->writeElementBlock('c:crossBetween', 'val', 'between');
         }
 
@@ -771,5 +771,4 @@ class Chart extends AbstractPart
         $xmlWriter->writeElement('a:effectLst');
         $xmlWriter->endElement(); // c:spPr
     }
-
 }
