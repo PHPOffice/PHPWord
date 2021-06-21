@@ -779,7 +779,11 @@ class TemplateProcessor
         foreach ($values as $rowKey => $rowData) {
             $rowNumber = $rowKey + 1;
             foreach ($rowData as $macro => $replace) {
-                $this->setValue($macro . '#' . $rowNumber, $replace);
+                if (substr($replace, -3) == 'png' || substr($replace, -3) == 'jpg') {
+                    $this->setImageValue($macro . '#' . $rowNumber, $replace);
+                } else {
+                    $this->setValue($macro . '#' . $rowNumber, $replace);
+                }
             }
         }
     }
