@@ -623,8 +623,14 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:crossBetween', 'val', 'between');
         }
 
-        if (count($categories[0]) <= 2 && $type == 'cat' && $style->isDate()) {
-            $xmlWriter->writeElementBlock('c:majorUnit', 'val', '1');
+        if ($type == 'cat') {
+            if (count($categories[0]) <= 2 && $style->isDate() && $style->getFormat() != 'time') {
+                $xmlWriter->writeElementBlock('c:majorUnit', 'val', '1');
+            }
+
+            if ($style->getFormat() == 'time') {
+                $xmlWriter->writeElementBlock('c:majorUnit', 'val', '0.0833333333333333');
+            }
         }
 
         $xmlWriter->endElement(); // $axisType
