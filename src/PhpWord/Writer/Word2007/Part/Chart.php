@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Element\Chart as ChartElement;
+use PhpOffice\PhpWord\Shared\DateConverter;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -80,6 +81,18 @@ class Chart extends AbstractPart
      */
     public function setElement(ChartElement $element)
     {
+
+//        var_dump($element->getSeries());
+//        if ($element->getStyle()->isDate()) {
+//
+//            foreach ($element->getSeries() as &$data) {
+//                if (!empty($data['categories'])) {
+//                    $data['categories'] = DateConverter::officeDateFormat($data['categories']);
+//                    var_dump($data['categories']);
+//                }
+//            }
+//        }
+//        var_dump($element->getSeries());
         $this->element = $element;
     }
 
@@ -284,7 +297,7 @@ class Chart extends AbstractPart
         $index = 0;
         $colorIndex = 0;
         foreach ($series as $seriesItem) {
-            $categories = $seriesItem['categories'];
+            $categories = ($style->isDate()) ? DateConverter::officeDateFormat($seriesItem['categories']) : $seriesItem['categories'];
             $values = $seriesItem['values'];
 
             $xmlWriter->startElement('c:ser');
@@ -525,7 +538,11 @@ class Chart extends AbstractPart
     private function writeAxis(XMLWriter $xmlWriter, $type)
     {
         $style = $this->element->getStyle();
-        $categories = array_column($this->element->getSeries(),'categories');
+        $categories = array_column($this->element->getSeries(),'categories')[0];
+
+        if ($style->isDate()) {
+            $categories = DateConverter::officeDateFormat($categories);
+        }
         $series = array_column($this->element->getSeries(),'values');
 
         $types = array(
@@ -611,8 +628,8 @@ class Chart extends AbstractPart
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
 
         if ($style->isAlongLength() && $type == 'cat') {
-            $xmlWriter->writeElementBlock('c:max', 'val', $categories[0][array_key_last($categories[0])]);
-            $xmlWriter->writeElementBlock('c:min', 'val', $categories[0][array_key_first($categories[0])]);
+            $xmlWriter->writeElementBlock('c:max', 'val', $categories[array_key_last($categories)]);
+            $xmlWriter->writeElementBlock('c:min', 'val', $categories[array_key_first($categories)]);
         }
 
         $xmlWriter->endElement(); // c:scaling
@@ -624,7 +641,7 @@ class Chart extends AbstractPart
         }
 
         if ($type == 'cat') {
-            if (count($categories[0]) <= 2 && $style->isDate() && $style->getFormat() != 'time') {
+            if (count($categories) <= 2 && $style->isDate() && $style->getFormat() != 'time') {
                 $xmlWriter->writeElementBlock('c:majorUnit', 'val', '1');
             }
 
