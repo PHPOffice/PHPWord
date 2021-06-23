@@ -42,8 +42,8 @@ class DateConverter
             //в случаи если берем выгрузку за 1 день приводим количество дней в виде дестичной дроби
             // чтобы получить нужное время (1.5 = 01.01.1900 12:00)
             if ($isTime) {
-                $h = date('H', $date) * 1;
-                $m = date('i', $date) * 1;
+                $h = (int) date('H', $date);
+                $m = (int) date('i', $date);
                 if ($h != 0) {
                     $m += $h * self::MINUTES_PER_HOUR;
                 }
@@ -58,5 +58,14 @@ class DateConverter
             $date = $diff->days + $dayPart;
         }
         return $categories;
+    }
+
+    public static function isTime(array $date)
+    {
+        $date = array_map(function ($day) {
+            return $day = floor($day);
+        }, $date);
+
+        return (count(array_unique($date)) < 2) ? true : false;
     }
 }

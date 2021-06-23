@@ -81,18 +81,6 @@ class Chart extends AbstractPart
      */
     public function setElement(ChartElement $element)
     {
-
-//        var_dump($element->getSeries());
-//        if ($element->getStyle()->isDate()) {
-//
-//            foreach ($element->getSeries() as &$data) {
-//                if (!empty($data['categories'])) {
-//                    $data['categories'] = DateConverter::officeDateFormat($data['categories']);
-//                    var_dump($data['categories']);
-//                }
-//            }
-//        }
-//        var_dump($element->getSeries());
         $this->element = $element;
     }
 
@@ -164,13 +152,13 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:tx');
             $xmlWriter->startElement('c:rich');
             $xmlWriter->writeRaw('
-                <a:bodyPr/>
-                <a:lstStyle/>
-                <a:p>
-                <a:pPr>
-                <a:defRPr/></a:pPr><a:r><a:rPr/><a:t>' . $title . '</a:t></a:r>
-                <a:endParaRPr/>
-                </a:p>');
+                    <a:bodyPr/>
+                    <a:lstStyle/>
+                    <a:p>
+                    <a:pPr>
+                    <a:defRPr/></a:pPr><a:r><a:rPr/><a:t>' . $title . '</a:t></a:r>
+                    <a:endParaRPr/>
+                    </a:p>');
             $xmlWriter->endElement(); // c:rich
             $xmlWriter->endElement(); // c:tx
             $xmlWriter->endElement(); // c:title
@@ -187,7 +175,7 @@ class Chart extends AbstractPart
             if ($style->getLegendPositionInBlock()) {
                 $xmlWriter->startElement('c:layout');
                 $xmlWriter->startElement('c:manualLayout');
-//                $xmlWriter->writeElementBlock('c:layoutTarget', 'val', 'inner');
+                //                $xmlWriter->writeElementBlock('c:layoutTarget', 'val', 'inner');
 
                 $xmlWriter->writeElementBlock('c:xMode', 'val', $style->getLegendPositionInBlock()->getXMode());
                 $xmlWriter->writeElementBlock('c:yMode', 'val', $style->getLegendPositionInBlock()->getYMode());
@@ -297,7 +285,13 @@ class Chart extends AbstractPart
         $index = 0;
         $colorIndex = 0;
         foreach ($series as $seriesItem) {
-            $categories = ($style->isDate()) ? DateConverter::officeDateFormat($seriesItem['categories']) : $seriesItem['categories'];
+            if ($style->isDate()) {
+                $categories = DateConverter::officeDateFormat($seriesItem['categories']) ;
+                $style->setFormat(DateConverter::isTime($categories) ? 'time' : 'date');
+            } else {
+                $categories = $seriesItem['categories'];
+            }
+
             $values = $seriesItem['values'];
 
             $xmlWriter->startElement('c:ser');
@@ -418,7 +412,7 @@ class Chart extends AbstractPart
             $xmlWriter->endElement(); // c:dLbls
 
             if (isset($this->options['scatter']) ) {
-//                $this->writeShape($xmlWriter);
+                //                $this->writeShape($xmlWriter);
             }
 
             if ($scatter === true) {
