@@ -129,18 +129,18 @@ abstract class AbstractElement
     protected $collectionRelation = false;
 
     /**
-     * The start position for the linked comment
+     * The start position for the linked comments
      *
-     * @var Comment
+     * @var \PHPOffice\PHPWord\Collection\Comments
      */
-    protected $commentRangeStart;
+    protected $commentsRangeStart;
 
     /**
-     * The end position for the linked comment
+     * The end position for the linked comments
      *
-     * @var Comment
+     * @var \PHPOffice\PHPWord\Collection\Comments
      */
-    protected $commentRangeEnd;
+    protected $commentsRangeEnd;
 
     /**
      * Get PhpWord
@@ -288,13 +288,27 @@ abstract class AbstractElement
     }
 
     /**
+     * Get comments start
+     *
+     * @return \PhpOffice\PhpWord\Collection\Comments
+     */
+    public function getCommentsRangeStart()
+    {
+        return $this->commentsRangeStart;
+    }
+
+    /**
      * Get comment start
      *
      * @return Comment
      */
     public function getCommentRangeStart()
     {
-        return $this->commentRangeStart;
+        if ($this->commentsRangeStart != null) {
+            return $this->commentsRangeStart->getItem($this->commentsRangeStart->countItems());
+        }
+
+        return null;
     }
 
     /**
@@ -307,8 +321,30 @@ abstract class AbstractElement
         if ($this instanceof Comment) {
             throw new \InvalidArgumentException('Cannot set a Comment on a Comment');
         }
-        $this->commentRangeStart = $value;
-        $this->commentRangeStart->setStartElement($this);
+        if ($this->commentsRangeStart == null) {
+            $this->commentsRangeStart = new \PhpOffice\PhpWord\Collection\Comments();
+        }
+        // Set ID early to avoid duplicates.
+        if ($value->getElementId() == null) {
+            $value->setElementId();
+        }
+        foreach ($this->commentsRangeStart->getItems() as $comment) {
+            if ($value->getElementId() == $comment->getElementId()) {
+                return;
+            }
+        }
+        $this->commentsRangeStart->addItem($value);
+        $this->commentsRangeStart->getItem($this->commentsRangeStart->countItems())->setStartElement($this);
+    }
+
+    /**
+     * Get comments end
+     *
+     * @return \PhpOffice\PhpWord\Collection\Comments
+     */
+    public function getCommentsRangeEnd()
+    {
+        return $this->commentsRangeEnd;
     }
 
     /**
@@ -318,7 +354,11 @@ abstract class AbstractElement
      */
     public function getCommentRangeEnd()
     {
-        return $this->commentRangeEnd;
+        if ($this->commentsRangeEnd != null) {
+            return $this->commentsRangeEnd->getItem($this->commentsRangeEnd->countItems());
+        }
+
+        return null;
     }
 
     /**
@@ -331,8 +371,20 @@ abstract class AbstractElement
         if ($this instanceof Comment) {
             throw new \InvalidArgumentException('Cannot set a Comment on a Comment');
         }
-        $this->commentRangeEnd = $value;
-        $this->commentRangeEnd->setEndElement($this);
+        if ($this->commentsRangeEnd == null) {
+            $this->commentsRangeEnd = new \PhpOffice\PhpWord\Collection\Comments();
+        }
+        // Set ID early to avoid duplicates.
+        if ($value->getElementId() == null) {
+            $value->setElementId();
+        }
+        foreach ($this->commentsRangeEnd->getItems() as $comment) {
+            if ($value->getElementId() == $comment->getElementId()) {
+                return;
+            }
+        }
+        $this->commentsRangeEnd->addItem($value);
+        $this->commentsRangeEnd->getItem($this->commentsRangeEnd->countItems())->setEnd($this);
     }
 
     /**
