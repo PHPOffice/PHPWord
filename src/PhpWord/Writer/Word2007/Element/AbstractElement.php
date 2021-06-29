@@ -122,14 +122,10 @@ abstract class AbstractElement
      */
     protected function writeCommentRangeStart()
     {
-        if ($this->element->getCommentRangeStart() != null) {
-            $comment = $this->element->getCommentRangeStart();
-            //only set the ID if it is not yet set, otherwise it will overwrite it
-            if ($comment->getElementId() == null) {
-                $comment->setElementId();
+        if ($this->element->getCommentsRangeStart() != null) {
+            foreach ($this->element->getCommentsRangeStart()->getItems() as $comment) {
+                $this->xmlWriter->writeElementBlock('w:commentRangeStart', array('w:id' => $comment->getElementId()));
             }
-
-            $this->xmlWriter->writeElementBlock('w:commentRangeStart', array('w:id' => $comment->getElementId()));
         }
     }
 
@@ -138,28 +134,23 @@ abstract class AbstractElement
      */
     protected function writeCommentRangeEnd()
     {
-        if ($this->element->getCommentRangeEnd() != null) {
-            $comment = $this->element->getCommentRangeEnd();
-            //only set the ID if it is not yet set, otherwise it will overwrite it, this should normally not happen
-            if ($comment->getElementId() == null) {
-                $comment->setElementId(); // @codeCoverageIgnore
-            } // @codeCoverageIgnore
-
-            $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
-            $this->xmlWriter->startElement('w:r');
-            $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
-            $this->xmlWriter->endElement();
-        } elseif ($this->element->getCommentRangeStart() != null && $this->element->getCommentRangeStart()->getEndElement() == null) {
-            $comment = $this->element->getCommentRangeStart();
-            //only set the ID if it is not yet set, otherwise it will overwrite it, this should normally not happen
-            if ($comment->getElementId() == null) {
-                $comment->setElementId(); // @codeCoverageIgnore
-            } // @codeCoverageIgnore
-
-            $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
-            $this->xmlWriter->startElement('w:r');
-            $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
-            $this->xmlWriter->endElement();
+        if ($this->element->getCommentsRangeEnd() != null) {
+            foreach ($this->element->getCommentsRangeEnd()->getItems() as $comment) {
+                $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
+                $this->xmlWriter->startElement('w:r');
+                $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
+                $this->xmlWriter->endElement();
+            }
+        }
+        if ($this->element->getCommentsRangeStart() != null) {
+            foreach ($this->element->getCommentsRangeStart()->getItems() as $comment) {
+                if ($comment->getEndElement() == null) {
+                    $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
+                    $this->xmlWriter->startElement('w:r');
+                    $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
+                    $this->xmlWriter->endElement();
+                }
+            }
         }
     }
 

@@ -47,6 +47,39 @@ class CommentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Two comments on same text
+     */
+    public function testTwoCommentsOnSameText()
+    {
+        $section = new Section(0);
+        $text = $section->addText('Text');
+
+        $comment1 = new Comment('Author1', new \DateTime(), 'A1');
+        $comment1->addText('Comment1');
+
+        $comment2 = new Comment('Author2', new \DateTime(), 'A2');
+        $comment2->addText('Comment2');
+
+        $comment1->setStartElement($text);
+        $comment2->setStartElement($text);
+
+        $text->setCommentRangeStart($comment1);
+        $text->setCommentRangeEnd($comment1);
+
+        $text->setCommentRangeStart($comment2);
+        $text->setCommentRangeEnd($comment2);
+
+        $this->assertEquals(2, $text->getCommentsRangeStart()->countItems());
+        $this->assertEquals(2, $text->getCommentsRangeEnd()->countItems());
+
+        $this->assertEquals($text->getCommentsRangeStart()->getItem(1)->getElementId(), $comment1->getElementId());
+        $this->assertEquals($text->getCommentsRangeEnd()->getItem(1)->getElementId(), $comment1->getElementId());
+
+        $this->assertEquals($text->getCommentsRangeStart()->getItem(2)->getElementId(), $comment2->getElementId());
+        $this->assertEquals($text->getCommentsRangeEnd()->getItem(2)->getElementId(), $comment2->getElementId());
+    }
+
+    /**
      * Add text
      */
     public function testAddText()
