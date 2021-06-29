@@ -192,11 +192,11 @@ You can also specify the status of the spell and grammar checks, marking spellin
 
 .. code-block:: php
 
-    $proofState = new ProofState();
-    $proofState->setGrammar(ProofState::CLEAN);
-    $proofState->setSpelling(ProofState::DIRTY);
+    $proofState = new \PhpOffice\PhpWord\ComplexType\ProofState();
+    $proofState->setGrammar(\PhpOffice\PhpWord\ComplexType\ProofState::CLEAN);
+    $proofState->setSpelling(\PhpOffice\PhpWord\ComplexType\ProofState::DIRTY);
 
-    $phpWord->getSettings()->setProofState(proofState);
+    $phpWord->getSettings()->setProofState($proofState);
 
 Track Revisions
 ~~~~~~~~~~~~~~~
