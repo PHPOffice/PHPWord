@@ -148,6 +148,7 @@ class Document extends AbstractPart
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
         $evenOdd = $this->getParentWriter()->getPhpWord()->getSettings()->hasEvenAndOddHeaders();
         foreach ($sections as $section) {
+            // Write styles
             $styleWriter = new SectionStyleWriter($section->getStyle());
             $styleWriter->setParentWriter($this->getParentWriter());
             $content .= $styleWriter->write();
@@ -194,6 +195,21 @@ class Document extends AbstractPart
                 }
             }
 
+            // Append headers / footers
+            $sectionParts = array('Header', 'Footer');
+            foreach ($sectionParts as $sectionPart) {
+                $getFunction = 'get' . $sectionPart . 's';
+                $className = 'PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Section' . $sectionPart;
+                $parts = $section->$getFunction();
+                foreach ($parts as $part) {
+                    $partWriter = new $className();
+                    $partWriter->setParentWriter($this->getParentWriter());
+                    $partWriter->setElement($part);
+                    $content .= $partWriter->write();
+                }
+            }
+
+            // Write content
             $elementWriter = new Container($this->getParentWriter(), $section);
             $content .= $elementWriter->write();
 
