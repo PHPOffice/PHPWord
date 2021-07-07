@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment;
+use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphWordWrap;
 
 /**
  * Paragraph style writer
@@ -98,6 +99,16 @@ class Paragraph extends AbstractStyle
             $paragraphAlignment = new ParagraphAlignment($styles['alignment']);
             $xmlWriter->startElement($paragraphAlignment->getName());
             foreach ($paragraphAlignment->getAttributes() as $attributeName => $attributeValue) {
+                $xmlWriter->writeAttribute($attributeName, $attributeValue);
+            }
+            $xmlWriter->endElement();
+        }
+
+        // Paragraph wordWrap
+        if ('' !== $styles['wordWrap']) {
+            $paragraphWordWrap = new ParagraphWordWrap($styles['wordWrap']);
+            $xmlWriter->startElement($paragraphWordWrap->getName());
+            foreach ($paragraphWordWrap->getAttributes() as $attributeName => $attributeValue) {
                 $xmlWriter->writeAttribute($attributeName, $attributeValue);
             }
             $xmlWriter->endElement();
