@@ -64,9 +64,10 @@ class Styles extends AbstractPart
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
                 $type = $xmlReader->getAttribute('w:type', $node);
+                $id = $xmlReader->getAttribute('w:styleId', $node);
                 $name = $xmlReader->getAttribute('w:val', $node, 'w:name');
                 if (is_null($name)) {
-                    $name = $xmlReader->getAttribute('w:styleId', $node);
+                    $name = $id;
                 }
                 $headingMatches = array();
                 preg_match('/Heading\s*(\d)/i', $name, $headingMatches);
@@ -80,9 +81,11 @@ class Styles extends AbstractPart
                         } else {
                             if (empty($fontStyle)) {
                                 if (is_array($paragraphStyle)) {
+                                    $phpWord->addParagraphStyle($id, $paragraphStyle);
                                     $phpWord->addParagraphStyle($name, $paragraphStyle);
                                 }
                             } else {
+                                $phpWord->addFontStyle($id, $fontStyle, $paragraphStyle);
                                 $phpWord->addFontStyle($name, $fontStyle, $paragraphStyle);
                             }
                         }
@@ -90,12 +93,14 @@ class Styles extends AbstractPart
                     case 'character':
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
                         if (!empty($fontStyle)) {
+                            $phpWord->addFontStyle($id, $fontStyle);
                             $phpWord->addFontStyle($name, $fontStyle);
                         }
                         break;
                     case 'table':
                         $tStyle = $this->readTableStyle($xmlReader, $node);
                         if (!empty($tStyle)) {
+                            $phpWord->addTableStyle($id, $tStyle);
                             $phpWord->addTableStyle($name, $tStyle);
                         }
                         break;

@@ -226,4 +226,23 @@ class StyleTest extends AbstractTestReader
         $sectionStyle = $phpWord->getSection(0)->getStyle();
         $this->assertEquals(VerticalJc::CENTER, $sectionStyle->getVAlign());
     }
+
+    public function testGetStyleByStyleId()
+    {
+        $styleXml = '<w:style w:styleId="StyleId" w:type="character">
+            <w:name w:val="StyleName"/>
+            <w:qFormat/>
+            <w:rPr>
+                <w:b/>
+                <w:bCs/>
+            </w:rPr>
+        </w:style>';
+
+        $styleId = 'StyleId';
+        $name = 'StyleName';
+
+        $this->getDocumentFromString(array('styles' => $styleXml));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($styleId));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($name));
+    }
 }
