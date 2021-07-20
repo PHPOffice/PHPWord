@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -70,7 +71,7 @@ class OLEObject extends AbstractElement
      */
     public function __construct($source, $style = null)
     {
-        $supportedTypes = array('xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx');
+        $supportedTypes = array('xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx', 'pdf');
         $pathInfo = pathinfo($source);
 
         if (file_exists($source) && in_array($pathInfo['extension'], $supportedTypes)) {
@@ -81,6 +82,10 @@ class OLEObject extends AbstractElement
 
             $this->source = $source;
             $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
+            if ($ext === 'pdf') {
+                $this->icon = str_replace('original.pdf', 'preview.jpg', $source);
+                return;
+            }
             $this->icon = realpath(__DIR__ . "/../resources/{$ext}.png");
 
             return;
