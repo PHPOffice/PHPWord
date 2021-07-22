@@ -702,6 +702,13 @@ class Html
                     }
                     $styles['italic'] = $tValue;
                     break;
+                case 'font-variant':
+                    $tValue = false;
+                    if (preg_match('#small-caps#', $cValue)) {
+                        $tValue = true;
+                    }
+                    $styles['smallCaps'] = $tValue;
+                    break;
                 case 'margin':
                     $cValue = Converter::cssToTwip($cValue);
                     $styles['spaceBefore'] = $cValue;

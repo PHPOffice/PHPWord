@@ -133,6 +133,21 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
+     * Test font-variant style
+     */
+    public function testParseFontVariant()
+    {
+        $html = '<span style="font-variant: small-caps;">test</span>';
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:smallCaps'));
+        $this->assertEquals('1', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:smallCaps', 'w:val'));
+    }
+
+    /**
      * Test font
      */
     public function testParseFont()
