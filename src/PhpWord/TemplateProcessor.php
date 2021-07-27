@@ -109,7 +109,7 @@ class TemplateProcessor
         }
 
         // If we provided a file name, use it :
-        if (file_exists($documentTemplate)){
+        if (@file_exists($documentTemplate)){
             // Template file cloning
             if (false === copy($documentTemplate, $this->tempDocumentFilename)) {
                 throw new CopyFileException($documentTemplate, $this->tempDocumentFilename); // @codeCoverageIgnore
