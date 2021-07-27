@@ -6,6 +6,7 @@ Templates processing
 You can create an OOXML document template with included search-patterns (macros) which can be replaced by any value you wish. Only single-line values can be replaced.
 Macros are defined like this: ``${search-pattern}``.
 To load a template file, create a new instance of the TemplateProcessor.
+The constructor can accept the path to the Word Template, or the contents of the file (ie. if you had to load it from AWS S3, http, FTP, etc...)
 
 .. code-block:: php
 
