@@ -109,16 +109,15 @@ class TemplateProcessor
         }
 
         // If we provided a file name, use it :
-        if (@file_exists($documentTemplate)){
+        if (@file_exists($documentTemplate)) {
             // Template file cloning
             if (false === copy($documentTemplate, $this->tempDocumentFilename)) {
                 throw new CopyFileException($documentTemplate, $this->tempDocumentFilename); // @codeCoverageIgnore
             }
-        }else{
+        } else {
             // The param is not a file name, so it should be the file contents. Save it to a temp file, and use it.
-            file_put_contents( $this->tempDocumentFilename, $documentTemplate);
+            file_put_contents($this->tempDocumentFilename, $documentTemplate);
         }
-
 
         // Temporary document content extraction
         $this->zipClass = new ZipArchive();
