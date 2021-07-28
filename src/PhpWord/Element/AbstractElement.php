@@ -380,7 +380,7 @@ abstract class AbstractElement
             }
         }
         $this->commentsRangeEnd->addItem($value);
-        $this->commentsRangeEnd->getItem($this->commentsRangeEnd->countItems())->setEnd($this);
+        $this->commentsRangeEnd->getItem($this->commentsRangeEnd->countItems())->setEndElement($this);
     }
 
     /**
