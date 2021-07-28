@@ -180,14 +180,14 @@ class Styles extends AbstractPart
         // Heading style
         if ($styleType == 'title') {
             $styleId = $styleName;
-            $styleLink = $styleName.'Char';
+            $styleLink = $styleName . 'Char';
 
             // Title with the "Title 1" format
             if (preg_match("/\d$/", $styleName, $match)) {
                 // get the ending number
                 $i = (int) $match[0];
                 if ($i > 0) {
-                    $styleName = 'heading '.$i;
+                    $styleName = 'heading ' . $i;
                 }
             } else {
                 // Title out of the "Title 1" format
