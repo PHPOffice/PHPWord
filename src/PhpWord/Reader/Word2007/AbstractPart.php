@@ -193,7 +193,7 @@ abstract class AbstractPart
             $style = Style::getStyle($paragraphStyle['styleName']);
             if ($style && $style->getStyleType() === 'title') {
                 // And so, return the depth
-                $headingMatches = [];
+                $headingMatches = array();
                 preg_match('/.*(\d)$/', $paragraphStyle['styleName'], $headingMatches);
                 if (!empty($headingMatches)) {
                     return (int) $headingMatches[1];
