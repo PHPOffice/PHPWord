@@ -108,7 +108,7 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new PhpWord();
         $titleLevel = 1;
-        $titleName = "Heading_{$titleLevel}";
+        $titleName = "Heading{$titleLevel}";
         $phpWord->addTitleStyle($titleLevel, array());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($titleName));
     }

@@ -164,7 +164,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $span = "$element/text:span";
         $this->assertTrue($doc->elementExists($span));
         $this->assertEquals('Heading 1', $doc->getElement($span)->textContent);
-        $this->assertEquals('Heading_1', $doc->getElementAttribute($span, 'text:style-name'));
+        $this->assertEquals('Heading1', $doc->getElementAttribute($span, 'text:style-name'));
 
         $doc->setDefaultFile('styles.xml');
         $element = '/office:document-styles/office:styles/style:style[1]';
@@ -179,7 +179,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $element = '/office:document-styles/office:styles/style:style[2]';
         $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('Heading_1', $doc->getElementAttribute($element, 'style:name'));
+        $this->assertEquals('Heading1', $doc->getElementAttribute($element, 'style:name'));
         $element .= '/style:text-properties';
         $this->assertTrue($doc->elementExists($element));
         $this->assertEquals('20pt', $doc->getElementAttribute($element, 'fo:font-size'));
@@ -213,7 +213,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1', $doc->getElementAttribute($element, 'text:outline-level'));
         $span = "$element/text:span";
         $this->assertEquals('Text Title', $doc->getElement($span)->textContent);
-        $this->assertEquals('Heading_1', $doc->getElementAttribute($span, 'text:style-name'));
+        $this->assertEquals('Heading1', $doc->getElementAttribute($span, 'text:style-name'));
         $element = "$p2t/text:p[2]/text:span";
         $this->assertEquals('Text following Text Title', $doc->getElement($element)->nodeValue);
 
@@ -224,13 +224,13 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Text Run', $doc->getElement("$span/text:span[1]")->textContent);
         $this->assertTrue($doc->elementExists("$span/text:span[2]/text:s"));
         $this->assertEquals('Title', $doc->getElement("$span/text:span[2]")->textContent);
-        $this->assertEquals('Heading_1', $doc->getElementAttribute($span, 'text:style-name'));
+        $this->assertEquals('Heading1', $doc->getElementAttribute($span, 'text:style-name'));
         $element = "$p2t/text:p[3]/text:span";
         $this->assertEquals('Text following Text Run Title', $doc->getElement($element)->nodeValue);
     }
 
     /**
-     * Test correct writing of text with ampersand in it
+     * Test correct writing of text with ampersand in it.
      */
     public function testTextWithAmpersand()
     {

@@ -209,7 +209,7 @@ class StyleTest extends AbstractTestReader
             </w:rPr>
         </w:style>';
 
-        $name = 'Heading_1';
+        $name = 'Ttulo1';
 
         $this->getDocumentFromString(array('styles' => $documentXml));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($name));
