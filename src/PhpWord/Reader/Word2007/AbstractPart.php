@@ -189,10 +189,15 @@ abstract class AbstractPart
                 return 0;
             }
 
-            $headingMatches = array();
-            preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
-            if (!empty($headingMatches)) {
-                return $headingMatches[1];
+            // Check if the style is well a "title style"
+            $style = Style::getStyle($paragraphStyle['styleName']);
+            if ($style && $style->getStyleType() === 'title') {
+                // And so, return the depth
+                $headingMatches = [];
+                preg_match('/.*(\d)$/', $paragraphStyle['styleName'], $headingMatches);
+                if (!empty($headingMatches)) {
+                    return (int) $headingMatches[1];
+                }
             }
         }
 

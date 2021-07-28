@@ -100,7 +100,7 @@ class Style
             if (empty($depth)) {
                 $styleName = 'Title';
             } else {
-                $styleName = "Heading_{$depth}";
+                $styleName = "Heading{$depth}";
             }
         }
 

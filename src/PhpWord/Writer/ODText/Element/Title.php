@@ -48,7 +48,7 @@ class Title extends AbstractElement
         $xmlWriter->writeAttribute('text:outline-level', $depth);
         $xmlWriter->startElement('text:span');
         if ($depth > 0) {
-            $xmlWriter->writeAttribute('text:style-name', 'Heading_' . $depth);
+            $xmlWriter->writeAttribute('text:style-name', 'Heading' . $depth);
         } else {
             $xmlWriter->writeAttribute('text:style-name', 'Title');
         }

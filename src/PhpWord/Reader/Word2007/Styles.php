@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
 use PhpOffice\PhpWord\Style\Language;
@@ -70,14 +71,20 @@ class Styles extends AbstractPart
                     $name = $styleId;
                 }
                 $headingMatches = array();
-                preg_match('/Heading\s*(\d)/i', $name, $headingMatches);
-                // $default = ($xmlReader->getAttribute('w:default', $node) == 1);
+                preg_match('/Heading\s*(\d)/i', $name, $headingMatches); // match with "heading 1", "Heading1" …
+
                 switch ($type) {
                     case 'paragraph':
                         $paragraphStyle = $this->readParagraphStyle($xmlReader, $node);
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
 
                         if (!empty($headingMatches)) {
+                            $titleDepth = $headingMatches[1];
+                            if ($titleDepth > 0 && $titleDepth < 7) {
+                                $stylePrefix = substr($styleId, 0, strpos($styleId, $titleDepth));
+                                Title::registerTitleStylePrefix($stylePrefix);
+                            }
+
                             $phpWord->addTitleStyle($headingMatches[1], $fontStyle, $paragraphStyle, $styleId);
                         } else {
                             if (empty($fontStyle)) {

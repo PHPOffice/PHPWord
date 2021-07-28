@@ -29,7 +29,6 @@ class Title extends Text
         /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
         $element = $this->element;
         $style = $element->getStyle();
-        $style = str_replace('Heading', 'Heading_', $style);
         $style = \PhpOffice\PhpWord\Style::getStyle($style);
         if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
             $this->fontStyle = $style;
