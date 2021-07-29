@@ -713,6 +713,20 @@ class TemplateProcessor
     }
 
     /**
+     * Returns array of all variables in template without blocks mentioned in the list
+     *
+     * @return string[]
+     */
+    public function getVariablesWithoutBlocks(): array
+    {
+        $variables = $this->getVariables();
+
+        return array_filter($variables, function ($variable) use ($variables) {
+            return strpos($variable, '/') !== 0 && array_search(\sprintf('/%s', $variable), $variables, true) === false;
+        });
+    }
+
+    /**
      * Clone a table row in a template document.
      *
      * @param string $search
@@ -782,6 +796,19 @@ class TemplateProcessor
                 $this->setValue($macro . '#' . $rowNumber, $replace);
             }
         }
+    }
+
+    /**
+     * Returns array of all blocks in the template
+     *
+     * @return string[]
+     */
+    public function getBlocks(): array
+    {
+        $variables = $this->getVariables();
+        return array_filter($variables, function ($variable) use ($variables) {
+            return array_search(\sprintf('/%s', $variable), $variables, true) !== false;
+        });
     }
 
     /**
@@ -862,6 +889,14 @@ class TemplateProcessor
     public function deleteBlock($blockname)
     {
         $this->replaceBlock($blockname, '');
+    }
+
+    /**
+     * Keep a blocks content without the macro around it.
+     */
+    public function keepBlock(string $blockname): ?string
+    {
+        return $this->cloneBlock($blockname, 1, true);
     }
 
     /**
