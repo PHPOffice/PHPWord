@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\XMLReader;
+use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**
  * Abstract part reader
@@ -252,15 +253,31 @@ abstract class AbstractPart
             $endnote->setRelationId($wId);
         } elseif ($node->nodeName == 'w:pict') {
             // Image
+            $name = $xmlReader->getAttribute('r:title', $node, 'v:shape/v:imagedata');
             $rId = $xmlReader->getAttribute('r:id', $node, 'v:shape/v:imagedata');
             $target = $this->getMediaTarget($docPart, $rId);
             if (!is_null($target)) {
+                // Add image styles
+                $style = null;
+                $imageStyleDef = $xmlReader->getAttribute('style', $node, 'v:shape');
+                if (!is_null($imageStyleDef)) {
+                    $style = array();
+                    $sizes = preg_grep(
+                        '/(width|height)[:](\d+?\.\d+)/',
+                        explode(';', $imageStyleDef)
+                    );
+                    foreach ($sizes as $sizeDef) {
+                        list($sizeName, $size) = explode(':', $sizeDef);
+                        $style[$sizeName] = str_replace('pt', '', $size);
+                    }
+                }
+
                 if ('External' == $this->getTargetMode($docPart, $rId)) {
                     $imageSource = $target;
                 } else {
                     $imageSource = "zip://{$this->docFile}#{$target}";
                 }
-                $parent->addImage($imageSource);
+                $parent->addImage($imageSource, $style, false, $name);
             }
         } elseif ($node->nodeName == 'w:drawing') {
             // Office 2011 Image
@@ -279,20 +296,7 @@ abstract class AbstractPart
             $target = $this->getMediaTarget($docPart, $embedId);
             if (!is_null($target)) {
                 // Add image styles
-                $style = null;
-                $width = $xmlReader->getAttribute('cx', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:spPr/a:xfrm/a:ext');
-                $height = $xmlReader->getAttribute('cy', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:spPr/a:xfrm/a:ext');
-                if ($width !== null || $height !== null) {
-                    $style = array();
-                    if ($width !== null) {
-                        // Image width
-                        $style['width'] = (string) Converter::emuToPoint((float) $width);
-                    }
-                    if ($height !== null) {
-                        // Image height
-                        $style['height'] = (string) Converter::emuToPoint((float) $height);
-                    }
-                }
+                $style = $this->readDrawingImageStyles($xmlReader, $node);
 
                 $imageSource = "zip://{$this->docFile}#{$target}";
                 $parent->addImage($imageSource, $style, false, $name);
@@ -483,6 +487,71 @@ abstract class AbstractPart
         }
 
         return $tabStyles;
+    }
+
+    /**
+     * Read w:drawing.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @return array|null
+     */
+    protected function readDrawingImageStyles(XMLReader $xmlReader, \DOMElement $domNode)
+    {
+        if (is_null($domNode)) {
+            return null;
+        }
+
+        $styles = array();
+
+        if ($xmlReader->elementExists('wp:anchor', $domNode)) {
+            $picNode = $xmlReader->getElement('wp:anchor/a:graphic/a:graphicData/pic:pic', $domNode);
+
+            // Anchor wrapping style square
+            if ($xmlReader->elementExists('wp:anchor/wp:wrapSquare', $domNode)) {
+                $styles['wrappingStyle'] = ImageStyle::WRAPPING_STYLE_SQUARE;
+            }
+            // Anchor wrapping distance top
+            if ($xmlReader->elementExists('wp:anchor/wp:positionV/wp:posOffset', $domNode)) {
+                $topOffset = $xmlReader->getValue('wp:anchor/wp:positionV/wp:posOffset', $domNode);
+                if (!is_null($topOffset)) {
+                    $styles['wrapDistanceTop'] = (string) Converter::emuToPixel((float) $topOffset);
+                }
+            }
+            // Anchor wrapping distance left
+            if ($xmlReader->elementExists('wp:anchor/wp:positionH/wp:posOffset', $domNode)) {
+                $leftOffset = $xmlReader->getValue('wp:anchor/wp:positionH/wp:posOffset', $domNode);
+                if (!is_null($leftOffset)) {
+                    $styles['wrapDistanceLeft'] = (string) Converter::emuToPixel((float) $leftOffset);
+                }
+            }
+        } elseif ($xmlReader->getElement('wp:inline', $domNode)) {
+            // Inline image
+            $picNode = $xmlReader->getElement('wp:inline/a:graphic/a:graphicData/pic:pic', $domNode);
+        } else {
+            // Drawing image unsupported
+            return null;
+        }
+
+        // Sizes
+        $width = $xmlReader->getAttribute('cx', $picNode, 'pic:spPr/a:xfrm/a:ext');
+        $height = $xmlReader->getAttribute('cy', $picNode, 'pic:spPr/a:xfrm/a:ext');
+        if ($width !== null || $height !== null) {
+            if ($width !== null) {
+                // Image width
+                $styles['width'] = (string) Converter::emuToPoint((float) $width);
+            }
+            if ($height !== null) {
+                // Image height
+                $styles['height'] = (string) Converter::emuToPoint((float) $height);
+            }
+        }
+
+        if (count($styles) > 0) {
+            return $styles;
+        }
+
+        return null;
     }
 
     /**

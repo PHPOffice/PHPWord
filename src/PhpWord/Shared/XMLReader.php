@@ -76,6 +76,7 @@ class XMLReader
             $originalLibXMLEntityValue = libxml_disable_entity_loader(true);
         }
         $this->dom = new \DOMDocument();
+        $content = str_replace('<w:br/>', "\n", $content);
         $this->dom->loadXML($content);
         if (\PHP_VERSION_ID < 80000) {
             libxml_disable_entity_loader($originalLibXMLEntityValue);

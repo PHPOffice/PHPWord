@@ -146,7 +146,7 @@ class Image extends AbstractElement
         if ($style === null) {
             $style = $this->getImageSizeStyle();
         }
-        $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
+        $this->style = $this->setNewStyle(new ImageStyle(), $style, is_null($style));
         $this->setIsWatermark($watermark);
         $this->setName($name);
 
