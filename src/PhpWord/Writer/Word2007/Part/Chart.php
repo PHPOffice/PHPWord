@@ -547,7 +547,7 @@ class Chart extends AbstractPart
         // #rat
         $line = $style->showAxes();
 
-        if ($style->getFormat() == 'time' || ($style->getFormat() == 'date' && count($series) == 1)) {
+        if ($style->getFormat() == 'time' || $style->getFormat()) {
             $xmlWriter->startElement('c:valAx');
         } else {
             $xmlWriter->startElement($axisType);
