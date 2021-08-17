@@ -465,6 +465,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotContains('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
     }
+
     /**
      * @covers ::setImageValue
      * @test
