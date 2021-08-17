@@ -36,6 +36,12 @@ class Html
     protected static $xpath;
     protected static $options;
     protected static $userDefinedNodeMappings = array();
+    protected static $contentTypeFileExtensionMap = array(
+        'image/svg+xml' => 'svg',
+        'image/jpeg'    => 'jpg',
+        'image/png'     => 'png',
+        'image/gif'     => 'gif',
+    );
 
     /**
      * Add HTML parts.
@@ -422,7 +428,7 @@ class Html
      */
     protected static function shouldAddTextRun(\DOMNode $node)
     {
-        $containsBlockElement = self::$xpath->query('.//table|./p|./ul|./ol', $node)->length > 0;
+        $containsBlockElement = self::$xpath->query('.//table|./p|./ul|./ol|./h1|./h2|./h3|./h4|./h5|./h6', $node)->length > 0;
         if ($containsBlockElement) {
             return false;
         }
@@ -841,6 +847,17 @@ class Html
                 $tmpDir = Settings::getTempDir() . '/';
                 $match = array();
                 preg_match('/.+\.(\w+)$/', $src, $match);
+
+                if (empty($match) || !isset($match[1])) {
+                    $contentType = get_headers($src, 1)['Content-Type'];
+
+                    if (!array_key_exists($contentType, self::$contentTypeFileExtensionMap)) {
+                        throw new \Exception("Could not load image $src");
+                    }
+
+                    $match[1] = self::$contentTypeFileExtensionMap[$contentType];
+                }
+
                 $src = $tmpDir . uniqid() . '.' . $match[1];
 
                 $ifp = fopen($src, 'wb');
@@ -1017,7 +1034,7 @@ class Html
     public static function addUserDefinedNodeMapping($htmlTag, $withNode, $withElement, $withStyles, $withData, $argument1, $argument2, $method)
     {
         $args = compact(
-            'withNode', 'withElement','withStyles', 'withData', 'argument1', 'argument2', 'method'
+            'withNode', 'withElement', 'withStyles', 'withData', 'argument1', 'argument2', 'method'
         );
         self::$userDefinedNodeMappings[$htmlTag] = $args;
     }
