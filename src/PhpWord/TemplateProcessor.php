@@ -412,7 +412,7 @@ class TemplateProcessor
                 } else {
                     $varInlineArgs[strtolower($argName)] = $argValue;
                 }
-            } elseif (preg_match('/^([0-9]*[a-z%]{0,2}|auto)x([0-9]*[a-z%]{0,2}|auto)$/i', $varArg)) { // 60x40
+            } elseif (preg_match('/^([0-9]*(\.[0-9]+)?[a-z%]{0,2}|auto)x([0-9]*(\.[0-9]+)?[a-z%]{0,2}|auto)$/i', $varArg)) { // 60x40
                 list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $varArg, 2);
             } else { // :60:40:f
                 switch ($argIdx) {
@@ -438,7 +438,7 @@ class TemplateProcessor
         if (is_null($value) && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value)) {
+        if (!preg_match('/^([0-9]*(\.[0-9]+)?(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value)) {
             $value = null;
         }
         if (is_null($value)) {
