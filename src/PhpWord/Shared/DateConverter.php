@@ -55,7 +55,8 @@ class DateConverter
                 new \DateTime(date('Y-m-d', $date))
             );
 
-            $date = $diff->days + $dayPart;
+            //+2 дня, вордом не учитывается конечный и начальный день
+            $date = $diff->days + 2 + $dayPart;
         }
         return $categories;
     }
