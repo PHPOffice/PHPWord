@@ -116,6 +116,7 @@ class Chart extends AbstractPart
      */
     private function writeChart(XMLWriter $xmlWriter)
     {
+        $xmlWriter->writeElementBlock('c:date1904', 'val', 0);
         $xmlWriter->startElement('c:chart');
 
         $this->writePlotArea($xmlWriter);
