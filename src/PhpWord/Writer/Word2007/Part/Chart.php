@@ -637,7 +637,7 @@ class Chart extends AbstractPart
 
         if ($type == 'cat') {
             if (count($categories) <= 2 && $style->isDate() && $style->getFormat() != 'time') {
-                $xmlWriter->writeElementBlock('c:majorUnit', 'val', '1');
+//                $xmlWriter->writeElementBlock('c:majorUnit', 'val', '1');
             }
 
             if ($style->getFormat() == 'time') {
