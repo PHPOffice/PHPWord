@@ -7,6 +7,9 @@ namespace PhpOffice\PhpWord\Shared;
 class DateConverter
 {
 
+    const MINUTES_PER_DAY = 1440;
+    const MINUTES_PER_HOUR = 60;
+
     /**
      * переводим timestamp в формат времени WS Word,
      * количество дней с 01.01.1900
@@ -31,14 +34,25 @@ class DateConverter
         }, $categories);
 
 //         устанавливает метку типа формата дата/время
-        if (new \DateTime(date('Y-m-d', $categories[0])) == new \DateTime(date('Y-m-d', $categories[1]))) {
-            $isTime = true;
-        }
+//        if (new \DateTime(date('Y-m-d', $categories[0])) == new \DateTime(date('Y-m-d', $categories[1]))) {
+//            $isTime = true;
+//        }
 
         foreach ($categories as &$date) {
             //добавляем 3 часа так как ворд использует UTC для
-            $date += 10800;
+
+
+            $h = (int) date('H', $date);
+            $m = (int) date('i', $date);
+            if ($h != 0) {
+                $m += $h * self::MINUTES_PER_HOUR;
+            }
+            $dayPart = $m / self::MINUTES_PER_DAY;
+
+//            $date += 10800;
+
             $date = self::formattedPHPToExcel(date('Y', $date), date('m', $date), date('d', $date));
+            $date +=$dayPart;
         }
         return $categories;
     }

@@ -63,8 +63,17 @@ class Chart extends AbstractPart
      */
     private $format = [
         'percent' =>['0%', '0.0%'],
-        'date' =>['[$-419]d\ mmm;@'],
-        'time' =>['h:mm;@']
+//        'date' =>['[$-419]d\ mmm;@'],
+//        'time' =>['h:mm;@'],
+
+        '5_min' => ['h:mm;@'],
+        '30_min' => ['h:mm;@'],
+        'hour' => ['[$-419]h:mm;@'],
+        'day' => ['[$-419]d\ mmm;@'],
+        'week' => ['[$-419]d\ mmm;@'],
+        'month' => ['[$-419]mmmm;@'],
+        'quarter' => ['[$-419]mmmm;@'],
+        'year' =>['[$-419-x-nomlower]YYYY;@']
     ];
 
     /**
@@ -288,7 +297,7 @@ class Chart extends AbstractPart
         foreach ($series as $seriesItem) {
             if ($style->isDate()) {
                 $categories = DateConverter::officeDateFormat($seriesItem['categories']) ;
-                $style->setFormat(DateConverter::isTime($categories) ? 'time' : 'date');
+//                $style->setFormat(DateConverter::isTime($categories) ? 'time' : 'date');
             } else {
                 $categories = $seriesItem['categories'];
             }
