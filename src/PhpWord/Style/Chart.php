@@ -24,6 +24,9 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Chart extends AbstractStyle
 {
+
+    const LANG_RU = 'ru';
+
     /**
      * Width (in EMU)
      *
@@ -338,6 +341,11 @@ class Chart extends AbstractStyle
     protected $format = null;
 
     /**
+     * @var string | null
+     */
+    protected $language = null;
+
+    /**
      * @var bool
      */
     protected $catFormat = false;
@@ -356,6 +364,23 @@ class Chart extends AbstractStyle
      * @var bool
      */
     protected $yValFormat = false;
+
+    /**
+     * @var array
+     */
+    private $formatPattern = [
+        'percent' =>['0%', '0.0%'],
+        'date' =>['[$-419]d\ mmm;@', '[$-409]d\ mmm;@'],
+        'time' =>['h:mm;@', 'h:mm;@'],
+        '5_min' => ['h:mm;@', 'h:mm;@'],
+        '30_min' => ['h:mm;@', 'h:mm;@'],
+        'hour' => ['[$-419]h:mm;@', '[$-409]h:mm;@'],
+        'day' => ['[$-419]d\ mmm;@', '[$-409]d\ mmm;@'],
+        'week' => ['[$-419]d\ mmm;@', '[$-409]d\ mmm;@'],
+        'month' => ['[$-419]mmmm;@', '[$-409]mmmm;@'],
+        'quarter' => ['[$-419]mmmm;@', '[$-409]mmmm;@'],
+        'year' =>['[$-419-x-nomlower]YYYY;@', '[$-409-x-nomlower]YYYY;@']
+    ];
 
     /**
      * Create a new instance
@@ -1334,6 +1359,14 @@ class Chart extends AbstractStyle
     }
 
     /**
+     * @return string | null
+     */
+    public function getFormatPattern(): ?string
+    {
+        return $this->formatPattern[$this->format][strtolower($this->language) == self::LANG_RU ? 0 : 1];
+    }
+
+    /**
      * @param string $format
      *
      * @return self
@@ -1341,6 +1374,18 @@ class Chart extends AbstractStyle
     public function setFormat(?string $format): self
     {
         $this->format = $format;
+
+        return $this;
+    }
+
+    /**
+     * @param string $language
+     *
+     * @return self
+     */
+    public function setLanguage(?string $language): self
+    {
+        $this->language = $language;
 
         return $this;
     }

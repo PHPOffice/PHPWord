@@ -57,26 +57,6 @@ class Chart extends AbstractPart
     );
 
     /**
-     * format and option
-     *
-     * @var array
-     */
-    private $format = [
-        'percent' =>['0%', '0.0%'],
-//        'date' =>['[$-419]d\ mmm;@'],
-//        'time' =>['h:mm;@'],
-
-        '5_min' => ['h:mm;@'],
-        '30_min' => ['h:mm;@'],
-        'hour' => ['[$-419]h:mm;@'],
-        'day' => ['[$-419]d\ mmm;@'],
-        'week' => ['[$-419]d\ mmm;@'],
-        'month' => ['[$-419]mmmm;@'],
-        'quarter' => ['[$-419]mmmm;@'],
-        'year' =>['[$-419-x-nomlower]YYYY;@']
-    ];
-
-    /**
      * Chart options
      *
      * @var array
@@ -488,25 +468,25 @@ class Chart extends AbstractPart
 
         if ($this->element->getStyle()->isCatFormat() && $type == 'cat') {
             $xmlWriter->startElement('c:formatCode');
-            $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->writeRaw($this->element->getStyle()->getFormatPattern());
             $xmlWriter->endElement(); // c:formatCode
         }
 
         if ($this->element->getStyle()->isValFormat() && $type == 'val') {
             $xmlWriter->startElement('c:formatCode');
-            $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->writeRaw($this->element->getStyle()->getFormatPattern());
             $xmlWriter->endElement(); // c:formatCode
         }
 
         if ($this->element->getStyle()->isXValFormat() && $type == 'xVal') {
             $xmlWriter->startElement('c:formatCode');
-            $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->writeRaw($this->element->getStyle()->getFormatPattern());
             $xmlWriter->endElement(); // c:formatCode
         }
 
         if ($this->element->getStyle()->isYValFormat() && $type == 'yVal') {
             $xmlWriter->startElement('c:formatCode');
-            $xmlWriter->writeRaw($this->format[$this->element->getStyle()->getFormat()][0]);
+            $xmlWriter->writeRaw($this->element->getStyle()->getFormatPattern());
             $xmlWriter->endElement(); // c:formatCode
         }
 
@@ -583,7 +563,7 @@ class Chart extends AbstractPart
         $xmlWriter->writeElementBlock('c:auto', 'val', 1);
 
         if (isset($this->options['axes'])) {
-            $formatCode = (is_string($style->getFormat())) ? $this->format[$style->getFormat()][0] : 'General';
+            $formatCode = (is_string($style->getFormat())) ? $style->getFormatPattern() : 'General';
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', $style->getMajorTickPosition());
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
