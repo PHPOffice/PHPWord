@@ -130,6 +130,13 @@ class Paragraph extends Border
      * @var bool
      */
     private $pageBreakBefore = false;
+    
+    /**
+     * Word wrap
+     *
+     * @var bool
+     */
+    private $wordWrap = true;
 
     /**
      * Numbering style name
@@ -228,6 +235,7 @@ class Paragraph extends Border
                 'keepNext'        => $this->isKeepNext(),
                 'keepLines'       => $this->isKeepLines(),
                 'pageBreak'       => $this->hasPageBreakBefore(),
+                'wordWrap'        => $this->hasWordWrap(),
             ),
             'numbering'           => array(
                 'style'           => $this->getNumStyle(),
@@ -639,6 +647,29 @@ class Paragraph extends Border
     public function setPageBreakBefore($value = true)
     {
         $this->pageBreakBefore = $this->setBoolVal($value, $this->pageBreakBefore);
+
+        return $this;
+    }
+    
+    /**
+     * Get word wrap
+     *
+     * @return bool
+     */
+    public function hasWordWrap()
+    {
+        return $this->wordWrap;
+    }
+
+    /**
+     * set word wrap
+     *
+     * @param bool $value
+     * @return $this
+     */
+    public function setWordWrap($value = true)
+    {
+        $this->wordWrap = $this->setBoolVal($value, $this->wordWrap);
 
         return $this;
     }
