@@ -611,7 +611,7 @@ class Chart extends AbstractPart
         $xmlWriter->startElement('c:scaling');
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
 
-        if ($style->isAlongLength() && $type == 'cat' && count($categories) > 1) {
+        if ($style->isAlongLength() && $type == 'cat') {
             $xmlWriter->writeElementBlock('c:max', 'val', $categories[array_key_last($categories)]);
             $xmlWriter->writeElementBlock('c:min', 'val', $categories[array_key_first($categories)]);
         }
