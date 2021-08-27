@@ -615,6 +615,14 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:max', 'val', $categories[array_key_last($categories)]);
             $xmlWriter->writeElementBlock('c:min', 'val', $categories[array_key_first($categories)]);
         }
+        $step = 1;
+        if (count($categories) == 1 && $type == 'cat' && $style->isAlongLength()) {
+            if (in_array($style->getFormat(), ['hour','30_min', '5_min'])) {
+                $step = 0.0416666;
+            }
+            $xmlWriter->writeElementBlock('c:max', 'val', $categories[0] + $step);
+            $xmlWriter->writeElementBlock('c:min', 'val', $categories[0] - $step);
+        }
 
         $xmlWriter->endElement(); // c:scaling
 
@@ -625,8 +633,8 @@ class Chart extends AbstractPart
         }
 
         if ($type == 'cat') {
-            if (count($categories) <= 2 && $style->isDate() && $style->getFormat() != 'time') {
-//                $xmlWriter->writeElementBlock('c:majorUnit', 'val', '1');
+            if (count($categories) == 1) {
+                $xmlWriter->writeElementBlock('c:majorUnit', 'val', 1*$step);
             }
 
             if ($style->getFormat() == 'time') {
