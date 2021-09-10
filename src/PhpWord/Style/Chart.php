@@ -369,7 +369,7 @@ class Chart extends AbstractStyle
      * @var array
      */
     private $formatPattern = [
-        'percent' =>['0%', '0.0%'],
+        'percent' =>['0%', '0%'],
         'date' =>['[$-419]d\ mmm;@', '[$-409]d\ mmm;@'],
         'time' =>['h:mm;@', 'h:mm;@'],
         '5_min' => ['h:mm;@', 'h:mm;@'],

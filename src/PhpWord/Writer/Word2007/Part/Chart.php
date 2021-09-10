@@ -379,7 +379,11 @@ class Chart extends AbstractPart
                 $xmlWriter->startElement('a:defRPr');
                 $xmlWriter->writeAttribute('sz', $style->getValSize());
                 $xmlWriter->startElement('a:solidFill');
-                $xmlWriter->writeElementBlock('a:schemeClr', 'val', $style->getValColor());
+                if ($style->getValColor() == 'bg1') {
+                    $xmlWriter->writeElementBlock('a:schemeClr', 'val', $style->getValColor());
+                } else {
+                    $xmlWriter->writeElementBlock('a:srgbClr', 'val', $style->getValColor());
+                }
                 $xmlWriter->endElement(); // a:solidFill
                 $xmlWriter->endElement(); // a:defRPr
                 $xmlWriter->endElement(); // a:pPr
