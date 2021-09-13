@@ -34,11 +34,26 @@ class PageBreak extends AbstractElement
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('w:p');
+
+        $xmlWriter->startElement('w:pPr');
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->writeElementBlock('w:sz', 'w:val', '1');
+        $xmlWriter->writeElementBlock('w:szCs', 'w:val', '1');
+        $xmlWriter->endElement(); // w:rPr
+        $xmlWriter->endElement(); // w:pPr
+
         $xmlWriter->startElement('w:r');
+
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->writeElementBlock('w:sz', 'w:val', '1');
+        $xmlWriter->writeElementBlock('w:szCs', 'w:val', '1');
+        $xmlWriter->endElement(); // w:rPr
+
         $xmlWriter->startElement('w:br');
         $xmlWriter->writeAttribute('w:type', 'page');
         $xmlWriter->endElement(); // w:br
         $xmlWriter->endElement(); // w:r
+
         $xmlWriter->endElement(); // w:p
     }
 }
