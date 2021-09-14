@@ -641,6 +641,10 @@ class Chart extends AbstractPart
                 $xmlWriter->writeElementBlock('c:majorUnit', 'val', 1*$step);
             }
 
+            if (count($categories) <= 12) {
+                $xmlWriter->writeElementBlock('c:majorUnit', 'val', 1);
+            }
+
             if ($style->getFormat() == 'time') {
                 $xmlWriter->writeElementBlock('c:majorUnit', 'val', '0.0833333333333333');
             }
