@@ -641,10 +641,12 @@ class Chart extends AbstractPart
                 $xmlWriter->writeElementBlock('c:majorUnit', 'val', 1*$step);
             }
 
-            if ((count($categories) <= 12 && $style->getFormat() != 'month')
-                ||  ($style->getFormat() == 'day' && $categories[array_key_last($categories)] - $categories[array_key_first($categories)] <= 10)
-            ) {
-                $xmlWriter->writeElementBlock('c:majorUnit', 'val', 1);
+            if ($this->element->getType() == 'scatter') {
+                if ((count($categories) <= 12 && $style->getFormat() != 'month')
+                    ||  ($style->getFormat() == 'day' && $categories[array_key_last($categories)] - $categories[array_key_first($categories)] <= 10)
+                ) {
+                    $xmlWriter->writeElementBlock('c:majorUnit', 'val', 1);
+                }
             }
 
             if ($style->getFormat() == 'time') {
