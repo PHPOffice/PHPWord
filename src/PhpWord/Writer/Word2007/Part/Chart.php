@@ -629,10 +629,10 @@ class Chart extends AbstractPart
         }
 
         if ($type == 'val') {
-            if ($style->getAxisValMax() === null) {
+            if ($style->getAxisValMax() !== null) {
                 $xmlWriter->writeElementBlock('c:max', 'val', $style->getAxisValMax());
             }
-            if ($style->getAxisValMin() === null) {
+            if ($style->getAxisValMin() !== null) {
                 $xmlWriter->writeElementBlock('c:min', 'val', $style->getAxisValMin());
             }
         }
