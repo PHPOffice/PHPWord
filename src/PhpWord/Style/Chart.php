@@ -1485,7 +1485,7 @@ class Chart extends AbstractStyle
      *
      * @return self
      */
-    public function setAxisValMin(int $axisValMin): self
+    public function setAxisValMin($axisValMin): self
     {
         $this->axisValMin = $axisValMin;
 
@@ -1505,7 +1505,7 @@ class Chart extends AbstractStyle
      *
      * @return self
      */
-    public function setAxisValMax(int $axisValMax): self
+    public function setAxisValMax($axisValMax): self
     {
         $this->axisValMax = $axisValMax;
 
