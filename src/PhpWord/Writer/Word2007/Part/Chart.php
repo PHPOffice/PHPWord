@@ -651,7 +651,7 @@ class Chart extends AbstractPart
             }
 
             if ($this->element->getType() == 'scatter') {
-                if ((count($categories) <= 12 && $style->getFormat() != 'month')
+                if ((count($categories) <= 12 && !in_array($style->getFormat(), ['month', 'week']))
                     ||  ($style->getFormat() == 'day' && $categories[array_key_last($categories)] - $categories[array_key_first($categories)] <= 10)
                 ) {
                     $xmlWriter->writeElementBlock('c:majorUnit', 'val', 1);
