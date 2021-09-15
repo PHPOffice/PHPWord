@@ -628,6 +628,15 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:min', 'val', $categories[0] - $step);
         }
 
+        if ($type == 'val') {
+            if ($style->getAxisValMax()) {
+                $xmlWriter->writeElementBlock('c:max', 'val', $style->getAxisValMax());
+            }
+            if ($style->getAxisValMin()) {
+                $xmlWriter->writeElementBlock('c:min', 'val', $style->getAxisValMin());
+            }
+        }
+
         $xmlWriter->endElement(); // c:scaling
 
         $this->writeShape($xmlWriter, $line);

@@ -383,6 +383,16 @@ class Chart extends AbstractStyle
     ];
 
     /**
+     * @var int | null
+     */
+    protected $axisValMax = null;
+
+    /**
+     * @var int | null
+     */
+    protected $axisValMin = null;
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -1468,6 +1478,46 @@ class Chart extends AbstractStyle
         $this->yValFormat = $yValFormat;
 
         return $this;
+    }
+
+    /**
+     * @param int $axisValMin
+     *
+     * @return self
+     */
+    public function setAxisValMin(int $axisValMin): self
+    {
+        $this->axisValMin = $axisValMin;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAxisValMin()
+    {
+        return $this->axisValMin;
+    }
+
+    /**
+     * @param int $axisValMax
+     *
+     * @return self
+     */
+    public function setAxisValMax(int $axisValMax): self
+    {
+        $this->axisValMax = $axisValMax;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAxisValMax()
+    {
+        return $this->axisValMax;
     }
 
 }
