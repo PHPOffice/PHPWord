@@ -381,7 +381,7 @@ class Chart extends AbstractStyle
         'week' => ['[$-419]d\ mmm;@', '[$-409]d\ mmm;@'],
         'month' => ['[$-419]mmmm;@', '[$-409]mmmm;@'],
         'quarter' => ['[$-419]mmmm;@', '[$-409]mmmm;@'],
-        'year' =>['[$-419-x-nomlower]YYYY;@', '[$-409-x-nomlower]YYYY;@']
+        'year' =>['[$-ru-RU]YYYY;@', '[$-en-EN]YYYY;@']
     ];
 
     /**
