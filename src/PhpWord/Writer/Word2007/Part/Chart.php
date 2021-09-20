@@ -541,7 +541,7 @@ class Chart extends AbstractPart
         // #rat
         $line = $style->showAxes();
 
-        if ($style->getFormat() == 'time' || ($style->getFormat() && $style->getFormat() != 'percent')) {
+        if ($style->getFormat() == 'time' || ($style->getFormat() && !in_array($style->getFormat(), ['percent', 'text']))) {
             $xmlWriter->startElement('c:valAx');
         } else {
             $xmlWriter->startElement($axisType);
@@ -628,7 +628,7 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:min', 'val', $categories[0] - $step);
         }
 
-        if ($type == 'val' && $this->element->getType() == 'scatter') {
+        if ($type == 'val') {
             if ($style->getAxisValMax() !== null) {
                 $xmlWriter->writeElementBlock('c:max', 'val', $style->getAxisValMax());
             }
