@@ -654,6 +654,7 @@ class Chart extends AbstractPart
                 if ((count($categories) <= 12 && !in_array($style->getFormat(), ['month', 'week']))
                     || ($style->getFormat() == 'day' && $categories[array_key_last($categories)] - $categories[array_key_first($categories)] <= 10)
                     || ($style->getFormat() == 'week' && $categories[array_key_last($categories)] - $categories[array_key_first($categories)] < 7)
+                    || ($style->getFormat() == 'year')
                 ) {
                     $xmlWriter->writeElementBlock('c:majorUnit', 'val', 1);
                 }
