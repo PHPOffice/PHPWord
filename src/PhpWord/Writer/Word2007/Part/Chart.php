@@ -628,7 +628,7 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:min', 'val', $categories[0] - $step);
         }
 
-        if ($type == 'val') {
+        if ($type == 'val' && $this->element->getType() == 'scatter') {
             if ($style->getAxisValMax() !== null) {
                 $xmlWriter->writeElementBlock('c:max', 'val', $style->getAxisValMax());
             }
