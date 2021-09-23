@@ -534,6 +534,24 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
+     * Test parsing of remote img with signed url
+     */
+    public function testParseRemoteSignedImage()
+    {
+        $src = 'https://gathertest.imgix.net/Nw/vmfKMPzVP6uolWQG?ar=1%3A1&auto=format%2Ccompress&fit=crop&max-height=800&q=75&s=694c91d545685c82215985a09bda7d05';
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '"/></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+    }
+
+    /**
      * Test parsing embedded image
      */
     public function testParseEmbeddedImage()
