@@ -817,7 +817,7 @@ class Html
                     break;
             }
         }
-        $originSrc = $src;
+
         if (strpos($src, 'data:image') !== false) {
             $tmpDir = Settings::getTempDir() . '/';
 
@@ -833,7 +833,6 @@ class Html
                 fclose($ifp);
             }
         }
-        $src = urldecode($src);
 
         if (!is_file($src)
             && !is_null(self::$options)
@@ -872,7 +871,7 @@ class Html
         if (is_file($src)) {
             $newElement = $element->addImage($src, $style);
         } else {
-            throw new \Exception("Could not load image $originSrc");
+            throw new \Exception("Could not load image $src");
         }
 
         return $newElement;
