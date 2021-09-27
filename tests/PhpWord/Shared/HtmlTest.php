@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -603,6 +604,21 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $section = $phpWord->addSection();
         $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/></p>';
         Html::addHtml($section, $html, false, true);
+    }
+
+    public function testExternalImageSourceNotFound()
+    {
+        $src = 'https://www.bridgewatersavings.com/assets/1442845771-FDIC.png'; // returns 404
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/></p>';
+        Html::addHtml($section, $html, false, true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        $this->assertTrue($doc->elementExists($baseXpath . '/w:t'));
     }
 
     public function testParseLink()

@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Shared;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
@@ -38,9 +39,9 @@ class Html
     protected static $userDefinedNodeMappings = array();
     protected static $contentTypeFileExtensionMap = array(
         'image/svg+xml' => 'svg',
-        'image/jpeg'    => 'jpg',
-        'image/png'     => 'png',
-        'image/gif'     => 'gif',
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/gif' => 'gif',
     );
 
     /**
@@ -54,7 +55,7 @@ class Html
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
      * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
-     * @param array $options:
+     * @param array $options :
      *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
      *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
      */
@@ -122,7 +123,7 @@ class Html
                         // tables, cells
                         if (false !== strpos($val, '%')) {
                             // e.g. <table width="100%"> or <td width="50%">
-                            $styles['width'] = (int) $val * 50;
+                            $styles['width'] = (int)$val * 50;
                             $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
                         } else {
                             // e.g. <table width="250> where "250" = 250px (always pixels)
@@ -132,7 +133,7 @@ class Html
                         break;
                     case 'cellspacing':
                         // tables e.g. <table cellspacing="2">,  where "2" = 2px (always pixels)
-                        $val = (int) $val . 'px';
+                        $val = (int)$val . 'px';
                         $styles['cellSpacing'] = Converter::cssToTwip($val);
                         break;
                     case 'bgcolor':
@@ -514,7 +515,7 @@ class Html
             foreach ($node->attributes as $attribute) {
                 switch ($attribute->name) {
                     case 'start':
-                        $start = (int) $attribute->value;
+                        $start = (int)$attribute->value;
                         break;
                     case 'type':
                         $type = $attribute->value;
@@ -546,33 +547,33 @@ class Html
     {
         if ($isOrderedList) {
             return array(
-                'type'   => 'multilevel',
+                'type' => 'multilevel',
                 'levels' => array(
-                    array('format' => NumberFormat::DECIMAL,      'text' => '%1.', 'alignment' => 'left',  'tabPos' => 720,  'left' => 720,  'hanging' => 360),
-                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%2.', 'alignment' => 'left',  'tabPos' => 1440, 'left' => 1440, 'hanging' => 360),
-                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%3.', 'alignment' => 'right', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 180),
-                    array('format' => NumberFormat::DECIMAL,      'text' => '%4.', 'alignment' => 'left',  'tabPos' => 2880, 'left' => 2880, 'hanging' => 360),
-                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%5.', 'alignment' => 'left',  'tabPos' => 3600, 'left' => 3600, 'hanging' => 360),
-                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%6.', 'alignment' => 'right', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 180),
-                    array('format' => NumberFormat::DECIMAL,      'text' => '%7.', 'alignment' => 'left',  'tabPos' => 5040, 'left' => 5040, 'hanging' => 360),
-                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%8.', 'alignment' => 'left',  'tabPos' => 5760, 'left' => 5760, 'hanging' => 360),
-                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%9.', 'alignment' => 'right', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 180),
+                    array('format' => NumberFormat::DECIMAL, 'text' => '%1.', 'alignment' => 'left', 'tabPos' => 720, 'left' => 720, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%2.', 'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN, 'text' => '%3.', 'alignment' => 'right', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 180),
+                    array('format' => NumberFormat::DECIMAL, 'text' => '%4.', 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%5.', 'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN, 'text' => '%6.', 'alignment' => 'right', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 180),
+                    array('format' => NumberFormat::DECIMAL, 'text' => '%7.', 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%8.', 'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN, 'text' => '%9.', 'alignment' => 'right', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 180),
                 ),
             );
         }
 
         return array(
-            'type'   => 'hybridMultilevel',
+            'type' => 'hybridMultilevel',
             'levels' => array(
-                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
-                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
-                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
-                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
-                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
-                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
-                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
-                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
-                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 720, 'left' => 720, 'hanging' => 360, 'font' => 'Symbol', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o', 'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => 'Wingdings', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360, 'font' => 'Symbol', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o', 'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 360, 'font' => 'Wingdings', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360, 'font' => 'Symbol', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o', 'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 360, 'font' => 'Wingdings', 'hint' => 'default'),
             ),
         );
     }
@@ -657,7 +658,7 @@ class Html
                         //matches percentages
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
                         //we are subtracting 1 line height because the Spacing writer is adding one line
-                        $spacing = ((((int) $matches[1]) / 100) * Paragraph::LINE_HEIGHT) - Paragraph::LINE_HEIGHT;
+                        $spacing = ((((int)$matches[1]) / 100) * Paragraph::LINE_HEIGHT) - Paragraph::LINE_HEIGHT;
                     } else {
                         //any other, wich is a multiplier. E.g. 1.2
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
@@ -743,7 +744,7 @@ class Html
                         // This may be adjusted, if better ratio or formula found.
                         // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
                         $size = Converter::cssToTwip($matches[1]);
-                        $size = (int) ($size / 2);
+                        $size = (int)($size / 2);
                         // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
                         $styles["border{$which}Size"] = $size; // twips
                         $styles["border{$which}Color"] = trim($matches[2], '#');
@@ -869,7 +870,11 @@ class Html
         }
 
         if (is_file($src)) {
-            $newElement = $element->addImage($src, $style);
+            try {
+                $newElement = $element->addImage($src, $style);
+            } catch (InvalidImageException $ex) {
+                $newElement = $element->addText($src);
+            }
         } else {
             throw new \Exception("Could not load image $src");
         }
@@ -1043,35 +1048,35 @@ class Html
         // Node mapping table
         return array(
             // $method        $node   $element    $styles     $data   $argument1      $argument2
-            'p'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
-            'h1'        => array('Heading',     null,   $element,   $styles,    null,   'Heading1',     null),
-            'h2'        => array('Heading',     null,   $element,   $styles,    null,   'Heading2',     null),
-            'h3'        => array('Heading',     null,   $element,   $styles,    null,   'Heading3',     null),
-            'h4'        => array('Heading',     null,   $element,   $styles,    null,   'Heading4',     null),
-            'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
-            'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
-            '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
-            'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
-            'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
-            'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
-            'i'         => array('Property',    null,   null,       $styles,    null,   'italic',       true),
-            'u'         => array('Property',    null,   null,       $styles,    null,   'underline',    'single'),
-            'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
-            'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
-            'span'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
-            'font'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
-            'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
-            'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
-            'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
-            'th'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
-            'ul'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
-            'ol'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
-            'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
-            'img'       => array('Image',       $node,  $element,   $styles,    null,   null,           null),
-            'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
-            'a'         => array('Link',        $node,  $element,   $styles,    null,   null,           null),
-            'input'     => array('Input',       $node,  $element,   $styles,    null,   null,           null),
-            'hr'        => array('HorizRule',   $node,  $element,   $styles,    null,   null,           null),
+            'p' => array('Paragraph', $node, $element, $styles, null, null, null),
+            'h1' => array('Heading', null, $element, $styles, null, 'Heading1', null),
+            'h2' => array('Heading', null, $element, $styles, null, 'Heading2', null),
+            'h3' => array('Heading', null, $element, $styles, null, 'Heading3', null),
+            'h4' => array('Heading', null, $element, $styles, null, 'Heading4', null),
+            'h5' => array('Heading', null, $element, $styles, null, 'Heading5', null),
+            'h6' => array('Heading', null, $element, $styles, null, 'Heading6', null),
+            '#text' => array('Text', $node, $element, $styles, null, null, null),
+            'strong' => array('Property', null, null, $styles, null, 'bold', true),
+            'b' => array('Property', null, null, $styles, null, 'bold', true),
+            'em' => array('Property', null, null, $styles, null, 'italic', true),
+            'i' => array('Property', null, null, $styles, null, 'italic', true),
+            'u' => array('Property', null, null, $styles, null, 'underline', 'single'),
+            'sup' => array('Property', null, null, $styles, null, 'superScript', true),
+            'sub' => array('Property', null, null, $styles, null, 'subScript', true),
+            'span' => array('Span', $node, null, $styles, null, null, null),
+            'font' => array('Span', $node, null, $styles, null, null, null),
+            'table' => array('Table', $node, $element, $styles, null, null, null),
+            'tr' => array('Row', $node, $element, $styles, null, null, null),
+            'td' => array('Cell', $node, $element, $styles, null, null, null),
+            'th' => array('Cell', $node, $element, $styles, null, null, null),
+            'ul' => array('List', $node, $element, $styles, $data, null, null),
+            'ol' => array('List', $node, $element, $styles, $data, null, null),
+            'li' => array('ListItem', $node, $element, $styles, $data, null, null),
+            'img' => array('Image', $node, $element, $styles, null, null, null),
+            'br' => array('LineBreak', null, $element, $styles, null, null, null),
+            'a' => array('Link', $node, $element, $styles, null, null, null),
+            'input' => array('Input', $node, $element, $styles, null, null, null),
+            'hr' => array('HorizRule', $node, $element, $styles, null, null, null),
         );
     }
 
@@ -1092,14 +1097,14 @@ class Html
         $fontStyle = $styles + array('size' => 3);
 
         $paragraphStyle = $styles + array(
-            'lineHeight'        => 0.25, // multiply default line height - e.g. 1, 1.5 etc
-            'spacing'           => 0, // twip
-            'spaceBefore'       => 120, // twip, 240/2 (default line height)
-            'spaceAfter'        => 120, // twip
-            'borderBottomSize'  => empty($styles['line-height']) ? 1 : $styles['line-height'],
-            'borderBottomColor' => empty($styles['color']) ? '000000' : $styles['color'],
-            'borderBottomStyle' => 'single', // same as "solid"
-        );
+                'lineHeight' => 0.25, // multiply default line height - e.g. 1, 1.5 etc
+                'spacing' => 0, // twip
+                'spaceBefore' => 120, // twip, 240/2 (default line height)
+                'spaceAfter' => 120, // twip
+                'borderBottomSize' => empty($styles['line-height']) ? 1 : $styles['line-height'],
+                'borderBottomColor' => empty($styles['color']) ? '000000' : $styles['color'],
+                'borderBottomStyle' => 'single', // same as "solid"
+            );
 
         $element->addText('', $fontStyle, $paragraphStyle);
 
