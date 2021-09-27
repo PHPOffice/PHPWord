@@ -418,6 +418,18 @@ abstract class AbstractPart
             'contextualSpacing'   => array(self::READ_TRUE,  'w:contextualSpacing'),
             'bidi'                => array(self::READ_TRUE,  'w:bidi'),
             'suppressAutoHyphens' => array(self::READ_TRUE,  'w:suppressAutoHyphens'),
+            'borderTopStyle' => [self::READ_VALUE, 'w:pBdr/w:top'],
+            'borderTopColor' => [self::READ_VALUE, 'w:pBdr/w:top', 'w:color'],
+            'borderTopSize' => [self::READ_VALUE, 'w:pBdr/w:top', 'w:size'],
+            'borderRightStyle' => [self::READ_VALUE, 'w:pBdr/w:right'],
+            'borderRightColor' => [self::READ_VALUE, 'w:pBdr/w:right', 'w:color'],
+            'borderRightSize' => [self::READ_VALUE, 'w:pBdr/w:right', 'w:size'],
+            'borderBottomStyle' => [self::READ_VALUE, 'w:pBdr/w:bottom'],
+            'borderBottomColor' => [self::READ_VALUE, 'w:pBdr/w:bottom', 'w:color'],
+            'borderBottomSize' => [self::READ_VALUE, 'w:pBdr/w:bottom', 'w:size'],
+            'borderLeftStyle' => [self::READ_VALUE, 'w:pBdr/w:left'],
+            'borderLeftColor' => [self::READ_VALUE, 'w:pBdr/w:left', 'w:color'],
+            'borderLeftSize' => [self::READ_VALUE, 'w:pBdr/w:left', 'w:size'],
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
