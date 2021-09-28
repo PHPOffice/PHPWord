@@ -364,6 +364,12 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:dLbls');
 
             if ($style->getDataLabelOptions()['showVal']) {
+                $formatCode = (is_string($style->getFormat())) ? $style->getFormatPattern() : 'General';
+                if ($formatCode == '#\ ##0') {
+                    $formatCode = '#,##0';
+                }
+                $xmlWriter->writeElementBlock('c:numFmt', ['formatCode' => $formatCode, 'sourceLinked' => 0]);
+
                 $xmlWriter->startElement('c:txPr');
                 $xmlWriter->startElement('a:bodyPr');
                 $xmlWriter->writeAttribute('wrap', "square");
@@ -568,11 +574,14 @@ class Chart extends AbstractPart
 
         if (isset($this->options['axes'])) {
             $formatCode = (is_string($style->getFormat())) ? $style->getFormatPattern() : 'General';
+            if ($formatCode == '#\ ##0') {
+                $formatCode = '#,##0';
+            }
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', $style->getMajorTickPosition());
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
-            $xmlWriter->writeElementBlock('c:numFmt', 'formatCode', $formatCode);
-            $xmlWriter->writeAttribute('sourceLinked', '0');
+            $xmlWriter->writeElementBlock('c:numFmt', ['formatCode' => $formatCode, 'sourceLinked' => 0]);
+
             if ($style->showAxisLabels()) {
                 if ($axisType == 'c:catAx') {
                     $this->writeLabelStyle(

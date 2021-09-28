@@ -369,7 +369,7 @@ class Chart extends AbstractStyle
      * @var array
      */
     private $formatPattern = [
-        'number' => ['### ### ### ### ### ###', '### ### ### ### ### ###'],
+        'number' => ['#\ ##0', '#\ ##0'],
         'text' => ['@','@'],
         'percent' =>['0%', '0%'],
         'date' =>['[$-419]d\ mmm;@', '[$-409]d\ mmm;@'],
