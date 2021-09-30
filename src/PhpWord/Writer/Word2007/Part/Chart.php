@@ -277,7 +277,6 @@ class Chart extends AbstractPart
         foreach ($series as $seriesItem) {
             if ($style->isDate()) {
                 $categories = DateConverter::officeDateFormat($seriesItem['categories']) ;
-//                $style->setFormat(DateConverter::isTime($categories) ? 'time' : 'date');
             } else {
                 $categories = $seriesItem['categories'];
             }
@@ -366,9 +365,8 @@ class Chart extends AbstractPart
             if ($style->getDataLabelOptions()['showVal']) {
                 $formatCode = (is_string($style->getFormat())) ? $style->getFormatPattern() : 'General';
                 if ($formatCode == '#\ ##0') {
-                    $formatCode = '#,##0';
+                    $xmlWriter->writeElementBlock('c:numFmt', ['formatCode' => '#,##0', 'sourceLinked' => 0]);
                 }
-                $xmlWriter->writeElementBlock('c:numFmt', ['formatCode' => $formatCode, 'sourceLinked' => 0]);
 
                 $xmlWriter->startElement('c:txPr');
                 $xmlWriter->startElement('a:bodyPr');
@@ -410,10 +408,6 @@ class Chart extends AbstractPart
             }
 
             $xmlWriter->endElement(); // c:dLbls
-
-            if (isset($this->options['scatter']) ) {
-                //                $this->writeShape($xmlWriter);
-            }
 
             if ($scatter === true) {
                 $this->writeSeriesItem($xmlWriter, 'xVal', $categories);
@@ -573,14 +567,16 @@ class Chart extends AbstractPart
         $xmlWriter->writeElementBlock('c:auto', 'val', 1);
 
         if (isset($this->options['axes'])) {
+            $sourceLinked = 1;
             $formatCode = (is_string($style->getFormat())) ? $style->getFormatPattern() : 'General';
             if ($formatCode == '#\ ##0') {
                 $formatCode = '#,##0';
+                $sourceLinked = 0;
             }
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', $style->getMajorTickPosition());
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
-            $xmlWriter->writeElementBlock('c:numFmt', ['formatCode' => $formatCode, 'sourceLinked' => 0]);
+            $xmlWriter->writeElementBlock('c:numFmt', ['formatCode' => $formatCode, 'sourceLinked' => $sourceLinked]);
 
             if ($style->showAxisLabels()) {
                 if ($axisType == 'c:catAx') {
