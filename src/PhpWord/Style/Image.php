@@ -61,7 +61,7 @@ class Image extends Frame
     public function __construct()
     {
         parent::__construct();
-        $this->setUnit(self::UNIT_PT);
+        $this->setUnit(self::UNIT_PX);
 
         // Backward compatibility setting
         // @todo Remove on 1.0.0

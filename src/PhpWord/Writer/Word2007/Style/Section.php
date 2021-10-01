@@ -78,7 +78,6 @@ class Section extends AbstractStyle
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
             $styleWriter->setAttributes(array('space' => $style->getBordersSpace()));
-            $styleWriter->setAttributes(array('space' => '24'));
             $styleWriter->write();
 
             $xmlWriter->endElement();
