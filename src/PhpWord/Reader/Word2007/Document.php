@@ -34,7 +34,7 @@ class Document extends AbstractPart
      *
      * @var \PhpOffice\PhpWord\PhpWord
      */
-    private $phpWord;
+    protected $phpWord;
 
     /**
      * Read document.xml.
@@ -179,5 +179,10 @@ class Document extends AbstractPart
         $style = $this->readSectionStyle($xmlReader, $node);
         $section->setStyle($style);
         $this->readHeaderFooter($style, $section);
+    }
+
+    protected function cacheCommentReference(string $type, string $id, $element)
+    {
+        $this->phpWord->cacheCommentReference($type, $id, $element);
     }
 }
