@@ -107,6 +107,11 @@ abstract class AbstractPart
         // Paragraph style
         $paragraphStyle = null;
         $headingDepth = null;
+        if ($xmlReader->elementExists('w:commentReference', $domNode) || $xmlReader->elementExists('w:commentRangeStart', $domNode) || $xmlReader->elementExists('w:commentRangeEnd', $domNode)) {
+            $nodes = $xmlReader->getElements('w:commentReference|w:commentRangeStart|w:commentRangeEnd', $domNode);
+            $node = current(iterator_to_array($nodes));
+            $id = $node->attributes->getNamedItem('id')->value;
+        }
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
             $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
             $headingDepth = $this->getHeadingDepth($paragraphStyle);
@@ -163,7 +168,7 @@ abstract class AbstractPart
             $parent->addTitle($textContent, $headingDepth);
         } else {
             // Text and TextRun
-            $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag', $domNode);
+            $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag|w:commentReference|w:commentRangeStart|w:commentRangeEnd', $domNode);
             if (0 === $textRunContainers) {
                 $parent->addTextBreak(null, $paragraphStyle);
             } else {
@@ -212,7 +217,7 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
     {
-        if (in_array($domNode->nodeName, array('w:ins', 'w:del', 'w:smartTag', 'w:hyperlink'))) {
+        if (in_array($domNode->nodeName, array('w:ins', 'w:del', 'w:smartTag', 'w:hyperlink', 'w:commentReference'))) {
             $nodes = $xmlReader->getElements('*', $domNode);
             foreach ($nodes as $node) {
                 $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
@@ -223,6 +228,15 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $this->readRunChild($xmlReader, $node, $parent, $docPart, $paragraphStyle, $fontStyle);
             }
+        }
+
+        if($xmlReader->elementExists('.//*["commentReference"=local-name()]', $domNode)) {
+            $curEl = iterator_to_array($xmlReader->getElements('.//*["commentReference"=local-name()]', $domNode))[0];
+            $id = $curEl->attributes->getNamedItem('id')->value;
+            //$path = './/*[("commentRangeStart"=local-name() or "commentRangeEnd"=local-name()) and @*[local-name()="id" and .="'.$id.'"]]';
+            //$range = $xmlReader->getElements($path);
+            $this->phpWord->cacheCommentReference('start', $id, $parent->getElement($parent->countElements() - 1));
+            $this->phpWord->cacheCommentReference('end', $id, $parent->getElement($parent->countElements() - 1));
         }
     }
 
