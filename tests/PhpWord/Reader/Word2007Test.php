@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Reader;
 
+use DateTime;
+use PhpOffice\PhpWord\Element\Comment;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
@@ -77,5 +79,19 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[3]/w:r/w:pict/v:shape/v:imagedata'));
+    }
+
+    public function testLoadComments()
+    {
+        $filename = __DIR__ . '/../_files/documents/reader-ooxml-comments.docx';
+        $phpWord = IOFactory::load($filename);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+
+        //$doc = TestHelperDOCX::getDocument($phpWord);
+        $comment = new Comment('shaedrich', new DateTime('2021-10-28T13:56:00Z'), 'SH');
+        $comment2 = $phpWord->getComments()[0];
+        $this->assertEquals($comment->getAuthor(), $comment2->getAuthor());
+        $this->assertEquals($comment->getInitials(), $comment2->getInitials());
     }
 }
