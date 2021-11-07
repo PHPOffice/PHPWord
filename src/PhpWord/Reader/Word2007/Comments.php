@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\PhpOffice\PhpWord\Reader\Word2007;
+namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use DateTime;
 use PhpOffice\PhpWord\Element\Comment;
