@@ -136,6 +136,43 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $xpath->query('/html/body/table/tr[2]/td')->length);
     }
 
+    /**
+     * Tests writing table with rowspan and colspan
+     */
+    public function testWriteRowSpanAndColSpan()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable();
+
+        $row1 = $table->addRow();
+        $row1->addCell(500)->addText('A');
+        $row1->addCell(1000, array('gridSpan' => 2))->addText('B');
+        $row1->addCell(500, array('vMerge' => 'restart'))->addText('C');
+
+        $row2 = $table->addRow();
+        $row2->addCell(1500, array('gridSpan' => 3))->addText('D');
+        $row2->addCell(null, array('vMerge' => 'continue'));
+
+        $row3 = $table->addRow();
+        $row3->addCell(500)->addText('E');
+        $row3->addCell(500)->addText('F');
+        $row3->addCell(500)->addText('G');
+        $row3->addCell(null, array('vMerge' => 'continue'));
+
+        $dom = $this->getAsHTML($phpWord);
+        $xpath = new \DOMXPath($dom);
+
+        $this->assertEquals(3, $xpath->query('/html/body/table/tr[1]/td')->length);
+        $this->assertEquals('2', $xpath->query('/html/body/table/tr[1]/td[2]')->item(0)->attributes->getNamedItem('colspan')->textContent);
+        $this->assertEquals('3', $xpath->query('/html/body/table/tr[1]/td[3]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
+
+        $this->assertEquals(1, $xpath->query('/html/body/table/tr[2]/td')->length);
+        $this->assertEquals('3', $xpath->query('/html/body/table/tr[2]/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
+
+        $this->assertEquals(3, $xpath->query('/html/body/table/tr[3]/td')->length);
+    }
+
     private function getAsHTML(PhpWord $phpWord)
     {
         $htmlWriter = new HTML($phpWord);
