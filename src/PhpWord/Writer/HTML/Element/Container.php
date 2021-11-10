@@ -67,7 +67,6 @@ class Container extends AbstractElement
             $currentColumnIdx = count($elementsContent) - 1;
         }
 
-        $tabIdxs = array();
         $elements = $container->getElements();
         foreach ($elements as $element) {
             $elementClass = get_class($element);

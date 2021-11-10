@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 
 /**
  * Table style HTML writer
@@ -75,29 +74,30 @@ class Table extends AbstractStyle
         }
 
         $sideIdx = array(
-            "top"	=> 0,
-            "right"	=> 2,
-            "bottom"=> 3,
-            "left"	=> 1,
+            'top'   => 0,
+            'right' => 2,
+            'bottom'=> 3,
+            'left'  => 1,
         );
 
         $borderSizes = $style->getBorderSize();
         $borderColors = $style->getBorderColor();
         foreach ($sideIdx as $side => $idx) {
             if (!is_null($borderSizes[$idx])) {
-                $css['border-'.$side] = ($borderSizes[$idx]/8).'pt solid #'.$borderColors[$idx];
+                $css['border-' . $side] = ($borderSizes[$idx] / 8) . 'pt solid #' . $borderColors[$idx];
             }
         }
-/*
+
+        /*
         $cellMargins = $style->getCellMargin();
         foreach ($sideIdx as $side => $idx) {
             if (!is_null($cellMargins[$idx])) {
                 $css['margin-'.$side] = ($cellMargins[$idx]/20).'pt';
             }
         }
-*/
-//		$cellPadding = $style->getCellPadding();
-//		$columnWidths = $style->getColumnWidths();
+        */
+        //$cellPadding = $style->getCellPadding();
+        //$columnWidths = $style->getColumnWidths();
 
         $layout = $style->getLayout();
         if ($layout == $style::LAYOUT_FIXED) {
@@ -106,7 +106,7 @@ class Table extends AbstractStyle
 
         $width = $style->getWidth();
         if (!is_null($width) && $width > 0) {
-            $css['width'] = $width . ($width > 0 ? $style->getUnit() : "");
+            $css['width'] = $width . ($width > 0 ? $style->getUnit() : '');
         }
 
         return $this->assembleCss($css);
