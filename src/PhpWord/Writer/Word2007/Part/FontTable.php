@@ -101,6 +101,15 @@ class FontTable extends AbstractPart
             'w:csb0="0000019F" w:csb1="00000000" />';
         $str .= '</w:font>';
 
+        $str .= '<w:font w:name="Garamond">';
+        $str .= '<w:panose1 w:val="02020404030301010803" />';
+        $str .= '<w:charset w:val="00" />';
+        $str .= '<w:family w:val="roman" />';
+        $str .= '<w:pitch w:val="variable" />';
+        $str .= '<w:sig w:usb0="00000287" w:usb1="00000002" w:usb2="00000000" w:usb3="00000000" ' .
+            'w:csb0="0000009F" w:csb1="00000000" />';
+        $str .= '</w:font>';
+
         $str .= '</w:fonts>';
 
         return $str;

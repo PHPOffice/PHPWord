@@ -158,6 +158,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         Html::addHtml($section, '<p style="line-height: 15pt;">test</p>');
         Html::addHtml($section, '<p style="line-height: 120%;">test</p>');
         Html::addHtml($section, '<p style="line-height: 0.17in;">test</p>');
+        Html::addHtml($section, '<p style="line-height: normal;">test</p>');
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:spacing'));
@@ -175,6 +176,10 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[4]/w:pPr/w:spacing'));
         $this->assertEquals(244.8, $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:spacing', 'w:line'));
         $this->assertEquals(LineSpacingRule::EXACT, $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:spacing', 'w:lineRule'));
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[5]/w:pPr/w:spacing'));
+        $this->assertEquals(Paragraph::LINE_HEIGHT, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:line'));
+        $this->assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:lineRule'));
     }
 
     /**
@@ -293,11 +298,11 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $html = '<table align="left" style="width: 50%; border: 6px #0000FF solid;">
+        $html = '<table align="left" style="width: 50%; border: 12px #0000FF double">
                 <thead>
-                    <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
-                        <th style="width: 50pt">header a</th>
-                        <th style="width: 50; border-color: #00EE00">header b</th>
+                    <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold">
+                        <th style="width: 50pt"><p>header a</p></th>
+                        <th style="width: 50; border-color: #00EE00; border-width: 3px"><span>header b</span></th>
                         <th style="border-color: #00AA00 #00BB00 #00CC00 #00DD00; border-width: 3px">header c</th>
                     </tr>
                 </thead>
@@ -324,6 +329,12 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertEquals('00BB00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:right', 'w:color'));
         $this->assertEquals('00CC00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:bottom', 'w:color'));
         $this->assertEquals('00DD00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:left', 'w:color'));
+
+        //check borders are not propagated inside cells
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:p'));
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:p/w:pPr/w:pBdr'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:p'));
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:p/w:pPr/w:pBdr'));
     }
 
     /**
@@ -631,5 +642,294 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
 
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:spacing'));
         $this->assertEquals(150 * 15, $doc->getElement('/w:document/w:body/w:p/w:r/w:rPr/w:spacing')->getAttribute('w:val'));
+    }
+
+    /**
+     * Tests checkbox input field
+     */
+    public function testInputCheckbox()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<input type="checkbox" checked="true" /><input type="checkbox" />';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:fldChar/w:ffData/w:checkBox'));
+        $this->assertEquals(1, $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:fldChar/w:ffData/w:checkBox/w:checked')->getAttribute('w:val'));
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:fldChar/w:ffData/w:checkBox'));
+        $this->assertEquals(0, $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:fldChar/w:ffData/w:checkBox/w:checked')->getAttribute('w:val'));
+    }
+
+    /**
+     * Parse widths in tables and cells, which also allows for controlling column width
+     */
+    public function testParseTableAndCellWidth()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection(array(
+            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+        ));
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<table style="border: 1px #000000 solid; width: 100%;">
+    <tr>
+        <td style="width: 25%; border: 1px #000000 solid; text-align: center;">25%</td>
+        <td>
+            <table width="400" style="border: 1px #000000 solid; background-color: #EEEEEE;">
+                <tr>
+                    <th colspan="3" style="border: 1px #000000 solid;">400px</th>
+                </tr>
+                <tr>
+                    <th>T2.R2.C1</th>
+                    <th style="width: 50pt; border: 1px #FF0000 dashed; background-color: #FFFFFF">50pt</th>
+                    <th>T2.R2.C3</th>
+                </tr>
+                <tr>
+                    <th width="300" colspan="2" style="border: 1px #000000 solid;">300px</th>
+                    <th style="border: 1px #000000 solid;">T2.R3.C3</th>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // outer table grid
+        $xpath = '/w:document/w:body/w:tbl/w:tblGrid/w:gridCol';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(25 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        // <td style="width: 25%; ...
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcW';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(25 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('pct', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        // <table width="400" .. 400px = 6000 twips (400 / 96 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr/w:tc/w:tcPr/w:tcW';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(6000, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        // <th style="width: 50pt; .. 50pt = 750 twips (50 / 72 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr[2]/w:tc[2]/w:tcPr/w:tcW';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(1000, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        // <th width="300" .. 300px = 4500 twips (300 / 96 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr[3]/w:tc/w:tcPr/w:tcW';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(4500, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+    }
+
+    /**
+     * Test parsing background color for table rows and table cellspacing
+     */
+    public function testParseCellspacingRowBgColor()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection(array(
+            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+        ));
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<table cellspacing="3" bgColor="lightgreen" width="50%" align="center">
+    <tr>
+        <td>A</td>
+        <td>B</td>
+    </tr>
+    <tr bgcolor="#FF0000">
+        <td>C</td>
+        <td>D</td>
+    </tr>
+</table>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellSpacing';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(3 * 15, $doc->getElement($xpath)->getAttribute('w:w'));
+        $this->assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:tcPr/w:shd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('lightgreen', $doc->getElement($xpath)->getAttribute('w:fill'));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr[2]/w:tc[1]/w:tcPr/w:shd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('FF0000', $doc->getElement($xpath)->getAttribute('w:fill'));
+    }
+
+    /**
+     * Parse horizontal rule
+     */
+    public function testParseHorizRule()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<p>Simple default rule:</p>
+<hr/>
+<p>Custom style rule:</p>
+<hr style="margin-top: 30px; margin-bottom: 0; border-bottom: 5px lightblue solid;" />
+<p>END</p>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // default rule
+        $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:pBdr/w:bottom';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val')); // solid
+        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:sz')); // 1 twip
+        $this->assertEquals('000000', $doc->getElement($xpath)->getAttribute('w:color')); // black
+
+        // custom style rule
+        $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:pBdr/w:bottom';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
+        $this->assertEquals((int) (5 * 15 / 2), $doc->getElement($xpath)->getAttribute('w:sz'));
+        $this->assertEquals('lightblue', $doc->getElement($xpath)->getAttribute('w:color'));
+
+        $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals(450, $doc->getElement($xpath)->getAttribute('w:before'));
+        $this->assertEquals(0, $doc->getElement($xpath)->getAttribute('w:after'));
+        $this->assertEquals(240, $doc->getElement($xpath)->getAttribute('w:line'));
+    }
+
+    /**
+     * Parse ordered list start & numbering style
+     */
+    public function testParseOrderedList()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<ol>
+    <li>standard ordered list line 1</li>
+    <li>standard ordered list line 2</li>
+</ol>
+
+<ol start="5" type="A">
+    <li>ordered list alphabetical, <span style="background-color: #EEEEEE; color: #FF0000;">line 5 => E</span></li>
+    <li>ordered list alphabetical, <span style="background-color: #EEEEEE; color: #FF0000;">line 6 => F</span></li>
+</ol>
+
+<ol start="3" type="i">
+    <li>ordered list roman lower, line <b>3 => iii</b></li>
+    <li>ordered list roman lower, line <b>4 => iv</b></li>
+</ol>
+
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // compare numbering file
+        $xmlFile = 'word/numbering.xml';
+
+        // default - decimal start = 1
+        $xpath = '/w:numbering/w:abstractNum[1]/w:lvl[1]/w:start';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('1', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        $xpath = '/w:numbering/w:abstractNum[1]/w:lvl[1]/w:numFmt';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('decimal', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        // second list - start = 5, type A = upperLetter
+        $xpath = '/w:numbering/w:abstractNum[2]/w:lvl[1]/w:start';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('5', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        $xpath = '/w:numbering/w:abstractNum[2]/w:lvl[1]/w:numFmt';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('upperLetter', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        // third list - start = 3, type i = lowerRoman
+        $xpath = '/w:numbering/w:abstractNum[3]/w:lvl[1]/w:start';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('3', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+
+        $xpath = '/w:numbering/w:abstractNum[3]/w:lvl[1]/w:numFmt';
+        $this->assertTrue($doc->elementExists($xpath, $xmlFile));
+        $this->assertEquals('lowerRoman', $doc->getElement($xpath, $xmlFile)->getAttribute('w:val'));
+    }
+
+    /**
+     * Parse ordered list start & numbering style
+     */
+    public function testParseVerticalAlign()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<table width="100%">
+    <tr>
+        <td width="20%" style="border: 1px #666666 solid;">default</td>
+        <td width="20%" style="vertical-align: top; border: 1px #666666 solid;">top</td>
+        <td width="20%" style="vertical-align: middle; border: 1px #666666 solid;">middle</td>
+        <td width="20%" valign="bottom" style="border: 1px #666666 solid;">bottom</td>
+        <td bgcolor="#DDDDDD"><br/><br/><br/><br/><br/><br/><br/></td>
+    </tr>
+</table>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:vAlign';
+        $this->assertFalse($doc->elementExists($xpath));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc[2]/w:tcPr/w:vAlign';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('top', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc[3]/w:tcPr/w:vAlign';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('center', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc[4]/w:tcPr/w:vAlign';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('bottom', $doc->getElement($xpath)->getAttribute('w:val'));
+    }
+
+    /**
+     * Fix bug - don't decode double quotes inside double quoted string
+     */
+    public function testDontDecodeAlreadyEncodedDoubleQuotes()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // borders & backgrounds are here just for better visual comparison
+        $html = <<<HTML
+<div style="font-family: Arial, &quot;Helvetice Neue&quot;">This would crash if inline quotes also decoded at loading XML into DOMDocument!</div>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertInternalType('object', $doc);
     }
 }

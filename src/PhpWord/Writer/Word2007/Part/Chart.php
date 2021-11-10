@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Chart as ChartElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Word2007 chart part writer: word/charts/chartx.xml
@@ -99,7 +99,7 @@ class Chart extends AbstractPart
      * Write chart
      *
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_Chart.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writeChart(XMLWriter $xmlWriter)
     {
@@ -121,7 +121,7 @@ class Chart extends AbstractPart
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_AreaChart.html
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_RadarChart.html
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_ScatterChart.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writePlotArea(XMLWriter $xmlWriter)
     {
@@ -131,6 +131,7 @@ class Chart extends AbstractPart
 
         $title = $style->getTitle();
         $showLegend = $style->isShowLegend();
+        $legendPosition = $style->getLegendPosition();
 
         //Chart title
         if ($title) {
@@ -154,7 +155,7 @@ class Chart extends AbstractPart
 
         //Chart legend
         if ($showLegend) {
-            $xmlWriter->writeRaw('<c:legend><c:legendPos val="r"/></c:legend>');
+            $xmlWriter->writeRaw('<c:legend><c:legendPos val="' . $legendPosition . '"/></c:legend>');
         }
 
         $xmlWriter->startElement('c:plotArea');
@@ -187,7 +188,10 @@ class Chart extends AbstractPart
         // Series
         $this->writeSeries($xmlWriter, isset($this->options['scatter']));
 
-        $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
+        // don't overlap if grouping is 'clustered'
+        if (!isset($this->options['grouping']) || $this->options['grouping'] != 'clustered') {
+            $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
+        }
 
         // Axes
         if (isset($this->options['axes'])) {
@@ -209,7 +213,7 @@ class Chart extends AbstractPart
     /**
      * Write series.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param bool $scatter
      */
     private function writeSeries(XMLWriter $xmlWriter, $scatter = false)
@@ -219,6 +223,7 @@ class Chart extends AbstractPart
         $colors = $style->getColors();
 
         $index = 0;
+        $colorIndex = 0;
         foreach ($series as $seriesItem) {
             $categories = $seriesItem['categories'];
             $values = $seriesItem['values'];
@@ -265,23 +270,21 @@ class Chart extends AbstractPart
                 $this->writeSeriesItem($xmlWriter, 'cat', $categories);
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
 
-                // setting the chart colors was taken from https://github.com/PHPOffice/PHPWord/issues/494
-                if (is_array($colors) && count($colors)) {
-                    // This is a workaround to make each series in a stack chart use a different color
-                    if ($this->options['type'] == 'bar' && stristr($this->options['grouping'], 'stacked')) {
-                        array_shift($colors);
-                    }
-                    $colorIndex = 0;
-                    foreach ($colors as $color) {
+                // check that there are colors
+                if (is_array($colors) && count($colors) > 0) {
+                    // assign a color to each value
+                    $valueIndex = 0;
+                    for ($i = 0; $i < count($values); $i++) {
+                        // check that there are still enought colors
                         $xmlWriter->startElement('c:dPt');
-                        $xmlWriter->writeElementBlock('c:idx', 'val', $colorIndex);
+                        $xmlWriter->writeElementBlock('c:idx', 'val', $valueIndex);
                         $xmlWriter->startElement('c:spPr');
                         $xmlWriter->startElement('a:solidFill');
-                        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $color);
+                        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
                         $xmlWriter->endElement(); // a:solidFill
                         $xmlWriter->endElement(); // c:spPr
                         $xmlWriter->endElement(); // c:dPt
-                        $colorIndex++;
+                        $valueIndex++;
                     }
                 }
             }
@@ -294,7 +297,7 @@ class Chart extends AbstractPart
     /**
      * Write series items.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $type
      * @param array $values
      */
@@ -335,7 +338,7 @@ class Chart extends AbstractPart
      * Write axis
      *
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_CatAx.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $type
      */
     private function writeAxis(XMLWriter $xmlWriter, $type)
@@ -400,7 +403,7 @@ class Chart extends AbstractPart
      * Write shape
      *
      * @see  http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param bool $line
      */
     private function writeShape(XMLWriter $xmlWriter, $line = false)

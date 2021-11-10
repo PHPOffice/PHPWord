@@ -17,12 +17,12 @@
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
-use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Abstract part reader
@@ -95,7 +95,7 @@ abstract class AbstractPart
     /**
      * Read w:p.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
@@ -202,7 +202,7 @@ abstract class AbstractPart
     /**
      * Read w:r.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
@@ -296,6 +296,19 @@ abstract class AbstractPart
             }
         } elseif ($node->nodeName == 'w:tab') {
             $parent->addText("\t", $fontStyle, $paragraphStyle);
+        } elseif ($node->nodeName == 'mc:AlternateContent') {
+            if ($node->hasChildNodes()) {
+                // Get fallback instead of mc:Choice to make sure it is compatible
+                $fallbackElements = $node->getElementsByTagName('Fallback');
+
+                if ($fallbackElements->length) {
+                    $fallback = $fallbackElements->item(0);
+                    // TextRun
+                    $textContent = htmlspecialchars($fallback->nodeValue, ENT_QUOTES, 'UTF-8');
+
+                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                }
+            }
         } elseif ($node->nodeName == 'w:t' || $node->nodeName == 'w:delText') {
             // TextRun
             $textContent = htmlspecialchars($xmlReader->getValue('.', $node), ENT_QUOTES, 'UTF-8');
@@ -324,7 +337,7 @@ abstract class AbstractPart
     /**
      * Read w:tbl.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
@@ -382,7 +395,7 @@ abstract class AbstractPart
     /**
      * Read w:pPr.
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return array|null
      */
@@ -445,7 +458,7 @@ abstract class AbstractPart
     /**
      * Read w:rPr
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return array|null
      */
@@ -491,7 +504,7 @@ abstract class AbstractPart
     /**
      * Read w:tblPr
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return string|array|null
      * @todo Capture w:tblStylePr w:type="firstRow"
@@ -541,7 +554,7 @@ abstract class AbstractPart
     /**
      * Read w:tblpPr
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return array
      */
@@ -566,7 +579,7 @@ abstract class AbstractPart
     /**
      * Read w:tblInd
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return TblWidthComplexType
      */
@@ -584,7 +597,7 @@ abstract class AbstractPart
     /**
      * Read w:tcPr
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return array
      */
@@ -617,11 +630,11 @@ abstract class AbstractPart
      * Returns the first child element found
      *
      * @param XMLReader $xmlReader
-     * @param \DOMElement $parentNode
-     * @param string|array $elements
+     * @param \DOMElement|null $parentNode
+     * @param string|array|null $elements
      * @return string|null
      */
-    private function findPossibleElement(XMLReader $xmlReader, \DOMElement $parentNode = null, $elements)
+    private function findPossibleElement(XMLReader $xmlReader, \DOMElement $parentNode = null, $elements = null)
     {
         if (is_array($elements)) {
             //if element is an array, we take the first element that exists in the XML
@@ -664,7 +677,7 @@ abstract class AbstractPart
     /**
      * Read style definition
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $parentNode
      * @param array $styleDefs
      * @ignoreScrutinizerPatch

@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
-use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Footnotes reader

@@ -338,9 +338,9 @@ class Converter
             return false;
         }
 
-        $red = hexdec($red);
-        $green = hexdec($green);
-        $blue = hexdec($blue);
+        $red = ctype_xdigit($red) ? hexdec($red) : 0;
+        $green = ctype_xdigit($green) ? hexdec($green) : 0;
+        $blue = ctype_xdigit($blue) ? hexdec($blue) : 0;
 
         return array($red, $green, $blue);
     }

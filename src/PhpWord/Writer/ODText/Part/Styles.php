@@ -17,8 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -65,7 +66,7 @@ class Styles extends AbstractPart
     /**
      * Write default styles.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writeDefault(XMLWriter $xmlWriter)
     {
@@ -86,6 +87,9 @@ class Styles extends AbstractPart
         $latinLang = $language != null && is_string($language->getLatin()) ? explode('-', $language->getLatin()) : array('fr', 'FR');
         $asianLang = $language != null && is_string($language->getEastAsia()) ? explode('-', $language->getEastAsia()) : array('zh', 'CN');
         $complexLang = $language != null && is_string($language->getBidirectional()) ? explode('-', $language->getBidirectional()) : array('hi', 'IN');
+        if ($this->getParentWriter()->getPhpWord()->getSettings()->hasHideGrammaticalErrors()) {
+            $latinLang = $asianLang = $complexLang = array('zxx', 'none');
+        }
 
         // Font
         $xmlWriter->startElement('style:text-properties');
@@ -114,7 +118,7 @@ class Styles extends AbstractPart
     /**
      * Write named styles.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writeNamed(XMLWriter $xmlWriter)
     {
@@ -134,24 +138,74 @@ class Styles extends AbstractPart
     }
 
     /**
-     * Write page layout styles.
+     * Convert int in twips to inches/cm then to string and append unit
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param int|float $twips
+     * @param float $factor
+     * return string
+     */
+    private static function cvttwiptostr($twips, $factor = 1.0)
+    {
+        $ins = (string) ($twips * $factor / Converter::INCH_TO_TWIP) . 'in';
+        $cms = (string) ($twips * $factor * Converter::INCH_TO_CM / Converter::INCH_TO_TWIP) . 'cm';
+
+        return (strlen($ins) < strlen($cms)) ? $ins : $cms;
+    }
+
+    /**
+     * call writePageLayoutIndiv to write page layout styles for each page
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writePageLayout(XMLWriter $xmlWriter)
     {
+        $sections = $this->getParentWriter()->getPhpWord()->getSections();
+        $countsects = count($sections);
+        for ($i = 0; $i < $countsects; ++$i) {
+            $this->writePageLayoutIndiv($xmlWriter, $sections[$i], $i + 1);
+        }
+    }
+
+    /**
+     * Write page layout styles.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param int $sectionNbr
+     */
+    private function writePageLayoutIndiv(XMLWriter $xmlWriter, $section, $sectionNbr)
+    {
+        $sty = $section->getStyle();
+        if (count($section->getHeaders()) > 0) {
+            $topfactor = 0.5;
+        } else {
+            $topfactor = 1.0;
+        }
+        if (count($section->getFooters()) > 0) {
+            $botfactor = 0.5;
+        } else {
+            $botfactor = 1.0;
+        }
+        $orient = $sty->getOrientation();
+        $pwidth = self::cvttwiptostr($sty->getPageSizeW());
+        $pheight = self::cvttwiptostr($sty->getPageSizeH());
+        $mtop = self::cvttwiptostr($sty->getMarginTop(), $topfactor);
+        $mbottom = self::cvttwiptostr($sty->getMarginBottom(), $botfactor);
+        $mleft = self::cvttwiptostr($sty->getMarginRight());
+        $mright = self::cvttwiptostr($sty->getMarginLeft());
+
         $xmlWriter->startElement('style:page-layout');
-        $xmlWriter->writeAttribute('style:name', 'Mpm1');
+        $xmlWriter->writeAttribute('style:name', "Mpm$sectionNbr");
 
         $xmlWriter->startElement('style:page-layout-properties');
-        $xmlWriter->writeAttribute('fo:page-width', '21.001cm');
-        $xmlWriter->writeAttribute('fo:page-height', '29.7cm');
+        $xmlWriter->writeAttribute('fo:page-width', $pwidth);
+        $xmlWriter->writeAttribute('fo:page-height', $pheight);
         $xmlWriter->writeAttribute('style:num-format', '1');
-        $xmlWriter->writeAttribute('style:print-orientation', 'portrait');
-        $xmlWriter->writeAttribute('fo:margin-top', '2.501cm');
-        $xmlWriter->writeAttribute('fo:margin-bottom', '2cm');
-        $xmlWriter->writeAttribute('fo:margin-left', '2.501cm');
-        $xmlWriter->writeAttribute('fo:margin-right', '2.501cm');
+        $xmlWriter->writeAttribute('style:print-orientation', $orient);
+        $xmlWriter->writeAttribute('fo:margin-top', $mtop);
+        $xmlWriter->writeAttribute('fo:margin-bottom', $mbottom);
+        $xmlWriter->writeAttribute('fo:margin-left', $mleft);
+        $xmlWriter->writeAttribute('fo:margin-right', $mright);
         $xmlWriter->writeAttribute('style:writing-mode', 'lr-tb');
         $xmlWriter->writeAttribute('style:layout-grid-color', '#c0c0c0');
         $xmlWriter->writeAttribute('style:layout-grid-lines', '25199');
@@ -176,9 +230,23 @@ class Styles extends AbstractPart
         $xmlWriter->endElement(); // style:page-layout-properties
 
         $xmlWriter->startElement('style:header-style');
+        if ($topfactor < 1.0) {
+            $xmlWriter->startElement('style:header-footer-properties');
+            $xmlWriter->writeAttribute('fo:min-height', $mtop);
+            $xmlWriter->writeAttribute('fo:margin-bottom', $mtop);
+            $xmlWriter->writeAttribute('style:dynamic-spacing', 'true');
+            $xmlWriter->endElement(); // style:header-footer-properties
+        }
         $xmlWriter->endElement(); // style:header-style
 
         $xmlWriter->startElement('style:footer-style');
+        if ($botfactor < 1.0) {
+            $xmlWriter->startElement('style:header-footer-properties');
+            $xmlWriter->writeAttribute('fo:min-height', $mbottom);
+            $xmlWriter->writeAttribute('fo:margin-top', $mbottom);
+            $xmlWriter->writeAttribute('style:dynamic-spacing', 'true');
+            $xmlWriter->endElement(); // style:header-footer-properties
+        }
         $xmlWriter->endElement(); // style:footer-style
 
         $xmlWriter->endElement(); // style:page-layout
@@ -187,17 +255,50 @@ class Styles extends AbstractPart
     /**
      * Write master style.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     private function writeMaster(XMLWriter $xmlWriter)
     {
         $xmlWriter->startElement('office:master-styles');
 
-        $xmlWriter->startElement('style:master-page');
-        $xmlWriter->writeAttribute('style:name', 'Standard');
-        $xmlWriter->writeAttribute('style:page-layout-name', 'Mpm1');
-        $xmlWriter->endElement(); // style:master-page
-
+        $sections = $this->getParentWriter()->getPhpWord()->getSections();
+        $countsects = count($sections);
+        for ($i = 0; $i < $countsects; ++$i) {
+            $iplus1 = $i + 1;
+            $xmlWriter->startElement('style:master-page');
+            $xmlWriter->writeAttribute('style:name', "Standard$iplus1");
+            $xmlWriter->writeAttribute('style:page-layout-name', "Mpm$iplus1");
+            // Multiple headers and footers probably not supported,
+            //   and, even if they are, I'm not sure how,
+            //   so quit after generating one.
+            foreach ($sections[$i]->getHeaders() as $hdr) {
+                $xmlWriter->startElement('style:header');
+                foreach ($hdr->getElements() as $elem) {
+                    $cl1 = get_class($elem);
+                    $cl2 = str_replace('\\Element\\', '\\Writer\\ODText\\Element\\', $cl1);
+                    if (class_exists($cl2)) {
+                        $wtr = new $cl2($xmlWriter, $elem);
+                        $wtr->write();
+                    }
+                }
+                $xmlWriter->endElement(); // style:header
+                break;
+            }
+            foreach ($sections[$i]->getFooters() as $hdr) {
+                $xmlWriter->startElement('style:footer');
+                foreach ($hdr->getElements() as $elem) {
+                    $cl1 = get_class($elem);
+                    $cl2 = str_replace('\\Element\\', '\\Writer\\ODText\\Element\\', $cl1);
+                    if (class_exists($cl2)) {
+                        $wtr = new $cl2($xmlWriter, $elem);
+                        $wtr->write();
+                    }
+                }
+                $xmlWriter->endElement(); // style:footer
+                break;
+            }
+            $xmlWriter->endElement(); // style:master-page
+        }
         $xmlWriter->endElement(); // office:master-styles
     }
 }

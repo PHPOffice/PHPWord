@@ -143,6 +143,7 @@ Available Cell style options:
 - ``bgColor``. Background color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Size``. Border size in *twip*.
+- ``border(Top|Right|Bottom|Left)Style``. Border style. You can use constants from ``\PhpOffice\PhpWord\SimpleType\Border``
 - ``gridSpan``. Number of columns spanned.
 - ``textDirection(btLr|tbRl)``. Direction of text.
    You can use constants ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR`` and ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_TBRL``
@@ -201,6 +202,7 @@ Available Chart style options:
 - ``colors``. A list of colors to use in the chart.
 - ``title``. The title for the chart.
 - ``showLegend``. Show legend, *true* or *false*.
+- ``LegendPosition``. Legend position, *r* (default), *b*, *t*, *l* or *tr*.
 - ``categoryLabelPosition``. Label position for categories, *nextTo* (default), *low* or *high*.
 - ``valueLabelPosition``. Label position for values, *nextTo* (default), *low* or *high*.
 - ``categoryAxisTitle``. The title for the category axis.

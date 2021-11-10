@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\Common\Text as CommonText;
+use PhpOffice\PhpWord\Shared\Text as SharedText;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
@@ -79,8 +79,8 @@ class Link extends AbstractElement
      */
     public function __construct($source, $text = null, $fontStyle = null, $paragraphStyle = null, $internal = false)
     {
-        $this->source = CommonText::toUTF8($source);
-        $this->text = is_null($text) ? $this->source : CommonText::toUTF8($text);
+        $this->source = SharedText::toUTF8($source);
+        $this->text = is_null($text) ? $this->source : SharedText::toUTF8($text);
         $this->fontStyle = $this->setNewStyle(new Font('text'), $fontStyle);
         $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
         $this->internal = $internal;

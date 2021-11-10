@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
-use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\ODText\Style subnamespace
