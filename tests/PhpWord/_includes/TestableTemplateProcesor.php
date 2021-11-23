@@ -27,6 +27,9 @@ class TestableTemplateProcesor extends TemplateProcessor
 {
     public function __construct($mainPart = null, $settingsPart = null)
     {
+        $this->macroStart = '${';
+        $this->marcoEnd = '}';
+
         $this->tempDocumentMainPart = $mainPart;
         $this->tempDocumentSettingsPart = $settingsPart;
     }
