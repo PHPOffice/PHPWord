@@ -1015,7 +1015,7 @@ class TemplateProcessor
     protected function getVariablesForPart($documentPartXML)
     {
         $matches = array();
-        preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
+        preg_match_all('/' . preg_quote($this->macroStart) . '(.*?)' . preg_quote($this->marcoEnd) . '/i', $documentPartXML, $matches);
 
         return $matches[1];
     }
