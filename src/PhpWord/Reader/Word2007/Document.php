@@ -154,6 +154,11 @@ class Document extends AbstractPart
             $section->addPageBreak(); // PageBreak
         }
 
+        // Column break
+        if ($xmlReader->getAttribute('w:type', $node, 'w:br') == 'column') {
+            $section->addColumnBreak(); // ColumnBreak
+        }
+
         // Paragraph
         $this->readParagraph($xmlReader, $node, $section);
 
