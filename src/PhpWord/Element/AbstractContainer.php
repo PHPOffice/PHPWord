@@ -258,14 +258,7 @@ abstract class AbstractContainer extends AbstractElement
             'PreserveText'  => array(array('Cell'), array('Header', 'Footer', 'Section')),
             'Footnote'      => array(array('Cell', 'TextRun'), array('Section')),
             'Endnote'       => array(array('Cell', 'TextRun'), array('Section')),
-        );
-
-        // Check if a method is valid for current container
-        if (isset($validContainers[$method])) {
-            if (!in_array($this->container, $validContainers[$method])) {
-                throw new \BadMethodCallException("Cannot add {$method} in {$this->container}.");
-            }
-        }
+        );     
 
         // Check if a method is valid for current container, located in other container
         if (isset($validSubcontainers[$method])) {
