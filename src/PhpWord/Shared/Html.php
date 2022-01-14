@@ -50,6 +50,13 @@ class Html
      * @param array $options:
      *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
      *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
+     *
+     * In options you can add your own styles :
+     * $options['styles'] = [
+     *       'head1' => ['name' => 'Tahoma', 'size' => 14, 'color' => '1B2232', 'bold' => true],
+     *       'paragraph' => ['name' => 'courier', 'size' => 10, 'color' => '111111', 'bold' => true],
+     *       'font' =>  ['name' => 'courier', 'size' => 10, 'color' => '111111', 'bold' => true]
+     *  ];
      */
     public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null)
     {
