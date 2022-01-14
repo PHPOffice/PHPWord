@@ -51,7 +51,7 @@ class Html
      *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
      *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
      */
-    public static function addHtml($element, string $html, bool $fullHTML = false, bool $preserveWhiteSpace = true, array $options = null )
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null )
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
