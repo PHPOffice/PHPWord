@@ -51,13 +51,19 @@ class Html
      *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
      *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
      */
-    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null)
+    public static function addHtml($element, string $html, bool $fullHTML = false, bool $preserveWhiteSpace = true, array $options = null )
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
         self::$options = $options;
+
+        $styles = array();
+
+        if ( isset(self::$options['styles']) ) {
+            $styles = self::$options['styles'];
+        }
 
         // Preprocess: remove all line ends, decode HTML entity,
         // fix ampersand and angle brackets and add body tag for HTML fragments
@@ -81,7 +87,7 @@ class Html
         self::$xpath = new \DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
 
-        self::parseNode($node->item(0), $element);
+        self::parseNode($node->item(0), $element, $styles);
         if (\PHP_VERSION_ID < 80000) {
             libxml_disable_entity_loader($orignalLibEntityLoader);
         }
@@ -156,7 +162,7 @@ class Html
     protected static function parseNode($node, $element, $styles = array(), $data = array())
     {
         // Populate styles array
-        $styleTypes = array('font', 'paragraph', 'list', 'table', 'row', 'cell');
+        $styleTypes = array('head1', 'font', 'paragraph', 'list', 'table', 'row', 'cell');
         foreach ($styleTypes as $styleType) {
             if (!isset($styles[$styleType])) {
                 $styles[$styleType] = array();
@@ -165,7 +171,7 @@ class Html
 
         // Node mapping table
         $nodes = array(
-                              // $method        $node   $element    $styles     $data   $argument1      $argument2
+            // $method        $node   $element    $styles     $data   $argument1      $argument2
             'p'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
             'h1'        => array('Heading',     null,   $element,   $styles,    null,   'Heading1',     null),
             'h2'        => array('Heading',     null,   $element,   $styles,    null,   'Heading2',     null),
@@ -304,8 +310,8 @@ class Html
      */
     protected static function parseHeading($element, &$styles, $argument1)
     {
-        $styles['paragraph'] = $argument1;
-        $newElement = $element->addTextRun($styles['paragraph']);
+        $styles['font'] = $styles['head1'];
+        $newElement = $element->addTextRun($styles['font']);
 
         return $newElement;
     }
@@ -826,12 +832,21 @@ class Html
                                         $style['overlap'] = true;
                                     }
                                     break;
+                                case ' width':
+                                case 'width':
+                                    $style['width'] = (int)trim($v);
+                                    break;
+                                case ' height':
+                                case 'height':
+                                    $style['height'] = (int)trim($v);
+                                    break;
                             }
                         }
                     }
                     break;
             }
         }
+
         $originSrc = $src;
         if (strpos($src, 'data:image') !== false) {
             $tmpDir = Settings::getTempDir() . '/';
@@ -1040,14 +1055,14 @@ class Html
         $fontStyle = $styles + array('size' => 3);
 
         $paragraphStyle = $styles + array(
-            'lineHeight'        => 0.25, // multiply default line height - e.g. 1, 1.5 etc
-            'spacing'           => 0, // twip
-            'spaceBefore'       => 120, // twip, 240/2 (default line height)
-            'spaceAfter'        => 120, // twip
-            'borderBottomSize'  => empty($styles['line-height']) ? 1 : $styles['line-height'],
-            'borderBottomColor' => empty($styles['color']) ? '000000' : $styles['color'],
-            'borderBottomStyle' => 'single', // same as "solid"
-        );
+                'lineHeight'        => 0.25, // multiply default line height - e.g. 1, 1.5 etc
+                'spacing'           => 0, // twip
+                'spaceBefore'       => 120, // twip, 240/2 (default line height)
+                'spaceAfter'        => 120, // twip
+                'borderBottomSize'  => empty($styles['line-height']) ? 1 : $styles['line-height'],
+                'borderBottomColor' => empty($styles['color']) ? '000000' : $styles['color'],
+                'borderBottomStyle' => 'single', // same as "solid"
+            );
 
         $element->addText('', $fontStyle, $paragraphStyle);
 
