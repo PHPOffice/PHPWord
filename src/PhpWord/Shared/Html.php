@@ -317,7 +317,11 @@ class Html
      */
     protected static function parseHeading($element, &$styles, $argument1)
     {
-        $styles['font'] = $styles['head1'];
+        if ( isset($styles['head1']) ) {
+            $styles['font'] = $styles['head1'];
+        } else {
+            $styles['font']['size'] = (int)$styles['font']['size']*1.20;
+        }
         $newElement = $element->addTextRun($styles['font']);
 
         return $newElement;
@@ -842,10 +846,12 @@ class Html
                                 case ' width':
                                 case 'width':
                                     $style['width'] = (int)trim($v);
+                                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
                                     break;
                                 case ' height':
                                 case 'height':
                                     $style['height'] = (int)trim($v);
+                                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
                                     break;
                             }
                         }
