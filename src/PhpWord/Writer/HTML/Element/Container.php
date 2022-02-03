@@ -56,6 +56,8 @@ class Container extends AbstractElement
                 /** @var \PhpOffice\PhpWord\Writer\HTML\Element\AbstractElement $writer Type hint */
                 $writer = new $writerClass($this->parentWriter, $element, $withoutP);
                 $content .= $writer->write();
+            } else {
+                $content .= "<!-- $containerClass -->";
             }
         }
 
