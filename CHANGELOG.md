@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.18.3](https://github.com/PHPOffice/PHPWord/tree/0.18.3) (2022-02-17)
+
+[Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.18.2...0.18.3)
+
+### Bug fixes
+- PHP 8.1 compatibility
+
 ## [0.18.2](https://github.com/PHPOffice/PHPWord/tree/0.18.2) (2021-06-04)
 
 [Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.18.1...0.18.2)
