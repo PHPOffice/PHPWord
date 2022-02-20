@@ -92,6 +92,7 @@ class Paragraph extends AbstractStyle
         $xmlWriter->writeElementIf($styles['pagination']['keepNext'] === true, 'w:keepNext', 'w:val', '1');
         $xmlWriter->writeElementIf($styles['pagination']['keepLines'] === true, 'w:keepLines', 'w:val', '1');
         $xmlWriter->writeElementIf($styles['pagination']['pageBreak'] === true, 'w:pageBreakBefore', 'w:val', '1');
+        $xmlWriter->writeElementIf($styles['pagination']['wordWrap'] !== true, 'w:wordWrap', 'w:val', '0');
 
         // Paragraph alignment
         if ('' !== $styles['alignment']) {
