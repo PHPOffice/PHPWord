@@ -41,7 +41,7 @@ class Content extends AbstractPart
         $trackedChanges = array();
 
         $nodes = $xmlReader->getElements('office:body/office:text/*');
-        if ($nodes->length > 0) {
+        if ($nodes && $nodes->length > 0) {
             $section = $phpWord->addSection();
             foreach ($nodes as $node) {
                 // $styleName = $xmlReader->getAttribute('text:style-name', $node);

@@ -49,7 +49,7 @@ class Document extends AbstractPart
         $readMethods = array('w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode');
 
         $nodes = $xmlReader->getElements('w:body/*');
-        if ($nodes->length > 0) {
+        if ($nodes && $nodes->length > 0) {
             $section = $this->phpWord->addSection();
             foreach ($nodes as $node) {
                 if (isset($readMethods[$node->nodeName])) {
@@ -81,7 +81,7 @@ class Document extends AbstractPart
                     $xmlReader = new XMLReader();
                     $xmlReader->getDomFromZip($this->docFile, $xmlFile);
                     $nodes = $xmlReader->getElements('*');
-                    if ($nodes->length > 0) {
+                    if ($nodes && $nodes->length > 0) {
                         foreach ($nodes as $node) {
                             if (isset($readMethods[$node->nodeName])) {
                                 $readMethod = $readMethods[$node->nodeName];
