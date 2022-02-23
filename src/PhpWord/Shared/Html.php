@@ -51,7 +51,7 @@ class Html
      *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
      *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
      */
-    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null)
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null, $loadHTML = false)
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
@@ -77,7 +77,11 @@ class Html
         }
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
-        $dom->loadXML($html);
+        if ($loadHTML){
+            $dom->loadHTML($html, LIBXML_NOWARNING);
+        }else{
+            $dom->loadXML($html);
+        }
         self::$xpath = new \DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
 
