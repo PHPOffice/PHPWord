@@ -152,6 +152,16 @@ method or using the ``pageBreakBefore`` style of paragraph.
 
     $section->addPageBreak();
 
+Column breaks
+~~~~~~~~~~~~~
+
+Column breaks may be inserted using the ``addColumnBreak`` method.
+
+.. code-block:: php
+
+    $section->addColumnBreak();
+
+
 Lists
 -----
 

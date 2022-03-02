@@ -74,6 +74,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $section->addLink(utf8_decode('http://äää.com'), utf8_decode('ä'));
         $section->addTextBreak();
         $section->addPageBreak();
+        $section->addColumnBreak();
         $section->addTable();
         $section->addListItem(utf8_decode('ä'));
         $section->addObject($objectSource);
@@ -90,6 +91,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
             'Link',
             'TextBreak',
             'PageBreak',
+            'ColumnBreak',
             'Table',
             'ListItem',
             'OLEObject',
