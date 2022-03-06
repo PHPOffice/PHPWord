@@ -851,4 +851,74 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor->setUpdateFields(false);
         $this->assertContains('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
     }
+
+    public function testCloneRowBlock()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-table-block.docx');
+
+        $docName = 'clone-test-result.docx';
+        $templateProcessor->cloneRowBlock('person', 3);
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+        $this->assertTrue($docFound);
+    }
+
+    public function testCloneRowBlockSetValue()
+    {
+        $templateProcessor = new TestableTemplateProcesor('<w:tbl>
+  <w:tr>
+    <w:tc>
+      <w:p>
+        <w:r>
+          <w:t>${person}</w:t>
+        </w:r>
+      </w:p>
+      <w:p>
+        <w:r>
+          <w:t>${name}</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+    <w:tc>
+      <w:p>
+        <w:r>
+          <w:t>${age}</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+    <w:tc>
+      <w:p>
+        <w:r>
+          <w:t>${gender}</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+  </w:tr>
+  <w:tr>
+    <w:tc>
+      <w:tcPr>
+        <w:gridSpan w:val="3"/>
+      </w:tcPr>
+      <w:p>
+        <w:r>
+          <w:t>${description}</w:t>
+        </w:r>
+      </w:p>
+      <w:p>
+        <w:r>
+          <w:t>${/person}</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+  </w:tr>
+</w:tbl>');
+
+        $templateProcessor->cloneRowBlockAndSetValues('person', array(
+            array('name' => 'Barton', 'age' => 26, 'gender' => 'Man', 'description' => 'A good man.'),
+            array('name' => 'Superman', 'age' => 35, 'gender' => 'Man', 'description' => 'A great man.'),
+        ));
+        $this->assertContains('<w:t>Barton</w:t>', $templateProcessor->getMainPart());
+        $this->assertContains('<w:t>Superman</w:t>', $templateProcessor->getMainPart());
+    }
 }

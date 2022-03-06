@@ -1147,7 +1147,7 @@ class TemplateProcessor
      * @param int $count
      * @param string $xmlBlock
      *
-     * @return string
+     * @return array
      */
     protected function indexClonedVariables($count, $xmlBlock)
     {
@@ -1316,5 +1316,87 @@ class TemplateProcessor
     protected function textNeedsSplitting($text)
     {
         return preg_match('/[^>]\${|}[^<]/i', $text) == 1;
+    }
+
+    /**
+     * Clone a table block
+     *
+     * @param $blockname
+     * @param $numberOfClones
+     * @throws Exception
+     */
+    public function cloneRowBlock($blockname, $numberOfClones)
+    {
+        $tagStartPos = strpos($this->tempDocumentMainPart, '${' . $blockname . '}');
+        $tagEndPos = strpos($this->tempDocumentMainPart, '${/' . $blockname . '}');
+        if (!$tagStartPos || !$tagEndPos) {
+            throw new Exception('Can not clone row, template variable not found or variable contains markup.');
+        }
+
+        $rowStart = $this->findRowStart($tagStartPos);
+        $rowEnd = $this->findRowEnd($tagEndPos);
+        $xmlRow = $this->getSlice($rowStart, $rowEnd);
+
+        // clean block name
+        preg_match(
+            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\${' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            $xmlRow,
+            $matches
+        );
+        $xmlRow = str_replace(
+            array($matches[2], $matches[4]),
+            '',
+            $xmlRow
+        );
+
+        // Check if there's a cell spanning multiple rows.
+        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+            // $extraRowStart = $rowEnd;
+            $extraRowEnd = $rowEnd;
+            while (true) {
+                $extraRowStart = $this->findRowStart($extraRowEnd + 1);
+                $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
+
+                // If extraRowEnd is lower then 7, there was no next row found.
+                if ($extraRowEnd < 7) {
+                    break;
+                }
+
+                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue"\s*/>#', $tmpXmlRow)
+                ) {
+                    break;
+                }
+                // This row was a spanned row, update $rowEnd and search for the next row.
+                $rowEnd = $extraRowEnd;
+            }
+            $xmlRow = $this->getSlice($rowStart, $rowEnd);
+        }
+
+        $result = $this->getSlice(0, $rowStart);
+        $result .= implode($this->indexClonedVariables($numberOfClones, $xmlRow));
+        $result .= $this->getSlice($rowEnd);
+
+        $this->tempDocumentMainPart = $result;
+    }
+
+    /**
+     * Clones a table block and populates it's values from a two-dimensional array in a template document.
+     *
+     * @param $blockname
+     * @param $values
+     */
+    public function cloneRowBlockAndSetValues($blockname, $values)
+    {
+        $this->cloneRowBlock($blockname, count($values));
+
+        foreach ($values as $rowKey => $rowData) {
+            $rowNumber = $rowKey + 1;
+            foreach ($rowData as $macro => $replace) {
+                $this->setValue($macro . '#' . $rowNumber, $replace);
+            }
+        }
     }
 }
