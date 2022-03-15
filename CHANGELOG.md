@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Word2007 Reader/Writer : Added noWrap table cell property by @kernusr in #2359
 - HTML Reader : Support for `font-variant: small-caps` by @cambraca in #2117
 - Improved TextDirection for styling a cell by @terryzwt in #2429
+- Word2007 Reader : Added option to disable loading images by @aelliott1485 in #2450
 ### Bug fixes
 
 - Fixed wrong mimetype for docx files by @gamerlv in #2416
