@@ -17,6 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Writer\HTML\Style\Table as TextStyleWriter;
+
 /**
  * Table element HTML writer
  *
@@ -36,10 +39,45 @@ class Table extends AbstractElement
         }
 
         $content = '';
+        $tableStyle = $this->element->getStyle();
         $rows = $this->element->getRows();
         $rowCount = count($rows);
         if ($rowCount > 0) {
-            $content .= '<table' . self::getTableStyle($this->element->getStyle()) . '>' . PHP_EOL;
+            $content .= '<table' . $this->getTableStyle($tableStyle) . '>' . PHP_EOL;
+
+            if (is_string($tableStyle)) {
+                $customStyles = Style::getStyles();
+                if (is_array($customStyles) && isset($customStyles[$tableStyle])) {
+                    $tableStyle = $customStyles[$tableStyle];
+                }
+            }
+
+            $borderStyleConverter = array(
+                'single'=> 'solid',
+                'none'  => 'none',
+                'nil'   => 'hidden',
+                'dotted'=> 'dotted',
+                'dashed'=> 'dashed',
+                'double'=> 'double',
+                'inset' => 'inset',
+                'outset'=> 'outset',
+            );
+            $cellStyles = array();
+            if (is_object($tableStyle)) {
+                $cellHBorderSize = $tableStyle->getBorderInsideHSize();
+                $cellVBorderSize = $tableStyle->getBorderInsideVSize();
+                if (!is_null($cellHBorderSize)) {
+                    $style = ($cellHBorderSize / 8) . 'pt solid #' . $tableStyle->getBorderInsideHColor();
+                    $cellStyles[] = 'border-top: ' . $style;
+                    $cellStyles[] = 'border-bottom: ' . $style;
+                }
+                if (!is_null($cellVBorderSize)) {
+                    $style = ($cellVBorderSize / 8) . 'pt solid #' . $tableStyle->getBorderInsideVColor();
+                    $cellStyles[] = 'border-left: ' . $style;
+                    $cellStyles[] = 'border-right: ' . $style;
+                }
+            }
+            $cellStyleString = implode('; ', $cellStyles);
 
             for ($i = 0; $i < $rowCount; $i++) {
                 /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
@@ -85,7 +123,33 @@ class Table extends AbstractElement
                         $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
                         $cellBgColorAttr = (is_null($cellBgColor) ? '' : " bgcolor=\"#{$cellBgColor}\"");
                         $cellFgColorAttr = (is_null($cellFgColor) ? '' : " color=\"#{$cellFgColor}\"");
-                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
+
+                        $localBorderStyles = array();
+                        $cellBorderSizes = $cellStyle->getBorderSize();
+                        $cellBorderColors = $cellStyle->getBorderColor();
+                        $cellBorderStyles = $cellStyle->getBorderStyle();
+                        foreach (array('top', 'left', 'right', 'bottom') as $k => $name) {
+                            if ($cellBorderSizes[$k] > 0) {
+                                $borderColor = $cellBorderColors[$k];
+                                if ($borderColor == 'auto') {
+                                    $borderColor = '000';  // TODO: Detect better color
+                                }
+                                $borderStyle = $cellBorderStyles[$k];
+                                if (isset($borderStyleConverter[$borderStyle])) {
+                                    $borderStyle = $borderStyleConverter[$borderStyle];
+                                } else {
+                                    $borderStyle = 'solid';
+                                }
+                                $localBorderStyles[] = "border-{$name}:" . ($cellBorderSizes[$k] / 8) . 'pt ' . $borderStyle . ' #' . $borderColor;
+                            }
+                        }
+                        $localCellStylesString = $cellStyleString;
+                        if ($localBorderStyles) {
+                            $localCellStylesString .= '; ' . implode('; ', $localBorderStyles);
+                        }
+                        $cellStyle = (empty($localCellStylesString) ? '' : " style=\"{$localCellStylesString}\"");
+
+                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}{$cellStyle}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);
                         $content .= $writer->write();
                         if ($cellRowSpan > 1) {
@@ -130,11 +194,8 @@ class Table extends AbstractElement
             $style = ' class="' . $tableStyle;
         } else {
             $style = ' style="';
-            if ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED) {
-                $style .= 'table-layout: fixed;';
-            } elseif ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO) {
-                $style .= 'table-layout: auto;';
-            }
+            $styleWriter = new TextStyleWriter($tableStyle);
+            $style .= $styleWriter->write();
         }
 
         return $style . '"';

@@ -340,7 +340,16 @@ class Html
      */
     protected static function parseProperty(&$styles, $argument1, $argument2)
     {
-        $styles['font'][$argument1] = $argument2;
+        if ($argument1 !== 'span') {
+            $styles['font'][$argument1] = $argument2;
+        } else {
+            if (!is_null($argument2->attributes)) {
+                $nodeAttr = $argument2->attributes->getNamedItem('style');
+                if (!is_null($nodeAttr) && property_exists($nodeAttr, 'value')) {
+                    $styles['font'] = self::parseStyle($nodeAttr, $styles['font']);
+                }
+            }
+        }
     }
 
     /**

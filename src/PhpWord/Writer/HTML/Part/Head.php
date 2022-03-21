@@ -21,9 +21,11 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Generic as GenericStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
+use PhpOffice\PhpWord\Writer\HTML\Style\Table as TableStyleWriter;
 
 /**
  * RTF head part writer
@@ -96,15 +98,33 @@ class Head extends AbstractPart
                 'padding'    => '0',
                 'margin'     => '1em 0',
                 'border'     => '0',
-                'border-top' => '1px solid #CCC',
+                'border-top' => '1px solid #ccc',
             ),
             'table' => array(
-                'border'         => '1px solid black',
-                'border-spacing' => '0px',
+                'border'         => '0',
+                'border-collapse'=> 'collapse',
+                'border-spacing' => '0',
                 'width '         => '100%',
             ),
             'td' => array(
-                'border' => '1px solid black',
+                'border'        => '0',
+            ),
+            'p' => array(
+                'margin-top'    => '0',
+                'margin-bottom' => '0',
+            ),
+            'div.paragraph' => array(
+                'margin'        => '0',
+                'margin-bottom' => '0',
+            ),
+            'table.tabstops'=> array(
+                'width'         => 'auto',
+                'table-layout'  => 'fixed',
+                'border'        => '0',
+            ),
+            'td.tabstop'=> array(
+                'white-space'   => 'nowrap',
+                'border'        => '0',
             ),
         );
         foreach ($defaultStyles as $selector => $style) {
@@ -126,6 +146,10 @@ class Head extends AbstractPart
                     $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                 } elseif ($style instanceof Paragraph) {
                     $styleWriter = new ParagraphStyleWriter($style);
+                    $name = '.' . $name;
+                    $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
+                } elseif ($style instanceof Table) {
+                    $styleWriter = new TableStyleWriter($style);
                     $name = '.' . $name;
                     $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                 }

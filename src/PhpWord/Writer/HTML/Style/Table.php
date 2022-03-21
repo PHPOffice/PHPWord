@@ -18,14 +18,13 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 
 /**
- * Paragraph style HTML writer
+ * Table style HTML writer
  *
- * @since 0.10.0
+ * @since 0.17.0
  */
-class Paragraph extends AbstractStyle
+class Table extends AbstractStyle
 {
     /**
      * Write style
@@ -35,7 +34,7 @@ class Paragraph extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Table) {
             return '';
         }
         $css = array();
@@ -69,23 +68,45 @@ class Paragraph extends AbstractStyle
             $css['text-align'] = $textAlign;
         }
 
-        // Spacing
-        $spacing = $style->getSpace();
-        if (!is_null($spacing)) {
-            $before = $spacing->getBefore();
-            $after = $spacing->getAfter();
-            $css['margin-top'] = $this->getValueIf(!is_null($before), ($before / 20) . 'pt');
-            $css['margin-bottom'] = $this->getValueIf(!is_null($after), ($after / 20) . 'pt');
-        } else {
-            $css['margin-top'] = '0';
-            $css['margin-bottom'] = '0';
+        $bgColor = $style->getBgColor();
+        if ($bgColor) {
+            $css['background-color'] = $bgColor;
         }
 
-        $fontStyle = $style->getFontStyle();
-        if ($fontStyle) {
-            $styleWriter = new FontStyleWriter($fontStyle);
+        $sideIdx = array(
+            'top'   => 0,
+            'right' => 2,
+            'bottom'=> 3,
+            'left'  => 1,
+        );
 
-            return $this->assembleCss($css) . ' ' . $styleWriter->write();
+        $borderSizes = $style->getBorderSize();
+        $borderColors = $style->getBorderColor();
+        foreach ($sideIdx as $side => $idx) {
+            if (!is_null($borderSizes[$idx])) {
+                $css['border-' . $side] = ($borderSizes[$idx] / 8) . 'pt solid #' . $borderColors[$idx];
+            }
+        }
+
+        /*
+        $cellMargins = $style->getCellMargin();
+        foreach ($sideIdx as $side => $idx) {
+            if (!is_null($cellMargins[$idx])) {
+                $css['margin-'.$side] = ($cellMargins[$idx]/20).'pt';
+            }
+        }
+        */
+        //$cellPadding = $style->getCellPadding();
+        //$columnWidths = $style->getColumnWidths();
+
+        $layout = $style->getLayout();
+        if ($layout == $style::LAYOUT_FIXED) {
+            $css['table-layout'] = 'fixed';
+        }
+
+        $width = $style->getWidth();
+        if (!is_null($width) && $width > 0) {
+            $css['width'] = $width . ($width > 0 ? $style->getUnit() : '');
         }
 
         return $this->assembleCss($css);

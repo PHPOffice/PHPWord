@@ -43,7 +43,6 @@ use PhpOffice\PhpWord\SimpleType\TextAlignment;
  * - Outline & numbering
  * - Tabs
  * - Dropcaps
- * - Tabs
  * - Borders
  * - Background
  *
@@ -186,6 +185,13 @@ class Paragraph extends Border
      * @var bool
      */
     private $suppressAutoHyphens = false;
+
+    /**
+     * Text style
+     *
+     * @var string|\PhpOffice\PhpWord\Style\Font
+     */
+    protected $fontStyle;
 
     /**
      * Set Style value
@@ -870,5 +876,37 @@ class Paragraph extends Border
     public function setSuppressAutoHyphens($suppressAutoHyphens)
     {
         $this->suppressAutoHyphens = (bool) $suppressAutoHyphens;
+    }
+
+    /**
+     * Get Text style
+     *
+     * @return string|\PhpOffice\PhpWord\Style\Font
+     */
+    public function getFontStyle()
+    {
+        return $this->fontStyle;
+    }
+
+    /**
+     * Set Text style
+     *
+     * @param string|array|\PhpOffice\PhpWord\Style\Font $style
+     * @return string|\PhpOffice\PhpWord\Style\Font
+     */
+    public function setFontStyle($style = null)
+    {
+        if ($style instanceof Font) {
+            $this->fontStyle = $style;
+        } elseif (is_array($style)) {
+            $this->fontStyle = new Font('text');
+            $this->fontStyle->setStyleByArray($style);
+        } elseif (null === $style) {
+            $this->fontStyle = new Font('text');
+        } else {
+            $this->fontStyle = $style;
+        }
+
+        return $this->fontStyle;
     }
 }
