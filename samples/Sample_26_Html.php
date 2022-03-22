@@ -92,6 +92,8 @@ $html .= '<table align="center" style="width: 80%; border: 6px #0000FF double;">
 $html .= '<p style="margin-top: 240pt;">The text below is not visible, click on show/hide to reveil it:</p>';
 $html .= '<p style="display: none">This is hidden text</p>';
 
+$html .= '<p><img src="resources/_earth.jpg" style="max-width: 5cm"/></p>';
+
 \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
 
 // Save file

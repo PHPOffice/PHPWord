@@ -577,6 +577,28 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         Html::addHtml($section, $html, false, true);
     }
 
+    /**
+     * Test parsing of img with max-width attribute
+     */
+    public function testParseImageWithMaxWidthAttribute()
+    {
+        $src = __DIR__ . '/../_files/images/earth.jpg';
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" style="max-width: 200px"/><img src="' . $src . '" style="max-width: 5cm"/></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        $this->assertStringMatchesFormat('%Swidth:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Swidth:188.97637795276%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Sheight:188.97637795276%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
+    }
+
     public function testParseLink()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
