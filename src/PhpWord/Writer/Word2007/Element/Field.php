@@ -310,14 +310,22 @@ class Field extends Text
         }
 
         switch ($optionValue) {
-            case 'IncrementAndInsertText': return '\\f';
-            case 'CreateHyperLink': return '\\h';
-            case 'NoTrailingPeriod': return '\\n';
-            case 'IncludeAboveOrBelow': return '\\p';
-            case 'InsertParagraphNumberRelativeContext': return '\\r';
-            case 'SuppressNonDelimiterNonNumericalText': return '\\t';
-            case 'InsertParagraphNumberFullContext': return '\\w';
-            default: return '';
+            case 'IncrementAndInsertText':
+                return '\\f';
+            case 'CreateHyperLink':
+                return '\\h';
+            case 'NoTrailingPeriod':
+                return '\\n';
+            case 'IncludeAboveOrBelow':
+                return '\\p';
+            case 'InsertParagraphNumberRelativeContext':
+                return '\\r';
+            case 'SuppressNonDelimiterNonNumericalText':
+                return '\\t';
+            case 'InsertParagraphNumberFullContext':
+                return '\\w';
+            default:
+                return '';
         }
     }
 }
