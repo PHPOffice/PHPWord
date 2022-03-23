@@ -226,4 +226,98 @@ class Field extends Text
 
         return $propertiesAndOptions;
     }
+
+    /**
+     * Writes a REF field
+     *
+     * @param \PhpOffice\PhpWord\Element\Field $element
+     */
+    protected function writeRef(\PhpOffice\PhpWord\Element\Field $element)
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $this->startElementP();
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
+
+        $instruction = ' ' . $element->getType() . ' ';
+
+        foreach ($element->getProperties() as $property) {
+            $instruction .= $property . ' ';
+        }
+        foreach ($element->getOptions() as $optionKey => $optionValue) {
+            $instruction .= $this->convertRefOption($optionKey, $optionValue) . ' ';
+        }
+
+        $xmlWriter->startElement('w:r');
+        $this->writeFontStyle();
+        $xmlWriter->startElement('w:instrText');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->text($instruction);
+        $xmlWriter->endElement(); // w:instrText
+        $xmlWriter->endElement(); // w:r
+
+        if ($element->getText() != null) {
+            if ($element->getText() instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                $containerWriter = new Container($xmlWriter, $element->getText(), true);
+                $containerWriter->write();
+
+                $xmlWriter->startElement('w:r');
+                $xmlWriter->startElement('w:instrText');
+                $xmlWriter->text('"' . $this->buildPropertiesAndOptions($element));
+                $xmlWriter->endElement(); // w:instrText
+                $xmlWriter->endElement(); // w:r
+
+                $xmlWriter->startElement('w:r');
+                $xmlWriter->startElement('w:instrText');
+                $xmlWriter->writeAttribute('xml:space', 'preserve');
+                $xmlWriter->text(' ');
+                $xmlWriter->endElement(); // w:instrText
+                $xmlWriter->endElement(); // w:r
+            }
+        }
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'separate');
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->startElement('w:noProof');
+        $xmlWriter->endElement(); // w:noProof
+        $xmlWriter->endElement(); // w:rPr
+        $xmlWriter->writeElement('w:t', $element->getText() != null && is_string($element->getText()) ? $element->getText() : '1');
+        $xmlWriter->endElement(); // w:r
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'end');
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
+
+        $this->endElementP(); // w:p
+    }
+
+    private function convertRefOption($optionKey, $optionValue)
+    {
+        if ($optionKey === 'NumberSeperatorSequence') {
+            return '\\d ' . $optionValue;
+        }
+
+        switch ($optionValue) {
+            case 'IncrementAndInsertText': return '\\f';
+            case 'CreateHyperLink': return '\\h';
+            case 'NoTrailingPeriod': return '\\n';
+            case 'IncludeAboveOrBelow': return '\\p';
+            case 'InsertParagraphNumberRelativeContext': return '\\r';
+            case 'SuppressNonDelimeterNonNumericalText': return '\\t';
+            case 'InsertParagraphNumberFullContext': return '\\w';
+            default: return '';
+        }
+    }
 }
