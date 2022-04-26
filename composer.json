@@ -43,7 +43,7 @@
         ],
         "check": [
             "php-cs-fixer fix --ansi --dry-run --diff",
-            "phpcs --report-width=200 --report-summary  --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
+            "phpcs --report-width=200 --report-summary --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
             "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
             "@test-no-coverage"
         ],
@@ -75,9 +75,6 @@
         "mpdf/mpdf": "5.7.4 || 6.* || 7.* || 8.*",
         "php-coveralls/php-coveralls": "1.1.0 || ^2.0"
     },
-    "replace": {
-        "laminas/laminas-zendframework-bridge": "*"
-    },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",
         "ext-gd2": "Allows adding images",
@@ -92,7 +89,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "0.18-dev"
+            "dev-develop": "0.19-dev"
         }
     }
 }

@@ -1,0 +1,170 @@
+name: CI
+on:
+  - push
+  - pull_request
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version:
+          - '7.2'
+          - "7.3"
+          - "7.4"
+          - "8.0"
+
+    name: PHP ${{ matrix.php-version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: ctype, dom, gd, iconv, fileinfo, libxml, mbstring, simplexml, xml, xmlreader, xmlwriter, zip, zlib
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Update PHPUnit version for PHP 8
+        id: composer-lock
+        if: "startsWith(matrix.php-version, '8.')"
+        run: |
+          rm -f composer.lock
+          echo "::set-output name=flags::--ignore-platform-reqs"
+          composer remove phpunit/phpunit --dev --no-update --no-interaction
+          composer require phpunit/phpunit ^8.0 --dev --no-update
+
+      - name: Install dependencies
+        run: composer update --no-progress --prefer-dist --optimize-autoloader ${{ steps.composer-lock.outputs.flags }}
+
+      - name: Update code to make PHPUnit 8 compatible
+        if: "startsWith(matrix.php-version, '8.')"
+        run: |
+          find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function setUpBeforeClass()$/function setUpBeforeClass(): void/' {} \;
+          find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function tearDownAfterClass()$/function tearDownAfterClass(): void/' {} \;
+          find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function setUp()$/function setUp(): void/' {} \;
+          find ./tests/ -name "*.php" -type f -exec sed -i -e 's/function tearDown()$/function tearDown(): void/' {} \;
+          find ./tests/ -name "*.php" -type f -exec sed -i -e 's/->assertContains(/->assertStringContainsString(/' {} \;
+          find ./tests/ -name "*.php" -type f -exec sed -i -e 's/->assertNotContains(/->assertStringNotContainsString(/' {} \;
+          find ./tests/ -name "*.php" -type f -exec sed -i -e "s/->assertInternalType('array', /->assertIsArray(/" {} \;
+          sed -i "s/\$this->addWarning('The @expectedException,/\/\/\$this->addWarning('The @expectedException,/" ./vendor/phpunit/phpunit/src/Framework/TestCase.php
+          sed -i "s/self::createWarning('The optional \$delta/\/\/self::createWarning('The optional \$delta/" ./vendor/phpunit/phpunit/src/Framework/Assert.php
+
+      - name: Setup problem matchers for PHP
+        run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Configure matchers
+        uses: mheap/phpunit-matcher-action@v1
+
+      - name: Test with PHPUnit
+        run: ./vendor/bin/phpunit --teamcity --no-coverage -c ./
+
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: ctype, dom, gd, iconv, fileinfo, libxml, mbstring, simplexml, xml, xmlreader, xmlwriter, zip, zlib
+          coverage: none
+          tools: cs2pr
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Code style with PHP-CS-Fixer
+        run: ./vendor/bin/php-cs-fixer fix --dry-run --show-progress=none --using-cache=no -v --format=checkstyle | cs2pr
+
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: ctype, dom, gd, iconv, fileinfo, libxml, mbstring, simplexml, xml, xmlreader, xmlwriter, zip, zlib
+          coverage: none
+          tools: cs2pr
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Code style with PHP_CodeSniffer
+        run: ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip --report=checkstyle | cs2pr
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: ctype, dom, gd, iconv, fileinfo, libxml, mbstring, simplexml, xml, xmlreader, xmlwriter, zip, zlib
+          coverage: xdebug
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Coverage
+        run: |
+          ./vendor/bin/phpunit --coverage-clover coverage-clover.xml
+          curl -LO https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar code-coverage:upload --format=php-clover coverage-clover.xml

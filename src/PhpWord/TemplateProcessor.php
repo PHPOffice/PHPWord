@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -437,7 +438,7 @@ class TemplateProcessor
         if (is_null($value) && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value)) {
+        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', isset($value) ? $value : '')) {
             $value = null;
         }
         if (is_null($value)) {
@@ -620,8 +621,8 @@ class TemplateProcessor
 
         // collect document parts
         $searchParts = array(
-                            $this->getMainPartName() => &$this->tempDocumentMainPart,
-                            );
+            $this->getMainPartName() => &$this->tempDocumentMainPart,
+        );
         foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
             $searchParts[$this->getHeaderName($headerIndex)] = &$this->tempDocumentHeaders[$headerIndex];
         }
@@ -748,7 +749,8 @@ class TemplateProcessor
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
                 if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
-                    !preg_match('#<w:vMerge w:val="continue"\s*/>#', $tmpXmlRow)) {
+                    !preg_match('#<w:vMerge w:val="continue"\s*/>#', $tmpXmlRow)
+                ) {
                     break;
                 }
                 // This row was a spanned row, update $rowEnd and search for the next row.
@@ -1067,7 +1069,12 @@ class TemplateProcessor
     protected function getNextRelationsIndex($documentPartName)
     {
         if (isset($this->tempDocumentRelations[$documentPartName])) {
-            return substr_count($this->tempDocumentRelations[$documentPartName], '<Relationship');
+            $candidate = substr_count($this->tempDocumentRelations[$documentPartName], '<Relationship');
+            while (strpos($this->tempDocumentRelations[$documentPartName], 'Id="rId' . $candidate . '"') !== false) {
+                $candidate++;
+            }
+
+            return $candidate;
         }
 
         return 1;
