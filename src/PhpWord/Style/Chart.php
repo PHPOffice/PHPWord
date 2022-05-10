@@ -60,6 +60,13 @@ class Chart extends AbstractStyle
     private $title = null;
 
     /**
+     * Chart data table visibility
+     *
+     * @var bool
+     */
+    private $showDataTable = false;
+
+    /**
      * Chart legend visibility
      *
      * @var bool
@@ -87,6 +94,18 @@ class Chart extends AbstractStyle
         'showPercent'      => false,
         'showLeaderLines'  => false,
         'showBubbleSize'   => false,
+    );
+
+    /**
+     * A list of display options for data table
+     *
+     * @var array
+     */
+    private $dataTableOptions = array(
+        'showHorzBorder' => true,
+        'showVertBorder' => true,
+        'showOutline'    => true,
+        'showKeys'       => true
     );
 
     /**
@@ -446,8 +465,8 @@ class Chart extends AbstractStyle
      * "low" - sets labels are below the graph
      * "high" - sets labels above the graph
      *
-     * @param string
      * @param mixed $labelPosition
+     * @return Chart
      */
     public function setValueLabelPosition($labelPosition)
     {
@@ -533,5 +552,54 @@ class Chart extends AbstractStyle
         $this->gridX = $this->setBoolVal($value, $this->gridX);
 
         return $this;
+    }
+
+    /**
+     * Get chart data table visibility
+     *
+     * @return bool
+     */
+    public function isShowDataTable()
+    {
+        return $this->showDataTable;
+    }
+
+    /**
+     * Set chart data table visibility
+     *
+     * @param bool $showDataTable
+     */
+    public function setShowDataTable($showDataTable)
+    {
+        $this->showDataTable = $showDataTable;
+
+        return $this;
+    }
+
+    /**
+     * Get values for data table options.
+     * @return array
+     */
+    public function getDataTableOptions()
+    {
+        return $this->dataTableOptions;
+    }
+
+    /**
+     * Set values for data table options.
+     * This will only change values for options defined in $this->dataLabelOptions, and cannot create new ones.
+     *
+     * @param array $values [description]
+     */
+    public function setDataTableOptions($values = array())
+    {
+        foreach (array_keys($this->dataTableOptions) as $option) {
+            if (isset($values[$option])) {
+                $this->dataTableOptions[$option] = $this->setBoolVal(
+                    $values[$option],
+                    $this->dataTableOptions[$option]
+                );
+            }
+        }
     }
 }

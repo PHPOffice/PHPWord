@@ -132,6 +132,7 @@ class Chart extends AbstractPart
         $title = $style->getTitle();
         $showLegend = $style->isShowLegend();
         $legendPosition = $style->getLegendPosition();
+        $showDataTable = $style->isShowDataTable();
 
         //Chart title
         if ($title) {
@@ -205,6 +206,17 @@ class Chart extends AbstractPart
         if (isset($this->options['axes'])) {
             $this->writeAxis($xmlWriter, 'cat');
             $this->writeAxis($xmlWriter, 'val');
+        }
+
+        // Data table
+        if ($showDataTable) {
+            $xmlWriter->startElement('c:dTable');
+
+            foreach ($style->getDataTableOptions() as $option => $val) {
+                $xmlWriter->writeElementBlock("c:{$option}", 'val', (int) $val);
+            }
+
+            $xmlWriter->endElement(); //c:dTable
         }
 
         $xmlWriter->endElement(); // c:plotArea
