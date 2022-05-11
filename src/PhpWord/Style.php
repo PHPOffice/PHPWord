@@ -105,6 +105,22 @@ class Style
     }
 
     /**
+     * Add toc style
+     *
+     * @param int $depth Provide null to set title font
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
+     * @since 0.19.0
+     * @return \PhpOffice\PhpWord\Style\Font
+     */
+    public static function addTocStyle($depth, $fontStyle, $paragraphStyle = null)
+    {
+        $styleName = "TOC $depth";
+
+        return self::setStyleValues($styleName, new Font('toc', $paragraphStyle), $fontStyle);
+    }
+
+    /**
      * Add table style
      *
      * @param string $styleName

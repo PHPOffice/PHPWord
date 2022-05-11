@@ -152,6 +152,7 @@ class Section extends Border
      * The widths of the cols if they are not equal in twip
      *
      * @var array
+     * @since 0.19.0
      */
     private $colsWidths = array();
 
@@ -580,6 +581,7 @@ class Section extends Border
      * Get section column widths
      *
      * @return array
+     * @since 0.19.0
      */
     public function getColsWidths()
     {
@@ -591,6 +593,7 @@ class Section extends Border
      *
      * @param array $colsWidths
      * @return self
+     * @since 0.19.0
      */
     public function setColsWidths(array $colsWidths)
     {

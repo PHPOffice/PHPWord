@@ -63,6 +63,7 @@ class Chart extends AbstractStyle
      * Chart data table visibility
      *
      * @var bool
+     * @since 0.19.0
      */
     private $showDataTable = false;
 
@@ -100,6 +101,7 @@ class Chart extends AbstractStyle
      * A list of display options for data table
      *
      * @var array
+     * @since 0.19.0
      */
     private $dataTableOptions = array(
         'showHorzBorder' => true,
@@ -142,6 +144,7 @@ class Chart extends AbstractStyle
      * The lower axis limit
      *
      * @var float|int
+     * @since 0.19.0
      */
     private $valueAxisMin;
 
@@ -149,6 +152,7 @@ class Chart extends AbstractStyle
      * The upper axis limit
      *
      * @var float|int
+     * @since 0.19.0
      */
     private $valueAxisMax;
 
@@ -572,6 +576,7 @@ class Chart extends AbstractStyle
      * Get chart data table visibility
      *
      * @return bool
+     * @since 0.19.0
      */
     public function isShowDataTable()
     {
@@ -582,6 +587,7 @@ class Chart extends AbstractStyle
      * Set chart data table visibility
      *
      * @param bool $showDataTable
+     * @since 0.19.0
      */
     public function setShowDataTable($showDataTable)
     {
@@ -593,6 +599,7 @@ class Chart extends AbstractStyle
     /**
      * Get values for data table options.
      * @return array
+     * @since 0.19.0
      */
     public function getDataTableOptions()
     {
@@ -604,6 +611,7 @@ class Chart extends AbstractStyle
      * This will only change values for options defined in $this->dataTableOptions, and cannot create new ones.
      *
      * @param array $values [description]
+     * @since 0.19.0
      */
     public function setDataTableOptions($values = array())
     {
@@ -621,6 +629,7 @@ class Chart extends AbstractStyle
      * Get value axis min value
      *
      * @return float|int
+     * @since 0.19.0
      */
     public function getValueAxisMin()
     {
@@ -632,6 +641,7 @@ class Chart extends AbstractStyle
      *
      * @param float|int $valueAxisMin
      * @return self
+     * @since 0.19.0
      */
     public function setValueAxisMin($valueAxisMin)
     {
@@ -644,6 +654,7 @@ class Chart extends AbstractStyle
      * Set value axis max value
      *
      * @return float|int
+     * @since 0.19.0
      */
     public function getValueAxisMax()
     {
@@ -655,6 +666,7 @@ class Chart extends AbstractStyle
      *
      * @param float|int $valueAxisMax
      * @return self
+     * @since 0.19.0
      */
     public function setValueAxisMax($valueAxisMax)
     {

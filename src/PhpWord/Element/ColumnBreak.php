@@ -18,12 +18,14 @@
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Page break element
+ * Column break element
+ *
+ * @since 0.19.0
  */
 class ColumnBreak extends AbstractElement
 {
     /**
-     * Create new page break
+     * Create new column break
      */
     public function __construct()
     {

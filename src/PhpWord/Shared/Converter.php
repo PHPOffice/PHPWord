@@ -256,6 +256,7 @@ class Converter
      *
      * @param float $twip
      * @return float
+     * @since 0.19.0
      */
     public static function twipToInch($twip = 1)
     {

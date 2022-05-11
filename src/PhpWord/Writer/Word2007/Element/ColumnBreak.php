@@ -18,9 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
- * PageBreak element writer
+ * ColumBreak element writer
  *
- * @since 0.10.0
+ * @since 0.19.0
  */
 class ColumnBreak extends AbstractElement
 {
