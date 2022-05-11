@@ -139,6 +139,20 @@ class Chart extends AbstractStyle
     private $valueAxisTitle;
 
     /**
+     * The lower axis limit
+     *
+     * @var float|int
+     */
+    private $valueAxisMin;
+
+    /**
+     * The upper axis limit
+     *
+     * @var float|int
+     */
+    private $valueAxisMax;
+
+    /**
      * The position for major tick marks
      * Possible values are 'in', 'out', 'cross', 'none'
      *
@@ -587,7 +601,7 @@ class Chart extends AbstractStyle
 
     /**
      * Set values for data table options.
-     * This will only change values for options defined in $this->dataLabelOptions, and cannot create new ones.
+     * This will only change values for options defined in $this->dataTableOptions, and cannot create new ones.
      *
      * @param array $values [description]
      */
@@ -601,5 +615,51 @@ class Chart extends AbstractStyle
                 );
             }
         }
+    }
+
+    /**
+     * Get value axis min value
+     *
+     * @return float|int
+     */
+    public function getValueAxisMin()
+    {
+        return $this->valueAxisMin;
+    }
+
+    /**
+     * Set value axis min value
+     *
+     * @param float|int $valueAxisMin
+     * @return self
+     */
+    public function setValueAxisMin($valueAxisMin)
+    {
+        $this->valueAxisMin = $this->setFloatVal($valueAxisMin);
+
+        return $this;
+    }
+
+    /**
+     * Set value axis max value
+     *
+     * @return float|int
+     */
+    public function getValueAxisMax()
+    {
+        return $this->valueAxisMax;
+    }
+
+    /**
+     * Set value axis max value
+     *
+     * @param float|int $valueAxisMax
+     * @return self
+     */
+    public function setValueAxisMax($valueAxisMax)
+    {
+        $this->valueAxisMax = $this->setFloatVal($valueAxisMax);
+
+        return $this;
     }
 }

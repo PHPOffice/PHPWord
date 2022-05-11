@@ -285,6 +285,7 @@ class Chart extends AbstractPart
                 // check that there are colors
                 if (is_array($colors) && count($colors) > 0) {
                     // assign a color to each value
+                    /*
                     $valueIndex = 0;
                     for ($i = 0; $i < count($values); $i++) {
                         // check that there are still enought colors
@@ -298,6 +299,13 @@ class Chart extends AbstractPart
                         $xmlWriter->endElement(); // c:dPt
                         $valueIndex++;
                     }
+                    /*/
+                    $xmlWriter->startElement('c:spPr');
+                    $xmlWriter->startElement('a:solidFill');
+                    $xmlWriter->writeElementBlock('a:srgbClr', 'val', $colors[$colorIndex++ % count($colors)]);
+                    $xmlWriter->endElement(); // a:solidFill
+                    $xmlWriter->endElement(); // c:spPr
+                    //*/
                 }
             }
 
@@ -403,6 +411,12 @@ class Chart extends AbstractPart
         }
 
         $xmlWriter->startElement('c:scaling');
+        if ($axisType === 'c:valAx' && $min = $style->getValueAxisMin()) {
+            $xmlWriter->writeElementBlock('c:min', 'val', $min);
+        }
+        if ($axisType === 'c:valAx' && $max = $style->getValueAxisMax()) {
+            $xmlWriter->writeElementBlock('c:max', 'val', $max);
+        }
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
         $xmlWriter->endElement(); // c:scaling
 
