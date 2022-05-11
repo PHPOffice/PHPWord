@@ -84,11 +84,30 @@ class Section extends AbstractStyle
         }
 
         // Columns
+        $colsNum = $style->getColsNum();
         $colsSpace = $style->getColsSpace();
+        $colsWidths = $style->getColsWidths();
         $xmlWriter->startElement('w:cols');
-        $xmlWriter->writeAttribute('w:num', $style->getColsNum());
+        $xmlWriter->writeAttribute('w:num', $colsNum);
         $xmlWriter->writeAttribute('w:space', $this->convertTwip($colsSpace, SectionStyle::DEFAULT_COLUMN_SPACING));
-        $xmlWriter->endElement();
+        if (count($colsWidths) === $colsNum && $colsNum > 1) {
+            $xmlWriter->writeAttribute('w:equalWidth', '0');
+            for ($i = 0; $i < $colsNum; $i++) {
+                $xmlWriter->startElement('w:col');
+                $xmlWriter->writeAttribute('w:w', $this->convertTwip(
+                    $colsWidths[$i],
+                    SectionStyle::DEFAULT_COLUMN_WIDTH
+                ));
+                if ($i !== ($colsNum - 1)) {
+                    $xmlWriter->writeAttribute('w:space', $this->convertTwip(
+                        $colsSpace,
+                        SectionStyle::DEFAULT_COLUMN_SPACING
+                    ));
+                }
+                $xmlWriter->endElement(); //w:col
+            }
+        }
+        $xmlWriter->endElement(); //w:cols
 
         // Page numbering start
         $pageNum = $style->getPageNumberingStart();

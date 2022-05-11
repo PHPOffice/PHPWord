@@ -27,6 +27,7 @@ class Converter
     const INCH_TO_PIXEL = 96;
     const INCH_TO_POINT = 72;
     const INCH_TO_PICA = 6;
+    const TWIP_TO_INCH = 0.0006944444;
     const PIXEL_TO_EMU = 9525;
     const DEGREE_TO_ANGLE = 60000;
 
@@ -248,6 +249,17 @@ class Converter
     public static function picaToPoint($pica = 1)
     {
         return $pica / self::INCH_TO_PICA * self::INCH_TO_POINT;
+    }
+
+    /**
+     * Convert twip to inch
+     *
+     * @param float $twip
+     * @return float
+     */
+    public static function twipToInch($twip = 1)
+    {
+        return $twip * self::TWIP_TO_INCH;
     }
 
     /**

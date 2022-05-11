@@ -46,6 +46,7 @@ class Section extends Border
     const DEFAULT_FOOTER_HEIGHT = 720;     // In twips.
     const DEFAULT_COLUMN_COUNT = 1;
     const DEFAULT_COLUMN_SPACING = 720;    // In twips.
+    const DEFAULT_COLUMN_WIDTH = 4176;
 
     /**
      * Page Orientation
@@ -146,6 +147,13 @@ class Section extends Border
      * @var int|float
      */
     private $colsSpace = self::DEFAULT_COLUMN_SPACING;
+
+    /**
+     * The widths of the cols if they are not equal in twip
+     *
+     * @var array
+     */
+    private $colsWidths = array();
 
     /**
      * Section break type
@@ -564,6 +572,35 @@ class Section extends Border
     public function setColsSpace($value = null)
     {
         $this->colsSpace = $this->setNumericVal($value, self::DEFAULT_COLUMN_SPACING);
+
+        return $this;
+    }
+
+    /**
+     * Get section column widths
+     *
+     * @return array
+     */
+    public function getColsWidths()
+    {
+        return $this->colsWidths;
+    }
+
+    /**
+     * Set section column widths
+     *
+     * @param array $colsWidths
+     * @return self
+     */
+    public function setColsWidths(array $colsWidths)
+    {
+        if (count($colsWidths) !== $this->colsNum) {
+            return $this;
+        }
+
+        for ($i = 0; $i < $this->colsNum; $i++) {
+            $this->colsWidths[$i] = $this->setNumericVal($colsWidths[$i]);
+        }
 
         return $this;
     }
