@@ -311,11 +311,6 @@ parameters:
 			path: src/PhpWord/Reader/Word2007/Settings.php
 
 		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Reader\\\\Word2007\\\\Settings\\:\\:\\$booleanProperties has no type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/Word2007/Settings.php
-
-		-
 			message: "#^Parameter \\#1 \\$filename of function parse_ini_file expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/PhpWord/Settings.php
