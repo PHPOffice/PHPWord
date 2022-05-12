@@ -177,6 +177,28 @@ Use mirror margins to set up facing pages for double-sided documents, such as bo
 
     $phpWord->getSettings()->setMirrorMargins(true);
 
+Note that in order for this to work properly, you need to set both paper size and page size. For example,
+to print a document on A4 paper (landscape) and fold it into A5 pages (portrait), use this section style:
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setMirrorMargins(true);
+    $phpWord->addSection(array(
+        'paperSize' => 'A4',
+        'orientation' => 'landscape',
+        'pageSizeW' => \PhpOffice\PhpWord\Shared\Converter::cmToTwip(14.85),
+        'pageSizeH' => \PhpOffice\PhpWord\Shared\Converter::cmToTwip(21),
+    ));
+
+
+Printing as folded booklet
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Use book-fold printing to set up documents to be printed as foldable pages.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setBookFoldPrinting(true);
+
 Spelling and grammatical checks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
