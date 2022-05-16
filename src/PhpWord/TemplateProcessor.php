@@ -92,6 +92,8 @@ class TemplateProcessor
      */
     protected $tempDocumentNewImages = array();
 
+    protected $hyperlinks = array();
+
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
@@ -438,7 +440,7 @@ class TemplateProcessor
         if (is_null($value) && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value)) {
+        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', isset($value) ? $value : '')) {
             $value = null;
         }
         if (is_null($value)) {
@@ -889,6 +891,7 @@ class TemplateProcessor
      */
     public function save()
     {
+
         foreach ($this->tempDocumentHeaders as $index => $xml) {
             $this->savePartWithRels($this->getHeaderName($index), $xml);
         }
@@ -908,6 +911,22 @@ class TemplateProcessor
         }
 
         return $this->tempDocumentFilename;
+    }
+
+    /**
+     * @param string $replace
+     * @param \PhpOffice\PhpWord\Element\Link $link
+     */
+    public function setHyperLink($replace, $link)
+    {
+        $nextRId = $this->getNextRelationsIndex($this->getMainPartName());
+        $link->setRelationId($nextRId);
+        $this->setComplexValue($replace, $link);
+        
+        $nextRId += ($link->isInSection()) ? 6 : 0;
+        $rId = sprintf('rId%d', $nextRId);
+        $rel = sprintf('<Relationship Id="%s" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="%s" TargetMode="External" />', $rId, $link->getSource());
+        $this->tempDocumentRelations = str_replace('</Relationships>', $rel.'</Relationships>', $this->tempDocumentRelations);
     }
 
     /**
