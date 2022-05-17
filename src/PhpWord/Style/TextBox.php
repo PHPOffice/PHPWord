@@ -74,6 +74,13 @@ class TextBox extends Image
     private $fillColor;
 
     /**
+     * Auto fit size of textbox to text
+     *
+     * @var bool
+     */
+    private $fitShapeToText = false;
+
+    /**
      * Set margin top.
      *
      * @param int $value
@@ -246,10 +253,29 @@ class TextBox extends Image
     }
 
     /**
+     * Get fill color
      * @return string
      */
     public function getFillColor()
     {
         return $this->fillColor;
+    }
+
+    /**
+     * Whether or not to fit size of textbox to text
+     * @return bool
+     */
+    public function isFitShapeToText()
+    {
+        return $this->fitShapeToText;
+    }
+
+    /**
+     * Set the automatically fit value
+     * @param bool $fitShapeToText
+     */
+    public function setFitShapeToText($fitShapeToText)
+    {
+        $this->fitShapeToText = $this->setBoolVal($fitShapeToText, false);
     }
 }
