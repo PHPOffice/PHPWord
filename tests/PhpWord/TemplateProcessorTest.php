@@ -478,7 +478,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $hyperLinkText = "PHPOffice PHPWord";
         $link = new Link($hyperLinkUrl, $hyperLinkText);
 
-        $templateProcessor->setHyperLink('test', $link);
+        $templateProcessor->setHyperLink('documentContent', $link);
 
         $docName = 'hyperlink-test-result.docx';
         $templateProcessor->saveAs($docName);
@@ -493,7 +493,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             throw new \Exception("Could not close zip file \"{$docName}\".");
         }
 
-        $this->assertNotContains('${test}', $expectedMainPartXml, 'word/document.xml has no hyperlink.');
+        $this->assertNotContains('${documentContent}', $expectedMainPartXml, 'word/document.xml has no hyperlink.');
         $this->assertContains($hyperLinkUrl, $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "'.$hyperLinkUrl.'"');
 
         unlink($docName);

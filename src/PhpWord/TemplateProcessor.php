@@ -621,16 +621,7 @@ class TemplateProcessor
             $searchReplace[$searchString] = isset($replacesList[$searchIdx]) ? $replacesList[$searchIdx] : $replacesList[0];
         }
 
-        // collect document parts
-        $searchParts = array(
-            $this->getMainPartName() => &$this->tempDocumentMainPart,
-        );
-        foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
-            $searchParts[$this->getHeaderName($headerIndex)] = &$this->tempDocumentHeaders[$headerIndex];
-        }
-        foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
-            $searchParts[$this->getFooterName($headerIndex)] = &$this->tempDocumentFooters[$headerIndex];
-        }
+        $searchParts = $this->collectDocumentsParts();
 
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
@@ -914,19 +905,44 @@ class TemplateProcessor
     }
 
     /**
-     * @param string $replace
+     * @param string $search
      * @param \PhpOffice\PhpWord\Element\Link $link
      */
-    public function setHyperLink($replace, $link)
+    public function setHyperLink($search, $link)
     {
-        $nextRId = $this->getNextRelationsIndex($this->getMainPartName());
-        $link->setRelationId($nextRId);
-        $this->setComplexValue($replace, $link);
-        
-        $nextRId += ($link->isInSection()) ? 6 : 0;
-        $rId = sprintf('rId%d', $nextRId);
-        $rel = sprintf('<Relationship Id="%s" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="%s" TargetMode="External" />', $rId, $link->getSource());
-        $this->tempDocumentRelations = str_replace('</Relationships>', $rel.'</Relationships>', $this->tempDocumentRelations);
+        $searchParts = $this->collectDocumentsParts();
+        foreach ($searchParts as $partFileName => $partContent) {
+            $partVariables = $this->getVariablesForPart($partContent);
+            if (in_array($search, $partVariables)) {
+                $nextRId = $this->getNextRelationsIndex($partFileName);
+                $link->setRelationId($nextRId);
+                $nextRId += ($link->isInSection()) ? 6 : 0;
+                $rId = sprintf('rId%d', $nextRId);
+                $rel = sprintf('<Relationship Id="%s" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="%s" TargetMode="External" />', $rId, $link->getSource());
+                if (!isset($this->tempDocumentRelations[$partFileName])) {
+                    $this->tempDocumentRelations[$partFileName] = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
+                    $xmlRelationsType = str_replace('{RELS}', $this->getRelationsName($partFileName), '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>');
+                    $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
+                }
+                $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $rel.'</Relationships>', $this->tempDocumentRelations[$partFileName]);
+                $this->setComplexValue($search, $link);
+            }
+        }
+    }
+
+    protected function collectDocumentsParts()
+    {
+        // collect document parts
+        $searchParts = array(
+            $this->getMainPartName() => &$this->tempDocumentMainPart,
+        );
+        foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
+            $searchParts[$this->getHeaderName($headerIndex)] = &$this->tempDocumentHeaders[$headerIndex];
+        }
+        foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
+            $searchParts[$this->getFooterName($headerIndex)] = &$this->tempDocumentFooters[$headerIndex];
+        }
+        return $searchParts;
     }
 
     /**
