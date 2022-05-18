@@ -468,14 +468,14 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers ::setTypeLink
+     * @covers ::setHyperLink
      * @test
      */
     public function testSetHyperLink()
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/hyperlink.docx');
         $hyperLinkUrl = 'https://github.com/PHPOffice/PHPWord';
-        $hyperLinkText = "PHPOffice PHPWord";
+        $hyperLinkText = 'PHPOffice PHPWord';
         $link = new Link($hyperLinkUrl, $hyperLinkText);
 
         $templateProcessor->setHyperLink('documentContent', $link);
@@ -494,7 +494,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertNotContains('${documentContent}', $expectedMainPartXml, 'word/document.xml has no hyperlink.');
-        $this->assertContains($hyperLinkUrl, $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "'.$hyperLinkUrl.'"');
+        $this->assertContains($hyperLinkUrl, $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "' . $hyperLinkUrl . '"');
 
         unlink($docName);
 

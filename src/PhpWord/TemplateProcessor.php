@@ -882,7 +882,6 @@ class TemplateProcessor
      */
     public function save()
     {
-
         foreach ($this->tempDocumentHeaders as $index => $xml) {
             $this->savePartWithRels($this->getHeaderName($index), $xml);
         }
@@ -924,7 +923,7 @@ class TemplateProcessor
                     $xmlRelationsType = str_replace('{RELS}', $this->getRelationsName($partFileName), '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>');
                     $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
                 }
-                $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $rel.'</Relationships>', $this->tempDocumentRelations[$partFileName]);
+                $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $rel . '</Relationships>', $this->tempDocumentRelations[$partFileName]);
                 $this->setComplexValue($search, $link);
             }
         }
@@ -942,6 +941,7 @@ class TemplateProcessor
         foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
             $searchParts[$this->getFooterName($headerIndex)] = &$this->tempDocumentFooters[$headerIndex];
         }
+
         return $searchParts;
     }
 
