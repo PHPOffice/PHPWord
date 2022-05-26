@@ -151,6 +151,24 @@ default font by using the following two functions:
     $phpWord->setDefaultFontName('Times New Roman');
     $phpWord->setDefaultFontSize(12);
 
+Heading detection regexp
+~~~~~~~~~~~~
+
+You can set now regexp that detects Headings in the document based on style naming convention, which differs among language versions of Microsoft Office for instance.
+As default, ``/Heading(\d)/`` is used.
+
+To set another regexp for whole application, set ``headingDepthRegexp`` value in custom phpword.ini file:
+
+.. code-block:: ini
+
+    headingDepthRegexp    = '/TheHeading(\d)/i'
+
+You may also set/change regexp anywhere in your app run:
+
+.. code-block:: php
+
+    \PhpOffice\PhpWord\Settings::setHeadingDepthRegexp('/TheHeading(\d)/i');
+
 Document settings
 -----------------
 Settings for the generated document can be set using ``$phpWord->getSettings()``

@@ -203,6 +203,17 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test set/get regexp to use for matching Headings
+     */
+    public function testHeadingDepthRegexp()
+    {
+        $this->assertEquals(Settings::HEADING_DETECTION_DEFAULT_REGEXP, Settings::getHeadingDepthRegexp());
+        $newHeadingDepthRegexp = '/Nagwek(\d)';
+        Settings::setHeadingDepthRegexp($newHeadingDepthRegexp);
+        $this->assertEquals($newHeadingDepthRegexp, Settings::getHeadingDepthRegexp());
+    }
+
+    /**
      * Test load config
      */
     public function testLoadConfig()
@@ -215,6 +226,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
             'defaultFontName'       => 'Arial',
             'defaultFontSize'       => 10,
             'outputEscapingEnabled' => false,
+            'headingDepthRegexp'    => '',
             'defaultPaper'          => 'A4',
         );
 

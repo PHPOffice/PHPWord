@@ -9,6 +9,7 @@ pdfRendererName       = DomPDF
 pdfRendererPath       =
 ; tempDir               = "C:\PhpWordTemp"
 outputEscapingEnabled = false
+headingDepthRegexp    =
 
 [Font]
 

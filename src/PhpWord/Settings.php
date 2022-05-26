@@ -73,6 +73,11 @@ class Settings
     const DEFAULT_PAPER = 'A4';
 
     /**
+     * Default setting of Heading detection regexp
+     */
+    const HEADING_DETECTION_DEFAULT_REGEXP = '/Heading(\d)/';
+
+    /**
      * Compatibility option for XMLWriter
      *
      * @var bool
@@ -140,6 +145,13 @@ class Settings
      * @var bool
      */
     private static $outputEscapingEnabled = false;
+
+    /**
+     * Regexp to use for matching Headings in PhpOffice\PhpWord\Reader\Word2007\AbstractPart::getHeadingDepth().
+     *
+     * @var string
+     */
+    private static $headingDepthRegexp = self::HEADING_DETECTION_DEFAULT_REGEXP;
 
     /**
      * Return the compatibility option used by the XMLWriter
@@ -394,6 +406,24 @@ class Settings
         }
 
         return false;
+    }
+
+    /**
+     * Get regexp to use for matching Headings
+     * @return string
+     */
+    public static function getHeadingDepthRegexp()
+    {
+        return self::$headingDepthRegexp;
+    }
+
+    /**
+     * Set regexp to use for matching Headings
+     * @param string $headingDepthRegexp
+     */
+    public static function setHeadingDepthRegexp($headingDepthRegexp)
+    {
+        self::$headingDepthRegexp = $headingDepthRegexp;
     }
 
     /**
