@@ -267,6 +267,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @expectedException \Exception
+     * @expectedExceptionMessage ${fake_search}
      * @test
      */
     public function testCloneNotExistingRowShouldThrowException()
