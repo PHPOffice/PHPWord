@@ -60,7 +60,7 @@ class PreserveText extends AbstractElement
         $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
 
         $this->text = SharedText::toUTF8($text);
-        $matches = preg_split('/({.*?})/', $this->text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $matches = preg_split('/({.*?})/', $this->text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         if (isset($matches[0])) {
             $this->text = $matches;
         }
