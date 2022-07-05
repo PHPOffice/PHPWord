@@ -67,9 +67,13 @@ class Table extends AbstractElement
                     $cellVMerge = $cellStyle->getVMerge();
                     // If this is the first cell of the vertical merge, find out how man rows it spans
                     if ($cellVMerge === 'restart') {
+                        $isEnd = false;
                         for ($k = $i + 1; $k < $rowCount; $k++) {
                             $kRowCells = $rows[$k]->getCells();
                             $nextRowColSpanCount = 0;
+                            if ($isEnd) {
+                                break;
+                            }
                             // fix: Fixed the problem of cell generation merge number error
                             foreach ($kRowCells as $kRowCell) {
                                 $nextRowCellStyle = $kRowCell->getStyle();
@@ -81,17 +85,11 @@ class Table extends AbstractElement
                                 }
                                 if ($nextRowCellStyle->getVMerge() === 'continue') {
                                     $cellRowSpan++;
+                                } else {
+                                    $isEnd = true;
+                                    break;
                                 }
                             }
-                            // if (isset($kRowCells[$j])) {
-                            //     if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
-                            //         $cellRowSpan++;
-                            //     } else {
-                            //         break;
-                            //     }
-                            // } else {
-                            //     break;
-                            // }
                         }
                     }
                     // Ignore cells that are merged vertically with previous rows
