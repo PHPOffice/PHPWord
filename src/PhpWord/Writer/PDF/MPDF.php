@@ -52,7 +52,12 @@ class MPDF extends AbstractRenderer implements WriterInterface
     {
         $mPdfClass = $this->getMPdfClassName();
 
-        return new $mPdfClass();
+        $options = [];
+        if ($this->getFont()) {
+            $options['default_font'] = $this->getFont();
+        }
+
+        return new $mPdfClass($options);
     }
 
     /**
