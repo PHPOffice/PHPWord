@@ -77,10 +77,11 @@ abstract class AbstractRenderer extends HTML
      * Create new instance
      *
      * @param PhpWord $phpWord PhpWord object
+     * @param array $config
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function __construct(PhpWord $phpWord)
+    public function __construct(PhpWord $phpWord, $config = array())
     {
         parent::__construct($phpWord);
         if ($this->includeFile != null) {
@@ -95,6 +96,7 @@ abstract class AbstractRenderer extends HTML
                 // @codeCoverageIgnoreEnd
             }
         }
+        if(isset($config['font']) && empty($config['font'])) $this->font = $config['font'];
     }
 
     /**
