@@ -10,6 +10,7 @@ pdfRendererPath       =
 ; tempDir               = "C:\PhpWordTemp"
 outputEscapingEnabled = false
 headingDepthRegexp    =
+headingDepthPosInRegexpMatch    =
 
 [Font]
 

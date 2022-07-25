@@ -214,20 +214,35 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test set/get regexp to use for matching Headings position in matches to retrieve heading number
+     */
+    public function testHeadingDepthPosInRegexpMatch()
+    {
+        $this->assertEquals(
+            Settings::HEADING_DETECTION_DEFAULT_POSITION_IN_REGEX_MATCH,
+            Settings::getHeadingDepthPosInRegexpMatch()
+        );
+        $newHeadingDepthPosInRegexpMatch = 5;
+        Settings::setHeadingDepthPosInRegexpMatch($newHeadingDepthPosInRegexpMatch);
+        $this->assertEquals($newHeadingDepthPosInRegexpMatch, Settings::getHeadingDepthPosInRegexpMatch());
+    }
+
+    /**
      * Test load config
      */
     public function testLoadConfig()
     {
         $expected = array(
-            'compatibility'         => true,
-            'zipClass'              => 'ZipArchive',
-            'pdfRendererName'       => 'DomPDF',
-            'pdfRendererPath'       => '',
-            'defaultFontName'       => 'Arial',
-            'defaultFontSize'       => 10,
-            'outputEscapingEnabled' => false,
-            'headingDepthRegexp'    => '',
-            'defaultPaper'          => 'A4',
+            'compatibility'                         => true,
+            'zipClass'                              => 'ZipArchive',
+            'pdfRendererName'                       => 'DomPDF',
+            'pdfRendererPath'                       => '',
+            'defaultFontName'                       => 'Arial',
+            'defaultFontSize'                       => 10,
+            'outputEscapingEnabled'                 => false,
+            'headingDepthRegexp'                    => '',
+            'headingDepthPosInRegexpMatch'          => '',
+            'defaultPaper'                          => 'A4',
         );
 
         // Test default value
