@@ -32,9 +32,39 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class Html
 {
+    /**
+     * @var string Supported options - see method addHtml()
+     */
+    const OPTION_IMG_SRC_SEARCH = 'IMG_SRC_SEARCH';
+    const OPTION_IMG_SRC_REPLACE = 'IMG_SRC_REPLACE';
+    const OPTION_DISABLE_DEFAULT_HEADING_STYLE = 'DISABLE_DEFAULT_HEADING_STYLE';
+    const OPTION_REPAIR_XML = 'REPAIR_XML';
+
+    /**
+     * @var array Supported options with optional default settings
+     *  - IMG_SRC_SEARCH => 'pattern': optional to speed up images loading from remote url when files can be found locally
+     *  - IMG_SRC_REPLACE => 'replacement': optional to speed up images loading from remote url when files can be found locally
+     *  - DISABLE_DEFAULT_HEADING_STYLE => 1: disable applying default MS Word styles for H1 .. H6 tags (added for backward compatability <= 0.18.1)
+     *  - REPAIR_XML => 1: attempt to fix supplied XML if corrupted. Available only if loaded tidy extension. Disabled by default since it may modify input (whitespaces).
+     */
+    protected static $options = array();
+
     protected static $listIndex = 0;
     protected static $xpath;
-    protected static $options;
+
+    /**
+     * @var array Default heading styles, based on default MS Word styles
+     * Supported styles - https://phpword.readthedocs.io/en/latest/styles.html#font
+     * Note: before 0.18.1 heading styles have been inconsistently named "HeadingX" rather than "Heading_X" - never matched global definition
+     */
+    public static $defaultHeadingStyles = array(
+        'Heading_1' => array('size' => 18, 'bold' => true, 'color' => '365F91', 'spaceBefore' => 240, 'spaceAfter' => 240),
+        'Heading_2' => array('size' => 16, 'bold' => true, 'color' => '4F81BD', 'spaceBefore' => 220, 'spaceAfter' => 220),
+        'Heading_3' => array('size' => 14, 'bold' => true, 'color' => '4F81BD', 'spaceBefore' => 200, 'spaceAfter' => 200),
+        'Heading_4' => array('size' => 12, 'bold' => true, 'italic' => true, 'color' => '4F81BD', 'spaceBefore' => 180, 'spaceAfter' => 180),
+        'Heading_5' => array('size' => 11, 'color' => '4F81BD', 'spaceBefore' => 150, 'spaceAfter' => 150),
+        'Heading_6' => array('size' => 10, 'color' => '4F81BD', 'spaceBefore' => 120, 'spaceAfter' => 120),
+    );
 
     /**
      * Add HTML parts.
@@ -48,19 +78,37 @@ class Html
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
      * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
      * @param array $options:
-     *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
-     *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
+     *         + IMG_SRC_SEARCH => 'pattern': optional to speed up images loading from remote url when files can be found locally
+     *         + IMG_SRC_REPLACE => 'replacement': optional to speed up images loading from remote url when files can be found locally
+     *         + DISABLE_DEFAULT_HEADING_STYLE => 1: disable applying default MS Word styles for H1 .. H6 tags (added for backward compatability <= 0.18.1)
+     *         + REPAIR_XML => 1: attempt to fix supplied XML if corrupted. Available only if loaded tidy extension. Disabled by default since it may modify input (whitespaces).
      */
-    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null)
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = array())
     {
+        // ensure proper data type - should be array
+        if (!is_array($options)) {
+            $options = is_array($options) ? $options : array($options);
+        }
+
         /*
-         * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
+         * @todo parse $stylesheet for default styles. Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
         self::$options = $options;
 
-        // Preprocess: remove all line ends, decode HTML entity,
-        // fix ampersand and angle brackets and add body tag for HTML fragments
+        // Preprocess: repair XML (optional), remove line ends, decode HTML entities,
+        // fix ampersand and angle brackets, add body tag for HTML fragments
+        if (!empty(self::$options[self::OPTION_REPAIR_XML]) && extension_loaded('tidy')) {
+            $tidy = new \tidy();
+            $html = $tidy->repairString($html, array(
+                'output-xhtml'   => true,
+                'show-body-only' => true,
+                'wrap'           => 0, // disable wrapping, default is 68
+                'hide-comments'  => 1,
+                'fix-backslash'  => 1,
+            ), 'utf8');
+        }
+
         $html = str_replace(array("\n", "\r"), '', $html);
         $html = str_replace(array('&lt;', '&gt;', '&amp;', '&quot;'), array('_lt_', '_gt_', '_amp_', '_quot_'), $html);
         $html = html_entity_decode($html, ENT_QUOTES, 'UTF-8');
@@ -163,16 +211,19 @@ class Html
             }
         }
 
+        // underscore separator - hack to retain backward compatability with (formerly incorrectly) named heading styles (<= 0.18.1)
+        $u = empty(self::$options[self::OPTION_DISABLE_DEFAULT_HEADING_STYLE]) ? '_' : '';
+
         // Node mapping table
         $nodes = array(
                               // $method        $node   $element    $styles     $data   $argument1      $argument2
             'p'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
-            'h1'        => array('Heading',     null,   $element,   $styles,    null,   'Heading1',     null),
-            'h2'        => array('Heading',     null,   $element,   $styles,    null,   'Heading2',     null),
-            'h3'        => array('Heading',     null,   $element,   $styles,    null,   'Heading3',     null),
-            'h4'        => array('Heading',     null,   $element,   $styles,    null,   'Heading4',     null),
-            'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
-            'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
+            'h1'        => array('Heading',     $node,  $element,   $styles,    null,   "Heading{$u}1", null),
+            'h2'        => array('Heading',     $node,  $element,   $styles,    null,   "Heading{$u}2", null),
+            'h3'        => array('Heading',     $node,  $element,   $styles,    null,   "Heading{$u}3", null),
+            'h4'        => array('Heading',     $node,  $element,   $styles,    null,   "Heading{$u}4", null),
+            'h5'        => array('Heading',     $node,  $element,   $styles,    null,   "Heading{$u}5", null),
+            'h6'        => array('Heading',     $node,  $element,   $styles,    null,   "Heading{$u}6", null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
@@ -294,18 +345,76 @@ class Html
     /**
      * Parse heading node
      *
+     * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
      * @param string $argument1 Name of heading style
-     * @return \PhpOffice\PhpWord\Element\TextRun
-     *
-     * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
-     * Heading1 - Heading6 are already defined somewhere
+     * @return \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\TextRun|\PhpOffice\PhpWord\Element\Title
      */
-    protected static function parseHeading($element, &$styles, $argument1)
+    protected static function parseHeading($node, $element, &$styles, $argument1)
     {
-        $styles['paragraph'] = $argument1;
-        $newElement = $element->addTextRun($styles['paragraph']);
+        if (!empty(self::$options[self::OPTION_DISABLE_DEFAULT_HEADING_STYLE])) {
+            // retain BC compatability - Heading1, Heading2, .. assuming style already defined for versions <= 0.18.1
+            $styles['paragraph'] = $argument1;
+            // note: TextRun does not support controlling font properties
+            $newElement = $element->addTextRun($styles['paragraph']);
+        } else {
+            // apply default heading style and inline style
+            $fontStyleInline = $fontStyle = self::parseInlineStyle($node);
+            if (!empty(self::$defaultHeadingStyles[$argument1])) {
+                $fontStyle += self::$defaultHeadingStyles[$argument1];
+            }
+            $parStyle = $styles['paragraph'] + $fontStyle;
+
+            if (!empty($node->childNodes)) {
+                // @TODO: support better way of parsing child nodes, even though it's unusual to embed deep node hierarchy into headings
+                // Currently we only parse 1-child-level inside heading, which is sufficient for typical usage.
+                foreach ($node->childNodes as $cNode) {
+                    if ($cNode->nodeType == XML_ELEMENT_NODE) {
+                        switch (strtolower($cNode->nodeName)) {
+                            case 'b':
+                            case 'strong':
+                            case 'bold':
+                                $fontStyle['bold'] = true;
+                                break;
+                            case 'em':
+                            case 'i':
+                                $fontStyle['italic'] = true;
+                                break;
+                            case 'u':
+                                $fontStyle['underline'] = 'single';
+                                break;
+                        }
+
+                        $style = self::parseInlineStyle($cNode);
+
+                        if ($style) {
+                            $fontStyle += $style;
+                            $parStyle += $style;
+                        }
+                    }
+                }
+            }
+
+            // retain partially BC compatability
+            $styles['paragraph'] = $argument1;
+
+            if ($fontStyleInline) {
+                // inline CSS requires custom style definition and cannot be the Title/Heading/TOC object
+                $newElement = $element->addText($node->nodeValue, $fontStyle, $parStyle);
+            } else {
+                // add Heading_X or Title (Title will not create section heading in MS Word sidebar)
+                $word = $element->getPhpWord();
+                $sid = $element->getSectionId(); // 1-based
+                $section = $word->getSection(--$sid); // 0-based
+                $depth = (int) substr($argument1, -1, 1); // 1 .. 6 (Heading_1..6) or 0 (Title)
+                $word->addTitleStyle($depth, $fontStyle, $parStyle); // ignored if style for $depth already exists
+
+                // depending on determined depth, HeadingX (depth 1..6) or Title (dept 0) will be added
+                // note: Title wont't create heading in sidebar
+                $newElement = $section->addTitle($node->nodeValue, $depth);
+            }
+        }
 
         return $newElement;
     }
@@ -851,10 +960,9 @@ class Html
         $src = urldecode($src);
 
         if (!is_file($src)
-            && !is_null(self::$options)
-            && isset(self::$options['IMG_SRC_SEARCH'])
-            && isset(self::$options['IMG_SRC_REPLACE'])) {
-            $src = str_replace(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'], $src);
+            && isset(self::$options[self::OPTION_IMG_SRC_SEARCH])
+            && isset(self::$options[self::OPTION_IMG_SRC_REPLACE])) {
+            $src = str_replace(self::$options[self::OPTION_IMG_SRC_SEARCH], self::$options[self::OPTION_IMG_SRC_REPLACE], $src);
         }
 
         if (!is_file($src)) {

@@ -932,4 +932,207 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertInternalType('object', $doc);
     }
+
+    /**
+     * Test headings H1, H2 ... H6
+     */
+    public function testHeadings()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // retain BC compatability - don't apply default style, if already defined - only paragraph props will apply
+        // https://phpword.readthedocs.io/en/latest/styles.html#paragraph
+        $phpWord->addParagraphStyle('Heading1', array('aligment' => 'center'));
+
+        $html = <<<HTML
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+HTML;
+
+        // enforce BC compatability via option - heading will render like normal text, only paragraph styling applies if style HeadingX defined
+        Html::addHtml($section, $html, false, true, array(Html::OPTION_DISABLE_DEFAULT_HEADING_STYLE => 1));
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        //self::dump('Headings-01-BC.docx', $doc, $phpWord);
+
+        $xpath = '/w:document/w:body/w:p[1]/w:pPr/w:pStyle';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading1', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[1]/w:r/w:t';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading 1', $doc->getElement($xpath)->nodeValue);
+
+        $xpath = '/w:document/w:body/w:p[3]/w:pPr/w:pStyle';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading3', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[3]/w:r/w:t';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading 3', $doc->getElement($xpath)->nodeValue);
+
+        // apply default heading style - create TOC in sidebar
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        //self::dump('Headings-02-default.docx', $doc, $phpWord);
+
+        $xpath = '/w:document/w:body/w:p[1]/w:pPr/w:pStyle';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading1', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[1]/w:r/w:t';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading 1', $doc->getElement($xpath)->nodeValue);
+
+        $xpath = '/w:document/w:body/w:p[1]/w:bookmarkStart';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $xpath = '/w:document/w:body/w:p[1]/w:bookmarkEnd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $xpath = '/w:document/w:body/w:p[6]/w:pPr/w:pStyle';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading6', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[6]/w:r/w:t';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading 6', $doc->getElement($xpath)->nodeValue);
+
+        $xpath = '/w:document/w:body/w:p[6]/w:bookmarkStart';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('6', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $xpath = '/w:document/w:body/w:p[6]/w:bookmarkEnd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('6', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        // custom default style
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        Html::$defaultHeadingStyles['Heading_1'] = array('size' => 10, 'color' => 'blue', 'spaceBefore' => 100, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_2'] = array('size' => 13, 'color' => 'orange', 'spaceBefore' => 200, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_3'] = array('size' => 16, 'color' => 'green', 'spaceBefore' => 300, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_4'] = array('size' => 19, 'color' => 'FF0000', 'spaceBefore' => 400, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_5'] = array('size' => 22, 'color' => 'black', 'spaceBefore' => 500, 'spaceAfter' => 120, 'underline' => true);
+        Html::$defaultHeadingStyles['Heading_6'] = array('size' => 25, 'color' => 'gray', 'spaceBefore' => 600, 'spaceAfter' => 120, 'underline' => true);
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        //self::dump('Headings-03-custom.docx', $doc, $phpWord);
+
+        // markup is same as in previous, only global styles changed
+        $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:pStyle';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading2', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[2]/w:r/w:t';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('Heading 2', $doc->getElement($xpath)->nodeValue);
+
+        $xpath = '/w:document/w:body/w:p[2]/w:bookmarkStart';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('2', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $xpath = '/w:document/w:body/w:p[2]/w:bookmarkEnd';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('2', $doc->getElement($xpath)->getAttribute('w:id'));
+
+        $fontStyle = \PhpOffice\PhpWord\Style::getStyle('Heading_1');
+        $this->assertEquals('10', $fontStyle->getSize());
+        $this->assertEquals('blue', $fontStyle->getColor());
+
+        // apply inline + default H1 .. H6 style + parse child nodes
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        $html = <<<HTML
+<h1 style="font-size: 40pt; margin-top: 30pt; color: red; text-align: right;"><b>Heading 1 inline CSS</b></h1>
+<h5 align="center"><u>Heading 5 default style, centered and underlined</u></h5>
+HTML;
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        //self::dump('Headings-04-inline.docx', $doc, $phpWord);
+
+        $xpath = '/w:document/w:body/w:p[1]/w:pPr/w:jc';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('end', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[1]/w:pPr/w:spacing';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('600', $doc->getElement($xpath)->getAttribute('w:before'));
+        $this->assertEquals('120', $doc->getElement($xpath)->getAttribute('w:after'));
+
+        $xpath = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:color';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('red', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:sz';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('80', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:b';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:jc';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('center', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[2]/w:pPr/w:spacing';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('500', $doc->getElement($xpath)->getAttribute('w:before'));
+        $this->assertEquals('120', $doc->getElement($xpath)->getAttribute('w:after'));
+
+        $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:color';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('black', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('44', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        $xpath = '/w:document/w:body/w:p[2]/w:r/w:rPr/w:u';
+        $this->assertTrue($doc->elementExists($xpath));
+        $this->assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
+
+        // test option "OPTION_REPAIR_XML"
+        if (extension_loaded('tidy')) {
+            $phpWord = new \PhpOffice\PhpWord\PhpWord();
+            $section = $phpWord->addSection();
+            Html::addHtml($section, '<p>Fixed invalid XML - added missing <b>BOLD ending tag</p>', false, true, array(Html::OPTION_REPAIR_XML => true));
+            $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+            //self::dump('Headings-05-repair.docx', $doc, $phpWord);
+
+            $xpath = '/w:document/w:body/w:p[1]/w:r[2]/w:rPr/w:b';
+            $this->assertTrue($doc->elementExists($xpath));
+            $this->assertEquals('1', $doc->getElement($xpath)->getAttribute('w:val'));
+
+            $xpath = '/w:document/w:body/w:p[1]/w:r[2]/w:t';
+            $this->assertTrue($doc->elementExists($xpath));
+            $this->assertEquals('BOLD ending tag', $doc->getElement($xpath)->nodeValue);
+        }
+    }
+
+    /**
+     * Quick dump of generated files for XML & output inspection
+     *
+     * @param string $path e.g. "test001.docx"
+     * @param \XmlDocument $doc
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     */
+    protected static function dump($path, $doc, $phpWord)
+    {
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($path);
+        file_put_contents($path . '.xml', $doc->printXml());
+    }
 }
