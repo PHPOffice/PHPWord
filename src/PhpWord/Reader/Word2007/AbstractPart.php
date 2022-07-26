@@ -17,11 +17,13 @@
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use Cassandra\Type\Set;
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
@@ -190,9 +192,9 @@ abstract class AbstractPart
             }
 
             $headingMatches = array();
-            preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
+            preg_match(Settings::getHeadingDepthRegexp(), $paragraphStyle['styleName'], $headingMatches);
             if (!empty($headingMatches)) {
-                return $headingMatches[1];
+                return $headingMatches[Settings::getHeadingDepthPosInRegexpMatch()];
             }
         }
 

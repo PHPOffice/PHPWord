@@ -73,6 +73,12 @@ class Settings
     const DEFAULT_PAPER = 'A4';
 
     /**
+     * Default setting of Heading detection regexp
+     */
+    const HEADING_DETECTION_DEFAULT_REGEXP = '/Heading(\d)/';
+    const HEADING_DETECTION_DEFAULT_POSITION_IN_REGEX_MATCH = 1;
+
+    /**
      * Compatibility option for XMLWriter
      *
      * @var bool
@@ -140,6 +146,22 @@ class Settings
      * @var bool
      */
     private static $outputEscapingEnabled = false;
+
+    /**
+     * Regexp to use for matching Headings in PhpOffice\PhpWord\Reader\Word2007\AbstractPart::getHeadingDepth().
+     *
+     * @var string
+     */
+    private static $headingDepthRegexp = self::HEADING_DETECTION_DEFAULT_REGEXP;
+
+    /**
+     * Position in regexp matching result which holds heading depth number
+     * to use for matching Headings in PhpOffice\PhpWord\Reader\Word2007\AbstractPart::getHeadingDepth().
+     * Default is 1 which works for default heading detection regexp
+     *
+     * @var int
+     */
+    private static $headingDepthPosInRegexpMatch = self::HEADING_DETECTION_DEFAULT_POSITION_IN_REGEX_MATCH;
 
     /**
      * Return the compatibility option used by the XMLWriter
@@ -394,6 +416,40 @@ class Settings
         }
 
         return false;
+    }
+
+    /**
+     * Get regexp to use for matching Headings
+     * @return string
+     */
+    public static function getHeadingDepthRegexp()
+    {
+        return self::$headingDepthRegexp;
+    }
+
+    /**
+     * Set regexp to use for matching Headings
+     * @param string $headingDepthRegexp
+     */
+    public static function setHeadingDepthRegexp($headingDepthRegexp)
+    {
+        self::$headingDepthRegexp = $headingDepthRegexp;
+    }
+
+    /**
+     * @return int
+     */
+    public static function getHeadingDepthPosInRegexpMatch()
+    {
+        return self::$headingDepthPosInRegexpMatch;
+    }
+
+    /**
+     * @param int $headingDepthPosInRegexpMatch
+     */
+    public static function setHeadingDepthPosInRegexpMatch($headingDepthPosInRegexpMatch)
+    {
+        self::$headingDepthPosInRegexpMatch = $headingDepthPosInRegexpMatch;
     }
 
     /**
