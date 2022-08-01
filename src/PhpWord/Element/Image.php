@@ -336,7 +336,9 @@ class Image extends AbstractElement
 
         // Get actual source from archive image or other source
         // Return null if not found
-        if ($this->sourceType == self::SOURCE_ARCHIVE) {
+        if ($this->sourceType != self::SOURCE_ARCHIVE) {
+            $actualSource = $source;
+        } else {
             $source = substr($source, 6);
             list($zipFilename, $imageFilename) = explode('#', $source);
 
@@ -349,8 +351,6 @@ class Image extends AbstractElement
                 }
             }
             $zip->close();
-        } else {
-            $actualSource = $source;
         }
 
         // Can't find any case where $actualSource = null hasn't captured by

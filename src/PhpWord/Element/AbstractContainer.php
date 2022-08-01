@@ -98,7 +98,12 @@ abstract class AbstractContainer extends AbstractElement
 
             // Special case for TextBreak
             // @todo Remove the `$count` parameter in 1.0.0 to make this element similiar to other elements?
-            if ($element == 'TextBreak') {
+            if ($element != 'TextBreak') {
+                // All other elements
+                array_unshift($args, $element); // Prepend element name to the beginning of args array
+
+                return call_user_func_array(array($this, 'addElement'), $args);
+            } else {
                 list($count, $fontStyle, $paragraphStyle) = array_pad($args, 3, null);
                 if ($count === null) {
                     $count = 1;
@@ -106,11 +111,6 @@ abstract class AbstractContainer extends AbstractElement
                 for ($i = 1; $i <= $count; $i++) {
                     $this->addElement($element, $fontStyle, $paragraphStyle);
                 }
-            } else {
-                // All other elements
-                array_unshift($args, $element); // Prepend element name to the beginning of args array
-
-                return call_user_func_array(array($this, 'addElement'), $args);
             }
         }
 

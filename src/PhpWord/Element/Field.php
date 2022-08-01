@@ -129,13 +129,15 @@ class Field extends AbstractElement
      */
     public function setFontStyle($style = null)
     {
-        if ($style instanceof Font) {
-            $this->fontStyle = $style;
-        } elseif (is_array($style)) {
-            $this->fontStyle = new Font('text');
-            $this->fontStyle->setStyleByArray($style);
-        } elseif (null === $style) {
-            $this->fontStyle = null;
+        if (!$style instanceof Font) {
+            if (is_array($style)) {
+                $this->fontStyle = new Font('text');
+                $this->fontStyle->setStyleByArray($style);
+            } elseif (null === $style) {
+                $this->fontStyle = null;
+            } else {
+                $this->fontStyle = $style;
+            }
         } else {
             $this->fontStyle = $style;
         }
@@ -182,10 +184,10 @@ class Field extends AbstractElement
     public function setType($type = null)
     {
         if (isset($type)) {
-            if (isset($this->fieldsArray[$type])) {
-                $this->type = $type;
-            } else {
+            if (!isset($this->fieldsArray[$type])) {
                 throw new \InvalidArgumentException("Invalid type '$type'");
+            } else {
+                $this->type = $type;
             }
         }
 
@@ -277,10 +279,10 @@ class Field extends AbstractElement
     public function setText($text = null)
     {
         if (isset($text)) {
-            if (is_string($text) || $text instanceof TextRun) {
-                $this->text = $text;
-            } else {
+            if (!is_string($text) && !$text instanceof TextRun) {
                 throw new \InvalidArgumentException('Invalid text');
+            } else {
+                $this->text = $text;
             }
         }
 
