@@ -916,8 +916,12 @@ class TemplateProcessor
                 $nextRId = $this->getNextRelationsIndex($partFileName);
                 $link->setRelationId($nextRId);
                 $nextRId += ($link->isInSection()) ? 6 : 0;
+                $linkUrl = $link->getSource();
+                if (Settings::isOutputEscapingEnabled()) {
+                    $linkUrl = htmlentities($linkUrl);
+                }
                 $rId = sprintf('rId%d', $nextRId);
-                $rel = sprintf('<Relationship Id="%s" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="%s" TargetMode="External" />', $rId, $link->getSource());
+                $rel = sprintf('<Relationship Id="%s" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="%s" TargetMode="External" />', $rId, $linkUrl);
                 if (!isset($this->tempDocumentRelations[$partFileName])) {
                     $this->tempDocumentRelations[$partFileName] = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
                     $xmlRelationsType = str_replace('{RELS}', $this->getRelationsName($partFileName), '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>');
