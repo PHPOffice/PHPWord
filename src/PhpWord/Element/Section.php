@@ -146,6 +146,20 @@ class Section extends AbstractContainer
      *
      * @return FootnoteProperties
      */
+    public function getFootnoteProperties()
+    {
+        return $this->footnoteProperties;
+    }
+
+    /**
+     * Get the footnote properties
+     *
+     * @deprecated Use the `getFootnoteProperties` method instead
+     *
+     * @return FootnoteProperties
+     *
+     * @codeCoverageIgnore
+     */
     public function getFootnotePropoperties()
     {
         return $this->footnoteProperties;

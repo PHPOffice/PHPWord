@@ -109,6 +109,7 @@ abstract class AbstractContainer extends AbstractElement
             } else {
                 // All other elements
                 array_unshift($args, $element); // Prepend element name to the beginning of args array
+
                 return call_user_func_array(array($this, 'addElement'), $args);
             }
         }
@@ -254,7 +255,7 @@ abstract class AbstractContainer extends AbstractElement
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer
         $validSubcontainers = array(
-            'PreserveText'  => array(array('Cell'), array('Header', 'Footer')),
+            'PreserveText'  => array(array('Cell'), array('Header', 'Footer', 'Section')),
             'Footnote'      => array(array('Cell', 'TextRun'), array('Section')),
             'Endnote'       => array(array('Cell', 'TextRun'), array('Section')),
         );

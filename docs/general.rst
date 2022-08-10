@@ -130,6 +130,16 @@ To turn it on set ``outputEscapingEnabled`` option to ``true`` in your PHPWord c
 
     \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
 
+Default Paper
+~~~~~~~~~~~~~
+
+By default, all sections of the document will print on A4 paper.
+You can alter the default paper by using the following function:
+
+.. code-block:: php
+
+    \PhpOffice\PhpWord\Settings::setDefaultPaper('Letter');
+
 Default font
 ~~~~~~~~~~~~
 
@@ -218,7 +228,7 @@ The default language of the document can be change with the following.
     $phpWord->getSettings()->setThemeFontLang(new Language(Language::FR_BE));
 
 ``Language`` has 3 parameters, one for Latin languages, one for East Asian languages and one for Complex (Bi-Directional) languages.
-A couple of language codes are provided in the ``PhpOffice\PhpWord\ComplexType\Language`` class but any valid code/ID can be used.
+A couple of language codes are provided in the ``PhpOffice\PhpWord\Style\Language`` class but any valid code/ID can be used.
 
 In case you are generating an RTF document the language need to be set differently.
 

@@ -65,6 +65,7 @@ class Field extends Text
             $instruction .= $this->buildPropertiesAndOptions($element);
         }
         $xmlWriter->startElement('w:r');
+        $this->writeFontStyle();
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
         $xmlWriter->text($instruction);

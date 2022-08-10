@@ -359,17 +359,17 @@ The footnote numbering can be controlled by setting the FootnoteProperties on th
 
 .. code-block:: php
 
-    $fp = new PhpWord\SimpleType\FootnoteProperties();
+    $fp = new \PhpOffice\PhpWord\ComplexType\FootnoteProperties();
     //sets the position of the footnote (pageBottom (default), beneathText, sectEnd, docEnd)
-    $fp->setPos(FootnoteProperties::POSITION_DOC_END);
+    $fp->setPos(\PhpOffice\PhpWord\ComplexType\FootnoteProperties::POSITION_BENEATH_TEXT);
     //set the number format to use (decimal (default), upperRoman, upperLetter, ...)
-    $fp->setNumFmt(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
+    $fp->setNumFmt(\PhpOffice\PhpWord\SimpleType\NumberFormat::LOWER_ROMAN);
     //force starting at other than 1
     $fp->setNumStart(2);
     //when to restart counting (continuous (default), eachSect, eachPage)
-    $fp->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
+    $fp->setNumRestart(\PhpOffice\PhpWord\ComplexType\FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
     //And finaly, set it on the Section
-    $section->setFootnoteProperties($properties);
+    $section->setFootnoteProperties($fp);
 
 Checkboxes
 ----------
@@ -403,7 +403,9 @@ Currently the following fields are supported:
 
 .. code-block:: php
 
-    $section->addField($fieldType, [$properties], [$options], [$fieldText])
+    $section->addField($fieldType, [$properties], [$options], [$fieldText], [$fontStyle])
+
+- ``$fontStyle``. See :ref:`font-style`.
 
 See ``\PhpOffice\PhpWord\Element\Field`` for list of properties and options available for each field type.
 Options which are not specifically defined can be added. Those must start with a ``\``.

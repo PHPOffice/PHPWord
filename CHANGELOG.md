@@ -1,20 +1,111 @@
-Change Log
-==========
+# Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-v0.17.0 (?? ??? 2019)
+## [0.18.3](https://github.com/PHPOffice/PHPWord/tree/0.18.3) (2022-02-17)
+
+[Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.18.2...0.18.3)
+
+### Bug fixes
+- PHP 8.1 compatibility
+
+## [0.18.2](https://github.com/PHPOffice/PHPWord/tree/0.18.2) (2021-06-04)
+
+[Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.18.1...0.18.2)
+
+### Bug fixes
+- when adding image to relationship first check that the generated RID is actually unique [\#2063](https://github.com/PHPOffice/PHPWord/pull/2063) ([tpv-ebben](https://github.com/tpv-ebben))
+- Update chart, don't write 'c:overlap' if grouping is 'clustered' [\#2052](https://github.com/PHPOffice/PHPWord/pull/2052) ([dfsd534](https://github.com/dfsd534))
+- Update Html parser to accept line-height:normal [\#2041](https://github.com/PHPOffice/PHPWord/pull/2041) ([joelgo](https://github.com/joelgo))
+- Fix image border in Word2007 Writer for LibreOffice 7 [\#2021](https://github.com/PHPOffice/PHPWord/pull/2021) ([kamilmmach](https://github.com/kamilmmach))
+
+### Miscellaneous
+- Corrected namespace for Language class in docs. [\#2087](https://github.com/PHPOffice/PHPWord/pull/2087) ([MegaChriz](https://github.com/MegaChriz))
+- Added support for Garamond font [\#2078](https://github.com/PHPOffice/PHPWord/pull/2078) ([artemkolotilkin](https://github.com/artemkolotilkin))
+- Add BorderStyle for Cell Style to documentation [\#2090](https://github.com/PHPOffice/PHPWord/pull/2090) ([DShkrabak](https://github.com/DShkrabak))
+
+## [0.18.1](https://github.com/PHPOffice/PHPWord/tree/0.18.1) (2021-03-08)
+
+[Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.18.0...0.18.1)
+
+### Bug fixes
+- Fix BC break in #1946. This package does not replace laminas/laminas-zendframework-bridge [\#2032](https://github.com/PHPOffice/PHPWord/pull/2032) ([mussbach](https://github.com/mussbach))
+
+## [0.18.0](https://github.com/PHPOffice/PHPWord/tree/0.18.0) (2021-02-12)
+
+[Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.17.0...0.18.0)
+
+### Enhancements
+- Add support for charts in template processor [\#2012](https://github.com/PHPOffice/PHPWord/pull/2012) ([dbarzin](https://github.com/dbarzin))
+- add/setting page element border style. [\#1986](https://github.com/PHPOffice/PHPWord/pull/1986) ([emnabs](https://github.com/emnabs))
+- allow to use customized pdf library [\#1983](https://github.com/PHPOffice/PHPWord/pull/1983) ([SailorMax](https://github.com/SailorMax))
+- feat: Update addHtml to handle style inheritance [\#1965](https://github.com/PHPOffice/PHPWord/pull/1965) ([Julien1138](https://github.com/Julien1138))
+- Add parsing of Shape node values [\#1924](https://github.com/PHPOffice/PHPWord/pull/1924) ([sven-ahrens](https://github.com/sven-ahrens))
+- Allow to redefine TCPDF object [\#1907](https://github.com/PHPOffice/PHPWord/pull/1907) ([SailorMax](https://github.com/SailorMax))
+- Enhancements to addHTML parser [\#1902](https://github.com/PHPOffice/PHPWord/pull/1902) ([lubosdz](https://github.com/lubosdz))
+- Make Default Paper Configurable [\#1851](https://github.com/PHPOffice/PHPWord/pull/1851) ([oleibman](https://github.com/oleibman))
+- Implement various missing features for the ODT writer [\#1796](https://github.com/PHPOffice/PHPWord/pull/1796) ([oleibman](https://github.com/oleibman))
+- Added support for "cloudConvert" images [\#1794](https://github.com/PHPOffice/PHPWord/pull/1794) ([ErnestStaug](https://github.com/ErnestStaug))
+- Add support for several features for the RTF writer [\#1775](https://github.com/PHPOffice/PHPWord/pull/1775) ([oleibman](https://github.com/oleibman))
+- Add font style for Field elements [\#1774](https://github.com/PHPOffice/PHPWord/pull/1774) ([oleibman](https://github.com/oleibman))
+- Add support for ListItemRun in HTML writer [\#1766](https://github.com/PHPOffice/PHPWord/pull/1766) ([stefan-91](https://github.com/stefan-91))
+- Improvements in RTF writer [\#1755](https://github.com/PHPOffice/PHPWord/pull/1755) ([oleibman](https://github.com/oleibman))
+- Allow a closure to be passed with image replacement tags [\#1716](https://github.com/PHPOffice/PHPWord/pull/1716) ([mbardelmeijer](https://github.com/mbardelmeijer))
+- Add Option for Dynamic Chart Legend Position [\#1699](https://github.com/PHPOffice/PHPWord/pull/1699) ([Stephan212](https://github.com/Stephan212))
+- Add parsing of HTML checkbox input field [\#1832](https://github.com/PHPOffice/PHPWord/pull/1832) ([Matze2010](https://github.com/Matze2010))
+
+### Bug fixes
+- Fix image stroke in libreoffice 7.x [\#1992](https://github.com/PHPOffice/PHPWord/pull/1992) ([Adizbek](https://github.com/Adizbek))
+- Fix deprecated warning for non-hexadecimal number [\#1988](https://github.com/PHPOffice/PHPWord/pull/1988) ([Ciki](https://github.com/Ciki))
+- Fix limit not taken into account when adding image in template [\#1967](https://github.com/PHPOffice/PHPWord/pull/1967) ([jsochor](https://github.com/jsochor))
+- Add null check when setComplexValue is not found [\#1936](https://github.com/PHPOffice/PHPWord/pull/1936) ([YannikFirre](https://github.com/YannikFirre))
+- Some document have non-standard locale code [\#1824](https://github.com/PHPOffice/PHPWord/pull/1824) ([ErnestStaug](https://github.com/ErnestStaug))
+- Fixes PHPDoc @param and @return types for several Converter methods [\#1818](https://github.com/PHPOffice/PHPWord/pull/1818) ([caugner](https://github.com/caugner))
+- Update the regexp to avoid catastrophic backtracking [\#1809](https://github.com/PHPOffice/PHPWord/pull/1809) ([juzser](https://github.com/juzser))
+- Fix PHPUnit tests on develop branch [\#1771](https://github.com/PHPOffice/PHPWord/pull/1771) ([mdupont](https://github.com/mdupont))
+- TemplateProcessor cloneBlock wrongly clones images [\#1763](https://github.com/PHPOffice/PHPWord/pull/1763) ([alarai](https://github.com/alarai))
+
+### Miscellaneous
+- Compatibility with PHP 7.4, PHP 8.0 and migrate to Laminas Escaper [\#1946](https://github.com/PHPOffice/PHPWord/pull/1946) ([liborm85](https://github.com/liborm85))
+- Remove legacy PHPOffice/Common package, fix PHP 8.0 compatibility [\#1996](https://github.com/PHPOffice/PHPWord/pull/1996) ([liborm85](https://github.com/liborm85))
+- Improve Word2007 Test Coverage [\#1858](https://github.com/PHPOffice/PHPWord/pull/1858) ([oleibman](https://github.com/oleibman))
+- Fix typo in docs. Update templates-processing.rst [\#1952](https://github.com/PHPOffice/PHPWord/pull/1952) ([mnvx](https://github.com/mnvx))
+- Fix documentation and method name for FootnoteProperties [\#1776](https://github.com/PHPOffice/PHPWord/pull/1776) ([mdupont](https://github.com/mdupont))
+- fix: documentation about paragraph indentation [\#1764](https://github.com/PHPOffice/PHPWord/pull/1764) ([mdupont](https://github.com/mdupont))
+- Update templates-processing.rst [\#1745](https://github.com/PHPOffice/PHPWord/pull/1745) ([igronus](https://github.com/igronus))
+- Unused variables $rows, $cols in sample [\#1877](https://github.com/PHPOffice/PHPWord/pull/1877) ([ThanasisMpalatsoukas](https://github.com/ThanasisMpalatsoukas))
+- Add unit test for NumberingStyle [\#1744](https://github.com/PHPOffice/PHPWord/pull/1744) ([Manunchik](https://github.com/Manunchik))
+- Add unit test for PhpWord Settings [\#1743](https://github.com/PHPOffice/PHPWord/pull/1743) ([Manunchik](https://github.com/Manunchik))
+- Add unit test for Media elements [\#1742](https://github.com/PHPOffice/PHPWord/pull/1742) ([Manunchik](https://github.com/Manunchik))
+- Update templates processing docs [\#1729](https://github.com/PHPOffice/PHPWord/pull/1729) ([hcdias](https://github.com/hcdias))
+
+v0.17.0 (01 oct 2019)
 ----------------------
 ### Added
-- Add RightToLeft table presentation. @troosan #1550
+- Add methods setValuesFromArray and cloneRowFromArray to the TemplateProcessor @geraldb-nicat #670
 - Set complex type in template @troosan #1565
+- implement support for section vAlign @troosan #1569
+- ParseStyle for border-color @Gllrm0 #1551
+- Html writer auto invert text color @SailorMax #1387
+- Add RightToLeft table presentation. @troosan #1550
 - Add support for page vertical alignment. @troosan #672 #1569
+- Adding setNumId method for ListItem style @eweso #1329
+- Add support for basic fields in RTF writer. @Samuel-BF #1717
 
 ### Fixed
 - Fix HTML border-color parsing. @troosan #1551 #1570
+- Language::validateLocale should pass with locale 'zxx'. @efpapado #1558
+- can't align center vertically with the text @ter987 #672
+- fix parsing of border-color and add test @troosan #1570
+- TrackChange doesn't handle all return types of \DateTime::createFromFormat(...) @superhaggis #1584
+- To support PreserveText inside sub container @bhattnishant #1637
+- No nested w:pPr elements in ListItemRun. @waltertamboer #1628
+- Ensure that entity_loader disable variable is re-set back to the original setting @seamuslee001 #1585
 
 ### Miscellaneous
-- Use embedded http server to test loading of remote images @troosan #
+- Use embedded http server to test loading of remote images @troosan #1544
+- Change private to protected to be able extending class Html @SpinyMan #1646
+- Fix apt-get crash in Travis CI for PHP 5.3 @mdupont #1707
 
 v0.16.0 (30 dec 2018)
 ----------------------

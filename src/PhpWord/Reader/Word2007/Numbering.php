@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
-use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Numbering reader
@@ -89,7 +89,7 @@ class Numbering extends AbstractPart
     /**
      * Read numbering level definition from w:abstractNum and w:num
      *
-     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $subnode
      * @param int $levelId
      * @return array
