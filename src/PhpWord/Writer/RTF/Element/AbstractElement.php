@@ -50,6 +50,11 @@ abstract class AbstractElement extends HTMLAbstractElement
      */
     protected $paragraphStyle;
 
+    /**
+     * @var \PhpOffice\PhpWord\Escaper\EscaperInterface
+     */
+    protected $escaper;
+
     public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false)
     {
         parent::__construct($parentWriter, $element, $withoutP);

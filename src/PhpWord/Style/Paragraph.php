@@ -106,7 +106,7 @@ class Paragraph extends Border
     /**
      * Text line height
      *
-     * @var int
+     * @var int|float|null
      */
     private $lineHeight;
 
@@ -378,9 +378,9 @@ class Paragraph extends Border
     }
 
     /**
-     * Get shading
+     * Get indentation
      *
-     * @return \PhpOffice\PhpWord\Style\Indentation
+     * @return \PhpOffice\PhpWord\Style\Indentation|null
      */
     public function getIndentation()
     {
@@ -554,7 +554,7 @@ class Paragraph extends Border
     /**
      * Get line height
      *
-     * @return int|float
+     * @return int|float|null
      */
     public function getLineHeight()
     {

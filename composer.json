@@ -59,8 +59,7 @@
     },
     "require": {
         "php": "^5.3.3 || ^7.0 || ^8.0",
-        "ext-xml": "*",
-        "laminas/laminas-escaper": "^2.2"
+        "ext-xml": "*"
     },
     "require-dev": {
         "ext-zip": "*",

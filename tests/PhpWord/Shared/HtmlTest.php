@@ -31,6 +31,14 @@ use PhpOffice\PhpWord\TestHelperDOCX;
 class HtmlTest extends AbstractWebServerEmbeddedTest
 {
     /**
+     * Tear down after each test
+     */
+    public function tearDown()
+    {
+        TestHelperDOCX::clear();
+    }
+
+    /**
      * Test unit conversion functions with various numbers
      */
     public function testAddHtml()
@@ -590,7 +598,10 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink/w:r/w:rPr/w:u'));
         $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:hyperlink/w:r/w:rPr/w:u', 'w:val'));
+    }
 
+    public function testParseLink2()
+    {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         $section->addBookmark('bookmark');
