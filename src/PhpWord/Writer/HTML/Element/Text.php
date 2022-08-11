@@ -79,7 +79,7 @@ class Text extends AbstractElement
         if (!$this->withoutP && !trim($contenx)) {
             $contenx = '&nbsp;';
         }
-        $content .= $contenx;
+        $content .= str_replace(' ', '&nbsp;', $contenx);
         $content .= $this->closingTags;
         $content .= $this->closingText;
         $content .= $this->writeClosing();
@@ -273,7 +273,7 @@ class Text extends AbstractElement
             }
         }
         if ($style || $langtext) {
-            $this->openingTags = "<span$langtext$style>";
+            $this->openingTags = "<span $langtext$style>";
             $this->closingTags = '</span>';
         }
     }

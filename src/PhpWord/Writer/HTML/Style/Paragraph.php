@@ -78,8 +78,11 @@ class Paragraph extends AbstractStyle
         }
 
         $lht = $style->getLineHeight();
+        $line = $style->getSpacing();
         if (!is_null($lht)) {
             $css['line-height'] = $lht;
+        }else if($line != ''){
+          $css['line-height'] = ($line / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP) . 'in';
         }
         $ind = $style->getIndentation();
         if (!is_null($ind)) {

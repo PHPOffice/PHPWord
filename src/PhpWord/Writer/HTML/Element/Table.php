@@ -16,6 +16,7 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
+use \PhpOffice\PhpWord\Shared\Converter;
 
 /**
  * Table element HTML writer
@@ -44,7 +45,9 @@ class Table extends AbstractElement
             for ($i = 0; $i < $rowCount; $i++) {
                 /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
                 $rowStyle = $rows[$i]->getStyle();
-                // $height = $row->getHeight();
+                $height = $rows[$i]->getHeight();
+                $height = $height * Converter::INCH_TO_PIXEL / Converter::INCH_TO_TWIP - 4;
+                $cellsHeight = " height=\"$height\"";
                 $tblHeader = $rowStyle->isTblHeader();
                 $content .= '<tr>' . PHP_EOL;
                 $rowCells = $rows[$i]->getCells();
@@ -82,7 +85,7 @@ class Table extends AbstractElement
                         $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
                         $cellBgColorAttr = (is_null($cellBgColor) ? '' : " bgcolor=\"#{$cellBgColor}\"");
                         $cellFgColorAttr = (is_null($cellFgColor) ? '' : " color=\"#{$cellFgColor}\"");
-                        $content .= "<{$cellTag}{$cellStyleCss}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
+                        $content .= "<{$cellTag}{$cellStyleCss}{$cellsHeight}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);
                         $content .= $writer->write();
                         if ($cellRowSpan > 1) {

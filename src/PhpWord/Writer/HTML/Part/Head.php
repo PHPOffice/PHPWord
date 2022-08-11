@@ -85,7 +85,7 @@ class Head extends AbstractPart
      */
     private function writeStyles()
     {
-        $css = '<style>' . PHP_EOL;
+        $css = '<style media="all">' . PHP_EOL;
 
         // Default styles
         $astarray = array(
@@ -101,6 +101,9 @@ class Head extends AbstractPart
             'a.NoteRef' => array(
                 'text-decoration' => 'none',
             ),
+            'p' => array(
+                'margin'     => '0',
+            ),
             'hr' => array(
                 'height'     => '1px',
                 'padding'    => '0',
@@ -112,9 +115,11 @@ class Head extends AbstractPart
                 'border'         => '1px solid black',
                 'border-spacing' => '0px',
                 'width '         => '100%',
+                'border-collapse '=> 'collapse',
             ),
             'td' => array(
                 'border' => '1px solid black',
+                'padding' => '1px',
             ),
         );
         foreach ($defaultStyles as $selector => $style) {
@@ -122,42 +127,9 @@ class Head extends AbstractPart
             $css .= $selector . ' {' . $styleWriter->write() . '}' . PHP_EOL;
         }
 
-        // Custom styles
-        $customStyles = Style::getStyles();
-        if (is_array($customStyles)) {
-            foreach ($customStyles as $name => $style) {
-                $stylep = null;
-                if ($style instanceof Font) {
-                    $styleWriter = new FontStyleWriter($style);
-                    if ($style->getStyleType() == 'title') {
-                        $name = str_replace('Heading_', 'h', $name);
-                        $stylep = $style->getParagraph();
-                        $style = $stylep;
-                    } else {
-                        $name = '.' . $name;
-                    }
-                    $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
-                }
-                if ($style instanceof Paragraph) {
-                    $styleWriter = new ParagraphStyleWriter($style);
-                    if (!$stylep) {
-                        $name = '.' . $name;
-                    }
-                    if ($name === '.Normal') {
-                        $name = "p, $name";
-                    }
-                    $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
-                }
-                if ($style instanceof Table) {
-                    $css .= ".{$name} {" . TableStyleWriter::getTableStyleString($style) . '}' . PHP_EOL;
-                }
-            }
-        }
         $secno = 0;
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
         $intotwip = \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
-        $css .= 'body > div + div {page-break-before: always;}' . PHP_EOL;
-        $css .= 'div > *:first-child {page-break-before: auto;}' . PHP_EOL;
         foreach ($sections as $section) {
             $secno++;
             $secstyl = $section->getStyle();
