@@ -77,6 +77,8 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'kerning'             => null,
             'lang'                => null,
             'hidden'              => false,
+            'htmlWhiteSpace'      => '',
+            'htmlGenericFont'     => '',
         );
         foreach ($attributes as $key => $default) {
             $get = is_bool($default) ? "is{$key}" : "get{$key}";
@@ -119,6 +121,8 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'noProof'             => true,
             'lang'                => new Language(Language::EN_US),
             'hidden'              => true,
+            'htmlWhiteSpace'      => 'pre-wrap',
+            'htmlGenericFont'     => 'serif',
         );
         $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {
@@ -148,6 +152,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('auto', $lineRule);
 
         // Test setter
+        TestHelperDOCX::clear();
         $text->getFontStyle()->setLineHeight(3.0);
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');

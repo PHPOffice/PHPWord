@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\WordWrap;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 
 /**
@@ -39,6 +40,7 @@ use PhpOffice\PhpWord\SimpleType\TextAlignment;
  * OpenOffice:
  * - Indents & spacing
  * - Alignment
+ * - WordWrap
  * - Text flow
  * - Outline & numbering
  * - Tabs
@@ -83,6 +85,11 @@ class Paragraph extends Border
     private $alignment = '';
 
     /**
+     * @var string
+     */
+    private $wordWrap = '';
+
+    /**
      * Indentation
      *
      * @var \PhpOffice\PhpWord\Style\Indentation|null
@@ -99,7 +106,7 @@ class Paragraph extends Border
     /**
      * Text line height
      *
-     * @var int
+     * @var int|float|null
      */
     private $lineHeight;
 
@@ -197,9 +204,6 @@ class Paragraph extends Border
     public function setStyleValue($key, $value)
     {
         $key = Text::removeUnderscorePrefix($key);
-        if ('indent' == $key || 'hanging' == $key) {
-            $value = $value * 720;  // 720 twips is 0.5 inch
-        }
 
         return parent::setStyleValue($key, $value);
     }
@@ -221,6 +225,7 @@ class Paragraph extends Border
             'basedOn'             => $this->getBasedOn(),
             'next'                => $this->getNext(),
             'alignment'           => $this->getAlignment(),
+            'wordWrap'           => $this->getWordWrap(),
             'indentation'         => $this->getIndentation(),
             'spacing'             => $this->getSpace(),
             'pagination'          => array(
@@ -265,6 +270,33 @@ class Paragraph extends Border
     {
         if (Jc::isValid($value)) {
             $this->alignment = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @since 0.17.0
+     *
+     * @return string
+     */
+    public function getWordWrap()
+    {
+        return $this->wordWrap;
+    }
+
+
+    /**
+     * @since 0.17.0
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setWordWrap($value)
+    {
+        if (WordWrap::isValid($value)) {
+            $this->wordWrap = $value;
         }
 
         return $this;
@@ -343,9 +375,9 @@ class Paragraph extends Border
     }
 
     /**
-     * Get shading
+     * Get indentation
      *
-     * @return \PhpOffice\PhpWord\Style\Indentation
+     * @return \PhpOffice\PhpWord\Style\Indentation|null
      */
     public function getIndentation()
     {
@@ -519,7 +551,7 @@ class Paragraph extends Border
     /**
      * Get line height
      *
-     * @return int|float
+     * @return int|float|null
      */
     public function getLineHeight()
     {

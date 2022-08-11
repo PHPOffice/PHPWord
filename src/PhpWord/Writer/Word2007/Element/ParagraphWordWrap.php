@@ -15,44 +15,46 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\HTML\Part;
-
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Writer\HTML;
+namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
- * @since 0.11.0
+ * @since 0.17.0
  */
-abstract class AbstractPart
+class ParagraphWordWrap
 {
-    /**
-     * @var \PhpOffice\PhpWord\Writer\HTML
-     */
-    private $parentWriter;
+    private $name = 'w:wordWrap';
+
+    private $attributes = array();
 
     /**
-     * @return string
+     * @since 0.17.0
+     *
+     * @param string $value Any value provided by WordWrap simple type
+     *
+     * @see \PhpOffice\PhpWord\SimpleType\WordWrap For the allowed values of $value parameter.
      */
-    abstract public function write();
-
-    /**
-     * @param \PhpOffice\PhpWord\Writer\HTML $writer
-     */
-    public function setParentWriter(HTML $writer = null)
+    final public function __construct($value)
     {
-        $this->parentWriter = $writer;
+        $this->attributes['w:val'] = $value;
     }
 
     /**
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @since 0.17.0
      *
-     * @return \PhpOffice\PhpWord\Writer\HTML
+     * @return string
      */
-    public function getParentWriter()
+    final public function getName()
     {
-        if ($this->parentWriter !== null) {
-            return $this->parentWriter;
-        }
-        throw new Exception('No parent WriterInterface assigned.');
+        return $this->name;
+    }
+
+    /**
+     * @since 0.17.0
+     *
+     * @return string[]
+     */
+    final public function getAttributes()
+    {
+        return $this->attributes;
     }
 }
