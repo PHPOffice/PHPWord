@@ -356,7 +356,6 @@ class ElementTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
     }
 
-
     /**
      * Test reading FormField - DROPDOWN
      */
@@ -413,18 +412,15 @@ class ElementTest extends AbstractTestReader
         $subElements = $elements[0]->getElements();
 
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
-        $this->assertEquals("Reference", $subElements[0]->getText());
+        $this->assertEquals('Reference', $subElements[0]->getText());
 
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
-        $this->assertEquals("dropdown", $subElements[1]->getType());
-        $this->assertEquals("DropDownList1", $subElements[1]->getName());
-        $this->assertEquals("2", $subElements[1]->getValue());
-        $this->assertEquals("Option Two", $subElements[1]->getText());
-        $this->assertEquals(array("TBD", "Option One", "Option Two", "Option Three", "Other"), $subElements[1]->getEntries());
-
+        $this->assertEquals('dropdown', $subElements[1]->getType());
+        $this->assertEquals('DropDownList1', $subElements[1]->getName());
+        $this->assertEquals('2', $subElements[1]->getValue());
+        $this->assertEquals('Option Two', $subElements[1]->getText());
+        $this->assertEquals(array('TBD', 'Option One', 'Option Two', 'Option Three', 'Other'), $subElements[1]->getEntries());
     }
-
-
 
     /**
      * Test reading FormField - textinput
@@ -485,13 +481,66 @@ class ElementTest extends AbstractTestReader
         $subElements = $elements[0]->getElements();
 
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
-        $this->assertEquals("Fieldname", $subElements[0]->getText());
+        $this->assertEquals('Fieldname', $subElements[0]->getText());
 
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
-        $this->assertEquals("textinput", $subElements[1]->getType());
-        $this->assertEquals("TextInput2", $subElements[1]->getName());
-        $this->assertEquals("This is some sample text", $subElements[1]->getValue());
-        $this->assertEquals("This is some sample text", $subElements[1]->getText());
+        $this->assertEquals('textinput', $subElements[1]->getType());
+        $this->assertEquals('TextInput2', $subElements[1]->getName());
+        $this->assertEquals('This is some sample text', $subElements[1]->getValue());
+        $this->assertEquals('This is some sample text', $subElements[1]->getText());
     }
 
+    /**
+     * Test reading FormField - checkbox
+     */
+    public function testReadFormFieldCheckbox()
+    {
+        $documentXml = '<w:p>
+			<w:pPr/>
+			<w:r>
+				<w:fldChar w:fldCharType="begin">
+					<w:ffData>
+						<w:enabled w:val="1"/>
+						<w:name w:val="SomeCheckbox"/>
+						<w:calcOnExit w:val="0"/>
+						<w:checkBox>
+							<w:sizeAuto w:val=""/>
+							<w:default w:val="0"/>
+							<w:checked w:val="0"/>
+						</w:checkBox>
+					</w:ffData>
+				</w:fldChar>
+			</w:r>
+			<w:r>
+				<w:rPr/>
+				<w:instrText xml:space="preserve">FORMCHECKBOX</w:instrText>
+			</w:r>
+			<w:r>
+				<w:rPr/>
+				<w:fldChar w:fldCharType="separate"/>
+			</w:r>
+			<w:r>
+				<w:rPr/>
+				<w:t xml:space="preserve">                              </w:t>
+			</w:r>
+			<w:r>
+				<w:rPr/>
+				<w:fldChar w:fldCharType="end"/>
+			</w:r>
+		</w:p>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+
+        $subElements = $elements[0]->getElements();
+
+//        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
+//        $this->assertEquals('Fieldname', $subElements[0]->getText());
+
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[0]);
+        $this->assertEquals('checkbox', $subElements[0]->getType());
+        $this->assertEquals('SomeCheckbox', $subElements[0]->getName());
+    }
 }
