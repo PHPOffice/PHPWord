@@ -24,6 +24,7 @@ use PhpOffice\Math\Reader\OfficeMathML;
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\AbstractElement;
+use PhpOffice\PhpWord\Element\FormField;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
@@ -192,8 +193,48 @@ abstract class AbstractPart
         // Paragraph style
         $paragraphStyle = $xmlReader->elementExists('w:pPr', $domNode) ? $this->readParagraphStyle($xmlReader, $domNode) : null;
 
-        // PreserveText
-        if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
+        if ($xmlReader->elementExists('w:r/w:fldChar/w:ffData', $domNode)) {
+            // FormField
+            $partOfFormField = false;
+            $formNodes = array();
+            $formType = null;
+//            $field = new FormField("type", "forntsyle", "paragraphstyle"):
+            $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag', $domNode);
+            if (0 === $textRunContainers) {
+                $parent->addTextBreak(null, $paragraphStyle);
+            } else {
+                $nodes = $xmlReader->getElements('*', $domNode);
+                $paragraph = $parent->addTextRun($paragraphStyle);
+                foreach ($nodes as $node) {
+                    if($xmlReader->elementExists('w:fldChar/w:ffData', $node)) {
+                        $partOfFormField = true;
+                        $formNodes[] = $node;
+                        if($xmlReader->elementExists('w:fldChar/w:ffData/w:ddList', $node)) {
+                            $formType = "dropdown";
+                        } elseif ($xmlReader->elementExists('w:fldChar/w:ffData/w:textInput', $node)) {
+                            $formType = "textinput";
+                        } elseif ($xmlReader->elementExists('w:fldChar/w:ffData/w:checkBox', $node)) {
+                            $formType = "checkbox";
+                        }
+                    } elseif (
+                        $partOfFormField &&
+                        $xmlReader->elementExists('w:fldChar', $node) &&
+                        "end" == $xmlReader->getAttribute('w:fldCharType', $node, 'w:fldChar')
+                    ) {
+                        $formNodes[] = $node;
+                        $partOfFormField = false;
+                        // Process the form fields
+                        $this->readFormField($xmlReader, $formNodes, $paragraph, $docPart, $paragraphStyle, $formType);
+                    } elseif ($partOfFormField){
+                        $formNodes[] = $node;
+                    } else {
+                        // normal runs
+                        $this->readRun($xmlReader, $node, $paragraph, $docPart, $paragraphStyle);
+                    }
+                }
+            }
+        } elseif ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
+            // PreserveText
             $ignoreText = false;
             $textContent = '';
             $fontStyle = $this->readFontStyle($xmlReader, $domNode);
@@ -283,7 +324,103 @@ abstract class AbstractPart
     }
 
     /**
-     * Returns the depth of the Heading, returns 0 for a Title.
+     * @param XMLReader $xmlReader
+     * @param \DOMElement[] $domNodes
+     * @param AbstractContainer $parent
+     * @param string $docPart
+     * @param null $paragraphStyle
+     * @param string $formType
+     * @return void
+     */
+    private function readFormField(XMLReader $xmlReader, array $domNodes, $parent, $docPart = 'document', $paragraphStyle = null, $formType)
+    {
+        if(!in_array($formType, array("textinput", "checkbox", "dropdown"))) return;
+
+        $formField = $parent->addFormField($formType, null, $paragraphStyle);
+        $ffData = $xmlReader->getElement("w:fldChar/w:ffData", $domNodes[0]);
+
+        foreach ($xmlReader->getElements("*", $ffData) as $node) {
+            /** @var \DOMElement $node */
+            switch ($node->localName) {
+                case "name":
+                    $formField->setName($node->getAttribute("w:val"));
+                    break;
+                case "ddList":
+                    $listEntries = array();
+                    foreach ($xmlReader->getElements("*", $node) as $ddListNode) {
+                        switch ($ddListNode->localName) {
+                            case "result":
+                                $formField->setValue($xmlReader->getAttribute("w:val", $ddListNode));
+                                break;
+                            case "default":
+                                $formField->setDefault($xmlReader->getAttribute("w:val", $ddListNode));
+                                break;
+                            case "listEntry":
+                                $listEntries[] = $xmlReader->getAttribute("w:val", $ddListNode);
+                                break;
+                        }
+                    }
+                    $formField->setEntries($listEntries);
+                    if (!is_null($formField->getValue())) {
+                        $formField->setText($listEntries[$formField->getValue()]);
+                    }
+                    break;
+                case "textInput":
+                    foreach ($xmlReader->getElements("*", $node) as $ddListNode) {
+                        switch ($ddListNode->localName) {
+                            case "default":
+                                $formField->setDefault($xmlReader->getAttribute("w:val", $ddListNode));
+                                break;
+                            case "format":
+                            case "maxLength":
+                                break;
+                        }
+                    }
+                    break;
+                case "checkBox":
+                    foreach ($xmlReader->getElements("*", $node) as $ddListNode) {
+
+                        switch ($ddListNode->localName) {
+                            case "default":
+                                $formField->setDefault($xmlReader->getAttribute("w:val", $ddListNode));
+                                break;
+                            case "checked":
+                                $formField->setValue($xmlReader->getAttribute("w:val", $ddListNode));
+                                break;
+                            case "size":
+                            case "sizeAuto":
+                                break;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        if ("textinput" == $formType) {
+            $ignoreText = true;
+            $textContent = "";
+            foreach ($domNodes as $node) {
+                if ($xmlReader->elementExists('w:fldChar', $node)) {
+                    $fldCharType = $xmlReader->getAttribute('w:fldCharType', $node, 'w:fldChar');
+                    if ('separate' == $fldCharType) {
+                        $ignoreText = false;
+                    } elseif ('end' == $fldCharType) {
+                        $ignoreText = true;
+                    }
+                }
+
+                if (false === $ignoreText) {
+                    $textContent .= $xmlReader->getValue('w:t', $node);
+                }
+            }
+            $formField->setValue(htmlspecialchars($textContent, ENT_QUOTES, 'UTF-8'));
+            $formField->setText(htmlspecialchars($textContent, ENT_QUOTES, 'UTF-8'));
+        }
+    }
+
+
+    /**
+     * Returns the depth of the Heading, returns 0 for a Title
      *
      * @return null|number
      */

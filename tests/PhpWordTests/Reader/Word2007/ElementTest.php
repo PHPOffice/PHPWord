@@ -355,4 +355,143 @@ class ElementTest extends AbstractTestReader
         $elements = $phpWord->getSection(0)->getElements();
         self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
     }
+
+
+    /**
+     * Test reading FormField - DROPDOWN
+     */
+    public function testReadFormFieldDropdown()
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:t>Reference</w:t>
+            </w:r>
+            <w:r>
+                <w:fldChar w:fldCharType="begin">
+                    <w:ffData>
+                        <w:name w:val="DropDownList1"/>
+                        <w:enabled/>
+                        <w:calcOnExit w:val="0"/>
+                        <w:ddList>
+                            <w:result w:val="2"/>
+                            <w:listEntry w:val="TBD"/>
+                            <w:listEntry w:val="Option One"/>
+                            <w:listEntry w:val="Option Two"/>
+                            <w:listEntry w:val="Option Three"/>
+                            <w:listEntry w:val="Other"/>
+                        </w:ddList>
+                    </w:ffData>
+                </w:fldChar>
+            </w:r>
+            <w:r>
+                <w:instrText xml:space="preserve"> FORMDROPDOWN </w:instrText>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:fldChar w:fldCharType="separate"/>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:fldChar w:fldCharType="end"/>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+
+        $subElements = $elements[0]->getElements();
+
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
+        $this->assertEquals("Reference", $subElements[0]->getText());
+
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
+        $this->assertEquals("dropdown", $subElements[1]->getType());
+        $this->assertEquals("DropDownList1", $subElements[1]->getName());
+        $this->assertEquals("2", $subElements[1]->getValue());
+        $this->assertEquals("Option Two", $subElements[1]->getText());
+        $this->assertEquals(array("TBD", "Option One", "Option Two", "Option Three", "Other"), $subElements[1]->getEntries());
+
+    }
+
+
+
+    /**
+     * Test reading FormField - textinput
+     */
+    public function testReadFormFieldTextinput()
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:t>Fieldname</w:t>
+            </w:r>
+            <w:r>
+                <w:fldChar w:fldCharType="begin">
+                    <w:ffData>
+                        <w:name w:val="TextInput2"/>
+                        <w:enabled/>
+                        <w:calcOnExit w:val="0"/>
+                        <w:textInput>
+                            <w:default w:val="TBD"/>
+                            <w:maxLength w:val="200"/>
+                        </w:textInput>
+                    </w:ffData>
+                </w:fldChar>
+            </w:r>
+            <w:r>
+                <w:instrText xml:space="preserve"> FORMTEXT </w:instrText>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:fldChar w:fldCharType="separate"/>
+            </w:r>
+            <w:r w:rsidR="00807709">
+                <w:rPr>
+                    <w:noProof/>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:t>This is some sample text</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:fldChar w:fldCharType="end"/>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+
+        $subElements = $elements[0]->getElements();
+
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
+        $this->assertEquals("Fieldname", $subElements[0]->getText());
+
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
+        $this->assertEquals("textinput", $subElements[1]->getType());
+        $this->assertEquals("TextInput2", $subElements[1]->getName());
+        $this->assertEquals("This is some sample text", $subElements[1]->getValue());
+        $this->assertEquals("This is some sample text", $subElements[1]->getText());
+    }
+
 }
