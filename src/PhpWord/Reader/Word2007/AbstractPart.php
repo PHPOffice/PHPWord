@@ -223,7 +223,7 @@ abstract class AbstractPart
                         $formNodes[] = $node;
                         $partOfFormField = false;
                         // Process the form fields
-                        $this->readFormField($xmlReader, $formNodes, $paragraph, $docPart, $paragraphStyle, $formType);
+                        $this->readFormField($xmlReader, $formNodes, $paragraph, $paragraphStyle, $formType);
                     } elseif ($partOfFormField) {
                         $formNodes[] = $node;
                     } else {
@@ -326,11 +326,10 @@ abstract class AbstractPart
      * @param XMLReader $xmlReader
      * @param \DOMElement[] $domNodes
      * @param AbstractContainer $parent
-     * @param string $docPart
-     * @param null $paragraphStyle
+     * @param mixed $paragraphStyle
      * @param string $formType
      */
-    private function readFormField(XMLReader $xmlReader, array $domNodes, $parent, $docPart, $paragraphStyle, $formType)
+    private function readFormField(XMLReader $xmlReader, array $domNodes, $parent, $paragraphStyle, $formType)
     {
         if (!in_array($formType, array('textinput', 'checkbox', 'dropdown'))) {
             return;
