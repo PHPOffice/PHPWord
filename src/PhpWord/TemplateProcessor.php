@@ -93,6 +93,20 @@ class TemplateProcessor
     protected $tempDocumentNewImages = array();
 
     /**
+     * indicates the start of a macro
+     *
+     * @var string
+     */
+    protected $macroStart = '';
+
+    /**
+     * indicates the end of a macro
+     *
+     * @var string
+     */
+    protected $marcoEnd = '';
+
+    /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
      * @param string $documentTemplate The fully qualified template filename
@@ -100,8 +114,11 @@ class TemplateProcessor
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      * @throws \PhpOffice\PhpWord\Exception\CopyFileException
      */
-    public function __construct($documentTemplate)
+    public function __construct($documentTemplate, string $marcoStart = '${', string $marcoEnd = '}')
     {
+        $this->macroStart = $marcoStart;
+        $this->marcoEnd = $marcoEnd;
+
         // Temporary document filename initialization
         $this->tempDocumentFilename = tempnam(Settings::getTempDir(), 'PhpWord');
         if (false === $this->tempDocumentFilename) {
@@ -241,10 +258,10 @@ class TemplateProcessor
      *
      * @return string
      */
-    protected static function ensureMacroCompleted($macro)
+    protected function ensureMacroCompleted($macro)
     {
-        if (substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
-            $macro = '${' . $macro . '}';
+        if (substr($macro, 0, strlen($this->macroStart)) !== $this->macroStart && substr($macro, strlen($this->marcoEnd) * -1) !== $this->marcoEnd) {
+            $macro = $this->macroStart . $macro . $this->marcoEnd;
         }
 
         return $macro;
@@ -288,7 +305,7 @@ class TemplateProcessor
         $textParts = $this->splitTextIntoTexts($block);
         $this->replaceXmlBlock($search, $textParts, 'w:r');
 
-        $search = static::ensureMacroCompleted($search);
+        $search = $this->ensureMacroCompleted($search);
         $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:r');
     }
 
@@ -318,20 +335,20 @@ class TemplateProcessor
     {
         if (is_array($search)) {
             foreach ($search as &$item) {
-                $item = static::ensureMacroCompleted($item);
+                $item = $this->ensureMacroCompleted($item);
             }
             unset($item);
         } else {
-            $search = static::ensureMacroCompleted($search);
+            $search = $this->ensureMacroCompleted($search);
         }
 
         if (is_array($replace)) {
             foreach ($replace as &$item) {
-                $item = static::ensureUtf8Encoded($item);
+                $item = $this->ensureUtf8Encoded($item);
             }
             unset($item);
         } else {
-            $replace = static::ensureUtf8Encoded($replace);
+            $replace = $this->ensureUtf8Encoded($replace);
         }
 
         if (Settings::isOutputEscapingEnabled()) {
@@ -657,7 +674,7 @@ class TemplateProcessor
                     $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']), $imgTpl);
 
                     // replace variable
-                    $varNameWithArgsFixed = static::ensureMacroCompleted($varNameWithArgs);
+                    $varNameWithArgsFixed = $this->ensureMacroCompleted($varNameWithArgs);
                     $matches = array();
                     if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed) . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
                         $wholeTag = $matches[0];
@@ -722,7 +739,7 @@ class TemplateProcessor
      */
     public function cloneRow($search, $numberOfClones)
     {
-        $search = static::ensureMacroCompleted($search);
+        $search = $this->ensureMacroCompleted($search);
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
@@ -800,7 +817,7 @@ class TemplateProcessor
         $xmlBlock = null;
         $matches = array();
         preg_match(
-            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\${' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?' . preg_quote($this->macroStart) . $blockname . preg_quote($this->marcoEnd) . '<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?' . preg_quote($this->macroStart) . '\/' . $blockname . preg_quote($this->marcoEnd) . '<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -840,7 +857,7 @@ class TemplateProcessor
     {
         $matches = array();
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p.*>' . preg_quote($this->macroStart) . $blockname . preg_quote($this->marcoEnd) . '<\/w:.*?p>)(.*)(<w:p.*' . preg_quote($this->macroStart) . '\/' . $blockname . preg_quote($this->marcoEnd) . '<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -998,7 +1015,7 @@ class TemplateProcessor
     protected function getVariablesForPart($documentPartXML)
     {
         $matches = array();
-        preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
+        preg_match_all('/' . preg_quote($this->macroStart) . '(.*?)' . preg_quote($this->marcoEnd) . '/i', $documentPartXML, $matches);
 
         return $matches[1];
     }
@@ -1153,7 +1170,7 @@ class TemplateProcessor
     {
         $results = array();
         for ($i = 1; $i <= $count; $i++) {
-            $results[] = preg_replace('/\$\{([^:]*?)(:.*?)?\}/', '\${\1#' . $i . '\2}', $xmlBlock);
+            $results[] = preg_replace('/\$\{([^:]*?)(:.*?)?\}/', $this->macroStart . '\1#' . $i . '\2' . $this->marcoEnd, $xmlBlock);
         }
 
         return $results;
@@ -1173,7 +1190,7 @@ class TemplateProcessor
         foreach ($variableReplacements as $replacementArray) {
             $localXmlBlock = $xmlBlock;
             foreach ($replacementArray as $search => $replacement) {
-                $localXmlBlock = $this->setValueForPart(self::ensureMacroCompleted($search), $replacement, $localXmlBlock, self::MAXIMUM_REPLACEMENTS_DEFAULT);
+                $localXmlBlock = $this->setValueForPart($this->ensureMacroCompleted($search), $replacement, $localXmlBlock, self::MAXIMUM_REPLACEMENTS_DEFAULT);
             }
             $results[] = $localXmlBlock;
         }
@@ -1241,7 +1258,7 @@ class TemplateProcessor
      */
     protected function findMacro($search, $offset = 0)
     {
-        $search = static::ensureMacroCompleted($search);
+        $search = $this->ensureMacroCompleted($search);
         $pos = strpos($this->tempDocumentMainPart, $search, $offset);
 
         return ($pos === false) ? -1 : $pos;
@@ -1302,7 +1319,7 @@ class TemplateProcessor
         }
 
         $unformattedText = preg_replace('/>\s+</', '><', $text);
-        $result = str_replace(array('${', '}'), array('</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">${', '}</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'), $unformattedText);
+        $result = str_replace(array($this->macroStart, $this->marcoEnd), array('</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">' . $this->macroStart, $this->marcoEnd . '</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'), $unformattedText);
 
         return str_replace(array('<w:r>' . $extractedStyle . '<w:t xml:space="preserve"></w:t></w:r>', '<w:r><w:t xml:space="preserve"></w:t></w:r>', '<w:t>'), array('', '', '<w:t xml:space="preserve">'), $result);
     }
@@ -1315,6 +1332,6 @@ class TemplateProcessor
      */
     protected function textNeedsSplitting($text)
     {
-        return preg_match('/[^>]\${|}[^<]/i', $text) == 1;
+        return preg_match('/[^>]' . preg_quote($this->macroStart) . '|' . preg_quote($this->marcoEnd) . '[^<]/i', $text) == 1;
     }
 }
