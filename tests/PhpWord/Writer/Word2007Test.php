@@ -32,7 +32,7 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
     /**
      * Tear down after each test
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }

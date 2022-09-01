@@ -31,7 +31,7 @@ class ChartTest extends \PHPUnit\Framework\TestCase
     /**
      * Executed before each method of the class
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->outputEscapingEnabled = Settings::isOutputEscapingEnabled();
     }
@@ -39,7 +39,7 @@ class ChartTest extends \PHPUnit\Framework\TestCase
     /**
      * Executed after each method of the class
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         Settings::setOutputEscapingEnabled($this->outputEscapingEnabled);
         TestHelperDOCX::clear();

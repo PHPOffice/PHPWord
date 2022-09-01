@@ -112,6 +112,6 @@ class FootnoteTest extends \PHPUnit\Framework\TestCase
     public function testGetElements()
     {
         $oFootnote = new Footnote();
-        $this->assertInternalType('array', $oFootnote->getElements());
+        $this->assertIsArray($oFootnote->getElements());
     }
 }

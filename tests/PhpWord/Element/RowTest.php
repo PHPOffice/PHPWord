@@ -34,7 +34,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $oRow);
         $this->assertNull($oRow->getHeight());
-        $this->assertInternalType('array', $oRow->getCells());
+        $this->assertIsArray($oRow->getCells());
         $this->assertCount(0, $oRow->getCells());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }

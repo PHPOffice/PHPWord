@@ -178,7 +178,7 @@ class HeaderTest extends AbstractWebServerEmbeddedTest
     {
         $oHeader = new Header(1);
 
-        $this->assertInternalType('array', $oHeader->getElements());
+        $this->assertIsArray($oHeader->getElements());
     }
 
     /**

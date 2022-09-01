@@ -50,7 +50,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
 
         // Styles
         $content .= '<p style="text-decoration: underline; text-decoration: line-through; '
-                  . 'text-align: center; color: #999; background-color: #000; font-weight: bold; font-style: italic;">';
+            . 'text-align: center; color: #999; background-color: #000; font-weight: bold; font-style: italic;">';
         foreach ($styles as $style) {
             $content .= "<{$style}>{$style}</{$style}>";
         }
@@ -505,6 +505,21 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertStringMatchesFormat('%Smso-position-horizontal:left%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
     }
 
+    public function testParseRemoteImageWithoutExtension()
+    {
+        // annoyingly I have to use a valid URL to get to the code I need to test, otherwise file_get_contents fails.
+        $src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTABbXr4i-QODqhy7tofHYmTYh05rYPktzacw&amp;usqp=CAU';
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTABbXr4i-QODqhy7tofHYmTYh05rYPktzacw&amp;usqp=CAU" data-id="null" alt="How a Random Image can help you to generate creative ideas" title=""/></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+    }
+
     /**
      * Test parsing of remote img
      */
@@ -547,8 +562,8 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $src = 'https://fakedomain.io/images/firefox.png';
         $localPath = __DIR__ . '/../_files/images/';
         $options = array(
-          'IMG_SRC_SEARCH'  => 'https://fakedomain.io/images/',
-          'IMG_SRC_REPLACE' => $localPath,
+            'IMG_SRC_SEARCH'  => 'https://fakedomain.io/images/',
+            'IMG_SRC_REPLACE' => $localPath,
         );
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -931,5 +946,45 @@ HTML;
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertInternalType('object', $doc);
+    }
+
+    public function testAddUserDefinedFunction()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $callable = $this->createPartialMock('stdClass', array('__invoke'));
+        $callable->expects(self::once())
+            ->method('__invoke')
+            ->with(
+                $this->callback(function ($node) {
+                    return $node->tagName === 'testTag' && $node->nodeValue === 'This is a custom test tag.';
+                }),
+                $this->identicalTo($section),
+                $this->equalTo(array(
+                    'font'      => array(),
+                    'paragraph' => array(),
+                    'list'      => array(),
+                    'table'     => array(),
+                    'row'       => array(),
+                    'cell'      => array(),
+                )),
+                $this->equalTo(array()),
+                $this->equalTo('argument1'),
+                $this->equalTo('argument2')
+            )
+            ->willReturn(3);
+
+        Html::addUserDefinedNodeMapping(
+            'testTag',
+            true,
+            true,
+            true,
+            true,
+            'argument1',
+            'argument2',
+            $callable
+        );
+        $html = '<testTag>This is a custom test tag.</testTag>';
+        Html::addHtml($section, $html);
     }
 }

@@ -35,6 +35,13 @@ class Html
     protected static $listIndex = 0;
     protected static $xpath;
     protected static $options;
+    protected static $userDefinedNodeMappings = array();
+    protected static $contentTypeFileExtensionMap = array(
+        'image/svg+xml' => 'svg',
+        'image/jpeg'    => 'jpg',
+        'image/png'     => 'png',
+        'image/gif'     => 'gif',
+    );
 
     /**
      * Add HTML parts.
@@ -163,38 +170,19 @@ class Html
             }
         }
 
-        // Node mapping table
-        $nodes = array(
-                              // $method        $node   $element    $styles     $data   $argument1      $argument2
-            'p'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
-            'h1'        => array('Heading',     null,   $element,   $styles,    null,   'Heading1',     null),
-            'h2'        => array('Heading',     null,   $element,   $styles,    null,   'Heading2',     null),
-            'h3'        => array('Heading',     null,   $element,   $styles,    null,   'Heading3',     null),
-            'h4'        => array('Heading',     null,   $element,   $styles,    null,   'Heading4',     null),
-            'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
-            'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
-            '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
-            'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
-            'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
-            'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
-            'i'         => array('Property',    null,   null,       $styles,    null,   'italic',       true),
-            'u'         => array('Property',    null,   null,       $styles,    null,   'underline',    'single'),
-            'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
-            'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
-            'span'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
-            'font'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
-            'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
-            'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
-            'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
-            'th'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
-            'ul'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
-            'ol'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
-            'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
-            'img'       => array('Image',       $node,  $element,   $styles,    null,   null,           null),
-            'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
-            'a'         => array('Link',        $node,  $element,   $styles,    null,   null,           null),
-            'input'     => array('Input',       $node,  $element,   $styles,    null,   null,           null),
-            'hr'        => array('HorizRule',   $node,  $element,   $styles,    null,   null,           null),
+        $nodes = self::getNodeMappingTable($node, $element, $styles, $data);
+        array_map(function ($argumentList, $markTag) use ($node, $element, $styles, $data, &$nodes) {
+            $nodes[$markTag] = array(
+                0 => $argumentList['method'],
+                1 => $argumentList['withNode'] ? $node : null,
+                2 => $argumentList['withElement'] ? $element : null,
+                3 => $argumentList['withStyles'] ? $styles : null,
+                4 => $argumentList['withData'] ? $data : null,
+                5 => $argumentList['argument1'],
+                6 => $argumentList['argument2'],
+            );
+        },
+            self::$userDefinedNodeMappings, array_keys(self::$userDefinedNodeMappings)
         );
 
         $newElement = null;
@@ -211,8 +199,8 @@ class Html
                     $arguments[$keys[$i]] = &$args[$i];
                 }
             }
-            $method = "parse{$method}";
-            $newElement = call_user_func_array(array('PhpOffice\PhpWord\Shared\Html', $method), array_values($arguments));
+            $method = is_string($method) ? array('PhpOffice\PhpWord\Shared\Html', "parse{$method}") : $method;
+            $newElement = call_user_func_array($method, array_values($arguments));
 
             // Retrieve back variables from arguments
             foreach ($keys as $key) {
@@ -862,6 +850,17 @@ class Html
                 $tmpDir = Settings::getTempDir() . '/';
                 $match = array();
                 preg_match('/.+\.(\w+)$/', $src, $match);
+
+                if (empty($match) || !isset($match[1])) {
+                    $contentType = get_headers($src, 1)['Content-Type'];
+
+                    if (!array_key_exists($contentType, self::$contentTypeFileExtensionMap)) {
+                        throw new \Exception("Could not load image $src");
+                    }
+
+                    $match[1] = self::$contentTypeFileExtensionMap[$contentType];
+                }
+
                 $src = $tmpDir . uniqid() . '.' . $match[1];
 
                 $ifp = fopen($src, 'wb');
@@ -1021,6 +1020,63 @@ class Html
         }
 
         return $element->addLink($target, $node->textContent, $styles['font'], $styles['paragraph']);
+    }
+
+    /**
+     * Add a custom mapping for HTML tag.
+     *
+     * @param string $htmlTag
+     * @param bool $withNode
+     * @param bool $withElement
+     * @param bool $withStyles
+     * @param bool $withData
+     * @param string $argument1
+     * @param string $argument2
+     * @param callable|string $method
+     */
+    public static function addUserDefinedNodeMapping($htmlTag, $withNode, $withElement, $withStyles, $withData, $argument1, $argument2, $method)
+    {
+        $args = compact(
+            'withNode', 'withElement', 'withStyles', 'withData', 'argument1', 'argument2', 'method'
+        );
+        self::$userDefinedNodeMappings[$htmlTag] = $args;
+    }
+
+    protected static function getNodeMappingTable($node, $element, $styles, $data)
+    {
+        // Node mapping table
+        return array(
+            // $method        $node   $element    $styles     $data   $argument1      $argument2
+            'p'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
+            'h1'        => array('Heading',     null,   $element,   $styles,    null,   'Heading1',     null),
+            'h2'        => array('Heading',     null,   $element,   $styles,    null,   'Heading2',     null),
+            'h3'        => array('Heading',     null,   $element,   $styles,    null,   'Heading3',     null),
+            'h4'        => array('Heading',     null,   $element,   $styles,    null,   'Heading4',     null),
+            'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
+            'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
+            '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
+            'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
+            'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
+            'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
+            'i'         => array('Property',    null,   null,       $styles,    null,   'italic',       true),
+            'u'         => array('Property',    null,   null,       $styles,    null,   'underline',    'single'),
+            'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
+            'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
+            'span'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
+            'font'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
+            'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
+            'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
+            'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
+            'th'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
+            'ul'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
+            'ol'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
+            'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
+            'img'       => array('Image',       $node,  $element,   $styles,    null,   null,           null),
+            'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
+            'a'         => array('Link',        $node,  $element,   $styles,    null,   null,           null),
+            'input'     => array('Input',       $node,  $element,   $styles,    null,   null,           null),
+            'hr'        => array('HorizRule',   $node,  $element,   $styles,    null,   null,           null),
+        );
     }
 
     /**
