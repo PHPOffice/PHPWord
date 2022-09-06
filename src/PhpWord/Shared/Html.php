@@ -257,14 +257,16 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
-     * @return \PhpOffice\PhpWord\Element\TextRun
+     * @return \PhpOffice\PhpWord\Element\TextRun|\PhpOffice\PhpWord\Element\PageBreak
      */
     protected static function parseParagraph($node, $element, &$styles)
     {
         $styles['paragraph'] = self::recursiveParseStylesInHierarchy($node, $styles['paragraph']);
-        $newElement = $element->addTextRun($styles['paragraph']);
+        if (isset($styles['paragraph']['isPageBreak']) && $styles['paragraph']['isPageBreak']) {
+            return $element->addPageBreak();
+        }
 
-        return $newElement;
+        return $element->addTextRun($styles['paragraph']);
     }
 
     /**
@@ -769,6 +771,11 @@ class Html
                     // https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
                     if (preg_match('#(?:top|bottom|middle|sub|baseline)#i', $cValue, $matches)) {
                         $styles['valign'] = self::mapAlignVertical($matches[0]);
+                    }
+                    break;
+                case 'page-break-after':
+                    if ($cValue == 'always') {
+                        $styles['isPageBreak'] = true;
                     }
                     break;
             }

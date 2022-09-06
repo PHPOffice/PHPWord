@@ -292,6 +292,20 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
+     * Test parsing paragraph with `page-break-after` style
+     */
+    public function testParseParagraphWithPageBreak()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="page-break-after:always;"></p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:br'));
+        $this->assertEquals('page', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:br', 'w:type'));
+    }
+
+    /**
      * Test parsing table
      */
     public function testParseTable()
@@ -776,7 +790,7 @@ HTML;
     /**
      * Parse horizontal rule
      */
-    public function testParseHorizRule()
+    public function testParseHorizontalRule()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
