@@ -41,6 +41,20 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Construct test
+     *
+     * @covers ::__construct
+     * @test
+     */
+    public function testTheConstructWithContents()
+    {
+        $contents = file_get_contents(__DIR__ . '/_files/templates/blank.docx');
+        $object = new TemplateProcessor($contents);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\TemplateProcessor', $object);
+        $this->assertEquals(array(), $object->getVariables());
+    }
+
+    /**
      * Template can be saved in temporary location.
      *
      * @covers ::save

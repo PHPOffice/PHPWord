@@ -95,7 +95,7 @@ class TemplateProcessor
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
-     * @param string $documentTemplate The fully qualified template filename
+     * @param string $documentTemplate The fully qualified template filename, or the file contents
      *
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      * @throws \PhpOffice\PhpWord\Exception\CopyFileException
@@ -108,9 +108,15 @@ class TemplateProcessor
             throw new CreateTemporaryFileException(); // @codeCoverageIgnore
         }
 
-        // Template file cloning
-        if (false === copy($documentTemplate, $this->tempDocumentFilename)) {
-            throw new CopyFileException($documentTemplate, $this->tempDocumentFilename); // @codeCoverageIgnore
+        // If we provided a file name, use it :
+        if (@file_exists($documentTemplate)) {
+            // Template file cloning
+            if (false === copy($documentTemplate, $this->tempDocumentFilename)) {
+                throw new CopyFileException($documentTemplate, $this->tempDocumentFilename); // @codeCoverageIgnore
+            }
+        } else {
+            // The param is not a file name, so it should be the file contents. Save it to a temp file, and use it.
+            file_put_contents($this->tempDocumentFilename, $documentTemplate);
         }
 
         // Temporary document content extraction
@@ -881,7 +887,7 @@ class TemplateProcessor
     }
 
     /**
-     * Saves the result document.
+     * Saves the result document. Returns the path to the temp document file.
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      *
