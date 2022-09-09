@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
@@ -142,7 +143,10 @@ class Image extends AbstractElement
     public function __construct($source, $style = null, $watermark = false, $name = null)
     {
         $this->source = $source;
-        $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
+        if ($style === null) {
+            $style = $this->getImageSizeStyle();
+        }
+        $this->style = $this->setNewStyle(new ImageStyle(), $style, is_null($style));
         $this->setIsWatermark($watermark);
         $this->setName($name);
 
@@ -394,6 +398,29 @@ class Image extends AbstractElement
         }
 
         return $imageData;
+    }
+
+    /**
+     * Get image size styles
+     *
+     * @return array
+     */
+    private function getImageSizeStyle()
+    {
+        $imageData = null;
+        if ($this->sourceType == self::SOURCE_ARCHIVE) {
+            $imageData = $this->getArchiveImageSize($this->source);
+        } elseif ($this->sourceType == self::SOURCE_STRING) {
+            $imageData = $this->getStringImageSize($this->source);
+        } else {
+            $imageData = @getimagesize($this->source);
+        }
+        list($width, $height) = $imageData;
+
+        return array(
+            'width'  => (string) Converter::pixelToPoint((float) $width),
+            'height' => (string) Converter::pixelToPoint((float) $height),
+        );
     }
 
     /**

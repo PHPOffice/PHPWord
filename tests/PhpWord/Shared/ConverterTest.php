@@ -50,6 +50,9 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
             $result = Converter::cmToEmu($value);
             $this->assertEquals(round($value / 2.54 * 96 * 9525), $result);
 
+            $result = Converter::emuToPoint($value);
+            $this->assertEquals(round($value * 0.75 / 9525), $result);
+
             $result = Converter::inchToTwip($value);
             $this->assertEquals($value * 1440, $result);
 

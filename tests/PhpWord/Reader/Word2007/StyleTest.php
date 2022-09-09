@@ -215,6 +215,43 @@ class StyleTest extends AbstractTestReader
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($name));
     }
 
+    public function testReadParagraphWithTabs()
+    {
+        $documentXml = '<w:p>
+            <w:pPr>
+                <w:tabs>
+                    <w:tab w:val="center" w:pos="4536" />
+                    <w:tab w:val="right" w:pos="9072" />
+                </w:tabs>
+            </w:pPr>
+            <w:r>
+                <w:t>Text Left</w:t>
+                <w:tab/>
+                <w:t>Text Center</w:t>
+                <w:tab/>
+                <w:t>Text Right</w:t>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $paragraphStyle = $elements[0]->getParagraphStyle();
+        $tabs = $paragraphStyle->getTabs();
+        $this->assertCount(2, $tabs);
+        list($tabCenter, $tabRight) = $tabs;
+
+        // Tab center
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Tab', $tabCenter);
+        $this->assertEquals($tabCenter->getType(), 'center');
+        $this->assertEquals($tabCenter->getPosition(), 4536);
+
+        // Tab right
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Tab', $tabRight);
+        $this->assertEquals($tabRight->getType(), 'right');
+        $this->assertEquals($tabRight->getPosition(), 9072);
+    }
+
     public function testPageVerticalAlign()
     {
         $documentXml = '<w:sectPr>
