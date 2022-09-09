@@ -179,16 +179,21 @@ class Styles extends AbstractPart
 
         // Heading style
         if ($styleType == 'title') {
-            $arrStyle = explode('_', $styleName);
-            if (count($arrStyle) > 1) {
-                $styleId = 'Heading' . $arrStyle[1];
-                $styleName = 'heading ' . $arrStyle[1];
-                $styleLink = 'Heading' . $arrStyle[1] . 'Char';
+            $styleId = $styleName;
+            $styleLink = $styleName . 'Char';
+
+            // Title with the "Title 1" format
+            if (preg_match("/\d$/", $styleName, $match)) {
+                // get the ending number
+                $i = (int) $match[0];
+                if ($i > 0) {
+                    $styleName = 'heading ' . $i;
+                }
             } else {
-                $styleId = $styleName;
+                // Title out of the "Title 1" format
                 $styleName = strtolower($styleName);
-                $styleLink = $styleName . 'Char';
             }
+
             $xmlWriter->writeAttribute('w:styleId', $styleId);
 
             $xmlWriter->startElement('w:link');

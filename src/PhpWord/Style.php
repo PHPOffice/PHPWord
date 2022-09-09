@@ -91,14 +91,17 @@ class Style
      * @param int|null $depth Provide null to set title font
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
+     * @param null|mixed $styleName
      * @return \PhpOffice\PhpWord\Style\Font
      */
-    public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
+    public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null, $styleName = null)
     {
-        if (empty($depth)) {
-            $styleName = 'Title';
-        } else {
-            $styleName = "Heading_{$depth}";
+        if (is_null($styleName)) {
+            if (empty($depth)) {
+                $styleName = 'Title';
+            } else {
+                $styleName = "Heading{$depth}";
+            }
         }
 
         return self::setStyleValues($styleName, new Font('title', $paragraphStyle), $fontStyle);

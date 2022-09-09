@@ -47,7 +47,15 @@ class Title extends AbstractElement
     private $style;
 
     /**
-     * Is part of collection
+     * Depends on Word version, the titles are not always named "Heading1" …
+     * The prefix "Heading" is named "Titre" in French, "Titulo" en Spanish….
+     *
+     * @var string
+     */
+    protected static $styleNamePrefix = null;
+
+    /**
+     * Is part of collection.
      *
      * @var bool
      */
@@ -69,10 +77,16 @@ class Title extends AbstractElement
             throw new \InvalidArgumentException('Invalid text, should be a string or a TextRun');
         }
 
+        // Default is Heading1, Heading2 … if no prefix has been registered by the style reader
+        if (is_null(self::$styleNamePrefix)) {
+            self::$styleNamePrefix = 'Heading';
+        }
+
         $this->depth = $depth;
-        $styleName = $depth === 0 ? 'Title' : "Heading_{$this->depth}";
+        $styleName = $depth === 0 ? 'Title' : self::$styleNamePrefix . $this->depth;
+
         if (array_key_exists($styleName, Style::getStyles())) {
-            $this->style = str_replace('_', '', $styleName);
+            $this->style = $styleName; // Useless ? str_replace('_', '', $styleName);
         }
     }
 
@@ -104,5 +118,17 @@ class Title extends AbstractElement
     public function getStyle()
     {
         return $this->style;
+    }
+
+    /**
+     * Set a custom title suffix.
+     * The prefix "Heading" is named "Titre" in French, "Titulo" en Spanish…
+     * It necessary to make it custom by the Style Reader.
+     */
+    public static function registerTitleStylePrefix(string $prefix)
+    {
+        if (is_null(self::$styleNamePrefix)) {
+            self::$styleNamePrefix = $prefix;
+        }
     }
 }

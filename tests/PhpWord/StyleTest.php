@@ -67,7 +67,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
             'Font'      => 'Font',
             'Link'      => 'Font',
             'Table'     => 'Table',
-            'Heading_1' => 'Font',
+            'Heading1'  => 'Font',
             'Normal'    => 'Paragraph',
             'Numbering' => 'Numbering',
         );
