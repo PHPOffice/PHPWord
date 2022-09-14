@@ -352,6 +352,35 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
+     * Test parsing table (attribute border)
+     */
+    public function testParseTableAttributeBorder()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<table border="10">
+                <thead>
+                    <tr>
+                        <th>Header</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Cell 1</td></tr>
+                    <tr><td>Cell 2</td></tr>
+                </tbody>
+            </table>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tblPr'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tblPr/w:tblBorders'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tblPr/w:tblBorders/w:top'));
+        // 10 pixels = 150 twips
+        $this->assertEquals(150, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tblPr/w:tblBorders/w:top', 'w:sz'));
+    }
+
+    /**
      * Tests parsing of ul/li
      */
     public function testParseList()

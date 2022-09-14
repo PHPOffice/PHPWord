@@ -372,17 +372,11 @@ class Html
 
         $newElement = $element->addTable($elementStyles);
 
-        // $attributes = $node->attributes;
-        // if ($attributes->getNamedItem('width') !== null) {
-        // $newElement->setWidth($attributes->getNamedItem('width')->value);
-        // }
-
-        // if ($attributes->getNamedItem('height') !== null) {
-        // $newElement->setHeight($attributes->getNamedItem('height')->value);
-        // }
-        // if ($attributes->getNamedItem('width') !== null) {
-        // $newElement=$element->addCell($width=$attributes->getNamedItem('width')->value);
-        // }
+        $attributes = $node->attributes;
+        if ($attributes->getNamedItem('border') !== null) {
+            $border = (int) $attributes->getNamedItem('border')->value;
+            $newElement->getStyle()->setBorderSize(Converter::pixelToTwip($border));
+        }
 
         return $newElement;
     }
