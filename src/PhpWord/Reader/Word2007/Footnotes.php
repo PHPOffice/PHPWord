@@ -51,7 +51,7 @@ class Footnotes extends AbstractPart
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
         $nodes = $xmlReader->getElements('*');
-        if ($nodes->length > 0) {
+        if ($nodes && $nodes->length > 0) {
             foreach ($nodes as $node) {
                 $id = $xmlReader->getAttribute('w:id', $node);
                 $type = $xmlReader->getAttribute('w:type', $node);

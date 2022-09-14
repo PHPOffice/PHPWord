@@ -41,7 +41,7 @@ class Numbering extends AbstractPart
 
         // Abstract numbering definition
         $nodes = $xmlReader->getElements('w:abstractNum');
-        if ($nodes->length > 0) {
+        if ($nodes && $nodes->length > 0) {
             foreach ($nodes as $node) {
                 $abstractId = $xmlReader->getAttribute('w:abstractNumId', $node);
                 $abstracts[$abstractId] = array('levels' => array());
@@ -63,7 +63,7 @@ class Numbering extends AbstractPart
 
         // Numbering instance definition
         $nodes = $xmlReader->getElements('w:num');
-        if ($nodes->length > 0) {
+        if ($nodes && $nodes->length > 0) {
             foreach ($nodes as $node) {
                 $numId = $xmlReader->getAttribute('w:numId', $node);
                 $abstractId = $xmlReader->getAttribute('w:val', $node, 'w:abstractNumId');

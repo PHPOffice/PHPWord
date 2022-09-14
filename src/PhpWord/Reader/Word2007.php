@@ -158,9 +158,17 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $docPart = str_replace('.xml', '', $target);
 
             // Do not add prefix to link source
-            if ($type != 'hyperlink' && $mode != 'External') {
+            if (
+                $type != 'hyperlink'
+                && $mode != 'External'
+                && !empty($targetPrefix)
+                && false === strpos($target, $targetPrefix)
+            ) {
                 $target = $targetPrefix . $target;
             }
+
+            // ZipArchive works with relative paths only
+            $target = trim($target, " \t\n\r\0\x0B/");
 
             // Push to return array
             $rels[$rId] = array('type' => $type, 'target' => $target, 'docPart' => $docPart, 'targetMode' => $mode);
