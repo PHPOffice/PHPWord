@@ -424,19 +424,21 @@ class Settings
         if ($configFile !== null) {
             $config = @parse_ini_file($configFile);
             if ($config === false) {
-                return $config;
+                return array();
             }
         }
 
         // Set config value
+        $appliedConfig = array();
         foreach ($config as $key => $value) {
             $method = "set{$key}";
             if (method_exists(__CLASS__, $method)) {
                 self::$method($value);
+                $appliedConfig[$key] = $value;
             }
         }
 
-        return $config;
+        return $appliedConfig;
     }
 
     /**
