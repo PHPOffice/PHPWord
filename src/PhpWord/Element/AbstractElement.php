@@ -440,11 +440,11 @@ abstract class AbstractElement
      */
     protected function setNewStyle($styleObject, $styleValue = null, $returnObject = false)
     {
-        if (!is_null($styleValue) && is_array($styleValue)) {
+        if (is_null($styleValue) || !is_array($styleValue)) {
+            $style = $returnObject ? $styleObject : $styleValue;
+        } else {
             $styleObject->setStyleByArray($styleValue);
             $style = $styleObject;
-        } else {
-            $style = $returnObject ? $styleObject : $styleValue;
         }
 
         return $style;
@@ -496,12 +496,15 @@ abstract class AbstractElement
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
-        if ($value !== null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
+        if ($value === null || trim($value) == '' || empty($enum) || in_array($value, $enum)) {
+            if ($value === null || trim($value) == '') {
+                $value = $default;
+            } else {
+                return $value;
+            }
+        } else {
             throw new \InvalidArgumentException("Invalid style value: {$value}");
-        } elseif ($value === null || trim($value) == '') {
-            $value = $default;
         }
 
-        return $value;
     }
 }
