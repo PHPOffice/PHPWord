@@ -159,7 +159,15 @@ class Word2007 extends AbstractReader implements ReaderInterface
 
             // Do not add prefix to link source
             if ($type != 'hyperlink' && $mode != 'External') {
-                $target = $targetPrefix . $target;
+                // Do not add prefix if the first character is "/"
+                // For directories outside the word directory
+                // Image path, for example,
+                // when you add an image when editing word with onedrive
+                if (substr($target, 0, 1) === '/') {
+                    $target = ltrim($target, '/');
+                } else {
+                    $target = $targetPrefix . $target;
+                }
             }
 
             // Push to return array

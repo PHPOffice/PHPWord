@@ -78,4 +78,16 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[3]/w:r/w:pict/v:shape/v:imagedata'));
     }
+
+    /**
+     * Load a word file with images added in OneDrive
+     */
+    public function testLoadOneDriveImageWord()
+    {
+        $filename = __DIR__ . '/../_files/documents/reader-onedriveimage.docx';
+        $phpWord = IOFactory::load($filename);
+
+        // OK if no PhpOffice\PhpWord\Exception\InvalidImageException
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+    }
 }
