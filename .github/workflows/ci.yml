@@ -73,7 +73,7 @@ jobs:
         uses: mheap/phpunit-matcher-action@v1
 
       - name: Test with PHPUnit
-        run: ./vendor/bin/phpunit --teamcity --no-coverage -c ./
+        run: ./vendor/bin/phpunit --no-coverage
 
   php-cs-fixer:
     runs-on: ubuntu-latest
