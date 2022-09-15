@@ -660,6 +660,11 @@ abstract class AbstractPart
                 $attribute = ($attribute === null) ? 'w:val' : $attribute;
                 $attributeValue = $xmlReader->getAttribute($attribute, $node);
 
+                // 2022-06-22 23:58:00 Solve the merge problem caused by the word2007 version vMerge not returning w:val='continue'
+                if ($styleProp === 'vMerge' && $node->nodeName === 'w:vMerge' && !$attributeValue) {
+                    $attributeValue = 'continue';
+                }
+
                 $styleValue = $this->readStyleDef($method, $attributeValue, $expected);
                 if ($styleValue !== null) {
                     $styles[$styleProp] = $styleValue;

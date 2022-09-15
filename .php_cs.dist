@@ -3,6 +3,7 @@
 $finder = PhpCsFixer\Finder::create()
     ->notName('pclzip.lib.php')
     ->notName('OLERead.php')
+    ->notName('TOC.php')
     ->in('samples')
     ->in('src')
     ->in('tests');

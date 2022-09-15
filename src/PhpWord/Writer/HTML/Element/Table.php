@@ -49,6 +49,7 @@ class Table extends AbstractElement
                 $content .= '<tr>' . PHP_EOL;
                 $rowCells = $rows[$i]->getCells();
                 $rowCellCount = count($rowCells);
+                $rowColSpanCount = 0;
                 for ($j = 0; $j < $rowCellCount; $j++) {
                     $cellStyle = $rowCells[$j]->getStyle();
                     $cellBgColor = $cellStyle->getBgColor();
@@ -61,20 +62,33 @@ class Table extends AbstractElement
                         $cellFgColor = (($red * 0.299 + $green * 0.587 + $blue * 0.114) > 186) ? null : 'ffffff';
                     }
                     $cellColSpan = $cellStyle->getGridSpan();
+                    $rowColSpanCount += ($cellColSpan ?: 1);
                     $cellRowSpan = 1;
                     $cellVMerge = $cellStyle->getVMerge();
                     // If this is the first cell of the vertical merge, find out how man rows it spans
                     if ($cellVMerge === 'restart') {
+                        $isEnd = false;
                         for ($k = $i + 1; $k < $rowCount; $k++) {
                             $kRowCells = $rows[$k]->getCells();
-                            if (isset($kRowCells[$j])) {
-                                if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
+                            $nextRowColSpanCount = 0;
+                            if ($isEnd) {
+                                break;
+                            }
+                            // fix: Fixed the problem of cell generation merge number error
+                            foreach ($kRowCells as $kRowCell) {
+                                $nextRowCellStyle = $kRowCell->getStyle();
+                                $nextRowCellColSpan = $nextRowCellStyle->getGridSpan();
+                                $nextRowColSpanCount += ($nextRowCellColSpan ?: 1);
+                                // the same cell condition
+                                if ($nextRowColSpanCount !== $rowColSpanCount) {
+                                    continue;
+                                }
+                                if ($nextRowCellStyle->getVMerge() === 'continue') {
                                     $cellRowSpan++;
                                 } else {
+                                    $isEnd = true;
                                     break;
                                 }
-                            } else {
-                                break;
                             }
                         }
                     }
