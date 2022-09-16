@@ -32,7 +32,7 @@ Read more about PHPWord:
 
 ## Features
 
-With PHPWord, you can create OOXML, ODF, or RTF documents dynamically using your PHP 5.3.3+ scripts. Below are some of the things that you can do with PHPWord library:
+With PHPWord, you can create OOXML, ODF, or RTF documents dynamically using your PHP scripts. Below are some of the things that you can do with PHPWord library:
 
 - Set document properties, e.g. title, subject, and creator.
 - Create document sections with different settings, e.g. portrait/landscape, page size, and page numbering
@@ -60,7 +60,7 @@ With PHPWord, you can create OOXML, ODF, or RTF documents dynamically using your
 
 PHPWord requires the following:
 
-- PHP 5.3.3+
+- PHP 7.4+
 - [XML Parser extension](http://www.php.net/manual/en/xml.installation.php)
 - [Laminas Escaper component](https://docs.laminas.dev/laminas-escaper/intro/)
 - [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write OOXML and ODF)

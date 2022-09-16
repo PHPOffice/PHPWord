@@ -410,7 +410,7 @@ class Image extends AbstractElement
         if ($this->sourceType == self::SOURCE_ARCHIVE) {
             $imageData = $this->getArchiveImageSize($this->source);
         } elseif ($this->sourceType == self::SOURCE_STRING) {
-            $imageData = $this->getStringImageSize($this->source);
+            $imageData = @getimagesizefromstring($this->source);
         } else {
             $imageData = @getimagesize($this->source);
         }
@@ -499,26 +499,6 @@ class Image extends AbstractElement
         }
 
         return $imageData;
-    }
-
-    /**
-     * get image size from string
-     *
-     * @param string $source
-     *
-     * @codeCoverageIgnore this method is just a replacement for getimagesizefromstring which exists only as of PHP 5.4
-     */
-    private function getStringImageSize($source)
-    {
-        $result = false;
-        if (!function_exists('getimagesizefromstring')) {
-            $uri = 'data://application/octet-stream;base64,' . base64_encode($source);
-            $result = @getimagesize($uri);
-        } else {
-            $result = @getimagesizefromstring($source);
-        }
-
-        return $result;
     }
 
     /**

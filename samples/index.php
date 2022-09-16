@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 use PhpOffice\PhpWord\Settings;
 
 $requirements = array(
-    'php'   => array('PHP 5.3.3', version_compare(PHP_VERSION, '5.3.3', '>=')),
+    'php'   => array('PHP 7.4', version_compare(PHP_VERSION, '7.4', '>=')),
     'xml'   => array('PHP extension XML', extension_loaded('xml')),
     'temp'  => array('Temp folder "<code>' . Settings::getTempDir() . '</code>" is writable', is_writable(Settings::getTempDir())),
     'zip'   => array('PHP extension ZipArchive (optional)', extension_loaded('zip')),

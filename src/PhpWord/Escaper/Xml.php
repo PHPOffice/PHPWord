@@ -26,7 +26,6 @@ class Xml extends AbstractEscaper
 {
     protected function escapeSingleValue($input)
     {
-        // todo: omit encoding parameter after migration onto PHP 5.4
-        return (!is_null($input)) ? htmlspecialchars($input, ENT_QUOTES, 'UTF-8') : '';
+        return (!is_null($input)) ? htmlspecialchars($input, ENT_QUOTES) : '';
     }
 }

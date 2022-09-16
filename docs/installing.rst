@@ -8,9 +8,9 @@ Requirements
 
 Mandatory:
 
-- PHP 5.3.3+
+- composer
+- PHP 7.4+
 - `XML Parser <http://www.php.net/manual/en/xml.installation.php>`__ extension
-- `Laminas Escaper <https://docs.laminas.dev/laminas-escaper/intro/>`__ component
 
 Optional:
 
