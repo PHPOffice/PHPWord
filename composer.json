@@ -68,6 +68,7 @@
     "require-dev": {
         "ext-zip": "*",
         "ext-gd": "*",
+        "ext-libxml": "*",
         "dompdf/dompdf": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.11",
         "mpdf/mpdf": "^8.1",
@@ -88,6 +89,11 @@
     "autoload": {
         "psr-4": {
             "PhpOffice\\PhpWord\\": "src/PhpWord"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpOffice\\PhpWordTests\\": "tests/PhpWordTests"
         }
     },
     "extra": {

@@ -23,16 +23,3 @@ if (!defined('PHPWORD_TESTS_BASE_DIR')) {
     define('PHPWORD_TESTS_BASE_DIR', realpath(__DIR__));
 }
 
-spl_autoload_register(function ($class): void {
-    $class = ltrim($class, '\\');
-    $prefix = 'PhpOffice\\PhpWord';
-    if (strpos($class, $prefix) === 0) {
-        $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
-        $class = implode(DIRECTORY_SEPARATOR, ['PhpWord', '_includes']) .
-            substr($class, strlen($prefix));
-        $file = __DIR__ . DIRECTORY_SEPARATOR . $class . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-        }
-    }
-});
