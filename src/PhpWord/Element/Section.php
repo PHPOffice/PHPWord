@@ -153,20 +153,6 @@ class Section extends AbstractContainer
     }
 
     /**
-     * Get the footnote properties.
-     *
-     * @deprecated Use the `getFootnoteProperties` method instead
-     *
-     * @return FootnoteProperties
-     *
-     * @codeCoverageIgnore
-     */
-    public function getFootnotePropoperties()
-    {
-        return $this->footnoteProperties;
-    }
-
-    /**
      * Set the footnote properties.
      *
      * @param FootnoteProperties $footnoteProperties
@@ -229,79 +215,5 @@ class Section extends AbstractContainer
         }
 
         throw new Exception('Invalid header/footer type.');
-    }
-
-    /**
-     * Set section style.
-     *
-     * @deprecated 0.12.0
-     *
-     * @param array $settings
-     *
-     * @codeCoverageIgnore
-     */
-    public function setSettings($settings = null): void
-    {
-        $this->setStyle($settings);
-    }
-
-    /**
-     * Get section style.
-     *
-     * @deprecated 0.12.0
-     *
-     * @return \PhpOffice\PhpWord\Style\Section
-     *
-     * @codeCoverageIgnore
-     */
-    public function getSettings()
-    {
-        return $this->getStyle();
-    }
-
-    /**
-     * Create header.
-     *
-     * @deprecated 0.10.0
-     *
-     * @return Header
-     *
-     * @codeCoverageIgnore
-     */
-    public function createHeader()
-    {
-        return $this->addHeader();
-    }
-
-    /**
-     * Create footer.
-     *
-     * @deprecated 0.10.0
-     *
-     * @return Footer
-     *
-     * @codeCoverageIgnore
-     */
-    public function createFooter()
-    {
-        return $this->addFooter();
-    }
-
-    /**
-     * Get footer.
-     *
-     * @deprecated 0.10.0
-     *
-     * @return Footer
-     *
-     * @codeCoverageIgnore
-     */
-    public function getFooter()
-    {
-        if (empty($this->footers)) {
-            return null;
-        }
-
-        return $this->footers[1];
     }
 }

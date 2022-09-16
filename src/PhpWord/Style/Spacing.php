@@ -161,36 +161,4 @@ class Spacing extends AbstractStyle
 
         return $this;
     }
-
-    /**
-     * Get line rule.
-     *
-     * @return string
-     *
-     * @deprecated Use getLineRule() instead
-     *
-     * @codeCoverageIgnore
-     */
-    public function getRule()
-    {
-        return $this->lineRule;
-    }
-
-    /**
-     * Set line rule.
-     *
-     * @param string $value
-     *
-     * @return self
-     *
-     * @deprecated Use setLineRule() instead
-     *
-     * @codeCoverageIgnore
-     */
-    public function setRule($value = null)
-    {
-        $this->lineRule = $value;
-
-        return $this;
-    }
 }

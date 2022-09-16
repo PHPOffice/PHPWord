@@ -122,18 +122,4 @@ class HTML extends AbstractWriter implements WriterInterface
     {
         $this->notes[$noteId] = $noteMark;
     }
-
-    /**
-     * Write document.
-     *
-     * @deprecated 0.11.0
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
-    public function writeDocument()
-    {
-        return $this->getContent();
-    }
 }

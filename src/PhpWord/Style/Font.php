@@ -33,14 +33,6 @@ class Font extends AbstractStyle
     const UNDERLINE_DASHLONG = 'dashLong';
     const UNDERLINE_DASHLONGHEAVY = 'dashLongHeavy';
     const UNDERLINE_DOUBLE = 'dbl';
-    /**
-     * @deprecated use UNDERLINE_DOTHASH instead, TODO remove in version 1.0
-     */
-    const UNDERLINE_DOTHASH = 'dotDash';  // Incorrect spelling, for backwards compatibility
-    /**
-     * @deprecated use UNDERLINE_DOTDASHHEAVY instead, TODO remove in version 1.0
-     */
-    const UNDERLINE_DOTHASHHEAVY = 'dotDashHeavy';  // Incorrect spelling, for backwards compatibility
     const UNDERLINE_DOTDASH = 'dotDash';
     const UNDERLINE_DOTDASHHEAVY = 'dotDashHeavy';
     const UNDERLINE_DOTDOTDASH = 'dotDotDash';
@@ -905,78 +897,6 @@ class Font extends AbstractStyle
         $this->setObjectVal($value, 'Language', $this->lang);
 
         return $this;
-    }
-
-    /**
-     * Get bold.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getBold()
-    {
-        return $this->isBold();
-    }
-
-    /**
-     * Get italic.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getItalic()
-    {
-        return $this->isItalic();
-    }
-
-    /**
-     * Get superscript.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getSuperScript()
-    {
-        return $this->isSuperScript();
-    }
-
-    /**
-     * Get subscript.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getSubScript()
-    {
-        return $this->isSubScript();
-    }
-
-    /**
-     * Get strikethrough.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getStrikethrough()
-    {
-        return $this->isStrikethrough();
-    }
-
-    /**
-     * Get paragraph style.
-     *
-     * @deprecated 0.11.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getParagraphStyle()
-    {
-        return $this->getParagraph();
     }
 
     /**

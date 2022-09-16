@@ -22,7 +22,7 @@ $tableStyle = ['borderSize' => 6, 'borderColor' => '000000', 'width' => 5000, 'u
 $table = $section->addTable($tableStyle);
 $cellHCentered = ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER];
 $cellHEnd = ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END];
-$cellVCentered = ['valign' => \PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER];
+$cellVCentered = ['valign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER];
 
 //Vidually bidirectinal table
 $table->addRow();

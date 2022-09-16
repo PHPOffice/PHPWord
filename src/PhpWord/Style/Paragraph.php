@@ -273,32 +273,6 @@ class Paragraph extends Border
     }
 
     /**
-     * @deprecated 0.13.0 Use the `getAlignment` method instead.
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
-    public function getAlign()
-    {
-        return $this->getAlignment();
-    }
-
-    /**
-     * @deprecated 0.13.0 Use the `setAlignment` method instead.
-     *
-     * @param string $value
-     *
-     * @return self
-     *
-     * @codeCoverageIgnore
-     */
-    public function setAlign($value = null)
-    {
-        return $this->setAlignment($value);
-    }
-
-    /**
      * Get parent style ID.
      *
      * @return string
@@ -732,54 +706,6 @@ class Paragraph extends Border
         }
 
         return $this;
-    }
-
-    /**
-     * Get allow first/last line to display on a separate page setting.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getWidowControl()
-    {
-        return $this->hasWidowControl();
-    }
-
-    /**
-     * Get keep paragraph with next paragraph setting.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getKeepNext()
-    {
-        return $this->isKeepNext();
-    }
-
-    /**
-     * Get keep all lines on one page setting.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getKeepLines()
-    {
-        return $this->isKeepLines();
-    }
-
-    /**
-     * Get start paragraph on next page setting.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getPageBreakBefore()
-    {
-        return $this->hasPageBreakBefore();
     }
 
     /**

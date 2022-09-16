@@ -18,6 +18,8 @@
 namespace PhpOffice\PhpWordTests\Style;
 
 use InvalidArgumentException;
+use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Paragraph;
 use ReflectionClass;
 
 /**
@@ -36,6 +38,22 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
         $stub->setStyleByArray(['index' => 1]);
 
         self::assertEquals(1, $stub->getIndex());
+    }
+
+    public function testSetStyleByArrayWithAlign(): void
+    {
+        $stub = new Paragraph();
+        $stub->setStyleByArray(['align' => Jc::CENTER]);
+
+        self::assertEquals(Jc::CENTER, $stub->getAlignment());
+    }
+
+    public function testSetStyleByArrayWithAlignment(): void
+    {
+        $stub = new Paragraph();
+        $stub->setStyleByArray(['alignment' => Jc::CENTER]);
+
+        self::assertEquals(Jc::CENTER, $stub->getAlignment());
     }
 
     /**

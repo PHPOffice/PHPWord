@@ -285,36 +285,4 @@ abstract class AbstractContainer extends AbstractElement
 
         return true;
     }
-
-    /**
-     * Create textrun element.
-     *
-     * @deprecated 0.10.0
-     *
-     * @param mixed $paragraphStyle
-     *
-     * @return \PhpOffice\PhpWord\Element\TextRun
-     *
-     * @codeCoverageIgnore
-     */
-    public function createTextRun($paragraphStyle = null)
-    {
-        return $this->addTextRun($paragraphStyle);
-    }
-
-    /**
-     * Create footnote element.
-     *
-     * @deprecated 0.10.0
-     *
-     * @param mixed $paragraphStyle
-     *
-     * @return \PhpOffice\PhpWord\Element\Footnote
-     *
-     * @codeCoverageIgnore
-     */
-    public function createFootnote($paragraphStyle = null)
-    {
-        return $this->addFootnote($paragraphStyle);
-    }
 }

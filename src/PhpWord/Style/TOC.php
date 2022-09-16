@@ -23,18 +23,6 @@ namespace PhpOffice\PhpWord\Style;
 class TOC extends Tab
 {
     /**
-     * Tab leader types for backward compatibility.
-     *
-     * @deprecated 0.11.0
-     *
-     * @const string
-     */
-    const TABLEADER_DOT = self::TAB_LEADER_DOT;
-    const TABLEADER_UNDERSCORE = self::TAB_LEADER_UNDERSCORE;
-    const TABLEADER_LINE = self::TAB_LEADER_HYPHEN;
-    const TABLEADER_NONE = self::TAB_LEADER_NONE;
-
-    /**
      * Indent.
      *
      * @var float|int (twip)

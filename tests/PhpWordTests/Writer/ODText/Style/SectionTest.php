@@ -42,10 +42,10 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $margins = \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
         $phpWord->addFontStyle('hdrstyle1', ['name' => 'Courier New', 'size' => 8]);
         $section = $phpWord->addSection(['paperSize' => 'Letter', 'marginTop' => $margins, 'marginBottom' => $margins]);
-        $header = $section->createHeader();
+        $header = $section->addHeader();
         $phpWord->addParagraphStyle('centerheader', ['align' => 'center']);
         $header->addText('Centered Header', 'hdrstyle1', 'centerheader');
-        $footer = $section->createFooter();
+        $footer = $section->addFooter();
         $sizew = $section->getStyle()->getPageSizeW();
         $sizel = $section->getStyle()->getMarginLeft();
         $sizer = $section->getStyle()->getMarginRight();
@@ -177,7 +177,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection(['paperSize' => 'Letter', 'Orientation' => 'portrait']);
         $section->addText('This section uses Letter paper in portrait orientation.');
         $section = $phpWord->addSection(['paperSize' => 'A4', 'Orientation' => 'landscape', 'pageNumberingStart' => '9']);
-        $header = $section->createHeader();
+        $header = $section->addHeader();
         $header->addField('PAGE');
         $section->addText('This section uses A4 paper in landscape orientation. It should have a page break beforehand. It artificially starts on page 9.');
 

@@ -149,7 +149,7 @@ class ElementTest extends AbstractTestReader
         self::assertEquals('Two', $listElements[0]->getText());
         self::assertEquals(' with ', $listElements[1]->getText());
         self::assertEquals('bold', $listElements[2]->getText());
-        self::assertTrue($listElements[2]->getFontStyle()->getBold());
+        self::assertTrue($listElements[2]->getFontStyle()->isBold());
     }
 
     /**

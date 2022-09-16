@@ -31,7 +31,7 @@ class Settings
      */
     const ZIPARCHIVE = 'ZipArchive';
     const PCLZIP = 'PclZip';
-    const OLD_LIB = 'PhpOffice\\PhpWord\\Shared\\ZipArchive'; // @deprecated 0.11
+    const OLD_LIB = \PhpOffice\PhpWord\Shared\ZipArchive::class; // @deprecated 0.11
 
     /**
      * PDF rendering libraries.
@@ -479,17 +479,5 @@ class Settings
         }
 
         return false;
-    }
-
-    /**
-     * Return the compatibility option used by the XMLWriter.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public static function getCompatibility()
-    {
-        return self::hasCompatibility();
     }
 }

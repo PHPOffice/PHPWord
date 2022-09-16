@@ -109,16 +109,4 @@ abstract class AbstractReader implements ReaderInterface
 
         return true;
     }
-
-    /**
-     * Read data only?
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getReadDataOnly()
-    {
-        return $this->isReadDataOnly();
-    }
 }

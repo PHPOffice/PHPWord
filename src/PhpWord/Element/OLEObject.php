@@ -136,32 +136,4 @@ class OLEObject extends AbstractElement
     {
         $this->imageRelationId = $rId;
     }
-
-    /**
-     * Get Object ID.
-     *
-     * @deprecated 0.10.0
-     *
-     * @return int
-     *
-     * @codeCoverageIgnore
-     */
-    public function getObjectId()
-    {
-        return $this->relationId + 1325353440;
-    }
-
-    /**
-     * Set Object ID.
-     *
-     * @deprecated 0.10.0
-     *
-     * @param int $objId
-     *
-     * @codeCoverageIgnore
-     */
-    public function setObjectId($objId): void
-    {
-        $this->relationId = $objId;
-    }
 }

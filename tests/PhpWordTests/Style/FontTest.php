@@ -46,7 +46,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $object = new Font('text', ['alignment' => Jc::BOTH]);
 
         self::assertEquals('text', $object->getStyleType());
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
+        self::assertInstanceOf(\PhpOffice\PhpWord\Style\Paragraph::class, $object->getParagraph());
         self::assertIsArray($object->getStyleValues());
     }
 

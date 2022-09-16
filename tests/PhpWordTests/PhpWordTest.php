@@ -118,38 +118,6 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test load template.
-     *
-     * @deprecated 0.12.0
-     */
-    public function testLoadTemplate(): void
-    {
-        $templateFqfn = __DIR__ . '/_files/templates/blank.docx';
-
-        $phpWord = new PhpWord();
-        self::assertInstanceOf(
-            'PhpOffice\\PhpWord\\TemplateProcessor',
-            $phpWord->loadTemplate($templateFqfn)
-        );
-    }
-
-    /**
-     * Test load template exception.
-     *
-     * @deprecated 0.12.0
-     */
-    public function testLoadTemplateException(): void
-    {
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
-        $templateFqfn = implode(
-            DIRECTORY_SEPARATOR,
-            [PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx']
-        );
-        $phpWord = new PhpWord();
-        $phpWord->loadTemplate($templateFqfn);
-    }
-
-    /**
      * Test save.
      */
     public function testSave(): void

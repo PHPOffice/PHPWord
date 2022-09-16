@@ -24,19 +24,6 @@ use PhpOffice\PhpWord\SimpleType\TblWidth;
 
 class Table extends Border
 {
-    /**
-     * @deprecated Use \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO instead
-     */
-    const WIDTH_AUTO = 'auto'; // Automatically determined width
-    /**
-     * @deprecated Use \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT instead
-     */
-    const WIDTH_PERCENT = 'pct'; // Width in fiftieths (1/50) of a percent (1% = 50 unit)
-    /**
-     * @deprecated Use \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP instead
-     */
-    const WIDTH_TWIP = 'dxa'; // Width in twentieths (1/20) of a point (twip)
-
     //values for http://www.datypic.com/sc/ooxml/t-w_ST_TblLayoutType.html
     /**
      * AutoFit Table Layout.
@@ -594,32 +581,6 @@ class Table extends Border
         }
 
         return $this;
-    }
-
-    /**
-     * @deprecated 0.13.0 Use the `getAlignment` method instead.
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
-    public function getAlign()
-    {
-        return $this->getAlignment();
-    }
-
-    /**
-     * @deprecated 0.13.0 Use the `setAlignment` method instead.
-     *
-     * @param string $value
-     *
-     * @return self
-     *
-     * @codeCoverageIgnore
-     */
-    public function setAlign($value = null)
-    {
-        return $this->setAlignment($value);
     }
 
     /**

@@ -170,6 +170,11 @@ abstract class AbstractStyle
         if (isset($this->aliases[$key])) {
             $key = $this->aliases[$key];
         }
+
+        if ($key === 'align') {
+            $key = 'alignment';
+        }
+
         $method = 'set' . Text::removeUnderscorePrefix($key);
         if (method_exists($this, $method)) {
             $this->$method($value);
@@ -349,19 +354,5 @@ abstract class AbstractStyle
         }
 
         return $this;
-    }
-
-    /**
-     * Set style using associative array.
-     *
-     * @deprecated 0.11.0
-     *
-     * @return self
-     *
-     * @codeCoverageIgnore
-     */
-    public function setArrayStyle(array $style = [])
-    {
-        return $this->setStyleByArray($style);
     }
 }

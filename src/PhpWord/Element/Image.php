@@ -554,28 +554,4 @@ class Image extends AbstractElement
             }
         }
     }
-
-    /**
-     * Get is watermark.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getIsWatermark()
-    {
-        return $this->isWatermark();
-    }
-
-    /**
-     * Get is memory image.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getIsMemImage()
-    {
-        return $this->isMemImage();
-    }
 }

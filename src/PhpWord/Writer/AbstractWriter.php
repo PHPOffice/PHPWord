@@ -417,16 +417,4 @@ abstract class AbstractWriter implements WriterInterface
 
         rmdir($dir);
     }
-
-    /**
-     * Get use disk caching status.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getUseDiskCaching()
-    {
-        return $this->isUseDiskCaching();
-    }
 }

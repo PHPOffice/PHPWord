@@ -25,27 +25,6 @@ use PhpOffice\PhpWord\SimpleType\VerticalJc;
  */
 class Cell extends Border
 {
-    /**
-     * Vertical alignment constants.
-     *
-     * @const string
-     *
-     * @deprecated Use \PhpOffice\PhpWord\SimpleType\VerticalJc::TOP instead
-     */
-    const VALIGN_TOP = 'top';
-    /**
-     * @deprecated Use \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER instead
-     */
-    const VALIGN_CENTER = 'center';
-    /**
-     * @deprecated Use \PhpOffice\PhpWord\SimpleType\VerticalJc::BOTTOM instead
-     */
-    const VALIGN_BOTTOM = 'bottom';
-    /**
-     * @deprecated Use \PhpOffice\PhpWord\SimpleType\VerticalJc::BOTH instead
-     */
-    const VALIGN_BOTH = 'both';
-
     //Text direction constants
     /**
      * Left to Right, Top to Bottom.
@@ -332,17 +311,5 @@ class Cell extends Border
         $this->unit = $this->setEnumVal($value, [TblWidth::AUTO, TblWidth::PERCENT, TblWidth::TWIP], TblWidth::TWIP);
 
         return $this;
-    }
-
-    /**
-     * Get default border color.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getDefaultBorderColor()
-    {
-        return self::DEFAULT_BORDER_COLOR;
     }
 }

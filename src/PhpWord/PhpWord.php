@@ -45,27 +45,6 @@ use PhpOffice\PhpWord\Exception\Exception;
 class PhpWord
 {
     /**
-     * Default font settings.
-     *
-     * @deprecated 0.11.0 Use Settings constants
-     *
-     * @const string|int
-     */
-    const DEFAULT_FONT_NAME = Settings::DEFAULT_FONT_NAME;
-    /**
-     * @deprecated 0.11.0 Use Settings constants
-     */
-    const DEFAULT_FONT_SIZE = Settings::DEFAULT_FONT_SIZE;
-    /**
-     * @deprecated 0.11.0 Use Settings constants
-     */
-    const DEFAULT_FONT_COLOR = Settings::DEFAULT_FONT_COLOR;
-    /**
-     * @deprecated 0.11.0 Use Settings constants
-     */
-    const DEFAULT_FONT_CONTENT_TYPE = Settings::DEFAULT_FONT_CONTENT_TYPE;
-
-    /**
      * Collection of sections.
      *
      * @var \PhpOffice\PhpWord\Element\Section[]
@@ -177,21 +156,6 @@ class PhpWord
     public function getDocInfo()
     {
         return $this->metadata['DocInfo'];
-    }
-
-    /**
-     * Get protection.
-     *
-     * @return \PhpOffice\PhpWord\Metadata\Protection
-     *
-     * @since 0.12.0
-     * @deprecated Get the Document protection from PhpWord->getSettings()->getDocumentProtection();
-     *
-     * @codeCoverageIgnore
-     */
-    public function getProtection()
-    {
-        return $this->getSettings()->getDocumentProtection();
     }
 
     /**
@@ -325,26 +289,6 @@ class PhpWord
     }
 
     /**
-     * Load template by filename.
-     *
-     * @deprecated 0.12.0 Use `new TemplateProcessor($documentTemplate)` instead.
-     *
-     * @param  string $filename Fully qualified filename
-     *
-     * @return TemplateProcessor
-     *
-     * @codeCoverageIgnore
-     */
-    public function loadTemplate($filename)
-    {
-        if (file_exists($filename)) {
-            return new TemplateProcessor($filename);
-        }
-
-        throw new Exception("Template file {$filename} not found.");
-    }
-
-    /**
      * Save to file or download.
      *
      * All exceptions should already been handled by the writers
@@ -380,53 +324,5 @@ class PhpWord
         $writer->save($filename);
 
         return true;
-    }
-
-    /**
-     * Create new section.
-     *
-     * @deprecated 0.10.0
-     *
-     * @param array $settings
-     *
-     * @return \PhpOffice\PhpWord\Element\Section
-     *
-     * @codeCoverageIgnore
-     */
-    public function createSection($settings = null)
-    {
-        return $this->addSection($settings);
-    }
-
-    /**
-     * Get document properties object.
-     *
-     * @deprecated 0.12.0
-     *
-     * @return \PhpOffice\PhpWord\Metadata\DocInfo
-     *
-     * @codeCoverageIgnore
-     */
-    public function getDocumentProperties()
-    {
-        return $this->getDocInfo();
-    }
-
-    /**
-     * Set document properties object.
-     *
-     * @deprecated 0.12.0
-     *
-     * @param \PhpOffice\PhpWord\Metadata\DocInfo $documentProperties
-     *
-     * @return self
-     *
-     * @codeCoverageIgnore
-     */
-    public function setDocumentProperties($documentProperties)
-    {
-        $this->metadata['Document'] = $documentProperties;
-
-        return $this;
     }
 }

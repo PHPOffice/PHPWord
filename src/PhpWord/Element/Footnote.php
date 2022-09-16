@@ -60,32 +60,4 @@ class Footnote extends AbstractContainer
     {
         return $this->paragraphStyle;
     }
-
-    /**
-     * Get Footnote Reference ID.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     *
-     * @return int
-     */
-    public function getReferenceId()
-    {
-        return $this->getRelationId();
-    }
-
-    /**
-     * Set Footnote Reference ID.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     *
-     * @param int $rId
-     */
-    public function setReferenceId($rId): void
-    {
-        $this->setRelationId($rId);
-    }
 }

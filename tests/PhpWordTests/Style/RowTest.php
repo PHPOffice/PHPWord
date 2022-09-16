@@ -43,7 +43,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         foreach ($properties as $key => $value) {
             // set/get
             $set = "set{$key}";
-            $get = "get{$key}";
+            $get = "is{$key}";
             $expected = $value ? 1 : 0;
             $object->$set($value);
             self::assertEquals($expected, $object->$get());
@@ -70,7 +70,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         ];
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
-            $get = "get{$key}";
+            $get = "is{$key}";
             $object->$set($value);
             self::assertFalse($object->$get());
         }

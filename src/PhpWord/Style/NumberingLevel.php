@@ -329,32 +329,6 @@ class NumberingLevel extends AbstractStyle
     }
 
     /**
-     * @deprecated 0.13.0 Use the `getAlignment` method instead.
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
-    public function getAlign()
-    {
-        return $this->getAlignment();
-    }
-
-    /**
-     * @deprecated 0.13.0 Use the `setAlignment` method instead.
-     *
-     * @param string $value
-     *
-     * @return self
-     *
-     * @codeCoverageIgnore
-     */
-    public function setAlign($value)
-    {
-        return $this->setAlignment($value);
-    }
-
-    /**
      * Get left.
      *
      * @return int

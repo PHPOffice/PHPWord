@@ -127,48 +127,6 @@ class Link extends AbstractElement
     }
 
     /**
-     * Get link target.
-     *
-     * @deprecated 0.12.0
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
-    public function getTarget()
-    {
-        return $this->source;
-    }
-
-    /**
-     * Get Link source.
-     *
-     * @deprecated 0.10.0
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
-    public function getLinkSrc()
-    {
-        return $this->getSource();
-    }
-
-    /**
-     * Get Link name.
-     *
-     * @deprecated 0.10.0
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
-    public function getLinkName()
-    {
-        return $this->getText();
-    }
-
-    /**
      * is internal.
      *
      * @return bool

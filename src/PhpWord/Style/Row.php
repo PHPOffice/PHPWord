@@ -123,40 +123,4 @@ class Row extends AbstractStyle
 
         return $this;
     }
-
-    /**
-     * Get tblHeader.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getTblHeader()
-    {
-        return $this->isTblHeader();
-    }
-
-    /**
-     * Get cantSplit.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getCantSplit()
-    {
-        return $this->isCantSplit();
-    }
-
-    /**
-     * Get exactHeight.
-     *
-     * @deprecated 0.10.0
-     *
-     * @codeCoverageIgnore
-     */
-    public function getExactHeight()
-    {
-        return $this->isExactHeight();
-    }
 }
