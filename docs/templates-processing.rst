@@ -69,6 +69,22 @@ Example:
         return array('path' => SlowFeatureImageGenerator::make(), 'width' => 100, 'height' => 100, 'ratio' => false);
     });
 
+setHyperLink
+"""""""""""""
+Replaces a ${hyperlink} with the Link element creating an external hyperlink in the document. 
+
+Example:
+
+.. code-block:: clean
+
+    This will insert a ${hyperlink} into document template.
+
+.. code-block:: php
+
+    $templateProcessor = new TemplateProcessor('Template.docx');
+	$link = new \PhpOffice\PhpWord\Element\Link('https://github.com/PHPOffice/PHPWord', 'PHPOffice PHPWord');
+    $templateProcessor->setHyperLink('hyperlink', $link);
+
 cloneBlock
 """"""""""
 Given a template containing

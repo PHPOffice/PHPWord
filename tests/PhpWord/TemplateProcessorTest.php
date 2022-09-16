@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 
@@ -464,6 +465,66 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         unlink($resultFileName);
 
         $this->assertNotContains('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
+    }
+
+    /**
+     * @covers ::setHyperLink
+     * @test
+     */
+    public function testSetHyperLink()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/hyperlink.docx');
+        $hyperLinkUrl = 'https://github.com/PHPOffice/PHPWord';
+        $hyperLinkText = 'PHPOffice PHPWord';
+        $link = new Link($hyperLinkUrl, $hyperLinkText);
+
+        $templateProcessor->setHyperLink('documentContent', $link);
+
+        $docName = 'hyperlink-test-result.docx';
+        $templateProcessor->saveAs($docName);
+
+        $this->assertFileExists($docName, "Generated file '{$docName}' not found!");
+
+        $expectedDocumentZip = new \ZipArchive();
+        $expectedDocumentZip->open($docName);
+        $expectedDocumentRelationsXml = $expectedDocumentZip->getFromName('word/_rels/document.xml.rels');
+        $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+        if (false === $expectedDocumentZip->close()) {
+            throw new \Exception("Could not close zip file \"{$docName}\".");
+        }
+
+        $this->assertNotContains('${documentContent}', $expectedMainPartXml, 'word/document.xml has no hyperlink.');
+        $this->assertContains($hyperLinkUrl, $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "' . $hyperLinkUrl . '"');
+
+        unlink($docName);
+
+        // dynamic generated doc
+        $testFileName = 'images-test-sample.docx';
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('${Test}');
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($testFileName);
+        $this->assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
+
+        $resultFileName = 'images-test-result.docx';
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($testFileName);
+        unlink($testFileName);
+        $templateProcessor->setHyperLink('Test', $link);
+        $templateProcessor->setHyperLink('Test1', $link);
+        $templateProcessor->setHyperLink('Test2', $link);
+        $templateProcessor->saveAs($resultFileName);
+        $this->assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
+
+        $expectedDocumentZip = new \ZipArchive();
+        $expectedDocumentZip->open($resultFileName);
+        $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+        if (false === $expectedDocumentZip->close()) {
+            throw new \Exception("Could not close zip file \"{$resultFileName}\".");
+        }
+        unlink($resultFileName);
+
+        $this->assertNotContains('${Test}', $expectedMainPartXml, 'word/document.xml has no hyperlink.');
     }
 
     /**
