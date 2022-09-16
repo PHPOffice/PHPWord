@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Exception;
 
 /**
  * @covers \PhpOffice\PhpWord\Exception\CopyFileException
+ *
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\CopyFileException
  */
 class CopyFileExceptionTest extends \PHPUnit\Framework\TestCase
@@ -27,11 +28,11 @@ class CopyFileExceptionTest extends \PHPUnit\Framework\TestCase
      * CopyFileException can be thrown.
      *
      * @covers            ::__construct()
-     * @test
      */
-    public function testCopyFileExceptionCanBeThrown()
+    public function testCopyFileExceptionCanBeThrown(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\CopyFileException::class);
+
         throw new CopyFileException('C:\source\dummy.txt', 'C:\destination\dummy.txt');
     }
 }

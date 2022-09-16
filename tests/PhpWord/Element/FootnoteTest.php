@@ -11,107 +11,107 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Footnote
+ * Test class for PhpOffice\PhpWord\Element\Footnote.
  *
  * @runTestsInSeparateProcesses
  */
 class FootnoteTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * New instance without parameter
+     * New instance without parameter.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $oFootnote = new Footnote();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $oFootnote);
-        $this->assertCount(0, $oFootnote->getElements());
-        $this->assertNull($oFootnote->getParagraphStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $oFootnote);
+        self::assertCount(0, $oFootnote->getElements());
+        self::assertNull($oFootnote->getParagraphStyle());
     }
 
     /**
-     * New instance with string parameter
+     * New instance with string parameter.
      */
-    public function testConstructString()
+    public function testConstructString(): void
     {
         $oFootnote = new Footnote('pStyle');
 
-        $this->assertEquals('pStyle', $oFootnote->getParagraphStyle());
+        self::assertEquals('pStyle', $oFootnote->getParagraphStyle());
     }
 
     /**
-     * New instance with array parameter
+     * New instance with array parameter.
      */
-    public function testConstructArray()
+    public function testConstructArray(): void
     {
-        $oFootnote = new Footnote(array('spacing' => 100));
+        $oFootnote = new Footnote(['spacing' => 100]);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             'PhpOffice\\PhpWord\\Style\\Paragraph',
             $oFootnote->getParagraphStyle()
         );
     }
 
     /**
-     * Add text element
+     * Add text element.
      */
-    public function testAddText()
+    public function testAddText(): void
     {
         $oFootnote = new Footnote();
         $element = $oFootnote->addText('text');
 
-        $this->assertCount(1, $oFootnote->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
+        self::assertCount(1, $oFootnote->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
     }
 
     /**
-     * Add text break element
+     * Add text break element.
      */
-    public function testAddTextBreak()
+    public function testAddTextBreak(): void
     {
         $oFootnote = new Footnote();
         $oFootnote->addTextBreak(2);
 
-        $this->assertCount(2, $oFootnote->getElements());
+        self::assertCount(2, $oFootnote->getElements());
     }
 
     /**
-     * Add link element
+     * Add link element.
      */
-    public function testAddLink()
+    public function testAddLink(): void
     {
         $oFootnote = new Footnote();
         $element = $oFootnote->addLink('https://github.com/PHPOffice/PHPWord');
 
-        $this->assertCount(1, $oFootnote->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
+        self::assertCount(1, $oFootnote->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
     }
 
     /**
-     * Set/get reference Id
+     * Set/get reference Id.
      */
-    public function testReferenceId()
+    public function testReferenceId(): void
     {
         $oFootnote = new Footnote();
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oFootnote->setRelationId($iVal);
-        $this->assertEquals($iVal, $oFootnote->getRelationId());
+        self::assertEquals($iVal, $oFootnote->getRelationId());
     }
 
     /**
-     * Get elements
+     * Get elements.
      */
-    public function testGetElements()
+    public function testGetElements(): void
     {
         $oFootnote = new Footnote();
-        $this->assertIsArray($oFootnote->getElements());
+        self::assertIsArray($oFootnote->getElements());
     }
 }

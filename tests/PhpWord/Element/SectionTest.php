@@ -11,59 +11,62 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
 /**
  * @covers \PhpOffice\PhpWord\Element\Section
+ *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Section
+ *
  * @runTestsInSeparateProcesses
  */
 class SectionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testConstructorWithDefaultStyle()
+    public function testConstructorWithDefaultStyle(): void
     {
         $section = new Section(0);
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $section->getStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $section->getStyle());
     }
 
-    public function testConstructorWithArrayStyle()
+    public function testConstructorWithArrayStyle(): void
     {
-        $section = new Section(0, array('orientation' => 'landscape'));
+        $section = new Section(0, ['orientation' => 'landscape']);
         $style = $section->getStyle();
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $style);
-        $this->assertEquals('landscape', $style->getOrientation());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $style);
+        self::assertEquals('landscape', $style->getOrientation());
     }
 
-    public function testConstructorWithObjectStyle()
+    public function testConstructorWithObjectStyle(): void
     {
         $style = new SectionStyle();
         $section = new Section(0, $style);
-        $this->assertSame($style, $section->getStyle());
+        self::assertSame($style, $section->getStyle());
     }
 
     /**
      * @covers ::setStyle
      */
-    public function testSetStyle()
+    public function testSetStyle(): void
     {
         $expected = 'landscape';
         $object = new Section(0);
-        $object->setStyle(array('orientation' => $expected, 'foo' => null));
-        $this->assertEquals($expected, $object->getStyle()->getOrientation());
+        $object->setStyle(['orientation' => $expected, 'foo' => null]);
+        self::assertEquals($expected, $object->getStyle()->getOrientation());
     }
 
     /**
      * @coversNothing
      */
-    public function testAddElements()
+    public function testAddElements(): void
     {
         $objectSource = __DIR__ . '/../_files/documents/reader.docx';
         $imageSource = __DIR__ . '/../_files/images/PhpWord.png';
@@ -85,7 +88,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $section->addTOC();
 
         $elementCollection = $section->getElements();
-        $elementTypes = array(
+        $elementTypes = [
             'Text',
             'Link',
             'TextBreak',
@@ -99,18 +102,18 @@ class SectionTest extends \PHPUnit\Framework\TestCase
             'Footnote',
             'CheckBox',
             'TOC',
-        );
+        ];
         $elmCount = 0;
         foreach ($elementTypes as $elementType) {
-            $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$elementType}", $elementCollection[$elmCount]);
-            $elmCount++;
+            self::assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$elementType}", $elementCollection[$elmCount]);
+            ++$elmCount;
         }
     }
 
     /**
      * @coversNothing
      */
-    public function testAddObjectException()
+    public function testAddObjectException(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\InvalidObjectException::class);
         $source = __DIR__ . '/_files/xsl/passthrough.xsl';
@@ -119,67 +122,67 @@ class SectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Add title with predefined style
+     * Add title with predefined style.
      *
      * @coversNothing
      */
-    public function testAddTitleWithStyle()
+    public function testAddTitleWithStyle(): void
     {
-        Style::addTitleStyle(1, array('size' => 14));
+        Style::addTitleStyle(1, ['size' => 14]);
         $section = new Section(0);
         $section->setPhpWord(new PhpWord());
         $section->addTitle('Test', 1);
         $elementCollection = $section->getElements();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $elementCollection[0]);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $elementCollection[0]);
     }
 
     /**
-     * @covers ::addHeader
      * @covers ::addFooter
+     * @covers ::addHeader
      * @covers ::hasDifferentFirstPage
      */
-    public function testAddHeaderFooter()
+    public function testAddHeaderFooter(): void
     {
         $object = new Section(0);
-        $elements = array('Header', 'Footer');
+        $elements = ['Header', 'Footer'];
 
         foreach ($elements as $element) {
             $method = "add{$element}";
-            $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$element}", $object->$method());
+            self::assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$element}", $object->$method());
         }
-        $this->assertFalse($object->hasDifferentFirstPage());
+        self::assertFalse($object->hasDifferentFirstPage());
     }
 
     /**
      * @covers ::addHeader
      * @covers ::hasDifferentFirstPage
      */
-    public function testHasDifferentFirstPageFooter()
+    public function testHasDifferentFirstPageFooter(): void
     {
         $object = new Section(1);
         $object->addFooter(Header::FIRST);
-        $this->assertTrue($object->hasDifferentFirstPage());
+        self::assertTrue($object->hasDifferentFirstPage());
     }
 
     /**
      * @covers ::addHeader
      * @covers ::hasDifferentFirstPage
      */
-    public function testHasDifferentFirstPage()
+    public function testHasDifferentFirstPage(): void
     {
         $object = new Section(1);
         $header = $object->addHeader();
         $header->setType(Header::FIRST);
-        $this->assertTrue($object->hasDifferentFirstPage());
+        self::assertTrue($object->hasDifferentFirstPage());
     }
 
     /**
      * @covers ::addHeader
      */
-    public function testAddHeaderException()
+    public function testAddHeaderException(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid header/footer type.');
         $object = new Section(1);
         $object->addHeader('ODD');
@@ -188,31 +191,31 @@ class SectionTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers \PhpOffice\PhpWord\Element\AbstractContainer::removeElement
      */
-    public function testRemoveElementByIndex()
+    public function testRemoveElementByIndex(): void
     {
         $section = new Section(1);
         $section->addText('firstText');
         $section->addText('secondText');
 
-        $this->assertEquals(2, $section->countElements());
+        self::assertEquals(2, $section->countElements());
         $section->removeElement(1);
 
-        $this->assertEquals(1, $section->countElements());
+        self::assertEquals(1, $section->countElements());
     }
 
     /**
      * @covers \PhpOffice\PhpWord\Element\AbstractContainer::removeElement
      */
-    public function testRemoveElementByElement()
+    public function testRemoveElementByElement(): void
     {
         $section = new Section(1);
         $firstText = $section->addText('firstText');
         $secondText = $section->addText('secondText');
 
-        $this->assertEquals(2, $section->countElements());
+        self::assertEquals(2, $section->countElements());
         $section->removeElement($firstText);
 
-        $this->assertEquals(1, $section->countElements());
-        $this->assertEquals($secondText->getElementId(), $section->getElement(1)->getElementId());
+        self::assertEquals(1, $section->countElements());
+        self::assertEquals($secondText->getElementId(), $section->getElement(1)->getElementId());
     }
 }

@@ -11,55 +11,56 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Row
+ * Test class for PhpOffice\PhpWord\Element\Row.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Row
+ *
  * @runTestsInSeparateProcesses
  */
 class RowTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Create new instance
+     * Create new instance.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $oRow = new Row();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $oRow);
-        $this->assertNull($oRow->getHeight());
-        $this->assertIsArray($oRow->getCells());
-        $this->assertCount(0, $oRow->getCells());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $oRow);
+        self::assertNull($oRow->getHeight());
+        self::assertIsArray($oRow->getCells());
+        self::assertCount(0, $oRow->getCells());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }
 
     /**
-     * Create new instance with parameters
+     * Create new instance with parameters.
      */
-    public function testConstructWithParams()
+    public function testConstructWithParams(): void
     {
-        $iVal = rand(1, 1000);
-        $oRow = new Row($iVal, array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF'));
+        $iVal = mt_rand(1, 1000);
+        $oRow = new Row($iVal, ['borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF']);
 
-        $this->assertEquals($iVal, $oRow->getHeight());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
+        self::assertEquals($iVal, $oRow->getHeight());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }
 
     /**
-     * Add cell
+     * Add cell.
      */
-    public function testAddCell()
+    public function testAddCell(): void
     {
         $oRow = new Row();
         $element = $oRow->addCell();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
-        $this->assertCount(1, $oRow->getCells());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
+        self::assertCount(1, $oRow->getCells());
     }
 }

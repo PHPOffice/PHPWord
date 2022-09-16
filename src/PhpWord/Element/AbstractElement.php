@@ -11,38 +11,40 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use DateTime;
+use InvalidArgumentException;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
- * Element abstract class
+ * Element abstract class.
  *
  * @since 0.10.0
  */
 abstract class AbstractElement
 {
     /**
-     * PhpWord object
+     * PhpWord object.
      *
      * @var \PhpOffice\PhpWord\PhpWord
      */
     protected $phpWord;
 
     /**
-     * Section Id
+     * Section Id.
      *
      * @var int
      */
     protected $sectionId;
 
     /**
-     * Document part type: Section|Header|Footer|Footnote|Endnote
+     * Document part type: Section|Header|Footer|Footnote|Endnote.
      *
      * Used by textrun and cell container to determine where the element is
      * located because it will affect the availability of other element,
@@ -53,7 +55,7 @@ abstract class AbstractElement
     protected $docPart = 'Section';
 
     /**
-     * Document part Id
+     * Document part Id.
      *
      * For header and footer, this will be = ($sectionId - 1) * 3 + $index
      * because the max number of header/footer in every page is 3, i.e.
@@ -64,28 +66,28 @@ abstract class AbstractElement
     protected $docPartId = 1;
 
     /**
-     * Index of element in the elements collection (start with 1)
+     * Index of element in the elements collection (start with 1).
      *
      * @var int
      */
     protected $elementIndex = 1;
 
     /**
-     * Unique Id for element
+     * Unique Id for element.
      *
      * @var string
      */
     protected $elementId;
 
     /**
-     * Relation Id
+     * Relation Id.
      *
      * @var int
      */
     protected $relationId;
 
     /**
-     * Depth of table container nested level; Primarily used for RTF writer/reader
+     * Depth of table container nested level; Primarily used for RTF writer/reader.
      *
      * 0 = Not in a table; 1 = in a table; 2 = in a table inside another table, etc.
      *
@@ -94,56 +96,56 @@ abstract class AbstractElement
     private $nestedLevel = 0;
 
     /**
-     * A reference to the parent
+     * A reference to the parent.
      *
-     * @var AbstractElement|null
+     * @var null|AbstractElement
      */
     private $parent;
 
     /**
-     * changed element info
+     * changed element info.
      *
      * @var TrackChange
      */
     private $trackChange;
 
     /**
-     * Parent container type
+     * Parent container type.
      *
      * @var string
      */
     private $parentContainer;
 
     /**
-     * Has media relation flag; true for Link, Image, and Object
+     * Has media relation flag; true for Link, Image, and Object.
      *
      * @var bool
      */
     protected $mediaRelation = false;
 
     /**
-     * Is part of collection; true for Title, Footnote, Endnote, Chart, and Comment
+     * Is part of collection; true for Title, Footnote, Endnote, Chart, and Comment.
      *
      * @var bool
      */
     protected $collectionRelation = false;
 
     /**
-     * The start position for the linked comment
+     * The start position for the linked comment.
      *
      * @var Comment
      */
     protected $commentRangeStart;
 
     /**
-     * The end position for the linked comment
+     * The end position for the linked comment.
      *
      * @var Comment
      */
     protected $commentRangeEnd;
 
     /**
-     * Get PhpWord
+     * Get PhpWord.
      *
      * @return \PhpOffice\PhpWord\PhpWord
      */
@@ -157,13 +159,13 @@ abstract class AbstractElement
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public function setPhpWord(PhpWord $phpWord = null)
+    public function setPhpWord(?PhpWord $phpWord = null): void
     {
         $this->phpWord = $phpWord;
     }
 
     /**
-     * Get section number
+     * Get section number.
      *
      * @return int
      */
@@ -178,14 +180,14 @@ abstract class AbstractElement
      * @param string $docPart
      * @param int $docPartId
      */
-    public function setDocPart($docPart, $docPartId = 1)
+    public function setDocPart($docPart, $docPartId = 1): void
     {
         $this->docPart = $docPart;
         $this->docPartId = $docPartId;
     }
 
     /**
-     * Get doc part
+     * Get doc part.
      *
      * @return string
      */
@@ -195,7 +197,7 @@ abstract class AbstractElement
     }
 
     /**
-     * Get doc part Id
+     * Get doc part Id.
      *
      * @return int
      */
@@ -205,7 +207,7 @@ abstract class AbstractElement
     }
 
     /**
-     * Return media element (image, object, link) container name
+     * Return media element (image, object, link) container name.
      *
      * @return string section|headerx|footerx|footnote|endnote
      */
@@ -220,7 +222,7 @@ abstract class AbstractElement
     }
 
     /**
-     * Get element index
+     * Get element index.
      *
      * @return int
      */
@@ -234,13 +236,13 @@ abstract class AbstractElement
      *
      * @param int $value
      */
-    public function setElementIndex($value)
+    public function setElementIndex($value): void
     {
         $this->elementIndex = $value;
     }
 
     /**
-     * Get element unique ID
+     * Get element unique ID.
      *
      * @return string
      */
@@ -252,13 +254,13 @@ abstract class AbstractElement
     /**
      * Set element unique ID from 6 first digit of md5.
      */
-    public function setElementId()
+    public function setElementId(): void
     {
-        $this->elementId = substr(md5(rand()), 0, 6);
+        $this->elementId = substr(md5(mt_rand()), 0, 6);
     }
 
     /**
-     * Get relation Id
+     * Get relation Id.
      *
      * @return int
      */
@@ -272,13 +274,13 @@ abstract class AbstractElement
      *
      * @param int $value
      */
-    public function setRelationId($value)
+    public function setRelationId($value): void
     {
         $this->relationId = $value;
     }
 
     /**
-     * Get nested level
+     * Get nested level.
      *
      * @return int
      */
@@ -288,7 +290,7 @@ abstract class AbstractElement
     }
 
     /**
-     * Get comment start
+     * Get comment start.
      *
      * @return Comment
      */
@@ -298,21 +300,19 @@ abstract class AbstractElement
     }
 
     /**
-     * Set comment start
-     *
-     * @param Comment $value
+     * Set comment start.
      */
-    public function setCommentRangeStart(Comment $value)
+    public function setCommentRangeStart(Comment $value): void
     {
         if ($this instanceof Comment) {
-            throw new \InvalidArgumentException('Cannot set a Comment on a Comment');
+            throw new InvalidArgumentException('Cannot set a Comment on a Comment');
         }
         $this->commentRangeStart = $value;
         $this->commentRangeStart->setStartElement($this);
     }
 
     /**
-     * Get comment end
+     * Get comment end.
      *
      * @return Comment
      */
@@ -322,23 +322,21 @@ abstract class AbstractElement
     }
 
     /**
-     * Set comment end
-     *
-     * @param Comment $value
+     * Set comment end.
      */
-    public function setCommentRangeEnd(Comment $value)
+    public function setCommentRangeEnd(Comment $value): void
     {
         if ($this instanceof Comment) {
-            throw new \InvalidArgumentException('Cannot set a Comment on a Comment');
+            throw new InvalidArgumentException('Cannot set a Comment on a Comment');
         }
         $this->commentRangeEnd = $value;
         $this->commentRangeEnd->setEndElement($this);
     }
 
     /**
-     * Get parent element
+     * Get parent element.
      *
-     * @return AbstractElement|null
+     * @return null|AbstractElement
      */
     public function getParent()
     {
@@ -346,13 +344,13 @@ abstract class AbstractElement
     }
 
     /**
-     * Set parent container
+     * Set parent container.
      *
      * Passed parameter should be a container, except for Table (contain Row) and Row (contain Cell)
      *
      * @param \PhpOffice\PhpWord\Element\AbstractElement $container
      */
-    public function setParentContainer(self $container)
+    public function setParentContainer(self $container): void
     {
         $this->parentContainer = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
         $this->parent = $container;
@@ -360,7 +358,7 @@ abstract class AbstractElement
         // Set nested level
         $this->nestedLevel = $container->getNestedLevel();
         if ($this->parentContainer == 'Cell') {
-            $this->nestedLevel++;
+            ++$this->nestedLevel;
         }
 
         // Set phpword
@@ -376,18 +374,18 @@ abstract class AbstractElement
     }
 
     /**
-     * Set relation Id for media elements (link, image, object; legacy of OOXML)
+     * Set relation Id for media elements (link, image, object; legacy of OOXML).
      *
      * - Image element needs to be passed to Media object
      * - Icon needs to be set for Object element
      */
-    private function setMediaRelation()
+    private function setMediaRelation(): void
     {
         if (!$this instanceof Link && !$this instanceof Image && !$this instanceof OLEObject) {
             return;
         }
 
-        $elementName = substr(get_class($this), strrpos(get_class($this), '\\') + 1);
+        $elementName = substr(static::class, strrpos(static::class, '\\') + 1);
         if ($elementName == 'OLEObject') {
             $elementName = 'Object';
         }
@@ -410,10 +408,10 @@ abstract class AbstractElement
     /**
      * Set relation Id for elements that will be registered in the Collection subnamespaces.
      */
-    private function setCollectionRelation()
+    private function setCollectionRelation(): void
     {
         if ($this->collectionRelation === true && $this->phpWord instanceof PhpWord) {
-            $elementName = substr(get_class($this), strrpos(get_class($this), '\\') + 1);
+            $elementName = substr(static::class, strrpos(static::class, '\\') + 1);
             $addMethod = "add{$elementName}";
             $rId = $this->phpWord->$addMethod($this);
             $this->setRelationId($rId);
@@ -421,7 +419,7 @@ abstract class AbstractElement
     }
 
     /**
-     * Check if element is located in Section doc part (as opposed to Header/Footer)
+     * Check if element is located in Section doc part (as opposed to Header/Footer).
      *
      * @return bool
      */
@@ -431,16 +429,17 @@ abstract class AbstractElement
     }
 
     /**
-     * Set new style value
+     * Set new style value.
      *
      * @param mixed $styleObject Style object
      * @param mixed $styleValue Style value
      * @param bool $returnObject Always return object
+     *
      * @return mixed
      */
     protected function setNewStyle($styleObject, $styleValue = null, $returnObject = false)
     {
-        if (!is_null($styleValue) && is_array($styleValue)) {
+        if (null !== $styleValue && is_array($styleValue)) {
             $styleObject->setStyleByArray($styleValue);
             $style = $styleObject;
         } else {
@@ -451,17 +450,15 @@ abstract class AbstractElement
     }
 
     /**
-     * Sets the trackChange information
-     *
-     * @param TrackChange $trackChange
+     * Sets the trackChange information.
      */
-    public function setTrackChange(TrackChange $trackChange)
+    public function setTrackChange(TrackChange $trackChange): void
     {
         $this->trackChange = $trackChange;
     }
 
     /**
-     * Gets the trackChange information
+     * Gets the trackChange information.
      *
      * @return TrackChange
      */
@@ -471,33 +468,32 @@ abstract class AbstractElement
     }
 
     /**
-     * Set changed
+     * Set changed.
      *
      * @param string $type INSERTED|DELETED
      * @param string $author
-     * @param null|int|\DateTime $date allways in UTC
+     * @param null|DateTime|int $date allways in UTC
      */
-    public function setChangeInfo($type, $author, $date = null)
+    public function setChangeInfo($type, $author, $date = null): void
     {
         $this->trackChange = new TrackChange($type, $author, $date);
     }
 
     /**
-     * Set enum value
+     * Set enum value.
      *
-     * @param string|null $value
+     * @param null|string $value
      * @param string[] $enum
-     * @param string|null $default
+     * @param null|string $default
      *
-     * @throws \InvalidArgumentException
-     * @return string|null
+     * @return null|string
      *
      * @todo Merge with the same method in AbstractStyle
      */
-    protected function setEnumVal($value = null, $enum = array(), $default = null)
+    protected function setEnumVal($value = null, $enum = [], $default = null)
     {
         if ($value !== null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
-            throw new \InvalidArgumentException("Invalid style value: {$value}");
+            throw new InvalidArgumentException("Invalid style value: {$value}");
         } elseif ($value === null || trim($value) == '') {
             $value = $default;
         }

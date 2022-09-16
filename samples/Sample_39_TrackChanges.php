@@ -1,4 +1,5 @@
 <?php
+
 use PhpOffice\PhpWord\Element\TrackChange;
 
 include_once 'Sample_Header.php';
@@ -13,7 +14,7 @@ $textRun = $section->addTextRun();
 
 $text = $textRun->addText('Hello World! Time to ');
 
-$text = $textRun->addText('wake ', array('bold' => true));
+$text = $textRun->addText('wake ', ['bold' => true]);
 $text->setChangeInfo(TrackChange::INSERTED, 'Fred', time() - 1800);
 
 $text = $textRun->addText('up');

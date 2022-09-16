@@ -11,35 +11,35 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\AbstractElement
+ * Test class for PhpOffice\PhpWord\Element\AbstractElement.
  */
 class AbstractElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test set/get element index
+     * Test set/get element index.
      */
-    public function testElementIndex()
+    public function testElementIndex(): void
     {
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Element\AbstractElement');
-        $ival = rand(0, 100);
+        $ival = mt_rand(0, 100);
         $stub->setElementIndex($ival);
-        $this->assertEquals($ival, $stub->getElementIndex());
+        self::assertEquals($ival, $stub->getElementIndex());
     }
 
     /**
-     * Test set/get element unique Id
+     * Test set/get element unique Id.
      */
-    public function testElementId()
+    public function testElementId(): void
     {
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Element\AbstractElement');
         $stub->setElementId();
-        $this->assertEquals(6, strlen($stub->getElementId()));
+        self::assertEquals(6, strlen($stub->getElementId()));
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,67 +21,67 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\CheckBox
+ * Test class for PhpOffice\PhpWord\Element\CheckBox.
  *
  * @runTestsInSeparateProcesses
  */
 class CheckBoxTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Construct
+     * Construct.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $oCheckBox = new CheckBox();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\CheckBox', $oCheckBox);
-        $this->assertNull($oCheckBox->getText());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oCheckBox->getFontStyle());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\CheckBox', $oCheckBox);
+        self::assertNull($oCheckBox->getText());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oCheckBox->getFontStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());
     }
 
     /**
-     * Get name and text
+     * Get name and text.
      */
-    public function testCheckBox()
+    public function testCheckBox(): void
     {
         $oCheckBox = new CheckBox('chkBox', 'CheckBox');
 
-        $this->assertEquals('chkBox', $oCheckBox->getName());
-        $this->assertEquals('CheckBox', $oCheckBox->getText());
+        self::assertEquals('chkBox', $oCheckBox->getName());
+        self::assertEquals('CheckBox', $oCheckBox->getText());
     }
 
     /**
-     * Get font style
+     * Get font style.
      */
-    public function testFont()
+    public function testFont(): void
     {
         $oCheckBox = new CheckBox('chkBox', 'CheckBox', 'fontStyle');
-        $this->assertEquals('fontStyle', $oCheckBox->getFontStyle());
+        self::assertEquals('fontStyle', $oCheckBox->getFontStyle());
 
-        $oCheckBox->setFontStyle(array('bold' => true, 'italic' => true, 'size' => 16));
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oCheckBox->getFontStyle());
+        $oCheckBox->setFontStyle(['bold' => true, 'italic' => true, 'size' => 16]);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oCheckBox->getFontStyle());
     }
 
     /**
-     * Font style as object
+     * Font style as object.
      */
-    public function testFontObject()
+    public function testFontObject(): void
     {
         $font = new Font();
         $oCheckBox = new CheckBox('chkBox', 'CheckBox', $font);
-        $this->assertEquals($font, $oCheckBox->getFontStyle());
+        self::assertEquals($font, $oCheckBox->getFontStyle());
     }
 
     /**
-     * Get paragraph style
+     * Get paragraph style.
      */
-    public function testParagraph()
+    public function testParagraph(): void
     {
         $oCheckBox = new CheckBox('chkBox', 'CheckBox', 'fontStyle', 'paragraphStyle');
-        $this->assertEquals('paragraphStyle', $oCheckBox->getParagraphStyle());
+        self::assertEquals('paragraphStyle', $oCheckBox->getParagraphStyle());
 
-        $oCheckBox->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());
+        $oCheckBox->setParagraphStyle(['alignment' => Jc::CENTER, 'spaceAfter' => 100]);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());
     }
 }

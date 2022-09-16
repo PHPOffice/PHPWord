@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,10 +20,9 @@ namespace PhpOffice\PhpWord\SimpleType;
 use PhpOffice\PhpWord\Shared\AbstractEnum;
 
 /**
- * Table Width Units
+ * Table Width Units.
  *
  * @since 0.15.0
- *
  * @see http://www.datypic.com/sc/ooxml/t-w_ST_TblWidth.html
  */
 final class TblWidth extends AbstractEnum

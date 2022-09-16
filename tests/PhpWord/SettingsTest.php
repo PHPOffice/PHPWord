@@ -11,32 +11,42 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
 /**
- * Test class for PhpOffice\PhpWord\Settings
+ * Test class for PhpOffice\PhpWord\Settings.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Settings
+ *
  * @runTestsInSeparateProcesses
  */
 class SettingsTest extends \PHPUnit\Framework\TestCase
 {
     private $compatibility;
+
     private $defaultFontSize;
+
     private $defaultFontName;
+
     private $defaultPaper;
+
     private $measurementUnit;
+
     private $outputEscapingEnabled;
+
     private $pdfRendererName;
+
     private $pdfRendererPath;
+
     private $tempDir;
+
     private $zipClass;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->compatibility = Settings::hasCompatibility();
         $this->defaultFontSize = Settings::getDefaultFontSize();
@@ -50,7 +60,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->zipClass = Settings::getZipClass();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Settings::setCompatibility($this->compatibility);
         Settings::setDefaultFontSize($this->defaultFontSize);
@@ -65,164 +75,163 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test set/get compatibity option
+     * Test set/get compatibity option.
      */
-    public function testSetGetCompatibility()
+    public function testSetGetCompatibility(): void
     {
-        $this->assertTrue(Settings::hasCompatibility());
-        $this->assertTrue(Settings::setCompatibility(false));
-        $this->assertFalse(Settings::hasCompatibility());
+        self::assertTrue(Settings::hasCompatibility());
+        self::assertTrue(Settings::setCompatibility(false));
+        self::assertFalse(Settings::hasCompatibility());
     }
 
     /**
-     * Test set/get outputEscapingEnabled option
+     * Test set/get outputEscapingEnabled option.
      */
-    public function testSetGetOutputEscapingEnabled()
+    public function testSetGetOutputEscapingEnabled(): void
     {
-        $this->assertFalse(Settings::isOutputEscapingEnabled());
+        self::assertFalse(Settings::isOutputEscapingEnabled());
         Settings::setOutputEscapingEnabled(true);
-        $this->assertTrue(Settings::isOutputEscapingEnabled());
+        self::assertTrue(Settings::isOutputEscapingEnabled());
     }
 
     /**
-     * Test set/get zip class
+     * Test set/get zip class.
      */
-    public function testSetGetZipClass()
+    public function testSetGetZipClass(): void
     {
-        $this->assertEquals(Settings::ZIPARCHIVE, Settings::getZipClass());
-        $this->assertFalse(Settings::setZipClass('foo'));
-        $this->assertEquals(Settings::ZIPARCHIVE, Settings::getZipClass());
-        $this->assertTrue(Settings::setZipClass(Settings::PCLZIP));
-        $this->assertEquals(Settings::getZipClass(), Settings::PCLZIP);
-        $this->assertFalse(Settings::setZipClass('foo'));
-        $this->assertEquals(Settings::getZipClass(), Settings::PCLZIP);
+        self::assertEquals(Settings::ZIPARCHIVE, Settings::getZipClass());
+        self::assertFalse(Settings::setZipClass('foo'));
+        self::assertEquals(Settings::ZIPARCHIVE, Settings::getZipClass());
+        self::assertTrue(Settings::setZipClass(Settings::PCLZIP));
+        self::assertEquals(Settings::getZipClass(), Settings::PCLZIP);
+        self::assertFalse(Settings::setZipClass('foo'));
+        self::assertEquals(Settings::getZipClass(), Settings::PCLZIP);
     }
 
     /**
-     * Test set/get PDF renderer
+     * Test set/get PDF renderer.
      */
-    public function testSetGetPdfRenderer()
+    public function testSetGetPdfRenderer(): void
     {
         $domPdfPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
 
-        $this->assertFalse(Settings::setPdfRenderer('FOO', 'dummy/path'));
-        $this->assertTrue(Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $domPdfPath));
-        $this->assertEquals(Settings::PDF_RENDERER_DOMPDF, Settings::getPdfRendererName());
-        $this->assertEquals($domPdfPath, Settings::getPdfRendererPath());
-        $this->assertFalse(Settings::setPdfRendererPath('dummy/path'));
-        $this->assertEquals($domPdfPath, Settings::getPdfRendererPath());
+        self::assertFalse(Settings::setPdfRenderer('FOO', 'dummy/path'));
+        self::assertTrue(Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $domPdfPath));
+        self::assertEquals(Settings::PDF_RENDERER_DOMPDF, Settings::getPdfRendererName());
+        self::assertEquals($domPdfPath, Settings::getPdfRendererPath());
+        self::assertFalse(Settings::setPdfRendererPath('dummy/path'));
+        self::assertEquals($domPdfPath, Settings::getPdfRendererPath());
     }
 
     /**
-     * Test set/get measurement unit
+     * Test set/get measurement unit.
      */
-    public function testSetGetMeasurementUnit()
+    public function testSetGetMeasurementUnit(): void
     {
-        $this->assertEquals(Settings::UNIT_TWIP, Settings::getMeasurementUnit());
-        $this->assertFalse(Settings::setMeasurementUnit('foo'));
-        $this->assertEquals(Settings::UNIT_TWIP, Settings::getMeasurementUnit());
-        $this->assertTrue(Settings::setMeasurementUnit(Settings::UNIT_INCH));
-        $this->assertEquals(Settings::UNIT_INCH, Settings::getMeasurementUnit());
-        $this->assertFalse(Settings::setMeasurementUnit('foo'));
-        $this->assertEquals(Settings::UNIT_INCH, Settings::getMeasurementUnit());
+        self::assertEquals(Settings::UNIT_TWIP, Settings::getMeasurementUnit());
+        self::assertFalse(Settings::setMeasurementUnit('foo'));
+        self::assertEquals(Settings::UNIT_TWIP, Settings::getMeasurementUnit());
+        self::assertTrue(Settings::setMeasurementUnit(Settings::UNIT_INCH));
+        self::assertEquals(Settings::UNIT_INCH, Settings::getMeasurementUnit());
+        self::assertFalse(Settings::setMeasurementUnit('foo'));
+        self::assertEquals(Settings::UNIT_INCH, Settings::getMeasurementUnit());
     }
 
     /**
      * @covers ::getTempDir
-     * @test
      */
-    public function testPhpTempDirIsUsedByDefault()
+    public function testPhpTempDirIsUsedByDefault(): void
     {
-        $this->assertEquals(sys_get_temp_dir(), Settings::getTempDir());
+        self::assertEquals(sys_get_temp_dir(), Settings::getTempDir());
     }
 
     /**
+     * @covers ::getTempDir
      * @covers ::setTempDir
-     * @covers ::getTempDir
+     *
      * @depends testPhpTempDirIsUsedByDefault
-     * @test
      */
-    public function testTempDirCanBeSet()
+    public function testTempDirCanBeSet(): void
     {
         $userDefinedTempDir = 'C:\PhpWordTemp';
         Settings::setTempDir($userDefinedTempDir);
         $currentTempDir = Settings::getTempDir();
-        $this->assertEquals($userDefinedTempDir, $currentTempDir);
-        $this->assertNotEquals(sys_get_temp_dir(), $currentTempDir);
+        self::assertEquals($userDefinedTempDir, $currentTempDir);
+        self::assertNotEquals(sys_get_temp_dir(), $currentTempDir);
     }
 
     /**
-     * Test set/get default font name
+     * Test set/get default font name.
      */
-    public function testSetGetDefaultFontName()
+    public function testSetGetDefaultFontName(): void
     {
-        $this->assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultFontName());
-        $this->assertFalse(Settings::setDefaultFontName(' '));
-        $this->assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultFontName());
-        $this->assertTrue(Settings::setDefaultFontName('Times New Roman'));
-        $this->assertEquals('Times New Roman', Settings::getDefaultFontName());
-        $this->assertFalse(Settings::setDefaultFontName(' '));
-        $this->assertEquals('Times New Roman', Settings::getDefaultFontName());
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultFontName());
+        self::assertFalse(Settings::setDefaultFontName(' '));
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultFontName());
+        self::assertTrue(Settings::setDefaultFontName('Times New Roman'));
+        self::assertEquals('Times New Roman', Settings::getDefaultFontName());
+        self::assertFalse(Settings::setDefaultFontName(' '));
+        self::assertEquals('Times New Roman', Settings::getDefaultFontName());
     }
 
     /**
-     * Test set/get default font size
+     * Test set/get default font size.
      */
-    public function testSetGetDefaultFontSize()
+    public function testSetGetDefaultFontSize(): void
     {
-        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, Settings::getDefaultFontSize());
-        $this->assertFalse(Settings::setDefaultFontSize(null));
-        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, Settings::getDefaultFontSize());
-        $this->assertTrue(Settings::setDefaultFontSize(12));
-        $this->assertEquals(12, Settings::getDefaultFontSize());
-        $this->assertFalse(Settings::setDefaultFontSize(null));
-        $this->assertEquals(12, Settings::getDefaultFontSize());
+        self::assertEquals(Settings::DEFAULT_FONT_SIZE, Settings::getDefaultFontSize());
+        self::assertFalse(Settings::setDefaultFontSize(null));
+        self::assertEquals(Settings::DEFAULT_FONT_SIZE, Settings::getDefaultFontSize());
+        self::assertTrue(Settings::setDefaultFontSize(12));
+        self::assertEquals(12, Settings::getDefaultFontSize());
+        self::assertFalse(Settings::setDefaultFontSize(null));
+        self::assertEquals(12, Settings::getDefaultFontSize());
     }
 
     /**
-     * Test set/get default paper
+     * Test set/get default paper.
      */
-    public function testSetGetDefaultPaper()
+    public function testSetGetDefaultPaper(): void
     {
         $dflt = Settings::DEFAULT_PAPER;
         $chng = ($dflt === 'A4') ? 'Letter' : 'A4';
         $doc = new PhpWord();
-        $this->assertEquals($dflt, Settings::getDefaultPaper());
+        self::assertEquals($dflt, Settings::getDefaultPaper());
         $sec1 = $doc->addSection();
-        $this->assertEquals($dflt, $sec1->getStyle()->getPaperSize());
-        $this->assertFalse(Settings::setDefaultPaper(''));
-        $this->assertEquals($dflt, Settings::getDefaultPaper());
-        $this->assertTrue(Settings::setDefaultPaper($chng));
-        $this->assertEquals($chng, Settings::getDefaultPaper());
+        self::assertEquals($dflt, $sec1->getStyle()->getPaperSize());
+        self::assertFalse(Settings::setDefaultPaper(''));
+        self::assertEquals($dflt, Settings::getDefaultPaper());
+        self::assertTrue(Settings::setDefaultPaper($chng));
+        self::assertEquals($chng, Settings::getDefaultPaper());
         $sec2 = $doc->addSection();
-        $this->assertEquals($chng, $sec2->getStyle()->getPaperSize());
-        $sec3 = $doc->addSection(array('paperSize' => 'Legal'));
-        $this->assertEquals('Legal', $sec3->getStyle()->getPaperSize());
-        $this->assertFalse(Settings::setDefaultPaper(''));
-        $this->assertEquals($chng, Settings::getDefaultPaper());
+        self::assertEquals($chng, $sec2->getStyle()->getPaperSize());
+        $sec3 = $doc->addSection(['paperSize' => 'Legal']);
+        self::assertEquals('Legal', $sec3->getStyle()->getPaperSize());
+        self::assertFalse(Settings::setDefaultPaper(''));
+        self::assertEquals($chng, Settings::getDefaultPaper());
     }
 
     /**
-     * Test load config
+     * Test load config.
      */
-    public function testLoadConfig()
+    public function testLoadConfig(): void
     {
-        $expected = array(
-            'compatibility'         => true,
-            'zipClass'              => 'ZipArchive',
-            'pdfRendererName'       => 'DomPDF',
-            'pdfRendererPath'       => '',
-            'defaultFontName'       => 'Arial',
-            'defaultFontSize'       => 10,
+        $expected = [
+            'compatibility' => true,
+            'zipClass' => 'ZipArchive',
+            'pdfRendererName' => 'DomPDF',
+            'pdfRendererPath' => '',
+            'defaultFontName' => 'Arial',
+            'defaultFontSize' => 10,
             'outputEscapingEnabled' => false,
-            'defaultPaper'          => 'A4',
-        );
+            'defaultPaper' => 'A4',
+        ];
 
         // Test default value
-        $this->assertEquals($expected, Settings::loadConfig());
+        self::assertEquals($expected, Settings::loadConfig());
 
         // Test with valid file
-        $this->assertEquals($expected, Settings::loadConfig(__DIR__ . '/../../phpword.ini.dist'));
+        self::assertEquals($expected, Settings::loadConfig(__DIR__ . '/../../phpword.ini.dist'));
         foreach ($expected as $key => $value) {
             if ($key === 'compatibility') {
                 $meth = 'hasCompatibility';
@@ -231,10 +240,10 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
             } else {
                 $meth = 'get' . ucfirst($key);
             }
-            $this->assertEquals(Settings::$meth(), $value);
+            self::assertEquals(Settings::$meth(), $value);
         }
 
         // Test with invalid file
-        $this->assertEmpty(Settings::loadConfig(__DIR__ . '/../../phpunit.xml.dist'));
+        self::assertEmpty(Settings::loadConfig(__DIR__ . '/../../phpunit.xml.dist'));
     }
 }

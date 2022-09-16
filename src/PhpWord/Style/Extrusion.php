@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * 3D extrusion style
+ * 3D extrusion style.
  *
  * @see  http://www.schemacentral.com/sc/ooxml/t-o_CT_Extrusion.html
  * @since 0.12.0
@@ -26,7 +26,7 @@ namespace PhpOffice\PhpWord\Style;
 class Extrusion extends AbstractStyle
 {
     /**
-     * Type constants
+     * Type constants.
      *
      * @const string
      */
@@ -34,31 +34,31 @@ class Extrusion extends AbstractStyle
     const EXTRUSION_PERSPECTIVE = 'perspective';
 
     /**
-     * Type: parallel|perspective
+     * Type: parallel|perspective.
      *
      * @var string
      */
     private $type;
 
     /**
-     * Color
+     * Color.
      *
      * @var string
      */
     private $color;
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param array $style
      */
-    public function __construct($style = array())
+    public function __construct($style = [])
     {
         $this->setStyleByArray($style);
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -68,21 +68,22 @@ class Extrusion extends AbstractStyle
     }
 
     /**
-     * Set pattern
+     * Set pattern.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setType($value = null)
     {
-        $enum = array(self::EXTRUSION_PARALLEL, self::EXTRUSION_PERSPECTIVE);
+        $enum = [self::EXTRUSION_PARALLEL, self::EXTRUSION_PERSPECTIVE];
         $this->type = $this->setEnumVal($value, $enum, null);
 
         return $this;
     }
 
     /**
-     * Get color
+     * Get color.
      *
      * @return string
      */
@@ -92,9 +93,10 @@ class Extrusion extends AbstractStyle
     }
 
     /**
-     * Set color
+     * Set color.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setColor($value = null)

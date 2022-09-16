@@ -11,98 +11,99 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Table
+ * Test class for PhpOffice\PhpWord\Element\Table.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Table
+ *
  * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Create new instance
+     * Create new instance.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $oTable = new Table();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $oTable);
-        $this->assertNull($oTable->getStyle());
-        $this->assertNull($oTable->getWidth());
-        $this->assertEquals(array(), $oTable->getRows());
-        $this->assertCount(0, $oTable->getRows());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $oTable);
+        self::assertNull($oTable->getStyle());
+        self::assertNull($oTable->getWidth());
+        self::assertEquals([], $oTable->getRows());
+        self::assertCount(0, $oTable->getRows());
     }
 
     /**
-     * Get style name
+     * Get style name.
      */
-    public function testStyleText()
+    public function testStyleText(): void
     {
         $oTable = new Table('tableStyle');
 
-        $this->assertEquals('tableStyle', $oTable->getStyle());
+        self::assertEquals('tableStyle', $oTable->getStyle());
     }
 
     /**
-     * Get style array
+     * Get style array.
      */
-    public function testStyleArray()
+    public function testStyleArray(): void
     {
-        $oTable = new Table(array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80));
+        $oTable = new Table(['borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80]);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Table', $oTable->getStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Table', $oTable->getStyle());
     }
 
     /**
-     * Set/get width
+     * Set/get width.
      */
-    public function testWidth()
+    public function testWidth(): void
     {
         $oTable = new Table();
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oTable->setWidth($iVal);
-        $this->assertEquals($iVal, $oTable->getWidth());
+        self::assertEquals($iVal, $oTable->getWidth());
     }
 
     /**
-     * Add/get row
+     * Add/get row.
      */
-    public function testRow()
+    public function testRow(): void
     {
         $oTable = new Table();
         $element = $oTable->addRow();
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $element);
-        $this->assertCount(1, $oTable->getRows());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $element);
+        self::assertCount(1, $oTable->getRows());
     }
 
     /**
-     * Add cell
+     * Add cell.
      */
-    public function testCell()
+    public function testCell(): void
     {
         $oTable = new Table();
         $oTable->addRow();
         $element = $oTable->addCell();
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
     }
 
     /**
-     * Add cell
+     * Add cell.
      */
-    public function testCountColumns()
+    public function testCountColumns(): void
     {
         $oTable = new Table();
         $oTable->addRow();
         $oTable->addCell();
-        $this->assertEquals($oTable->countColumns(), 1);
+        self::assertEquals($oTable->countColumns(), 1);
         $oTable->addCell();
         $oTable->addCell();
-        $this->assertEquals($oTable->countColumns(), 3);
+        self::assertEquals($oTable->countColumns(), 3);
     }
 }

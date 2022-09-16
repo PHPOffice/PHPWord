@@ -11,241 +11,242 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use BadMethodCallException;
 use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Header
+ * Test class for PhpOffice\PhpWord\Element\Header.
  *
  * @runTestsInSeparateProcesses
  */
 class HeaderTest extends AbstractWebServerEmbeddedTest
 {
     /**
-     * New instance
+     * New instance.
      */
-    public function testConstructDefault()
+    public function testConstructDefault(): void
     {
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oHeader = new Header($iVal);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Header', $oHeader);
-        $this->assertEquals($iVal, $oHeader->getSectionId());
-        $this->assertEquals(Header::AUTO, $oHeader->getType());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Header', $oHeader);
+        self::assertEquals($iVal, $oHeader->getSectionId());
+        self::assertEquals(Header::AUTO, $oHeader->getType());
     }
 
     /**
-     * Add text
+     * Add text.
      */
-    public function testAddText()
+    public function testAddText(): void
     {
         $oHeader = new Header(1);
         $element = $oHeader->addText('text');
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
-        $this->assertCount(1, $oHeader->getElements());
-        $this->assertEquals('text', $element->getText());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
+        self::assertCount(1, $oHeader->getElements());
+        self::assertEquals('text', $element->getText());
     }
 
     /**
-     * Add text non-UTF8
+     * Add text non-UTF8.
      */
-    public function testAddTextNotUTF8()
+    public function testAddTextNotUTF8(): void
     {
         $oHeader = new Header(1);
         $element = $oHeader->addText(utf8_decode('ééé'));
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
-        $this->assertCount(1, $oHeader->getElements());
-        $this->assertEquals('ééé', $element->getText());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
+        self::assertCount(1, $oHeader->getElements());
+        self::assertEquals('ééé', $element->getText());
     }
 
     /**
-     * Add text break
+     * Add text break.
      */
-    public function testAddTextBreak()
+    public function testAddTextBreak(): void
     {
         $oHeader = new Header(1);
         $oHeader->addTextBreak();
-        $this->assertCount(1, $oHeader->getElements());
+        self::assertCount(1, $oHeader->getElements());
     }
 
     /**
-     * Add text break with params
+     * Add text break with params.
      */
-    public function testAddTextBreakWithParams()
+    public function testAddTextBreakWithParams(): void
     {
         $oHeader = new Header(1);
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oHeader->addTextBreak($iVal);
-        $this->assertCount($iVal, $oHeader->getElements());
+        self::assertCount($iVal, $oHeader->getElements());
     }
 
     /**
-     * Add text run
+     * Add text run.
      */
-    public function testCreateTextRun()
+    public function testCreateTextRun(): void
     {
         $oHeader = new Header(1);
         $element = $oHeader->addTextRun();
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $element);
-        $this->assertCount(1, $oHeader->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $element);
+        self::assertCount(1, $oHeader->getElements());
     }
 
     /**
-     * Add table
+     * Add table.
      */
-    public function testAddTable()
+    public function testAddTable(): void
     {
         $oHeader = new Header(1);
         $element = $oHeader->addTable();
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $element);
-        $this->assertCount(1, $oHeader->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $element);
+        self::assertCount(1, $oHeader->getElements());
     }
 
     /**
-     * Add image
+     * Add image.
      */
-    public function testAddImage()
+    public function testAddImage(): void
     {
         $src = __DIR__ . '/../_files/images/earth.jpg';
         $oHeader = new Header(1);
         $element = $oHeader->addImage($src);
 
-        $this->assertCount(1, $oHeader->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
+        self::assertCount(1, $oHeader->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
     }
 
     /**
-     * Add image by URL
+     * Add image by URL.
      */
-    public function testAddImageByUrl()
+    public function testAddImageByUrl(): void
     {
         $oHeader = new Header(1);
         $element = $oHeader->addImage(self::getRemoteGifImageUrl());
 
-        $this->assertCount(1, $oHeader->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
+        self::assertCount(1, $oHeader->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
     }
 
     /**
-     * Add preserve text
+     * Add preserve text.
      */
-    public function testAddPreserveText()
+    public function testAddPreserveText(): void
     {
         $oHeader = new Header(1);
         $element = $oHeader->addPreserveText('text');
 
-        $this->assertCount(1, $oHeader->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
+        self::assertCount(1, $oHeader->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
     }
 
     /**
-     * Add preserve text non-UTF8
+     * Add preserve text non-UTF8.
      */
-    public function testAddPreserveTextNotUTF8()
+    public function testAddPreserveTextNotUTF8(): void
     {
         $oHeader = new Header(1);
         $element = $oHeader->addPreserveText(utf8_decode('ééé'));
 
-        $this->assertCount(1, $oHeader->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
-        $this->assertEquals(array('ééé'), $element->getText());
+        self::assertCount(1, $oHeader->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
+        self::assertEquals(['ééé'], $element->getText());
     }
 
     /**
-     * Add watermark
+     * Add watermark.
      */
-    public function testAddWatermark()
+    public function testAddWatermark(): void
     {
         $src = __DIR__ . '/../_files/images/earth.jpg';
         $oHeader = new Header(1);
         $element = $oHeader->addWatermark($src);
 
-        $this->assertCount(1, $oHeader->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
+        self::assertCount(1, $oHeader->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
     }
 
     /**
-     * Get elements
+     * Get elements.
      */
-    public function testGetElements()
+    public function testGetElements(): void
     {
         $oHeader = new Header(1);
 
-        $this->assertIsArray($oHeader->getElements());
+        self::assertIsArray($oHeader->getElements());
     }
 
     /**
-     * Set/get relation Id
+     * Set/get relation Id.
      */
-    public function testRelationId()
+    public function testRelationId(): void
     {
         $oHeader = new Header(1);
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oHeader->setRelationId($iVal);
-        $this->assertEquals($iVal, $oHeader->getRelationId());
+        self::assertEquals($iVal, $oHeader->getRelationId());
     }
 
     /**
-     * Reset type
+     * Reset type.
      */
-    public function testResetType()
+    public function testResetType(): void
     {
         $oHeader = new Header(1);
         $oHeader->firstPage();
         $oHeader->resetType();
 
-        $this->assertEquals(Header::AUTO, $oHeader->getType());
+        self::assertEquals(Header::AUTO, $oHeader->getType());
     }
 
     /**
-     * First page
+     * First page.
      */
-    public function testFirstPage()
+    public function testFirstPage(): void
     {
         $oHeader = new Header(1);
         $oHeader->firstPage();
 
-        $this->assertEquals(Header::FIRST, $oHeader->getType());
+        self::assertEquals(Header::FIRST, $oHeader->getType());
     }
 
     /**
-     * Even page
+     * Even page.
      */
-    public function testEvenPage()
+    public function testEvenPage(): void
     {
         $oHeader = new Header(1);
         $oHeader->evenPage();
 
-        $this->assertEquals(Header::EVEN, $oHeader->getType());
+        self::assertEquals(Header::EVEN, $oHeader->getType());
     }
 
     /**
-     * Add footnote exception
+     * Add footnote exception.
      */
-    public function testAddFootnoteException()
+    public function testAddFootnoteException(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
         $header = new Header(1);
         $header->addFootnote();
     }
 
     /**
-     * Set/get type
+     * Set/get type.
      */
-    public function testSetGetType()
+    public function testSetGetType(): void
     {
         $object = new Header(1);
-        $this->assertEquals(Header::AUTO, $object->getType());
+        self::assertEquals(Header::AUTO, $object->getType());
 
         $object->setType('ODD');
-        $this->assertEquals(Header::AUTO, $object->getType());
+        self::assertEquals(Header::AUTO, $object->getType());
     }
 }

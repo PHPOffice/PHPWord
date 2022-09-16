@@ -11,36 +11,37 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use DateTime;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Comment
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Comment.
  *
  * @runTestsInSeparateProcesses
  */
 class CommentsTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Write comments
+     * Write comments.
      */
-    public function testWriteComments()
+    public function testWriteComments(): void
     {
-        $comment = new \PhpOffice\PhpWord\Element\Comment('Authors name', new \DateTime(), 'my_initials');
+        $comment = new \PhpOffice\PhpWord\Element\Comment('Authors name', new DateTime(), 'my_initials');
         $comment->addText('Test');
 
         $phpWord = new PhpWord();
@@ -50,11 +51,11 @@ class CommentsTest extends \PHPUnit\Framework\TestCase
         $path = '/w:comments/w:comment';
         $file = 'word/comments.xml';
 
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertNotNull($element->getAttribute('w:id'));
-        $this->assertEquals('Authors name', $element->getAttribute('w:author'));
-        $this->assertEquals('my_initials', $element->getAttribute('w:initials'));
+        self::assertNotNull($element->getAttribute('w:id'));
+        self::assertEquals('Authors name', $element->getAttribute('w:author'));
+        self::assertEquals('my_initials', $element->getAttribute('w:initials'));
     }
 }

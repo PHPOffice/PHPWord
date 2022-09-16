@@ -11,56 +11,56 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\ComplexType;
 
 /**
- * Visibility of Annotation Types
+ * Visibility of Annotation Types.
  *
  * @see http://www.datypic.com/sc/ooxml/e-w_revisionView-1.html
  */
 final class TrackChangesView
 {
     /**
-     * Display Visual Indicator Of Markup Area
+     * Display Visual Indicator Of Markup Area.
      *
      * @var bool
      */
     private $markup;
 
     /**
-     * Display Comments
+     * Display Comments.
      *
      * @var bool
      */
     private $comments;
 
     /**
-     * Display Content Revisions
+     * Display Content Revisions.
      *
      * @var bool
      */
     private $insDel;
 
     /**
-     * Display Formatting Revisions
+     * Display Formatting Revisions.
      *
      * @var bool
      */
     private $formatting;
 
     /**
-     * Display Ink Annotations
+     * Display Ink Annotations.
      *
      * @var bool
      */
     private $inkAnnotations;
 
     /**
-     * Get Display Visual Indicator Of Markup Area
+     * Get Display Visual Indicator Of Markup Area.
      *
      * @return bool True if markup is shown
      */
@@ -70,18 +70,18 @@ final class TrackChangesView
     }
 
     /**
-     * Set Display Visual Indicator Of Markup Area
+     * Set Display Visual Indicator Of Markup Area.
      *
      * @param bool $markup
      *            Set to true to show markup
      */
-    public function setMarkup($markup)
+    public function setMarkup($markup): void
     {
         $this->markup = $markup === null ? true : $markup;
     }
 
     /**
-     * Get Display Comments
+     * Get Display Comments.
      *
      * @return bool True if comments are shown
      */
@@ -91,18 +91,18 @@ final class TrackChangesView
     }
 
     /**
-     * Set Display Comments
+     * Set Display Comments.
      *
      * @param bool $comments
      *            Set to true to show comments
      */
-    public function setComments($comments)
+    public function setComments($comments): void
     {
         $this->comments = $comments === null ? true : $comments;
     }
 
     /**
-     * Get Display Content Revisions
+     * Get Display Content Revisions.
      *
      * @return bool True if content revisions are shown
      */
@@ -112,18 +112,18 @@ final class TrackChangesView
     }
 
     /**
-     * Set Display Content Revisions
+     * Set Display Content Revisions.
      *
      * @param bool $insDel
      *            Set to true to show content revisions
      */
-    public function setInsDel($insDel)
+    public function setInsDel($insDel): void
     {
         $this->insDel = $insDel === null ? true : $insDel;
     }
 
     /**
-     * Get Display Formatting Revisions
+     * Get Display Formatting Revisions.
      *
      * @return bool True if formatting revisions are shown
      */
@@ -133,18 +133,18 @@ final class TrackChangesView
     }
 
     /**
-     * Set Display Formatting Revisions
+     * Set Display Formatting Revisions.
      *
-     * @param bool|null $formatting
+     * @param null|bool $formatting
      *            Set to true to show formatting revisions
      */
-    public function setFormatting($formatting = null)
+    public function setFormatting($formatting = null): void
     {
         $this->formatting = $formatting === null ? true : $formatting;
     }
 
     /**
-     * Get Display Ink Annotations
+     * Get Display Ink Annotations.
      *
      * @return bool True if ink annotations are shown
      */
@@ -154,12 +154,12 @@ final class TrackChangesView
     }
 
     /**
-     * Set Display Ink Annotations
+     * Set Display Ink Annotations.
      *
      * @param bool $inkAnnotations
      *            Set to true to show ink annotations
      */
-    public function setInkAnnotations($inkAnnotations)
+    public function setInkAnnotations($inkAnnotations): void
     {
         $this->inkAnnotations = $inkAnnotations === null ? true : $inkAnnotations;
     }

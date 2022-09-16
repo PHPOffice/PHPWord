@@ -11,26 +11,28 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\ComplexType;
 
+use InvalidArgumentException;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
- * Test class for PhpOffice\PhpWord\ComplexType\FootnoteProperties
+ * Test class for PhpOffice\PhpWord\ComplexType\FootnoteProperties.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\ComplexType\FootnoteProperties
+ *
  * @runTestsInSeparateProcesses
  */
 class FootnotePropertiesTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test setting style with normal value
+     * Test setting style with normal value.
      */
-    public function testSetGetNormal()
+    public function testSetGetNormal(): void
     {
         $footnoteProp = new FootnoteProperties();
         $footnoteProp->setPos(FootnoteProperties::POSITION_DOC_END);
@@ -38,38 +40,38 @@ class FootnotePropertiesTest extends \PHPUnit\Framework\TestCase
         $footnoteProp->setNumStart(2);
         $footnoteProp->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
 
-        $this->assertEquals(FootnoteProperties::POSITION_DOC_END, $footnoteProp->getPos());
-        $this->assertEquals(NumberFormat::LOWER_ROMAN, $footnoteProp->getNumFmt());
-        $this->assertEquals(2, $footnoteProp->getNumStart());
-        $this->assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $footnoteProp->getNumRestart());
+        self::assertEquals(FootnoteProperties::POSITION_DOC_END, $footnoteProp->getPos());
+        self::assertEquals(NumberFormat::LOWER_ROMAN, $footnoteProp->getNumFmt());
+        self::assertEquals(2, $footnoteProp->getNumStart());
+        self::assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $footnoteProp->getNumRestart());
     }
 
     /**
-     * Test throws exception if wrong position given
+     * Test throws exception if wrong position given.
      */
-    public function testWrongPos()
+    public function testWrongPos(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $footnoteProp = new FootnoteProperties();
         $footnoteProp->setPos(NumberFormat::LOWER_ROMAN);
     }
 
     /**
-     * Test throws exception if wrong number format given
+     * Test throws exception if wrong number format given.
      */
-    public function testWrongNumFmt()
+    public function testWrongNumFmt(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $footnoteProp = new FootnoteProperties();
         $footnoteProp->setNumFmt(FootnoteProperties::POSITION_DOC_END);
     }
 
     /**
-     * Test throws exception if wrong number restart given
+     * Test throws exception if wrong number restart given.
      */
-    public function testWrongNumRestart()
+    public function testWrongNumRestart(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $footnoteProp = new FootnoteProperties();
         $footnoteProp->setNumRestart(NumberFormat::LOWER_ROMAN);
     }

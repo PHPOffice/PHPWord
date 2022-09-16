@@ -11,35 +11,35 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
+use ZipArchive;
 
 /**
- * Test helper class
+ * Test helper class.
  */
 class TestHelperDOCX
 {
     /**
-     * Temporary file name
+     * Temporary file name.
      *
      * @var string
      */
     protected static $file;
 
     /**
-     * Get document content
+     * Get document content.
      *
      * @since 0.12.0 Throws CreateTemporaryFileException.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $writerName
      *
-     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      * @return \PhpOffice\PhpWord\XmlDocument
      */
     public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')
@@ -56,7 +56,7 @@ class TestHelperDOCX
         $xmlWriter = IOFactory::createWriter($phpWord, $writerName);
         $xmlWriter->save(self::$file);
 
-        $zip = new \ZipArchive();
+        $zip = new ZipArchive();
         $res = $zip->open(self::$file);
         if (true === $res) {
             $zip->extractTo(Settings::getTempDir() . '/PhpWord_Unit_Test/');
@@ -72,9 +72,9 @@ class TestHelperDOCX
     }
 
     /**
-     * Clear document
+     * Clear document.
      */
-    public static function clear()
+    public static function clear(): void
     {
         if (self::$file && file_exists(self::$file)) {
             unlink(self::$file);
@@ -85,11 +85,11 @@ class TestHelperDOCX
     }
 
     /**
-     * Delete directory
+     * Delete directory.
      *
      * @param string $dir
      */
-    public static function deleteDir($dir)
+    public static function deleteDir($dir): void
     {
         foreach (scandir($dir) as $file) {
             if ('.' === $file || '..' === $file) {
@@ -105,7 +105,7 @@ class TestHelperDOCX
     }
 
     /**
-     * Get file
+     * Get file.
      *
      * @return string
      */

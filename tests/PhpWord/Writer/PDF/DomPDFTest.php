@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,16 +22,16 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\PDF;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\PDF\DomPDF
+ * Test class for PhpOffice\PhpWord\Writer\PDF\DomPDF.
  *
  * @runTestsInSeparateProcesses
  */
 class DomPDFTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test construct
+     * Test construct.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         define('DOMPDF_ENABLE_AUTOLOAD', false);
         $file = __DIR__ . '/../../_files/dompdf.pdf';
@@ -46,15 +46,15 @@ class DomPDFTest extends \PHPUnit\Framework\TestCase
         $writer = new PDF($phpWord);
         $writer->save($file);
 
-        $this->assertFileExists($file);
+        self::assertFileExists($file);
 
         unlink($file);
     }
 
     /**
-     * Test set/get abstract renderer properties
+     * Test set/get abstract renderer properties.
      */
-    public function testSetGetAbstractRendererProperties()
+    public function testSetGetAbstractRendererProperties(): void
     {
         define('DOMPDF_ENABLE_AUTOLOAD', false);
 
@@ -64,15 +64,15 @@ class DomPDFTest extends \PHPUnit\Framework\TestCase
         $writer = new PDF(new PhpWord());
 
         $writer->setFont('arial');
-        $this->assertEquals('arial', $writer->getFont());
+        self::assertEquals('arial', $writer->getFont());
 
         $writer->setPaperSize();
-        $this->assertEquals(9, $writer->getPaperSize());
+        self::assertEquals(9, $writer->getPaperSize());
 
         $writer->setOrientation();
-        $this->assertEquals('default', $writer->getOrientation());
+        self::assertEquals('default', $writer->getOrientation());
 
         $writer->setTempDir(Settings::getTempDir());
-        $this->assertEquals(Settings::getTempDir(), $writer->getTempDir());
+        self::assertEquals(Settings::getTempDir(), $writer->getTempDir());
     }
 }

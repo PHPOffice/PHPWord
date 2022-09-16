@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\PhpWord\Element\TrackChange;
 
 /**
- * Text element writer
+ * Text element writer.
  *
  * @since 0.10.0
  */
@@ -29,7 +29,7 @@ class Text extends AbstractElement
     /**
      * Write text element.
      */
-    public function write()
+    public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
@@ -64,9 +64,9 @@ class Text extends AbstractElement
     }
 
     /**
-     * Write opening of changed element
+     * Write opening of changed element.
      */
-    protected function writeOpeningTrackChange()
+    protected function writeOpeningTrackChange(): void
     {
         $changed = $this->getElement()->getTrackChange();
         if ($changed == null) {
@@ -88,9 +88,9 @@ class Text extends AbstractElement
     }
 
     /**
-     * Write ending
+     * Write ending.
      */
-    protected function writeClosingTrackChange()
+    protected function writeClosingTrackChange(): void
     {
         $changed = $this->getElement()->getTrackChange();
         if ($changed == null) {

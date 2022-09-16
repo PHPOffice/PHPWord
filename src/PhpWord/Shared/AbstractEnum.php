@@ -11,24 +11,27 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Shared;
 
+use InvalidArgumentException;
+use ReflectionClass;
+
 abstract class AbstractEnum
 {
-    private static $constCacheArray = null;
+    private static $constCacheArray;
 
     private static function getConstants()
     {
         if (self::$constCacheArray == null) {
-            self::$constCacheArray = array();
+            self::$constCacheArray = [];
         }
-        $calledClass = get_called_class();
+        $calledClass = static::class;
         if (!array_key_exists($calledClass, self::$constCacheArray)) {
-            $reflect = new \ReflectionClass($calledClass);
+            $reflect = new ReflectionClass($calledClass);
             self::$constCacheArray[$calledClass] = $reflect->getConstants();
         }
 
@@ -36,7 +39,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns all values for this enum
+     * Returns all values for this enum.
      *
      * @return array
      */
@@ -46,9 +49,10 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns true the value is valid for this enum
+     * Returns true the value is valid for this enum.
      *
      * @param string $value
+     *
      * @return bool true if value is valid
      */
     public static function isValid($value)
@@ -59,17 +63,17 @@ abstract class AbstractEnum
     }
 
     /**
-     * Validates that the value passed is a valid value
+     * Validates that the value passed is a valid value.
      *
      * @param string $value
-     * @throws \InvalidArgumentException if the value passed is not valid for this enum
      */
-    public static function validate($value)
+    public static function validate($value): void
     {
         if (!self::isValid($value)) {
-            $calledClass = get_called_class();
+            $calledClass = static::class;
             $values = array_values(self::getConstants());
-            throw new \InvalidArgumentException("$value is not a valid value for $calledClass, possible values are " . implode(', ', $values));
+
+            throw new InvalidArgumentException("$value is not a valid value for $calledClass, possible values are " . implode(', ', $values));
         }
     }
 }

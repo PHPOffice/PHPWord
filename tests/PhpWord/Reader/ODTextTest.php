@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,20 +20,21 @@ namespace PhpOffice\PhpWord\Reader;
 use PhpOffice\PhpWord\IOFactory;
 
 /**
- * Test class for PhpOffice\PhpWord\Reader\ODText
+ * Test class for PhpOffice\PhpWord\Reader\ODText.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\ODText
+ *
  * @runTestsInSeparateProcesses
  */
 class ODTextTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Load
+     * Load.
      */
-    public function testLoad()
+    public function testLoad(): void
     {
         $filename = __DIR__ . '/../_files/documents/reader.odt';
         $phpWord = IOFactory::load($filename, 'ODText');
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
     }
 }

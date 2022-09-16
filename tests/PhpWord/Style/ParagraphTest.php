@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,77 +22,77 @@ use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\Paragraph
+ * Test class for PhpOffice\PhpWord\Style\Paragraph.
  *
  * @runTestsInSeparateProcesses
  */
 class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tear down after each test
+     * Tear down after each test.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test setting style values with null or empty value
+     * Test setting style values with null or empty value.
      */
-    public function testSetStyleValueWithNullOrEmpty()
+    public function testSetStyleValueWithNullOrEmpty(): void
     {
         $object = new Paragraph();
 
-        $attributes = array(
-            'widowControl'      => true,
-            'keepNext'          => false,
-            'keepLines'         => false,
-            'pageBreakBefore'   => false,
+        $attributes = [
+            'widowControl' => true,
+            'keepNext' => false,
+            'keepLines' => false,
+            'pageBreakBefore' => false,
             'contextualSpacing' => false,
-        );
+        ];
         foreach ($attributes as $key => $default) {
             $get = $this->findGetter($key, $default, $object);
             $object->setStyleValue($key, null);
-            $this->assertEquals($default, $object->$get());
+            self::assertEquals($default, $object->$get());
             $object->setStyleValue($key, '');
-            $this->assertEquals($default, $object->$get());
+            self::assertEquals($default, $object->$get());
         }
     }
 
     /**
-     * Test setting style values with normal value
+     * Test setting style values with normal value.
      */
-    public function testSetStyleValueNormal()
+    public function testSetStyleValueNormal(): void
     {
         $object = new Paragraph();
 
-        $attributes = array(
-            'spaceAfter'          => 240,
-            'spaceBefore'         => 240,
-            'indent'              => 1,
-            'hanging'             => 1,
-            'spacing'             => 120,
-            'spacingLineRule'     => LineSpacingRule::AT_LEAST,
-            'basedOn'             => 'Normal',
-            'next'                => 'Normal',
-            'numStyle'            => 'numStyle',
-            'numLevel'            => 1,
-            'widowControl'        => false,
-            'keepNext'            => true,
-            'keepLines'           => true,
-            'pageBreakBefore'     => true,
-            'contextualSpacing'   => true,
-            'textAlignment'       => 'auto',
-            'bidi'                => true,
+        $attributes = [
+            'spaceAfter' => 240,
+            'spaceBefore' => 240,
+            'indent' => 1,
+            'hanging' => 1,
+            'spacing' => 120,
+            'spacingLineRule' => LineSpacingRule::AT_LEAST,
+            'basedOn' => 'Normal',
+            'next' => 'Normal',
+            'numStyle' => 'numStyle',
+            'numLevel' => 1,
+            'widowControl' => false,
+            'keepNext' => true,
+            'keepLines' => true,
+            'pageBreakBefore' => true,
+            'contextualSpacing' => true,
+            'textAlignment' => 'auto',
+            'bidi' => true,
             'suppressAutoHyphens' => true,
-        );
+        ];
         foreach ($attributes as $key => $value) {
             $get = $this->findGetter($key, $value, $object);
             $object->setStyleValue("$key", $value);
             if ('indent' == $key || 'hanging' == $key) {
                 $value = $value * 720;
             }
-            $this->assertEquals($value, $object->$get());
+            self::assertEquals($value, $object->$get());
         }
     }
 
@@ -110,39 +110,39 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test get null style value
+     * Test get null style value.
      */
-    public function testGetNullStyleValue()
+    public function testGetNullStyleValue(): void
     {
         $object = new Paragraph();
 
-        $attributes = array('spacing', 'indent', 'hanging', 'spaceBefore', 'spaceAfter', 'textAlignment');
+        $attributes = ['spacing', 'indent', 'hanging', 'spaceBefore', 'spaceAfter', 'textAlignment'];
         foreach ($attributes as $key) {
             $get = $this->findGetter($key, null, $object);
-            $this->assertNull($object->$get());
+            self::assertNull($object->$get());
         }
     }
 
     /**
-     * Test tabs
+     * Test tabs.
      */
-    public function testTabs()
+    public function testTabs(): void
     {
         $object = new Paragraph();
-        $object->setTabs(array(new Tab('left', 1550), new Tab('right', 5300)));
-        $this->assertCount(2, $object->getTabs());
+        $object->setTabs([new Tab('left', 1550), new Tab('right', 5300)]);
+        self::assertCount(2, $object->getTabs());
     }
 
     /**
-     * Line height
+     * Line height.
      */
-    public function testLineHeight()
+    public function testLineHeight(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
         // Test style array
-        $text = $section->addText('This is a test', array(), array('line-height' => 2.0));
+        $text = $section->addText('This is a test', [], ['line-height' => 2.0]);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');
@@ -150,8 +150,8 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $lineHeight = $element->getAttribute('w:line');
         $lineRule = $element->getAttribute('w:lineRule');
 
-        $this->assertEquals(480, $lineHeight);
-        $this->assertEquals('auto', $lineRule);
+        self::assertEquals(480, $lineHeight);
+        self::assertEquals('auto', $lineRule);
 
         // Test setter
         $text->getParagraphStyle()->setLineHeight(3.0);
@@ -161,24 +161,24 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $lineHeight = $element->getAttribute('w:line');
         $lineRule = $element->getAttribute('w:lineRule');
 
-        $this->assertEquals(720, $lineHeight);
-        $this->assertEquals('auto', $lineRule);
+        self::assertEquals(720, $lineHeight);
+        self::assertEquals('auto', $lineRule);
     }
 
     /**
-     * Test setLineHeight validation
+     * Test setLineHeight validation.
      */
-    public function testLineHeightValidation()
+    public function testLineHeightValidation(): void
     {
         $object = new Paragraph();
         $object->setLineHeight('12.5pt');
-        $this->assertEquals(12.5, $object->getLineHeight());
+        self::assertEquals(12.5, $object->getLineHeight());
     }
 
     /**
-     * Test line height exception by using nonnumeric value
+     * Test line height exception by using nonnumeric value.
      */
-    public function testLineHeightException()
+    public function testLineHeightException(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\InvalidStyleException::class);
         $object = new Paragraph();

@@ -11,41 +11,41 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\Spacing
+ * Test class for PhpOffice\PhpWord\Style\Spacing.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Spacing
  */
 class SpacingTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test get/set
+     * Test get/set.
      */
-    public function testGetSetProperties()
+    public function testGetSetProperties(): void
     {
         $object = new Spacing();
-        $properties = array(
-            'before'   => array(null, 10),
-            'after'    => array(null, 10),
-            'line'     => array(null, 10),
-            'lineRule' => array('auto', 'exact'),
-        );
+        $properties = [
+            'before' => [null, 10],
+            'after' => [null, 10],
+            'line' => [null, 10],
+            'lineRule' => ['auto', 'exact'],
+        ];
         foreach ($properties as $property => $value) {
-            list($default, $expected) = $value;
+            [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";
 
-            $this->assertEquals($default, $object->$get()); // Default value
+            self::assertEquals($default, $object->$get()); // Default value
 
             $object->$set($expected);
 
-            $this->assertEquals($expected, $object->$get()); // New value
+            self::assertEquals($expected, $object->$get()); // New value
         }
     }
 }

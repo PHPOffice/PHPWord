@@ -11,12 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use DateTime;
 use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
@@ -27,24 +28,24 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document.
  *
  * @runTestsInSeparateProcesses
  */
 class DocumentTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Write custom properties
+     * Write custom properties.
      */
-    public function testWriteCustomProps()
+    public function testWriteCustomProps(): void
     {
         $phpWord = new PhpWord();
         $docInfo = $phpWord->getDocInfo();
@@ -54,11 +55,11 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $docInfo->setCustomProperty('key3', 3);
         $docInfo->setCustomProperty('key4', 4.4);
         $docInfo->setCustomProperty('key5', 'value5');
-        $docInfo->setCustomProperty('key6', new \DateTime());
+        $docInfo->setCustomProperty('key6', new DateTime());
         $docInfo->setCustomProperty('key7', time(), DocInfo::PROPERTY_TYPE_DATE);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        $this->assertNotNull($doc);
+        self::assertNotNull($doc);
 
 //         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
 //         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));
@@ -68,9 +69,9 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Write end section page numbering
+     * Write end section page numbering.
      */
-    public function testWriteEndSectionPageNumbering()
+    public function testWriteEndSectionPageNumbering(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -85,13 +86,13 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:pgNumType');
 
-        $this->assertEquals(2, $element->getAttribute('w:start'));
+        self::assertEquals(2, $element->getAttribute('w:start'));
     }
 
     /**
-     * Write section footnote properties
+     * Write section footnote properties.
      */
-    public function testSectionFootnoteProperties()
+    public function testSectionFootnoteProperties(): void
     {
         $properties = new FootnoteProperties();
         $properties->setPos(FootnoteProperties::POSITION_DOC_END);
@@ -106,28 +107,28 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:pos');
-        $this->assertEquals(FootnoteProperties::POSITION_DOC_END, $element->getAttribute('w:val'));
+        self::assertEquals(FootnoteProperties::POSITION_DOC_END, $element->getAttribute('w:val'));
 
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numFmt');
-        $this->assertEquals(NumberFormat::LOWER_ROMAN, $element->getAttribute('w:val'));
+        self::assertEquals(NumberFormat::LOWER_ROMAN, $element->getAttribute('w:val'));
 
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numStart');
-        $this->assertEquals(1, $element->getAttribute('w:val'));
+        self::assertEquals(1, $element->getAttribute('w:val'));
 
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numRestart');
-        $this->assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $element->getAttribute('w:val'));
+        self::assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $element->getAttribute('w:val'));
     }
 
     /**
-     * Write elements
+     * Write elements.
      */
-    public function testElements()
+    public function testElements(): void
     {
         $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
 
         $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(1, array('color' => '333333', 'bold' => true));
-        $phpWord->addTitleStyle(2, array('color' => '666666'));
+        $phpWord->addTitleStyle(1, ['color' => '333333', 'bold' => true]);
+        $phpWord->addTitleStyle(2, ['color' => '666666']);
         $section = $phpWord->addSection();
         $section->addTOC();
         $section->addPageBreak();
@@ -140,109 +141,109 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addTitle('Title 2', 2);
         $section->addObject($objectSrc);
-        $section->addTextBox(array());
+        $section->addTextBox([]);
         $section->addTextBox(
-            array(
-                'wrappingStyle'    => 'square',
-                'positioning'      => 'relative',
+            [
+                'wrappingStyle' => 'square',
+                'positioning' => 'relative',
                 'posHorizontalRel' => 'margin',
-                'posVerticalRel'   => 'margin',
-                'innerMargin'      => 10,
-                'borderSize'       => 1,
-                'borderColor'      => '#FF0',
-            )
+                'posVerticalRel' => 'margin',
+                'innerMargin' => 10,
+                'borderSize' => 1,
+                'borderColor' => '#FF0',
+            ]
         );
-        $section->addTextBox(array('wrappingStyle' => 'tight', 'positioning' => 'absolute', 'alignment' => Jc::CENTER));
+        $section->addTextBox(['wrappingStyle' => 'tight', 'positioning' => 'absolute', 'alignment' => Jc::CENTER]);
         $section->addListItemRun()->addText('List item run 1');
         $section->addField(
             'DATE',
-            array('dateformat' => 'dddd d MMMM yyyy H:mm:ss'),
-            array('PreserveFormat', 'LunarCalendar')
+            ['dateformat' => 'dddd d MMMM yyyy H:mm:ss'],
+            ['PreserveFormat', 'LunarCalendar']
         );
         $section->addField(
             'DATE',
-            array('dateformat' => 'dddd d MMMM yyyy H:mm:ss'),
-            array('PreserveFormat', 'SakaEraCalendar')
+            ['dateformat' => 'dddd d MMMM yyyy H:mm:ss'],
+            ['PreserveFormat', 'SakaEraCalendar']
         );
         $section->addField(
             'DATE',
-            array('dateformat' => 'dddd d MMMM yyyy H:mm:ss'),
-            array('PreserveFormat', 'LastUsedFormat')
+            ['dateformat' => 'dddd d MMMM yyyy H:mm:ss'],
+            ['PreserveFormat', 'LastUsedFormat']
         );
-        $section->addField('PAGE', array('format' => 'ArabicDash'));
+        $section->addField('PAGE', ['format' => 'ArabicDash']);
         $section->addLine(
-            array(
-                'width'       => 10,
-                'height'      => 10,
+            [
+                'width' => 10,
+                'height' => 10,
                 'positioning' => 'absolute',
-                'beginArrow'  => 'block',
-                'endArrow'    => 'open',
-                'dash'        => 'rounddot',
-                'weight'      => 10,
-            )
+                'beginArrow' => 'block',
+                'endArrow' => 'open',
+                'dash' => 'rounddot',
+                'weight' => 10,
+            ]
         );
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         // TOC
         $element = $doc->getElement('/w:document/w:body/w:p[1]/w:pPr/w:tabs/w:tab');
-        $this->assertEquals('right', $element->getAttribute('w:val'));
-        $this->assertEquals('dot', $element->getAttribute('w:leader'));
-        $this->assertEquals(9062, $element->getAttribute('w:pos'));
+        self::assertEquals('right', $element->getAttribute('w:val'));
+        self::assertEquals('dot', $element->getAttribute('w:leader'));
+        self::assertEquals(9062, $element->getAttribute('w:pos'));
 
         // Page break
         $element = $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:br');
-        $this->assertEquals('page', $element->getAttribute('w:type'));
+        self::assertEquals('page', $element->getAttribute('w:type'));
 
         // Title
         $element = $doc->getElement('/w:document/w:body/w:p[6]/w:pPr/w:pStyle');
-        $this->assertEquals('Heading1', $element->getAttribute('w:val'));
+        self::assertEquals('Heading1', $element->getAttribute('w:val'));
 
         // List item
         $element = $doc->getElement('/w:document/w:body/w:p[7]/w:pPr/w:numPr/w:numId');
-        $this->assertEquals(3, $element->getAttribute('w:val'));
+        self::assertEquals(3, $element->getAttribute('w:val'));
 
         // Object
         $element = $doc->getElement('/w:document/w:body/w:p[12]/w:r/w:object/o:OLEObject');
-        $this->assertEquals('Embed', $element->getAttribute('Type'));
+        self::assertEquals('Embed', $element->getAttribute('Type'));
     }
 
     /**
-     * Write element with some styles
+     * Write element with some styles.
      */
-    public function testElementStyles()
+    public function testElementStyles(): void
     {
         $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
 
-        $tabs = array(new \PhpOffice\PhpWord\Style\Tab('right', 9090));
+        $tabs = [new \PhpOffice\PhpWord\Style\Tab('right', 9090)];
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle(
             'pStyle',
-            array(
-                'alignment'  => Jc::CENTER,
-                'tabs'       => $tabs,
-                'shading'    => array('fill' => 'FFFF99'),
+            [
+                'alignment' => Jc::CENTER,
+                'tabs' => $tabs,
+                'shading' => ['fill' => 'FFFF99'],
                 'borderSize' => 4,
-            )
+            ]
         ); // Style #1
         $phpWord->addFontStyle(
             'fStyle',
-            array(
-                'size'    => '20',
-                'bold'    => true,
+            [
+                'size' => '20',
+                'bold' => true,
                 'allCaps' => true,
-                'scale'   => 200,
+                'scale' => 200,
                 'spacing' => 240,
                 'kerning' => 10,
-            )
+            ]
         ); // Style #2
-        $phpWord->addTitleStyle(1, array('color' => '333333', 'doubleStrikethrough' => true)); // Style #3
-        $phpWord->addTableStyle('tStyle', array('borderSize' => 1));
-        $fontStyle = new Font('text', array('alignment' => Jc::CENTER));
+        $phpWord->addTitleStyle(1, ['color' => '333333', 'doubleStrikethrough' => true]); // Style #3
+        $phpWord->addTableStyle('tStyle', ['borderSize' => 1]);
+        $fontStyle = new Font('text', ['alignment' => Jc::CENTER]);
 
         $section = $phpWord->addSection();
         $section->addListItem('List Item', 0, null, null, 'pStyle'); // Style #5
-        $section->addObject($objectSrc, array('alignment' => Jc::CENTER));
+        $section->addObject($objectSrc, ['alignment' => Jc::CENTER]);
         $section->addTOC($fontStyle);
         $section->addTitle('Title 1', 1);
         $section->addTOC('fStyle');
@@ -252,47 +253,47 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // List item
         $element = $doc->getElement('/w:document/w:body/w:p[1]/w:pPr/w:numPr/w:numId');
-        $this->assertEquals(5, $element->getAttribute('w:val'));
+        self::assertEquals(5, $element->getAttribute('w:val'));
 
         // Object
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:object/o:OLEObject');
-        $this->assertEquals('Embed', $element->getAttribute('Type'));
+        self::assertEquals('Embed', $element->getAttribute('Type'));
 
         // TOC
         $element = $doc->getElement('/w:document/w:body/w:p[3]/w:pPr/w:tabs/w:tab');
-        $this->assertEquals('right', $element->getAttribute('w:val'));
-        $this->assertEquals('dot', $element->getAttribute('w:leader'));
-        $this->assertEquals(9062, $element->getAttribute('w:pos'));
+        self::assertEquals('right', $element->getAttribute('w:val'));
+        self::assertEquals('dot', $element->getAttribute('w:leader'));
+        self::assertEquals(9062, $element->getAttribute('w:pos'));
     }
 
     /**
-     * Test write text element
+     * Test write text element.
      */
-    public function testWriteText()
+    public function testWriteText(): void
     {
         $rStyle = 'rStyle';
         $pStyle = 'pStyle';
 
         $phpWord = new PhpWord();
-        $phpWord->addFontStyle($rStyle, array('bold' => true));
-        $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
+        $phpWord->addFontStyle($rStyle, ['bold' => true]);
+        $phpWord->addParagraphStyle($pStyle, ['hanging' => 120, 'indent' => 120]);
         $section = $phpWord->addSection();
         $section->addText('Test', $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:rPr/w:rStyle';
-        $this->assertEquals($rStyle, $doc->getElementAttribute($element, 'w:val'));
+        self::assertEquals($rStyle, $doc->getElementAttribute($element, 'w:val'));
         $element = '/w:document/w:body/w:p/w:pPr/w:pStyle';
-        $this->assertEquals($pStyle, $doc->getElementAttribute($element, 'w:val'));
+        self::assertEquals($pStyle, $doc->getElementAttribute($element, 'w:val'));
     }
 
     /**
-     * Test write textrun element
+     * Test write textrun element.
      */
-    public function testWriteTextRun()
+    public function testWriteTextRun(): void
     {
         $pStyle = 'pStyle';
-        $aStyle = array('alignment' => Jc::BOTH, 'spaceBefore' => 120, 'spaceAfter' => 120);
+        $aStyle = ['alignment' => Jc::BOTH, 'spaceBefore' => 120, 'spaceAfter' => 120];
         $imageSrc = __DIR__ . '/../../../_files/images/earth.jpg';
 
         $phpWord = new PhpWord();
@@ -303,24 +304,24 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $textrun->addTextBreak();
         $textrun = $section->addTextRun($aStyle);
         $textrun->addLink('https://github.com/PHPOffice/PHPWord');
-        $textrun->addImage($imageSrc, array('alignment' => Jc::CENTER));
+        $textrun->addImage($imageSrc, ['alignment' => Jc::CENTER]);
         $textrun->addFootnote();
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = '/w:document/w:body/w:p';
-        $this->assertTrue($doc->elementExists("{$parent}/w:pPr/w:pStyle[@w:val='{$pStyle}']"));
+        self::assertTrue($doc->elementExists("{$parent}/w:pPr/w:pStyle[@w:val='{$pStyle}']"));
     }
 
     /**
-     * Test write link element
+     * Test write link element.
      */
-    public function testWriteLink()
+    public function testWriteLink(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $fontStyleArray = array('bold' => true);
+        $fontStyleArray = ['bold' => true];
         $fontStyleName = 'Font Style';
-        $paragraphStyleArray = array('alignment' => Jc::CENTER);
+        $paragraphStyleArray = ['alignment' => Jc::CENTER];
         $paragraphStyleName = 'Paragraph Style';
 
         $expected = 'PHPWord on GitHub';
@@ -331,20 +332,20 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
 
-        $this->assertEquals($expected, $element->nodeValue);
+        self::assertEquals($expected, $element->nodeValue);
     }
 
     /**
-     * Test write preserve text element
+     * Test write preserve text element.
      */
-    public function testWritePreserveText()
+    public function testWritePreserveText(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $footer = $section->addFooter();
-        $fontStyleArray = array('bold' => true);
+        $fontStyleArray = ['bold' => true];
         $fontStyleName = 'Font';
-        $paragraphStyleArray = array('alignment' => Jc::END);
+        $paragraphStyleArray = ['alignment' => Jc::END];
         $paragraphStyleName = 'Paragraph';
 
         $footer->addPreserveText('Page {PAGE}');
@@ -354,17 +355,17 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         $preserve = $doc->getElement('w:p/w:r[2]/w:instrText', 'word/footer1.xml');
 
-        $this->assertEquals('PAGE', $preserve->nodeValue);
-        $this->assertEquals('preserve', $preserve->getAttribute('xml:space'));
+        self::assertEquals('PAGE', $preserve->nodeValue);
+        self::assertEquals('preserve', $preserve->getAttribute('xml:space'));
     }
 
     /**
-     * Test write text break
+     * Test write text break.
      */
-    public function testWriteTextBreak()
+    public function testWriteTextBreak(): void
     {
-        $fArray = array('size' => 12);
-        $pArray = array('spacing' => 240);
+        $fArray = ['size' => 12];
+        $pArray = ['spacing' => 240];
         $fName = 'fStyle';
         $pName = 'pStyle';
 
@@ -378,19 +379,19 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:rPr/w:rStyle');
-        $this->assertEquals($fName, $element->getAttribute('w:val'));
+        self::assertEquals($fName, $element->getAttribute('w:val'));
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:pStyle');
-        $this->assertEquals($pName, $element->getAttribute('w:val'));
+        self::assertEquals($pName, $element->getAttribute('w:val'));
     }
 
     /**
-     * covers ::_writeImage
+     * covers ::_writeImage.
      */
-    public function testWriteImage()
+    public function testWriteImage(): void
     {
         $phpWord = new PhpWord();
-        $styles = array('alignment' => Jc::START, 'width' => 40, 'height' => 40, 'marginTop' => -1, 'marginLeft' => -1);
-        $wraps = array('inline', 'behind', 'infront', 'square', 'tight');
+        $styles = ['alignment' => Jc::START, 'width' => 40, 'height' => 40, 'marginTop' => -1, 'marginLeft' => -1];
+        $wraps = ['inline', 'behind', 'infront', 'square', 'tight'];
         $section = $phpWord->addSection();
         foreach ($wraps as $wrap) {
             $styles['wrappingStyle'] = $wrap;
@@ -407,17 +408,17 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         // behind
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
         $style = $element->getAttribute('style');
-        $this->assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
+        self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
 
         // square
         $element = $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:pict/v:shape/w10:wrap');
-        $this->assertEquals('square', $element->getAttribute('type'));
+        self::assertEquals('square', $element->getAttribute('type'));
     }
 
     /**
-     * covers ::_writeWatermark
+     * covers ::_writeWatermark.
      */
-    public function testWriteWatermark()
+    public function testWriteWatermark(): void
     {
         $imageSrc = __DIR__ . '/../../../_files/images/earth.jpg';
 
@@ -428,27 +429,27 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:headerReference');
-        $this->assertStringStartsWith('rId', $element->getAttribute('r:id'));
+        self::assertStringStartsWith('rId', $element->getAttribute('r:id'));
     }
 
     /**
-     * covers ::_writeTitle
+     * covers ::_writeTitle.
      */
-    public function testWriteTitle()
+    public function testWriteTitle(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
+        $phpWord->addTitleStyle(1, ['bold' => true], ['spaceAfter' => 240]);
         $phpWord->addSection()->addTitle('Test', 1);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:pPr/w:pStyle';
-        $this->assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
+        self::assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
     }
 
     /**
-     * covers ::_writeCheckbox
+     * covers ::_writeCheckbox.
      */
-    public function testWriteCheckbox()
+    public function testWriteCheckbox(): void
     {
         $rStyle = 'rStyle';
         $pStyle = 'pStyle';
@@ -461,26 +462,26 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:fldChar/w:ffData/w:name';
-        $this->assertEquals('Check1', $doc->getElementAttribute($element, 'w:val'));
+        self::assertEquals('Check1', $doc->getElementAttribute($element, 'w:val'));
     }
 
     /**
-     * covers ::_writeParagraphStyle
+     * covers ::_writeParagraphStyle.
      */
-    public function testWriteParagraphStyle()
+    public function testWriteParagraphStyle(): void
     {
         // Create the doc
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $attributes = array(
-            'alignment'       => Jc::END,
-            'widowControl'    => false,
-            'keepNext'        => true,
-            'keepLines'       => true,
+        $attributes = [
+            'alignment' => Jc::END,
+            'widowControl' => false,
+            'keepNext' => true,
+            'keepLines' => true,
             'pageBreakBefore' => true,
-        );
+        ];
         foreach ($attributes as $attribute => $value) {
-            $section->addText('Test', null, array($attribute => $value));
+            $section->addText('Test', null, [$attribute => $value]);
         }
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -494,14 +495,14 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
                 $value = $value ? 1 : 0;
             }
             $element = $doc->getElement($path);
-            $this->assertEquals($value, $element->getAttribute('w:val'));
+            self::assertEquals($value, $element->getAttribute('w:val'));
         }
     }
 
     /**
-     * covers ::_writeTextStyle
+     * covers ::_writeTextStyle.
      */
-    public function testWriteFontStyle()
+    public function testWriteFontStyle(): void
     {
         $phpWord = new PhpWord();
         $styles['name'] = 'Verdana';
@@ -522,22 +523,22 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = '/w:document/w:body/w:p/w:r/w:rPr';
-        $this->assertEquals($styles['name'], $doc->getElementAttribute("{$parent}/w:rFonts", 'w:ascii'));
-        $this->assertEquals($styles['size'] * 2, $doc->getElementAttribute("{$parent}/w:sz", 'w:val'));
-        $this->assertTrue($doc->elementExists("{$parent}/w:b"));
-        $this->assertTrue($doc->elementExists("{$parent}/w:i"));
-        $this->assertEquals($styles['underline'], $doc->getElementAttribute("{$parent}/w:u", 'w:val'));
-        $this->assertTrue($doc->elementExists("{$parent}/w:strike"));
-        $this->assertEquals('superscript', $doc->getElementAttribute("{$parent}/w:vertAlign", 'w:val'));
-        $this->assertEquals($styles['color'], $doc->getElementAttribute("{$parent}/w:color", 'w:val'));
-        $this->assertEquals($styles['fgColor'], $doc->getElementAttribute("{$parent}/w:highlight", 'w:val'));
-        $this->assertTrue($doc->elementExists("{$parent}/w:smallCaps"));
+        self::assertEquals($styles['name'], $doc->getElementAttribute("{$parent}/w:rFonts", 'w:ascii'));
+        self::assertEquals($styles['size'] * 2, $doc->getElementAttribute("{$parent}/w:sz", 'w:val'));
+        self::assertTrue($doc->elementExists("{$parent}/w:b"));
+        self::assertTrue($doc->elementExists("{$parent}/w:i"));
+        self::assertEquals($styles['underline'], $doc->getElementAttribute("{$parent}/w:u", 'w:val'));
+        self::assertTrue($doc->elementExists("{$parent}/w:strike"));
+        self::assertEquals('superscript', $doc->getElementAttribute("{$parent}/w:vertAlign", 'w:val'));
+        self::assertEquals($styles['color'], $doc->getElementAttribute("{$parent}/w:color", 'w:val'));
+        self::assertEquals($styles['fgColor'], $doc->getElementAttribute("{$parent}/w:highlight", 'w:val'));
+        self::assertTrue($doc->elementExists("{$parent}/w:smallCaps"));
     }
 
     /**
-     * Tests that if no color is set on a cell a border gets writen with the default color
+     * Tests that if no color is set on a cell a border gets writen with the default color.
      */
-    public function testWriteDefaultColor()
+    public function testWriteDefaultColor(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -550,13 +551,13 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $cell->addText('Test');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        $this->assertEquals(Cell::DEFAULT_BORDER_COLOR, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top', 'w:color'));
+        self::assertEquals(Cell::DEFAULT_BORDER_COLOR, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top', 'w:color'));
     }
 
     /**
-     * covers ::_writeTableStyle
+     * covers ::_writeTableStyle.
      */
-    public function testWriteTableStyle()
+    public function testWriteTableStyle(): void
     {
         $phpWord = new PhpWord();
         $rHeight = 120;
@@ -603,20 +604,20 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $parent = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellMar';
 
         $parent = '/w:document/w:body/w:tbl/w:tr/w:trPr';
-        $this->assertEquals($rHeight, $doc->getElementAttribute("{$parent}/w:trHeight", 'w:val'));
-        $this->assertEquals($rStyles['tblHeader'], $doc->getElementAttribute("{$parent}/w:tblHeader", 'w:val'));
-        $this->assertEquals($rStyles['cantSplit'], $doc->getElementAttribute("{$parent}/w:cantSplit", 'w:val'));
+        self::assertEquals($rHeight, $doc->getElementAttribute("{$parent}/w:trHeight", 'w:val'));
+        self::assertEquals($rStyles['tblHeader'], $doc->getElementAttribute("{$parent}/w:tblHeader", 'w:val'));
+        self::assertEquals($rStyles['cantSplit'], $doc->getElementAttribute("{$parent}/w:cantSplit", 'w:val'));
 
         $parent = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr';
-        $this->assertEquals($cWidth, $doc->getElementAttribute("{$parent}/w:tcW", 'w:w'));
-        $this->assertEquals($cStyles['valign'], $doc->getElementAttribute("{$parent}/w:vAlign", 'w:val'));
-        $this->assertEquals($cStyles['textDirection'], $doc->getElementAttribute("{$parent}/w:textDirection", 'w:val'));
+        self::assertEquals($cWidth, $doc->getElementAttribute("{$parent}/w:tcW", 'w:w'));
+        self::assertEquals($cStyles['valign'], $doc->getElementAttribute("{$parent}/w:vAlign", 'w:val'));
+        self::assertEquals($cStyles['textDirection'], $doc->getElementAttribute("{$parent}/w:textDirection", 'w:val'));
     }
 
     /**
-     * covers ::_writeCellStyle
+     * covers ::_writeCellStyle.
      */
-    public function testWriteCellStyleCellGridSpan()
+    public function testWriteCellStyleCellGridSpan(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -635,28 +636,28 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $table->addCell(40);
 
         $table->addRow();
-        $cell = $table->addCell(200, array('borderRightColor' => 'FF0000'));
+        $cell = $table->addCell(200, ['borderRightColor' => 'FF0000']);
         $cell->getStyle()->setGridSpan(5);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');
 
-        $this->assertEquals(5, $element->getAttribute('w:val'));
+        self::assertEquals(5, $element->getAttribute('w:val'));
     }
 
     /**
-     * Test write gutter and line numbering
+     * Test write gutter and line numbering.
      */
-    public function testWriteGutterAndLineNumbering()
+    public function testWriteGutterAndLineNumbering(): void
     {
         $pageMarginPath = '/w:document/w:body/w:sectPr/w:pgMar';
         $lineNumberingPath = '/w:document/w:body/w:sectPr/w:lnNumType';
 
         $phpWord = new PhpWord();
-        $phpWord->addSection(array('gutter' => 240, 'lineNumbering' => array()));
+        $phpWord->addSection(['gutter' => 240, 'lineNumbering' => []]);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $this->assertEquals(240, $doc->getElement($pageMarginPath)->getAttribute('w:gutter'));
-        $this->assertTrue($doc->elementExists($lineNumberingPath));
+        self::assertEquals(240, $doc->getElement($pageMarginPath)->getAttribute('w:gutter'));
+        self::assertTrue($doc->elementExists($lineNumberingPath));
     }
 }

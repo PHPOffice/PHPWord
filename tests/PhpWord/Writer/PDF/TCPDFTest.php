@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,16 +22,16 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\PDF;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\PDF\TCPDF
+ * Test class for PhpOffice\PhpWord\Writer\PDF\TCPDF.
  *
  * @runTestsInSeparateProcesses
  */
 class TCPDFTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test construct
+     * Test construct.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $file = __DIR__ . '/../../_files/tcpdf.pdf';
 
@@ -45,7 +45,7 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
         $writer = new PDF($phpWord);
         $writer->save($file);
 
-        $this->assertFileExists($file);
+        self::assertFileExists($file);
 
         unlink($file);
     }

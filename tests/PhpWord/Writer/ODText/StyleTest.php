@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,23 +20,23 @@ namespace PhpOffice\PhpWord\Writer\ODText;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\ODText\Style subnamespace
+ * Test class for PhpOffice\PhpWord\Writer\ODText\Style subnamespace.
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test empty styles
+     * Test empty styles.
      */
-    public function testEmptyStyles()
+    public function testEmptyStyles(): void
     {
-        $styles = array('Font', 'Paragraph', 'Image', 'Section', 'Table');
+        $styles = ['Font', 'Paragraph', 'Image', 'Section', 'Table'];
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Style\\' . $style;
             $xmlWriter = new XMLWriter();
             $object = new $objectClass($xmlWriter);
             $object->write();
 
-            $this->assertEquals('', $xmlWriter->getData());
+            self::assertEquals('', $xmlWriter->getData());
         }
     }
 }

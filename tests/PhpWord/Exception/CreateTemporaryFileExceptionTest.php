@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Exception;
 
 /**
  * @covers \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+ *
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
  */
 class CreateTemporaryFileExceptionTest extends \PHPUnit\Framework\TestCase
@@ -27,11 +28,11 @@ class CreateTemporaryFileExceptionTest extends \PHPUnit\Framework\TestCase
      * CreateTemporaryFileException can be thrown.
      *
      * @covers            ::__construct()
-     * @test
      */
-    public function testCreateTemporaryFileExceptionCanBeThrown()
+    public function testCreateTemporaryFileExceptionCanBeThrown(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\CreateTemporaryFileException::class);
+
         throw new CreateTemporaryFileException();
     }
 }

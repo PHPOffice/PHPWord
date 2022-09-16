@@ -11,54 +11,59 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
+use DOMDocument;
+use DOMElement;
+use DOMNodeList;
+use DOMXPath;
+
 /**
- * DOM wrapper class
+ * DOM wrapper class.
  */
 class XmlDocument
 {
     /**
-     * Path
+     * Path.
      *
      * @var string
      */
     private $path;
 
     /**
-     * DOMDocument object
+     * DOMDocument object.
      *
-     * @var \DOMDocument
+     * @var DOMDocument
      */
     private $dom;
 
     /**
-     * DOMXPath object
+     * DOMXPath object.
      *
-     * @var \DOMXPath
+     * @var DOMXPath
      */
     private $xpath;
 
     /**
-     * File name
+     * File name.
      *
      * @var string
      */
     private $file;
 
     /**
-     * Default file name
+     * Default file name.
      *
      * @var string
      */
     private $defaultFile = 'word/document.xml';
 
     /**
-     * Get default file
+     * Get default file.
      *
      * @return string
      */
@@ -68,9 +73,10 @@ class XmlDocument
     }
 
     /**
-     * Set default file
+     * Set default file.
      *
      * @param string $file
+     *
      * @return string
      */
     public function setDefaultFile($file)
@@ -82,7 +88,7 @@ class XmlDocument
     }
 
     /**
-     * Create new instance
+     * Create new instance.
      *
      * @param string $path
      */
@@ -92,10 +98,11 @@ class XmlDocument
     }
 
     /**
-     * Get DOM from file
+     * Get DOM from file.
      *
      * @param string $file
-     * @return \DOMDocument
+     *
+     * @return DOMDocument
      */
     public function getFileDom($file = '')
     {
@@ -113,7 +120,7 @@ class XmlDocument
         if (\PHP_VERSION_ID < 80000) {
             $orignalLibEntityLoader = libxml_disable_entity_loader(false);
         }
-        $this->dom = new \DOMDocument();
+        $this->dom = new DOMDocument();
         $this->dom->load($file);
         if (\PHP_VERSION_ID < 80000) {
             libxml_disable_entity_loader($orignalLibEntityLoader);
@@ -123,11 +130,12 @@ class XmlDocument
     }
 
     /**
-     * Get node list
+     * Get node list.
      *
      * @param string $path
      * @param string $file
-     * @return \DOMNodeList
+     *
+     * @return DOMNodeList
      */
     public function getNodeList($path, $file = '')
     {
@@ -139,7 +147,7 @@ class XmlDocument
         }
 
         if (null === $this->xpath) {
-            $this->xpath = new \DOMXPath($this->dom);
+            $this->xpath = new DOMXPath($this->dom);
             $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 
@@ -147,11 +155,12 @@ class XmlDocument
     }
 
     /**
-     * Get element
+     * Get element.
      *
      * @param string $path
      * @param string $file
-     * @return \DOMElement
+     *
+     * @return DOMElement
      */
     public function getElement($path, $file = '')
     {
@@ -164,7 +173,7 @@ class XmlDocument
     }
 
     /**
-     * Get file name
+     * Get file name.
      *
      * @return string
      */
@@ -174,7 +183,7 @@ class XmlDocument
     }
 
     /**
-     * Get path
+     * Get path.
      *
      * @return string
      */
@@ -184,11 +193,12 @@ class XmlDocument
     }
 
     /**
-     * Get element attribute
+     * Get element attribute.
      *
      * @param   string  $path
      * @param   string  $attribute
      * @param   string  $file
+     *
      * @return  string
      */
     public function getElementAttribute($path, $attribute, $file = '')
@@ -201,10 +211,11 @@ class XmlDocument
     }
 
     /**
-     * Check if element exists
+     * Check if element exists.
      *
      * @param   string  $path
      * @param   string  $file
+     *
      * @return  string
      */
     public function elementExists($path, $file = '')
@@ -218,10 +229,11 @@ class XmlDocument
     }
 
     /**
-     * Returns the xml, or part of it as a formatted string
+     * Returns the xml, or part of it as a formatted string.
      *
      * @param string $path
      * @param string $file
+     *
      * @return string
      */
     public function printXml($path = '/', $file = '')
@@ -230,14 +242,14 @@ class XmlDocument
             $file = $this->defaultFile;
         }
         $element = $this->getElement($path, $file);
-        if ($element instanceof \DOMDocument) {
+        if ($element instanceof DOMDocument) {
             $element->formatOutput = true;
             $element->preserveWhiteSpace = false;
 
             return $element->saveXML();
         }
 
-        $newdoc = new \DOMDocument();
+        $newdoc = new DOMDocument();
         $newdoc->formatOutput = true;
         $newdoc->preserveWhiteSpace = false;
         $node = $newdoc->importNode($element, true);

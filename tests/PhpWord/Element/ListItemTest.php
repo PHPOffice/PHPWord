@@ -11,49 +11,50 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\ListItem
+ * Test class for PhpOffice\PhpWord\Element\ListItem.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\ListItem
+ *
  * @runTestsInSeparateProcesses
  */
 class ListItemTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Get text object
+     * Get text object.
      */
-    public function testText()
+    public function testText(): void
     {
         $oListItem = new ListItem('text');
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $oListItem->getTextObject());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $oListItem->getTextObject());
     }
 
     /**
-     * Get style
+     * Get style.
      */
-    public function testStyle()
+    public function testStyle(): void
     {
-        $oListItem = new ListItem('text', 1, null, array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER));
+        $oListItem = new ListItem('text', 1, null, ['listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER]);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\ListItem', $oListItem->getStyle());
-        $this->assertEquals(\PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER, $oListItem->getStyle()->getListType());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\ListItem', $oListItem->getStyle());
+        self::assertEquals(\PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER, $oListItem->getStyle()->getListType());
     }
 
     /**
-     * Get depth
+     * Get depth.
      */
-    public function testDepth()
+    public function testDepth(): void
     {
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oListItem = new ListItem('text', $iVal);
 
-        $this->assertEquals($iVal, $oListItem->getDepth());
+        self::assertEquals($iVal, $oListItem->getDepth());
     }
 }

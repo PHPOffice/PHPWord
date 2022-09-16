@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,24 +22,24 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\ODText\Part\Content
+ * Test class for PhpOffice\PhpWord\Writer\ODText\Part\Content.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\Content
  */
 class ContentTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test write content
+     * Test write content.
      */
-    public function testWriteContent()
+    public function testWriteContent(): void
     {
         $imageSrc = __DIR__ . '/../../../_files/images/PhpWord.png';
         $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
@@ -51,11 +51,11 @@ class ContentTest extends \PHPUnit\Framework\TestCase
         $docProps->setCustomProperty('Company', 'PHPWord');
 
         $phpWord->setDefaultFontName('Verdana');
-        $phpWord->addFontStyle('Font', array('size' => 11));
-        $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));
-        $phpWord->addTableStyle('tblStyle', array('width' => 100));
+        $phpWord->addFontStyle('Font', ['size' => 11]);
+        $phpWord->addParagraphStyle('Paragraph', ['alignment' => Jc::CENTER]);
+        $phpWord->addTableStyle('tblStyle', ['width' => 100]);
 
-        $section = $phpWord->addSection(array('colsNum' => 2));
+        $section = $phpWord->addSection(['colsNum' => 2]);
         $section->addText($expected);
         $section->addText('Test font style', 'Font');
         $section->addText('Test paragraph style', null, 'Paragraph');
@@ -64,14 +64,14 @@ class ContentTest extends \PHPUnit\Framework\TestCase
         $section->addTextBreak();
         $section->addPageBreak();
         $section->addListItem('Test list item');
-        $section->addImage($imageSrc, array('width' => 50));
+        $section->addImage($imageSrc, ['width' => 50]);
         $section->addObject($objectSrc);
         $section->addTOC();
 
         $textrun = $section->addTextRun();
         $textrun->addText('Test text run');
 
-        $table = $section->addTable(array('width' => 50));
+        $table = $section->addTable(['width' => 50]);
         $cell = $table->addRow()->addCell();
         $cell = $table->addRow()->addCell();
         $cell->addText('Test');
@@ -92,20 +92,20 @@ class ContentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
         $element = '/office:document-content/office:body/office:text/text:section/text:p[2]';
-        $this->assertEquals($expected, $doc->getElement($element, 'content.xml')->nodeValue);
+        self::assertEquals($expected, $doc->getElement($element, 'content.xml')->nodeValue);
     }
 
     /**
-     * Test no paragraph style
+     * Test no paragraph style.
      */
-    public function testWriteNoStyle()
+    public function testWriteNoStyle(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->addFontStyle('Font', array('size' => 11));
+        $phpWord->addFontStyle('Font', ['size' => 11]);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
         $element = '/office:document-content/office:automatic-styles/style:style';
-        $this->assertTrue($doc->elementExists($element, 'content.xml'));
+        self::assertTrue($doc->elementExists($element, 'content.xml'));
     }
 }

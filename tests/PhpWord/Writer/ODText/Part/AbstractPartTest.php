@@ -11,16 +11,17 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
+use Exception;
 use PhpOffice\PhpWord\Writer\ODText;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart
+ * Test class for PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart
  */
@@ -28,21 +29,21 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * covers   ::setParentWriter
-     * covers   ::getParentWriter
+     * covers   ::getParentWriter.
      */
-    public function testSetGetParentWriter()
+    public function testSetGetParentWriter(): void
     {
         $object = $this->getMockForAbstractClass('PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart');
         $object->setParentWriter(new ODText());
-        $this->assertEquals(new ODText(), $object->getParentWriter());
+        self::assertEquals(new ODText(), $object->getParentWriter());
     }
 
     /**
-     * covers   ::getParentWriter
+     * covers   ::getParentWriter.
      */
-    public function testSetGetParentWriterNull()
+    public function testSetGetParentWriterNull(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('No parent WriterInterface assigned.');
         $object = $this->getMockForAbstractClass('PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart');
         $object->getParentWriter();

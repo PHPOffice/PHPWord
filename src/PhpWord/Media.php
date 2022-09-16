@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,19 +21,19 @@ use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Exception\Exception;
 
 /**
- * Media collection
+ * Media collection.
  */
 class Media
 {
     /**
-     * Media elements
+     * Media elements.
      *
      * @var array
      */
-    private static $elements = array();
+    private static $elements = [];
 
     /**
-     * Add new media element
+     * Add new media element.
      *
      * @since 0.10.0
      * @since 0.9.2
@@ -43,31 +43,29 @@ class Media
      * @param string $source
      * @param \PhpOffice\PhpWord\Element\Image $image
      *
-     * @throws \PhpOffice\PhpWord\Exception\Exception
-     *
      * @return int
      */
-    public static function addElement($container, $mediaType, $source, Image $image = null)
+    public static function addElement($container, $mediaType, $source, ?Image $image = null)
     {
         // Assign unique media Id and initiate media container if none exists
         $mediaId = md5($container . $source);
         if (!isset(self::$elements[$container])) {
-            self::$elements[$container] = array();
+            self::$elements[$container] = [];
         }
 
         // Add media if not exists or point to existing media
         if (!isset(self::$elements[$container][$mediaId])) {
             $mediaCount = self::countElements($container);
             $mediaTypeCount = self::countElements($container, $mediaType);
-            $mediaTypeCount++;
+            ++$mediaTypeCount;
             $rId = ++$mediaCount;
             $target = null;
-            $mediaData = array('mediaIndex' => $mediaTypeCount);
+            $mediaData = ['mediaIndex' => $mediaTypeCount];
 
             switch ($mediaType) {
                 // Images
                 case 'image':
-                    if (is_null($image)) {
+                    if (null === $image) {
                         throw new Exception('Image object not assigned.');
                     }
                     $isMemImage = $image->isMemImage();
@@ -82,14 +80,17 @@ class Media
                     $target = "{$container}_image{$mediaTypeCount}.{$extension}";
                     $image->setTarget($target);
                     $image->setMediaIndex($mediaTypeCount);
+
                     break;
-                // Objects
+                    // Objects
                 case 'object':
                     $target = "{$container}_oleObject{$mediaTypeCount}.bin";
+
                     break;
-                // Links
+                    // Links
                 case 'link':
                     $target = $source;
+
                     break;
             }
 
@@ -103,7 +104,7 @@ class Media
         }
 
         $mediaData = self::$elements[$container][$mediaId];
-        if (!is_null($image)) {
+        if (null !== $image) {
             $image->setTarget($mediaData['target']);
             $image->setMediaIndex($mediaData['mediaIndex']);
         }
@@ -112,11 +113,13 @@ class Media
     }
 
     /**
-     * Get media elements count
+     * Get media elements count.
      *
      * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $mediaType image|object|link
+     *
      * @return int
+     *
      * @since 0.10.0
      */
     public static function countElements($container, $mediaType = null)
@@ -125,12 +128,12 @@ class Media
 
         if (isset(self::$elements[$container])) {
             foreach (self::$elements[$container] as $mediaData) {
-                if (!is_null($mediaType)) {
+                if (null !== $mediaType) {
                     if ($mediaType == $mediaData['type']) {
-                        $mediaCount++;
+                        ++$mediaCount;
                     }
                 } else {
-                    $mediaCount++;
+                    ++$mediaCount;
                 }
             }
         }
@@ -139,16 +142,18 @@ class Media
     }
 
     /**
-     * Get media elements
+     * Get media elements.
      *
      * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $type image|object|link
+     *
      * @return array
+     *
      * @since 0.10.0
      */
     public static function getElements($container, $type = null)
     {
-        $elements = array();
+        $elements = [];
 
         // If header/footer, search for headerx and footerx where x is number
         if ($container == 'header' || $container == 'footer') {
@@ -169,16 +174,18 @@ class Media
     }
 
     /**
-     * Get elements by media type
+     * Get elements by media type.
      *
      * @param string $container section|footnote|endnote
      * @param string $type image|object|link
+     *
      * @return array
+     *
      * @since 0.11.0 Splitted from `getElements` to reduce complexity
      */
     private static function getElementsByType($container, $type = null)
     {
-        $elements = array();
+        $elements = [];
 
         foreach (self::$elements[$container] as $key => $data) {
             if ($type !== null) {
@@ -194,15 +201,15 @@ class Media
     }
 
     /**
-     * Reset media elements
+     * Reset media elements.
      */
-    public static function resetElements()
+    public static function resetElements(): void
     {
-        self::$elements = array();
+        self::$elements = [];
     }
 
     /**
-     * Add new Section Media Element
+     * Add new Section Media Element.
      *
      * @deprecated 0.10.0
      *
@@ -214,13 +221,13 @@ class Media
      *
      * @codeCoverageIgnore
      */
-    public static function addSectionMediaElement($src, $type, Image $image = null)
+    public static function addSectionMediaElement($src, $type, ?Image $image = null)
     {
         return self::addElement('section', $type, $src, $image);
     }
 
     /**
-     * Add new Section Link Element
+     * Add new Section Link Element.
      *
      * @deprecated 0.10.0
      *
@@ -236,7 +243,7 @@ class Media
     }
 
     /**
-     * Get Section Media Elements
+     * Get Section Media Elements.
      *
      * @deprecated 0.10.0
      *
@@ -252,7 +259,7 @@ class Media
     }
 
     /**
-     * Get Section Media Elements Count
+     * Get Section Media Elements Count.
      *
      * @deprecated 0.10.0
      *
@@ -268,7 +275,7 @@ class Media
     }
 
     /**
-     * Add new Header Media Element
+     * Add new Header Media Element.
      *
      * @deprecated 0.10.0
      *
@@ -280,13 +287,13 @@ class Media
      *
      * @codeCoverageIgnore
      */
-    public static function addHeaderMediaElement($headerCount, $src, Image $image = null)
+    public static function addHeaderMediaElement($headerCount, $src, ?Image $image = null)
     {
         return self::addElement("header{$headerCount}", 'image', $src, $image);
     }
 
     /**
-     * Get Header Media Elements Count
+     * Get Header Media Elements Count.
      *
      * @deprecated 0.10.0
      *
@@ -302,7 +309,7 @@ class Media
     }
 
     /**
-     * Get Header Media Elements
+     * Get Header Media Elements.
      *
      * @deprecated 0.10.0
      *
@@ -316,7 +323,7 @@ class Media
     }
 
     /**
-     * Add new Footer Media Element
+     * Add new Footer Media Element.
      *
      * @deprecated 0.10.0
      *
@@ -328,13 +335,13 @@ class Media
      *
      * @codeCoverageIgnore
      */
-    public static function addFooterMediaElement($footerCount, $src, Image $image = null)
+    public static function addFooterMediaElement($footerCount, $src, ?Image $image = null)
     {
         return self::addElement("footer{$footerCount}", 'image', $src, $image);
     }
 
     /**
-     * Get Footer Media Elements Count
+     * Get Footer Media Elements Count.
      *
      * @deprecated 0.10.0
      *
@@ -350,7 +357,7 @@ class Media
     }
 
     /**
-     * Get Footer Media Elements
+     * Get Footer Media Elements.
      *
      * @deprecated 0.10.0
      *

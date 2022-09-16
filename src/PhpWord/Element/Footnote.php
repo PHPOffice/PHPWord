@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -27,23 +27,23 @@ class Footnote extends AbstractContainer
     protected $container = 'Footnote';
 
     /**
-     * Paragraph style
+     * Paragraph style.
      *
-     * @var string|\PhpOffice\PhpWord\Style\Paragraph
+     * @var \PhpOffice\PhpWord\Style\Paragraph|string
      */
     protected $paragraphStyle;
 
     /**
-     * Is part of collection
+     * Is part of collection.
      *
      * @var bool
      */
     protected $collectionRelation = true;
 
     /**
-     * Create new instance
+     * Create new instance.
      *
-     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @param array|\PhpOffice\PhpWord\Style\Paragraph|string $paragraphStyle
      */
     public function __construct($paragraphStyle = null)
     {
@@ -52,9 +52,9 @@ class Footnote extends AbstractContainer
     }
 
     /**
-     * Get paragraph style
+     * Get paragraph style.
      *
-     * @return string|\PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph|string
      */
     public function getParagraphStyle()
     {
@@ -62,9 +62,10 @@ class Footnote extends AbstractContainer
     }
 
     /**
-     * Get Footnote Reference ID
+     * Get Footnote Reference ID.
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      *
      * @return int
@@ -75,14 +76,15 @@ class Footnote extends AbstractContainer
     }
 
     /**
-     * Set Footnote Reference ID
+     * Set Footnote Reference ID.
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      *
      * @param int $rId
      */
-    public function setReferenceId($rId)
+    public function setReferenceId($rId): void
     {
         $this->setRelationId($rId);
     }

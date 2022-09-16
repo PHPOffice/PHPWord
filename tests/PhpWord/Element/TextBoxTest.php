@@ -11,60 +11,61 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\TextBox
+ * Test class for PhpOffice\PhpWord\Element\TextBox.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\TextBox
+ *
  * @runTestsInSeparateProcesses
  */
 class TextBoxTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Create new instance
+     * Create new instance.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $oTextBox = new TextBox();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextBox', $oTextBox);
-        $this->assertNull($oTextBox->getStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextBox', $oTextBox);
+        self::assertNull($oTextBox->getStyle());
     }
 
     /**
-     * Get style name
+     * Get style name.
      */
-    public function testStyleText()
+    public function testStyleText(): void
     {
         $oTextBox = new TextBox('textBoxStyle');
 
-        $this->assertEquals('textBoxStyle', $oTextBox->getStyle());
+        self::assertEquals('textBoxStyle', $oTextBox->getStyle());
     }
 
     /**
-     * Get style array
+     * Get style array.
      */
-    public function testStyleArray()
+    public function testStyleArray(): void
     {
         $oTextBox = new TextBox(
-            array(
-                'width'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4.5),
-                'height'      => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(17.5),
+            [
+                'width' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4.5),
+                'height' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(17.5),
                 'positioning' => 'absolute',
-                'marginLeft'  => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.4),
-                'marginTop'   => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(9.9),
-                'stroke'      => 0,
+                'marginLeft' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.4),
+                'marginTop' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(9.9),
+                'stroke' => 0,
                 'innerMargin' => 0,
-                'borderSize'  => 1,
+                'borderSize' => 1,
                 'borderColor' => '',
-            )
+            ]
         );
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\TextBox', $oTextBox->getStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\TextBox', $oTextBox->getStyle());
     }
 }

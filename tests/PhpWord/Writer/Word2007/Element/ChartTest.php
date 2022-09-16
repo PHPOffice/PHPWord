@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,52 +22,52 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace.
  */
 class ChartTest extends \PHPUnit\Framework\TestCase
 {
     private $outputEscapingEnabled;
 
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->outputEscapingEnabled = Settings::isOutputEscapingEnabled();
     }
 
     /**
-     * Executed after each method of the class
+     * Executed after each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Settings::setOutputEscapingEnabled($this->outputEscapingEnabled);
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test chart elements
+     * Test chart elements.
      */
-    public function testChartElements()
+    public function testChartElements(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $style = array(
-            'width'          => 5000000,
-            'height'         => 5000000,
+        $style = [
+            'width' => 5000000,
+            'height' => 5000000,
             'showAxisLabels' => true,
-            'showGridX'      => true,
-            'showGridY'      => true,
-            'showLegend'     => false,
-            );
+            'showGridX' => true,
+            'showGridY' => true,
+            'showLegend' => false,
+        ];
 
-        $chartTypes = array('pie', 'doughnut', 'bar', 'line', 'area', 'scatter', 'radar');
-        $categories = array('A', 'B', 'C', 'D', 'E');
-        $series1 = array(1, 3, 2, 5, 4);
+        $chartTypes = ['pie', 'doughnut', 'bar', 'line', 'area', 'scatter', 'radar'];
+        $categories = ['A', 'B', 'C', 'D', 'E'];
+        $series1 = [1, 3, 2, 5, 4];
         foreach ($chartTypes as $chartType) {
             $section->addChart($chartType, $categories, $series1, $style);
         }
-        $colorArray = array('FFFFFF', '000000', 'FF0000', '00FF00', '0000FF');
+        $colorArray = ['FFFFFF', '000000', 'FF0000', '00FF00', '0000FF'];
         $numColor = count($colorArray);
         $chart = $section->addChart('pie', $categories, $series1, $style);
         $chart->getStyle()->setColors($colorArray)->setTitle('3d chart')->set3d(true);
@@ -117,22 +117,22 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testChartEscapingEnabled()
+    public function testChartEscapingEnabled(): void
     {
         Settings::setOutputEscapingEnabled(true);
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $style = array(
-            'width'          => 5000000,
-            'height'         => 5000000,
+        $style = [
+            'width' => 5000000,
+            'height' => 5000000,
             'showAxisLabels' => true,
-            'showGridX'      => true,
-            'showGridY'      => true,
-            'showLegend'     => false,
+            'showGridX' => true,
+            'showGridY' => true,
+            'showLegend' => false,
             'valueAxisTitle' => 'Values',
-            );
-        $categories = array('A&B', 'C<D>', 'E', 'F', 'G');
-        $series1 = array(1, 3, 2, 5, 4);
+        ];
+        $categories = ['A&B', 'C<D>', 'E', 'F', 'G'];
+        $series1 = [1, 3, 2, 5, 4];
         $section->addChart('bar', $categories, $series1, $style);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -147,22 +147,22 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('C<D>', $doc->getElement($element)->nodeValue);
     }
 
-    public function testChartEscapingDisabled()
+    public function testChartEscapingDisabled(): void
     {
         Settings::setOutputEscapingEnabled(false);
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $style = array(
-            'width'          => 5000000,
-            'height'         => 5000000,
+        $style = [
+            'width' => 5000000,
+            'height' => 5000000,
             'showAxisLabels' => true,
-            'showGridX'      => true,
-            'showGridY'      => true,
-            'showLegend'     => false,
+            'showGridX' => true,
+            'showGridY' => true,
+            'showLegend' => false,
             'valueAxisTitle' => 'Values',
-            );
-        $categories = array('A&amp;B', 'C&lt;D&gt;', 'E', 'F', 'G');
-        $series1 = array(1, 3, 2, 5, 4);
+        ];
+        $categories = ['A&amp;B', 'C&lt;D&gt;', 'E', 'F', 'G'];
+        $series1 = [1, 3, 2, 5, 4];
         $section->addChart('bar', $categories, $series1, $style);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -177,22 +177,22 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('C<D>', $doc->getElement($element)->nodeValue);
     }
 
-    public function testValueAxisTitle()
+    public function testValueAxisTitle(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $style = array(
-            'width'          => 5000000,
-            'height'         => 5000000,
+        $style = [
+            'width' => 5000000,
+            'height' => 5000000,
             'showAxisLabels' => true,
-            'showGridX'      => true,
-            'showGridY'      => true,
-            'showLegend'     => false,
+            'showGridX' => true,
+            'showGridY' => true,
+            'showLegend' => false,
             'valueAxisTitle' => 'Values',
-            );
+        ];
         $chartType = 'line';
-        $categories = array('A', 'B', 'C', 'D', 'E');
-        $series1 = array(1, 3, 2, 5, 4);
+        $categories = ['A', 'B', 'C', 'D', 'E'];
+        $series1 = [1, 3, 2, 5, 4];
         $section->addChart($chartType, $categories, $series1, $style);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -209,22 +209,22 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('Values', $doc->getElement($element)->nodeValue);
     }
 
-    public function testNoAxisLabels()
+    public function testNoAxisLabels(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $style = array(
-            'width'          => 5000000,
-            'height'         => 5000000,
+        $style = [
+            'width' => 5000000,
+            'height' => 5000000,
             'showAxisLabels' => false,
-            'showGridX'      => true,
-            'showGridY'      => true,
-            'showLegend'     => false,
+            'showGridX' => true,
+            'showGridY' => true,
+            'showLegend' => false,
             'valueAxisTitle' => 'Values',
-            );
+        ];
         $chartType = 'line';
-        $categories = array('A', 'B', 'C', 'D', 'E');
-        $series1 = array(1, 3, 2, 5, 4);
+        $categories = ['A', 'B', 'C', 'D', 'E'];
+        $series1 = [1, 3, 2, 5, 4];
         $section->addChart($chartType, $categories, $series1, $style);
         $doc = TestHelperDOCX::getDocument($phpWord);
 

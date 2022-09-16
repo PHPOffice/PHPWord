@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,328 +20,329 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\Section
+ * Test class for PhpOffice\PhpWord\Style\Section.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Section
+ *
  * @runTestsInSeparateProcesses
  */
 class SectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function testSettingValue()
+    public function testSettingValue(): void
     {
         $oSettings = new Section();
 
-        $this->assertEquals('portrait', $oSettings->getOrientation());
-        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), 0.000000001);
-        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), 0.000000001);
-        $this->assertEquals('A4', $oSettings->getPaperSize());
+        self::assertEquals('portrait', $oSettings->getOrientation());
+        self::assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), 0.000000001);
+        self::assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), 0.000000001);
+        self::assertEquals('A4', $oSettings->getPaperSize());
 
         $oSettings->setSettingValue('orientation', 'landscape');
-        $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), 0.000000001);
-        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), 0.000000001);
+        self::assertEquals('landscape', $oSettings->getOrientation());
+        self::assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), 0.000000001);
+        self::assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), 0.000000001);
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setSettingValue('borderSize', $iVal);
-        $this->assertEquals(array($iVal, $iVal, $iVal, $iVal), $oSettings->getBorderSize());
-        $this->assertEquals($iVal, $oSettings->getBorderBottomSize());
-        $this->assertEquals($iVal, $oSettings->getBorderLeftSize());
-        $this->assertEquals($iVal, $oSettings->getBorderRightSize());
-        $this->assertEquals($iVal, $oSettings->getBorderTopSize());
+        self::assertEquals([$iVal, $iVal, $iVal, $iVal], $oSettings->getBorderSize());
+        self::assertEquals($iVal, $oSettings->getBorderBottomSize());
+        self::assertEquals($iVal, $oSettings->getBorderLeftSize());
+        self::assertEquals($iVal, $oSettings->getBorderRightSize());
+        self::assertEquals($iVal, $oSettings->getBorderTopSize());
 
         $oSettings->setSettingValue('borderColor', 'FF00AA');
-        $this->assertEquals(array('FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'), $oSettings->getBorderColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderBottomColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderLeftColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderRightColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderTopColor());
+        self::assertEquals(['FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'], $oSettings->getBorderColor());
+        self::assertEquals('FF00AA', $oSettings->getBorderBottomColor());
+        self::assertEquals('FF00AA', $oSettings->getBorderLeftColor());
+        self::assertEquals('FF00AA', $oSettings->getBorderRightColor());
+        self::assertEquals('FF00AA', $oSettings->getBorderTopColor());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setSettingValue('headerHeight', $iVal);
-        $this->assertEquals($iVal, $oSettings->getHeaderHeight());
+        self::assertEquals($iVal, $oSettings->getHeaderHeight());
 
-        $oSettings->setSettingValue('lineNumbering', array());
+        $oSettings->setSettingValue('lineNumbering', []);
         $oSettings->setSettingValue(
             'lineNumbering',
-            array(
-                'start'     => 1,
+            [
+                'start' => 1,
                 'increment' => 1,
-                'distance'  => 240,
-                'restart'   => 'newPage',
-            )
+                'distance' => 240,
+                'restart' => 'newPage',
+            ]
         );
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\LineNumbering', $oSettings->getLineNumbering());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\LineNumbering', $oSettings->getLineNumbering());
 
         $oSettings->setSettingValue('lineNumbering', null);
-        $this->assertNull($oSettings->getLineNumbering());
+        self::assertNull($oSettings->getLineNumbering());
     }
 
     /**
-     * Set/get margin
+     * Set/get margin.
      */
-    public function testMargin()
+    public function testMargin(): void
     {
         // Section Settings
         $oSettings = new Section();
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setMarginTop($iVal);
-        $this->assertEquals($iVal, $oSettings->getMarginTop());
+        self::assertEquals($iVal, $oSettings->getMarginTop());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setMarginBottom($iVal);
-        $this->assertEquals($iVal, $oSettings->getMarginBottom());
+        self::assertEquals($iVal, $oSettings->getMarginBottom());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setMarginLeft($iVal);
-        $this->assertEquals($iVal, $oSettings->getMarginLeft());
+        self::assertEquals($iVal, $oSettings->getMarginLeft());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setMarginRight($iVal);
-        $this->assertEquals($iVal, $oSettings->getMarginRight());
+        self::assertEquals($iVal, $oSettings->getMarginRight());
     }
 
     /**
-     * Set/get page width
+     * Set/get page width.
      */
-    public function testPageWidth()
+    public function testPageWidth(): void
     {
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), 0.000000001);
-        $iVal = rand(1, 1000);
+        self::assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), 0.000000001);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setSettingValue('pageSizeW', $iVal);
-        $this->assertEquals($iVal, $oSettings->getPageSizeW());
+        self::assertEquals($iVal, $oSettings->getPageSizeW());
     }
 
     /**
-     * Set/get page height
+     * Set/get page height.
      */
-    public function testPageHeight()
+    public function testPageHeight(): void
     {
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), 0.000000001);
-        $iVal = rand(1, 1000);
+        self::assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), 0.000000001);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setSettingValue('pageSizeH', $iVal);
-        $this->assertEquals($iVal, $oSettings->getPageSizeH());
+        self::assertEquals($iVal, $oSettings->getPageSizeH());
     }
 
     /**
-     * Set/get landscape orientation
+     * Set/get landscape orientation.
      */
-    public function testOrientationLandscape()
+    public function testOrientationLandscape(): void
     {
         // Section Settings
         $oSettings = new Section();
 
         $oSettings->setLandscape();
-        $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), 0.000000001);
-        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), 0.000000001);
+        self::assertEquals('landscape', $oSettings->getOrientation());
+        self::assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), 0.000000001);
+        self::assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), 0.000000001);
     }
 
     /**
-     * Set/get portrait orientation
+     * Set/get portrait orientation.
      */
-    public function testOrientationPortrait()
+    public function testOrientationPortrait(): void
     {
         // Section Settings
         $oSettings = new Section();
 
         $oSettings->setPortrait();
-        $this->assertEquals('portrait', $oSettings->getOrientation());
-        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), 0.000000001);
-        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), 0.000000001);
+        self::assertEquals('portrait', $oSettings->getOrientation());
+        self::assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), 0.000000001);
+        self::assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), 0.000000001);
     }
 
     /**
-     * Set/get border size
+     * Set/get border size.
      */
-    public function testBorderSize()
+    public function testBorderSize(): void
     {
         // Section Settings
         $oSettings = new Section();
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setBorderSize($iVal);
-        $this->assertEquals(array($iVal, $iVal, $iVal, $iVal), $oSettings->getBorderSize());
-        $this->assertEquals($iVal, $oSettings->getBorderBottomSize());
-        $this->assertEquals($iVal, $oSettings->getBorderLeftSize());
-        $this->assertEquals($iVal, $oSettings->getBorderRightSize());
-        $this->assertEquals($iVal, $oSettings->getBorderTopSize());
+        self::assertEquals([$iVal, $iVal, $iVal, $iVal], $oSettings->getBorderSize());
+        self::assertEquals($iVal, $oSettings->getBorderBottomSize());
+        self::assertEquals($iVal, $oSettings->getBorderLeftSize());
+        self::assertEquals($iVal, $oSettings->getBorderRightSize());
+        self::assertEquals($iVal, $oSettings->getBorderTopSize());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setBorderBottomSize($iVal);
-        $this->assertEquals($iVal, $oSettings->getBorderBottomSize());
+        self::assertEquals($iVal, $oSettings->getBorderBottomSize());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setBorderLeftSize($iVal);
-        $this->assertEquals($iVal, $oSettings->getBorderLeftSize());
+        self::assertEquals($iVal, $oSettings->getBorderLeftSize());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setBorderRightSize($iVal);
-        $this->assertEquals($iVal, $oSettings->getBorderRightSize());
+        self::assertEquals($iVal, $oSettings->getBorderRightSize());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setBorderTopSize($iVal);
-        $this->assertEquals($iVal, $oSettings->getBorderTopSize());
+        self::assertEquals($iVal, $oSettings->getBorderTopSize());
     }
 
     /**
-     * Set/get border color
+     * Set/get border color.
      */
-    public function testBorderColor()
+    public function testBorderColor(): void
     {
         // Section Settings
         $oSettings = new Section();
 
         $oSettings->setBorderColor('FF00AA');
-        $this->assertEquals(array('FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'), $oSettings->getBorderColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderBottomColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderLeftColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderRightColor());
-        $this->assertEquals('FF00AA', $oSettings->getBorderTopColor());
+        self::assertEquals(['FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'], $oSettings->getBorderColor());
+        self::assertEquals('FF00AA', $oSettings->getBorderBottomColor());
+        self::assertEquals('FF00AA', $oSettings->getBorderLeftColor());
+        self::assertEquals('FF00AA', $oSettings->getBorderRightColor());
+        self::assertEquals('FF00AA', $oSettings->getBorderTopColor());
 
         $oSettings->setBorderBottomColor('BBCCDD');
-        $this->assertEquals('BBCCDD', $oSettings->getBorderBottomColor());
+        self::assertEquals('BBCCDD', $oSettings->getBorderBottomColor());
 
         $oSettings->setBorderLeftColor('CCDDEE');
-        $this->assertEquals('CCDDEE', $oSettings->getBorderLeftColor());
+        self::assertEquals('CCDDEE', $oSettings->getBorderLeftColor());
 
         $oSettings->setBorderRightColor('11EE22');
-        $this->assertEquals('11EE22', $oSettings->getBorderRightColor());
+        self::assertEquals('11EE22', $oSettings->getBorderRightColor());
 
         $oSettings->setBorderTopColor('22FF33');
-        $this->assertEquals('22FF33', $oSettings->getBorderTopColor());
+        self::assertEquals('22FF33', $oSettings->getBorderTopColor());
     }
 
     /**
-     * Set/get page numbering start
+     * Set/get page numbering start.
      */
-    public function testNumberingStart()
+    public function testNumberingStart(): void
     {
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertNull($oSettings->getPageNumberingStart());
+        self::assertNull($oSettings->getPageNumberingStart());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setPageNumberingStart($iVal);
-        $this->assertEquals($iVal, $oSettings->getPageNumberingStart());
+        self::assertEquals($iVal, $oSettings->getPageNumberingStart());
 
         $oSettings->setPageNumberingStart();
-        $this->assertNull($oSettings->getPageNumberingStart());
+        self::assertNull($oSettings->getPageNumberingStart());
     }
 
     /**
-     * Set/get header height
+     * Set/get header height.
      */
-    public function testHeader()
+    public function testHeader(): void
     {
         $oSettings = new Section();
 
-        $this->assertEquals(720, $oSettings->getHeaderHeight());
+        self::assertEquals(720, $oSettings->getHeaderHeight());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setHeaderHeight($iVal);
-        $this->assertEquals($iVal, $oSettings->getHeaderHeight());
+        self::assertEquals($iVal, $oSettings->getHeaderHeight());
 
         $oSettings->setHeaderHeight();
-        $this->assertEquals(720, $oSettings->getHeaderHeight());
+        self::assertEquals(720, $oSettings->getHeaderHeight());
     }
 
     /**
-     * Set/get footer height
+     * Set/get footer height.
      */
-    public function testFooter()
+    public function testFooter(): void
     {
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertEquals(720, $oSettings->getFooterHeight());
+        self::assertEquals(720, $oSettings->getFooterHeight());
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setFooterHeight($iVal);
-        $this->assertEquals($iVal, $oSettings->getFooterHeight());
+        self::assertEquals($iVal, $oSettings->getFooterHeight());
 
         $oSettings->setFooterHeight();
-        $this->assertEquals(720, $oSettings->getFooterHeight());
+        self::assertEquals(720, $oSettings->getFooterHeight());
     }
 
     /**
-     * Set/get column number
+     * Set/get column number.
      */
-    public function testColumnsNum()
+    public function testColumnsNum(): void
     {
         // Section Settings
         $oSettings = new Section();
 
         // Default
-        $this->assertEquals(1, $oSettings->getColsNum());
+        self::assertEquals(1, $oSettings->getColsNum());
 
         // Null value
         $oSettings->setColsNum();
-        $this->assertEquals(1, $oSettings->getColsNum());
+        self::assertEquals(1, $oSettings->getColsNum());
 
         // Random value
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oSettings->setColsNum($iVal);
-        $this->assertEquals($iVal, $oSettings->getColsNum());
+        self::assertEquals($iVal, $oSettings->getColsNum());
     }
 
     /**
-     * Set/get column spacing
+     * Set/get column spacing.
      */
-    public function testColumnsSpace()
+    public function testColumnsSpace(): void
     {
         // Section Settings
         $oSettings = new Section();
 
         // Default
-        $this->assertEquals(720, $oSettings->getColsSpace());
+        self::assertEquals(720, $oSettings->getColsSpace());
 
-        $iVal = rand(1, 1000);
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $oSettings->setColsSpace($iVal));
-        $this->assertEquals($iVal, $oSettings->getColsSpace());
+        $iVal = mt_rand(1, 1000);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $oSettings->setColsSpace($iVal));
+        self::assertEquals($iVal, $oSettings->getColsSpace());
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $oSettings->setColsSpace());
-        $this->assertEquals(720, $oSettings->getColsSpace());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $oSettings->setColsSpace());
+        self::assertEquals(720, $oSettings->getColsSpace());
     }
 
     /**
-     * Set/get break type
+     * Set/get break type.
      */
-    public function testBreakType()
+    public function testBreakType(): void
     {
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertNull($oSettings->getBreakType());
+        self::assertNull($oSettings->getBreakType());
 
         $oSettings->setBreakType('continuous');
-        $this->assertEquals('continuous', $oSettings->getBreakType());
+        self::assertEquals('continuous', $oSettings->getBreakType());
 
         $oSettings->setBreakType();
-        $this->assertNull($oSettings->getBreakType());
+        self::assertNull($oSettings->getBreakType());
     }
 
     /**
-     * Vertical page alignment
+     * Vertical page alignment.
      */
-    public function testVerticalAlign()
+    public function testVerticalAlign(): void
     {
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertNull($oSettings->getVAlign());
+        self::assertNull($oSettings->getVAlign());
 
         $oSettings->setVAlign(VerticalJc::BOTH);
-        $this->assertEquals('both', $oSettings->getVAlign());
+        self::assertEquals('both', $oSettings->getVAlign());
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,22 +21,22 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace.
  */
 class FormFieldTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test form fields
+     * Test form fields.
      */
-    public function testFormFieldElements()
+    public function testFormFieldElements(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -44,27 +44,27 @@ class FormFieldTest extends \PHPUnit\Framework\TestCase
         $section->addFormField('textinput')->setName('MyTextBox');
         $section->addFormField('checkbox')->setDefault(true)->setValue('Your name');
         $section->addFormField('checkbox')->setDefault(true);
-        $section->addFormField('dropdown')->setEntries(array('Choice 1', 'Choice 2', 'Choice 3', ''));
+        $section->addFormField('dropdown')->setEntries(['Choice 1', 'Choice 2', 'Choice 3', '']);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $path = '/w:document/w:body/w:p[1]/w:r/w:fldChar/w:ffData';
-        $this->assertTrue($doc->elementExists("$path/w:textInput"));
-        $this->assertEquals('MyTextBox', $doc->getElementAttribute("$path/w:name", 'w:val'));
+        self::assertTrue($doc->elementExists("$path/w:textInput"));
+        self::assertEquals('MyTextBox', $doc->getElementAttribute("$path/w:name", 'w:val'));
 
         $path = '/w:document/w:body/w:p[2]/w:r/w:fldChar/w:ffData';
-        $this->assertTrue($doc->elementExists("$path/w:checkBox"));
+        self::assertTrue($doc->elementExists("$path/w:checkBox"));
         $path = '/w:document/w:body/w:p[2]/w:r[4]/w:t';
-        $this->assertEquals('Your name', $doc->getElement($path)->textContent);
+        self::assertEquals('Your name', $doc->getElement($path)->textContent);
 
         $path = '/w:document/w:body/w:p[3]/w:r/w:fldChar/w:ffData';
-        $this->assertTrue($doc->elementExists("$path/w:checkBox"));
+        self::assertTrue($doc->elementExists("$path/w:checkBox"));
 
         $path = '/w:document/w:body/w:p[4]/w:r/w:fldChar/w:ffData/w:ddList';
-        $this->assertTrue($doc->elementExists($path));
-        $this->assertEquals('Choice 1', $doc->getElementAttribute("$path/w:listEntry[1]", 'w:val'));
-        $this->assertEquals('Choice 2', $doc->getElementAttribute("$path/w:listEntry[2]", 'w:val'));
-        $this->assertEquals('Choice 3', $doc->getElementAttribute("$path/w:listEntry[3]", 'w:val'));
-        $this->assertEquals('', trim($doc->getElementAttribute("$path/w:listEntry[4]", 'w:val'), ' '));
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('Choice 1', $doc->getElementAttribute("$path/w:listEntry[1]", 'w:val'));
+        self::assertEquals('Choice 2', $doc->getElementAttribute("$path/w:listEntry[2]", 'w:val'));
+        self::assertEquals('Choice 3', $doc->getElementAttribute("$path/w:listEntry[3]", 'w:val'));
+        self::assertEquals('', trim($doc->getElementAttribute("$path/w:listEntry[4]", 'w:val'), ' '));
     }
 }

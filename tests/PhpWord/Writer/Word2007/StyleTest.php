@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,47 +20,47 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Style subnamespace
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Style subnamespace.
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test empty styles
+     * Test empty styles.
      */
-    public function testEmptyStyles()
+    public function testEmptyStyles(): void
     {
-        $styles = array(
+        $styles = [
             'Cell', 'Font', 'Image', 'Indentation', 'LineNumbering',
             'Paragraph', 'Row', 'Section', 'Shading', 'Spacing', 'Tab', 'Table',
             'TextBox', 'Line', 'Shape', 'Frame', 'Outline', 'Fill', 'Shadow', 'Extrusion',
-        );
+        ];
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $style;
             $xmlWriter = new XMLWriter();
             $object = new $objectClass($xmlWriter);
             $object->write();
 
-            $this->assertEquals('', $xmlWriter->getData());
+            self::assertEquals('', $xmlWriter->getData());
         }
     }
 
     /**
-     * Test method exceptions
+     * Test method exceptions.
      */
-    public function testMethodExceptions()
+    public function testMethodExceptions(): void
     {
-        $styles = array(
-            'Frame'     => 'writeAlignment',
-            'Line'      => 'writeStroke',
-            'TextBox'   => 'writeBorder',
-        );
+        $styles = [
+            'Frame' => 'writeAlignment',
+            'Line' => 'writeStroke',
+            'TextBox' => 'writeBorder',
+        ];
         foreach ($styles as $style => $method) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $style;
             $xmlWriter = new XMLWriter();
             $object = new $objectClass($xmlWriter);
             $object->$method();
 
-            $this->assertEquals('', $xmlWriter->getData());
+            self::assertEquals('', $xmlWriter->getData());
         }
     }
 }

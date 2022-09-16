@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -19,7 +19,7 @@ namespace PhpOffice\PhpWord;
 
 /**
  * This class is used to expose publicly methods that are otherwise private or protected.
- * This makes testing those methods easier
+ * This makes testing those methods easier.
  *
  * @author troosan
  */

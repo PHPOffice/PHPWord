@@ -11,27 +11,29 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use InvalidArgumentException;
+
 /**
- * Test class for PhpOffice\PhpWord\Element\SDT
+ * Test class for PhpOffice\PhpWord\Element\SDT.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\SDT
  */
 class SDTTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Create new instance
+     * Create new instance.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
-        $types = array('plainText', 'comboBox', 'dropDownList', 'date');
-        $type = $types[rand(0, 3)];
-        $value = rand(0, 100);
+        $types = ['plainText', 'comboBox', 'dropDownList', 'date'];
+        $type = $types[mt_rand(0, 3)];
+        $value = mt_rand(0, 100);
         $alias = 'alias';
         $tag = 'my_tag';
         $object = new SDT($type);
@@ -40,33 +42,33 @@ class SDTTest extends \PHPUnit\Framework\TestCase
         $object->setAlias($alias);
         $object->setTag($tag);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\SDT', $object);
-        $this->assertEquals($type, $object->getType());
-        $this->assertEquals($types, $object->getListItems());
-        $this->assertEquals($value, $object->getValue());
-        $this->assertEquals($alias, $object->getAlias());
-        $this->assertEquals($tag, $object->getTag());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\SDT', $object);
+        self::assertEquals($type, $object->getType());
+        self::assertEquals($types, $object->getListItems());
+        self::assertEquals($value, $object->getValue());
+        self::assertEquals($alias, $object->getAlias());
+        self::assertEquals($tag, $object->getTag());
     }
 
     /**
-     * Test set type exception
+     * Test set type exception.
      */
-    public function testSetTypeException()
+    public function testSetTypeException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid style value');
         $object = new SDT('comboBox');
         $object->setType('foo');
     }
 
     /**
-     * Test set type
+     * Test set type.
      */
-    public function testSetTypeNull()
+    public function testSetTypeNull(): void
     {
         $object = new SDT('comboBox');
         $object->setType(' ');
 
-        $this->assertEquals('comboBox', $object->getType());
+        self::assertEquals('comboBox', $object->getType());
     }
 }

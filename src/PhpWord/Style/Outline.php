@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * Outline defines the line/border of the object
+ * Outline defines the line/border of the object.
  *
  * @see  http://www.schemacentral.com/sc/ooxml/t-v_CT_Stroke.html
  * @see  http://www.w3.org/TR/1998/NOTE-VML-19980513#_Toc416858395
@@ -27,9 +27,10 @@ namespace PhpOffice\PhpWord\Style;
 class Outline extends AbstractStyle
 {
     /**
-     * Line style constants
+     * Line style constants.
      *
      * @see  http://www.schemacentral.com/sc/ooxml/t-v_ST_StrokeLineStyle.html
+     *
      * @const string
      */
     const LINE_SINGLE = 'single';
@@ -39,9 +40,10 @@ class Outline extends AbstractStyle
     const LINE_THICK_BETWEEN_THIN = 'thickBetweenThin';
 
     /**
-     * Line style constants
+     * Line style constants.
      *
      * @see  http://www.schemacentral.com/sc/ooxml/t-v_ST_StrokeEndCap.html
+     *
      * @const string
      */
     const ENDCAP_FLAT = 'flat';
@@ -49,9 +51,10 @@ class Outline extends AbstractStyle
     const ENDCAP_ROUND = 'round';
 
     /**
-     * Arrowhead type constants
+     * Arrowhead type constants.
      *
      * @see  http://www.schemacentral.com/sc/ooxml/t-v_ST_StrokeArrowType.html
+     *
      * @const string
      */
     const ARROW_NONE = 'none';
@@ -62,74 +65,75 @@ class Outline extends AbstractStyle
     const ARROW_OPEN = 'open';
 
     /**
-     * Unit; No set method for now
+     * Unit; No set method for now.
      *
      * @var string
      */
     private $unit = 'pt';
 
     /**
-     * Outline weight
+     * Outline weight.
      *
-     * @var int|float
+     * @var float|int
      */
     private $weight;
 
     /**
-     * Outline color
+     * Outline color.
      *
      * @var string
      */
     private $color;
 
     /**
-     * Dash type
+     * Dash type.
      *
      * @var string
      */
     private $dash;
 
     /**
-     * Line style
+     * Line style.
      *
      * @var string
      */
     private $line;
 
     /**
-     * End cap
+     * End cap.
      *
      * @var string
+     *
      * @see  http://www.schemacentral.com/sc/ooxml/t-v_ST_StrokeEndCap.html
      */
     private $endCap;
 
     /**
-     * Start arrow type
+     * Start arrow type.
      *
      * @var string
      */
     private $startArrow;
 
     /**
-     * End arrow type
+     * End arrow type.
      *
      * @var string
      */
     private $endArrow;
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param array $style
      */
-    public function __construct($style = array())
+    public function __construct($style = [])
     {
         $this->setStyleByArray($style);
     }
 
     /**
-     * Get unit
+     * Get unit.
      *
      * @return string
      */
@@ -139,9 +143,9 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Get weight
+     * Get weight.
      *
-     * @return int|float
+     * @return float|int
      */
     public function getWeight()
     {
@@ -149,9 +153,10 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Set weight
+     * Set weight.
      *
-     * @param int|float $value
+     * @param float|int $value
+     *
      * @return self
      */
     public function setWeight($value = null)
@@ -162,7 +167,7 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Get color
+     * Get color.
      *
      * @return string
      */
@@ -172,9 +177,10 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Set color
+     * Set color.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setColor($value = null)
@@ -185,7 +191,7 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Get dash type
+     * Get dash type.
      *
      * @return string
      */
@@ -195,9 +201,10 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Set dash type
+     * Set dash type.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setDash($value = null)
@@ -208,7 +215,7 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Get line style
+     * Get line style.
      *
      * @return string
      */
@@ -218,22 +225,23 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Set line style
+     * Set line style.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setLine($value = null)
     {
-        $enum = array(self::LINE_SINGLE, self::LINE_THIN_THIN, self::LINE_THIN_THICK,
-            self::LINE_THICK_THIN, self::LINE_THICK_BETWEEN_THIN, );
+        $enum = [self::LINE_SINGLE, self::LINE_THIN_THIN, self::LINE_THIN_THICK,
+            self::LINE_THICK_THIN, self::LINE_THICK_BETWEEN_THIN, ];
         $this->line = $this->setEnumVal($value, $enum, null);
 
         return $this;
     }
 
     /**
-     * Get endCap style
+     * Get endCap style.
      *
      * @return string
      */
@@ -243,21 +251,22 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Set endCap style
+     * Set endCap style.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setEndCap($value = null)
     {
-        $enum = array(self::ENDCAP_FLAT, self::ENDCAP_SQUARE, self::ENDCAP_ROUND);
+        $enum = [self::ENDCAP_FLAT, self::ENDCAP_SQUARE, self::ENDCAP_ROUND];
         $this->endCap = $this->setEnumVal($value, $enum, null);
 
         return $this;
     }
 
     /**
-     * Get startArrow
+     * Get startArrow.
      *
      * @return string
      */
@@ -267,22 +276,23 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Set pattern
+     * Set pattern.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setStartArrow($value = null)
     {
-        $enum = array(self::ARROW_NONE, self::ARROW_BLOCK, self::ARROW_CLASSIC,
-            self::ARROW_OVAL, self::ARROW_DIAMOND, self::ARROW_OPEN, );
+        $enum = [self::ARROW_NONE, self::ARROW_BLOCK, self::ARROW_CLASSIC,
+            self::ARROW_OVAL, self::ARROW_DIAMOND, self::ARROW_OPEN, ];
         $this->startArrow = $this->setEnumVal($value, $enum, null);
 
         return $this;
     }
 
     /**
-     * Get endArrow
+     * Get endArrow.
      *
      * @return string
      */
@@ -292,15 +302,16 @@ class Outline extends AbstractStyle
     }
 
     /**
-     * Set pattern
+     * Set pattern.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setEndArrow($value = null)
     {
-        $enum = array(self::ARROW_NONE, self::ARROW_BLOCK, self::ARROW_CLASSIC,
-            self::ARROW_OVAL, self::ARROW_DIAMOND, self::ARROW_OPEN, );
+        $enum = [self::ARROW_NONE, self::ARROW_BLOCK, self::ARROW_CLASSIC,
+            self::ARROW_OVAL, self::ARROW_DIAMOND, self::ARROW_OPEN, ];
         $this->endArrow = $this->setEnumVal($value, $enum, null);
 
         return $this;

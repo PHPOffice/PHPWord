@@ -11,38 +11,40 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader;
 
+use Exception;
 use PhpOffice\PhpWord\IOFactory;
 
 /**
- * Test class for PhpOffice\PhpWord\Reader\RTF
+ * Test class for PhpOffice\PhpWord\Reader\RTF.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\RTF
+ *
  * @runTestsInSeparateProcesses
  */
 class RTFTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test load
+     * Test load.
      */
-    public function testLoad()
+    public function testLoad(): void
     {
         $filename = __DIR__ . '/../_files/documents/reader.rtf';
         $phpWord = IOFactory::load($filename, 'RTF');
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
     }
 
     /**
-     * Test load exception
+     * Test load exception.
      */
-    public function testLoadException()
+    public function testLoadException(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Cannot read');
         $filename = __DIR__ . '/../_files/documents/foo.rtf';
         IOFactory::load($filename, 'RTF');

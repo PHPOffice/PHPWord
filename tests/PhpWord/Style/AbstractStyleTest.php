@@ -11,78 +11,80 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
+use InvalidArgumentException;
+use ReflectionClass;
+
 /**
- * Test class for PhpOffice\PhpWord\Style\AbstractStyle
+ * Test class for PhpOffice\PhpWord\Style\AbstractStyle.
  *
  * @runTestsInSeparateProcesses
  */
 class AbstractStyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test set style by array
+     * Test set style by array.
      */
-    public function testSetStyleByArray()
+    public function testSetStyleByArray(): void
     {
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
-        $stub->setStyleByArray(array('index' => 1));
+        $stub->setStyleByArray(['index' => 1]);
 
-        $this->assertEquals(1, $stub->getIndex());
+        self::assertEquals(1, $stub->getIndex());
     }
 
     /**
-     * Test setBoolVal, setIntVal, setFloatVal, setEnumVal with normal value
+     * Test setBoolVal, setIntVal, setFloatVal, setEnumVal with normal value.
      */
-    public function testSetValNormal()
+    public function testSetValNormal(): void
     {
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
 
-        $this->assertTrue(self::callProtectedMethod($stub, 'setBoolVal', array(true, false)));
-        $this->assertEquals(12, self::callProtectedMethod($stub, 'setIntVal', array(12, 200)));
-        $this->assertEquals(871.1, self::callProtectedMethod($stub, 'setFloatVal', array(871.1, 2.1)));
-        $this->assertEquals(871.1, self::callProtectedMethod($stub, 'setFloatVal', array('871.1', 2.1)));
-        $this->assertEquals('a', self::callProtectedMethod($stub, 'setEnumVal', array('a', array('a', 'b'), 'b')));
+        self::assertTrue(self::callProtectedMethod($stub, 'setBoolVal', [true, false]));
+        self::assertEquals(12, self::callProtectedMethod($stub, 'setIntVal', [12, 200]));
+        self::assertEquals(871.1, self::callProtectedMethod($stub, 'setFloatVal', [871.1, 2.1]));
+        self::assertEquals(871.1, self::callProtectedMethod($stub, 'setFloatVal', ['871.1', 2.1]));
+        self::assertEquals('a', self::callProtectedMethod($stub, 'setEnumVal', ['a', ['a', 'b'], 'b']));
     }
 
     /**
-     * Test setBoolVal, setIntVal, setFloatVal, setEnumVal with default value
+     * Test setBoolVal, setIntVal, setFloatVal, setEnumVal with default value.
      */
-    public function testSetValDefault()
+    public function testSetValDefault(): void
     {
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
 
-        $this->assertNotTrue(self::callProtectedMethod($stub, 'setBoolVal', array('a', false)));
-        $this->assertEquals(200, self::callProtectedMethod($stub, 'setIntVal', array('foo', 200)));
-        $this->assertEquals(2.1, self::callProtectedMethod($stub, 'setFloatVal', array('foo', 2.1)));
-        $this->assertEquals('b', self::callProtectedMethod($stub, 'setEnumVal', array(null, array('a', 'b'), 'b')));
+        self::assertNotTrue(self::callProtectedMethod($stub, 'setBoolVal', ['a', false]));
+        self::assertEquals(200, self::callProtectedMethod($stub, 'setIntVal', ['foo', 200]));
+        self::assertEquals(2.1, self::callProtectedMethod($stub, 'setFloatVal', ['foo', 2.1]));
+        self::assertEquals('b', self::callProtectedMethod($stub, 'setEnumVal', [null, ['a', 'b'], 'b']));
     }
 
     /**
-     * Test setEnumVal exception
+     * Test setEnumVal exception.
      */
-    public function testSetValEnumException()
+    public function testSetValEnumException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
 
-        $this->assertEquals('b', self::callProtectedMethod($stub, 'setEnumVal', array('z', array('a', 'b'), 'b')));
+        self::assertEquals('b', self::callProtectedMethod($stub, 'setEnumVal', ['z', ['a', 'b'], 'b']));
     }
 
     /**
-     * Helper function to call protected method
+     * Helper function to call protected method.
      *
      * @param mixed $object
      * @param string $method
-     * @param array $args
      */
-    public static function callProtectedMethod($object, $method, array $args = array())
+    public static function callProtectedMethod($object, $method, array $args = [])
     {
-        $class = new \ReflectionClass(get_class($object));
+        $class = new ReflectionClass(get_class($object));
         $method = $class->getMethod($method);
         $method->setAccessible(true);
 

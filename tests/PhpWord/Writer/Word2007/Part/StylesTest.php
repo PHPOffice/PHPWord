@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -24,34 +24,35 @@ use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Styles
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Styles.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\Styles
+ *
  * @runTestsInSeparateProcesses
  */
 class StylesTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test write styles
+     * Test write styles.
      */
-    public function testWriteStyles()
+    public function testWriteStyles(): void
     {
         $phpWord = new PhpWord();
 
-        $pStyle = array('alignment' => Jc::BOTH);
-        $pBase = array('basedOn' => 'Normal');
-        $pNew = array('basedOn' => 'Base Style', 'next' => 'Normal');
-        $rStyle = array('size' => 20);
-        $tStyle = array('bgColor' => 'FF0000', 'cellMargin' => 120, 'borderSize' => 120);
-        $firstRowStyle = array('bgColor' => '0000FF', 'borderSize' => 120, 'borderColor' => '00FF00');
+        $pStyle = ['alignment' => Jc::BOTH];
+        $pBase = ['basedOn' => 'Normal'];
+        $pNew = ['basedOn' => 'Base Style', 'next' => 'Normal'];
+        $rStyle = ['size' => 20];
+        $tStyle = ['bgColor' => 'FF0000', 'cellMargin' => 120, 'borderSize' => 120];
+        $firstRowStyle = ['bgColor' => '0000FF', 'borderSize' => 120, 'borderColor' => '00FF00'];
         $phpWord->setDefaultParagraphStyle($pStyle);
         $phpWord->addParagraphStyle('Base Style', $pBase);
         $phpWord->addParagraphStyle('New Style', $pNew);
@@ -65,20 +66,20 @@ class StylesTest extends \PHPUnit\Framework\TestCase
         // Normal style generated?
         $path = '/w:styles/w:style[@w:styleId="Normal"]/w:name';
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('Normal', $element->getAttribute('w:val'));
+        self::assertEquals('Normal', $element->getAttribute('w:val'));
 
         // Parent style referenced?
         $path = '/w:styles/w:style[@w:styleId="New Style"]/w:basedOn';
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('Base Style', $element->getAttribute('w:val'));
+        self::assertEquals('Base Style', $element->getAttribute('w:val'));
 
         // Next paragraph style correct?
         $path = '/w:styles/w:style[@w:styleId="New Style"]/w:next';
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('Normal', $element->getAttribute('w:val'));
+        self::assertEquals('Normal', $element->getAttribute('w:val'));
     }
 
-    public function testFontStyleBasedOn()
+    public function testFontStyleBasedOn(): void
     {
         $phpWord = new PhpWord();
 
@@ -102,20 +103,20 @@ class StylesTest extends \PHPUnit\Framework\TestCase
         // Normal style generated?
         $path = '/w:styles/w:style[@w:styleId="BaseStyle"]/w:name';
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('BaseStyle', $element->getAttribute('w:val'));
+        self::assertEquals('BaseStyle', $element->getAttribute('w:val'));
 
         // Font style with paragraph should have it's base style set to that paragraphs style name
         $path = '/w:styles/w:style[w:name/@w:val="ChildFontStyle"]/w:basedOn';
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('BaseStyle', $element->getAttribute('w:val'));
+        self::assertEquals('BaseStyle', $element->getAttribute('w:val'));
 
         // Font style without paragraph should not have a base style set
         $path = '/w:styles/w:style[w:name/@w:val="OtherFontStyle"]/w:basedOn';
         $element = $doc->getElement($path, $file);
-        $this->assertNull($element);
+        self::assertNull($element);
     }
 
-    public function testFontStyleBasedOnOtherFontStyle()
+    public function testFontStyleBasedOnOtherFontStyle(): void
     {
         $phpWord = new PhpWord();
 
@@ -141,6 +142,6 @@ class StylesTest extends \PHPUnit\Framework\TestCase
 
         $path = '/w:styles/w:style[@w:styleId="GeneratEteinte"]/w:basedOn';
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('Generation', $element->getAttribute('w:val'));
+        self::assertEquals('Generation', $element->getAttribute('w:val'));
     }
 }

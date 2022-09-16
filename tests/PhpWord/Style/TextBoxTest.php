@@ -11,295 +11,297 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
+use InvalidArgumentException;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\Image
+ * Test class for PhpOffice\PhpWord\Style\Image.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Image
+ *
  * @runTestsInSeparateProcesses
  */
 class TextBoxTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test setting style with normal value
+     * Test setting style with normal value.
      */
-    public function testSetGetNormal()
+    public function testSetGetNormal(): void
     {
         $object = new TextBox();
 
-        $properties = array(
-            'width'             => 200,
-            'height'            => 200,
-            'alignment'         => Jc::START,
-            'marginTop'         => 240,
-            'marginLeft'        => 240,
-            'wrappingStyle'     => 'inline',
-            'positioning'       => 'absolute',
-            'posHorizontal'     => 'center',
-            'posVertical'       => 'top',
-            'posHorizontalRel'  => 'margin',
-            'posVerticalRel'    => 'page',
-            'innerMarginTop'    => '5',
-            'innerMarginRight'  => '5',
+        $properties = [
+            'width' => 200,
+            'height' => 200,
+            'alignment' => Jc::START,
+            'marginTop' => 240,
+            'marginLeft' => 240,
+            'wrappingStyle' => 'inline',
+            'positioning' => 'absolute',
+            'posHorizontal' => 'center',
+            'posVertical' => 'top',
+            'posHorizontalRel' => 'margin',
+            'posVerticalRel' => 'page',
+            'innerMarginTop' => '5',
+            'innerMarginRight' => '5',
             'innerMarginBottom' => '5',
-            'innerMarginLeft'   => '5',
-            'borderSize'        => '2',
-            'borderColor'       => 'red',
-        );
+            'innerMarginLeft' => '5',
+            'borderSize' => '2',
+            'borderColor' => 'red',
+        ];
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);
-            $this->assertEquals($value, $object->$get());
+            self::assertEquals($value, $object->$get());
         }
     }
 
     /**
-     * Test setStyleValue method
+     * Test setStyleValue method.
      */
-    public function testSetStyleValue()
+    public function testSetStyleValue(): void
     {
         $object = new TextBox();
 
-        $properties = array(
-            'width'             => 200,
-            'height'            => 200,
-            'alignment'         => Jc::START,
-            'marginTop'         => 240,
-            'marginLeft'        => 240,
-            'wrappingStyle'     => 'inline',
-            'positioning'       => 'absolute',
-            'posHorizontal'     => 'center',
-            'posVertical'       => 'top',
-            'posHorizontalRel'  => 'margin',
-            'posVerticalRel'    => 'page',
-            'innerMarginTop'    => '5',
-            'innerMarginRight'  => '5',
+        $properties = [
+            'width' => 200,
+            'height' => 200,
+            'alignment' => Jc::START,
+            'marginTop' => 240,
+            'marginLeft' => 240,
+            'wrappingStyle' => 'inline',
+            'positioning' => 'absolute',
+            'posHorizontal' => 'center',
+            'posVertical' => 'top',
+            'posHorizontalRel' => 'margin',
+            'posVerticalRel' => 'page',
+            'innerMarginTop' => '5',
+            'innerMarginRight' => '5',
             'innerMarginBottom' => '5',
-            'innerMarginLeft'   => '5',
-            'borderSize'        => '2',
-            'borderColor'       => 'red',
-        );
+            'innerMarginLeft' => '5',
+            'borderSize' => '2',
+            'borderColor' => 'red',
+        ];
         foreach ($properties as $key => $value) {
             $get = "get{$key}";
             $object->setStyleValue("{$key}", $value);
-            $this->assertEquals($value, $object->$get());
+            self::assertEquals($value, $object->$get());
         }
     }
 
     /**
-     * Test setWrappingStyle exception
+     * Test setWrappingStyle exception.
      */
-    public function testSetWrappingStyleException()
+    public function testSetWrappingStyleException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $object = new TextBox();
         $object->setWrappingStyle('foo');
     }
 
     /**
-     * Test set/get width
+     * Test set/get width.
      */
-    public function testSetGetWidth()
+    public function testSetGetWidth(): void
     {
         $expected = 200;
         $object = new TextBox();
         $object->setWidth($expected);
-        $this->assertEquals($expected, $object->getWidth());
+        self::assertEquals($expected, $object->getWidth());
     }
 
     /**
-     * Test set/get height
+     * Test set/get height.
      */
-    public function testSetGetHeight()
+    public function testSetGetHeight(): void
     {
         $expected = 200;
         $object = new TextBox();
         $object->setHeight($expected);
-        $this->assertEquals($expected, $object->getHeight());
+        self::assertEquals($expected, $object->getHeight());
     }
 
     /**
-     * Test set/get height
+     * Test set/get height.
      */
-    public function testSetGetAlign()
+    public function testSetGetAlign(): void
     {
         $textBox = new TextBox();
 
         $expectedAlignment = Jc::START;
         $textBox->setAlignment($expectedAlignment);
-        $this->assertEquals($expectedAlignment, $textBox->getAlignment());
+        self::assertEquals($expectedAlignment, $textBox->getAlignment());
     }
 
     /**
-     * Test set/get marginTop
+     * Test set/get marginTop.
      */
-    public function testSetGetMarginTop()
+    public function testSetGetMarginTop(): void
     {
         $expected = 5;
         $object = new TextBox();
         $object->setMarginTop($expected);
-        $this->assertEquals($expected, $object->getMarginTop());
+        self::assertEquals($expected, $object->getMarginTop());
     }
 
     /**
-     * Test set/get marginLeft
+     * Test set/get marginLeft.
      */
-    public function testSetGetMarginLeft()
+    public function testSetGetMarginLeft(): void
     {
         $expected = 5;
         $object = new TextBox();
         $object->setMarginLeft($expected);
-        $this->assertEquals($expected, $object->getMarginLeft());
+        self::assertEquals($expected, $object->getMarginLeft());
     }
 
     /**
-     * Test set/get innerMarginTop
+     * Test set/get innerMarginTop.
      */
-    public function testSetGetInnerMarginTop()
+    public function testSetGetInnerMarginTop(): void
     {
         $expected = 5;
         $object = new TextBox();
         $object->setInnerMarginTop($expected);
-        $this->assertEquals($expected, $object->getInnerMarginTop());
+        self::assertEquals($expected, $object->getInnerMarginTop());
     }
 
     /**
-     * Test set/get wrappingStyle
+     * Test set/get wrappingStyle.
      */
-    public function testSetGetWrappingStyle()
+    public function testSetGetWrappingStyle(): void
     {
         $expected = 'inline';
         $object = new TextBox();
         $object->setWrappingStyle($expected);
-        $this->assertEquals($expected, $object->getWrappingStyle());
+        self::assertEquals($expected, $object->getWrappingStyle());
     }
 
     /**
-     * Test set/get positioning
+     * Test set/get positioning.
      */
-    public function testSetGetPositioning()
+    public function testSetGetPositioning(): void
     {
         $expected = 'absolute';
         $object = new TextBox();
         $object->setPositioning($expected);
-        $this->assertEquals($expected, $object->getPositioning());
+        self::assertEquals($expected, $object->getPositioning());
     }
 
     /**
-     * Test set/get posHorizontal
+     * Test set/get posHorizontal.
      */
-    public function testSetGetPosHorizontal()
+    public function testSetGetPosHorizontal(): void
     {
         $expected = 'center';
         $object = new TextBox();
         $object->setPosHorizontal($expected);
-        $this->assertEquals($expected, $object->getPosHorizontal());
+        self::assertEquals($expected, $object->getPosHorizontal());
     }
 
     /**
-     * Test set/get posVertical
+     * Test set/get posVertical.
      */
-    public function testSetGetPosVertical()
+    public function testSetGetPosVertical(): void
     {
         $expected = 'top';
         $object = new TextBox();
         $object->setPosVertical($expected);
-        $this->assertEquals($expected, $object->getPosVertical());
+        self::assertEquals($expected, $object->getPosVertical());
     }
 
     /**
-     * Test set/get posHorizontalRel
+     * Test set/get posHorizontalRel.
      */
-    public function testSetGetPosHorizontalRel()
+    public function testSetGetPosHorizontalRel(): void
     {
         $expected = 'margin';
         $object = new TextBox();
         $object->setPosHorizontalRel($expected);
-        $this->assertEquals($expected, $object->getPosHorizontalRel());
+        self::assertEquals($expected, $object->getPosHorizontalRel());
     }
 
     /**
-     * Test set/get posVerticalRel
+     * Test set/get posVerticalRel.
      */
-    public function testSetGetPosVerticalRel()
+    public function testSetGetPosVerticalRel(): void
     {
         $expected = 'page';
         $object = new TextBox();
         $object->setPosVerticalRel($expected);
-        $this->assertEquals($expected, $object->getPosVerticalRel());
+        self::assertEquals($expected, $object->getPosVerticalRel());
     }
 
     /**
-     * Test set/get innerMarginRight
+     * Test set/get innerMarginRight.
      */
-    public function testSetGetInnerMarginRight()
+    public function testSetGetInnerMarginRight(): void
     {
         $expected = 5;
         $object = new TextBox();
         $object->setInnerMarginRight($expected);
-        $this->assertEquals($expected, $object->getInnerMarginRight());
+        self::assertEquals($expected, $object->getInnerMarginRight());
     }
 
     /**
-     * Test set/get innerMarginBottom
+     * Test set/get innerMarginBottom.
      */
-    public function testSetGetInnerMarginBottom()
+    public function testSetGetInnerMarginBottom(): void
     {
         $expected = 5;
         $object = new TextBox();
         $object->setInnerMarginBottom($expected);
-        $this->assertEquals($expected, $object->getInnerMarginBottom());
+        self::assertEquals($expected, $object->getInnerMarginBottom());
     }
 
     /**
-     * Test set/get innerMarginLeft
+     * Test set/get innerMarginLeft.
      */
-    public function testSetGetInnerMarginLeft()
+    public function testSetGetInnerMarginLeft(): void
     {
         $expected = 5;
         $object = new TextBox();
         $object->setInnerMarginLeft($expected);
-        $this->assertEquals($expected, $object->getInnerMarginLeft());
+        self::assertEquals($expected, $object->getInnerMarginLeft());
     }
 
     /**
-     * Test set/get innerMarginLeft
+     * Test set/get innerMarginLeft.
      */
-    public function testSetGetInnerMargin()
+    public function testSetGetInnerMargin(): void
     {
         $expected = 5;
         $object = new TextBox();
         $object->setInnerMargin($expected);
-        $this->assertEquals(array($expected, $expected, $expected, $expected), $object->getInnerMargin());
+        self::assertEquals([$expected, $expected, $expected, $expected], $object->getInnerMargin());
     }
 
     /**
-     * Test set/get borderSize
+     * Test set/get borderSize.
      */
-    public function testSetGetBorderSize()
+    public function testSetGetBorderSize(): void
     {
         $expected = 2;
         $object = new TextBox();
         $object->setBorderSize($expected);
-        $this->assertEquals($expected, $object->getBorderSize());
+        self::assertEquals($expected, $object->getBorderSize());
     }
 
     /**
-     * Test set/get borderColor
+     * Test set/get borderColor.
      */
-    public function testSetGetBorderColor()
+    public function testSetGetBorderColor(): void
     {
         $expected = 'red';
         $object = new TextBox();
         $object->setBorderColor($expected);
-        $this->assertEquals($expected, $object->getBorderColor());
+        self::assertEquals($expected, $object->getBorderColor());
     }
 }

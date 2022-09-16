@@ -11,160 +11,161 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
+use BadMethodCallException;
 use PhpOffice\PhpWord\Metadata\DocInfo;
 
 /**
- * Test class for PhpOffice\PhpWord\PhpWord
+ * Test class for PhpOffice\PhpWord\PhpWord.
  *
  * @runTestsInSeparateProcesses
  */
 class PhpWordTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test object creation
+     * Test object creation.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $phpWord = new PhpWord();
-        $this->assertEquals(new DocInfo(), $phpWord->getDocInfo());
-        $this->assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
-        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
+        self::assertEquals(new DocInfo(), $phpWord->getDocInfo());
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
+        self::assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
     }
 
     /**
-     * Test create/get section
+     * Test create/get section.
      */
-    public function testCreateGetSections()
+    public function testCreateGetSections(): void
     {
         $phpWord = new PhpWord();
         $phpWord->addSection();
-        $this->assertCount(1, $phpWord->getSections());
+        self::assertCount(1, $phpWord->getSections());
     }
 
     /**
-     * Test set/get default font name
+     * Test set/get default font name.
      */
-    public function testSetGetDefaultFontName()
+    public function testSetGetDefaultFontName(): void
     {
         $phpWord = new PhpWord();
         $fontName = 'Times New Roman';
-        $this->assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
         $phpWord->setDefaultFontName($fontName);
-        $this->assertEquals($fontName, $phpWord->getDefaultFontName());
+        self::assertEquals($fontName, $phpWord->getDefaultFontName());
     }
 
     /**
-     * Test set/get default font size
+     * Test set/get default font size.
      */
-    public function testSetGetDefaultFontSize()
+    public function testSetGetDefaultFontSize(): void
     {
         $phpWord = new PhpWord();
         $fontSize = 16;
-        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
+        self::assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
         $phpWord->setDefaultFontSize($fontSize);
-        $this->assertEquals($fontSize, $phpWord->getDefaultFontSize());
+        self::assertEquals($fontSize, $phpWord->getDefaultFontSize());
     }
 
     /**
-     * Test set default paragraph style
+     * Test set default paragraph style.
      */
-    public function testSetDefaultParagraphStyle()
+    public function testSetDefaultParagraphStyle(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->setDefaultParagraphStyle(array());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', Style::getStyle('Normal'));
+        $phpWord->setDefaultParagraphStyle([]);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', Style::getStyle('Normal'));
     }
 
     /**
-     * Test add styles
+     * Test add styles.
      */
-    public function testAddStyles()
+    public function testAddStyles(): void
     {
         $phpWord = new PhpWord();
-        $styles = array(
+        $styles = [
             'Paragraph' => 'Paragraph',
-            'Font'      => 'Font',
-            'Table'     => 'Table',
-            'Link'      => 'Font',
-        );
+            'Font' => 'Font',
+            'Table' => 'Table',
+            'Link' => 'Font',
+        ];
         foreach ($styles as $key => $value) {
             $method = "add{$key}Style";
             $styleId = "{$key} Style";
-            $phpWord->$method($styleId, array());
-            $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$value}", Style::getStyle($styleId));
+            $phpWord->$method($styleId, []);
+            self::assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$value}", Style::getStyle($styleId));
         }
     }
 
     /**
-     * Test add title style
+     * Test add title style.
      */
-    public function testAddTitleStyle()
+    public function testAddTitleStyle(): void
     {
         $phpWord = new PhpWord();
         $titleLevel = 1;
         $titleName = "Heading_{$titleLevel}";
-        $phpWord->addTitleStyle($titleLevel, array());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($titleName));
+        $phpWord->addTitleStyle($titleLevel, []);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($titleName));
     }
 
     /**
-     * Test load template
+     * Test load template.
      *
      * @deprecated 0.12.0
      */
-    public function testLoadTemplate()
+    public function testLoadTemplate(): void
     {
         $templateFqfn = __DIR__ . '/_files/templates/blank.docx';
 
         $phpWord = new PhpWord();
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             'PhpOffice\\PhpWord\\TemplateProcessor',
             $phpWord->loadTemplate($templateFqfn)
         );
     }
 
     /**
-     * Test load template exception
+     * Test load template exception.
      *
      * @deprecated 0.12.0
      */
-    public function testLoadTemplateException()
+    public function testLoadTemplateException(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $templateFqfn = implode(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx')
+            [PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx']
         );
         $phpWord = new PhpWord();
         $phpWord->loadTemplate($templateFqfn);
     }
 
     /**
-     * Test save
+     * Test save.
      */
-    public function testSave()
+    public function testSave(): void
     {
-        $this->setOutputCallback(function () {
+        $this->setOutputCallback(function (): void {
         });
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Hello world!');
 
-        $this->assertTrue($phpWord->save('test.docx', 'Word2007', true));
+        self::assertTrue($phpWord->save('test.docx', 'Word2007', true));
     }
 
     /**
-     * Test calling undefined method
+     * Test calling undefined method.
      */
-    public function testCallUndefinedMethod()
+    public function testCallUndefinedMethod(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('is not defined');
         $phpWord = new PhpWord();
         $phpWord->undefinedMethod();
@@ -173,30 +174,30 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers \PhpOffice\PhpWord\PhpWord::getSection
      */
-    public function testGetNotExistingSection()
+    public function testGetNotExistingSection(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->getSection(0);
 
-        $this->assertNull($section);
+        self::assertNull($section);
     }
 
     /**
      * @covers \PhpOffice\PhpWord\PhpWord::getSection
      */
-    public function testGetSection()
+    public function testGetSection(): void
     {
         $phpWord = new PhpWord();
         $phpWord->addSection();
         $section = $phpWord->getSection(0);
 
-        $this->assertNotNull($section);
+        self::assertNotNull($section);
     }
 
     /**
      * @covers \PhpOffice\PhpWord\PhpWord::sortSections
      */
-    public function testSortSections()
+    public function testSortSections(): void
     {
         $phpWord = new PhpWord();
         $section1 = $phpWord->addSection();
@@ -205,8 +206,8 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
         $section2->addText('test2');
         $section2->addText('test3');
 
-        $this->assertEquals(1, $phpWord->getSection(0)->countElements());
-        $this->assertEquals(2, $phpWord->getSection(1)->countElements());
+        self::assertEquals(1, $phpWord->getSection(0)->countElements());
+        self::assertEquals(2, $phpWord->getSection(1)->countElements());
 
         $phpWord->sortSections(function ($a, $b) {
             $numElementsInA = $a->countElements();
@@ -220,16 +221,16 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
             return 1;
         });
 
-        $this->assertEquals(2, $phpWord->getSection(0)->countElements());
-        $this->assertEquals(1, $phpWord->getSection(1)->countElements());
+        self::assertEquals(2, $phpWord->getSection(0)->countElements());
+        self::assertEquals(1, $phpWord->getSection(1)->countElements());
     }
 
     /**
      * @covers \PhpOffice\PhpWord\PhpWord::getSettings
      */
-    public function testGetSettings()
+    public function testGetSettings(): void
     {
         $phpWord = new PhpWord();
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Metadata\\Settings', $phpWord->getSettings());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Metadata\\Settings', $phpWord->getSettings());
     }
 }

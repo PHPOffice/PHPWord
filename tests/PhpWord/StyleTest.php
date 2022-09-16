@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,57 +20,57 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Test class for PhpOffice\PhpWord\Style
+ * Test class for PhpOffice\PhpWord\Style.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style
+ *
  * @runTestsInSeparateProcesses
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Add and get paragraph, font, link, title, and table styles
+     * Add and get paragraph, font, link, title, and table styles.
      *
-     * @covers ::addParagraphStyle
      * @covers ::addFontStyle
      * @covers ::addLinkStyle
      * @covers ::addNumberingStyle
-     * @covers ::addTitleStyle
+     * @covers ::addParagraphStyle
      * @covers ::addTableStyle
-     * @covers ::setDefaultParagraphStyle
+     * @covers ::addTitleStyle
      * @covers ::countStyles
      * @covers ::getStyle
-     * @covers ::resetStyles
      * @covers ::getStyles
-     * @test
+     * @covers ::resetStyles
+     * @covers ::setDefaultParagraphStyle
      */
-    public function testStyles()
+    public function testStyles(): void
     {
-        $paragraph = array('alignment' => Jc::CENTER);
-        $font = array('italic' => true, '_bold' => true);
-        $table = array('bgColor' => 'CCCCCC');
-        $numbering = array(
-            'type'   => 'multilevel',
-            'levels' => array(
-                array(
-                    'start'     => 1,
-                    'format'    => 'decimal',
-                    'restart'   => 1,
-                    'suffix'    => 'space',
-                    'text'      => '%1.',
+        $paragraph = ['alignment' => Jc::CENTER];
+        $font = ['italic' => true, '_bold' => true];
+        $table = ['bgColor' => 'CCCCCC'];
+        $numbering = [
+            'type' => 'multilevel',
+            'levels' => [
+                [
+                    'start' => 1,
+                    'format' => 'decimal',
+                    'restart' => 1,
+                    'suffix' => 'space',
+                    'text' => '%1.',
                     'alignment' => Jc::START,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $styles = array(
+        $styles = [
             'Paragraph' => 'Paragraph',
-            'Font'      => 'Font',
-            'Link'      => 'Font',
-            'Table'     => 'Table',
+            'Font' => 'Font',
+            'Link' => 'Font',
+            'Table' => 'Table',
             'Heading_1' => 'Font',
-            'Normal'    => 'Paragraph',
+            'Normal' => 'Paragraph',
             'Numbering' => 'Numbering',
-        );
+        ];
 
         Style::addParagraphStyle('Paragraph', $paragraph);
         Style::addFontStyle('Font', $font);
@@ -80,28 +80,27 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         Style::addTableStyle('Table', $table);
         Style::setDefaultParagraphStyle($paragraph);
 
-        $this->assertCount(count($styles), Style::getStyles());
+        self::assertCount(count($styles), Style::getStyles());
         foreach ($styles as $name => $style) {
-            $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$style}", Style::getStyle($name));
+            self::assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$style}", Style::getStyle($name));
         }
-        $this->assertNull(Style::getStyle('Unknown'));
+        self::assertNull(Style::getStyle('Unknown'));
 
         Style::resetStyles();
-        $this->assertCount(0, Style::getStyles());
+        self::assertCount(0, Style::getStyles());
     }
 
     /**
-     * Test default paragraph style
+     * Test default paragraph style.
      *
      * @covers ::setDefaultParagraphStyle
-     * @test
      */
-    public function testDefaultParagraphStyle()
+    public function testDefaultParagraphStyle(): void
     {
-        $paragraph = array('alignment' => Jc::CENTER);
+        $paragraph = ['alignment' => Jc::CENTER];
 
         Style::setDefaultParagraphStyle($paragraph);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', Style::getStyle('Normal'));
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', Style::getStyle('Normal'));
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,39 +20,39 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\NumberingLevel
+ * Test class for PhpOffice\PhpWord\Style\NumberingLevel.
  *
  * @runTestsInSeparateProcesses
  */
 class NumberingLevelTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test setting style with normal value
+     * Test setting style with normal value.
      */
-    public function testSetGetNormal()
+    public function testSetGetNormal(): void
     {
         $object = new NumberingLevel();
 
-        $attributes = array(
-            'level'     => 1,
-            'start'     => 1,
-            'format'    => 'decimal',
-            'restart'   => 1,
-            'pStyle'    => 'pStyle',
-            'suffix'    => 'space',
-            'text'      => '%1.',
+        $attributes = [
+            'level' => 1,
+            'start' => 1,
+            'format' => 'decimal',
+            'restart' => 1,
+            'pStyle' => 'pStyle',
+            'suffix' => 'space',
+            'text' => '%1.',
             'alignment' => Jc::START,
-            'left'      => 360,
-            'hanging'   => 360,
-            'tabPos'    => 360,
-            'font'      => 'Arial',
-            'hint'      => 'default',
-        );
+            'left' => 360,
+            'hanging' => 360,
+            'tabPos' => 360,
+            'font' => 'Arial',
+            'hint' => 'default',
+        ];
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);
-            $this->assertEquals($value, $object->$get());
+            self::assertEquals($value, $object->$get());
         }
     }
 }

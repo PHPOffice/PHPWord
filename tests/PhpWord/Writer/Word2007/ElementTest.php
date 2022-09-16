@@ -11,12 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
+use DateTime;
 use PhpOffice\PhpWord\Element\Comment;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
@@ -25,28 +26,28 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace.
  */
 class ElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test unmatched element
+     * Test unmatched element.
      */
-    public function testUnmatchedElements()
+    public function testUnmatchedElements(): void
     {
-        $elements = array(
+        $elements = [
             'CheckBox', 'Container', 'Footnote', 'Image', 'Link', 'ListItem', 'ListItemRun',
             'OLEObject', 'PreserveText', 'Table', 'Text', 'TextBox', 'TextBreak', 'Title', 'TOC',
             'Field', 'Line', 'Shape', 'Chart', 'FormField', 'SDT', 'Bookmark',
-        );
+        ];
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $element;
             $xmlWriter = new XMLWriter();
@@ -54,29 +55,29 @@ class ElementTest extends \PHPUnit\Framework\TestCase
             $object = new $objectClass($xmlWriter, $newElement);
             $object->write();
 
-            $this->assertEquals('', $xmlWriter->getData());
+            self::assertEquals('', $xmlWriter->getData());
         }
     }
 
     /**
-     * Test line element
+     * Test line element.
      */
-    public function testLineElement()
+    public function testLineElement(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $section->addLine(array('width' => 1000, 'height' => 1000, 'positioning' => 'absolute', 'flip' => true));
+        $section->addLine(['width' => 1000, 'height' => 1000, 'positioning' => 'absolute', 'flip' => true]);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:pict/v:shapetype';
-        $this->assertTrue($doc->elementExists($element));
+        self::assertTrue($doc->elementExists($element));
     }
 
     /**
-     * Test bookmark element
+     * Test bookmark element.
      */
-    public function testBookmark()
+    public function testBookmark(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -85,17 +86,17 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:bookmarkStart';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('test_bookmark', $doc->getElementAttribute($element, 'w:name'));
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('test_bookmark', $doc->getElementAttribute($element, 'w:name'));
 
         $element = '/w:document/w:body/w:bookmarkEnd';
-        $this->assertTrue($doc->elementExists($element));
+        self::assertTrue($doc->elementExists($element));
     }
 
     /**
-     * Test link element
+     * Test link element.
      */
-    public function testLinkElement()
+    public function testLinkElement(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -105,22 +106,22 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p[1]/w:hyperlink/w:r/w:t';
-        $this->assertTrue($doc->elementExists($element));
+        self::assertTrue($doc->elementExists($element));
 
         $element = '/w:document/w:body/w:p[2]/w:hyperlink/w:r/w:t';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('internal_link', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:hyperlink', 'w:anchor'));
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('internal_link', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:hyperlink', 'w:anchor'));
     }
 
     /**
-     * Basic test for table element
+     * Basic test for table element.
      */
-    public function testTableElements()
+    public function testTableElements(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $table = $section->addTable(array('alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER));
+        $table = $section->addTable(['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
         $table->addRow(900);
         $table->addCell(2000)->addText('Row 1');
         $table->addCell(2000)->addText('Row 2');
@@ -130,15 +131,15 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $tableRootElement = '/w:document/w:body/w:tbl';
-        $this->assertTrue($doc->elementExists($tableRootElement . '/w:tblGrid/w:gridCol'));
-        $this->assertTrue($doc->elementExists($tableRootElement . '/w:tblPr/w:jc'));
-        $this->assertEquals('center', $doc->getElementAttribute($tableRootElement . '/w:tblPr/w:jc', 'w:val'));
+        self::assertTrue($doc->elementExists($tableRootElement . '/w:tblGrid/w:gridCol'));
+        self::assertTrue($doc->elementExists($tableRootElement . '/w:tblPr/w:jc'));
+        self::assertEquals('center', $doc->getElementAttribute($tableRootElement . '/w:tblPr/w:jc', 'w:val'));
     }
 
     /**
-     * Tests that the style name gets added
+     * Tests that the style name gets added.
      */
-    public function testTableWithStyleName()
+    public function testTableWithStyleName(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -150,14 +151,14 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $tableRootElement = '/w:document/w:body/w:tbl';
-        $this->assertTrue($doc->elementExists($tableRootElement . '/w:tblPr/w:tblStyle'));
-        $this->assertEquals('my_predefined_style', $doc->getElementAttribute($tableRootElement . '/w:tblPr/w:tblStyle', 'w:val'));
+        self::assertTrue($doc->elementExists($tableRootElement . '/w:tblPr/w:tblStyle'));
+        self::assertEquals('my_predefined_style', $doc->getElementAttribute($tableRootElement . '/w:tblPr/w:tblStyle', 'w:val'));
     }
 
     /**
-     * Test shape elements
+     * Test shape elements.
      */
-    public function testShapeElements()
+    public function testShapeElements(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -165,132 +166,132 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         // Arc
         $section->addShape(
             'arc',
-            array(
-                'points'  => '-90 20',
-                'frame'   => array('width' => 120, 'height' => 120),
-                'outline' => array('color' => '#333333', 'weight' => 2, 'startArrow' => 'oval', 'endArrow' => 'open'),
-            )
+            [
+                'points' => '-90 20',
+                'frame' => ['width' => 120, 'height' => 120],
+                'outline' => ['color' => '#333333', 'weight' => 2, 'startArrow' => 'oval', 'endArrow' => 'open'],
+            ]
         );
 
         // Curve
         $section->addShape(
             'curve',
-            array(
-                'points'  => '1,100 200,1 1,50 200,50', 'connector' => 'elbow',
-                'outline' => array(
-                    'color'      => '#66cc00',
-                    'weight'     => 2,
-                    'dash'       => 'dash',
+            [
+                'points' => '1,100 200,1 1,50 200,50', 'connector' => 'elbow',
+                'outline' => [
+                    'color' => '#66cc00',
+                    'weight' => 2,
+                    'dash' => 'dash',
                     'startArrow' => 'diamond',
-                    'endArrow'   => 'block',
-                ),
-            )
+                    'endArrow' => 'block',
+                ],
+            ]
         );
 
         // Line
         $section->addShape(
             'line',
-            array(
-                'points'  => '1,1 150,30',
-                'outline' => array(
-                    'color'      => '#cc00ff',
-                    'line'       => 'thickThin',
-                    'weight'     => 3,
+            [
+                'points' => '1,1 150,30',
+                'outline' => [
+                    'color' => '#cc00ff',
+                    'line' => 'thickThin',
+                    'weight' => 3,
                     'startArrow' => 'oval',
-                    'endArrow'   => 'classic',
-                    'endCap'     => 'round',
-                ),
-            )
+                    'endArrow' => 'classic',
+                    'endCap' => 'round',
+                ],
+            ]
         );
 
         // Polyline
         $section->addShape(
             'polyline',
-            array(
-                'points'  => '1,30 20,10 55,20 75,10 100,40 115,50, 120,15 200,50',
-                'outline' => array(
-                    'color'      => '#cc6666',
-                    'weight'     => 2,
+            [
+                'points' => '1,30 20,10 55,20 75,10 100,40 115,50, 120,15 200,50',
+                'outline' => [
+                    'color' => '#cc6666',
+                    'weight' => 2,
                     'startArrow' => 'none',
-                    'endArrow'   => 'classic',
-                ),
-            )
+                    'endArrow' => 'classic',
+                ],
+            ]
         );
 
         // Rectangle
         $section->addShape(
             'rect',
-            array(
+            [
                 'roundness' => 0.2,
-                'frame'     => array('width' => 100, 'height' => 100, 'left' => 1, 'top' => 1),
-                'fill'      => array('color' => '#FFCC33'),
-                'outline'   => array('color' => '#990000', 'weight' => 1),
-                'shadow'    => array('color' => '#EEEEEE', 'offset' => '3pt,3pt'),
-            )
+                'frame' => ['width' => 100, 'height' => 100, 'left' => 1, 'top' => 1],
+                'fill' => ['color' => '#FFCC33'],
+                'outline' => ['color' => '#990000', 'weight' => 1],
+                'shadow' => ['color' => '#EEEEEE', 'offset' => '3pt,3pt'],
+            ]
         );
 
         // Oval
         $section->addShape(
             'oval',
-            array(
-                'frame'     => array('width' => 100, 'height' => 70, 'left' => 1, 'top' => 1),
-                'fill'      => array('color' => '#33CC99'),
-                'outline'   => array('color' => '#333333', 'weight' => 2),
-                'extrusion' => array('type' => 'perspective', 'color' => '#EEEEEE'),
-            )
+            [
+                'frame' => ['width' => 100, 'height' => 70, 'left' => 1, 'top' => 1],
+                'fill' => ['color' => '#33CC99'],
+                'outline' => ['color' => '#333333', 'weight' => 2],
+                'extrusion' => ['type' => 'perspective', 'color' => '#EEEEEE'],
+            ]
         );
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $elements = array('arc', 'curve', 'line', 'polyline', 'roundrect', 'oval');
+        $elements = ['arc', 'curve', 'line', 'polyline', 'roundrect', 'oval'];
         foreach ($elements as $element) {
             $path = "/w:document/w:body/w:p/w:r/w:pict/v:{$element}";
-            $this->assertTrue($doc->elementExists($path));
+            self::assertTrue($doc->elementExists($path));
         }
     }
 
     // testChartElements moved to Writer/Word2007/Element/ChartTest
 
-    public function testFieldElement()
+    public function testFieldElement(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $section->addField('INDEX', array(), array('\\c "3"'));
-        $section->addField('XE', array(), array('Bold', 'Italic'), 'Index Entry');
-        $section->addField('DATE', array('dateformat' => 'd-M-yyyy'), array('PreserveFormat', 'LastUsedFormat'));
-        $section->addField('DATE', array(), array('LunarCalendar'));
-        $section->addField('DATE', array(), array('SakaEraCalendar'));
-        $section->addField('NUMPAGES', array('format' => 'roman', 'numformat' => '0,00'), array('SakaEraCalendar'));
-        $section->addField('STYLEREF', array('StyleIdentifier' => 'Heading 1'));
+        $section->addField('INDEX', [], ['\\c "3"']);
+        $section->addField('XE', [], ['Bold', 'Italic'], 'Index Entry');
+        $section->addField('DATE', ['dateformat' => 'd-M-yyyy'], ['PreserveFormat', 'LastUsedFormat']);
+        $section->addField('DATE', [], ['LunarCalendar']);
+        $section->addField('DATE', [], ['SakaEraCalendar']);
+        $section->addField('NUMPAGES', ['format' => 'roman', 'numformat' => '0,00'], ['SakaEraCalendar']);
+        $section->addField('STYLEREF', ['StyleIdentifier' => 'Heading 1']);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:instrText';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals(' INDEX \\c "3" ', $doc->getElement($element)->textContent);
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' INDEX \\c "3" ', $doc->getElement($element)->textContent);
     }
 
-    public function testUnstyledFieldElement()
+    public function testUnstyledFieldElement(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->addFontStyle('h1', array('name' => 'Courier New', 'size' => 8));
+        $phpWord->addFontStyle('h1', ['name' => 'Courier New', 'size' => 8]);
         $section = $phpWord->addSection();
 
         $section->addField('PAGE');
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals(' PAGE ', $doc->getElement($element)->textContent);
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' PAGE ', $doc->getElement($element)->textContent);
         $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
-        $this->assertFalse($doc->elementExists($sty));
+        self::assertFalse($doc->elementExists($sty));
     }
 
-    public function testStyledFieldElement()
+    public function testStyledFieldElement(): void
     {
         $phpWord = new PhpWord();
         $stnam = 'h1';
-        $phpWord->addFontStyle($stnam, array('name' => 'Courier New', 'size' => 8));
+        $phpWord->addFontStyle($stnam, ['name' => 'Courier New', 'size' => 8]);
         $section = $phpWord->addSection();
 
         $fld = $section->addField('PAGE');
@@ -298,82 +299,82 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals(' PAGE ', $doc->getElement($element)->textContent);
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' PAGE ', $doc->getElement($element)->textContent);
         $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
-        $this->assertTrue($doc->elementExists($sty));
-        $this->assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
+        self::assertTrue($doc->elementExists($sty));
+        self::assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
     }
 
-    public function testFieldElementWithComplexText()
+    public function testFieldElementWithComplexText(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
         $text = new TextRun();
-        $text->addText('test string', array('bold' => true));
+        $text->addText('test string', ['bold' => true]);
 
-        $section->addField('XE', array(), array('Bold', 'Italic'), $text);
+        $section->addField('XE', [], ['Bold', 'Italic'], $text);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals(' XE "', $doc->getElement($element)->textContent);
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' XE "', $doc->getElement($element)->textContent);
 
         $element = '/w:document/w:body/w:p/w:r[3]/w:rPr/w:b';
-        $this->assertTrue($doc->elementExists($element));
+        self::assertTrue($doc->elementExists($element));
 
         $element = '/w:document/w:body/w:p/w:r[3]/w:t';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('test string', $doc->getElement($element)->textContent);
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('test string', $doc->getElement($element)->textContent);
 
         $element = '/w:document/w:body/w:p/w:r[4]/w:instrText';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('"\\b \\i ', $doc->getElement($element)->textContent);
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('"\\b \\i ', $doc->getElement($element)->textContent);
     }
 
     /**
-     * Test writing the macrobutton field
+     * Test writing the macrobutton field.
      */
-    public function testMacroButtonField()
+    public function testMacroButtonField(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
         $macroText = new TextRun();
-        $macroText->addText('Double click', array('bold' => true));
+        $macroText->addText('Double click', ['bold' => true]);
         $macroText->addText(' to ');
-        $macroText->addText('zoom to 100%', array('italic' => true));
+        $macroText->addText('zoom to 100%', ['italic' => true]);
 
-        $section->addField('MACROBUTTON', array('macroname' => 'Zoom100'), array(), $macroText);
-        $section->addField('MACROBUTTON', array('macroname' => 'Zoom100'), array(), 'double click to zoom');
+        $section->addField('MACROBUTTON', ['macroname' => 'Zoom100'], [], $macroText);
+        $section->addField('MACROBUTTON', ['macroname' => 'Zoom100'], [], 'double click to zoom');
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p[1]/w:r[2]/w:instrText';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals(' MACROBUTTON Zoom100 ', $doc->getElement($element)->textContent);
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' MACROBUTTON Zoom100 ', $doc->getElement($element)->textContent);
 
         $element = '/w:document/w:body/w:p[1]/w:r[3]/';
-        $this->assertTrue($doc->elementExists($element . 'w:t'));
-        $this->assertEquals('Double click', $doc->getElement($element . 'w:t')->textContent);
-        $this->assertTrue($doc->elementExists($element . 'w:rPr/w:b'));
+        self::assertTrue($doc->elementExists($element . 'w:t'));
+        self::assertEquals('Double click', $doc->getElement($element . 'w:t')->textContent);
+        self::assertTrue($doc->elementExists($element . 'w:rPr/w:b'));
 
         $element = '/w:document/w:body/w:p[2]/w:r[2]/w:instrText';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals(' MACROBUTTON Zoom100 double click to zoom ', $doc->getElement($element)->textContent);
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' MACROBUTTON Zoom100 double click to zoom ', $doc->getElement($element)->textContent);
     }
 
     // testFormFieldElements moved to Writer/Word2007/Element/FormFieldTest
 
     /**
-     * Test SDT elements
+     * Test SDT elements.
      */
-    public function testSDTElements()
+    public function testSDTElements(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $section->addSDT('comboBox')->setListItems(array('1' => 'Choice 1', '2' => 'Choice 2'))->setValue('select value');
+        $section->addSDT('comboBox')->setListItems(['1' => 'Choice 1', '2' => 'Choice 2'])->setValue('select value');
         $section->addSDT('dropDownList');
         $section->addSDT('date')->setAlias('date_alias')->setTag('my_tag');
         $section->addSDT('plainText');
@@ -382,27 +383,27 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $path = '/w:document/w:body/w:p';
 
-        $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtContent/w:r/w:t'));
-        $this->assertEquals('select value', $doc->getElement($path . '[1]/w:sdt/w:sdtContent/w:r/w:t')->nodeValue);
-        $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtPr/w:comboBox'));
-        $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem'));
-        $this->assertEquals('1', $doc->getElementAttribute($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem[1]', 'w:value'));
-        $this->assertEquals('Choice 1', $doc->getElementAttribute($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem[1]', 'w:displayText'));
+        self::assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtContent/w:r/w:t'));
+        self::assertEquals('select value', $doc->getElement($path . '[1]/w:sdt/w:sdtContent/w:r/w:t')->nodeValue);
+        self::assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtPr/w:comboBox'));
+        self::assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem'));
+        self::assertEquals('1', $doc->getElementAttribute($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem[1]', 'w:value'));
+        self::assertEquals('Choice 1', $doc->getElementAttribute($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem[1]', 'w:displayText'));
 
-        $this->assertTrue($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:dropDownList'));
-        $this->assertFalse($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:alias'));
+        self::assertTrue($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:dropDownList'));
+        self::assertFalse($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:alias'));
 
-        $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:date'));
-        $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:alias'));
-        $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:tag'));
+        self::assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:date'));
+        self::assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:alias'));
+        self::assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:tag'));
 
-        $this->assertTrue($doc->elementExists($path . '[4]/w:sdt/w:sdtPr/w:text'));
+        self::assertTrue($doc->elementExists($path . '[4]/w:sdt/w:sdtPr/w:text'));
     }
 
     /**
-     * Test Comment element
+     * Test Comment element.
      */
-    public function testCommentWithoutEndElement()
+    public function testCommentWithoutEndElement(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -414,15 +415,15 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element->setCommentRangeStart($comment);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeStart'));
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeEnd'));
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeStart'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeEnd'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
     }
 
     /**
-     * Test Comment element
+     * Test Comment element.
      */
-    public function testCommentWithEndElement()
+    public function testCommentWithEndElement(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -435,38 +436,38 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element->setCommentRangeEnd($comment);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeStart'));
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeEnd'));
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeStart'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeEnd'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
     }
 
     /**
-     * Test Track changes
+     * Test Track changes.
      */
-    public function testTrackChange()
+    public function testTrackChange(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $text = $section->addText('my dummy text');
         $text->setChangeInfo(TrackChange::INSERTED, 'author name');
         $text2 = $section->addText('my other text');
-        $text2->setTrackChange(new TrackChange(TrackChange::DELETED, 'another author', new \DateTime()));
+        $text2->setTrackChange(new TrackChange(TrackChange::DELETED, 'another author', new DateTime()));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:ins/w:r'));
-        $this->assertEquals('author name', $doc->getElementAttribute('/w:document/w:body/w:p/w:ins', 'w:author'));
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:del/w:r/w:delText'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:ins/w:r'));
+        self::assertEquals('author name', $doc->getElementAttribute('/w:document/w:body/w:p/w:ins', 'w:author'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:del/w:r/w:delText'));
     }
 
     /**
-     * Test Title and Headings
+     * Test Title and Headings.
      */
-    public function testTitleAndHeading()
+    public function testTitleAndHeading(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(0, array('size' => 14, 'italic' => true));
-        $phpWord->addTitleStyle(1, array('size' => 20, 'color' => '333333', 'bold' => true));
+        $phpWord->addTitleStyle(0, ['size' => 14, 'italic' => true]);
+        $phpWord->addTitleStyle(1, ['size' => 20, 'color' => '333333', 'bold' => true]);
 
         $section = $phpWord->addSection();
         $section->addTitle('This is a title', 0);
@@ -474,21 +475,21 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:t'));
-        $this->assertEquals('This is a title', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->textContent);
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:pStyle'));
-        $this->assertEquals('Title', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:pStyle', 'w:val'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:t'));
+        self::assertEquals('This is a title', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->textContent);
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:pStyle'));
+        self::assertEquals('Title', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:pStyle', 'w:val'));
 
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:t'));
-        $this->assertEquals('Heading 1', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->textContent);
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:pStyle'));
-        $this->assertEquals('Heading1', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:pStyle', 'w:val'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:t'));
+        self::assertEquals('Heading 1', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->textContent);
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:pStyle'));
+        self::assertEquals('Heading1', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:pStyle', 'w:val'));
     }
 
     /**
-     * Test correct writing of text with ampersant in it
+     * Test correct writing of text with ampersant in it.
      */
-    public function testTextWithAmpersant()
+    public function testTextWithAmpersant(): void
     {
         \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
         $phpWord = new PhpWord();
@@ -496,28 +497,28 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section->addText('this text contains an & (ampersant)');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
-        $this->assertEquals('this text contains an & (ampersant)', $doc->getElement('/w:document/w:body/w:p/w:r/w:t')->nodeValue);
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+        self::assertEquals('this text contains an & (ampersant)', $doc->getElement('/w:document/w:body/w:p/w:r/w:t')->nodeValue);
     }
 
     /**
-     * Test ListItemRun paragraph style writing
+     * Test ListItemRun paragraph style writing.
      */
-    public function testListItemRunStyleWriting()
+    public function testListItemRunStyleWriting(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->addParagraphStyle('MyParagraphStyle', array('spaceBefore' => 400));
+        $phpWord->addParagraphStyle('MyParagraphStyle', ['spaceBefore' => 400]);
 
         $section = $phpWord->addSection();
         $listItemRun = $section->addListItemRun(0, null, 'MyParagraphStyle');
         $listItemRun->addText('List item');
-        $listItemRun->addText(' in bold', array('bold' => true));
+        $listItemRun->addText(' in bold', ['bold' => true]);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        $this->assertFalse($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:pPr'));
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:pStyle'));
-        $this->assertEquals('List item', $doc->getElement('/w:document/w:body/w:p/w:r[1]/w:t')->nodeValue);
-        $this->assertEquals(' in bold', $doc->getElement('/w:document/w:body/w:p/w:r[2]/w:t')->nodeValue);
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r[2]/w:rPr/w:b'));
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:pPr'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:pStyle'));
+        self::assertEquals('List item', $doc->getElement('/w:document/w:body/w:p/w:r[1]/w:t')->nodeValue);
+        self::assertEquals(' in bold', $doc->getElement('/w:document/w:body/w:p/w:r[2]/w:t')->nodeValue);
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r[2]/w:rPr/w:b'));
     }
 }

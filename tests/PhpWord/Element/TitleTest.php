@@ -11,56 +11,59 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use InvalidArgumentException;
+
 /**
- * Test class for PhpOffice\PhpWord\Element\Title
+ * Test class for PhpOffice\PhpWord\Element\Title.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Title
+ *
  * @runTestsInSeparateProcesses
  */
 class TitleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Create new instance
+     * Create new instance.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $oTitle = new Title('text');
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $oTitle);
-        $this->assertEquals('text', $oTitle->getText());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $oTitle);
+        self::assertEquals('text', $oTitle->getText());
     }
 
     /**
-     * Get style null
+     * Get style null.
      */
-    public function testStyleNull()
+    public function testStyleNull(): void
     {
         $oTitle = new Title('text');
 
-        $this->assertNull($oTitle->getStyle());
+        self::assertNull($oTitle->getStyle());
     }
 
     /**
-     * Create new instance with TextRun
+     * Create new instance with TextRun.
      */
-    public function testConstructWithTextRun()
+    public function testConstructWithTextRun(): void
     {
         $oTextRun = new TextRun();
         $oTextRun->addText('text');
         $oTitle = new Title($oTextRun);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTitle->getText());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTitle->getText());
     }
 
-    public function testConstructWithInvalidArgument()
+    public function testConstructWithInvalidArgument(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $oPageBreak = new PageBreak();
         new Title($oPageBreak);
     }

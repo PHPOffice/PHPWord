@@ -11,40 +11,40 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\Tab
+ * Test class for PhpOffice\PhpWord\Style\Tab.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Tab
  */
 class TabTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test get/set
+     * Test get/set.
      */
-    public function testGetSetProperties()
+    public function testGetSetProperties(): void
     {
         $object = new Tab();
-        $properties = array(
-            'type'     => array(Tab::TAB_STOP_CLEAR, Tab::TAB_STOP_RIGHT),
-            'leader'   => array(Tab::TAB_LEADER_NONE, Tab::TAB_LEADER_DOT),
-            'position' => array(0, 10),
-        );
+        $properties = [
+            'type' => [Tab::TAB_STOP_CLEAR, Tab::TAB_STOP_RIGHT],
+            'leader' => [Tab::TAB_LEADER_NONE, Tab::TAB_LEADER_DOT],
+            'position' => [0, 10],
+        ];
         foreach ($properties as $property => $value) {
-            list($default, $expected) = $value;
+            [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";
 
-            $this->assertEquals($default, $object->$get()); // Default value
+            self::assertEquals($default, $object->$get()); // Default value
 
             $object->$set($expected);
 
-            $this->assertEquals($expected, $object->$get()); // New value
+            self::assertEquals($expected, $object->$get()); // New value
         }
     }
 }

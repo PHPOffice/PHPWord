@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,9 +20,10 @@ namespace PhpOffice\PhpWord\Shared;
 use PhpOffice\PhpWord\Settings;
 
 /**
- * Test class for PhpOffice\PhpWord\Shared\ZipArchive
+ * Test class for PhpOffice\PhpWord\Shared\ZipArchive.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Shared\ZipArchive
+ *
  * @runTestsInSeparateProcesses
  */
 class ZipArchiveTest extends \PHPUnit\Framework\TestCase
@@ -57,12 +58,13 @@ class ZipArchiveTest extends \PHPUnit\Framework\TestCase
 //     }
 
     /**
-     * Test all methods
+     * Test all methods.
      *
      * @param string $zipClass
+     *
      * @covers ::<public>
      */
-    public function testZipArchive($zipClass = 'ZipArchive')
+    public function testZipArchive($zipClass = 'ZipArchive'): void
     {
         // Preparation
         $existingFile = __DIR__ . '/../_files/documents/sheet.xls';
@@ -82,19 +84,19 @@ class ZipArchiveTest extends \PHPUnit\Framework\TestCase
         $object->open($zipFile);
 
         // Run tests
-        $this->assertEquals(0, $object->locateName('xls/new.xls'));
-        $this->assertFalse($object->locateName('blablabla'));
+        self::assertEquals(0, $object->locateName('xls/new.xls'));
+        self::assertFalse($object->locateName('blablabla'));
 
-        $this->assertEquals('Test', $object->getFromName('content/string.txt'));
-        $this->assertEquals('Test', $object->getFromName('/content/string.txt'));
+        self::assertEquals('Test', $object->getFromName('content/string.txt'));
+        self::assertEquals('Test', $object->getFromName('/content/string.txt'));
 
-        $this->assertFalse($object->getNameIndex(-1));
-        $this->assertEquals('content/string.txt', $object->getNameIndex(1));
+        self::assertFalse($object->getNameIndex(-1));
+        self::assertEquals('content/string.txt', $object->getNameIndex(1));
 
-        $this->assertFalse($object->extractTo('blablabla'));
-        $this->assertTrue($object->extractTo($destination1));
-        $this->assertTrue($object->extractTo($destination2, 'xls/new.xls'));
-        $this->assertFalse($object->extractTo($destination2, 'blablabla'));
+        self::assertFalse($object->extractTo('blablabla'));
+        self::assertTrue($object->extractTo($destination1));
+        self::assertTrue($object->extractTo($destination2, 'xls/new.xls'));
+        self::assertFalse($object->extractTo($destination2, 'blablabla'));
 
         // Cleanup
         $this->deleteDir($destination1);
@@ -103,21 +105,21 @@ class ZipArchiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test PclZip
+     * Test PclZip.
      *
      * @covers ::<public>
      */
-    public function testPCLZip()
+    public function testPCLZip(): void
     {
         $this->testZipArchive('PhpOffice\PhpWord\Shared\ZipArchive');
     }
 
     /**
-     * Delete directory
+     * Delete directory.
      *
      * @param string $dir
      */
-    private function deleteDir($dir)
+    private function deleteDir($dir): void
     {
         foreach (scandir($dir) as $file) {
             if ('.' === $file || '..' === $file) {

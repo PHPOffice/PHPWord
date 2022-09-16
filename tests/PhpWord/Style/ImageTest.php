@@ -11,86 +11,88 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
+use InvalidArgumentException;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\Image
+ * Test class for PhpOffice\PhpWord\Style\Image.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Image
+ *
  * @runTestsInSeparateProcesses
  */
 class ImageTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test setting style with normal value
+     * Test setting style with normal value.
      */
-    public function testSetGetNormal()
+    public function testSetGetNormal(): void
     {
         $object = new Image();
 
-        $properties = array(
-            'width'              => 200,
-            'height'             => 200,
-            'alignment'          => Jc::START,
-            'marginTop'          => 240,
-            'marginLeft'         => 240,
-            'wrappingStyle'      => 'inline',
-            'wrapDistanceLeft'   => 10,
-            'wrapDistanceRight'  => 20,
-            'wrapDistanceTop'    => 30,
+        $properties = [
+            'width' => 200,
+            'height' => 200,
+            'alignment' => Jc::START,
+            'marginTop' => 240,
+            'marginLeft' => 240,
+            'wrappingStyle' => 'inline',
+            'wrapDistanceLeft' => 10,
+            'wrapDistanceRight' => 20,
+            'wrapDistanceTop' => 30,
             'wrapDistanceBottom' => 40,
-        );
+        ];
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);
-            $this->assertEquals($value, $object->$get());
+            self::assertEquals($value, $object->$get());
         }
     }
 
     /**
-     * Test setStyleValue method
+     * Test setStyleValue method.
      */
-    public function testSetStyleValue()
+    public function testSetStyleValue(): void
     {
         $object = new Image();
 
-        $properties = array(
-            'width'              => 200,
-            'height'             => 200,
-            'alignment'          => Jc::START,
-            'marginTop'          => 240,
-            'marginLeft'         => 240,
-            'position'           => 10,
-            'positioning'        => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
-            'posHorizontal'      => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
-            'posVertical'        => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
-            'posHorizontalRel'   => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
-            'posVerticalRel'     => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_IMARGIN,
-            'wrapDistanceLeft'   => 10,
-            'wrapDistanceRight'  => 20,
-            'wrapDistanceTop'    => 30,
+        $properties = [
+            'width' => 200,
+            'height' => 200,
+            'alignment' => Jc::START,
+            'marginTop' => 240,
+            'marginLeft' => 240,
+            'position' => 10,
+            'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
+            'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
+            'posVertical' => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
+            'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
+            'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_IMARGIN,
+            'wrapDistanceLeft' => 10,
+            'wrapDistanceRight' => 20,
+            'wrapDistanceTop' => 30,
             'wrapDistanceBottom' => 40,
-        );
+        ];
         foreach ($properties as $key => $value) {
             $get = "get{$key}";
             $object->setStyleValue("{$key}", $value);
-            $this->assertEquals($value, $object->$get());
+            self::assertEquals($value, $object->$get());
         }
     }
 
     /**
-     * Test setWrappingStyle exception
+     * Test setWrappingStyle exception.
      */
-    public function testSetWrappingStyleException()
+    public function testSetWrappingStyleException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $object = new Image();
         $object->setWrappingStyle('foo');
     }

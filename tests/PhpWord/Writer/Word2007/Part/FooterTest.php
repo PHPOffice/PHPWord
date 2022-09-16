@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,17 +20,18 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\Writer\Word2007;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Footer
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Footer.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\Footer
+ *
  * @runTestsInSeparateProcesses
  */
 class FooterTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Write footer
+     * Write footer.
      */
-    public function testWriteFooter()
+    public function testWriteFooter(): void
     {
         $imageSrc = __DIR__ . '/../../../_files/images/PhpWord.png';
         $container = new \PhpOffice\PhpWord\Element\Footer(1);
@@ -48,6 +49,6 @@ class FooterTest extends \PHPUnit\Framework\TestCase
         $object->setElement($container);
         $xml = simplexml_load_string($object->write());
 
-        $this->assertInstanceOf('SimpleXMLElement', $xml);
+        self::assertInstanceOf('SimpleXMLElement', $xml);
     }
 }

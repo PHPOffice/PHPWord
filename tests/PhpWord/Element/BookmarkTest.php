@@ -11,28 +11,28 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Footer
+ * Test class for PhpOffice\PhpWord\Element\Footer.
  *
  * @runTestsInSeparateProcesses
  */
 class BookmarkTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * New instance
+     * New instance.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $bookmarkName = 'test';
         $oBookmark = new Bookmark($bookmarkName);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Bookmark', $oBookmark);
-        $this->assertEquals($bookmarkName, $oBookmark->getName());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Bookmark', $oBookmark);
+        self::assertEquals($bookmarkName, $oBookmark->getName());
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,33 +21,34 @@ use PhpOffice\PhpWord\Style\Image;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Font
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Font.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Frame
+ *
  * @runTestsInSeparateProcesses
  */
 class ImageTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test writing image wrapping
+     * Test writing image wrapping.
      */
-    public function testWrapping()
+    public function testWrapping(): void
     {
-        $styles = array(
-            'wrap'               => Image::WRAP_INLINE,
-            'wrapDistanceLeft'   => 10,
-            'wrapDistanceRight'  => 20,
-            'wrapDistanceTop'    => 30,
+        $styles = [
+            'wrap' => Image::WRAP_INLINE,
+            'wrapDistanceLeft' => 10,
+            'wrapDistanceRight' => 20,
+            'wrapDistanceTop' => 30,
             'wrapDistanceBottom' => 40,
-        );
+        ];
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
@@ -55,33 +56,33 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:position';
-        $this->assertFalse($doc->elementExists($path));
+        self::assertFalse($doc->elementExists($path));
         $path = '/w:document/w:body/w:p[1]/w:r/w:pict/v:shape';
-        $this->assertTrue($doc->elementExists($path . '/w10:wrap'));
-        $this->assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));
+        self::assertTrue($doc->elementExists($path . '/w10:wrap'));
+        self::assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));
 
-        $this->assertTrue($doc->elementExists($path));
+        self::assertTrue($doc->elementExists($path));
         $style = $doc->getElement($path)->getAttribute('style');
-        $this->assertNotNull($style);
-        $this->assertStringContainsString('mso-wrap-distance-left:10pt;', $style);
-        $this->assertStringContainsString('mso-wrap-distance-right:20pt;', $style);
-        $this->assertStringContainsString('mso-wrap-distance-top:30pt;', $style);
-        $this->assertStringContainsString('mso-wrap-distance-bottom:40pt;', $style);
+        self::assertNotNull($style);
+        self::assertStringContainsString('mso-wrap-distance-left:10pt;', $style);
+        self::assertStringContainsString('mso-wrap-distance-right:20pt;', $style);
+        self::assertStringContainsString('mso-wrap-distance-top:30pt;', $style);
+        self::assertStringContainsString('mso-wrap-distance-bottom:40pt;', $style);
     }
 
     /**
-     * Test writing image wrapping
+     * Test writing image wrapping.
      */
-    public function testWrappingWithPosition()
+    public function testWrappingWithPosition(): void
     {
-        $styles = array(
-            'wrap'               => Image::WRAP_INLINE,
-            'wrapDistanceLeft'   => 10,
-            'wrapDistanceRight'  => 20,
-            'wrapDistanceTop'    => 30,
+        $styles = [
+            'wrap' => Image::WRAP_INLINE,
+            'wrapDistanceLeft' => 10,
+            'wrapDistanceRight' => 20,
+            'wrapDistanceTop' => 30,
             'wrapDistanceBottom' => 40,
-            'position'           => 10,
-        );
+            'position' => 10,
+        ];
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
@@ -89,17 +90,17 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:position';
-        $this->assertEquals('10', $doc->getElement($path)->getAttribute('w:val'));
+        self::assertEquals('10', $doc->getElement($path)->getAttribute('w:val'));
         $path = '/w:document/w:body/w:p[1]/w:r/w:pict/v:shape';
-        $this->assertTrue($doc->elementExists($path . '/w10:wrap'));
-        $this->assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));
+        self::assertTrue($doc->elementExists($path . '/w10:wrap'));
+        self::assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));
 
-        $this->assertTrue($doc->elementExists($path));
+        self::assertTrue($doc->elementExists($path));
         $style = $doc->getElement($path)->getAttribute('style');
-        $this->assertNotNull($style);
-        $this->assertStringContainsString('mso-wrap-distance-left:10pt;', $style);
-        $this->assertStringContainsString('mso-wrap-distance-right:20pt;', $style);
-        $this->assertStringContainsString('mso-wrap-distance-top:30pt;', $style);
-        $this->assertStringContainsString('mso-wrap-distance-bottom:40pt;', $style);
+        self::assertNotNull($style);
+        self::assertStringContainsString('mso-wrap-distance-left:10pt;', $style);
+        self::assertStringContainsString('mso-wrap-distance-right:20pt;', $style);
+        self::assertStringContainsString('mso-wrap-distance-top:30pt;', $style);
+        self::assertStringContainsString('mso-wrap-distance-bottom:40pt;', $style);
     }
 }

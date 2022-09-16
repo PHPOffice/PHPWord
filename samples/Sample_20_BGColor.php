@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word document
@@ -10,10 +11,10 @@ $section = $phpWord->addSection();
 
 $section->addText(
     'This is some text highlighted using fgColor (limited to 15 colors)',
-    array('fgColor' => \PhpOffice\PhpWord\Style\Font::FGCOLOR_YELLOW)
+    ['fgColor' => \PhpOffice\PhpWord\Style\Font::FGCOLOR_YELLOW]
 );
-$section->addText('This one uses bgColor and is using hex value (0xfbbb10)', array('bgColor' => 'fbbb10'));
-$section->addText('Compatible with font colors', array('color' => '0000ff', 'bgColor' => 'fbbb10'));
+$section->addText('This one uses bgColor and is using hex value (0xfbbb10)', ['bgColor' => 'fbbb10']);
+$section->addText('Compatible with font colors', ['color' => '0000ff', 'bgColor' => 'fbbb10']);
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

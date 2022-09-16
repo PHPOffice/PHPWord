@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,52 +20,52 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\Paper
+ * Test class for PhpOffice\PhpWord\Style\Paper.
  *
  * @runTestsInSeparateProcesses
  */
 class PaperTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tear down after each test
+     * Tear down after each test.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test initiation for paper
+     * Test initiation for paper.
      */
-    public function testInitiation()
+    public function testInitiation(): void
     {
         $object = new Paper();
 
-        $this->assertEquals('A4', $object->getSize());
+        self::assertEquals('A4', $object->getSize());
     }
 
     /**
-     * Test paper size for B5 format
+     * Test paper size for B5 format.
      */
-    public function testB5Size()
+    public function testB5Size(): void
     {
         $object = new Paper('B5');
 
-        $this->assertEquals('B5', $object->getSize());
-        $this->assertEqualsWithDelta(9977.9527559055, $object->getWidth(), 0.000000001);
-        $this->assertEqualsWithDelta(14173.228346457, $object->getHeight(), 0.000000001);
+        self::assertEquals('B5', $object->getSize());
+        self::assertEqualsWithDelta(9977.9527559055, $object->getWidth(), 0.000000001);
+        self::assertEqualsWithDelta(14173.228346457, $object->getHeight(), 0.000000001);
     }
 
     /**
-     * Test paper size for Folio format
+     * Test paper size for Folio format.
      */
-    public function testFolioSize()
+    public function testFolioSize(): void
     {
         $object = new Paper();
         $object->setSize('Folio');
 
-        $this->assertEquals('Folio', $object->getSize());
-        $this->assertEqualsWithDelta(12240, $object->getWidth(), 0.1);
-        $this->assertEqualsWithDelta(18720, $object->getHeight(), 0.1);
+        self::assertEquals('Folio', $object->getSize());
+        self::assertEqualsWithDelta(12240, $object->getWidth(), 0.1);
+        self::assertEqualsWithDelta(18720, $object->getHeight(), 0.1);
     }
 }

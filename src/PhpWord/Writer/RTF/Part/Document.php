@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,7 +23,7 @@ use PhpOffice\PhpWord\Writer\RTF\Element\Container;
 use PhpOffice\PhpWord\Writer\RTF\Style\Section as SectionStyleWriter;
 
 /**
- * RTF document part writer
+ * RTF document part writer.
  *
  * @since 0.11.0
  * @see  http://www.biblioscape.com/rtf15_spec.htm#Heading24
@@ -31,7 +31,7 @@ use PhpOffice\PhpWord\Writer\RTF\Style\Section as SectionStyleWriter;
 class Document extends AbstractPart
 {
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
@@ -47,29 +47,29 @@ class Document extends AbstractPart
     }
 
     /**
-     * Write document information
+     * Write document information.
      *
      * @return string
      */
     private function writeInfo()
     {
         $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
-        $properties = array('title', 'subject', 'category', 'keywords', 'comment',
-            'author', 'operator', 'creatim', 'revtim', 'company', 'manager', );
-        $mapping = array(
-            'comment'  => 'description',
-            'author'   => 'creator',
+        $properties = ['title', 'subject', 'category', 'keywords', 'comment',
+            'author', 'operator', 'creatim', 'revtim', 'company', 'manager', ];
+        $mapping = [
+            'comment' => 'description',
+            'author' => 'creator',
             'operator' => 'lastModifiedBy',
-            'creatim'  => 'created',
-            'revtim'   => 'modified', );
-        $dateFields = array('creatim', 'revtim');
+            'creatim' => 'created',
+            'revtim' => 'modified', ];
+        $dateFields = ['creatim', 'revtim'];
 
         $content = '';
 
         $content .= '{';
         $content .= '\info';
         foreach ($properties as $property) {
-            $method = 'get' . (isset($mapping[$property]) ? $mapping[$property] : $property);
+            $method = 'get' . ($mapping[$property] ?? $property);
             if (!in_array($property, $dateFields) && Settings::isOutputEscapingEnabled()) {
                 $value = $this->escaper->escape($docProps->$method());
             } else {
@@ -85,7 +85,7 @@ class Document extends AbstractPart
     }
 
     /**
-     * Write document formatting properties
+     * Write document formatting properties.
      *
      * @return string
      */
@@ -115,9 +115,10 @@ class Document extends AbstractPart
     }
 
     /**
-     * Write titlepg directive if any "f" headers or footers
+     * Write titlepg directive if any "f" headers or footers.
      *
      * @param \PhpOffice\PhpWord\Element\Section $section
+     *
      * @return string
      */
     private static function writeTitlepg($section)
@@ -137,7 +138,7 @@ class Document extends AbstractPart
     }
 
     /**
-     * Write sections
+     * Write sections.
      *
      * @return string
      */
@@ -204,23 +205,24 @@ class Document extends AbstractPart
     }
 
     /**
-     * Get date value
+     * Get date value.
      *
      * The format of date value is `\yr?\mo?\dy?\hr?\min?\sec?`
      *
      * @param int $value
+     *
      * @return string
      */
     private function getDateValue($value)
     {
-        $dateParts = array(
+        $dateParts = [
             'Y' => 'yr',
             'm' => 'mo',
             'd' => 'dy',
             'H' => 'hr',
             'i' => 'min',
             's' => 'sec',
-        );
+        ];
         $result = '';
         foreach ($dateParts as $dateFormat => $controlWord) {
             $result .= '\\' . $controlWord . date($dateFormat, $value);

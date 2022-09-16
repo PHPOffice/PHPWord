@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -26,24 +26,24 @@ use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\Settings
  */
 class SettingsTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test document protection
+     * Test document protection.
      */
-    public function testDocumentProtection()
+    public function testDocumentProtection(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->getDocumentProtection()->setEditing('forms');
@@ -53,13 +53,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:documentProtection';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
     }
 
     /**
-     * Test document protection with password
+     * Test document protection with password.
      */
-    public function testDocumentProtectionWithPassword()
+    public function testDocumentProtectionWithPassword(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->getDocumentProtection()->setEditing('readOnly');
@@ -75,16 +75,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:documentProtection';
-        $this->assertTrue($doc->elementExists($path, $file));
-        $this->assertEquals('rUuJbk6LuN2/qFyp7IUPQA==', $doc->getElement($path, $file)->getAttribute('w:hash'));
-        $this->assertEquals('1', $doc->getElement($path, $file)->getAttribute('w:cryptAlgorithmSid'));
-        $this->assertEquals('10', $doc->getElement($path, $file)->getAttribute('w:cryptSpinCount'));
+        self::assertTrue($doc->elementExists($path, $file));
+        self::assertEquals('rUuJbk6LuN2/qFyp7IUPQA==', $doc->getElement($path, $file)->getAttribute('w:hash'));
+        self::assertEquals('1', $doc->getElement($path, $file)->getAttribute('w:cryptAlgorithmSid'));
+        self::assertEquals('10', $doc->getElement($path, $file)->getAttribute('w:cryptSpinCount'));
     }
 
     /**
-     * Test document protection with password without setting salt
+     * Test document protection with password without setting salt.
      */
-    public function testDocumentProtectionWithPasswordNoSalt()
+    public function testDocumentProtectionWithPasswordNoSalt(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->getDocumentProtection()->setEditing('readOnly');
@@ -100,16 +100,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:documentProtection';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
         //$this->assertEquals('rUuJbk6LuN2/qFyp7IUPQA==', $doc->getElement($path, $file)->getAttribute('w:hash'));
-        $this->assertEquals('1', $doc->getElement($path, $file)->getAttribute('w:cryptAlgorithmSid'));
-        $this->assertEquals('10', $doc->getElement($path, $file)->getAttribute('w:cryptSpinCount'));
+        self::assertEquals('1', $doc->getElement($path, $file)->getAttribute('w:cryptAlgorithmSid'));
+        self::assertEquals('10', $doc->getElement($path, $file)->getAttribute('w:cryptSpinCount'));
     }
 
     /**
-     * Test compatibility
+     * Test compatibility.
      */
-    public function testCompatibility()
+    public function testCompatibility(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getCompatibility()->setOoxmlVersion(15);
@@ -119,14 +119,14 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:compat/w:compatSetting';
-        $this->assertTrue($doc->elementExists($path, $file));
-        $this->assertEquals($phpWord->getCompatibility()->getOoxmlVersion(), 15);
+        self::assertTrue($doc->elementExists($path, $file));
+        self::assertEquals($phpWord->getCompatibility()->getOoxmlVersion(), 15);
     }
 
     /**
-     * Test language
+     * Test language.
      */
-    public function testDefaultLanguage()
+    public function testDefaultLanguage(): void
     {
         $phpWord = new PhpWord();
 
@@ -135,16 +135,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:themeFontLang';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
 
-        $this->assertEquals('en-US', $element->getAttribute('w:val'));
+        self::assertEquals('en-US', $element->getAttribute('w:val'));
     }
 
     /**
-     * Test language
+     * Test language.
      */
-    public function testLanguage()
+    public function testLanguage(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setThemeFontLang(new Language(Language::DE_DE, Language::KO_KR, Language::HE_IL));
@@ -153,18 +153,18 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:themeFontLang';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
 
-        $this->assertEquals(Language::DE_DE, $element->getAttribute('w:val'));
-        $this->assertEquals(Language::KO_KR, $element->getAttribute('w:eastAsia'));
-        $this->assertEquals(Language::HE_IL, $element->getAttribute('w:bidi'));
+        self::assertEquals(Language::DE_DE, $element->getAttribute('w:val'));
+        self::assertEquals(Language::KO_KR, $element->getAttribute('w:eastAsia'));
+        self::assertEquals(Language::HE_IL, $element->getAttribute('w:bidi'));
     }
 
     /**
-     * Test proofState
+     * Test proofState.
      */
-    public function testProofState()
+    public function testProofState(): void
     {
         $proofState = new ProofState();
         $proofState->setSpelling(ProofState::DIRTY);
@@ -177,17 +177,17 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:proofState';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
 
-        $this->assertEquals('dirty', $element->getAttribute('w:spelling'));
-        $this->assertEquals('dirty', $element->getAttribute('w:grammar'));
+        self::assertEquals('dirty', $element->getAttribute('w:spelling'));
+        self::assertEquals('dirty', $element->getAttribute('w:grammar'));
     }
 
     /**
-     * Test spelling
+     * Test spelling.
      */
-    public function testSpelling()
+    public function testSpelling(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setHideSpellingErrors(true);
@@ -197,16 +197,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:hideSpellingErrors';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
 
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
-     * Test even and odd headers
+     * Test even and odd headers.
      */
-    public function testEvenAndOddHeaders()
+    public function testEvenAndOddHeaders(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setEvenAndOddHeaders(true);
@@ -216,13 +216,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:evenAndOddHeaders';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
-    public function testUpdateFields()
+    public function testUpdateFields(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setUpdateFields(true);
@@ -232,16 +232,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:updateFields';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
-     * Test zoom percentage
+     * Test zoom percentage.
      */
-    public function testZoomPercentage()
+    public function testZoomPercentage(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setZoom(75);
@@ -251,16 +251,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:zoom';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('75', $element->getAttribute('w:percent'));
+        self::assertEquals('75', $element->getAttribute('w:percent'));
     }
 
     /**
-     * Test zoom value
+     * Test zoom value.
      */
-    public function testZoomValue()
+    public function testZoomValue(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setZoom(Zoom::FULL_PAGE);
@@ -270,13 +270,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:zoom';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('fullPage', $element->getAttribute('w:val'));
+        self::assertEquals('fullPage', $element->getAttribute('w:val'));
     }
 
-    public function testMirrorMargins()
+    public function testMirrorMargins(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setMirrorMargins(true);
@@ -286,16 +286,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:mirrorMargins';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
-     * Test Revision View
+     * Test Revision View.
      */
-    public function testRevisionView()
+    public function testRevisionView(): void
     {
         $trackChangesView = new TrackChangesView();
         $trackChangesView->setFormatting(false);
@@ -309,14 +309,14 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:revisionView';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('false', $element->getAttribute('w:formatting'));
-        $this->assertEquals('true', $element->getAttribute('w:comments'));
+        self::assertEquals('false', $element->getAttribute('w:formatting'));
+        self::assertEquals('true', $element->getAttribute('w:comments'));
     }
 
-    public function testHideSpellingErrors()
+    public function testHideSpellingErrors(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setHideSpellingErrors(true);
@@ -326,13 +326,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:hideSpellingErrors';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
-    public function testHideGrammaticalErrors()
+    public function testHideGrammaticalErrors(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setHideGrammaticalErrors(true);
@@ -342,16 +342,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:hideGrammaticalErrors';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
-     * Test track Revisions
+     * Test track Revisions.
      */
-    public function testTrackRevisions()
+    public function testTrackRevisions(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setTrackRevisions(true);
@@ -361,16 +361,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:trackRevisions';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
-     * Test doNotTrackMoves
+     * Test doNotTrackMoves.
      */
-    public function testDoNotTrackMoves()
+    public function testDoNotTrackMoves(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setDoNotTrackMoves(true);
@@ -380,16 +380,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:doNotTrackMoves';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
-     * Test DoNotTrackFormatting
+     * Test DoNotTrackFormatting.
      */
-    public function testDoNotTrackFormatting()
+    public function testDoNotTrackFormatting(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setDoNotTrackFormatting(true);
@@ -399,13 +399,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:doNotTrackFormatting';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
-    public function testAutoHyphenation()
+    public function testAutoHyphenation(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setAutoHyphenation(true);
@@ -415,13 +415,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:autoHyphenation';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 
-    public function testConsecutiveHyphenLimit()
+    public function testConsecutiveHyphenLimit(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setConsecutiveHyphenLimit(2);
@@ -431,13 +431,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:consecutiveHyphenLimit';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('2', $element->getAttribute('w:val'));
+        self::assertSame('2', $element->getAttribute('w:val'));
     }
 
-    public function testHyphenationZone()
+    public function testHyphenationZone(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setHyphenationZone(100);
@@ -447,13 +447,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:hyphenationZone';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('100', $element->getAttribute('w:val'));
+        self::assertSame('100', $element->getAttribute('w:val'));
     }
 
-    public function testDoNotHyphenateCaps()
+    public function testDoNotHyphenateCaps(): void
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setDoNotHyphenateCaps(true);
@@ -463,9 +463,9 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $file = 'word/settings.xml';
 
         $path = '/w:settings/w:doNotHyphenateCaps';
-        $this->assertTrue($doc->elementExists($path, $file));
+        self::assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertSame('true', $element->getAttribute('w:val'));
+        self::assertSame('true', $element->getAttribute('w:val'));
     }
 }

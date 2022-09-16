@@ -11,60 +11,61 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\Language
+ * Test class for PhpOffice\PhpWord\Style\Language.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Language
  */
 class LanguageTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test get/set
+     * Test get/set.
      */
-    public function testGetSetProperties()
+    public function testGetSetProperties(): void
     {
         $object = new Language();
-        $properties = array(
-            'latin'          => array(null, 'fr-BE'),
-            'eastAsia'       => array(null, 'ja-JP'),
-            'bidirectional'  => array(null, 'ar-SA'),
-            'langId'         => array(null, 1036),
-        );
+        $properties = [
+            'latin' => [null, 'fr-BE'],
+            'eastAsia' => [null, 'ja-JP'],
+            'bidirectional' => [null, 'ar-SA'],
+            'langId' => [null, 1036],
+        ];
         foreach ($properties as $property => $value) {
-            list($default, $expected) = $value;
+            [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";
 
-            $this->assertEquals($default, $object->$get()); // Default value
+            self::assertEquals($default, $object->$get()); // Default value
 
             $object->$set($expected);
 
-            $this->assertEquals($expected, $object->$get()); // New value
+            self::assertEquals($expected, $object->$get()); // New value
         }
     }
 
     /**
-     * Test throws exception if wrong locale is given
+     * Test throws exception if wrong locale is given.
      */
-    public function testWrongLanguage()
+    public function testWrongLanguage(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $language = new Language();
         $language->setLatin('fra');
     }
 
     /**
-     * Tests that a language can be set with just a 2 char code
+     * Tests that a language can be set with just a 2 char code.
      */
-    public function testShortLanguage()
+    public function testShortLanguage(): void
     {
         //when
         $language = new Language();

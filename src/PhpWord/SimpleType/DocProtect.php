@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,36 +20,35 @@ namespace PhpOffice\PhpWord\SimpleType;
 use PhpOffice\PhpWord\Shared\AbstractEnum;
 
 /**
- * Document Protection Types
+ * Document Protection Types.
  *
  * @since 0.14.0
- *
  * @see http://www.datypic.com/sc/ooxml/t-w_ST_DocProtect.html
  */
 final class DocProtect extends AbstractEnum
 {
     /**
-     * No Editing Restrictions
+     * No Editing Restrictions.
      */
     const NONE = 'none';
 
     /**
-     * Allow No Editing
+     * Allow No Editing.
      */
     const READ_ONLY = 'readOnly';
 
     /**
-     * Allow Editing of Comments
+     * Allow Editing of Comments.
      */
     const COMMENTS = 'comments';
 
     /**
-     * Allow Editing With Revision Tracking
+     * Allow Editing With Revision Tracking.
      */
     const TRACKED_CHANGES = 'trackedChanges';
 
     /**
-     * Allow Editing of Form Fields
+     * Allow Editing of Form Fields.
      */
     const FORMS = 'forms';
 }

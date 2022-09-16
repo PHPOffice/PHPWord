@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,14 +23,14 @@ use PhpOffice\PhpWord\Element\TextBreak as TextBreakElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Container element writer (section, textrun, header, footnote, cell, etc.)
+ * Container element writer (section, textrun, header, footnote, cell, etc.).
  *
  * @since 0.11.0
  */
 class Container extends AbstractElement
 {
     /**
-     * Namespace; Can't use __NAMESPACE__ in inherited class (ODText)
+     * Namespace; Can't use __NAMESPACE__ in inherited class (ODText).
      *
      * @var string
      */
@@ -39,14 +39,14 @@ class Container extends AbstractElement
     /**
      * Write element.
      */
-    public function write()
+    public function write(): void
     {
         $container = $this->getElement();
         if (!$container instanceof ContainerElement) {
             return;
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
-        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote', 'ListItemRun'));
+        $withoutP = in_array($containerClass, ['TextRun', 'Footnote', 'Endnote', 'ListItemRun']);
         $xmlWriter = $this->getXmlWriter();
 
         // Loop through elements
@@ -69,11 +69,10 @@ class Container extends AbstractElement
     }
 
     /**
-     * Write individual element
+     * Write individual element.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
+     *
      * @return string
      */
     private function writeElement(XMLWriter $xmlWriter, Element $element, $withoutP)

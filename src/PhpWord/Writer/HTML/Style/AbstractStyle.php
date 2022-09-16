@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,33 +20,33 @@ namespace PhpOffice\PhpWord\Writer\HTML\Style;
 use PhpOffice\PhpWord\Style\AbstractStyle as Style;
 
 /**
- * Style writer
+ * Style writer.
  *
  * @since 0.10.0
  */
 abstract class AbstractStyle
 {
     /**
-     * Parent writer
+     * Parent writer.
      *
      * @var \PhpOffice\PhpWord\Writer\AbstractWriter
      */
     private $parentWriter;
 
     /**
-     * Style
+     * Style.
      *
      * @var array|\PhpOffice\PhpWord\Style\AbstractStyle
      */
     private $style;
 
     /**
-     * Write style
+     * Write style.
      */
     abstract public function write();
 
     /**
-     * Create new instance
+     * Create new instance.
      *
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $style
      */
@@ -60,13 +60,13 @@ abstract class AbstractStyle
      *
      * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
      */
-    public function setParentWriter($writer)
+    public function setParentWriter($writer): void
     {
         $this->parentWriter = $writer;
     }
 
     /**
-     * Get parent writer
+     * Get parent writer.
      *
      * @return \PhpOffice\PhpWord\Writer\AbstractWriter
      */
@@ -76,7 +76,7 @@ abstract class AbstractStyle
     }
 
     /**
-     * Get style
+     * Get style.
      *
      * @return array|\PhpOffice\PhpWord\Style\AbstractStyle $style
      */
@@ -90,14 +90,15 @@ abstract class AbstractStyle
     }
 
     /**
-     * Takes array where of CSS properties / values and converts to CSS string
+     * Takes array where of CSS properties / values and converts to CSS string.
      *
      * @param array $css
+     *
      * @return string
      */
     protected function assembleCss($css)
     {
-        $pairs = array();
+        $pairs = [];
         $string = '';
         foreach ($css as $key => $value) {
             if ($value != '') {
@@ -114,8 +115,9 @@ abstract class AbstractStyle
     /**
      * Get value if ...
      *
-     * @param bool|null $condition
+     * @param null|bool $condition
      * @param string $value
+     *
      * @return string
      */
     protected function getValueIf($condition, $value)

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,66 +20,67 @@ namespace PhpOffice\PhpWord\Element;
 use PhpOffice\PhpWord\Style\Font;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Link
+ * Test class for PhpOffice\PhpWord\Element\Link.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Link
+ *
  * @runTestsInSeparateProcesses
  */
 class LinkTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Create new instance
+     * Create new instance.
      */
-    public function testConstructDefault()
+    public function testConstructDefault(): void
     {
         $oLink = new Link('https://github.com/PHPOffice/PHPWord');
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
-        $this->assertEquals('https://github.com/PHPOffice/PHPWord', $oLink->getSource());
-        $this->assertEquals($oLink->getSource(), $oLink->getText());
-        $this->assertNull($oLink->getFontStyle());
-        $this->assertNull($oLink->getParagraphStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
+        self::assertEquals('https://github.com/PHPOffice/PHPWord', $oLink->getSource());
+        self::assertEquals($oLink->getSource(), $oLink->getText());
+        self::assertNull($oLink->getFontStyle());
+        self::assertNull($oLink->getParagraphStyle());
     }
 
     /**
-     * Create new instance with array
+     * Create new instance with array.
      */
-    public function testConstructWithParamsArray()
+    public function testConstructWithParamsArray(): void
     {
         $oLink = new Link(
             'https://github.com/PHPOffice/PHPWord',
             'PHPWord on GitHub',
-            array('color'      => '0000FF', 'underline' => Font::UNDERLINE_SINGLE),
-            array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
+            ['color' => '0000FF', 'underline' => Font::UNDERLINE_SINGLE],
+            ['marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600]
         );
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
-        $this->assertEquals('https://github.com/PHPOffice/PHPWord', $oLink->getSource());
-        $this->assertEquals('PHPWord on GitHub', $oLink->getText());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oLink->getFontStyle());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oLink->getParagraphStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
+        self::assertEquals('https://github.com/PHPOffice/PHPWord', $oLink->getSource());
+        self::assertEquals('PHPWord on GitHub', $oLink->getText());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oLink->getFontStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oLink->getParagraphStyle());
     }
 
     /**
-     * Create new instance with style name string
+     * Create new instance with style name string.
      */
-    public function testConstructWithParamsString()
+    public function testConstructWithParamsString(): void
     {
         $oLink = new Link('https://github.com/PHPOffice/PHPWord', null, 'fontStyle', 'paragraphStyle');
 
-        $this->assertEquals('fontStyle', $oLink->getFontStyle());
-        $this->assertEquals('paragraphStyle', $oLink->getParagraphStyle());
+        self::assertEquals('fontStyle', $oLink->getFontStyle());
+        self::assertEquals('paragraphStyle', $oLink->getParagraphStyle());
     }
 
     /**
-     * Set/get relation Id
+     * Set/get relation Id.
      */
-    public function testRelationId()
+    public function testRelationId(): void
     {
         $oLink = new Link('https://github.com/PHPOffice/PHPWord');
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oLink->setRelationId($iVal);
-        $this->assertEquals($iVal, $oLink->getRelationId());
+        self::assertEquals($iVal, $oLink->getRelationId());
     }
 }

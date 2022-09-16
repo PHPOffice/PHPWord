@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * Fill style
+ * Fill style.
  *
  * There are still lot of interesting things for this style that can be added, including gradient. See @see .
  *
@@ -28,24 +28,24 @@ namespace PhpOffice\PhpWord\Style;
 class Fill extends AbstractStyle
 {
     /**
-     * Color
+     * Color.
      *
      * @var string
      */
     private $color;
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param array $style
      */
-    public function __construct($style = array())
+    public function __construct($style = [])
     {
         $this->setStyleByArray($style);
     }
 
     /**
-     * Get color
+     * Get color.
      *
      * @return string
      */
@@ -55,9 +55,10 @@ class Fill extends AbstractStyle
     }
 
     /**
-     * Set color
+     * Set color.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setColor($value = null)

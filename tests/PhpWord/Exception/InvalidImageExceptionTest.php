@@ -11,28 +11,30 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Exception;
 
 /**
- * Test class for PhpOffice\PhpWord\Exception\InvalidImageException
+ * Test class for PhpOffice\PhpWord\Exception\InvalidImageException.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\InvalidImageException
+ *
  * @runTestsInSeparateProcesses
  */
 class InvalidImageExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Throw new exception
+     * Throw new exception.
      *
      * @covers            \PhpOffice\PhpWord\Exception\InvalidImageException
      */
-    public function testThrowException()
+    public function testThrowException(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+
         throw new InvalidImageException();
     }
 }

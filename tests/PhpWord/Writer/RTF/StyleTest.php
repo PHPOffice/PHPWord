@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\Writer\RTF\Style\Border;
 use PHPUnit\Framework\Assert;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\RTF\Style subnamespace
+ * Test class for PhpOffice\PhpWord\Writer\RTF\Style subnamespace.
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,25 +32,25 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test empty styles
+     * Test empty styles.
      */
-    public function testEmptyStyles()
+    public function testEmptyStyles(): void
     {
-        $styles = array('Font', 'Paragraph', 'Section', 'Tab', 'Indentation');
+        $styles = ['Font', 'Paragraph', 'Section', 'Tab', 'Indentation'];
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Style\\' . $style;
             $object = new $objectClass();
 
-            $this->assertEquals('', $object->write());
+            self::assertEquals('', $object->write());
         }
     }
 
-    public function testBorderWithNonRegisteredColors()
+    public function testBorderWithNonRegisteredColors(): void
     {
         $border = new Border();
-        $border->setSizes(array(1, 2, 3, 4));
-        $border->setColors(array('#FF0000', '#FF0000', '#FF0000', '#FF0000'));
-        $border->setSizes(array(20, 20, 20, 20));
+        $border->setSizes([1, 2, 3, 4]);
+        $border->setColors(['#FF0000', '#FF0000', '#FF0000', '#FF0000']);
+        $border->setSizes([20, 20, 20, 20]);
 
         $content = $border->write();
 
@@ -60,10 +60,10 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $expected .= '\pgbrdrr\brdrs\brdrw20\brdrcf0\brsp480 ';
         $expected .= '\pgbrdrb\brdrs\brdrw20\brdrcf0\brsp480 ';
 
-        $this->assertEquals($expected, $content);
+        self::assertEquals($expected, $content);
     }
 
-    public function testIndentation()
+    public function testIndentation(): void
     {
         $indentation = new \PhpOffice\PhpWord\Style\Indentation();
         $indentation->setLeft(1);
@@ -77,7 +77,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         Assert::assertEquals('\fi3\li1\ri2 ', $result);
     }
 
-    public function testRightTab()
+    public function testRightTab(): void
     {
         $tabRight = new \PhpOffice\PhpWord\Style\Tab();
         $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT);
@@ -90,7 +90,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         Assert::assertEquals('\tqr\tx5', $result);
     }
 
-    public function testCenterTab()
+    public function testCenterTab(): void
     {
         $tabRight = new \PhpOffice\PhpWord\Style\Tab();
         $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER);
@@ -102,7 +102,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         Assert::assertEquals('\tqc\tx0', $result);
     }
 
-    public function testDecimalTab()
+    public function testDecimalTab(): void
     {
         $tabRight = new \PhpOffice\PhpWord\Style\Tab();
         $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL);
@@ -114,29 +114,29 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         Assert::assertEquals('\tqdec\tx0', $result);
     }
 
-    public function testRTL()
+    public function testRTL(): void
     {
         $parentWriter = new RTF();
-        $element = new \PhpOffice\PhpWord\Element\Text('אב גד', array('RTL'=> true));
+        $element = new \PhpOffice\PhpWord\Element\Text('אב גד', ['RTL' => true]);
         $text = new \PhpOffice\PhpWord\Writer\RTF\Element\Text($parentWriter, $element);
         $expect = "\\pard\\nowidctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
-        $this->assertEquals($expect, $this->removeCr($text));
+        self::assertEquals($expect, $this->removeCr($text));
     }
 
-    public function testPageBreakLineHeight()
+    public function testPageBreakLineHeight(): void
     {
         $parentWriter = new RTF();
-        $element = new \PhpOffice\PhpWord\Element\Text('New page', null, array('lineHeight' => 1.08, 'pageBreakBefore' => true));
+        $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new \PhpOffice\PhpWord\Writer\RTF\Element\Text($parentWriter, $element);
         $expect = "\\pard\\nowidctlpar \\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
-        $this->assertEquals($expect, $this->removeCr($text));
+        self::assertEquals($expect, $this->removeCr($text));
     }
 
-    public function testPageNumberRestart()
+    public function testPageNumberRestart(): void
     {
         //$parentWriter = new RTF();
         $phpword = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpword->addSection(array('pageNumberingStart' => 5));
+        $section = $phpword->addSection(['pageNumberingStart' => 5]);
         $styleWriter = new \PhpOffice\PhpWord\Writer\RTF\Style\Section($section->getStyle());
         $wstyle = $this->removeCr($styleWriter);
         // following have default values which might change so don't use them
@@ -151,6 +151,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $wstyle = preg_replace('/\\\\guttersxn\\d+/', '', $wstyle);
         $wstyle = preg_replace('/  +/', ' ', $wstyle);
         $expect = "\\sectd \\pgnstarts5\\pgnrestart \n";
-        $this->assertEquals($expect, $wstyle);
+        self::assertEquals($expect, $wstyle);
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,14 +21,14 @@ use PhpOffice\PhpWord\AbstractTestReader;
 use PhpOffice\PhpWord\Element\TrackChange;
 
 /**
- * Test class for PhpOffice\PhpWord\Reader\Word2007\Element subnamespace
+ * Test class for PhpOffice\PhpWord\Reader\Word2007\Element subnamespace.
  */
 class ElementTest extends AbstractTestReader
 {
     /**
-     * Test reading of alternate content value
+     * Test reading of alternate content value.
      */
-    public function testReadAlternateContent()
+    public function testReadAlternateContent(): void
     {
         $documentXml = '<w:p>
             <w:r>
@@ -56,19 +56,19 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]->getElement(0));
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]->getElement(0));
         $text = $elements[0];
-        $this->assertEquals('Test node value', trim($text->getElement(0)->getText()));
+        self::assertEquals('Test node value', trim($text->getElement(0)->getText()));
     }
 
     /**
-     * Test reading of textbreak
+     * Test reading of textbreak.
      */
-    public function testReadTextBreak()
+    public function testReadTextBreak(): void
     {
         $documentXml = '<w:p>
             <w:r>
@@ -77,21 +77,21 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
         /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
         $textRun = $elements[0];
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextBreak', $textRun->getElement(0));
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(1));
-        $this->assertEquals('test string', $textRun->getElement(1)->getText());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextBreak', $textRun->getElement(0));
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(1));
+        self::assertEquals('test string', $textRun->getElement(1)->getText());
     }
 
     /**
-     * Test reading content inside w:smartTag
+     * Test reading content inside w:smartTag.
      */
-    public function testSmartTag()
+    public function testSmartTag(): void
     {
         $documentXml = '<w:p>
             <w:smartTag>
@@ -101,20 +101,20 @@ class ElementTest extends AbstractTestReader
             </w:smartTag>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
         /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
         $textRun = $elements[0];
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
-        $this->assertEquals('test string', $textRun->getElement(0)->getText());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
+        self::assertEquals('test string', $textRun->getElement(0)->getText());
     }
 
     /**
-     * Test reading of textbreak
+     * Test reading of textbreak.
      */
-    public function testReadListItemRunWithFormatting()
+    public function testReadListItemRunWithFormatting(): void
     {
         $documentXml = '<w:p>
             <w:pPr>
@@ -137,25 +137,25 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $sections = $phpWord->getSection(0);
-        $this->assertNull($sections->getElement(999));
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\ListItemRun', $sections->getElement(0));
-        $this->assertEquals(0, $sections->getElement(0)->getDepth());
+        self::assertNull($sections->getElement(999));
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\ListItemRun', $sections->getElement(0));
+        self::assertEquals(0, $sections->getElement(0)->getDepth());
 
         $listElements = $sections->getElement(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $listElements[0]);
-        $this->assertEquals('Two', $listElements[0]->getText());
-        $this->assertEquals(' with ', $listElements[1]->getText());
-        $this->assertEquals('bold', $listElements[2]->getText());
-        $this->assertTrue($listElements[2]->getFontStyle()->getBold());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $listElements[0]);
+        self::assertEquals('Two', $listElements[0]->getText());
+        self::assertEquals(' with ', $listElements[1]->getText());
+        self::assertEquals('bold', $listElements[2]->getText());
+        self::assertTrue($listElements[2]->getFontStyle()->getBold());
     }
 
     /**
-     * Test reading track changes
+     * Test reading track changes.
      */
-    public function testReadTrackChange()
+    public function testReadTrackChange(): void
     {
         $documentXml = '<w:p>
             <w:r>
@@ -173,32 +173,32 @@ class ElementTest extends AbstractTestReader
             </w:ins>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
         /** @var \PhpOffice\PhpWord\Element\TextRun $elements */
         $textRun = $elements[0];
 
-        $this->assertEquals('One ', $textRun->getElement(0)->getText());
+        self::assertEquals('One ', $textRun->getElement(0)->getText());
 
-        $this->assertEquals('two', $textRun->getElement(1)->getText());
-        $this->assertNotNull($textRun->getElement(1)->getTrackChange());
+        self::assertEquals('two', $textRun->getElement(1)->getText());
+        self::assertNotNull($textRun->getElement(1)->getTrackChange());
         /** @var \PhpOffice\PhpWord\Element\TrackChange $trackChange */
         $trackChange = $textRun->getElement(1)->getTrackChange();
-        $this->assertEquals(TrackChange::DELETED, $trackChange->getChangeType());
+        self::assertEquals(TrackChange::DELETED, $trackChange->getChangeType());
 
-        $this->assertEquals('three', $textRun->getElement(2)->getText());
-        $this->assertNotNull($textRun->getElement(2)->getTrackChange());
+        self::assertEquals('three', $textRun->getElement(2)->getText());
+        self::assertNotNull($textRun->getElement(2)->getTrackChange());
         /** @var \PhpOffice\PhpWord\Element\TrackChange $trackChange */
         $trackChange = $textRun->getElement(2)->getTrackChange();
-        $this->assertEquals(TrackChange::INSERTED, $trackChange->getChangeType());
+        self::assertEquals(TrackChange::INSERTED, $trackChange->getChangeType());
     }
 
     /**
-     * Test reading of tab
+     * Test reading of tab.
      */
-    public function testReadTab()
+    public function testReadTab(): void
     {
         $documentXml = '<w:p>
             <w:r>
@@ -208,24 +208,24 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
         /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
         $textRun = $elements[0];
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
-        $this->assertEquals('One', $textRun->getElement(0)->getText());
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(1));
-        $this->assertEquals("\t", $textRun->getElement(1)->getText());
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(2));
-        $this->assertEquals('Two', $textRun->getElement(2)->getText());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
+        self::assertEquals('One', $textRun->getElement(0)->getText());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(1));
+        self::assertEquals("\t", $textRun->getElement(1)->getText());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(2));
+        self::assertEquals('Two', $textRun->getElement(2)->getText());
     }
 
     /**
-     * Test reading Title style
+     * Test reading Title style.
      */
-    public function testReadTitleStyle()
+    public function testReadTitleStyle(): void
     {
         $documentXml = '<w:p>
             <w:pPr>
@@ -261,26 +261,26 @@ class ElementTest extends AbstractTestReader
             </w:rPr>
         </w:style>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml, 'styles' => $stylesXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml, 'styles' => $stylesXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[0]);
         /** @var \PhpOffice\PhpWord\Element\Title $title */
         $title = $elements[0];
-        $this->assertEquals('Title', $title->getStyle());
-        $this->assertEquals('This is a non formatted title', $title->getText());
+        self::assertEquals('Title', $title->getStyle());
+        self::assertEquals('This is a non formatted title', $title->getText());
 
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[1]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[1]);
         /** @var \PhpOffice\PhpWord\Element\Title $formattedTitle */
         $formattedTitle = $elements[1];
-        $this->assertEquals('Title', $formattedTitle->getStyle());
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $formattedTitle->getText());
+        self::assertEquals('Title', $formattedTitle->getStyle());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $formattedTitle->getText());
     }
 
     /**
-     * Test reading Drawing
+     * Test reading Drawing.
      */
-    public function testReadDrawing()
+    public function testReadDrawing(): void
     {
         $documentXml = '<w:p>
             <w:r>
@@ -307,9 +307,9 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
     }
 }

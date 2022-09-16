@@ -11,68 +11,70 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader;
 
+use Exception;
 use PhpOffice\PhpWord\IOFactory;
 
 /**
- * Test class for PhpOffice\PhpWord\Reader\MsDoc
+ * Test class for PhpOffice\PhpWord\Reader\MsDoc.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\MsDoc
+ *
  * @runTestsInSeparateProcesses
  */
 class MsDocTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test canRead() method
+     * Test canRead() method.
      */
-    public function testCanRead()
+    public function testCanRead(): void
     {
         $object = new MsDoc();
         $filename = __DIR__ . '/../_files/documents/reader.doc';
-        $this->assertTrue($object->canRead($filename));
+        self::assertTrue($object->canRead($filename));
     }
 
     /**
-     * Can read exception
+     * Can read exception.
      */
-    public function testCanReadFailed()
+    public function testCanReadFailed(): void
     {
         $object = new MsDoc();
         $filename = __DIR__ . '/../_files/documents/foo.doc';
-        $this->assertFalse($object->canRead($filename));
+        self::assertFalse($object->canRead($filename));
     }
 
     /**
-     * Load
+     * Load.
      */
-    public function testLoad()
+    public function testLoad(): void
     {
         $filename = __DIR__ . '/../_files/documents/reader.doc';
         $phpWord = IOFactory::load($filename, 'MsDoc');
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
     }
 
     /**
-     * Test exception on not existing file
+     * Test exception on not existing file.
      */
-    public function testFailIfFileNotReadable()
+    public function testFailIfFileNotReadable(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $filename = __DIR__ . '/../_files/documents/not_existing_reader.doc';
         IOFactory::load($filename, 'MsDoc');
     }
 
     /**
-     * Test exception on non OLE document
+     * Test exception on non OLE document.
      */
-    public function testFailIfFileNotOle()
+    public function testFailIfFileNotOle(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $filename = __DIR__ . '/../_files/documents/reader.odt';
         IOFactory::load($filename, 'MsDoc');
     }

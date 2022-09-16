@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,16 +21,16 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\PDF
+ * Test class for PhpOffice\PhpWord\Writer\PDF.
  *
  * @runTestsInSeparateProcesses
  */
 class PDFTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test normal construct
+     * Test normal construct.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         define('DOMPDF_ENABLE_AUTOLOAD', false);
         $file = __DIR__ . '/../_files/temp.pdf';
@@ -41,15 +41,15 @@ class PDFTest extends \PHPUnit\Framework\TestCase
         $writer = new PDF(new PhpWord());
         $writer->save($file);
 
-        $this->assertFileExists($file);
+        self::assertFileExists($file);
 
         unlink($file);
     }
 
     /**
-     * Test construct exception
+     * Test construct exception.
      */
-    public function testConstructException()
+    public function testConstructException(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $this->expectExceptionMessage('PDF rendering library or library path has not been defined.');

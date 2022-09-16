@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,63 +21,64 @@ use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph
+ *
  * @runTestsInSeparateProcesses
  */
 class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test write styles
+     * Test write styles.
      */
-    public function testParagraphNumbering()
+    public function testParagraphNumbering(): void
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $phpWord->addParagraphStyle('testStyle', array('indent' => '10'));
+        $phpWord->addParagraphStyle('testStyle', ['indent' => '10']);
         $section = $phpWord->addSection();
-        $section->addText('test', null, array('numStyle' => 'testStyle', 'numLevel' => '1'));
+        $section->addText('test', null, ['numStyle' => 'testStyle', 'numLevel' => '1']);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p/w:pPr/w:numPr/w:ilvl';
-        $this->assertTrue($doc->elementExists($path));
+        self::assertTrue($doc->elementExists($path));
     }
 
-    public function testLineSpacingExact()
+    public function testLineSpacingExact(): void
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('test', null, array('spacing' => 240, 'spacingLineRule' => 'exact'));
+        $section->addText('test', null, ['spacing' => 240, 'spacingLineRule' => 'exact']);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p/w:pPr/w:spacing';
-        $this->assertTrue($doc->elementExists($path));
-        $this->assertEquals('exact', $doc->getElementAttribute($path, 'w:lineRule'));
-        $this->assertEquals('240', $doc->getElementAttribute($path, 'w:line'));
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('exact', $doc->getElementAttribute($path, 'w:lineRule'));
+        self::assertEquals('240', $doc->getElementAttribute($path, 'w:line'));
     }
 
-    public function testLineSpacingAuto()
+    public function testLineSpacingAuto(): void
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('test', null, array('spacing' => 240, 'spacingLineRule' => 'auto'));
+        $section->addText('test', null, ['spacing' => 240, 'spacingLineRule' => 'auto']);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p/w:pPr/w:spacing';
-        $this->assertTrue($doc->elementExists($path));
-        $this->assertEquals('auto', $doc->getElementAttribute($path, 'w:lineRule'));
-        $this->assertEquals('480', $doc->getElementAttribute($path, 'w:line'));
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('auto', $doc->getElementAttribute($path, 'w:lineRule'));
+        self::assertEquals('480', $doc->getElementAttribute($path, 'w:line'));
     }
 
-    public function testSuppressAutoHyphens()
+    public function testSuppressAutoHyphens(): void
     {
         $paragraphStyle = new ParagraphStyle();
         $paragraphStyle->setSuppressAutoHyphens(true);
@@ -88,6 +89,6 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p/w:pPr/w:suppressAutoHyphens';
-        $this->assertTrue($doc->elementExists($path));
+        self::assertTrue($doc->elementExists($path));
     }
 }

@@ -11,36 +11,37 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
+use DateTime;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\ODText\Element subnamespace
+ * Test class for PhpOffice\PhpWord\Writer\ODText\Element subnamespace.
  */
 class ElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed after each method of the class
+     * Executed after each method of the class.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * Test unmatched elements
+     * Test unmatched elements.
      */
-    public function testUnmatchedElements()
+    public function testUnmatchedElements(): void
     {
-        $elements = array('Image', 'Link', 'Table', 'Text', 'Title', 'Field');
+        $elements = ['Image', 'Link', 'Table', 'Text', 'Title', 'Field'];
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Element\\' . $element;
             $xmlWriter = new XMLWriter();
@@ -67,9 +68,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     // ODT List Item not yet implemented
 
     /**
-     * Test link element
+     * Test link element.
      */
-    public function testLinkElement()
+    public function testLinkElement(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -91,14 +92,14 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Basic test for table element
+     * Basic test for table element.
      */
-    public function testTableElements()
+    public function testTableElements(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $table = $section->addTable(array('alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER));
+        $table = $section->addTable(['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
         $table->addRow(900);
         $table->addCell(2000)->addText('Row 1');
         $table->addCell(2000)->addText('Row 2');
@@ -117,6 +118,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
             }
             if ($doc->getElementAttribute($element, 'style:family') === 'table') {
                 $tableStyleName = $doc->getElementAttribute($element, 'style:name');
+
                 break;
             }
             ++$tableStyleNum;
@@ -133,13 +135,13 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test Title and Headings
+     * Test Title and Headings.
      */
-    public function testTitleAndHeading()
+    public function testTitleAndHeading(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(0, array('size' => 14, 'italic' => true));
-        $phpWord->addTitleStyle(1, array('size' => 20, 'color' => '333333', 'bold' => true));
+        $phpWord->addTitleStyle(0, ['size' => 14, 'italic' => true]);
+        $phpWord->addTitleStyle(1, ['size' => 20, 'color' => '333333', 'bold' => true]);
 
         $section = $phpWord->addSection();
         $section->addTitle('This is a title', 0);
@@ -149,52 +151,52 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $p2t = '/office:document-content/office:body/office:text/text:section';
         $element = "$p2t/text:h[1]";
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('HE0', $doc->getElementAttribute($element, 'text:style-name'));
-        $this->assertEquals('0', $doc->getElementAttribute($element, 'text:outline-level'));
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('HE0', $doc->getElementAttribute($element, 'text:style-name'));
+        self::assertEquals('0', $doc->getElementAttribute($element, 'text:outline-level'));
         $span = "$element/text:span";
-        $this->assertTrue($doc->elementExists($span));
-        $this->assertEquals('This is a title', $doc->getElement($span)->textContent);
-        $this->assertEquals('Title', $doc->getElementAttribute($span, 'text:style-name'));
+        self::assertTrue($doc->elementExists($span));
+        self::assertEquals('This is a title', $doc->getElement($span)->textContent);
+        self::assertEquals('Title', $doc->getElementAttribute($span, 'text:style-name'));
 
         $element = "$p2t/text:h[2]";
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('HD1', $doc->getElementAttribute($element, 'text:style-name'));
-        $this->assertEquals('1', $doc->getElementAttribute($element, 'text:outline-level'));
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('HD1', $doc->getElementAttribute($element, 'text:style-name'));
+        self::assertEquals('1', $doc->getElementAttribute($element, 'text:outline-level'));
         $span = "$element/text:span";
-        $this->assertTrue($doc->elementExists($span));
-        $this->assertEquals('Heading 1', $doc->getElement($span)->textContent);
-        $this->assertEquals('Heading_1', $doc->getElementAttribute($span, 'text:style-name'));
+        self::assertTrue($doc->elementExists($span));
+        self::assertEquals('Heading 1', $doc->getElement($span)->textContent);
+        self::assertEquals('Heading_1', $doc->getElementAttribute($span, 'text:style-name'));
 
         $doc->setDefaultFile('styles.xml');
         $element = '/office:document-styles/office:styles/style:style[1]';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('Title', $doc->getElementAttribute($element, 'style:name'));
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('Title', $doc->getElementAttribute($element, 'style:name'));
         $element .= '/style:text-properties';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('14pt', $doc->getElementAttribute($element, 'fo:font-size'));
-        $this->assertEquals('italic', $doc->getElementAttribute($element, 'fo:font-style'));
-        $this->assertEquals('', $doc->getElementAttribute($element, 'fo:font-weight'));
-        $this->assertEquals('', $doc->getElementAttribute($element, 'fo:color'));
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('14pt', $doc->getElementAttribute($element, 'fo:font-size'));
+        self::assertEquals('italic', $doc->getElementAttribute($element, 'fo:font-style'));
+        self::assertEquals('', $doc->getElementAttribute($element, 'fo:font-weight'));
+        self::assertEquals('', $doc->getElementAttribute($element, 'fo:color'));
 
         $element = '/office:document-styles/office:styles/style:style[2]';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('Heading_1', $doc->getElementAttribute($element, 'style:name'));
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('Heading_1', $doc->getElementAttribute($element, 'style:name'));
         $element .= '/style:text-properties';
-        $this->assertTrue($doc->elementExists($element));
-        $this->assertEquals('20pt', $doc->getElementAttribute($element, 'fo:font-size'));
-        $this->assertEquals('', $doc->getElementAttribute($element, 'fo:font-style'));
-        $this->assertEquals('bold', $doc->getElementAttribute($element, 'fo:font-weight'));
-        $this->assertEquals('#333333', $doc->getElementAttribute($element, 'fo:color'));
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('20pt', $doc->getElementAttribute($element, 'fo:font-size'));
+        self::assertEquals('', $doc->getElementAttribute($element, 'fo:font-style'));
+        self::assertEquals('bold', $doc->getElementAttribute($element, 'fo:font-weight'));
+        self::assertEquals('#333333', $doc->getElementAttribute($element, 'fo:color'));
     }
 
     /**
-     * Test title specified as text run rather than text
+     * Test title specified as text run rather than text.
      */
-    public function testTextRunTitle()
+    public function testTextRunTitle(): void
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $phpWord->addTitleStyle(1, array('name' => 'Times New Roman', 'size' => 18, 'bold' => true));
+        $phpWord->addTitleStyle(1, ['name' => 'Times New Roman', 'size' => 18, 'bold' => true]);
         $section = $phpWord->addSection();
         $section->addTitle('Text Title', 1);
         $section->addText('Text following Text Title');
@@ -209,30 +211,30 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $p2t = '/office:document-content/office:body/office:text/text:section';
 
         $element = "$p2t/text:h[1]";
-        $this->assertEquals('HE1', $doc->getElementAttribute($element, 'text:style-name'));
-        $this->assertEquals('1', $doc->getElementAttribute($element, 'text:outline-level'));
+        self::assertEquals('HE1', $doc->getElementAttribute($element, 'text:style-name'));
+        self::assertEquals('1', $doc->getElementAttribute($element, 'text:outline-level'));
         $span = "$element/text:span";
-        $this->assertEquals('Text Title', $doc->getElement($span)->textContent);
-        $this->assertEquals('Heading_1', $doc->getElementAttribute($span, 'text:style-name'));
+        self::assertEquals('Text Title', $doc->getElement($span)->textContent);
+        self::assertEquals('Heading_1', $doc->getElementAttribute($span, 'text:style-name'));
         $element = "$p2t/text:p[2]/text:span";
-        $this->assertEquals('Text following Text Title', $doc->getElement($element)->nodeValue);
+        self::assertEquals('Text following Text Title', $doc->getElement($element)->nodeValue);
 
         $element = "$p2t/text:h[2]";
-        $this->assertEquals('HD1', $doc->getElementAttribute($element, 'text:style-name'));
-        $this->assertEquals('1', $doc->getElementAttribute($element, 'text:outline-level'));
+        self::assertEquals('HD1', $doc->getElementAttribute($element, 'text:style-name'));
+        self::assertEquals('1', $doc->getElementAttribute($element, 'text:outline-level'));
         $span = "$element/text:span";
-        $this->assertEquals('Text Run', $doc->getElement("$span/text:span[1]")->textContent);
-        $this->assertTrue($doc->elementExists("$span/text:span[2]/text:s"));
-        $this->assertEquals('Title', $doc->getElement("$span/text:span[2]")->textContent);
-        $this->assertEquals('Heading_1', $doc->getElementAttribute($span, 'text:style-name'));
+        self::assertEquals('Text Run', $doc->getElement("$span/text:span[1]")->textContent);
+        self::assertTrue($doc->elementExists("$span/text:span[2]/text:s"));
+        self::assertEquals('Title', $doc->getElement("$span/text:span[2]")->textContent);
+        self::assertEquals('Heading_1', $doc->getElementAttribute($span, 'text:style-name'));
         $element = "$p2t/text:p[3]/text:span";
-        $this->assertEquals('Text following Text Run Title', $doc->getElement($element)->nodeValue);
+        self::assertEquals('Text following Text Run Title', $doc->getElement($element)->nodeValue);
     }
 
     /**
-     * Test correct writing of text with ampersand in it
+     * Test correct writing of text with ampersand in it.
      */
-    public function testTextWithAmpersand()
+    public function testTextWithAmpersand(): void
     {
         $esc = \PhpOffice\PhpWord\Settings::isOutputEscapingEnabled();
         \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
@@ -245,16 +247,16 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled($esc);
         $p2t = '/office:document-content/office:body/office:text/text:section';
         $element = "$p2t/text:p[2]";
-        $this->assertTrue($doc->elementExists($element));
+        self::assertTrue($doc->elementExists($element));
         $span = "$element/text:span";
-        $this->assertTrue($doc->elementExists($span));
-        $this->assertEquals($txt, $doc->getElement($span)->nodeValue);
+        self::assertTrue($doc->elementExists($span));
+        self::assertEquals($txt, $doc->getElement($span)->nodeValue);
     }
 
     /**
-     * Test PageBreak
+     * Test PageBreak.
      */
-    public function testPageBreak()
+    public function testPageBreak(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -269,9 +271,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test tracked changes
+     * Test tracked changes.
      */
-    public function testTrackedChanges()
+    public function testTrackedChanges(): void
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
@@ -281,14 +283,14 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $text = $textRun->addText('Hello World! Time to ');
 
-        $text = $textRun->addText('wake ', array('bold' => true));
+        $text = $textRun->addText('wake ', ['bold' => true]);
         $text->setChangeInfo(TrackChange::INSERTED, 'Fred', time() - 1800);
 
         $text = $textRun->addText('up');
         $text->setTrackChange(new TrackChange(TrackChange::INSERTED, 'Fred'));
 
         $text = $textRun->addText('go to sleep');
-        $text->setChangeInfo(TrackChange::DELETED, 'Barney', new \DateTime('@' . (time() - 3600)));
+        $text->setChangeInfo(TrackChange::DELETED, 'Barney', new DateTime('@' . (time() - 3600)));
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,21 +20,21 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
 use PhpOffice\PhpWord\Element\AbstractContainer as ContainerElement;
 
 /**
- * Container element HTML writer
+ * Container element HTML writer.
  *
  * @since 0.11.0
  */
 class Container extends AbstractElement
 {
     /**
-     * Namespace; Can't use __NAMESPACE__ in inherited class (RTF)
+     * Namespace; Can't use __NAMESPACE__ in inherited class (RTF).
      *
      * @var string
      */
     protected $namespace = 'PhpOffice\\PhpWord\\Writer\\HTML\\Element';
 
     /**
-     * Write container
+     * Write container.
      *
      * @return string
      */
@@ -45,7 +45,7 @@ class Container extends AbstractElement
             return '';
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
-        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
+        $withoutP = in_array($containerClass, ['TextRun', 'Footnote', 'Endnote']) ? true : false;
         $content = '';
 
         $elements = $container->getElements();

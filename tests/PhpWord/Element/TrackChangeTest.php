@@ -11,41 +11,43 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use DateTime;
+
 /**
- * Test class for PhpOffice\PhpWord\Element\TrackChange
+ * Test class for PhpOffice\PhpWord\Element\TrackChange.
  *
  * @runTestsInSeparateProcesses
  */
 class TrackChangeTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * New instance
+     * New instance.
      */
-    public function testConstructDefault()
+    public function testConstructDefault(): void
     {
         $author = 'Test User';
-        $date = new \DateTime('2000-01-01');
+        $date = new DateTime('2000-01-01');
         $oTrackChange = new TrackChange(TrackChange::INSERTED, $author, $date);
 
         $oText = new Text('dummy text');
         $oText->setTrackChange($oTrackChange);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TrackChange', $oTrackChange);
-        $this->assertEquals($author, $oTrackChange->getAuthor());
-        $this->assertEquals($date, $oTrackChange->getDate());
-        $this->assertEquals(TrackChange::INSERTED, $oTrackChange->getChangeType());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TrackChange', $oTrackChange);
+        self::assertEquals($author, $oTrackChange->getAuthor());
+        self::assertEquals($date, $oTrackChange->getDate());
+        self::assertEquals(TrackChange::INSERTED, $oTrackChange->getChangeType());
     }
 
     /**
-     * New instance with invalid \DateTime (produced by \DateTime::createFromFormat(...))
+     * New instance with invalid \DateTime (produced by \DateTime::createFromFormat(...)).
      */
-    public function testConstructDefaultWithInvalidDate()
+    public function testConstructDefaultWithInvalidDate(): void
     {
         $author = 'Test User';
         $date = false;
@@ -54,9 +56,9 @@ class TrackChangeTest extends \PHPUnit\Framework\TestCase
         $oText = new Text('dummy text');
         $oText->setTrackChange($oTrackChange);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TrackChange', $oTrackChange);
-        $this->assertEquals($author, $oTrackChange->getAuthor());
-        $this->assertEquals($date, null);
-        $this->assertEquals(TrackChange::INSERTED, $oTrackChange->getChangeType());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TrackChange', $oTrackChange);
+        self::assertEquals($author, $oTrackChange->getAuthor());
+        self::assertEquals($date, null);
+        self::assertEquals(TrackChange::INSERTED, $oTrackChange->getChangeType());
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,30 +23,31 @@ use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * @coversNothing
+ *
  * @runTestsInSeparateProcesses
  */
 class FootnotesTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
 
-    public function testWriteFootnotes()
+    public function testWriteFootnotes(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->addParagraphStyle('pStyle', array('alignment' => Jc::START));
+        $phpWord->addParagraphStyle('pStyle', ['alignment' => Jc::START]);
         $section = $phpWord->addSection();
         $section->addText('Text');
         $footnote1 = $section->addFootnote('pStyle');
         $footnote1->addText('Footnote');
         $footnote1->addTextBreak();
         $footnote1->addLink('https://github.com/PHPOffice/PHPWord');
-        $footnote2 = $section->addEndnote(array('alignment' => Jc::START));
+        $footnote2 = $section->addEndnote(['alignment' => Jc::START]);
         $footnote2->addText('Endnote');
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:footnoteReference'));
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:endnoteReference'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:footnoteReference'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:endnoteReference'));
     }
 }

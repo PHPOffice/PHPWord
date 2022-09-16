@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,14 +25,14 @@ use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
 
 /**
- * Test class for PhpOffice\PhpWord\Reader\Word2007\Styles
+ * Test class for PhpOffice\PhpWord\Reader\Word2007\Styles.
  */
 class StyleTest extends AbstractTestReader
 {
     /**
-     * Test reading of table layout
+     * Test reading of table layout.
      */
-    public function testReadTableLayout()
+    public function testReadTableLayout(): void
     {
         $documentXml = '<w:tbl>
             <w:tblPr>
@@ -40,18 +40,18 @@ class StyleTest extends AbstractTestReader
             </w:tblPr>
         </w:tbl>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
-        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
-        $this->assertEquals(Table::LAYOUT_FIXED, $elements[0]->getStyle()->getLayout());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        self::assertEquals(Table::LAYOUT_FIXED, $elements[0]->getStyle()->getLayout());
     }
 
     /**
-     * Test reading of cell spacing
+     * Test reading of cell spacing.
      */
-    public function testReadCellSpacing()
+    public function testReadCellSpacing(): void
     {
         $documentXml = '<w:tbl>
             <w:tblPr>
@@ -59,21 +59,21 @@ class StyleTest extends AbstractTestReader
             </w:tblPr>
         </w:tbl>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
-        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
         /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
         $tableStyle = $elements[0]->getStyle();
-        $this->assertEquals(TblWidth::AUTO, $tableStyle->getUnit());
-        $this->assertEquals(10.5, $tableStyle->getCellSpacing());
+        self::assertEquals(TblWidth::AUTO, $tableStyle->getUnit());
+        self::assertEquals(10.5, $tableStyle->getCellSpacing());
     }
 
     /**
-     * Test reading of table position
+     * Test reading of table position.
      */
-    public function testReadTablePosition()
+    public function testReadTablePosition(): void
     {
         $documentXml = '<w:tbl>
             <w:tblPr>
@@ -81,31 +81,31 @@ class StyleTest extends AbstractTestReader
             </w:tblPr>
         </w:tbl>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
-        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
-        $this->assertNotNull($elements[0]->getStyle()->getPosition());
-        $this->assertInstanceOf('PhpOffice\PhpWord\Style\TablePosition', $elements[0]->getStyle()->getPosition());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        self::assertNotNull($elements[0]->getStyle()->getPosition());
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\TablePosition', $elements[0]->getStyle()->getPosition());
         /** @var \PhpOffice\PhpWord\Style\TablePosition $tableStyle */
         $tableStyle = $elements[0]->getStyle()->getPosition();
-        $this->assertEquals(10, $tableStyle->getLeftFromText());
-        $this->assertEquals(20, $tableStyle->getRightFromText());
-        $this->assertEquals(30, $tableStyle->getTopFromText());
-        $this->assertEquals(40, $tableStyle->getBottomFromText());
-        $this->assertEquals(TablePosition::VANCHOR_PAGE, $tableStyle->getVertAnchor());
-        $this->assertEquals(TablePosition::HANCHOR_MARGIN, $tableStyle->getHorzAnchor());
-        $this->assertEquals(TablePosition::XALIGN_CENTER, $tableStyle->getTblpXSpec());
-        $this->assertEquals(50, $tableStyle->getTblpX());
-        $this->assertEquals(TablePosition::YALIGN_TOP, $tableStyle->getTblpYSpec());
-        $this->assertEquals(60, $tableStyle->getTblpY());
+        self::assertEquals(10, $tableStyle->getLeftFromText());
+        self::assertEquals(20, $tableStyle->getRightFromText());
+        self::assertEquals(30, $tableStyle->getTopFromText());
+        self::assertEquals(40, $tableStyle->getBottomFromText());
+        self::assertEquals(TablePosition::VANCHOR_PAGE, $tableStyle->getVertAnchor());
+        self::assertEquals(TablePosition::HANCHOR_MARGIN, $tableStyle->getHorzAnchor());
+        self::assertEquals(TablePosition::XALIGN_CENTER, $tableStyle->getTblpXSpec());
+        self::assertEquals(50, $tableStyle->getTblpX());
+        self::assertEquals(TablePosition::YALIGN_TOP, $tableStyle->getTblpYSpec());
+        self::assertEquals(60, $tableStyle->getTblpY());
     }
 
     /**
-     * Test reading of position
+     * Test reading of position.
      */
-    public function testReadPosition()
+    public function testReadPosition(): void
     {
         $documentXml = '<w:p>
             <w:r>
@@ -116,20 +116,20 @@ class StyleTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
         /** @var \PhpOffice\PhpWord\Element\TextRun $elements */
         $textRun = $elements[0];
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $textRun);
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
-        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Font', $textRun->getElement(0)->getFontStyle());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $textRun);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\Font', $textRun->getElement(0)->getFontStyle());
         /** @var \PhpOffice\PhpWord\Style\Font $fontStyle */
         $fontStyle = $textRun->getElement(0)->getFontStyle();
-        $this->assertEquals(15, $fontStyle->getPosition());
+        self::assertEquals(15, $fontStyle->getPosition());
     }
 
-    public function testReadIndent()
+    public function testReadIndent(): void
     {
         $documentXml = '<w:tbl>
             <w:tblPr>
@@ -137,18 +137,18 @@ class StyleTest extends AbstractTestReader
             </w:tblPr>
         </w:tbl>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
-        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
         /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
         $tableStyle = $elements[0]->getStyle();
-        $this->assertSame(TblWidth::TWIP, $tableStyle->getIndent()->getType());
-        $this->assertSame(2160, $tableStyle->getIndent()->getValue());
+        self::assertSame(TblWidth::TWIP, $tableStyle->getIndent()->getType());
+        self::assertSame(2160, $tableStyle->getIndent()->getValue());
     }
 
-    public function testReadTableRTL()
+    public function testReadTableRTL(): void
     {
         $documentXml = '<w:tbl>
             <w:tblPr>
@@ -156,17 +156,17 @@ class StyleTest extends AbstractTestReader
             </w:tblPr>
         </w:tbl>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
-        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
         /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
         $tableStyle = $elements[0]->getStyle();
-        $this->assertTrue($tableStyle->isBidiVisual());
+        self::assertTrue($tableStyle->isBidiVisual());
     }
 
-    public function testReadHidden()
+    public function testReadHidden(): void
     {
         $documentXml = '<w:p>
             <w:r>
@@ -177,20 +177,20 @@ class StyleTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
         /** @var \PhpOffice\PhpWord\Element\TextRun $elements */
         $textRun = $elements[0];
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $textRun);
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
-        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Font', $textRun->getElement(0)->getFontStyle());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $textRun);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\Font', $textRun->getElement(0)->getFontStyle());
         /** @var \PhpOffice\PhpWord\Style\Font $fontStyle */
         $fontStyle = $textRun->getElement(0)->getFontStyle();
-        $this->assertTrue($fontStyle->isHidden());
+        self::assertTrue($fontStyle->isHidden());
     }
 
-    public function testReadHeading()
+    public function testReadHeading(): void
     {
         Style::resetStyles();
 
@@ -211,19 +211,19 @@ class StyleTest extends AbstractTestReader
 
         $name = 'Heading_1';
 
-        $this->getDocumentFromString(array('styles' => $documentXml));
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($name));
+        $this->getDocumentFromString(['styles' => $documentXml]);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($name));
     }
 
-    public function testPageVerticalAlign()
+    public function testPageVerticalAlign(): void
     {
         $documentXml = '<w:sectPr>
             <w:vAlign w:val="center"/>
         </w:sectPr>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $sectionStyle = $phpWord->getSection(0)->getStyle();
-        $this->assertEquals(VerticalJc::CENTER, $sectionStyle->getVAlign());
+        self::assertEquals(VerticalJc::CENTER, $sectionStyle->getVAlign());
     }
 }

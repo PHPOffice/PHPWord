@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,104 +21,104 @@ use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Image
+ * Test class for PhpOffice\PhpWord\Element\Image.
  *
  * @runTestsInSeparateProcesses
  */
 class ImageTest extends AbstractWebServerEmbeddedTest
 {
     /**
-     * New instance
+     * New instance.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $src = __DIR__ . '/../_files/images/firefox.png';
         $oImage = new Image($src);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
-        $this->assertEquals($src, $oImage->getSource());
-        $this->assertEquals(md5($src), $oImage->getMediaId());
-        $this->assertFalse($oImage->isWatermark());
-        $this->assertEquals(Image::SOURCE_LOCAL, $oImage->getSourceType());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
+        self::assertEquals($src, $oImage->getSource());
+        self::assertEquals(md5($src), $oImage->getMediaId());
+        self::assertFalse($oImage->isWatermark());
+        self::assertEquals(Image::SOURCE_LOCAL, $oImage->getSourceType());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
     /**
-     * New instance with style
+     * New instance with style.
      */
-    public function testConstructWithStyle()
+    public function testConstructWithStyle(): void
     {
         $src = __DIR__ . '/../_files/images/firefox.png';
         $oImage = new Image(
             $src,
-            array(
-                'width'         => 210,
-                'height'        => 210,
-                'alignment'     => Jc::CENTER,
+            [
+                'width' => 210,
+                'height' => 210,
+                'alignment' => Jc::CENTER,
                 'wrappingStyle' => \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND,
-            )
+            ]
         );
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
     /**
-     * Valid image types
+     * Valid image types.
      */
-    public function testImages()
+    public function testImages(): void
     {
-        $images = array(
-            array('mars.jpg', 'image/jpeg', 'jpg', 'imagecreatefromjpeg', 'imagejpeg'),
-            array('mario.gif', 'image/gif', 'gif', 'imagecreatefromgif', 'imagegif'),
-            array('firefox.png', 'image/png', 'png', 'imagecreatefrompng', 'imagepng'),
-            array('duke_nukem.bmp', 'image/bmp', 'bmp', null, null),
-            array('angela_merkel.tif', 'image/tiff', 'tif', null, null),
-        );
+        $images = [
+            ['mars.jpg', 'image/jpeg', 'jpg', 'imagecreatefromjpeg', 'imagejpeg'],
+            ['mario.gif', 'image/gif', 'gif', 'imagecreatefromgif', 'imagegif'],
+            ['firefox.png', 'image/png', 'png', 'imagecreatefrompng', 'imagepng'],
+            ['duke_nukem.bmp', 'image/bmp', 'bmp', null, null],
+            ['angela_merkel.tif', 'image/tiff', 'tif', null, null],
+        ];
 
         foreach ($images as $imageData) {
-            list($source, $type, $extension, $createFunction, $imageFunction) = $imageData;
+            [$source, $type, $extension, $createFunction, $imageFunction] = $imageData;
             $nam = ucfirst(strtok($source, '.'));
             $source = __DIR__ . "/../_files/images/{$source}";
             $image = new Image($source, null, null, $nam);
-            $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
-            $this->assertEquals($source, $image->getSource());
-            $this->assertEquals($nam, $image->getName());
-            $this->assertEquals(md5($source), $image->getMediaId());
-            $this->assertEquals($type, $image->getImageType());
-            $this->assertEquals($extension, $image->getImageExtension());
-            $this->assertEquals($createFunction, $image->getImageCreateFunction());
-            $this->assertEquals($imageFunction, $image->getImageFunction());
-            $this->assertFalse($image->isMemImage());
-            $this->assertNotNull($image->getImageStringData());
+            self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
+            self::assertEquals($source, $image->getSource());
+            self::assertEquals($nam, $image->getName());
+            self::assertEquals(md5($source), $image->getMediaId());
+            self::assertEquals($type, $image->getImageType());
+            self::assertEquals($extension, $image->getImageExtension());
+            self::assertEquals($createFunction, $image->getImageCreateFunction());
+            self::assertEquals($imageFunction, $image->getImageFunction());
+            self::assertFalse($image->isMemImage());
+            self::assertNotNull($image->getImageStringData());
         }
     }
 
     /**
-     * Get style
+     * Get style.
      */
-    public function testStyle()
+    public function testStyle(): void
     {
         $oImage = new Image(
             __DIR__ . '/../_files/images/earth.jpg',
-            array('height' => 210, 'alignment' => Jc::CENTER)
+            ['height' => 210, 'alignment' => Jc::CENTER]
         );
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
     /**
-     * Test invalid local image
+     * Test invalid local image.
      */
-    public function testInvalidImageLocal()
+    public function testInvalidImageLocal(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
         new Image(__DIR__ . '/../_files/images/thisisnotarealimage');
     }
 
     /**
-     * Test invalid PHP Image
+     * Test invalid PHP Image.
      */
-    public function testInvalidImagePhp()
+    public function testInvalidImagePhp(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
         $object = new Image('test.php');
@@ -126,115 +126,115 @@ class ImageTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
-     * Test unsupported image
+     * Test unsupported image.
      */
-    public function testUnsupportedImage()
+    public function testUnsupportedImage(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\UnsupportedImageTypeException::class);
         //disable ssl verification, never do this in real application, you should pass the certificiate instead!!!
-        $arrContextOptions = array(
-            'ssl' => array(
-                'verify_peer'      => false,
+        $arrContextOptions = [
+            'ssl' => [
+                'verify_peer' => false,
                 'verify_peer_name' => false,
-            ),
-        );
+            ],
+        ];
         stream_context_set_default($arrContextOptions);
         $object = new Image(self::getRemoteBmpImageUrl());
         $object->getSource();
     }
 
     /**
-     * Get relation Id
+     * Get relation Id.
      */
-    public function testRelationID()
+    public function testRelationID(): void
     {
-        $oImage = new Image(__DIR__ . '/../_files/images/earth.jpg', array('width' => 100));
-        $iVal = rand(1, 1000);
+        $oImage = new Image(__DIR__ . '/../_files/images/earth.jpg', ['width' => 100]);
+        $iVal = mt_rand(1, 1000);
         $oImage->setRelationId($iVal);
-        $this->assertEquals($iVal, $oImage->getRelationId());
+        self::assertEquals($iVal, $oImage->getRelationId());
     }
 
     /**
-     * Test archived image
+     * Test archived image.
      */
-    public function testArchivedImage()
+    public function testArchivedImage(): void
     {
         $archiveFile = __DIR__ . '/../_files/documents/reader.docx';
         $imageFile = 'word/media/image1.jpeg';
         $image = new Image("zip://{$archiveFile}#{$imageFile}");
-        $this->assertEquals('image/jpeg', $image->getImageType());
+        self::assertEquals('image/jpeg', $image->getImageType());
     }
 
     /**
-     * Test getting image as string
+     * Test getting image as string.
      */
-    public function testImageAsStringFromFile()
+    public function testImageAsStringFromFile(): void
     {
         $image = new Image(__DIR__ . '/../_files/images/earth.jpg');
 
-        $this->assertNotNull($image->getImageStringData());
-        $this->assertNotNull($image->getImageStringData(true));
+        self::assertNotNull($image->getImageStringData());
+        self::assertNotNull($image->getImageStringData(true));
     }
 
     /**
-     * Test getting image from zip as string
+     * Test getting image from zip as string.
      */
-    public function testImageAsStringFromZip()
+    public function testImageAsStringFromZip(): void
     {
         $archiveFile = __DIR__ . '/../_files/documents/reader.docx';
         $imageFile = 'word/media/image1.jpeg';
         $image = new Image("zip://{$archiveFile}#{$imageFile}");
 
-        $this->assertNotNull($image->getImageStringData());
-        $this->assertNotNull($image->getImageStringData(true));
+        self::assertNotNull($image->getImageStringData());
+        self::assertNotNull($image->getImageStringData(true));
     }
 
     /**
-     * Test construct from string
+     * Test construct from string.
      */
-    public function testConstructFromString()
+    public function testConstructFromString(): void
     {
         $source = file_get_contents(__DIR__ . '/../_files/images/earth.jpg');
 
         $image = new Image($source);
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
-        $this->assertEquals($source, $image->getSource());
-        $this->assertEquals(md5($source), $image->getMediaId());
-        $this->assertEquals('image/jpeg', $image->getImageType());
-        $this->assertEquals('jpg', $image->getImageExtension());
-        $this->assertEquals('imagecreatefromstring', $image->getImageCreateFunction());
-        $this->assertEquals('imagejpeg', $image->getImageFunction());
-        $this->assertTrue($image->isMemImage());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
+        self::assertEquals($source, $image->getSource());
+        self::assertEquals(md5($source), $image->getMediaId());
+        self::assertEquals('image/jpeg', $image->getImageType());
+        self::assertEquals('jpg', $image->getImageExtension());
+        self::assertEquals('imagecreatefromstring', $image->getImageCreateFunction());
+        self::assertEquals('imagejpeg', $image->getImageFunction());
+        self::assertTrue($image->isMemImage());
 
-        $this->assertNotNull($image->getImageStringData());
-        $this->assertNotNull($image->getImageStringData(true));
+        self::assertNotNull($image->getImageStringData());
+        self::assertNotNull($image->getImageStringData(true));
     }
 
     /**
-     * Test construct from GD
+     * Test construct from GD.
      */
-    public function testConstructFromGd()
+    public function testConstructFromGd(): void
     {
         $source = self::getRemoteImageUrl();
 
         $image = new Image($source);
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
-        $this->assertEquals($source, $image->getSource());
-        $this->assertEquals(md5($source), $image->getMediaId());
-        $this->assertEquals('image/png', $image->getImageType());
-        $this->assertEquals('png', $image->getImageExtension());
-        $this->assertEquals('imagecreatefrompng', $image->getImageCreateFunction());
-        $this->assertEquals('imagepng', $image->getImageFunction());
-        $this->assertTrue($image->isMemImage());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
+        self::assertEquals($source, $image->getSource());
+        self::assertEquals(md5($source), $image->getMediaId());
+        self::assertEquals('image/png', $image->getImageType());
+        self::assertEquals('png', $image->getImageExtension());
+        self::assertEquals('imagecreatefrompng', $image->getImageCreateFunction());
+        self::assertEquals('imagepng', $image->getImageFunction());
+        self::assertTrue($image->isMemImage());
 
-        $this->assertNotNull($image->getImageStringData());
-        $this->assertNotNull($image->getImageStringData(true));
+        self::assertNotNull($image->getImageStringData());
+        self::assertNotNull($image->getImageStringData(true));
     }
 
     /**
-     * Test invalid string image
+     * Test invalid string image.
      */
-    public function testInvalidImageString()
+    public function testInvalidImageString(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
         $object = new Image('this_is-a_non_valid_image');

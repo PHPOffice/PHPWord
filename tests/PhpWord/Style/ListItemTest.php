@@ -11,64 +11,65 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\ListItem
+ * Test class for PhpOffice\PhpWord\Style\ListItem.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\ListItem
+ *
  * @runTestsInSeparateProcesses
  */
 class ListItemTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test construct
+     * Test construct.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $object = new ListItem();
 
         $value = ListItem::TYPE_BULLET_FILLED;
-        $this->assertEquals($value, $object->getListType());
+        self::assertEquals($value, $object->getListType());
     }
 
     /**
-     * Test set style value
+     * Test set style value.
      */
-    public function testSetStyleValue()
+    public function testSetStyleValue(): void
     {
         $object = new ListItem();
 
         $value = ListItem::TYPE_ALPHANUM;
         $object->setStyleValue('listType', $value);
-        $this->assertEquals($value, $object->getListType());
+        self::assertEquals($value, $object->getListType());
     }
 
     /**
-     * Test list type
+     * Test list type.
      */
-    public function testListType()
+    public function testListType(): void
     {
         $object = new ListItem();
 
         $value = ListItem::TYPE_ALPHANUM;
         $object->setListType($value);
-        $this->assertEquals($value, $object->getListType());
+        self::assertEquals($value, $object->getListType());
     }
 
     /**
-     * Test set/get numbering style name
+     * Test set/get numbering style name.
      */
-    public function testSetGetNumStyle()
+    public function testSetGetNumStyle(): void
     {
         $expected = 'List Name';
 
         $object = new ListItem();
         $object->setNumStyle($expected);
-        $this->assertEquals($expected, $object->getNumStyle());
+        self::assertEquals($expected, $object->getNumStyle());
     }
 }

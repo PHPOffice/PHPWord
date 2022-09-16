@@ -11,26 +11,29 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use DateTime;
+use InvalidArgumentException;
+
 /**
- * Test class for PhpOffice\PhpWord\Element\Header
+ * Test class for PhpOffice\PhpWord\Element\Header.
  *
  * @runTestsInSeparateProcesses
  */
 class CommentTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * New instance
+     * New instance.
      */
-    public function testConstructDefault()
+    public function testConstructDefault(): void
     {
         $author = 'Test User';
-        $date = new \DateTime('2000-01-01');
+        $date = new DateTime('2000-01-01');
         $initials = 'default_user';
         $oComment = new Comment($author, $date, $initials);
 
@@ -38,62 +41,62 @@ class CommentTest extends \PHPUnit\Framework\TestCase
         $oComment->setStartElement($oText);
         $oComment->setEndElement($oText);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Comment', $oComment);
-        $this->assertEquals($author, $oComment->getAuthor());
-        $this->assertEquals($date, $oComment->getDate());
-        $this->assertEquals($initials, $oComment->getInitials());
-        $this->assertEquals($oText, $oComment->getStartElement());
-        $this->assertEquals($oText, $oComment->getEndElement());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Comment', $oComment);
+        self::assertEquals($author, $oComment->getAuthor());
+        self::assertEquals($date, $oComment->getDate());
+        self::assertEquals($initials, $oComment->getInitials());
+        self::assertEquals($oText, $oComment->getStartElement());
+        self::assertEquals($oText, $oComment->getEndElement());
     }
 
     /**
-     * Add text
+     * Add text.
      */
-    public function testAddText()
+    public function testAddText(): void
     {
-        $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment = new Comment('Test User', new DateTime(), 'my_initials');
         $element = $oComment->addText('text');
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
-        $this->assertCount(1, $oComment->getElements());
-        $this->assertEquals('text', $element->getText());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
+        self::assertCount(1, $oComment->getElements());
+        self::assertEquals('text', $element->getText());
     }
 
     /**
-     * Get elements
+     * Get elements.
      */
-    public function testGetElements()
+    public function testGetElements(): void
     {
-        $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment = new Comment('Test User', new DateTime(), 'my_initials');
 
-        $this->assertIsArray($oComment->getElements());
+        self::assertIsArray($oComment->getElements());
     }
 
     /**
-     * Set/get relation Id
+     * Set/get relation Id.
      */
-    public function testRelationId()
+    public function testRelationId(): void
     {
-        $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment = new Comment('Test User', new DateTime(), 'my_initials');
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oComment->setRelationId($iVal);
-        $this->assertEquals($iVal, $oComment->getRelationId());
+        self::assertEquals($iVal, $oComment->getRelationId());
     }
 
-    public function testExceptionOnCommentStartOnComment()
+    public function testExceptionOnCommentStartOnComment(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $dummyComment = new Comment('Test User', new \DateTime(), 'my_initials');
-        $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $this->expectException(InvalidArgumentException::class);
+        $dummyComment = new Comment('Test User', new DateTime(), 'my_initials');
+        $oComment = new Comment('Test User', new DateTime(), 'my_initials');
         $oComment->setCommentRangeStart($dummyComment);
     }
 
-    public function testExceptionOnCommentEndOnComment()
+    public function testExceptionOnCommentEndOnComment(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $dummyComment = new Comment('Test User', new \DateTime(), 'my_initials');
-        $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $this->expectException(InvalidArgumentException::class);
+        $dummyComment = new Comment('Test User', new DateTime(), 'my_initials');
+        $oComment = new Comment('Test User', new DateTime(), 'my_initials');
         $oComment->setCommentRangeEnd($dummyComment);
     }
 }

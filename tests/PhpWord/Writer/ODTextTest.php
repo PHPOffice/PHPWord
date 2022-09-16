@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,28 +21,28 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\ODText
+ * Test class for PhpOffice\PhpWord\Writer\ODText.
  *
  * @runTestsInSeparateProcesses
  */
 class ODTextTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Construct
+     * Construct.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $object = new ODText(new PhpWord());
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
 
-        $this->assertEquals('./', $object->getDiskCachingDirectory());
-        foreach (array('Content', 'Manifest', 'Meta', 'Mimetype', 'Styles') as $part) {
-            $this->assertInstanceOf(
+        self::assertEquals('./', $object->getDiskCachingDirectory());
+        foreach (['Content', 'Manifest', 'Meta', 'Mimetype', 'Styles'] as $part) {
+            self::assertInstanceOf(
                 "PhpOffice\\PhpWord\\Writer\\ODText\\Part\\{$part}",
                 $object->getWriterPart($part)
             );
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 'PhpOffice\\PhpWord\\Writer\\ODText',
                 $object->getWriterPart($part)->getParentWriter()
             );
@@ -50,9 +50,9 @@ class ODTextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Construct with null
+     * Construct with null.
      */
-    public function testConstructWithNull()
+    public function testConstructWithNull(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $this->expectExceptionMessage('No PhpWord assigned.');
@@ -61,17 +61,17 @@ class ODTextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Save
+     * Save.
      */
-    public function testSave()
+    public function testSave(): void
     {
         $imageSrc = __DIR__ . '/../_files/images/PhpWord.png';
         $objectSrc = __DIR__ . '/../_files/documents/sheet.xls';
         $file = __DIR__ . '/../_files/temp.odt';
 
         $phpWord = new PhpWord();
-        $phpWord->addFontStyle('Font', array('size' => 11));
-        $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));
+        $phpWord->addFontStyle('Font', ['size' => 11]);
+        $phpWord->addParagraphStyle('Paragraph', ['alignment' => Jc::CENTER]);
         $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font');
         $section->addTextBreak();
@@ -90,55 +90,55 @@ class ODTextTest extends \PHPUnit\Framework\TestCase
         $writer = new ODText($phpWord);
         $writer->save($file);
 
-        $this->assertFileExists($file);
+        self::assertFileExists($file);
 
         unlink($file);
     }
 
     /**
-     * Save php output
+     * Save php output.
      *
      * @todo   Haven't got any method to test this
      */
-    public function testSavePhpOutput()
+    public function testSavePhpOutput(): void
     {
-        $this->setOutputCallback(function () {
+        $this->setOutputCallback(function (): void {
         });
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test');
         $writer = new ODText($phpWord);
         $writer->save('php://output');
-        $this->assertNotNull($this->getActualOutput());
+        self::assertNotNull($this->getActualOutput());
     }
 
     /**
-     * Get writer part return null value
+     * Get writer part return null value.
      */
-    public function testGetWriterPartNull()
+    public function testGetWriterPartNull(): void
     {
         $object = new ODText();
-        $this->assertNull($object->getWriterPart('foo'));
+        self::assertNull($object->getWriterPart('foo'));
     }
 
     /**
-     * Set/get use disk caching
+     * Set/get use disk caching.
      */
-    public function testSetGetUseDiskCaching()
+    public function testSetGetUseDiskCaching(): void
     {
         $object = new ODText();
         $object->setUseDiskCaching(true, PHPWORD_TESTS_BASE_DIR);
-        $this->assertTrue($object->isUseDiskCaching());
-        $this->assertEquals(PHPWORD_TESTS_BASE_DIR, $object->getDiskCachingDirectory());
+        self::assertTrue($object->isUseDiskCaching());
+        self::assertEquals(PHPWORD_TESTS_BASE_DIR, $object->getDiskCachingDirectory());
     }
 
     /**
-     * Use disk caching exception
+     * Use disk caching exception.
      */
-    public function testSetUseDiskCachingException()
+    public function testSetUseDiskCachingException(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
-        $dir = implode(DIRECTORY_SEPARATOR, array(PHPWORD_TESTS_BASE_DIR, 'foo'));
+        $dir = implode(DIRECTORY_SEPARATOR, [PHPWORD_TESTS_BASE_DIR, 'foo']);
 
         $object = new ODText();
         $object->setUseDiskCaching(true, $dir);

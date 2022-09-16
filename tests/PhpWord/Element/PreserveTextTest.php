@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,43 +20,43 @@ namespace PhpOffice\PhpWord\Element;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\PreserveText
+ * Test class for PhpOffice\PhpWord\Element\PreserveText.
  *
  * @runTestsInSeparateProcesses
  */
 class PreserveTextTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Create new instance
+     * Create new instance.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $oPreserveText = new PreserveText();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $oPreserveText);
-        $this->assertNull($oPreserveText->getText());
-        $this->assertNull($oPreserveText->getFontStyle());
-        $this->assertNull($oPreserveText->getParagraphStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $oPreserveText);
+        self::assertNull($oPreserveText->getText());
+        self::assertNull($oPreserveText->getFontStyle());
+        self::assertNull($oPreserveText->getParagraphStyle());
     }
 
     /**
-     * Create new instance with style name
+     * Create new instance with style name.
      */
-    public function testConstructWithString()
+    public function testConstructWithString(): void
     {
         $oPreserveText = new PreserveText('text', 'styleFont', 'styleParagraph');
-        $this->assertEquals(array('text'), $oPreserveText->getText());
-        $this->assertEquals('styleFont', $oPreserveText->getFontStyle());
-        $this->assertEquals('styleParagraph', $oPreserveText->getParagraphStyle());
+        self::assertEquals(['text'], $oPreserveText->getText());
+        self::assertEquals('styleFont', $oPreserveText->getFontStyle());
+        self::assertEquals('styleParagraph', $oPreserveText->getParagraphStyle());
     }
 
     /**
-     * Create new instance with array
+     * Create new instance with array.
      */
-    public function testConstructWithArray()
+    public function testConstructWithArray(): void
     {
-        $oPreserveText = new PreserveText('text', array('size' => 16, 'color' => '1B2232'), array('alignment' => Jc::CENTER));
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oPreserveText->getFontStyle());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oPreserveText->getParagraphStyle());
+        $oPreserveText = new PreserveText('text', ['size' => 16, 'color' => '1B2232'], ['alignment' => Jc::CENTER]);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oPreserveText->getFontStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oPreserveText->getParagraphStyle());
     }
 }

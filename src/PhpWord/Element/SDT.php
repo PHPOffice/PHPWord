@@ -11,56 +11,56 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Structured document tag (SDT) element
+ * Structured document tag (SDT) element.
  *
  * @since 0.12.0
  */
 class SDT extends Text
 {
     /**
-     * Form field type: comboBox|dropDownList|date
+     * Form field type: comboBox|dropDownList|date.
      *
      * @var string
      */
     private $type;
 
     /**
-     * Value
+     * Value.
      *
-     * @var string|bool|int
+     * @var bool|int|string
      */
     private $value;
 
     /**
-     * CheckBox/DropDown list entries
+     * CheckBox/DropDown list entries.
      *
      * @var array
      */
-    private $listItems = array();
+    private $listItems = [];
 
     /**
-     * Alias
+     * Alias.
      *
      * @var string
      */
     private $alias;
 
     /**
-     * Tag
+     * Tag.
      *
      * @var string
      */
     private $tag;
 
     /**
-     * Create new instance
+     * Create new instance.
      *
      * @param string $type
      * @param mixed $fontStyle
@@ -73,7 +73,7 @@ class SDT extends Text
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -83,23 +83,24 @@ class SDT extends Text
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setType($value)
     {
-        $enum = array('plainText', 'comboBox', 'dropDownList', 'date');
+        $enum = ['plainText', 'comboBox', 'dropDownList', 'date'];
         $this->type = $this->setEnumVal($value, $enum, 'comboBox');
 
         return $this;
     }
 
     /**
-     * Get value
+     * Get value.
      *
-     * @return string|bool|int
+     * @return bool|int|string
      */
     public function getValue()
     {
@@ -107,9 +108,10 @@ class SDT extends Text
     }
 
     /**
-     * Set value
+     * Set value.
      *
-     * @param string|bool|int $value
+     * @param bool|int|string $value
+     *
      * @return self
      */
     public function setValue($value)
@@ -120,7 +122,7 @@ class SDT extends Text
     }
 
     /**
-     * Get listItems
+     * Get listItems.
      *
      * @return array
      */
@@ -130,9 +132,10 @@ class SDT extends Text
     }
 
     /**
-     * Set listItems
+     * Set listItems.
      *
      * @param array $value
+     *
      * @return self
      */
     public function setListItems($value)
@@ -143,7 +146,7 @@ class SDT extends Text
     }
 
     /**
-     * Get tag
+     * Get tag.
      *
      * @return string
      */
@@ -153,9 +156,10 @@ class SDT extends Text
     }
 
     /**
-     * Set tag
+     * Set tag.
      *
      * @param string $tag
+     *
      * @return self
      */
     public function setTag($tag)
@@ -166,7 +170,7 @@ class SDT extends Text
     }
 
     /**
-     * Get alias
+     * Get alias.
      *
      * @return string
      */
@@ -176,9 +180,10 @@ class SDT extends Text
     }
 
     /**
-     * Set alias
+     * Set alias.
      *
      * @param string $alias
+     *
      * @return self
      */
     public function setAlias($alias)

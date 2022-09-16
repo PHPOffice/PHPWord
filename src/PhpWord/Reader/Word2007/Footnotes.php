@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,21 +21,21 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
- * Footnotes reader
+ * Footnotes reader.
  *
  * @since 0.10.0
  */
 class Footnotes extends AbstractPart
 {
     /**
-     * Collection name footnotes|endnotes
+     * Collection name footnotes|endnotes.
      *
      * @var string
      */
     protected $collection = 'footnotes';
 
     /**
-     * Element name footnote|endnote
+     * Element name footnote|endnote.
      *
      * @var string
      */
@@ -43,10 +43,8 @@ class Footnotes extends AbstractPart
 
     /**
      * Read (footnotes|endnotes).xml.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public function read(PhpWord $phpWord)
+    public function read(PhpWord $phpWord): void
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
@@ -58,7 +56,7 @@ class Footnotes extends AbstractPart
 
                 // Avoid w:type "separator" and "continuationSeparator"
                 // Only look for <footnote> or <endnote> without w:type attribute, or with w:type = normal
-                if ((is_null($type) || $type === 'normal')) {
+                if ((null === $type || $type === 'normal')) {
                     $element = $this->getElement($phpWord, $id);
                     if ($element !== null) {
                         $pNodes = $xmlReader->getElements('w:p/*', $node);
@@ -74,11 +72,11 @@ class Footnotes extends AbstractPart
     }
 
     /**
-     * Searches for the element with the given relationId
+     * Searches for the element with the given relationId.
      *
-     * @param PhpWord $phpWord
      * @param int $relationId
-     * @return \PhpOffice\PhpWord\Element\AbstractContainer|null
+     *
+     * @return null|\PhpOffice\PhpWord\Element\AbstractContainer
      */
     private function getElement(PhpWord $phpWord, $relationId)
     {

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,156 +20,156 @@ namespace PhpOffice\PhpWord\Element;
 use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Footer
+ * Test class for PhpOffice\PhpWord\Element\Footer.
  *
  * @runTestsInSeparateProcesses
  */
 class FooterTest extends AbstractWebServerEmbeddedTest
 {
     /**
-     * New instance
+     * New instance.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oFooter = new Footer($iVal);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footer', $oFooter);
-        $this->assertEquals($iVal, $oFooter->getSectionId());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footer', $oFooter);
+        self::assertEquals($iVal, $oFooter->getSectionId());
     }
 
     /**
-     * Add text
+     * Add text.
      */
-    public function testAddText()
+    public function testAddText(): void
     {
         $oFooter = new Footer(1);
         $element = $oFooter->addText('text');
 
-        $this->assertCount(1, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
+        self::assertCount(1, $oFooter->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
     }
 
     /**
-     * Add text non-UTF8
+     * Add text non-UTF8.
      */
-    public function testAddTextNotUTF8()
+    public function testAddTextNotUTF8(): void
     {
         $oFooter = new Footer(1);
         $element = $oFooter->addText(utf8_decode('ééé'));
 
-        $this->assertCount(1, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
-        $this->assertEquals('ééé', $element->getText());
+        self::assertCount(1, $oFooter->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
+        self::assertEquals('ééé', $element->getText());
     }
 
     /**
-     * Add text break
+     * Add text break.
      */
-    public function testAddTextBreak()
+    public function testAddTextBreak(): void
     {
         $oFooter = new Footer(1);
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oFooter->addTextBreak($iVal);
 
-        $this->assertCount($iVal, $oFooter->getElements());
+        self::assertCount($iVal, $oFooter->getElements());
     }
 
     /**
-     * Add text run
+     * Add text run.
      */
-    public function testCreateTextRun()
+    public function testCreateTextRun(): void
     {
         $oFooter = new Footer(1);
         $element = $oFooter->addTextRun();
 
-        $this->assertCount(1, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $element);
+        self::assertCount(1, $oFooter->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $element);
     }
 
     /**
-     * Add table
+     * Add table.
      */
-    public function testAddTable()
+    public function testAddTable(): void
     {
         $oFooter = new Footer(1);
         $element = $oFooter->addTable();
 
-        $this->assertCount(1, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $element);
+        self::assertCount(1, $oFooter->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $element);
     }
 
     /**
-     * Add image
+     * Add image.
      */
-    public function testAddImage()
+    public function testAddImage(): void
     {
         $src = __DIR__ . '/../_files/images/earth.jpg';
         $oFooter = new Footer(1);
         $element = $oFooter->addImage($src);
 
-        $this->assertCount(1, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
+        self::assertCount(1, $oFooter->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
     }
 
     /**
-     * Add image by URL
+     * Add image by URL.
      */
-    public function testAddImageByUrl()
+    public function testAddImageByUrl(): void
     {
         $oFooter = new Footer(1);
         $element = $oFooter->addImage(self::getRemoteGifImageUrl());
 
-        $this->assertCount(1, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
+        self::assertCount(1, $oFooter->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
     }
 
     /**
-     * Add preserve text
+     * Add preserve text.
      */
-    public function testAddPreserveText()
+    public function testAddPreserveText(): void
     {
         $oFooter = new Footer(1);
         $element = $oFooter->addPreserveText('text');
 
-        $this->assertCount(1, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
+        self::assertCount(1, $oFooter->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
     }
 
     /**
-     * Add preserve text non-UTF8
+     * Add preserve text non-UTF8.
      */
-    public function testAddPreserveTextNotUTF8()
+    public function testAddPreserveTextNotUTF8(): void
     {
         $oFooter = new Footer(1);
         $element = $oFooter->addPreserveText(utf8_decode('ééé'));
 
-        $this->assertCount(1, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
-        $this->assertEquals(array('ééé'), $element->getText());
+        self::assertCount(1, $oFooter->getElements());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
+        self::assertEquals(['ééé'], $element->getText());
     }
 
     /**
-     * Get elements
+     * Get elements.
      */
-    public function testGetElements()
+    public function testGetElements(): void
     {
         $oFooter = new Footer(1);
 
-        $this->assertIsArray($oFooter->getElements());
+        self::assertIsArray($oFooter->getElements());
     }
 
     /**
-     * Set/get relation Id
+     * Set/get relation Id.
      */
-    public function testRelationID()
+    public function testRelationID(): void
     {
         $oFooter = new Footer(0);
 
-        $iVal = rand(1, 1000);
+        $iVal = mt_rand(1, 1000);
         $oFooter->setRelationId($iVal);
 
-        $this->assertEquals($iVal, $oFooter->getRelationId());
-        $this->assertEquals(Footer::AUTO, $oFooter->getType());
+        self::assertEquals($iVal, $oFooter->getRelationId());
+        self::assertEquals(Footer::AUTO, $oFooter->getType());
     }
 }

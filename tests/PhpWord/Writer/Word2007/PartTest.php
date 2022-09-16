@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,23 +20,23 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\Writer\Word2007\Part\RelsPart;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Part subnamespace
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Part subnamespace.
  *
  * Covers miscellaneous tests
  */
 class PartTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test exception when no type or target assigned to a relation
+     * Test exception when no type or target assigned to a relation.
      *
      * @covers \PhpOffice\PhpWord\Writer\Word2007\Part\Rels::writeRel
      */
-    public function testRelsWriteRelException()
+    public function testRelsWriteRelException(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $this->expectExceptionMessage('Invalid parameters passed.');
         $object = new RelsPart();
-        $object->setMedia(array(array('type' => '', 'target' => '')));
+        $object->setMedia([['type' => '', 'target' => '']]);
         $object->write();
     }
 }

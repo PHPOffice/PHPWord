@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,16 +20,16 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\Writer\Word2007;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Header
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Header.
  *
  * @runTestsInSeparateProcesses
  */
 class HeaderTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Write header
+     * Write header.
      */
-    public function testWriteHeader()
+    public function testWriteHeader(): void
     {
         $imageSrc = __DIR__ . '/../../../_files/images/PhpWord.png';
 
@@ -49,6 +49,6 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
         $object->setElement($container);
         $xml = simplexml_load_string($object->write());
 
-        $this->assertInstanceOf('SimpleXMLElement', $xml);
+        self::assertInstanceOf('SimpleXMLElement', $xml);
     }
 }

@@ -11,55 +11,55 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\Table
+ * Test class for PhpOffice\PhpWord\Style\Table.
  *
  * @runTestsInSeparateProcesses
  */
 class TablePositionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test class construction
+     * Test class construction.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
-        $styleTable = array('vertAnchor' => TablePosition::VANCHOR_PAGE, 'bottomFromText' => 20);
+        $styleTable = ['vertAnchor' => TablePosition::VANCHOR_PAGE, 'bottomFromText' => 20];
 
         $object = new TablePosition($styleTable);
-        $this->assertEquals(TablePosition::VANCHOR_PAGE, $object->getVertAnchor());
-        $this->assertEquals(20, $object->getBottomFromText());
+        self::assertEquals(TablePosition::VANCHOR_PAGE, $object->getVertAnchor());
+        self::assertEquals(20, $object->getBottomFromText());
     }
 
     /**
-     * Test setting style with normal value
+     * Test setting style with normal value.
      */
-    public function testSetGetNormal()
+    public function testSetGetNormal(): void
     {
         $object = new TablePosition();
 
-        $attributes = array(
-            'leftFromText'   => 4,
-            'rightFromText'  => 4,
-            'topFromText'    => 4,
+        $attributes = [
+            'leftFromText' => 4,
+            'rightFromText' => 4,
+            'topFromText' => 4,
             'bottomFromText' => 4,
-            'vertAnchor'     => TablePosition::VANCHOR_PAGE,
-            'horzAnchor'     => TablePosition::HANCHOR_TEXT,
-            'tblpXSpec'      => TablePosition::XALIGN_CENTER,
-            'tblpX'          => 5,
-            'tblpYSpec'      => TablePosition::YALIGN_OUTSIDE,
-            'tblpY'          => 6,
-        );
+            'vertAnchor' => TablePosition::VANCHOR_PAGE,
+            'horzAnchor' => TablePosition::HANCHOR_TEXT,
+            'tblpXSpec' => TablePosition::XALIGN_CENTER,
+            'tblpX' => 5,
+            'tblpYSpec' => TablePosition::YALIGN_OUTSIDE,
+            'tblpY' => 6,
+        ];
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);
-            $this->assertEquals($value, $object->$get());
+            self::assertEquals($value, $object->$get());
         }
     }
 }

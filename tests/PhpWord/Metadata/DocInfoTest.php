@@ -11,168 +11,168 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Metadata;
 
 /**
- * Test class for PhpOffice\PhpWord\Metadata\DocInfo
+ * Test class for PhpOffice\PhpWord\Metadata\DocInfo.
  *
  * @runTestsInSeparateProcesses
  */
 class DocInfoTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Creator
+     * Creator.
      */
-    public function testCreator()
+    public function testCreator(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setCreator();
-        $this->assertEquals('', $oProperties->getCreator());
+        self::assertEquals('', $oProperties->getCreator());
 
         $oProperties->setCreator('AAA');
-        $this->assertEquals('AAA', $oProperties->getCreator());
+        self::assertEquals('AAA', $oProperties->getCreator());
     }
 
     /**
-     * Last modified by
+     * Last modified by.
      */
-    public function testLastModifiedBy()
+    public function testLastModifiedBy(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setLastModifiedBy();
-        $this->assertEquals('', $oProperties->getLastModifiedBy());
+        self::assertEquals('', $oProperties->getLastModifiedBy());
 
         $oProperties->setLastModifiedBy('AAA');
-        $this->assertEquals('AAA', $oProperties->getLastModifiedBy());
+        self::assertEquals('AAA', $oProperties->getLastModifiedBy());
     }
 
     /**
-     * Created
+     * Created.
      */
-    public function testCreated()
+    public function testCreated(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setCreated();
-        $this->assertEquals(time(), $oProperties->getCreated());
+        self::assertEquals(time(), $oProperties->getCreated());
 
         $iTime = time() + 3600;
         $oProperties->setCreated($iTime);
-        $this->assertEquals($iTime, $oProperties->getCreated());
+        self::assertEquals($iTime, $oProperties->getCreated());
     }
 
     /**
-     * Modified
+     * Modified.
      */
-    public function testModified()
+    public function testModified(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setModified();
-        $this->assertEquals(time(), $oProperties->getModified());
+        self::assertEquals(time(), $oProperties->getModified());
 
         $iTime = time() + 3600;
         $oProperties->setModified($iTime);
-        $this->assertEquals($iTime, $oProperties->getModified());
+        self::assertEquals($iTime, $oProperties->getModified());
     }
 
     /**
-     * Title
+     * Title.
      */
-    public function testTitle()
+    public function testTitle(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setTitle();
-        $this->assertEquals('', $oProperties->getTitle());
+        self::assertEquals('', $oProperties->getTitle());
 
         $oProperties->setTitle('AAA');
-        $this->assertEquals('AAA', $oProperties->getTitle());
+        self::assertEquals('AAA', $oProperties->getTitle());
     }
 
     /**
-     * Description
+     * Description.
      */
-    public function testDescription()
+    public function testDescription(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setDescription();
-        $this->assertEquals('', $oProperties->getDescription());
+        self::assertEquals('', $oProperties->getDescription());
 
         $oProperties->setDescription('AAA');
-        $this->assertEquals('AAA', $oProperties->getDescription());
+        self::assertEquals('AAA', $oProperties->getDescription());
     }
 
     /**
-     * Subject
+     * Subject.
      */
-    public function testSubject()
+    public function testSubject(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setSubject();
-        $this->assertEquals('', $oProperties->getSubject());
+        self::assertEquals('', $oProperties->getSubject());
 
         $oProperties->setSubject('AAA');
-        $this->assertEquals('AAA', $oProperties->getSubject());
+        self::assertEquals('AAA', $oProperties->getSubject());
     }
 
     /**
-     * Keywords
+     * Keywords.
      */
-    public function testKeywords()
+    public function testKeywords(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setKeywords();
-        $this->assertEquals('', $oProperties->getKeywords());
+        self::assertEquals('', $oProperties->getKeywords());
 
         $oProperties->setKeywords('AAA');
-        $this->assertEquals('AAA', $oProperties->getKeywords());
+        self::assertEquals('AAA', $oProperties->getKeywords());
     }
 
     /**
-     * Category
+     * Category.
      */
-    public function testCategory()
+    public function testCategory(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setCategory();
-        $this->assertEquals('', $oProperties->getCategory());
+        self::assertEquals('', $oProperties->getCategory());
 
         $oProperties->setCategory('AAA');
-        $this->assertEquals('AAA', $oProperties->getCategory());
+        self::assertEquals('AAA', $oProperties->getCategory());
     }
 
     /**
-     * Company
+     * Company.
      */
-    public function testCompany()
+    public function testCompany(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setCompany();
-        $this->assertEquals('', $oProperties->getCompany());
+        self::assertEquals('', $oProperties->getCompany());
 
         $oProperties->setCompany('AAA');
-        $this->assertEquals('AAA', $oProperties->getCompany());
+        self::assertEquals('AAA', $oProperties->getCompany());
     }
 
     /**
-     * Manager
+     * Manager.
      */
-    public function testManager()
+    public function testManager(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setManager();
-        $this->assertEquals('', $oProperties->getManager());
+        self::assertEquals('', $oProperties->getManager());
 
         $oProperties->setManager('AAA');
-        $this->assertEquals('AAA', $oProperties->getManager());
+        self::assertEquals('AAA', $oProperties->getManager());
     }
 
     /**
-     * Custom properties
+     * Custom properties.
      */
-    public function testCustomProperty()
+    public function testCustomProperty(): void
     {
         $oProperties = new DocInfo();
         $oProperties->setCustomProperty('key1', null);
@@ -180,47 +180,47 @@ class DocInfoTest extends \PHPUnit\Framework\TestCase
         $oProperties->setCustomProperty('key3', 3);
         $oProperties->setCustomProperty('key4', 4.4);
         $oProperties->setCustomProperty('key5', 'value5');
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_STRING, $oProperties->getCustomPropertyType('key1'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_BOOLEAN, $oProperties->getCustomPropertyType('key2'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_INTEGER, $oProperties->getCustomPropertyType('key3'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_FLOAT, $oProperties->getCustomPropertyType('key4'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_STRING, $oProperties->getCustomPropertyType('key5'));
-        $this->assertNull($oProperties->getCustomPropertyType('key6'));
-        $this->assertNull($oProperties->getCustomPropertyValue('key1'));
-        $this->assertTrue($oProperties->getCustomPropertyValue('key2'));
-        $this->assertEquals(3, $oProperties->getCustomPropertyValue('key3'));
-        $this->assertEquals(4.4, $oProperties->getCustomPropertyValue('key4'));
-        $this->assertEquals('value5', $oProperties->getCustomPropertyValue('key5'));
-        $this->assertNull($oProperties->getCustomPropertyValue('key6'));
-        $this->assertTrue($oProperties->isCustomPropertySet('key5'));
-        $this->assertNotTrue($oProperties->isCustomPropertySet('key6'));
-        $this->assertEquals(array('key1', 'key2', 'key3', 'key4', 'key5'), $oProperties->getCustomProperties());
+        self::assertEquals(DocInfo::PROPERTY_TYPE_STRING, $oProperties->getCustomPropertyType('key1'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_BOOLEAN, $oProperties->getCustomPropertyType('key2'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_INTEGER, $oProperties->getCustomPropertyType('key3'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_FLOAT, $oProperties->getCustomPropertyType('key4'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_STRING, $oProperties->getCustomPropertyType('key5'));
+        self::assertNull($oProperties->getCustomPropertyType('key6'));
+        self::assertNull($oProperties->getCustomPropertyValue('key1'));
+        self::assertTrue($oProperties->getCustomPropertyValue('key2'));
+        self::assertEquals(3, $oProperties->getCustomPropertyValue('key3'));
+        self::assertEquals(4.4, $oProperties->getCustomPropertyValue('key4'));
+        self::assertEquals('value5', $oProperties->getCustomPropertyValue('key5'));
+        self::assertNull($oProperties->getCustomPropertyValue('key6'));
+        self::assertTrue($oProperties->isCustomPropertySet('key5'));
+        self::assertNotTrue($oProperties->isCustomPropertySet('key6'));
+        self::assertEquals(['key1', 'key2', 'key3', 'key4', 'key5'], $oProperties->getCustomProperties());
     }
 
     /**
-     * Convert property
+     * Convert property.
      */
-    public function testConvertProperty()
+    public function testConvertProperty(): void
     {
-        $this->assertEquals('', DocInfo::convertProperty('a', 'empty'));
-        $this->assertNull(DocInfo::convertProperty('a', 'null'));
-        $this->assertEquals(8, DocInfo::convertProperty('8', 'int'));
-        $this->assertEquals(8, DocInfo::convertProperty('8.3', 'uint'));
-        $this->assertEquals(8.3, DocInfo::convertProperty('8.3', 'decimal'));
-        $this->assertEquals('8.3', DocInfo::convertProperty('8.3', 'lpstr'));
-        $this->assertEquals(strtotime('10/11/2013'), DocInfo::convertProperty('10/11/2013', 'date'));
-        $this->assertTrue(DocInfo::convertProperty('true', 'bool'));
-        $this->assertNotTrue(DocInfo::convertProperty('1', 'bool'));
-        $this->assertEquals('1', DocInfo::convertProperty('1', 'array'));
-        $this->assertEquals('1', DocInfo::convertProperty('1', ''));
+        self::assertEquals('', DocInfo::convertProperty('a', 'empty'));
+        self::assertNull(DocInfo::convertProperty('a', 'null'));
+        self::assertEquals(8, DocInfo::convertProperty('8', 'int'));
+        self::assertEquals(8, DocInfo::convertProperty('8.3', 'uint'));
+        self::assertEquals(8.3, DocInfo::convertProperty('8.3', 'decimal'));
+        self::assertEquals('8.3', DocInfo::convertProperty('8.3', 'lpstr'));
+        self::assertEquals(strtotime('10/11/2013'), DocInfo::convertProperty('10/11/2013', 'date'));
+        self::assertTrue(DocInfo::convertProperty('true', 'bool'));
+        self::assertNotTrue(DocInfo::convertProperty('1', 'bool'));
+        self::assertEquals('1', DocInfo::convertProperty('1', 'array'));
+        self::assertEquals('1', DocInfo::convertProperty('1', ''));
 
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_INTEGER, DocInfo::convertPropertyType('int'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_INTEGER, DocInfo::convertPropertyType('uint'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_FLOAT, DocInfo::convertPropertyType('decimal'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_STRING, DocInfo::convertPropertyType('lpstr'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_DATE, DocInfo::convertPropertyType('date'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_BOOLEAN, DocInfo::convertPropertyType('bool'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_UNKNOWN, DocInfo::convertPropertyType('array'));
-        $this->assertEquals(DocInfo::PROPERTY_TYPE_UNKNOWN, DocInfo::convertPropertyType(''));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_INTEGER, DocInfo::convertPropertyType('int'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_INTEGER, DocInfo::convertPropertyType('uint'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_FLOAT, DocInfo::convertPropertyType('decimal'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_STRING, DocInfo::convertPropertyType('lpstr'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_DATE, DocInfo::convertPropertyType('date'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_BOOLEAN, DocInfo::convertPropertyType('bool'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_UNKNOWN, DocInfo::convertPropertyType('array'));
+        self::assertEquals(DocInfo::PROPERTY_TYPE_UNKNOWN, DocInfo::convertPropertyType(''));
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,56 +21,57 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\TextBreak
+ * Test class for PhpOffice\PhpWord\Element\TextBreak.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\TextBreak
+ *
  * @runTestsInSeparateProcesses
  */
 class TextBreakTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Construct with empty value
+     * Construct with empty value.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $object = new TextBreak();
-        $this->assertNull($object->getFontStyle());
-        $this->assertNull($object->getParagraphStyle());
+        self::assertNull($object->getFontStyle());
+        self::assertNull($object->getParagraphStyle());
     }
 
     /**
-     * Construct with style object
+     * Construct with style object.
      */
-    public function testConstructWithStyleObject()
+    public function testConstructWithStyleObject(): void
     {
         $fStyle = new Font();
         $pStyle = new Paragraph();
         $object = new TextBreak($fStyle, $pStyle);
-        $this->assertEquals($fStyle, $object->getFontStyle());
-        $this->assertEquals($pStyle, $object->getParagraphStyle());
+        self::assertEquals($fStyle, $object->getFontStyle());
+        self::assertEquals($pStyle, $object->getParagraphStyle());
     }
 
     /**
-     * Construct with style array
+     * Construct with style array.
      */
-    public function testConstructWithStyleArray()
+    public function testConstructWithStyleArray(): void
     {
-        $fStyle = array('size' => 12);
-        $pStyle = array('spacing' => 240);
+        $fStyle = ['size' => 12];
+        $pStyle = ['spacing' => 240];
         $object = new TextBreak($fStyle, $pStyle);
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $object->getFontStyle());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $object->getFontStyle());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
     }
 
     /**
-     * Construct with style name
+     * Construct with style name.
      */
-    public function testConstructWithStyleName()
+    public function testConstructWithStyleName(): void
     {
         $fStyle = 'fStyle';
         $pStyle = 'pStyle';
         $object = new TextBreak($fStyle, $pStyle);
-        $this->assertEquals($fStyle, $object->getFontStyle());
-        $this->assertEquals($pStyle, $object->getParagraphStyle());
+        self::assertEquals($fStyle, $object->getFontStyle());
+        self::assertEquals($pStyle, $object->getParagraphStyle());
     }
 }

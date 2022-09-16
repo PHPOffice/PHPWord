@@ -11,57 +11,58 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
+use Exception;
 use PhpOffice\PhpWord\Element\Image;
 
 /**
- * Test class for PhpOffice\PhpWord\Media
+ * Test class for PhpOffice\PhpWord\Media.
  *
  * @runTestsInSeparateProcesses
  */
 class MediaTest extends AbstractWebServerEmbeddedTest
 {
     /**
-     * Get section media elements
+     * Get section media elements.
      */
-    public function testGetSectionMediaElementsWithNull()
+    public function testGetSectionMediaElementsWithNull(): void
     {
-        $this->assertEquals(array(), Media::getElements('section'));
+        self::assertEquals([], Media::getElements('section'));
     }
 
     /**
-     * Get header media elements
+     * Get header media elements.
      */
-    public function testGetHeaderMediaElementsWithNull()
+    public function testGetHeaderMediaElementsWithNull(): void
     {
-        $this->assertEquals(array(), Media::getElements('header'));
+        self::assertEquals([], Media::getElements('header'));
     }
 
     /**
-     * Get footer media elements
+     * Get footer media elements.
      */
-    public function testGetFooterMediaElementsWithNull()
+    public function testGetFooterMediaElementsWithNull(): void
     {
-        $this->assertEquals(array(), Media::getElements('footer'));
+        self::assertEquals([], Media::getElements('footer'));
     }
 
     /**
-     * Count section media elements
+     * Count section media elements.
      */
-    public function testCountSectionMediaElementsWithNull()
+    public function testCountSectionMediaElementsWithNull(): void
     {
-        $this->assertEquals(0, Media::countElements('section'));
+        self::assertEquals(0, Media::countElements('section'));
     }
 
     /**
-     * Add section media element
+     * Add section media element.
      */
-    public function testAddSectionMediaElement()
+    public function testAddSectionMediaElement(): void
     {
         $local = __DIR__ . '/_files/images/mars.jpg';
         $object = __DIR__ . '/_files/documents/sheet.xls';
@@ -72,25 +73,25 @@ class MediaTest extends AbstractWebServerEmbeddedTest
         Media::addElement('section', 'object', $object);
         Media::addElement('section', 'object', $object);
 
-        $this->assertCount(3, Media::getElements('section'));
+        self::assertCount(3, Media::getElements('section'));
     }
 
     /**
-     * Add section link
+     * Add section link.
      */
-    public function testAddSectionLinkElement()
+    public function testAddSectionLinkElement(): void
     {
         $expected = Media::countElements('section') + 1;
         $actual = Media::addElement('section', 'link', 'http://test.com');
 
-        $this->assertEquals($expected, $actual);
-        $this->assertCount(1, Media::getElements('section', 'link'));
+        self::assertEquals($expected, $actual);
+        self::assertCount(1, Media::getElements('section', 'link'));
     }
 
     /**
-     * Add header media element
+     * Add header media element.
      */
-    public function testAddHeaderMediaElement()
+    public function testAddHeaderMediaElement(): void
     {
         $local = __DIR__ . '/_files/images/mars.jpg';
         $remote = self::getRemoteImageUrl();
@@ -98,14 +99,14 @@ class MediaTest extends AbstractWebServerEmbeddedTest
         Media::addElement('header1', 'image', $local, new Image($local));
         Media::addElement('header1', 'image', $remote, new Image($remote));
 
-        $this->assertCount(2, Media::getElements('header1'));
-        $this->assertEmpty(Media::getElements('header2'));
+        self::assertCount(2, Media::getElements('header1'));
+        self::assertEmpty(Media::getElements('header2'));
     }
 
     /**
-     * Add footer media element and reset media
+     * Add footer media element and reset media.
      */
-    public function testAddFooterMediaElement()
+    public function testAddFooterMediaElement(): void
     {
         $local = __DIR__ . '/_files/images/mars.jpg';
         $remote = self::getRemoteImageUrl();
@@ -113,18 +114,18 @@ class MediaTest extends AbstractWebServerEmbeddedTest
         Media::addElement('footer1', 'image', $local, new Image($local));
         Media::addElement('footer1', 'image', $remote, new Image($remote));
 
-        $this->assertCount(2, Media::getElements('footer1'));
+        self::assertCount(2, Media::getElements('footer1'));
 
         Media::resetElements();
-        $this->assertCount(0, Media::getElements('footer1'));
+        self::assertCount(0, Media::getElements('footer1'));
     }
 
     /**
-     * Add image element exception
+     * Add image element exception.
      */
-    public function testAddElementImageException()
+    public function testAddElementImageException(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Image object not assigned.');
         Media::addElement('section', 'image', __DIR__ . '/_files/images/mars.jpg');
     }

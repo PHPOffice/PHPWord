@@ -11,27 +11,28 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\PageBreak
+ * Test class for PhpOffice\PhpWord\Element\PageBreak.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\PageBreak
+ *
  * @runTestsInSeparateProcesses
  */
 class PageBreakTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Executed before each method of the class
+     * Executed before each method of the class.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $oPageBreak = new PageBreak();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PageBreak', $oPageBreak);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PageBreak', $oPageBreak);
     }
 }

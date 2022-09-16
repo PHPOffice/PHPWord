@@ -11,66 +11,66 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
 /**
- * Test class for PhpOffice\PhpWord\IOFactory
+ * Test class for PhpOffice\PhpWord\IOFactory.
  *
  * @runTestsInSeparateProcesses
  */
 class IOFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Create existing writer
+     * Create existing writer.
      */
-    public function testExistingWriterCanBeCreated()
+    public function testExistingWriterCanBeCreated(): void
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             'PhpOffice\\PhpWord\\Writer\\Word2007',
             IOFactory::createWriter(new PhpWord(), 'Word2007')
         );
     }
 
     /**
-     * Create non-existing writer
+     * Create non-existing writer.
      */
-    public function testNonexistentWriterCanNotBeCreated()
+    public function testNonexistentWriterCanNotBeCreated(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         IOFactory::createWriter(new PhpWord(), 'Word2006');
     }
 
     /**
-     * Create existing reader
+     * Create existing reader.
      */
-    public function testExistingReaderCanBeCreated()
+    public function testExistingReaderCanBeCreated(): void
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             'PhpOffice\\PhpWord\\Reader\\Word2007',
             IOFactory::createReader('Word2007')
         );
     }
 
     /**
-     * Create non-existing reader
+     * Create non-existing reader.
      */
-    public function testNonexistentReaderCanNotBeCreated()
+    public function testNonexistentReaderCanNotBeCreated(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         IOFactory::createReader('Word2006');
     }
 
     /**
-     * Load document
+     * Load document.
      */
-    public function testLoad()
+    public function testLoad(): void
     {
         $file = __DIR__ . '/_files/templates/blank.docx';
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             'PhpOffice\\PhpWord\\PhpWord',
             IOFactory::load($file)
         );

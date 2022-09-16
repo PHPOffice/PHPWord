@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word document
@@ -15,7 +16,7 @@ $textrun->addFormField('textinput')->setName('MyTextBox');
 $textrun->addText(', checkbox ');
 $textrun->addFormField('checkbox')->setDefault(true);
 $textrun->addText(', or dropdown ');
-$textrun->addFormField('dropdown')->setEntries(array('Choice 1', 'Choice 2', 'Choice 3'));
+$textrun->addFormField('dropdown')->setEntries(['Choice 1', 'Choice 2', 'Choice 3']);
 $textrun->addText('. You have to set document protection to "forms" to enable dropdown.');
 
 $section->addText('They can also be added as a stand alone paragraph.');

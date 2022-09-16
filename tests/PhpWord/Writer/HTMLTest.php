@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,26 +23,26 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\HTML
+ * Test class for PhpOffice\PhpWord\Writer\HTML.
  *
  * @runTestsInSeparateProcesses
  */
 class HTMLTest extends AbstractWebServerEmbeddedTest
 {
     /**
-     * Construct
+     * Construct.
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $object = new HTML(new PhpWord());
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
+        self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
     }
 
     /**
-     * Construct with null
+     * Construct with null.
      */
-    public function testConstructWithNull()
+    public function testConstructWithNull(): void
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $this->expectExceptionMessage('No PhpWord assigned.');
@@ -51,9 +51,9 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
-     * Save
+     * Save.
      */
-    public function testSave()
+    public function testSave(): void
     {
         $localImage = __DIR__ . '/../_files/images/PhpWord.png';
         $archiveImage = 'zip://' . __DIR__ . '/../_files/documents/reader.docx#word/media/image1.jpeg';
@@ -66,19 +66,19 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
         $docProps = $phpWord->getDocInfo();
         $docProps->setTitle(htmlspecialchars('HTML Test', ENT_COMPAT, 'UTF-8'));
 
-        $phpWord->addTitleStyle(1, array('bold' => true));
+        $phpWord->addTitleStyle(1, ['bold' => true]);
         $phpWord->addFontStyle(
             'Font',
-            array('name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => 'FF0000')
+            ['name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => 'FF0000']
         );
-        $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER, 'spaceAfter' => 20, 'spaceBefore' => 20));
+        $phpWord->addParagraphStyle('Paragraph', ['alignment' => Jc::CENTER, 'spaceAfter' => 20, 'spaceBefore' => 20]);
         $section = $phpWord->addSection();
         $section->addBookmark('top');
         $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');
         $section->addTextBreak();
         $section->addText(
             htmlspecialchars('Test 2', ENT_COMPAT, 'UTF-8'),
-            array('name' => 'Tahoma', 'bold' => true, 'italic' => true, 'subscript' => true)
+            ['name' => 'Tahoma', 'bold' => true, 'italic' => true, 'subscript' => true]
         );
         $section->addLink('https://github.com/PHPOffice/PHPWord');
         $section->addTitle(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), 1);
@@ -93,17 +93,17 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
 
         $section = $phpWord->addSection();
 
-        $textrun = $section->addTextRun(array('alignment' => Jc::CENTER));
+        $textrun = $section->addTextRun(['alignment' => Jc::CENTER]);
         $textrun->addText(htmlspecialchars('Test 3', ENT_COMPAT, 'UTF-8'));
         $textrun->addTextBreak();
 
-        $textrun = $section->addTextRun(array('alignment' => Jc::START));
+        $textrun = $section->addTextRun(['alignment' => Jc::START]);
         $textrun->addText(htmlspecialchars('Text left aligned', ENT_COMPAT, 'UTF-8'));
 
-        $textrun = $section->addTextRun(array('alignment' => Jc::BOTH));
+        $textrun = $section->addTextRun(['alignment' => Jc::BOTH]);
         $textrun->addText(htmlspecialchars('Text justified', ENT_COMPAT, 'UTF-8'));
 
-        $textrun = $section->addTextRun(array('alignment' => Jc::END));
+        $textrun = $section->addTextRun(['alignment' => Jc::END]);
         $textrun->addText(htmlspecialchars('Text right aligned', ENT_COMPAT, 'UTF-8'));
 
         $textrun = $section->addTextRun('Paragraph');
@@ -118,7 +118,7 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
         $cell = $table->addRow()->addCell();
         $cell->addText(
             htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'),
-            array('superscript' => true, 'underline' => 'dash', 'strikethrough' => true)
+            ['superscript' => true, 'underline' => 'dash', 'strikethrough' => true]
         );
         $cell->addTextRun();
         $cell->addLink('https://github.com/PHPOffice/PHPWord');
@@ -134,12 +134,12 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
         $writer = new HTML($phpWord);
 
         $writer->save($file);
-        $this->assertFileExists($file);
+        self::assertFileExists($file);
         unlink($file);
 
         Settings::setOutputEscapingEnabled(true);
         $writer->save($file);
-        $this->assertFileExists($file);
+        self::assertFileExists($file);
         unlink($file);
     }
 }
