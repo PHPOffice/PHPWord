@@ -62,8 +62,7 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-xml": "*",
-        "laminas/laminas-escaper": "^2.10",
-        "symfony/process": "^5.4"
+        "laminas/laminas-escaper": "^2.10"
     },
     "require-dev": {
         "ext-zip": "*",
@@ -77,7 +76,8 @@
         "phpmd/phpmd": "^2.13",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.7",
-        "tecnickcom/tcpdf": "^6.5"
+        "tecnickcom/tcpdf": "^6.5",
+        "symfony/process": "^5.4"
     },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",
