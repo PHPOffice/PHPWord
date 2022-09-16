@@ -20,9 +20,4 @@
             </exclude>
         </whitelist>
     </filter>
-    <logging>
-        <log type="coverage-html" target="./build/coverage" />
-        <log type="coverage-clover" target="./build/logs/clover.xml" />
-        <log type="junit" target="./build/logs/logfile.xml"/>
-    </logging>
 </phpunit>
