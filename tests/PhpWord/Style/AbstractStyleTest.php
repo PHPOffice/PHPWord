@@ -64,11 +64,10 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test setEnumVal exception
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testSetValEnumException()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
 
         $this->assertEquals('b', self::callProtectedMethod($stub, 'setEnumVal', array('z', array('a', 'b'), 'b')));

@@ -134,12 +134,12 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      * XSL stylesheet cannot be applied on failure in setting parameter value.
      *
      * @covers                   ::applyXslStyleSheet
-     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Could not set values for the given XSL style sheet parameters.
      * @test
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectExceptionMessage('Could not set values for the given XSL style sheet parameters.');
         // Test is not needed for PHP 8.0, because internally validation throws TypeError exception.
         if (\PHP_VERSION_ID >= 80000) {
             $this->markTestSkipped('not needed for PHP 8.0');
@@ -161,12 +161,12 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      * XSL stylesheet can be applied on failure of loading XML from template.
      *
      * @covers                   ::applyXslStyleSheet
-     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Could not load the given XML document.
      * @test
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectExceptionMessage('Could not load the given XML document.');
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/corrupted_main_document_part.docx');
 
         $xslDomDocument = new \DOMDocument();
@@ -261,16 +261,16 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
         $templateProcessor->setValue('tableHeader', 'My clonable table');
         $templateProcessor->cloneRowAndSetValues('userId', $values);
-        $this->assertContains('<w:t>Superman</w:t>', $templateProcessor->getMainPart());
-        $this->assertContains('<w:t>Metropolis</w:t>', $templateProcessor->getMainPart());
+        $this->assertStringContainsString('<w:t>Superman</w:t>', $templateProcessor->getMainPart());
+        $this->assertStringContainsString('<w:t>Metropolis</w:t>', $templateProcessor->getMainPart());
     }
 
     /**
-     * @expectedException \Exception
      * @test
      */
     public function testCloneNotExistingRowShouldThrowException()
     {
+        $this->expectException(\Exception::class);
         $mainPart = '<?xml version="1.0" encoding="UTF-8"?><w:p><w:r><w:rPr></w:rPr><w:t>text</w:t></w:r></w:p>';
         $templateProcessor = new TestableTemplateProcesor($mainPart);
 
@@ -384,7 +384,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->setValues(array('firstname' => 'John', 'lastname' => 'Doe'));
 
-        $this->assertContains('Hello John Doe', $templateProcessor->getMainPart());
+        $this->assertStringContainsString('Hello John Doe', $templateProcessor->getMainPart());
     }
 
     /**
@@ -425,15 +425,15 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertNotEmpty($expectedImage, 'Embed image doesn\'t found.');
-        $this->assertContains('/word/media/image_rId11_document.jpeg', $expectedContentTypesXml, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
-        $this->assertContains('/word/_rels/header1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/header1.xml.rels"');
-        $this->assertContains('/word/_rels/footer1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/footer1.xml.rels"');
-        $this->assertNotContains('${documentContent}', $expectedMainPartXml, 'word/document.xml has no image.');
-        $this->assertNotContains('${headerValue}', $expectedHeaderPartXml, 'word/header1.xml has no image.');
-        $this->assertNotContains('${footerValue}', $expectedFooterPartXml, 'word/footer1.xml has no image.');
-        $this->assertContains('media/image_rId11_document.jpeg', $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
-        $this->assertContains('media/image_rId11_document.jpeg', $expectedHeaderRelationsXml, 'word/_rels/header1.xml.rels missed "media/image5_document.jpeg"');
-        $this->assertContains('media/image_rId11_document.jpeg', $expectedFooterRelationsXml, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
+        $this->assertStringContainsString('/word/media/image_rId11_document.jpeg', $expectedContentTypesXml, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
+        $this->assertStringContainsString('/word/_rels/header1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/header1.xml.rels"');
+        $this->assertStringContainsString('/word/_rels/footer1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/footer1.xml.rels"');
+        $this->assertStringNotContainsString('${documentContent}', $expectedMainPartXml, 'word/document.xml has no image.');
+        $this->assertStringNotContainsString('${headerValue}', $expectedHeaderPartXml, 'word/header1.xml has no image.');
+        $this->assertStringNotContainsString('${footerValue}', $expectedFooterPartXml, 'word/footer1.xml has no image.');
+        $this->assertStringContainsString('media/image_rId11_document.jpeg', $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
+        $this->assertStringContainsString('media/image_rId11_document.jpeg', $expectedHeaderRelationsXml, 'word/_rels/header1.xml.rels missed "media/image5_document.jpeg"');
+        $this->assertStringContainsString('media/image_rId11_document.jpeg', $expectedFooterRelationsXml, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
 
         unlink($docName);
 
@@ -463,7 +463,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
         unlink($resultFileName);
 
-        $this->assertNotContains('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
+        $this->assertStringNotContainsString('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
     }
 
     /**
@@ -640,9 +640,9 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->cloneBlock('CLONEME', 3, true, true);
 
-        $this->assertContains('Address ${address#1}, Street ${street#1}', $templateProcessor->getMainPart());
-        $this->assertContains('Address ${address#2}, Street ${street#2}', $templateProcessor->getMainPart());
-        $this->assertContains('Address ${address#3}, Street ${street#3}', $templateProcessor->getMainPart());
+        $this->assertStringContainsString('Address ${address#1}, Street ${street#1}', $templateProcessor->getMainPart());
+        $this->assertStringContainsString('Address ${address#2}, Street ${street#2}', $templateProcessor->getMainPart());
+        $this->assertStringContainsString('Address ${address#3}, Street ${street#3}', $templateProcessor->getMainPart());
     }
 
     public function testCloneBlockWithVariableReplacements()
@@ -673,9 +673,9 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->cloneBlock('CLONEME', 0, true, false, $replacements);
 
-        $this->assertContains('City: London, Street: Baker Street', $templateProcessor->getMainPart());
-        $this->assertContains('City: New York, Street: 5th Avenue', $templateProcessor->getMainPart());
-        $this->assertContains('City: Rome, Street: Via della Conciliazione', $templateProcessor->getMainPart());
+        $this->assertStringContainsString('City: London, Street: Baker Street', $templateProcessor->getMainPart());
+        $this->assertStringContainsString('City: New York, Street: 5th Avenue', $templateProcessor->getMainPart());
+        $this->assertStringContainsString('City: Rome, Street: Via della Conciliazione', $templateProcessor->getMainPart());
     }
 
     /**
@@ -846,9 +846,9 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor = new TestableTemplateProcesor(null, $settingsPart);
 
         $templateProcessor->setUpdateFields(true);
-        $this->assertContains('<w:updateFields w:val="true"/>', $templateProcessor->getSettingsPart());
+        $this->assertStringContainsString('<w:updateFields w:val="true"/>', $templateProcessor->getSettingsPart());
 
         $templateProcessor->setUpdateFields(false);
-        $this->assertContains('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
+        $this->assertStringContainsString('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
     }
 }

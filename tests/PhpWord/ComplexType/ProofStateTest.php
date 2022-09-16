@@ -39,22 +39,20 @@ class ProofStateTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test throws exception if wrong grammar proof state value given
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testWrongGrammar()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $pState = new ProofState();
         $pState->setGrammar('Wrong');
     }
 
     /**
      * Test throws exception if wrong spelling proof state value given
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testWrongSpelling()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $pState = new ProofState();
         $pState->setSpelling('Wrong');
     }

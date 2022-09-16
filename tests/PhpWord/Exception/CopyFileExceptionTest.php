@@ -27,11 +27,11 @@ class CopyFileExceptionTest extends \PHPUnit\Framework\TestCase
      * CopyFileException can be thrown.
      *
      * @covers            ::__construct()
-     * @expectedException \PhpOffice\PhpWord\Exception\CopyFileException
      * @test
      */
     public function testCopyFileExceptionCanBeThrown()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\CopyFileException::class);
         throw new CopyFileException('C:\source\dummy.txt', 'C:\destination\dummy.txt');
     }
 }

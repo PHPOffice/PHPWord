@@ -27,11 +27,11 @@ class CreateTemporaryFileExceptionTest extends \PHPUnit\Framework\TestCase
      * CreateTemporaryFileException can be thrown.
      *
      * @covers            ::__construct()
-     * @expectedException \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      * @test
      */
     public function testCreateTemporaryFileExceptionCanBeThrown()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\CreateTemporaryFileException::class);
         throw new CreateTemporaryFileException();
     }
 }

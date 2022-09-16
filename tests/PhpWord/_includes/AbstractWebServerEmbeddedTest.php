@@ -23,7 +23,7 @@ abstract class AbstractWebServerEmbeddedTest extends \PHPUnit\Framework\TestCase
 {
     private static $httpServer;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $commandLine = 'php -S localhost:8080 -t tests/PhpWord/_files';
 
@@ -34,7 +34,7 @@ abstract class AbstractWebServerEmbeddedTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$httpServer->stop();
     }

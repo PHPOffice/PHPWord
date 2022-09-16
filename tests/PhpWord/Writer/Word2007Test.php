@@ -32,7 +32,7 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
     /**
      * Tear down after each test
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
@@ -182,11 +182,10 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
 
     /**
      * Use disk caching exception
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testSetUseDiskCachingException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $dir = implode(DIRECTORY_SEPARATOR, array(PHPWORD_TESTS_BASE_DIR, 'foo'));
 
         $object = new Word2007();

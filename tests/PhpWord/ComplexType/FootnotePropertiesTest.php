@@ -46,33 +46,30 @@ class FootnotePropertiesTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test throws exception if wrong position given
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testWrongPos()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $footnoteProp = new FootnoteProperties();
         $footnoteProp->setPos(NumberFormat::LOWER_ROMAN);
     }
 
     /**
      * Test throws exception if wrong number format given
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testWrongNumFmt()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $footnoteProp = new FootnoteProperties();
         $footnoteProp->setNumFmt(FootnoteProperties::POSITION_DOC_END);
     }
 
     /**
      * Test throws exception if wrong number restart given
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testWrongNumRestart()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $footnoteProp = new FootnoteProperties();
         $footnoteProp->setNumRestart(NumberFormat::LOWER_ROMAN);
     }

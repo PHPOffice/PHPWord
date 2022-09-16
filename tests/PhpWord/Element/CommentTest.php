@@ -66,7 +66,7 @@ class CommentTest extends \PHPUnit\Framework\TestCase
     {
         $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
 
-        $this->assertInternalType('array', $oComment->getElements());
+        $this->assertIsArray($oComment->getElements());
     }
 
     /**
@@ -81,21 +81,17 @@ class CommentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($iVal, $oComment->getRelationId());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testExceptionOnCommentStartOnComment()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $dummyComment = new Comment('Test User', new \DateTime(), 'my_initials');
         $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
         $oComment->setCommentRangeStart($dummyComment);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testExceptionOnCommentEndOnComment()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $dummyComment = new Comment('Test User', new \DateTime(), 'my_initials');
         $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
         $oComment->setCommentRangeEnd($dummyComment);

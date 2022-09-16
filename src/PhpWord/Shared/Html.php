@@ -620,7 +620,7 @@ class Html
 
         foreach ($properties as $property) {
             list($cKey, $cValue) = array_pad(explode(':', $property, 2), 2, null);
-            $cValue = trim($cValue);
+            $cValue = trim($cValue ?? '');
             $cKey = strtolower(trim($cKey));
             switch ($cKey) {
                 case 'text-decoration':

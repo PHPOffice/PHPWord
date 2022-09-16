@@ -87,11 +87,10 @@ class ImageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test setWrappingStyle exception
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testSetWrappingStyleException()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $object = new Image();
         $object->setWrappingStyle('foo');
     }

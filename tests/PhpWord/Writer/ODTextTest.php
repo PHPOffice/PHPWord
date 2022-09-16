@@ -51,12 +51,11 @@ class ODTextTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Construct with null
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectExceptionMessage('No PhpWord assigned.');
         $object = new ODText();
         $object->getPhpWord();
     }
@@ -135,11 +134,10 @@ class ODTextTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Use disk caching exception
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testSetUseDiskCachingException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $dir = implode(DIRECTORY_SEPARATOR, array(PHPWORD_TESTS_BASE_DIR, 'foo'));
 
         $object = new ODText();

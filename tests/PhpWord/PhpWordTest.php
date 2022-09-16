@@ -133,11 +133,10 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
      * Test load template exception
      *
      * @deprecated 0.12.0
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testLoadTemplateException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $templateFqfn = implode(
             DIRECTORY_SEPARATOR,
             array(PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx')
@@ -162,12 +161,11 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test calling undefined method
-     *
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage is not defined
      */
     public function testCallUndefinedMethod()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('is not defined');
         $phpWord = new PhpWord();
         $phpWord->undefinedMethod();
     }

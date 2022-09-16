@@ -59,20 +59,20 @@ class MsDocTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test exception on not existing file
-     * @expectedException \Exception
      */
     public function testFailIfFileNotReadable()
     {
+        $this->expectException(\Exception::class);
         $filename = __DIR__ . '/../_files/documents/not_existing_reader.doc';
         IOFactory::load($filename, 'MsDoc');
     }
 
     /**
      * Test exception on non OLE document
-     * @expectedException \Exception
      */
     public function testFailIfFileNotOle()
     {
+        $this->expectException(\Exception::class);
         $filename = __DIR__ . '/../_files/documents/reader.odt';
         IOFactory::load($filename, 'MsDoc');
     }

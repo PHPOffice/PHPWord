@@ -53,11 +53,10 @@ class LanguageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test throws exception if wrong locale is given
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testWrongLanguage()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $language = new Language();
         $language->setLatin('fra');
     }

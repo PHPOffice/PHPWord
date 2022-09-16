@@ -26,11 +26,10 @@ class PartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test get parent writer exception
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testGetParentWriterException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $object = new Body();
         $object->getParentWriter();
     }

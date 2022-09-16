@@ -71,10 +71,10 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test setting an invalid salt
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidSalt()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $protection = new Protection();
         $protection->setSalt('123');
     }
@@ -125,20 +125,16 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(ProofState::DIRTY, $oSettings->getProofState()->getSpelling());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testWrongProofStateGrammar()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $proofState = new ProofState();
         $proofState->setGrammar('wrong');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testWrongProofStateSpelling()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $proofState = new ProofState();
         $proofState->setSpelling('wrong');
     }

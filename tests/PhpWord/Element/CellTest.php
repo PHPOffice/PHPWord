@@ -188,11 +188,10 @@ class CellTest extends AbstractWebServerEmbeddedTest
 
     /**
      * Test add object exception
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\InvalidObjectException
      */
     public function testAddObjectException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidObjectException::class);
         $src = __DIR__ . '/../_files/xsl/passthrough.xsl';
         $oCell = new Cell();
         $oCell->addObject($src);
@@ -227,11 +226,10 @@ class CellTest extends AbstractWebServerEmbeddedTest
 
     /**
      * Add preserve text exception
-     *
-     * @expectedException \BadMethodCallException
      */
     public function testAddPreserveTextException()
     {
+        $this->expectException(\BadMethodCallException::class);
         $oCell = new Cell();
         $oCell->setDocPart('TextRun', 1);
         $oCell->addPreserveText('text');
@@ -268,6 +266,6 @@ class CellTest extends AbstractWebServerEmbeddedTest
     {
         $oCell = new Cell();
 
-        $this->assertInternalType('array', $oCell->getElements());
+        $this->assertIsArray($oCell->getElements());
     }
 }

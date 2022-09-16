@@ -74,7 +74,7 @@ class ChartTest extends \PHPUnit\Framework\TestCase
     {
         $chart = new Chart();
 
-        $this->assertInternalType('array', $chart->getColors());
+        $this->assertIsArray($chart->getColors());
 
         $this->assertEquals(count($chart->getColors()), 0);
 

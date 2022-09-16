@@ -113,48 +113,44 @@ class FieldTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test setType exception
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid type
      */
     public function testSetTypeException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid type');
         $object = new Field();
         $object->setType('foo');
     }
 
     /**
      * Test setProperties exception
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid property
      */
     public function testSetPropertiesException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid property');
         $object = new Field('PAGE');
         $object->setProperties(array('foo' => 'bar'));
     }
 
     /**
      * Test setOptions exception
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid option
      */
     public function testSetOptionsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid option');
         $object = new Field('PAGE');
         $object->setOptions(array('foo' => 'bar'));
     }
 
     /**
      * Test setText exception
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid text
      */
     public function testSetTextException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid text');
         $object = new Field('XE');
         $object->setText(array());
     }

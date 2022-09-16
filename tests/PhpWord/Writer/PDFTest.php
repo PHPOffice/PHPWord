@@ -48,12 +48,11 @@ class PDFTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test construct exception
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage PDF rendering library or library path has not been defined.
      */
     public function testConstructException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectExceptionMessage('PDF rendering library or library path has not been defined.');
         $writer = new PDF(new PhpWord());
         $writer->save();
     }

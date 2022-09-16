@@ -39,12 +39,11 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
 
     /**
      * covers   ::getParentWriter
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage No parent WriterInterface assigned.
      */
     public function testSetGetParentWriterNull()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No parent WriterInterface assigned.');
         $object = $this->getMockForAbstractClass('PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart');
         $object->getParentWriter();
     }

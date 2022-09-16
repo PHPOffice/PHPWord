@@ -178,7 +178,7 @@ class HeaderTest extends AbstractWebServerEmbeddedTest
     {
         $oHeader = new Header(1);
 
-        $this->assertInternalType('array', $oHeader->getElements());
+        $this->assertIsArray($oHeader->getElements());
     }
 
     /**
@@ -229,11 +229,10 @@ class HeaderTest extends AbstractWebServerEmbeddedTest
 
     /**
      * Add footnote exception
-     *
-     * @expectedException \BadMethodCallException
      */
     public function testAddFootnoteException()
     {
+        $this->expectException(\BadMethodCallException::class);
         $header = new Header(1);
         $header->addFootnote();
     }

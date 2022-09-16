@@ -29,7 +29,7 @@ class PaperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tear down after each test
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
@@ -52,8 +52,8 @@ class PaperTest extends \PHPUnit\Framework\TestCase
         $object = new Paper('B5');
 
         $this->assertEquals('B5', $object->getSize());
-        $this->assertEquals(9977.9527559055, $object->getWidth(), '', 0.000000001);
-        $this->assertEquals(14173.228346457, $object->getHeight(), '', 0.000000001);
+        $this->assertEqualsWithDelta(9977.9527559055, $object->getWidth(), 0.000000001);
+        $this->assertEqualsWithDelta(14173.228346457, $object->getHeight(), 0.000000001);
     }
 
     /**
@@ -65,7 +65,7 @@ class PaperTest extends \PHPUnit\Framework\TestCase
         $object->setSize('Folio');
 
         $this->assertEquals('Folio', $object->getSize());
-        $this->assertEquals(12240, $object->getWidth(), '', 0.1);
-        $this->assertEquals(18720, $object->getHeight(), '', 0.1);
+        $this->assertEqualsWithDelta(12240, $object->getWidth(), 0.1);
+        $this->assertEqualsWithDelta(18720, $object->getHeight(), 0.1);
     }
 }

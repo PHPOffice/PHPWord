@@ -36,7 +36,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * Executed before each method of the class
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
@@ -407,7 +407,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         // behind
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
         $style = $element->getAttribute('style');
-        $this->assertRegExp('/z\-index:\-[0-9]*/', $style);
+        $this->assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
 
         // square
         $element = $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:pict/v:shape/w10:wrap');

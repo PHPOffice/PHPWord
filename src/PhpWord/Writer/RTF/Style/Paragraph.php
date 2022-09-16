@@ -65,8 +65,8 @@ class Paragraph extends AbstractStyle
             $content .= $alignments[$style->getAlignment()];
         }
         $content .= $this->writeIndentation($style->getIndentation());
-        $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore));
-        $content .= $this->getValueIf($spaceAfter !== null, '\sa' . round($spaceAfter));
+        $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore??0));
+        $content .= $this->getValueIf($spaceAfter !== null, '\sa' . round($spaceAfter??0));
         $lineHeight = $style->getLineHeight();
         if ($lineHeight) {
             $lineHeightAdjusted = (int) ($lineHeight * 240);

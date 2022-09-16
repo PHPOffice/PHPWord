@@ -35,14 +35,14 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $oSettings = new Section();
 
         $this->assertEquals('portrait', $oSettings->getOrientation());
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), '', 0.000000001);
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), 0.000000001);
         $this->assertEquals('A4', $oSettings->getPaperSize());
 
         $oSettings->setSettingValue('orientation', 'landscape');
         $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), '', 0.000000001);
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), 0.000000001);
 
         $iVal = rand(1, 1000);
         $oSettings->setSettingValue('borderSize', $iVal);
@@ -112,7 +112,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), '', 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), 0.000000001);
         $iVal = rand(1, 1000);
         $oSettings->setSettingValue('pageSizeW', $iVal);
         $this->assertEquals($iVal, $oSettings->getPageSizeW());
@@ -126,7 +126,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         // Section Settings
         $oSettings = new Section();
 
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), 0.000000001);
         $iVal = rand(1, 1000);
         $oSettings->setSettingValue('pageSizeH', $iVal);
         $this->assertEquals($iVal, $oSettings->getPageSizeH());
@@ -142,8 +142,8 @@ class SectionTest extends \PHPUnit\Framework\TestCase
 
         $oSettings->setLandscape();
         $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), '', 0.000000001);
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW(), 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH(), 0.000000001);
     }
 
     /**
@@ -156,8 +156,8 @@ class SectionTest extends \PHPUnit\Framework\TestCase
 
         $oSettings->setPortrait();
         $this->assertEquals('portrait', $oSettings->getOrientation());
-        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), '', 0.000000001);
-        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), '', 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW(), 0.000000001);
+        $this->assertEqualsWithDelta(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH(), 0.000000001);
     }
 
     /**

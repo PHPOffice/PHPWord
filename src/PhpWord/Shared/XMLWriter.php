@@ -59,7 +59,7 @@ class XMLWriter extends \XMLWriter
         if ($pTemporaryStorage == self::STORAGE_MEMORY) {
             $this->openMemory();
         } else {
-            if (!is_dir($pTemporaryStorageDir)) {
+            if (!$pTemporaryStorageDir || !is_dir($pTemporaryStorageDir)) {
                 $pTemporaryStorageDir = sys_get_temp_dir();
             }
             // Create temporary filename
@@ -178,6 +178,6 @@ class XMLWriter extends \XMLWriter
             $value = json_encode($value);
         }
 
-        return parent::writeAttribute($name, $value);
+        return parent::writeAttribute($name, $value ?? '');
     }
 }

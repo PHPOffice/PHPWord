@@ -109,10 +109,10 @@ class SectionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @coversNothing
-     * @expectedException \PhpOffice\PhpWord\Exception\InvalidObjectException
      */
     public function testAddObjectException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidObjectException::class);
         $source = __DIR__ . '/_files/xsl/passthrough.xsl';
         $section = new Section(0);
         $section->addObject($source);
@@ -176,11 +176,11 @@ class SectionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @covers ::addHeader
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid header/footer type.
      */
     public function testAddHeaderException()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid header/footer type.');
         $object = new Section(1);
         $object->addHeader('ODD');
     }

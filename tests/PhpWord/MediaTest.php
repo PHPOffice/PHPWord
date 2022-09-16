@@ -121,12 +121,11 @@ class MediaTest extends AbstractWebServerEmbeddedTest
 
     /**
      * Add image element exception
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage Image object not assigned.
      */
     public function testAddElementImageException()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Image object not assigned.');
         Media::addElement('section', 'image', __DIR__ . '/_files/images/mars.jpg');
     }
 }

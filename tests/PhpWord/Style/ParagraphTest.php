@@ -31,7 +31,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
     /**
      * Tear down after each test
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
@@ -177,11 +177,10 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test line height exception by using nonnumeric value
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function testLineHeightException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidStyleException::class);
         $object = new Paragraph();
         $object->setLineHeight('a');
     }

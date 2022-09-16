@@ -28,11 +28,11 @@ class ExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Throw new exception
      *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @covers            \PhpOffice\PhpWord\Exception\Exception
      */
     public function testThrowException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         throw new Exception();
     }
 }

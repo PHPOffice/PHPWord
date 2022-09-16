@@ -39,12 +39,11 @@ class RTFTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test load exception
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage Cannot read
      */
     public function testLoadException()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Cannot read');
         $filename = __DIR__ . '/../_files/documents/foo.rtf';
         IOFactory::load($filename, 'RTF');
     }

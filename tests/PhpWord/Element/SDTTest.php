@@ -50,12 +50,11 @@ class SDTTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test set type exception
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid style value
      */
     public function testSetTypeException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid style value');
         $object = new SDT('comboBox');
         $object->setType('foo');
     }

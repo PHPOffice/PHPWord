@@ -96,11 +96,10 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test setWrappingStyle exception
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testSetWrappingStyleException()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $object = new TextBox();
         $object->setWrappingStyle('foo');
     }

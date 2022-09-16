@@ -607,11 +607,10 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
 
     /**
      * Test parsing of remote img that can be found locally
-     *
-     * @expectedException \Exception
      */
     public function testCouldNotLoadImage()
     {
+        $this->expectException(\Exception::class);
         $src = 'https://fakedomain.io/images/firefox.png';
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -973,6 +972,6 @@ HTML;
 
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        $this->assertInternalType('object', $doc);
+        $this->assertIsObject($doc);
     }
 }

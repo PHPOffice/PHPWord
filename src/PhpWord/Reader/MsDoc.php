@@ -1499,9 +1499,9 @@ class MsDoc extends AbstractReader implements ReaderInterface
     {
         $oSprm = new \stdClass();
         $oSprm->isPmd = $sprm & 0x01FF;
-        $oSprm->f = ($sprm / 512) & 0x0001;
-        $oSprm->sgc = ($sprm / 1024) & 0x0007;
-        $oSprm->spra = ($sprm / 8192);
+        $oSprm->f = (int)($sprm / 512) & 0x0001;
+        $oSprm->sgc = (int)($sprm / 1024) & 0x0007;
+        $oSprm->spra = (int)($sprm / 8192);
 
         return $oSprm;
     }

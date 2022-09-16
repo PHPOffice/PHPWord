@@ -30,11 +30,11 @@ class PartTest extends \PHPUnit\Framework\TestCase
      * Test exception when no type or target assigned to a relation
      *
      * @covers \PhpOffice\PhpWord\Writer\Word2007\Part\Rels::writeRel
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Invalid parameters passed.
      */
     public function testRelsWriteRelException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectExceptionMessage('Invalid parameters passed.');
         $object = new RelsPart();
         $object->setMedia(array(array('type' => '', 'target' => '')));
         $object->write();

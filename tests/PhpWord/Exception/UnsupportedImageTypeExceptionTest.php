@@ -28,11 +28,11 @@ class UnsupportedImageTypeExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Throw new exception
      *
-     * @expectedException \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      * @covers            \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
     public function testThrowException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\UnsupportedImageTypeException::class);
         throw new UnsupportedImageTypeException();
     }
 }

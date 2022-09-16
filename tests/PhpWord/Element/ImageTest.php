@@ -108,32 +108,29 @@ class ImageTest extends AbstractWebServerEmbeddedTest
 
     /**
      * Test invalid local image
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
      */
     public function testInvalidImageLocal()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
         new Image(__DIR__ . '/../_files/images/thisisnotarealimage');
     }
 
     /**
      * Test invalid PHP Image
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
      */
     public function testInvalidImagePhp()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
         $object = new Image('test.php');
         $object->getSource();
     }
 
     /**
      * Test unsupported image
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
     public function testUnsupportedImage()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\UnsupportedImageTypeException::class);
         //disable ssl verification, never do this in real application, you should pass the certificiate instead!!!
         $arrContextOptions = array(
             'ssl' => array(
@@ -236,11 +233,10 @@ class ImageTest extends AbstractWebServerEmbeddedTest
 
     /**
      * Test invalid string image
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
      */
     public function testInvalidImageString()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
         $object = new Image('this_is-a_non_valid_image');
         $object->getSource();
     }

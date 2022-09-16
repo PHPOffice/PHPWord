@@ -58,11 +58,9 @@ class TitleTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTitle->getText());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testConstructWithInvalidArgument()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $oPageBreak = new PageBreak();
         new Title($oPageBreak);
     }

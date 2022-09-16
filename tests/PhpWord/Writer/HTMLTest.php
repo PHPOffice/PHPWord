@@ -41,12 +41,11 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
 
     /**
      * Construct with null
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectExceptionMessage('No PhpWord assigned.');
         $object = new HTML();
         $object->getPhpWord();
     }

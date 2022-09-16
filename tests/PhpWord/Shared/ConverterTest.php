@@ -36,70 +36,70 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
 
         foreach ($values as $value) {
             $result = Converter::cmToTwip($value);
-            $this->assertEquals($value / 2.54 * 1440, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value / 2.54 * 1440, $result, 0.00001);
 
             $result = Converter::cmToInch($value);
-            $this->assertEquals($value / 2.54, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value / 2.54, $result, 0.00001);
 
             $result = Converter::cmToPixel($value);
-            $this->assertEquals($value / 2.54 * 96, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value / 2.54 * 96, $result, 0.00001);
 
             $result = Converter::cmToPoint($value);
-            $this->assertEquals($value / 2.54 * 72, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value / 2.54 * 72, $result, 0.00001);
 
             $result = Converter::cmToEmu($value);
-            $this->assertEquals(round($value / 2.54 * 96 * 9525), $result, '', 0.00001);
+            $this->assertEqualsWithDelta(round($value / 2.54 * 96 * 9525), $result, 0.00001);
 
             $result = Converter::inchToTwip($value);
-            $this->assertEquals($value * 1440, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value * 1440, $result, 0.00001);
 
             $result = Converter::inchToCm($value);
-            $this->assertEquals($value * 2.54, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value * 2.54, $result, 0.00001);
 
             $result = Converter::inchToPixel($value);
-            $this->assertEquals($value * 96, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value * 96, $result, 0.00001);
 
             $result = Converter::inchToPoint($value);
-            $this->assertEquals($value * 72, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value * 72, $result, 0.00001);
 
             $result = Converter::inchToEmu($value);
-            $this->assertEquals(round($value * 96 * 9525), $result, '', 0.00001);
+            $this->assertEqualsWithDelta(round($value * 96 * 9525), $result, 0.00001);
 
             $result = Converter::pixelToTwip($value);
-            $this->assertEquals($value / 96 * 1440, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value / 96 * 1440, $result, 0.00001);
 
             $result = Converter::pixelToCm($value);
-            $this->assertEquals($value / 96 * 2.54, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value / 96 * 2.54, $result, 0.00001);
 
             $result = Converter::pixelToPoint($value);
-            $this->assertEquals($value / 96 * 72, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value / 96 * 72, $result, 0.00001);
 
             $result = Converter::pixelToEmu($value);
-            $this->assertEquals(round($value * 9525), $result, '', 0.00001);
+            $this->assertEqualsWithDelta(round($value * 9525), $result, 0.00001);
 
             $result = Converter::pointToTwip($value);
-            $this->assertEquals($value * 20, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value * 20, $result, 0.00001);
 
             $result = Converter::pointToCm($value);
-            $this->assertEquals($value * 0.035277778, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value * 0.035277778, $result, 0.00001);
 
             $result = Converter::pointToPixel($value);
-            $this->assertEquals($value / 72 * 96, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value / 72 * 96, $result, 0.00001);
 
             $result = Converter::pointToEmu($value);
-            $this->assertEquals(round($value / 72 * 96 * 9525), $result, '', 0.00001);
+            $this->assertEqualsWithDelta(round($value / 72 * 96 * 9525), $result, 0.00001);
 
             $result = Converter::emuToPixel($value);
-            $this->assertEquals(round($value / 9525), $result, '', 0.00001);
+            $this->assertEqualsWithDelta(round($value / 9525), $result, 0.00001);
 
             $result = Converter::picaToPoint($value);
-            $this->assertEquals($value / 6 * 72, $result, '', 0.00001);
+            $this->assertEqualsWithDelta($value / 6 * 72, $result, 0.00001);
 
             $result = Converter::degreeToAngle($value);
-            $this->assertEquals((int) round($value * 60000), $result, '', 0.00001);
+            $this->assertEqualsWithDelta((int) round($value * 60000), $result, 0.00001);
 
             $result = Converter::angleToDegree($value);
-            $this->assertEquals(round($value / 60000), $result, '', 0.00001);
+            $this->assertEqualsWithDelta(round($value / 60000), $result, 0.00001);
         }
     }
 
@@ -129,8 +129,8 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(720, Converter::cssToPoint('10in'));
         $this->assertEquals(7.2, Converter::cssToPoint('0.1in'));
         $this->assertEquals(120, Converter::cssToPoint('10pc'));
-        $this->assertEquals(28.346457, Converter::cssToPoint('10mm'), '', 0.000001);
-        $this->assertEquals(283.464567, Converter::cssToPoint('10cm'), '', 0.000001);
+        $this->assertEqualsWithDelta(28.346457, Converter::cssToPoint('10mm'), 0.000001);
+        $this->assertEqualsWithDelta(283.464567, Converter::cssToPoint('10cm'), 0.000001);
         $this->assertEquals(40, Converter::cssToPixel('30pt'));
         $this->assertEquals(1.27, Converter::cssToCm('36pt'));
         $this->assertEquals(127000, Converter::cssToEmu('10pt'));

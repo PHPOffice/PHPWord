@@ -31,7 +31,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
     /**
      * Tear down after each test
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TestHelperDOCX::clear();
     }
@@ -45,7 +45,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('text', $object->getStyleType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
-        $this->assertInternalType('array', $object->getStyleValues());
+        $this->assertIsArray($object->getStyleValues());
     }
 
     /**
@@ -171,11 +171,10 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test line height exception by using nonnumeric value
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function testLineHeightException()
     {
+        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidStyleException::class);
         $object = new Font();
         $object->setLineHeight('a');
     }
