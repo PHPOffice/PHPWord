@@ -19,9 +19,9 @@ namespace PhpOffice\PhpWordTests\Element;
 
 use Exception;
 use PhpOffice\PhpWord\Element\Header;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
 /**

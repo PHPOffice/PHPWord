@@ -40,7 +40,6 @@ class TestHelperDOCX
      *
      * @since 0.12.0 Throws CreateTemporaryFileException.
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $writerName
      *
      * @return \PhpOffice\PhpWordTests\XmlDocument

@@ -18,8 +18,8 @@
 namespace PhpOffice\PhpWordTests\Element;
 
 use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Image.

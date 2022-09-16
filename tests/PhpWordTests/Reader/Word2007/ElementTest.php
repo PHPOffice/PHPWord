@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
-use PhpOffice\PhpWordTests\AbstractTestReader;
 use PhpOffice\PhpWord\Element\TrackChange;
+use PhpOffice\PhpWordTests\AbstractTestReader;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007\Element subnamespace.

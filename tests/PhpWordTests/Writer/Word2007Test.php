@@ -17,10 +17,10 @@
 
 namespace PhpOffice\PhpWordTests\Writer;
 
-use PhpOffice\PhpWord\Writer\Word2007;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Writer\Word2007;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**

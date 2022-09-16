@@ -18,12 +18,12 @@
 namespace PhpOffice\PhpWordTests\Shared;
 
 use Exception;
-use PhpOffice\PhpWord\Shared\Html;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**

@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWordTests\Collection;
 
-use PhpOffice\PhpWord\Element\Footnote;
 use PhpOffice\PhpWord\Collection\Footnotes;
+use PhpOffice\PhpWord\Element\Footnote;
 
 /**
  * Test class for PhpOffice\PhpWord\Collection subnamespace.

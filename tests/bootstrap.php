@@ -22,4 +22,3 @@ date_default_timezone_set('UTC');
 if (!defined('PHPWORD_TESTS_BASE_DIR')) {
     define('PHPWORD_TESTS_BASE_DIR', realpath(__DIR__));
 }
-

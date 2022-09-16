@@ -17,12 +17,12 @@
 
 namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
-use PhpOffice\PhpWordTests\AbstractTestReader;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
+use PhpOffice\PhpWordTests\AbstractTestReader;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007\Styles.

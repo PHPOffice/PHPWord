@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWordTests\Style;
 
-use PhpOffice\PhpWord\Style\Cell;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
+use PhpOffice\PhpWord\Style\Cell;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Cell.

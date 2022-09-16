@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Test class for PhpOffice\PhpWord\Exception\Exception.
  *
- * @coversDefaultClass Exception
+ * @coversDefaultClass \Exception
  *
  * @runTestsInSeparateProcesses
  */

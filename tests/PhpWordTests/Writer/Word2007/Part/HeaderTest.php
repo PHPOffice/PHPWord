@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWordTests\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Writer\Word2007\Part\Header;
 use PhpOffice\PhpWord\Writer\Word2007;
+use PhpOffice\PhpWord\Writer\Word2007\Part\Header;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Header.

@@ -17,11 +17,11 @@
 
 namespace PhpOffice\PhpWordTests\Writer;
 
-use PhpOffice\PhpWord\Writer\HTML;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Writer\HTML;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\HTML.

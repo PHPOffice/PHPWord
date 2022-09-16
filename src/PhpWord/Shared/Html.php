@@ -900,7 +900,7 @@ class Html
         if (!is_file($src)
             && null !== self::$options
             && isset(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'])
-             ) {
+        ) {
             $src = str_replace(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'], $src);
         }
 
