@@ -31,7 +31,7 @@ class TOC extends AbstractElement
      *
      * @var \PhpOffice\PhpWord\Style\TOC
      */
-    private $TOCStyle;
+    private $tocStyle;
 
     /**
      * Font style.
@@ -64,10 +64,10 @@ class TOC extends AbstractElement
      */
     public function __construct($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
-        $this->TOCStyle = new TOCStyle();
+        $this->tocStyle = new TOCStyle();
 
         if (null !== $tocStyle && is_array($tocStyle)) {
-            $this->TOCStyle->setStyleByArray($tocStyle);
+            $this->tocStyle->setStyleByArray($tocStyle);
         }
 
         if (null !== $fontStyle && is_array($fontStyle)) {
@@ -114,7 +114,7 @@ class TOC extends AbstractElement
      */
     public function getStyleTOC()
     {
-        return $this->TOCStyle;
+        return $this->tocStyle;
     }
 
     /**
