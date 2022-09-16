@@ -76,20 +76,11 @@ To [add a dependency](https://getcomposer.org/doc/04-schema.md#package-links) to
 
 Run the following to use the latest stable version
 ```sh
-    composer require phpoffice/phpword
+composer require phpoffice/phpword
 ```
-or if you want the latest master version
+or if you want the latest develop version
 ```sh
-    composer require phpoffice/phpword:dev-master
-```
-
-You can of course also manually edit your composer.json file
-```json
-{
-    "require": {
-       "phpoffice/phpword": "v0.18.*"
-    }
-}
+composer require phpoffice/phpword:dev-develop
 ```
 
 ## Getting started
