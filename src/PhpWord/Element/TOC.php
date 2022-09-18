@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,40 +22,40 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\TOC as TOCStyle;
 
 /**
- * Table of contents
+ * Table of contents.
  */
 class TOC extends AbstractElement
 {
     /**
-     * TOC style
+     * TOC style.
      *
      * @var \PhpOffice\PhpWord\Style\TOC
      */
-    private $TOCStyle;
+    private $tocStyle;
 
     /**
-     * Font style
+     * Font style.
      *
      * @var \PhpOffice\PhpWord\Style\Font|string
      */
     private $fontStyle;
 
     /**
-     * Min title depth to show
+     * Min title depth to show.
      *
      * @var int
      */
     private $minDepth = 1;
 
     /**
-     * Max title depth to show
+     * Max title depth to show.
      *
      * @var int
      */
     private $maxDepth = 9;
 
     /**
-     * Create a new Table-of-Contents Element
+     * Create a new Table-of-Contents Element.
      *
      * @param mixed $fontStyle
      * @param array $tocStyle
@@ -64,13 +64,13 @@ class TOC extends AbstractElement
      */
     public function __construct($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
-        $this->TOCStyle = new TOCStyle();
+        $this->tocStyle = new TOCStyle();
 
-        if (!is_null($tocStyle) && is_array($tocStyle)) {
-            $this->TOCStyle->setStyleByArray($tocStyle);
+        if (null !== $tocStyle && is_array($tocStyle)) {
+            $this->tocStyle->setStyleByArray($tocStyle);
         }
 
-        if (!is_null($fontStyle) && is_array($fontStyle)) {
+        if (null !== $fontStyle && is_array($fontStyle)) {
             $this->fontStyle = new Font();
             $this->fontStyle->setStyleByArray($fontStyle);
         } else {
@@ -82,14 +82,14 @@ class TOC extends AbstractElement
     }
 
     /**
-     * Get all titles
+     * Get all titles.
      *
      * @return array
      */
     public function getTitles()
     {
         if (!$this->phpWord instanceof PhpWord) {
-            return array();
+            return [];
         }
 
         $titles = $this->phpWord->getTitles()->getItems();
@@ -108,17 +108,17 @@ class TOC extends AbstractElement
     }
 
     /**
-     * Get TOC Style
+     * Get TOC Style.
      *
      * @return \PhpOffice\PhpWord\Style\TOC
      */
     public function getStyleTOC()
     {
-        return $this->TOCStyle;
+        return $this->tocStyle;
     }
 
     /**
-     * Get Font Style
+     * Get Font Style.
      *
      * @return \PhpOffice\PhpWord\Style\Font|string
      */
@@ -132,13 +132,13 @@ class TOC extends AbstractElement
      *
      * @param int $value
      */
-    public function setMaxDepth($value)
+    public function setMaxDepth($value): void
     {
         $this->maxDepth = $value;
     }
 
     /**
-     * Get Max Depth
+     * Get Max Depth.
      *
      * @return int Max depth of titles
      */
@@ -152,13 +152,13 @@ class TOC extends AbstractElement
      *
      * @param int $value
      */
-    public function setMinDepth($value)
+    public function setMinDepth($value): void
     {
         $this->minDepth = $value;
     }
 
     /**
-     * Get Min Depth
+     * Get Min Depth.
      *
      * @return int Min depth of titles
      */

@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word Document
@@ -9,20 +10,20 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $multipleTabsStyleName = 'multipleTab';
 $phpWord->addParagraphStyle(
     $multipleTabsStyleName,
-    array(
-        'tabs' => array(
+    [
+        'tabs' => [
             new \PhpOffice\PhpWord\Style\Tab('left', 1550),
             new \PhpOffice\PhpWord\Style\Tab('center', 3200),
             new \PhpOffice\PhpWord\Style\Tab('right', 5300),
-        ),
-    )
+        ],
+    ]
 );
 
 $rightTabStyleName = 'rightTab';
-$phpWord->addParagraphStyle($rightTabStyleName, array('tabs' => array(new \PhpOffice\PhpWord\Style\Tab('right', 9090))));
+$phpWord->addParagraphStyle($rightTabStyleName, ['tabs' => [new \PhpOffice\PhpWord\Style\Tab('right', 9090)]]);
 
 $leftTabStyleName = 'centerTab';
-$phpWord->addParagraphStyle($leftTabStyleName, array('tabs' => array(new \PhpOffice\PhpWord\Style\Tab('center', 4680))));
+$phpWord->addParagraphStyle($leftTabStyleName, ['tabs' => [new \PhpOffice\PhpWord\Style\Tab('center', 4680)]]);
 
 // New portrait section
 $section = $phpWord->addSection();

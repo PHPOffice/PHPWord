@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,14 +20,14 @@ namespace PhpOffice\PhpWord\Writer\HTML\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 
 /**
- * Font style HTML writer
+ * Font style HTML writer.
  *
  * @since 0.10.0
  */
 class Font extends AbstractStyle
 {
     /**
-     * Write style
+     * Write style.
      *
      * @return string
      */
@@ -37,7 +37,7 @@ class Font extends AbstractStyle
         if (!$style instanceof FontStyle) {
             return '';
         }
-        $css = array();
+        $css = [];
 
         $font = $style->getName();
         $size = $style->getSize();
@@ -63,7 +63,7 @@ class Font extends AbstractStyle
         $css['display'] = $this->getValueIf($style->isHidden(), 'none');
 
         $spacing = $style->getSpacing();
-        $css['letter-spacing'] = $this->getValueIf(!is_null($spacing), ($spacing / 20) . 'pt');
+        $css['letter-spacing'] = $this->getValueIf(null !== $spacing, ($spacing / 20) . 'pt');
 
         return $this->assembleCss($css);
     }

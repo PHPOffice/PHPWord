@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // Template processor instance creation
@@ -36,26 +37,26 @@ $templateProcessor->setValue('rowNumber#9', '9');
 $templateProcessor->setValue('rowNumber#10', '10');
 
 // Table with a spanned cell
-$values = array(
-    array(
-        'userId'        => 1,
+$values = [
+    [
+        'userId' => 1,
         'userFirstName' => 'James',
-        'userName'      => 'Taylor',
-        'userPhone'     => '+1 428 889 773',
-    ),
-    array(
-        'userId'        => 2,
+        'userName' => 'Taylor',
+        'userPhone' => '+1 428 889 773',
+    ],
+    [
+        'userId' => 2,
         'userFirstName' => 'Robert',
-        'userName'      => 'Bell',
-        'userPhone'     => '+1 428 889 774',
-    ),
-    array(
-        'userId'        => 3,
+        'userName' => 'Bell',
+        'userPhone' => '+1 428 889 774',
+    ],
+    [
+        'userId' => 3,
         'userFirstName' => 'Michael',
-        'userName'      => 'Ray',
-        'userPhone'     => '+1 428 889 775',
-    ),
-);
+        'userName' => 'Ray',
+        'userPhone' => '+1 428 889 775',
+    ],
+];
 
 $templateProcessor->cloneRowAndSetValues('userId', $values);
 
@@ -80,7 +81,7 @@ $templateProcessor->cloneRowAndSetValues('userId', $values);
 echo date('H:i:s'), ' Saving the result document...', EOL;
 $templateProcessor->saveAs('results/Sample_07_TemplateCloneRow.docx');
 
-echo getEndingNotes(array('Word2007' => 'docx'), 'results/Sample_07_TemplateCloneRow.docx');
+echo getEndingNotes(['Word2007' => 'docx'], 'results/Sample_07_TemplateCloneRow.docx');
 if (!CLI) {
     include_once 'Sample_Footer.php';
 }

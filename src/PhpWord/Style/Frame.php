@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,17 +20,18 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Frame defines the size and position of an object
+ * Frame defines the size and position of an object.
  *
  * Width, height, left/hpos, top/vpos, hrel, vrel, wrap, zindex
  *
  * @since 0.12.0
+ *
  * @todo Make existing style (image, textbox, etc) use this style
  */
 class Frame extends AbstractStyle
 {
     /**
-     * Length unit
+     * Length unit.
      *
      * @const string
      */
@@ -46,7 +47,7 @@ class Frame extends AbstractStyle
     const POS_RELATIVE = 'relative';
 
     /**
-     * Horizontal/vertical value
+     * Horizontal/vertical value.
      *
      * @const string
      */
@@ -59,7 +60,7 @@ class Frame extends AbstractStyle
     const POS_OUTSIDE = 'outside';
 
     /**
-     * Position relative to
+     * Position relative to.
      *
      * @const string
      */
@@ -77,7 +78,7 @@ class Frame extends AbstractStyle
     const POS_RELTO_OMARGIN = 'outer-margin-area';
 
     /**
-     * Wrap type
+     * Wrap type.
      *
      * @const string
      */
@@ -95,124 +96,125 @@ class Frame extends AbstractStyle
     private $alignment = '';
 
     /**
-     * Unit
+     * Unit.
      *
      * @var string
      */
     private $unit = 'pt';
 
     /**
-     * Width
+     * Width.
      *
-     * @var int|float
+     * @var float|int
      */
     private $width;
 
     /**
-     * Height
+     * Height.
      *
-     * @var int|float
+     * @var float|int
      */
     private $height;
 
     /**
-     * Leftmost (horizontal) position
+     * Leftmost (horizontal) position.
      *
-     * @var int|float
+     * @var float|int
      */
     private $left = 0;
 
     /**
-     * Topmost (vertical) position
+     * Topmost (vertical) position.
      *
-     * @var int|float
+     * @var float|int
      */
     private $top = 0;
 
     /**
-     * Position type: absolute|relative
+     * Position type: absolute|relative.
      *
      * @var string
      */
     private $pos;
 
     /**
-     * Horizontal position
+     * Horizontal position.
      *
      * @var string
      */
     private $hPos;
 
     /**
-     * Horizontal position relative to
+     * Horizontal position relative to.
      *
      * @var string
      */
     private $hPosRelTo;
 
     /**
-     * Vertical position
+     * Vertical position.
      *
      * @var string
      */
     private $vPos;
 
     /**
-     * Vertical position relative to
+     * Vertical position relative to.
      *
      * @var string
      */
     private $vPosRelTo;
 
     /**
-     * Wrap type
+     * Wrap type.
      *
      * @var string
      */
     private $wrap;
 
     /**
-     * Top wrap distance
+     * Top wrap distance.
      *
      * @var float
      */
     private $wrapDistanceTop;
 
     /**
-     * Bottom wrap distance
+     * Bottom wrap distance.
      *
      * @var float
      */
     private $wrapDistanceBottom;
 
     /**
-     * Left wrap distance
+     * Left wrap distance.
      *
      * @var float
      */
     private $wrapDistanceLeft;
 
     /**
-     * Right wrap distance
+     * Right wrap distance.
      *
      * @var float
      */
     private $wrapDistanceRight;
 
     /**
-     * Vertically raised or lowered text
+     * Vertically raised or lowered text.
      *
      * @var int
+     *
      * @see http://www.datypic.com/sc/ooxml/e-w_position-1.html
      */
     private $position;
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param array $style
      */
-    public function __construct($style = array())
+    public function __construct($style = [])
     {
         $this->setStyleByArray($style);
     }
@@ -244,33 +246,7 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * @deprecated 0.13.0 Use the `getAlignment` method instead.
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
-    public function getAlign()
-    {
-        return $this->getAlignment();
-    }
-
-    /**
-     * @deprecated 0.13.0 Use the `setAlignment` method instead.
-     *
-     * @param string $value
-     *
-     * @return self
-     *
-     * @codeCoverageIgnore
-     */
-    public function setAlign($value = null)
-    {
-        return $this->setAlignment($value);
-    }
-
-    /**
-     * Get unit
+     * Get unit.
      *
      * @return string
      */
@@ -280,9 +256,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set unit
+     * Set unit.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setUnit($value)
@@ -293,9 +270,9 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get width
+     * Get width.
      *
-     * @return int|float
+     * @return float|int
      */
     public function getWidth()
     {
@@ -303,9 +280,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set width
+     * Set width.
      *
-     * @param int|float $value
+     * @param float|int $value
+     *
      * @return self
      */
     public function setWidth($value = null)
@@ -316,9 +294,9 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get height
+     * Get height.
      *
-     * @return int|float
+     * @return float|int
      */
     public function getHeight()
     {
@@ -326,9 +304,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set height
+     * Set height.
      *
-     * @param int|float $value
+     * @param float|int $value
+     *
      * @return self
      */
     public function setHeight($value = null)
@@ -339,9 +318,9 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get left
+     * Get left.
      *
-     * @return int|float
+     * @return float|int
      */
     public function getLeft()
     {
@@ -349,9 +328,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set left
+     * Set left.
      *
-     * @param int|float $value
+     * @param float|int $value
+     *
      * @return self
      */
     public function setLeft($value = 0)
@@ -362,9 +342,9 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get topmost position
+     * Get topmost position.
      *
-     * @return int|float
+     * @return float|int
      */
     public function getTop()
     {
@@ -372,9 +352,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set topmost position
+     * Set topmost position.
      *
-     * @param int|float $value
+     * @param float|int $value
+     *
      * @return self
      */
     public function setTop($value = 0)
@@ -385,7 +366,7 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get position type
+     * Get position type.
      *
      * @return string
      */
@@ -395,24 +376,25 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set position type
+     * Set position type.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setPos($value)
     {
-        $enum = array(
+        $enum = [
             self::POS_ABSOLUTE,
             self::POS_RELATIVE,
-        );
+        ];
         $this->pos = $this->setEnumVal($value, $enum, $this->pos);
 
         return $this;
     }
 
     /**
-     * Get horizontal position
+     * Get horizontal position.
      *
      * @return string
      */
@@ -422,30 +404,31 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set horizontal position
+     * Set horizontal position.
      *
      * @since 0.12.0 "absolute" option is available.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setHPos($value)
     {
-        $enum = array(
+        $enum = [
             self::POS_ABSOLUTE,
             self::POS_LEFT,
             self::POS_CENTER,
             self::POS_RIGHT,
             self::POS_INSIDE,
             self::POS_OUTSIDE,
-        );
+        ];
         $this->hPos = $this->setEnumVal($value, $enum, $this->hPos);
 
         return $this;
     }
 
     /**
-     * Get vertical position
+     * Get vertical position.
      *
      * @return string
      */
@@ -455,30 +438,31 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set vertical position
+     * Set vertical position.
      *
      * @since 0.12.0 "absolute" option is available.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setVPos($value)
     {
-        $enum = array(
+        $enum = [
             self::POS_ABSOLUTE,
             self::POS_TOP,
             self::POS_CENTER,
             self::POS_BOTTOM,
             self::POS_INSIDE,
             self::POS_OUTSIDE,
-        );
+        ];
         $this->vPos = $this->setEnumVal($value, $enum, $this->vPos);
 
         return $this;
     }
 
     /**
-     * Get horizontal position relative to
+     * Get horizontal position relative to.
      *
      * @return string
      */
@@ -488,14 +472,15 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set horizontal position relative to
+     * Set horizontal position relative to.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setHPosRelTo($value)
     {
-        $enum = array(
+        $enum = [
             self::POS_RELTO_MARGIN,
             self::POS_RELTO_PAGE,
             self::POS_RELTO_COLUMN,
@@ -504,14 +489,14 @@ class Frame extends AbstractStyle
             self::POS_RELTO_RMARGIN,
             self::POS_RELTO_IMARGIN,
             self::POS_RELTO_OMARGIN,
-        );
+        ];
         $this->hPosRelTo = $this->setEnumVal($value, $enum, $this->hPosRelTo);
 
         return $this;
     }
 
     /**
-     * Get vertical position relative to
+     * Get vertical position relative to.
      *
      * @return string
      */
@@ -521,14 +506,15 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set vertical position relative to
+     * Set vertical position relative to.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setVPosRelTo($value)
     {
-        $enum = array(
+        $enum = [
             self::POS_RELTO_MARGIN,
             self::POS_RELTO_PAGE,
             self::POS_RELTO_TEXT,
@@ -537,14 +523,14 @@ class Frame extends AbstractStyle
             self::POS_RELTO_BMARGIN,
             self::POS_RELTO_IMARGIN,
             self::POS_RELTO_OMARGIN,
-        );
+        ];
         $this->vPosRelTo = $this->setEnumVal($value, $enum, $this->vPosRelTo);
 
         return $this;
     }
 
     /**
-     * Get wrap type
+     * Get wrap type.
      *
      * @return string
      */
@@ -554,14 +540,15 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set wrap type
+     * Set wrap type.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setWrap($value)
     {
-        $enum = array(
+        $enum = [
             self::WRAP_INLINE,
             self::WRAP_SQUARE,
             self::WRAP_TIGHT,
@@ -569,14 +556,14 @@ class Frame extends AbstractStyle
             self::WRAP_TOPBOTTOM,
             self::WRAP_BEHIND,
             self::WRAP_INFRONT,
-        );
+        ];
         $this->wrap = $this->setEnumVal($value, $enum, $this->wrap);
 
         return $this;
     }
 
     /**
-     * Get top distance from text wrap
+     * Get top distance from text wrap.
      *
      * @return float
      */
@@ -586,9 +573,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set top distance from text wrap
+     * Set top distance from text wrap.
      *
      * @param int $value
+     *
      * @return self
      */
     public function setWrapDistanceTop($value = null)
@@ -599,7 +587,7 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get bottom distance from text wrap
+     * Get bottom distance from text wrap.
      *
      * @return float
      */
@@ -609,9 +597,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set bottom distance from text wrap
+     * Set bottom distance from text wrap.
      *
      * @param float $value
+     *
      * @return self
      */
     public function setWrapDistanceBottom($value = null)
@@ -622,7 +611,7 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get left distance from text wrap
+     * Get left distance from text wrap.
      *
      * @return float
      */
@@ -632,9 +621,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set left distance from text wrap
+     * Set left distance from text wrap.
      *
      * @param float $value
+     *
      * @return self
      */
     public function setWrapDistanceLeft($value = null)
@@ -645,7 +635,7 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get right distance from text wrap
+     * Get right distance from text wrap.
      *
      * @return float
      */
@@ -655,9 +645,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set right distance from text wrap
+     * Set right distance from text wrap.
      *
      * @param float $value
+     *
      * @return self
      */
     public function setWrapDistanceRight($value = null)
@@ -668,7 +659,7 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get position
+     * Get position.
      *
      * @return int
      */
@@ -678,9 +669,10 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Set position
+     * Set position.
      *
      * @param int $value
+     *
      * @return self
      */
     public function setPosition($value = null)

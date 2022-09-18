@@ -11,21 +11,21 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 /**
- * TextRun element RTF writer
+ * TextRun element RTF writer.
  *
  * @since 0.10.0
  */
 class TextRun extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
      *
      * @return string
      */

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,42 +21,40 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
- * Core properties reader
+ * Core properties reader.
  *
  * @since 0.10.0
  */
 class DocPropsCore extends AbstractPart
 {
     /**
-     * Property mapping
+     * Property mapping.
      *
      * @var array
      */
-    protected $mapping = array(
-        'dc:creator'        => 'setCreator',
-        'dc:title'          => 'setTitle',
-        'dc:description'    => 'setDescription',
-        'dc:subject'        => 'setSubject',
-        'cp:keywords'       => 'setKeywords',
-        'cp:category'       => 'setCategory',
+    protected $mapping = [
+        'dc:creator' => 'setCreator',
+        'dc:title' => 'setTitle',
+        'dc:description' => 'setDescription',
+        'dc:subject' => 'setSubject',
+        'cp:keywords' => 'setKeywords',
+        'cp:category' => 'setCategory',
         'cp:lastModifiedBy' => 'setLastModifiedBy',
-        'dcterms:created'   => 'setCreated',
-        'dcterms:modified'  => 'setModified',
-    );
+        'dcterms:created' => 'setCreated',
+        'dcterms:modified' => 'setModified',
+    ];
 
     /**
-     * Callback functions
+     * Callback functions.
      *
      * @var array
      */
-    protected $callbacks = array('dcterms:created' => 'strtotime', 'dcterms:modified' => 'strtotime');
+    protected $callbacks = ['dcterms:created' => 'strtotime', 'dcterms:modified' => 'strtotime'];
 
     /**
      * Read core/extended document properties.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public function read(PhpWord $phpWord)
+    public function read(PhpWord $phpWord): void
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);

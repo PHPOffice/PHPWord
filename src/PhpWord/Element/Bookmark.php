@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,26 +20,26 @@ namespace PhpOffice\PhpWord\Element;
 use PhpOffice\PhpWord\Shared\Text as SharedText;
 
 /**
- * Bookmark element
+ * Bookmark element.
  */
 class Bookmark extends AbstractElement
 {
     /**
-     * Bookmark Name
+     * Bookmark Name.
      *
      * @var string
      */
     private $name;
 
     /**
-     * Is part of collection
+     * Is part of collection.
      *
      * @var bool
      */
     protected $collectionRelation = true;
 
     /**
-     * Create a new Bookmark Element
+     * Create a new Bookmark Element.
      *
      * @param string $name
      */
@@ -49,7 +49,7 @@ class Bookmark extends AbstractElement
     }
 
     /**
-     * Get Bookmark name
+     * Get Bookmark name.
      *
      * @return string
      */

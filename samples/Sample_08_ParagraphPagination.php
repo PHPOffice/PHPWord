@@ -1,15 +1,16 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $phpWord->setDefaultParagraphStyle(
-    array(
-        'alignment'  => \PhpOffice\PhpWord\SimpleType\Jc::BOTH,
+    [
+        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH,
         'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(12),
-        'spacing'    => 120,
-    )
+        'spacing' => 120,
+    ]
 );
 
 // New section
@@ -19,8 +20,8 @@ $section->addText(
     'Below are the samples on how to control your paragraph '
         . 'pagination. See "Line and Page Break" tab on paragraph properties '
         . 'window to see the attribute set by these controls.',
-    array('bold'  => true),
-    array('space' => array('before' => 360, 'after' => 480))
+    ['bold' => true],
+    ['space' => ['before' => 360, 'after' => 480]]
 );
 
 $section->addText(
@@ -30,7 +31,7 @@ $section->addText(
         . 'itself at the bottom of a page. Set this option to "false" if you want '
         . 'to disable this automatic control.',
     null,
-    array('widowControl' => false, 'indentation' => array('left' => 240, 'right' => 120))
+    ['widowControl' => false, 'indentation' => ['left' => 240, 'right' => 120]]
 );
 
 $section->addText(
@@ -39,7 +40,7 @@ $section->addText(
         . 'breaks between paragraphs. Set this option to "true" if you do not want '
         . 'your paragraph to be separated with the next paragraph.',
     null,
-    array('keepNext' => true, 'indentation' => array('firstLine' => 240))
+    ['keepNext' => true, 'indentation' => ['firstLine' => 240]]
 );
 
 $section->addText(
@@ -48,7 +49,7 @@ $section->addText(
         . 'break within a paragraph. Set this option to "true" if you do not want '
         . 'all lines of your paragraph to be in the same page.',
     null,
-    array('keepLines' => true, 'indentation' => array('left' => 240, 'hanging' => 240))
+    ['keepLines' => true, 'indentation' => ['left' => 240, 'hanging' => 240]]
 );
 
 $section->addText('Keep scrolling. More below.');
@@ -59,7 +60,7 @@ $section->addText(
         . 'your paragraph into the next page. This option is most useful for '
         . 'heading styles.',
     null,
-    array('pageBreakBefore' => true)
+    ['pageBreakBefore' => true]
 );
 
 // Save file

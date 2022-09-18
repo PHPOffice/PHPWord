@@ -9,20 +9,15 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="PhpWord Test Suite">
-            <directory>./tests/PhpWord</directory>
+            <directory>./tests/PhpWordTests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
             <directory suffix=".php">./src</directory>
             <exclude>
-                <directory suffix=".php">./src/PhpWord/Shared/PCLZip</directory>
+                <directory suffix=".php">./src/PhpWordTests/Shared/PCLZip</directory>
             </exclude>
         </whitelist>
     </filter>
-    <logging>
-        <log type="coverage-html" target="./build/coverage" />
-        <log type="coverage-clover" target="./build/logs/clover.xml" />
-        <log type="junit" target="./build/logs/logfile.xml"/>
-    </logging>
 </phpunit>

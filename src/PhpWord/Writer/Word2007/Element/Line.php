@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,14 +21,14 @@ use PhpOffice\PhpWord\Element\Line as LineElement;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Line as LineStyleWriter;
 
 /**
- * Line element writer
+ * Line element writer.
  */
 class Line extends AbstractElement
 {
     /**
      * Write element.
      */
-    public function write()
+    public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();

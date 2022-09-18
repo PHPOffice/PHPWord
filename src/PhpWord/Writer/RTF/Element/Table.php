@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,14 +22,14 @@ use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Table as TableElement;
 
 /**
- * Table element RTF writer
+ * Table element RTF writer.
  *
  * @since 0.11.0
  */
 class Table extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
      *
      * @return string
      */
@@ -51,7 +51,7 @@ class Table extends AbstractElement
         if ($rowCount > 0) {
             $content .= '\pard' . PHP_EOL;
 
-            for ($i = 0; $i < $rowCount; $i++) {
+            for ($i = 0; $i < $rowCount; ++$i) {
                 $content .= '\trowd ';
                 $content .= $this->writeRowDef($rows[$i]);
                 $content .= PHP_EOL;
@@ -65,9 +65,8 @@ class Table extends AbstractElement
     }
 
     /**
-     * Write column
+     * Write column.
      *
-     * @param \PhpOffice\PhpWord\Element\Row $row
      * @return string
      */
     private function writeRowDef(RowElement $row)
@@ -82,16 +81,15 @@ class Table extends AbstractElement
                 $width = 720; // Arbitrary default width
             }
             $rightMargin += $width;
-            $content .= "{$vMerge}\cellx{$rightMargin} ";
+            $content .= "{$vMerge}\\cellx{$rightMargin} ";
         }
 
         return $content;
     }
 
     /**
-     * Write row
+     * Write row.
      *
-     * @param \PhpOffice\PhpWord\Element\Row $row
      * @return string
      */
     private function writeRow(RowElement $row)
@@ -107,9 +105,8 @@ class Table extends AbstractElement
     }
 
     /**
-     * Write cell
+     * Write cell.
      *
-     * @param \PhpOffice\PhpWord\Element\Cell $cell
      * @return string
      */
     private function writeCell(CellElement $cell)
@@ -126,10 +123,12 @@ class Table extends AbstractElement
     }
 
     /**
-     * Get vertical merge style
+     * Get vertical merge style.
      *
      * @param string $value
+     *
      * @return string
+     *
      * @todo Move to style
      */
     private function getVMerge($value)

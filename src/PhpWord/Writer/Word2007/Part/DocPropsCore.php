@@ -11,21 +11,21 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
- * Word2007 core document properties part writer: docProps/core.xml
+ * Word2007 core document properties part writer: docProps/core.xml.
  *
  * @since 0.11.0
  */
 class DocPropsCore extends AbstractPart
 {
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */

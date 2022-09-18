@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Writer\RTF\Style;
 use PhpOffice\PhpWord\Writer\HTML\Style\AbstractStyle as HTMLAbstractStyle;
 
 /**
- * Abstract RTF style writer
+ * Abstract RTF style writer.
  *
  * @since 0.11.0
  */

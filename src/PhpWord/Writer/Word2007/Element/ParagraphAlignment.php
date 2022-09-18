@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -24,7 +24,7 @@ class ParagraphAlignment
 {
     private $name = 'w:jc';
 
-    private $attributes = array();
+    private $attributes = [];
 
     /**
      * @since 0.13.0
