@@ -131,14 +131,6 @@ class TemplateProcessor
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
     }
 
-    public function __destruct()
-    {
-        // if the temp file still exists, remove it when running destruct
-        if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename) && is_writable($this->tempDocumentFilename)) {
-            @unlink($this->tempDocumentFilename);
-        }
-    }
-
     /**
      * Expose zip class.
      *
