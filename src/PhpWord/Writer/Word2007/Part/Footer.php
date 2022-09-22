@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,26 +20,26 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 
 /**
- * Word2007 footer part writer: word/footerx.xml
+ * Word2007 footer part writer: word/footerx.xml.
  */
 class Footer extends AbstractPart
 {
     /**
-     * Root element name
+     * Root element name.
      *
      * @var string
      */
     protected $rootElement = 'w:ftr';
 
     /**
-     * Footer/header element to be written
+     * Footer/header element to be written.
      *
      * @var \PhpOffice\PhpWord\Element\Footer
      */
     protected $element;
 
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
@@ -69,9 +69,10 @@ class Footer extends AbstractPart
     }
 
     /**
-     * Set element
+     * Set element.
      *
      * @param \PhpOffice\PhpWord\Element\Footer|\PhpOffice\PhpWord\Element\Header $element
+     *
      * @return self
      */
     public function setElement($element)

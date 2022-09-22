@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,14 +20,14 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
 use PhpOffice\PhpWord\Writer\HTML\Element\Container as HTMLContainer;
 
 /**
- * Container element RTF writer
+ * Container element RTF writer.
  *
  * @since 0.11.0
  */
 class Container extends HTMLContainer
 {
     /**
-     * Namespace; Can't use __NAMESPACE__ in inherited class (RTF)
+     * Namespace; Can't use __NAMESPACE__ in inherited class (RTF).
      *
      * @var string
      */

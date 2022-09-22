@@ -11,21 +11,23 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use DateTime;
+
 /**
- * Word2007 custom document properties part writer: docProps/custom.xml
+ * Word2007 custom document properties part writer: docProps/custom.xml.
  *
  * @since 0.11.0
  */
 class DocPropsCustom extends AbstractPart
 {
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
@@ -52,22 +54,27 @@ class DocPropsCustom extends AbstractPart
             switch ($propertyType) {
                 case 'i':
                     $xmlWriter->writeElement('vt:i4', $propertyValue);
+
                     break;
                 case 'f':
                     $xmlWriter->writeElement('vt:r8', $propertyValue);
+
                     break;
                 case 'b':
                     $xmlWriter->writeElement('vt:bool', ($propertyValue) ? 'true' : 'false');
+
                     break;
                 case 'd':
-                    if ($propertyValue instanceof \DateTime) {
+                    if ($propertyValue instanceof DateTime) {
                         $xmlWriter->writeElement('vt:filetime', $propertyValue->format($this->dateFormat));
                     } else {
                         $xmlWriter->writeElement('vt:filetime', date($this->dateFormat, $propertyValue));
                     }
+
                     break;
                 default:
                     $xmlWriter->writeElement('vt:lpwstr', $propertyValue);
+
                     break;
             }
             $xmlWriter->endElement(); // property

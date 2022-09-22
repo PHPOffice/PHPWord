@@ -11,17 +11,18 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Metadata;
 
+use InvalidArgumentException;
 use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\SimpleType\DocProtect;
 
 /**
- * Document protection class
+ * Document protection class.
  *
  * @since 0.12.0
  * @see http://www.datypic.com/sc/ooxml/t-w_CT_DocProtect.html
@@ -29,43 +30,44 @@ use PhpOffice\PhpWord\SimpleType\DocProtect;
 class Protection
 {
     /**
-     * Editing restriction none|readOnly|comments|trackedChanges|forms
+     * Editing restriction none|readOnly|comments|trackedChanges|forms.
      *
      * @var string
+     *
      * @see  http://www.datypic.com/sc/ooxml/a-w_edit-1.html
      */
     private $editing;
 
     /**
-     * password
+     * password.
      *
      * @var string
      */
     private $password;
 
     /**
-     * Iterations to Run Hashing Algorithm
+     * Iterations to Run Hashing Algorithm.
      *
      * @var int
      */
     private $spinCount = 100000;
 
     /**
-     * Cryptographic Hashing Algorithm (see constants defined in \PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder)
+     * Cryptographic Hashing Algorithm (see constants defined in \PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder).
      *
      * @var string
      */
     private $algorithm = PasswordEncoder::ALGORITHM_SHA_1;
 
     /**
-     * Salt for Password Verifier
+     * Salt for Password Verifier.
      *
      * @var string
      */
     private $salt;
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param string $editing
      */
@@ -77,7 +79,7 @@ class Protection
     }
 
     /**
-     * Get editing protection
+     * Get editing protection.
      *
      * @return string
      */
@@ -87,9 +89,10 @@ class Protection
     }
 
     /**
-     * Set editing protection
+     * Set editing protection.
      *
      * @param string $editing Any value of \PhpOffice\PhpWord\SimpleType\DocProtect
+     *
      * @return self
      */
     public function setEditing($editing = null)
@@ -101,7 +104,7 @@ class Protection
     }
 
     /**
-     * Get password
+     * Get password.
      *
      * @return string
      */
@@ -111,9 +114,10 @@ class Protection
     }
 
     /**
-     * Set password
+     * Set password.
      *
      * @param string $password
+     *
      * @return self
      */
     public function setPassword($password)
@@ -124,7 +128,7 @@ class Protection
     }
 
     /**
-     * Get count for hash iterations
+     * Get count for hash iterations.
      *
      * @return int
      */
@@ -134,9 +138,10 @@ class Protection
     }
 
     /**
-     * Set count for hash iterations
+     * Set count for hash iterations.
      *
      * @param int $spinCount
+     *
      * @return self
      */
     public function setSpinCount($spinCount)
@@ -147,7 +152,7 @@ class Protection
     }
 
     /**
-     * Get algorithm
+     * Get algorithm.
      *
      * @return string
      */
@@ -157,9 +162,10 @@ class Protection
     }
 
     /**
-     * Set algorithm
+     * Set algorithm.
      *
      * @param string $algorithm
+     *
      * @return self
      */
     public function setAlgorithm($algorithm)
@@ -170,7 +176,7 @@ class Protection
     }
 
     /**
-     * Get salt
+     * Get salt.
      *
      * @return string
      */
@@ -183,13 +189,13 @@ class Protection
      * Set salt. Salt HAS to be 16 characters, or an exception will be thrown.
      *
      * @param string $salt
-     * @throws \InvalidArgumentException
+     *
      * @return self
      */
     public function setSalt($salt)
     {
         if ($salt !== null && strlen($salt) !== 16) {
-            throw new \InvalidArgumentException('salt has to be of exactly 16 bytes length');
+            throw new InvalidArgumentException('salt has to be of exactly 16 bytes length');
         }
 
         $this->salt = $salt;

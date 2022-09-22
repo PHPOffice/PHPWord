@@ -1,4 +1,5 @@
 <?php
+
 use PhpOffice\PhpWord\SimpleType\DocProtect;
 
 include_once 'Sample_Header.php';

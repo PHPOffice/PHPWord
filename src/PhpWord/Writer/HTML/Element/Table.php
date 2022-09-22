@@ -11,21 +11,21 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
- * Table element HTML writer
+ * Table element HTML writer.
  *
  * @since 0.10.0
  */
 class Table extends AbstractElement
 {
     /**
-     * Write table
+     * Write table.
      *
      * @return string
      */
@@ -41,15 +41,15 @@ class Table extends AbstractElement
         if ($rowCount > 0) {
             $content .= '<table' . self::getTableStyle($this->element->getStyle()) . '>' . PHP_EOL;
 
-            for ($i = 0; $i < $rowCount; $i++) {
-                /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
+            for ($i = 0; $i < $rowCount; ++$i) {
+                /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
                 $rowStyle = $rows[$i]->getStyle();
                 // $height = $row->getHeight();
                 $tblHeader = $rowStyle->isTblHeader();
                 $content .= '<tr>' . PHP_EOL;
                 $rowCells = $rows[$i]->getCells();
                 $rowCellCount = count($rowCells);
-                for ($j = 0; $j < $rowCellCount; $j++) {
+                for ($j = 0; $j < $rowCellCount; ++$j) {
                     $cellStyle = $rowCells[$j]->getStyle();
                     $cellBgColor = $cellStyle->getBgColor();
                     $cellBgColor === 'auto' && $cellBgColor = null; // auto cannot be parsed to hexadecimal number
@@ -65,11 +65,11 @@ class Table extends AbstractElement
                     $cellVMerge = $cellStyle->getVMerge();
                     // If this is the first cell of the vertical merge, find out how man rows it spans
                     if ($cellVMerge === 'restart') {
-                        for ($k = $i + 1; $k < $rowCount; $k++) {
+                        for ($k = $i + 1; $k < $rowCount; ++$k) {
                             $kRowCells = $rows[$k]->getCells();
                             if (isset($kRowCells[$j])) {
                                 if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
-                                    $cellRowSpan++;
+                                    ++$cellRowSpan;
                                 } else {
                                     break;
                                 }
@@ -83,14 +83,14 @@ class Table extends AbstractElement
                         $cellTag = $tblHeader ? 'th' : 'td';
                         $cellColSpanAttr = (is_numeric($cellColSpan) && ($cellColSpan > 1) ? " colspan=\"{$cellColSpan}\"" : '');
                         $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
-                        $cellBgColorAttr = (is_null($cellBgColor) ? '' : " bgcolor=\"#{$cellBgColor}\"");
-                        $cellFgColorAttr = (is_null($cellFgColor) ? '' : " color=\"#{$cellFgColor}\"");
+                        $cellBgColorAttr = (null === $cellBgColor ? '' : " bgcolor=\"#{$cellBgColor}\"");
+                        $cellFgColorAttr = (null === $cellFgColor ? '' : " color=\"#{$cellFgColor}\"");
                         $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);
                         $content .= $writer->write();
                         if ($cellRowSpan > 1) {
                             // There shouldn't be any content in the subsequent merged cells, but lets check anyway
-                            for ($k = $i + 1; $k < $rowCount; $k++) {
+                            for ($k = $i + 1; $k < $rowCount; ++$k) {
                                 $kRowCells = $rows[$k]->getCells();
                                 if (isset($kRowCells[$j])) {
                                     if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
@@ -116,9 +116,10 @@ class Table extends AbstractElement
     }
 
     /**
-     * Translates Table style in CSS equivalent
+     * Translates Table style in CSS equivalent.
      *
-     * @param string|\PhpOffice\PhpWord\Style\Table|null $tableStyle
+     * @param null|\PhpOffice\PhpWord\Style\Table|string $tableStyle
+     *
      * @return string
      */
     private function getTableStyle($tableStyle = null)

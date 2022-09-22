@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
 /**
- * Section style writer
+ * Section style writer.
  *
  * @since 0.10.0
  */
@@ -29,7 +29,7 @@ class Section extends AbstractStyle
     /**
      * Write style.
      */
-    public function write()
+    public function write(): void
     {
         $style = $this->getStyle();
         if (!$style instanceof SectionStyle) {
@@ -39,7 +39,7 @@ class Section extends AbstractStyle
 
         // Break type
         $breakType = $style->getBreakType();
-        $xmlWriter->writeElementIf(!is_null($breakType), 'w:type', 'w:val', $breakType);
+        $xmlWriter->writeElementIf(null !== $breakType, 'w:type', 'w:val', $breakType);
 
         // Page size & orientation
         $xmlWriter->startElement('w:pgSz');
@@ -50,21 +50,21 @@ class Section extends AbstractStyle
 
         // Vertical alignment
         $vAlign = $style->getVAlign();
-        $xmlWriter->writeElementIf(!is_null($vAlign), 'w:vAlign', 'w:val', $vAlign);
+        $xmlWriter->writeElementIf(null !== $vAlign, 'w:vAlign', 'w:val', $vAlign);
 
         // Margins
-        $margins = array(
-            'w:top'    => array('getMarginTop', SectionStyle::DEFAULT_MARGIN),
-            'w:right'  => array('getMarginRight', SectionStyle::DEFAULT_MARGIN),
-            'w:bottom' => array('getMarginBottom', SectionStyle::DEFAULT_MARGIN),
-            'w:left'   => array('getMarginLeft', SectionStyle::DEFAULT_MARGIN),
-            'w:header' => array('getHeaderHeight', SectionStyle::DEFAULT_HEADER_HEIGHT),
-            'w:footer' => array('getFooterHeight', SectionStyle::DEFAULT_FOOTER_HEIGHT),
-            'w:gutter' => array('getGutter', SectionStyle::DEFAULT_GUTTER),
-        );
+        $margins = [
+            'w:top' => ['getMarginTop', SectionStyle::DEFAULT_MARGIN],
+            'w:right' => ['getMarginRight', SectionStyle::DEFAULT_MARGIN],
+            'w:bottom' => ['getMarginBottom', SectionStyle::DEFAULT_MARGIN],
+            'w:left' => ['getMarginLeft', SectionStyle::DEFAULT_MARGIN],
+            'w:header' => ['getHeaderHeight', SectionStyle::DEFAULT_HEADER_HEIGHT],
+            'w:footer' => ['getFooterHeight', SectionStyle::DEFAULT_FOOTER_HEIGHT],
+            'w:gutter' => ['getGutter', SectionStyle::DEFAULT_GUTTER],
+        ];
         $xmlWriter->startElement('w:pgMar');
         foreach ($margins as $attribute => $value) {
-            list($method, $default) = $value;
+            [$method, $default] = $value;
             $xmlWriter->writeAttribute($attribute, $this->convertTwip($style->$method(), $default));
         }
         $xmlWriter->endElement();
@@ -77,7 +77,7 @@ class Section extends AbstractStyle
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
-            $styleWriter->setAttributes(array('space' => '24'));
+            $styleWriter->setAttributes(['space' => '24']);
             $styleWriter->write();
 
             $xmlWriter->endElement();
@@ -92,7 +92,7 @@ class Section extends AbstractStyle
 
         // Page numbering start
         $pageNum = $style->getPageNumberingStart();
-        $xmlWriter->writeElementIf(!is_null($pageNum), 'w:pgNumType', 'w:start', $pageNum);
+        $xmlWriter->writeElementIf(null !== $pageNum, 'w:pgNumType', 'w:start', $pageNum);
 
         // Line numbering
         $styleWriter = new LineNumbering($xmlWriter, $style->getLineNumbering());

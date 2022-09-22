@@ -11,23 +11,23 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
- * Title element writer
+ * Title element writer.
  *
  * @since 0.11.0
  */
 class Title extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
      */
-    public function write()
+    public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
@@ -64,10 +64,9 @@ class Title extends AbstractElement
     }
 
     /**
-     * Test if element is same as first element in array
+     * Test if element is same as first element in array.
      *
      * @param \PhpOffice\PhpWord\Element\AbstractElement $elem
-     *
      * @param \PhpOffice\PhpWord\Element\AbstractElement[] $elemarray
      *
      * @return bool

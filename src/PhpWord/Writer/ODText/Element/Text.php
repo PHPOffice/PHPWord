@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,16 +21,16 @@ use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Exception\Exception;
 
 /**
- * Text element writer
+ * Text element writer.
  *
  * @since 0.10.0
  */
 class Text extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
      */
-    public function write()
+    public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
@@ -96,7 +96,7 @@ class Text extends AbstractElement
         }
     }
 
-    private function replacetabs($text, $xmlWriter)
+    private function replacetabs($text, $xmlWriter): void
     {
         if (preg_match('/^ +/', $text, $matches)) {
             $num = strlen($matches[0]);
@@ -114,6 +114,7 @@ class Text extends AbstractElement
                 $xmlWriter->writeElement('text:tab');
             } elseif ($match[2] === ' ') {
                 $xmlWriter->writeElement('text:s');
+
                 break;
             } else {
                 $num = strlen($match[2]);
@@ -124,7 +125,7 @@ class Text extends AbstractElement
         }
     }
 
-    private function writeChangeInsertion($start = true, TrackChange $trackChange = null)
+    private function writeChangeInsertion($start = true, ?TrackChange $trackChange = null): void
     {
         if ($trackChange == null || $trackChange->getChangeType() != TrackChange::INSERTED) {
             return;

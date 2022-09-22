@@ -11,21 +11,21 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 /**
- * Font style writer
+ * Font style writer.
  *
  * @since 0.10.0
  */
 class Font extends AbstractStyle
 {
     /**
-     * Is inline in element
+     * Is inline in element.
      *
      * @var bool
      */
@@ -34,11 +34,11 @@ class Font extends AbstractStyle
     /**
      * Write style.
      */
-    public function write()
+    public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
 
-        $isStyleName = $this->isInline && !is_null($this->style) && is_string($this->style);
+        $isStyleName = $this->isInline && null !== $this->style && is_string($this->style);
         if ($isStyleName) {
             $xmlWriter->startElement('w:rPr');
             $xmlWriter->startElement('w:rStyle');
@@ -57,7 +57,7 @@ class Font extends AbstractStyle
     /**
      * Write full style.
      */
-    private function writeStyle()
+    private function writeStyle(): void
     {
         $style = $this->getStyle();
         if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
@@ -147,7 +147,7 @@ class Font extends AbstractStyle
 
         // Background-Color
         $shading = $style->getShading();
-        if (!is_null($shading)) {
+        if (null !== $shading) {
             $styleWriter = new Shading($xmlWriter, $shading);
             $styleWriter->write();
         }
@@ -169,7 +169,7 @@ class Font extends AbstractStyle
      *
      * @param bool $value
      */
-    public function setIsInline($value)
+    public function setIsInline($value): void
     {
         $this->isInline = $value;
     }

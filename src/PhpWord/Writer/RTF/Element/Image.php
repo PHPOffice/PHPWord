@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,14 +21,14 @@ use PhpOffice\PhpWord\Element\Image as ImageElement;
 use PhpOffice\PhpWord\Shared\Converter;
 
 /**
- * Image element RTF writer
+ * Image element RTF writer.
  *
  * @since 0.11.0
  */
 class Image extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
      *
      * @return string
      */

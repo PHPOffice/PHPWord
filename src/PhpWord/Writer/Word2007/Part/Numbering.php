@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,14 +23,14 @@ use PhpOffice\PhpWord\Style\Numbering as NumberingStyle;
 use PhpOffice\PhpWord\Style\NumberingLevel;
 
 /**
- * Word2007 numbering part writer: word/numbering.xml
+ * Word2007 numbering part writer: word/numbering.xml.
  *
  * @since 0.10.0
  */
 class Numbering extends AbstractPart
 {
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
@@ -96,29 +96,26 @@ class Numbering extends AbstractPart
 
     /**
      * Write level.
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\NumberingLevel $level
      */
-    private function writeLevel(XMLWriter $xmlWriter, NumberingLevel $level)
+    private function writeLevel(XMLWriter $xmlWriter, NumberingLevel $level): void
     {
         $xmlWriter->startElement('w:lvl');
         $xmlWriter->writeAttribute('w:ilvl', $level->getLevel());
 
         // Numbering level properties
-        $properties = array(
-            'start'     => 'start',
-            'format'    => 'numFmt',
-            'restart'   => 'lvlRestart',
-            'pStyle'    => 'pStyle',
-            'suffix'    => 'suff',
-            'text'      => 'lvlText',
+        $properties = [
+            'start' => 'start',
+            'format' => 'numFmt',
+            'restart' => 'lvlRestart',
+            'pStyle' => 'pStyle',
+            'suffix' => 'suff',
+            'text' => 'lvlText',
             'alignment' => 'lvlJc',
-        );
+        ];
         foreach ($properties as $property => $nodeName) {
             $getMethod = "get{$property}";
             if ('' !== $level->$getMethod()         // this condition is now supported by `alignment` only
-                && !is_null($level->$getMethod())) {
+                && null !== $level->$getMethod()) {
                 $xmlWriter->startElement("w:{$nodeName}");
                 $xmlWriter->writeAttribute('w:val', $level->$getMethod());
                 $xmlWriter->endElement(); // w:start
@@ -137,11 +134,9 @@ class Numbering extends AbstractPart
      *
      * @since 0.11.0
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\NumberingLevel $level
      * @todo Use paragraph style writer
      */
-    private function writeParagraph(XMLWriter $xmlWriter, NumberingLevel $level)
+    private function writeParagraph(XMLWriter $xmlWriter, NumberingLevel $level): void
     {
         $tabPos = $level->getTabPos();
         $left = $level->getLeft();
@@ -169,11 +164,9 @@ class Numbering extends AbstractPart
      *
      * @since 0.11.0
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\NumberingLevel $level
      * @todo Use font style writer
      */
-    private function writeFont(XMLWriter $xmlWriter, NumberingLevel $level)
+    private function writeFont(XMLWriter $xmlWriter, NumberingLevel $level): void
     {
         $font = $level->getFont();
         $hint = $level->getHint();
@@ -189,13 +182,14 @@ class Numbering extends AbstractPart
     }
 
     /**
-     * Get random hexadecimal number value
+     * Get random hexadecimal number value.
      *
      * @param int $length
+     *
      * @return string
      */
     private function getRandomHexNumber($length = 8)
     {
-        return strtoupper(substr(md5(rand()), 0, $length));
+        return strtoupper(substr(md5(mt_rand()), 0, $length));
     }
 }

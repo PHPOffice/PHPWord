@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
 
 /**
- * Cell style writer
+ * Cell style writer.
  *
  * @since 0.10.0
  */
@@ -34,7 +34,7 @@ class Cell extends AbstractStyle
     /**
      * Write style.
      */
-    public function write()
+    public function write(): void
     {
         $style = $this->getStyle();
         if (!$style instanceof CellStyle) {
@@ -45,8 +45,8 @@ class Cell extends AbstractStyle
         $xmlWriter->startElement('w:tcPr');
 
         // Width
-        if (!is_null($this->width) || !is_null($style->getWidth())) {
-            $width = is_null($this->width) ? $style->getWidth() : $this->width;
+        if (null !== $this->width || null !== $style->getWidth()) {
+            $width = null === $this->width ? $style->getWidth() : $this->width;
 
             $xmlWriter->startElement('w:tcW');
             $xmlWriter->writeAttribute('w:w', $width);
@@ -56,11 +56,11 @@ class Cell extends AbstractStyle
 
         // Text direction
         $textDir = $style->getTextDirection();
-        $xmlWriter->writeElementIf(!is_null($textDir), 'w:textDirection', 'w:val', $textDir);
+        $xmlWriter->writeElementIf(null !== $textDir, 'w:textDirection', 'w:val', $textDir);
 
         // Vertical alignment
         $vAlign = $style->getVAlign();
-        $xmlWriter->writeElementIf(!is_null($vAlign), 'w:vAlign', 'w:val', $vAlign);
+        $xmlWriter->writeElementIf(null !== $vAlign, 'w:vAlign', 'w:val', $vAlign);
 
         // Border
         if ($style->hasBorder()) {
@@ -70,7 +70,7 @@ class Cell extends AbstractStyle
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
             $styleWriter->setStyles($style->getBorderStyle());
-            $styleWriter->setAttributes(array('defaultColor' => CellStyle::DEFAULT_BORDER_COLOR));
+            $styleWriter->setAttributes(['defaultColor' => CellStyle::DEFAULT_BORDER_COLOR]);
             $styleWriter->write();
 
             $xmlWriter->endElement();
@@ -78,7 +78,7 @@ class Cell extends AbstractStyle
 
         // Shading
         $shading = $style->getShading();
-        if (!is_null($shading)) {
+        if (null !== $shading) {
             $styleWriter = new Shading($xmlWriter, $shading);
             $styleWriter->write();
         }
@@ -86,8 +86,8 @@ class Cell extends AbstractStyle
         // Colspan & rowspan
         $gridSpan = $style->getGridSpan();
         $vMerge = $style->getVMerge();
-        $xmlWriter->writeElementIf(!is_null($gridSpan), 'w:gridSpan', 'w:val', $gridSpan);
-        $xmlWriter->writeElementIf(!is_null($vMerge), 'w:vMerge', 'w:val', $vMerge);
+        $xmlWriter->writeElementIf(null !== $gridSpan, 'w:gridSpan', 'w:val', $gridSpan);
+        $xmlWriter->writeElementIf(null !== $vMerge, 'w:vMerge', 'w:val', $vMerge);
 
         $xmlWriter->endElement(); // w:tcPr
     }
@@ -97,7 +97,7 @@ class Cell extends AbstractStyle
      *
      * @param int $value
      */
-    public function setWidth($value = null)
+    public function setWidth($value = null): void
     {
         $this->width = $value;
     }

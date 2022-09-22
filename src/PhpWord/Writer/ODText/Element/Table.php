@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,16 +22,16 @@ use PhpOffice\PhpWord\Element\Table as TableElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Table element writer
+ * Table element writer.
  *
  * @since 0.10.0
  */
 class Table extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
      */
-    public function write()
+    public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
@@ -59,15 +59,12 @@ class Table extends AbstractElement
 
     /**
      * Write column.
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Table $element
      */
-    private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
+    private function writeColumns(XMLWriter $xmlWriter, TableElement $element): void
     {
         $colCount = $element->countColumns();
 
-        for ($i = 0; $i < $colCount; $i++) {
+        for ($i = 0; $i < $colCount; ++$i) {
             $xmlWriter->startElement('table:table-column');
             $xmlWriter->writeAttribute('table:style-name', $element->getElementId() . '.' . $i);
             $xmlWriter->endElement();
@@ -76,14 +73,11 @@ class Table extends AbstractElement
 
     /**
      * Write row.
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Row $row
      */
-    private function writeRow(XMLWriter $xmlWriter, RowElement $row)
+    private function writeRow(XMLWriter $xmlWriter, RowElement $row): void
     {
         $xmlWriter->startElement('table:table-row');
-        /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
+        /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
         foreach ($row->getCells() as $cell) {
             $xmlWriter->startElement('table:table-cell');
             $xmlWriter->writeAttribute('office:value-type', 'string');
