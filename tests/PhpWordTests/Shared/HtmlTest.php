@@ -501,15 +501,15 @@ HTML;
     public function testParseTableStyleAttributeInlineStyle(): void
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->addSection();
+        $section = $phpWord->addSection([
+            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+        ]);
 
-        $html = <<<HTML
-            <table style="background-color:red;width:100%;" bgColor="lightgreen" width="50%">
-                <tr>
-                    <td>A</td>
-                </tr>
-            </table>
-        HTML;
+        $html = '<table style="background-color:red;width:100%;" bgColor="lightgreen" width="50%">
+            <tr>
+                <td>A</td>
+            </tr>
+        </table>';
 
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
