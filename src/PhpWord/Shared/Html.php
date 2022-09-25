@@ -107,10 +107,6 @@ class Html
             foreach ($attributes as $attribute) {
                 $val = $attribute->value;
                 switch (strtolower($attribute->name)) {
-                    case 'style':
-                        $styles = self::parseStyle($attribute, $styles);
-
-                        break;
                     case 'align':
                         $styles['alignment'] = self::mapAlign(trim($val));
 
@@ -151,6 +147,11 @@ class Html
 
                         break;
                 }
+            }
+
+            $attributeStyle = $attributes->getNamedItem('style');
+            if ($attributeStyle) {
+                $styles = self::parseStyle($attributeStyle, $styles);
             }
         }
 
