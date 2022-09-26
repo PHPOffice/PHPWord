@@ -8,6 +8,9 @@ jobs:
     strategy:
       matrix:
         php-version:
+          - "7.1"
+          - "7.2"
+          - "7.3"
           - "7.4"
           - "8.0"
           - "8.1"
@@ -76,42 +79,14 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Composer Install
+        run: composer global require friendsofphp/php-cs-fixer
+
+      - name: Add environment path
+        run: export PATH="$PATH:$HOME/.composer/vendor/bin"
 
       - name: Code style with PHP-CS-Fixer
-        run: ./vendor/bin/php-cs-fixer fix --dry-run --show-progress=none --using-cache=no -v --format=checkstyle | cs2pr
-
-  phpcs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          extensions: ctype, dom, gd, iconv, fileinfo, libxml, mbstring, simplexml, xml, xmlreader, xmlwriter, zip, zlib
-          coverage: none
-          tools: cs2pr
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
-
-      - name: Code style with PHP_CodeSniffer
-        run: ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip --report=checkstyle | cs2pr
+        run: php-cs-fixer fix --dry-run --diff
 
   coverage:
     runs-on: ubuntu-latest
