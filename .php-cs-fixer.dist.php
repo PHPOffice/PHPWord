@@ -184,8 +184,7 @@ $config
         'phpdoc_var_without_name' => true,
         'pow_to_exponentiation' => true,
         'protected_to_private' => true,
-        //'psr0' => true,
-        //'psr4' => true,
+        'psr_autoloading' => true,
         'random_api_migration' => true,
         'return_assignment' => false, // Sometimes useful for clarity or debug
         'return_type_declaration' => true,
