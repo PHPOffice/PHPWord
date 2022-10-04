@@ -35,7 +35,7 @@ class Header extends Footer
      *
      * @return Image
      */
-    public function addWatermark($src, $style = null)
+    public function addWatermark(string $src, $style = null): Image
     {
         return $this->addImage($src, $style, true);
     }

@@ -148,7 +148,7 @@ class Settings
      *
      * @return bool Compatibility
      */
-    public static function hasCompatibility()
+    public static function hasCompatibility(): bool
     {
         return self::$xmlWriterCompatibility;
     }
@@ -162,9 +162,9 @@ class Settings
      *
      * @return bool
      */
-    public static function setCompatibility($compatibility)
+    public static function setCompatibility(bool $compatibility): bool
     {
-        $compatibility = (bool) $compatibility;
+        $compatibility = (bool)$compatibility;
         self::$xmlWriterCompatibility = $compatibility;
 
         return true;
@@ -175,7 +175,7 @@ class Settings
      *
      * @return string
      */
-    public static function getZipClass()
+    public static function getZipClass(): string
     {
         return self::$zipClass;
     }
@@ -183,11 +183,11 @@ class Settings
     /**
      * Set zip handler class.
      *
-     * @param  string $zipClass
+     * @param string $zipClass
      *
      * @return bool
      */
-    public static function setZipClass($zipClass)
+    public static function setZipClass(string $zipClass): bool
     {
         if (in_array($zipClass, [self::PCLZIP, self::ZIPARCHIVE, self::OLD_LIB])) {
             self::$zipClass = $zipClass;
@@ -206,7 +206,7 @@ class Settings
      *
      * @return bool Success or failure
      */
-    public static function setPdfRenderer($libraryName, $libraryBaseDir)
+    public static function setPdfRenderer(string $libraryName, string $libraryBaseDir): bool
     {
         if (!self::setPdfRendererName($libraryName)) {
             return false;
@@ -220,7 +220,7 @@ class Settings
      *
      * @return string
      */
-    public static function getPdfRendererName()
+    public static function getPdfRendererName(): string
     {
         return self::$pdfRendererName;
     }
@@ -232,7 +232,7 @@ class Settings
      *
      * @return bool
      */
-    public static function setPdfRendererName($libraryName)
+    public static function setPdfRendererName(string $libraryName): bool
     {
         $pdfRenderers = [self::PDF_RENDERER_DOMPDF, self::PDF_RENDERER_TCPDF, self::PDF_RENDERER_MPDF];
         if (!in_array($libraryName, $pdfRenderers)) {
@@ -248,7 +248,7 @@ class Settings
      *
      * @return string
      */
-    public static function getPdfRendererPath()
+    public static function getPdfRendererPath(): string
     {
         return self::$pdfRendererPath;
     }
@@ -260,7 +260,7 @@ class Settings
      *
      * @return bool Success or failure
      */
-    public static function setPdfRendererPath($libraryBaseDir)
+    public static function setPdfRendererPath(string $libraryBaseDir): bool
     {
         if (!$libraryBaseDir || false === file_exists($libraryBaseDir) || false === is_readable($libraryBaseDir)) {
             return false;
@@ -287,10 +287,10 @@ class Settings
      *
      * @return bool
      */
-    public static function setMeasurementUnit($value)
+    public static function setMeasurementUnit(string $value): bool
     {
         $units = [self::UNIT_TWIP, self::UNIT_CM, self::UNIT_MM, self::UNIT_INCH,
-            self::UNIT_POINT, self::UNIT_PICA, ];
+            self::UNIT_POINT, self::UNIT_PICA,];
         if (!in_array($value, $units)) {
             return false;
         }
@@ -302,11 +302,11 @@ class Settings
     /**
      * Sets the user defined path to temporary directory.
      *
-     * @since 0.12.0
-     *
      * @param string $tempDir The user defined path to temporary directory
+     *
+     * @since 0.12.0
      */
-    public static function setTempDir($tempDir): void
+    public static function setTempDir(string $tempDir): void
     {
         self::$tempDir = $tempDir;
     }
@@ -314,11 +314,11 @@ class Settings
     /**
      * Returns path to temporary directory.
      *
+     * @return string
      * @since 0.12.0
      *
-     * @return string
      */
-    public static function getTempDir()
+    public static function getTempDir(): string
     {
         if (!empty(self::$tempDir)) {
             $tempDir = self::$tempDir;
@@ -330,21 +330,21 @@ class Settings
     }
 
     /**
+     * @return bool
      * @since 0.13.0
      *
-     * @return bool
      */
-    public static function isOutputEscapingEnabled()
+    public static function isOutputEscapingEnabled(): bool
     {
         return self::$outputEscapingEnabled;
     }
 
     /**
-     * @since 0.13.0
-     *
      * @param bool $outputEscapingEnabled
+     *
+     * @since 0.13.0
      */
-    public static function setOutputEscapingEnabled($outputEscapingEnabled): void
+    public static function setOutputEscapingEnabled(bool $outputEscapingEnabled): void
     {
         self::$outputEscapingEnabled = $outputEscapingEnabled;
     }
@@ -354,7 +354,7 @@ class Settings
      *
      * @return string
      */
-    public static function getDefaultFontName()
+    public static function getDefaultFontName(): string
     {
         return self::$defaultFontName;
     }
@@ -366,7 +366,7 @@ class Settings
      *
      * @return bool
      */
-    public static function setDefaultFontName($value)
+    public static function setDefaultFontName(string $value): bool
     {
         if (is_string($value) && trim($value) !== '') {
             self::$defaultFontName = $value;
@@ -382,7 +382,7 @@ class Settings
      *
      * @return int
      */
-    public static function getDefaultFontSize()
+    public static function getDefaultFontSize(): int
     {
         return self::$defaultFontSize;
     }
@@ -394,9 +394,9 @@ class Settings
      *
      * @return bool
      */
-    public static function setDefaultFontSize($value)
+    public static function setDefaultFontSize(int $value): bool
     {
-        $value = (int) $value;
+        $value = (int)$value;
         if ($value > 0) {
             self::$defaultFontSize = $value;
 
@@ -409,11 +409,11 @@ class Settings
     /**
      * Load setting from phpword.yml or phpword.yml.dist.
      *
-     * @param string $filename
+     * @param string|null $filename
      *
      * @return array
      */
-    public static function loadConfig($filename = null)
+    public static function loadConfig(?string $filename = null): array
     {
         // Get config file
         $configFile = null;
@@ -458,7 +458,7 @@ class Settings
      *
      * @return string
      */
-    public static function getDefaultPaper()
+    public static function getDefaultPaper(): string
     {
         return self::$defaultPaper;
     }
@@ -470,9 +470,9 @@ class Settings
      *
      * @return bool
      */
-    public static function setDefaultPaper($value)
+    public static function setDefaultPaper(string $value): bool
     {
-        if (is_string($value) && trim($value) !== '') {
+        if (trim($value) !== '') {
             self::$defaultPaper = $value;
 
             return true;
