@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,33 +22,33 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
- * Preserve text/field element
+ * Preserve text/field element.
  */
 class PreserveText extends AbstractElement
 {
     /**
-     * Text content
+     * Text content.
      *
-     * @var string|array
+     * @var array|string
      */
     private $text;
 
     /**
-     * Text style
+     * Text style.
      *
-     * @var string|\PhpOffice\PhpWord\Style\Font
+     * @var \PhpOffice\PhpWord\Style\Font|string
      */
     private $fontStyle;
 
     /**
-     * Paragraph style
+     * Paragraph style.
      *
-     * @var string|\PhpOffice\PhpWord\Style\Paragraph
+     * @var \PhpOffice\PhpWord\Style\Paragraph|string
      */
     private $paragraphStyle;
 
     /**
-     * Create a new Preserve Text Element
+     * Create a new Preserve Text Element.
      *
      * @param string $text
      * @param mixed $fontStyle
@@ -60,16 +60,16 @@ class PreserveText extends AbstractElement
         $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
 
         $this->text = SharedText::toUTF8($text);
-        $matches = preg_split('/({.*?})/', $this->text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $matches = preg_split('/({.*?})/', $this->text ?? '', -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         if (isset($matches[0])) {
             $this->text = $matches;
         }
     }
 
     /**
-     * Get Text style
+     * Get Text style.
      *
-     * @return string|\PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font|string
      */
     public function getFontStyle()
     {
@@ -77,9 +77,9 @@ class PreserveText extends AbstractElement
     }
 
     /**
-     * Get Paragraph style
+     * Get Paragraph style.
      *
-     * @return string|\PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph|string
      */
     public function getParagraphStyle()
     {
@@ -87,9 +87,9 @@ class PreserveText extends AbstractElement
     }
 
     /**
-     * Get Text content
+     * Get Text content.
      *
-     * @return string|array
+     * @return array|string
      */
     public function getText()
     {

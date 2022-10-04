@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word document
@@ -11,17 +12,17 @@ $section = $phpWord->addSection();
 $textrun = $section->addTextRun();
 $textrun->addText('This is a Left to Right paragraph.');
 
-$textrun = $section->addTextRun(array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
-$textrun->addText('سلام این یک پاراگراف راست به چپ است', array('rtl' => true));
+$textrun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END]);
+$textrun->addText('سلام این یک پاراگراف راست به چپ است', ['rtl' => true]);
 
 $section->addText('Table visually presented as RTL');
-$style = array('rtl' => true, 'size' => 12);
-$tableStyle = array('borderSize' => 6, 'borderColor' => '000000', 'width' => 5000, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'bidiVisual' => true);
+$style = ['rtl' => true, 'size' => 12];
+$tableStyle = ['borderSize' => 6, 'borderColor' => '000000', 'width' => 5000, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'bidiVisual' => true];
 
 $table = $section->addTable($tableStyle);
-$cellHCentered = array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER);
-$cellHEnd = array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END);
-$cellVCentered = array('valign' => \PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
+$cellHCentered = ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER];
+$cellHEnd = ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END];
+$cellVCentered = ['valign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER];
 
 //Vidually bidirectinal table
 $table->addRow();

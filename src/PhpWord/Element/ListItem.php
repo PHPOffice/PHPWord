@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,38 +21,38 @@ use PhpOffice\PhpWord\Shared\Text as SharedText;
 use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
 
 /**
- * List item element
+ * List item element.
  */
 class ListItem extends AbstractElement
 {
     /**
-     * Element style
+     * Element style.
      *
      * @var \PhpOffice\PhpWord\Style\ListItem
      */
     private $style;
 
     /**
-     * Text object
+     * Text object.
      *
      * @var \PhpOffice\PhpWord\Element\Text
      */
     private $textObject;
 
     /**
-     * Depth
+     * Depth.
      *
      * @var int
      */
     private $depth;
 
     /**
-     * Create a new ListItem
+     * Create a new ListItem.
      *
      * @param string $text
      * @param int $depth
      * @param mixed $fontStyle
-     * @param array|string|null $listStyle
+     * @param null|array|string $listStyle
      * @param mixed $paragraphStyle
      */
     public function __construct($text, $depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
@@ -61,7 +61,7 @@ class ListItem extends AbstractElement
         $this->depth = $depth;
 
         // Version >= 0.10.0 will pass numbering style name. Older version will use old method
-        if (!is_null($listStyle) && is_string($listStyle)) {
+        if (null !== $listStyle && is_string($listStyle)) {
             $this->style = new ListItemStyle($listStyle); // @codeCoverageIgnore
         } else {
             $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
@@ -69,7 +69,7 @@ class ListItem extends AbstractElement
     }
 
     /**
-     * Get style
+     * Get style.
      *
      * @return \PhpOffice\PhpWord\Style\ListItem
      */
@@ -79,7 +79,7 @@ class ListItem extends AbstractElement
     }
 
     /**
-     * Get Text object
+     * Get Text object.
      *
      * @return \PhpOffice\PhpWord\Element\Text
      */
@@ -89,7 +89,7 @@ class ListItem extends AbstractElement
     }
 
     /**
-     * Get depth
+     * Get depth.
      *
      * @return int
      */
@@ -99,9 +99,10 @@ class ListItem extends AbstractElement
     }
 
     /**
-     * Get text
+     * Get text.
      *
      * @return string
+     *
      * @since 0.11.0
      */
     public function getText()

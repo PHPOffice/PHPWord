@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,7 +21,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * RTF document reader
+ * RTF document reader.
  *
  * References:
  * - How to Write an RTF Reader http://latex2rtf.sourceforge.net/rtfspec_45.html
@@ -29,6 +29,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  * - JavaScript RTF-parser by LazyGyu https://github.com/lazygyu/RTF-parser
  *
  * @since 0.11.0
+ *
  * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
  */
 class Document
@@ -39,109 +40,108 @@ class Document
     const SKIP = 'readSkip';
 
     /**
-     * PhpWord object
+     * PhpWord object.
      *
      * @var \PhpOffice\PhpWord\PhpWord
      */
     private $phpWord;
 
     /**
-     * Section object
+     * Section object.
      *
      * @var \PhpOffice\PhpWord\Element\Section
      */
     private $section;
 
     /**
-     * Textrun object
+     * Textrun object.
      *
      * @var \PhpOffice\PhpWord\Element\TextRun
      */
     private $textrun;
 
     /**
-     * RTF content
+     * RTF content.
      *
      * @var string
      */
     public $rtf;
 
     /**
-     * Content length
+     * Content length.
      *
      * @var int
      */
     private $length = 0;
 
     /**
-     * Character index
+     * Character index.
      *
      * @var int
      */
     private $offset = 0;
 
     /**
-     * Current control word
+     * Current control word.
      *
      * @var string
      */
     private $control = '';
 
     /**
-     * Text content
+     * Text content.
      *
      * @var string
      */
     private $text = '';
 
     /**
-     * Parsing a control word flag
+     * Parsing a control word flag.
      *
      * @var bool
      */
     private $isControl = false;
 
     /**
-     * First character flag: watch out for control symbols
+     * First character flag: watch out for control symbols.
      *
      * @var bool
      */
     private $isFirst = false;
 
     /**
-     * Group groups
+     * Group groups.
      *
      * @var array
      */
-    private $groups = array();
+    private $groups = [];
 
     /**
-     * Parser flags; not used
+     * Parser flags; not used.
      *
      * @var array
      */
-    private $flags = array();
+    private $flags = [];
 
     /**
-     * Parse RTF content
+     * Parse RTF content.
      *
      * - Marks controlling characters `{`, `}`, and `\`
      * - Removes line endings
      * - Builds control words and control symbols
      * - Pushes every other character into the text queue
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @todo Use `fread` stream for scalability
      */
-    public function read(PhpWord $phpWord)
+    public function read(PhpWord $phpWord): void
     {
-        $markers = array(
+        $markers = [
             123 => 'markOpening',   // {
             125 => 'markClosing',   // }
-            92  => 'markBackslash', // \
-            10  => 'markNewline',   // LF
-            13  => 'markNewline',   // CR
-        );
+            92 => 'markBackslash', // \
+            10 => 'markNewline',   // LF
+            13 => 'markNewline',   // CR
+        ];
 
         $this->phpWord = $phpWord;
         $this->section = $phpWord->addSection();
@@ -176,7 +176,7 @@ class Document
                     }
                 }
             }
-            $this->offset++;
+            ++$this->offset;
         }
         $this->flushText();
     }
@@ -184,7 +184,7 @@ class Document
     /**
      * Mark opening braket `{` character.
      */
-    private function markOpening()
+    private function markOpening(): void
     {
         $this->flush(true);
         array_push($this->groups, $this->flags);
@@ -193,7 +193,7 @@ class Document
     /**
      * Mark closing braket `}` character.
      */
-    private function markClosing()
+    private function markClosing(): void
     {
         $this->flush(true);
         $this->flags = array_pop($this->groups);
@@ -202,7 +202,7 @@ class Document
     /**
      * Mark backslash `\` character.
      */
-    private function markBackslash()
+    private function markBackslash(): void
     {
         if ($this->isFirst) {
             $this->setControl(false);
@@ -217,7 +217,7 @@ class Document
     /**
      * Mark newline character: Flush control word because it's not possible to span multiline.
      */
-    private function markNewline()
+    private function markNewline(): void
     {
         if ($this->isControl) {
             $this->flushControl(true);
@@ -229,7 +229,7 @@ class Document
      *
      * @param bool $isControl
      */
-    private function flush($isControl = false)
+    private function flush($isControl = false): void
     {
         if ($this->isControl) {
             $this->flushControl($isControl);
@@ -243,10 +243,10 @@ class Document
      *
      * @param bool $isControl
      */
-    private function flushControl($isControl = false)
+    private function flushControl($isControl = false): void
     {
         if (1 === preg_match('/^([A-Za-z]+)(-?[0-9]*) ?$/', $this->control, $match)) {
-            list(, $control, $parameter) = $match;
+            [, $control, $parameter] = $match;
             $this->parseControl($control, $parameter);
         }
 
@@ -258,7 +258,7 @@ class Document
     /**
      * Flush text in queue.
      */
-    private function flushText()
+    private function flushText(): void
     {
         if ($this->text != '') {
             if (isset($this->flags['property'])) { // Set property
@@ -284,7 +284,7 @@ class Document
      *
      * @param bool $value
      */
-    private function setControl($value)
+    private function setControl($value): void
     {
         $this->isControl = $value;
         $this->isFirst = $value;
@@ -295,7 +295,7 @@ class Document
      *
      * @param string $char
      */
-    private function pushText($char)
+    private function pushText($char): void
     {
         if ('<' == $char) {
             $this->text .= '&lt;';
@@ -312,32 +312,32 @@ class Document
      * @param string $control
      * @param string $parameter
      */
-    private function parseControl($control, $parameter)
+    private function parseControl($control, $parameter): void
     {
-        $controls = array(
-            'par'       => array(self::PARA,    'paragraph',    true),
-            'b'         => array(self::STYL,    'font',         'bold',          true),
-            'i'         => array(self::STYL,    'font',         'italic',        true),
-            'u'         => array(self::STYL,    'font',         'underline',     true),
-            'strike'    => array(self::STYL,    'font',         'strikethrough', true),
-            'fs'        => array(self::STYL,    'font',         'size',          $parameter),
-            'qc'        => array(self::STYL,    'paragraph',    'alignment',     Jc::CENTER),
-            'sa'        => array(self::STYL,    'paragraph',    'spaceAfter',    $parameter),
-            'fonttbl'   => array(self::SKIP,    'fonttbl',      null),
-            'colortbl'  => array(self::SKIP,    'colortbl',     null),
-            'info'      => array(self::SKIP,    'info',         null),
-            'generator' => array(self::SKIP,    'generator',    null),
-            'title'     => array(self::SKIP,    'title',        null),
-            'subject'   => array(self::SKIP,    'subject',      null),
-            'category'  => array(self::SKIP,    'category',     null),
-            'keywords'  => array(self::SKIP,    'keywords',     null),
-            'comment'   => array(self::SKIP,    'comment',      null),
-            'shppict'   => array(self::SKIP,    'pic',          null),
-            'fldinst'   => array(self::SKIP,    'link',         null),
-        );
+        $controls = [
+            'par' => [self::PARA,    'paragraph',    true],
+            'b' => [self::STYL,    'font',         'bold',          true],
+            'i' => [self::STYL,    'font',         'italic',        true],
+            'u' => [self::STYL,    'font',         'underline',     true],
+            'strike' => [self::STYL,    'font',         'strikethrough', true],
+            'fs' => [self::STYL,    'font',         'size',          $parameter],
+            'qc' => [self::STYL,    'paragraph',    'alignment',     Jc::CENTER],
+            'sa' => [self::STYL,    'paragraph',    'spaceAfter',    $parameter],
+            'fonttbl' => [self::SKIP,    'fonttbl',      null],
+            'colortbl' => [self::SKIP,    'colortbl',     null],
+            'info' => [self::SKIP,    'info',         null],
+            'generator' => [self::SKIP,    'generator',    null],
+            'title' => [self::SKIP,    'title',        null],
+            'subject' => [self::SKIP,    'subject',      null],
+            'category' => [self::SKIP,    'category',     null],
+            'keywords' => [self::SKIP,    'keywords',     null],
+            'comment' => [self::SKIP,    'comment',      null],
+            'shppict' => [self::SKIP,    'pic',          null],
+            'fldinst' => [self::SKIP,    'link',         null],
+        ];
 
         if (isset($controls[$control])) {
-            list($function) = $controls[$control];
+            [$function] = $controls[$control];
             if (method_exists($this, $function)) {
                 $directives = $controls[$control];
                 array_shift($directives); // remove the function variable; we won't need it
@@ -351,9 +351,9 @@ class Document
      *
      * @param array $directives
      */
-    private function readParagraph($directives)
+    private function readParagraph($directives): void
     {
-        list($property, $value) = $directives;
+        [$property, $value] = $directives;
         $this->textrun = $this->section->addTextRun();
         $this->flags[$property] = $value;
     }
@@ -363,9 +363,9 @@ class Document
      *
      * @param array $directives
      */
-    private function readStyle($directives)
+    private function readStyle($directives): void
     {
-        list($style, $property, $value) = $directives;
+        [$style, $property, $value] = $directives;
         $this->flags['styles'][$style][$property] = $value;
     }
 
@@ -374,9 +374,9 @@ class Document
      *
      * @param array $directives
      */
-    private function readSkip($directives)
+    private function readSkip($directives): void
     {
-        list($property) = $directives;
+        [$property] = $directives;
         $this->flags['property'] = $property;
         $this->flags['skipped'] = true;
     }
@@ -384,7 +384,7 @@ class Document
     /**
      * Read text.
      */
-    private function readText()
+    private function readText(): void
     {
         $text = $this->textrun->addText($this->text);
         if (isset($this->flags['styles']['font'])) {

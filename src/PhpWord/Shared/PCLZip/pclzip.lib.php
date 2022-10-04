@@ -3258,17 +3258,6 @@ class PclZip
                         $v_extract = true;
                     }
                 }
-            // ----- Look for extract by ereg rule
-            // ereg() is deprecated with PHP 5.3
-            /*
-            elseif (   (isset($p_options[PCLZIP_OPT_BY_EREG]))
-            && ($p_options[PCLZIP_OPT_BY_EREG] != "")) {
-
-            if (ereg($p_options[PCLZIP_OPT_BY_EREG], $v_header['stored_filename'])) {
-            $v_extract = true;
-            }
-            }
-            */
 
             // ----- Look for extract by preg rule
             } elseif ((isset($p_options[PCLZIP_OPT_BY_PREG])) && ($p_options[PCLZIP_OPT_BY_PREG] != "")) {
@@ -4544,18 +4533,6 @@ class PclZip
                         $v_found = true;
                     }
                 }
-
-            // ----- Look for extract by ereg rule
-            // ereg() is deprecated with PHP 5.3
-            /*
-            elseif (   (isset($p_options[PCLZIP_OPT_BY_EREG]))
-            && ($p_options[PCLZIP_OPT_BY_EREG] != "")) {
-
-            if (ereg($p_options[PCLZIP_OPT_BY_EREG], $v_header_list[$v_nb_extracted]['stored_filename'])) {
-            $v_found = true;
-            }
-            }
-            */
 
             // ----- Look for extract by preg rule
             } elseif ((isset($p_options[PCLZIP_OPT_BY_PREG])) && ($p_options[PCLZIP_OPT_BY_PREG] != "")) {

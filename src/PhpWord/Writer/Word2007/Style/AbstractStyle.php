@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,36 +21,35 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Style writer
+ * Style writer.
  *
  * @since 0.10.0
  */
 abstract class AbstractStyle
 {
     /**
-     * XML writer
+     * XML writer.
      *
      * @var \PhpOffice\PhpWord\Shared\XMLWriter
      */
     private $xmlWriter;
 
     /**
-     * Style; set protected for a while
+     * Style; set protected for a while.
      *
-     * @var string|\PhpOffice\PhpWord\Style\AbstractStyle
+     * @var \PhpOffice\PhpWord\Style\AbstractStyle|string
      */
     protected $style;
 
     /**
-     * Write style
+     * Write style.
      */
     abstract public function write();
 
     /**
      * Create new instance.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string|\PhpOffice\PhpWord\Style\AbstractStyle $style
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle|string $style
      */
     public function __construct(XMLWriter $xmlWriter, $style = null)
     {
@@ -59,7 +58,7 @@ abstract class AbstractStyle
     }
 
     /**
-     * Get XML Writer
+     * Get XML Writer.
      *
      * @return \PhpOffice\PhpWord\Shared\XMLWriter
      */
@@ -69,9 +68,9 @@ abstract class AbstractStyle
     }
 
     /**
-     * Get Style
+     * Get Style.
      *
-     * @return string|\PhpOffice\PhpWord\Style\AbstractStyle
+     * @return \PhpOffice\PhpWord\Style\AbstractStyle|string
      */
     protected function getStyle()
     {
@@ -79,21 +78,22 @@ abstract class AbstractStyle
     }
 
     /**
-     * Convert twip value
+     * Convert twip value.
      *
-     * @param int|float $value
+     * @param float|int $value
      * @param int $default (int|float)
-     * @return int|float
+     *
+     * @return float|int
      */
     protected function convertTwip($value, $default = 0)
     {
-        $factors = array(
-            Settings::UNIT_CM    => 567,
-            Settings::UNIT_MM    => 56.7,
-            Settings::UNIT_INCH  => 1440,
+        $factors = [
+            Settings::UNIT_CM => 567,
+            Settings::UNIT_MM => 56.7,
+            Settings::UNIT_INCH => 1440,
             Settings::UNIT_POINT => 20,
-            Settings::UNIT_PICA  => 240,
-        );
+            Settings::UNIT_PICA => 240,
+        ];
         $unit = Settings::getMeasurementUnit();
         $factor = 1;
         if (array_key_exists($unit, $factors) && $value != $default) {
@@ -106,11 +106,10 @@ abstract class AbstractStyle
     /**
      * Write child style.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $name
      * @param mixed $value
      */
-    protected function writeChildStyle(XMLWriter $xmlWriter, $name, $value)
+    protected function writeChildStyle(XMLWriter $xmlWriter, $name, $value): void
     {
         if ($value !== null) {
             $class = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $name;
@@ -122,9 +121,10 @@ abstract class AbstractStyle
     }
 
     /**
-     * Writes boolean as 0 or 1
+     * Writes boolean as 0 or 1.
      *
      * @param bool $value
+     *
      * @return null|string
      */
     protected function writeOnOf($value = null)
@@ -137,16 +137,17 @@ abstract class AbstractStyle
     }
 
     /**
-     * Assemble style array into style string
+     * Assemble style array into style string.
      *
      * @param array $styles
+     *
      * @return string
      */
-    protected function assembleStyle($styles = array())
+    protected function assembleStyle($styles = [])
     {
         $style = '';
         foreach ($styles as $key => $value) {
-            if (!is_null($value) && $value != '') {
+            if (null !== $value && $value != '') {
                 $style .= "{$key}:{$value}; ";
             }
         }

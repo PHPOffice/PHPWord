@@ -21,7 +21,7 @@ use PhpOffice\PhpWord\Element\Chart as ChartElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Word2007 chart part writer: word/charts/chartx.xml
+ * Word2007 chart part writer: word/charts/chartx.xml.
  *
  * @since 0.12.0
  * @see  http://www.datypic.com/sc/ooxml/e-draw-chart_chartSpace.html
@@ -29,69 +29,51 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 class Chart extends AbstractPart
 {
     /**
-     * Chart element
+     * Chart element.
      *
      * @var \PhpOffice\PhpWord\Element\Chart
      */
     private $element;
 
     /**
-     * Type definition
+     * Type definition.
      *
      * @var array
      */
-    private $types = array(
-        'pie' => array('type' => 'pie', 'colors' => 1),
-        'doughnut' => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
-        'bar' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'clustered'),
-        'stacked_bar' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'stacked'),
-        'percent_stacked_bar' => array(
-            'type' => 'bar',
-            'colors' => 0,
-            'axes' => true,
-            'bar' => 'bar',
-            'grouping' => 'percentStacked'
-        ),
-        'column' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'clustered'),
-        'stacked_column' => array(
-            'type' => 'bar',
-            'colors' => 0,
-            'axes' => true,
-            'bar' => 'col',
-            'grouping' => 'stacked'
-        ),
-        'percent_stacked_column' => array(
-            'type' => 'bar',
-            'colors' => 0,
-            'axes' => true,
-            'bar' => 'col',
-            'grouping' => 'percentStacked'
-        ),
-        'line' => array('type' => 'line', 'colors' => 0, 'axes' => true),
-        'area' => array('type' => 'area', 'colors' => 0, 'axes' => true),
-        'radar' => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
-        'scatter' => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
-    );
+    private $types = [
+        'pie' => ['type' => 'pie', 'colors' => 1],
+        'doughnut' => ['type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true],
+        'bar' => ['type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'clustered'],
+        'stacked_bar' => ['type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'stacked'],
+        'percent_stacked_bar' => ['type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'percentStacked'],
+        'column' => ['type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'clustered'],
+        'stacked_column' => ['type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'stacked'],
+        'percent_stacked_column' => ['type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'percentStacked'],
+        'line' => ['type' => 'line', 'colors' => 0, 'axes' => true],
+        'area' => ['type' => 'area', 'colors' => 0, 'axes' => true],
+        'radar' => ['type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true],
+        'scatter' => ['type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true],
+    ];
 
     /**
-     * Chart options
+     * Chart options.
      *
      * @var array
      */
-    private $options = array();
+    private $options = [];
 
     /**
      * Set chart element.
      *
      * @param \PhpOffice\PhpWord\Element\Chart $element
      */
-    public function setElement(ChartElement $element)
+    public function setElement(ChartElement $element): void
     {
         $this->element = $element;
     }
 
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
@@ -114,12 +96,12 @@ class Chart extends AbstractPart
     }
 
     /**
-     * Write chart
+     * Write chart.
      *
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_Chart.html
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
-    private function writeChart(XMLWriter $xmlWriter)
+    private function writeChart(XMLWriter $xmlWriter): void
     {
         $xmlWriter->startElement('c:chart');
 
@@ -141,7 +123,7 @@ class Chart extends AbstractPart
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_ScatterChart.html
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
-    private function writePlotArea(XMLWriter $xmlWriter)
+    private function writePlotArea(XMLWriter $xmlWriter): void
     {
         $type = $this->element->getType();
         $style = $this->element->getStyle();
@@ -209,7 +191,7 @@ class Chart extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param bool $scatter
      */
-    private function writeSeries(XMLWriter $xmlWriter, $scatter = false)
+    private function writeSeries(XMLWriter $xmlWriter, $scatter = false): void
     {
         $series = $this->element->getSeries();
         $style = $this->element->getStyle();
@@ -229,7 +211,7 @@ class Chart extends AbstractPart
                 $xmlWriter->writeElementBlock('c:idx', 'val', $index);
                 $xmlWriter->writeElementBlock('c:order', 'val', $index);
 
-                if (!is_null($seriesItem['name']) && $seriesItem['name'] != '') {
+                if (null !== $seriesItem['name'] && $seriesItem['name'] != '') {
                     $xmlWriter->startElement('c:tx');
                     $xmlWriter->startElement('c:strRef');
                     $xmlWriter->startElement('c:strCache');
@@ -307,15 +289,15 @@ class Chart extends AbstractPart
      * @param string $type
      * @param array $values
      */
-    private function writeSeriesItem(XMLWriter $xmlWriter, $type, $values)
+    private function writeSeriesItem(XMLWriter $xmlWriter, $type, $values): void
     {
-        $types = array(
-            'cat' => array('c:cat', 'c:strLit'),
-            'val' => array('c:val', 'c:numLit'),
-            'xVal' => array('c:xVal', 'c:strLit'),
-            'yVal' => array('c:yVal', 'c:numLit'),
-        );
-        list($itemType, $itemLit) = $types[$type];
+        $types = [
+            'cat' => ['c:cat', 'c:strLit'],
+            'val' => ['c:val', 'c:numLit'],
+            'xVal' => ['c:xVal', 'c:strLit'],
+            'yVal' => ['c:yVal', 'c:numLit'],
+        ];
+        [$itemType, $itemLit] = $types[$type];
 
         $xmlWriter->startElement($itemType);
         $xmlWriter->startElement($itemLit);
@@ -341,20 +323,20 @@ class Chart extends AbstractPart
     }
 
     /**
-     * Write axis
+     * Write axis.
      *
      * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_CatAx.html
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $type
      */
-    private function writeAxis(XMLWriter $xmlWriter, $type)
+    private function writeAxis(XMLWriter $xmlWriter, $type): void
     {
         $style = $this->element->getStyle();
-        $types = array(
-            'cat' => array('c:catAx', 1, 'b', 2),
-            'val' => array('c:valAx', 2, 'l', 1),
-        );
-        list($axisType, $axisId, $axisPos, $axisCross) = $types[$type];
+        $types = [
+            'cat' => ['c:catAx', 1, 'b', 2],
+            'val' => ['c:valAx', 2, 'l', 1],
+        ];
+        [$axisType, $axisId, $axisPos, $axisCross] = $types[$type];
 
         $xmlWriter->startElement($axisType);
 
@@ -365,11 +347,11 @@ class Chart extends AbstractPart
         $valueAxisTitle = $style->getValueAxisTitle();
 
         if ($axisType == 'c:catAx') {
-            if (!is_null($categoryAxisTitle)) {
+            if (null !== $categoryAxisTitle) {
                 $this->writeAxisTitle($xmlWriter, $categoryAxisTitle);
             }
         } elseif ($axisType == 'c:valAx') {
-            if (!is_null($valueAxisTitle)) {
+            if (null !== $valueAxisTitle) {
                 $this->writeAxisTitle($xmlWriter, $valueAxisTitle);
             }
         }
@@ -412,13 +394,13 @@ class Chart extends AbstractPart
     }
 
     /**
-     * Write shape
+     * Write shape.
      *
      * @see  http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param bool $line
      */
-    private function writeShape(XMLWriter $xmlWriter, $line = false)
+    private function writeShape(XMLWriter $xmlWriter, $line = false): void
     {
         $xmlWriter->startElement('c:spPr');
         $xmlWriter->startElement('a:ln');
@@ -431,7 +413,7 @@ class Chart extends AbstractPart
         $xmlWriter->endElement(); // c:spPr
     }
 
-    private function writeAxisTitle(XMLWriter $xmlWriter, $title)
+    private function writeAxisTitle(XMLWriter $xmlWriter, $title): void
     {
         $xmlWriter->startElement('c:title'); //start c:title
         $xmlWriter->startElement('c:tx'); //start c:tx

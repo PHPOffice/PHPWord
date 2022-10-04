@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,25 +21,25 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Word2007 main relationship writer: _rels/.rels
+ * Word2007 main relationship writer: _rels/.rels.
  *
  * @since 0.10.0
  */
 class Rels extends AbstractPart
 {
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
     public function write()
     {
-        $xmlRels = array(
-            'docProps/core.xml'   => 'package/2006/relationships/metadata/core-properties',
-            'docProps/app.xml'    => 'officeDocument/2006/relationships/extended-properties',
+        $xmlRels = [
+            'docProps/core.xml' => 'package/2006/relationships/metadata/core-properties',
+            'docProps/app.xml' => 'officeDocument/2006/relationships/extended-properties',
             'docProps/custom.xml' => 'officeDocument/2006/relationships/custom-properties',
-            'word/document.xml'   => 'officeDocument/2006/relationships/officeDocument',
-        );
+            'word/document.xml' => 'officeDocument/2006/relationships/officeDocument',
+        ];
         $xmlWriter = $this->getXmlWriter();
         $this->writeRels($xmlWriter, $xmlRels);
 
@@ -49,12 +49,11 @@ class Rels extends AbstractPart
     /**
      * Write relationships.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param array $xmlRels
      * @param array $mediaRels
      * @param int $relId
      */
-    protected function writeRels(XMLWriter $xmlWriter, $xmlRels = array(), $mediaRels = array(), $relId = 1)
+    protected function writeRels(XMLWriter $xmlWriter, $xmlRels = [], $mediaRels = [], $relId = 1): void
     {
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Relationships');
@@ -76,19 +75,18 @@ class Rels extends AbstractPart
     /**
      * Write media relationships.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param int $relId
      * @param array $mediaRel
      */
-    private function writeMediaRel(XMLWriter $xmlWriter, $relId, $mediaRel)
+    private function writeMediaRel(XMLWriter $xmlWriter, $relId, $mediaRel): void
     {
         $typePrefix = 'officeDocument/2006/relationships/';
-        $typeMapping = array('image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink');
-        $targetMapping = array('image' => 'media/', 'object' => 'embeddings/');
+        $typeMapping = ['image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink'];
+        $targetMapping = ['image' => 'media/', 'object' => 'embeddings/'];
 
         $mediaType = $mediaRel['type'];
-        $type = isset($typeMapping[$mediaType]) ? $typeMapping[$mediaType] : $mediaType;
-        $targetPrefix = isset($targetMapping[$mediaType]) ? $targetMapping[$mediaType] : '';
+        $type = $typeMapping[$mediaType] ?? $mediaType;
+        $targetPrefix = $targetMapping[$mediaType] ?? '';
         $target = $mediaRel['target'];
         $targetMode = ($type == 'hyperlink') ? 'External' : '';
 
@@ -101,15 +99,12 @@ class Rels extends AbstractPart
      * Format:
      * <Relationship Id="rId..." Type="http://..." Target="....xml" TargetMode="..." />
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param int $relId Relationship ID
      * @param string $type Relationship type
      * @param string $target Relationship target
      * @param string $targetMode Relationship target mode
-     *
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    private function writeRel(XMLWriter $xmlWriter, $relId, $type, $target, $targetMode = '')
+    private function writeRel(XMLWriter $xmlWriter, $relId, $type, $target, $targetMode = ''): void
     {
         if ($type != '' && $target != '') {
             if (strpos($relId, 'rId') === false) {

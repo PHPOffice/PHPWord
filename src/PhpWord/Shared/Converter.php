@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Shared;
 
 /**
- * Common converter functions
+ * Common converter functions.
  */
 class Converter
 {
@@ -32,9 +32,10 @@ class Converter
     const DEGREE_TO_ANGLE = 60000;
 
     /**
-     * Convert centimeter to twip
+     * Convert centimeter to twip.
      *
      * @param float $centimeter
+     *
      * @return float
      */
     public static function cmToTwip($centimeter = 1)
@@ -43,9 +44,10 @@ class Converter
     }
 
     /**
-     * Convert centimeter to inch
+     * Convert centimeter to inch.
      *
      * @param float $centimeter
+     *
      * @return float
      */
     public static function cmToInch($centimeter = 1)
@@ -54,9 +56,10 @@ class Converter
     }
 
     /**
-     * Convert centimeter to pixel
+     * Convert centimeter to pixel.
      *
      * @param float $centimeter
+     *
      * @return float
      */
     public static function cmToPixel($centimeter = 1)
@@ -65,9 +68,10 @@ class Converter
     }
 
     /**
-     * Convert centimeter to point
+     * Convert centimeter to point.
      *
      * @param float $centimeter
+     *
      * @return float
      */
     public static function cmToPoint($centimeter = 1)
@@ -76,9 +80,10 @@ class Converter
     }
 
     /**
-     * Convert centimeter to EMU
+     * Convert centimeter to EMU.
      *
      * @param float $centimeter
+     *
      * @return float
      */
     public static function cmToEmu($centimeter = 1)
@@ -91,9 +96,10 @@ class Converter
     }
 
     /**
-     * Convert inch to twip
+     * Convert inch to twip.
      *
      * @param float $inch
+     *
      * @return float
      */
     public static function inchToTwip($inch = 1)
@@ -102,9 +108,10 @@ class Converter
     }
 
     /**
-     * Convert inch to centimeter
+     * Convert inch to centimeter.
      *
      * @param float $inch
+     *
      * @return float
      */
     public static function inchToCm($inch = 1)
@@ -113,9 +120,10 @@ class Converter
     }
 
     /**
-     * Convert inch to pixel
+     * Convert inch to pixel.
      *
      * @param float $inch
+     *
      * @return float
      */
     public static function inchToPixel($inch = 1)
@@ -124,9 +132,10 @@ class Converter
     }
 
     /**
-     * Convert inch to point
+     * Convert inch to point.
      *
      * @param float $inch
+     *
      * @return float
      */
     public static function inchToPoint($inch = 1)
@@ -135,9 +144,10 @@ class Converter
     }
 
     /**
-     * Convert inch to EMU
+     * Convert inch to EMU.
      *
      * @param float $inch
+     *
      * @return int
      */
     public static function inchToEmu($inch = 1)
@@ -146,9 +156,10 @@ class Converter
     }
 
     /**
-     * Convert pixel to twip
+     * Convert pixel to twip.
      *
      * @param float $pixel
+     *
      * @return float
      */
     public static function pixelToTwip($pixel = 1)
@@ -157,9 +168,10 @@ class Converter
     }
 
     /**
-     * Convert pixel to centimeter
+     * Convert pixel to centimeter.
      *
      * @param float $pixel
+     *
      * @return float
      */
     public static function pixelToCm($pixel = 1)
@@ -168,9 +180,10 @@ class Converter
     }
 
     /**
-     * Convert pixel to point
+     * Convert pixel to point.
      *
      * @param float $pixel
+     *
      * @return float
      */
     public static function pixelToPoint($pixel = 1)
@@ -179,9 +192,10 @@ class Converter
     }
 
     /**
-     * Convert pixel to EMU
+     * Convert pixel to EMU.
      *
      * @param float $pixel
+     *
      * @return int
      */
     public static function pixelToEmu($pixel = 1)
@@ -190,9 +204,10 @@ class Converter
     }
 
     /**
-     * Convert point to twip unit
+     * Convert point to twip unit.
      *
      * @param float $point
+     *
      * @return float
      */
     public static function pointToTwip($point = 1)
@@ -201,9 +216,10 @@ class Converter
     }
 
     /**
-     * Convert point to pixel
+     * Convert point to pixel.
      *
      * @param float $point
+     *
      * @return float
      */
     public static function pointToPixel($point = 1)
@@ -212,9 +228,10 @@ class Converter
     }
 
     /**
-     * Convert point to EMU
+     * Convert point to EMU.
      *
      * @param float $point
+     *
      * @return float
      */
     public static function pointToEmu($point = 1)
@@ -223,9 +240,10 @@ class Converter
     }
 
     /**
-     * Convert point to cm
+     * Convert point to cm.
      *
      * @param float $point
+     *
      * @return float
      */
     public static function pointToCm($point = 1)
@@ -234,9 +252,10 @@ class Converter
     }
 
     /**
-     * Convert EMU to pixel
+     * Convert EMU to pixel.
      *
      * @param float $emu
+     *
      * @return float
      */
     public static function emuToPixel($emu = 1)
@@ -245,9 +264,10 @@ class Converter
     }
 
     /**
-     * Convert pica to point
+     * Convert pica to point.
      *
      * @param float $pica
+     *
      * @return float
      */
     public static function picaToPoint($pica = 1)
@@ -256,7 +276,7 @@ class Converter
     }
 
     /**
-     * Convert twip to inch
+     * Convert twip to inch.
      *
      * @param float $twip
      * @return float
@@ -268,9 +288,10 @@ class Converter
     }
 
     /**
-     * Convert degree to angle
+     * Convert degree to angle.
      *
      * @param float $degree
+     *
      * @return int
      */
     public static function degreeToAngle($degree = 1)
@@ -279,9 +300,10 @@ class Converter
     }
 
     /**
-     * Convert angle to degrees
+     * Convert angle to degrees.
      *
      * @param float $angle
+     *
      * @return int
      */
     public static function angleToDegree($angle = 1)
@@ -290,9 +312,10 @@ class Converter
     }
 
     /**
-     * Convert colorname as string to RGB
+     * Convert colorname as string to RGB.
      *
      * @param string $value color name
+     *
      * @return string color as hex RGB string, or original value if unknown
      */
     public static function stringToRgb($value)
@@ -334,9 +357,10 @@ class Converter
     }
 
     /**
-     * Convert HTML hexadecimal to RGB
+     * Convert HTML hexadecimal to RGB.
      *
      * @param string $value HTML Color in hexadecimal
+     *
      * @return array|false Value in RGB
      */
     public static function htmlToRgb($value)
@@ -348,9 +372,9 @@ class Converter
         }
 
         if (strlen($value) == 6) {
-            list($red, $green, $blue) = array($value[0] . $value[1], $value[2] . $value[3], $value[4] . $value[5]);
+            [$red, $green, $blue] = [$value[0] . $value[1], $value[2] . $value[3], $value[4] . $value[5]];
         } elseif (strlen($value) == 3) {
-            list($red, $green, $blue) = array($value[0] . $value[0], $value[1] . $value[1], $value[2] . $value[2]);
+            [$red, $green, $blue] = [$value[0] . $value[0], $value[1] . $value[1], $value[2] . $value[2]];
         } else {
             return false;
         }
@@ -359,13 +383,14 @@ class Converter
         $green = ctype_xdigit($green) ? hexdec($green) : 0;
         $blue = ctype_xdigit($blue) ? hexdec($blue) : 0;
 
-        return array($red, $green, $blue);
+        return [$red, $green, $blue];
     }
 
     /**
-     * Transforms a size in CSS format (eg. 10px, 10px, ...) to points
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to points.
      *
      * @param string $value
+     *
      * @return float
      */
     public static function cssToPoint($value)
@@ -373,7 +398,7 @@ class Converter
         if ($value == '0') {
             return 0;
         }
-        $matches = array();
+        $matches = [];
         if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(px|em|ex|%|in|cm|mm|pt|pc)$/i', $value, $matches)) {
             $size = $matches[1];
             $unit = $matches[2];
@@ -398,9 +423,10 @@ class Converter
     }
 
     /**
-     * Transforms a size in CSS format (eg. 10px, 10px, ...) to twips
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to twips.
      *
      * @param string $value
+     *
      * @return float
      */
     public static function cssToTwip($value)
@@ -409,9 +435,10 @@ class Converter
     }
 
     /**
-     * Transforms a size in CSS format (eg. 10px, 10px, ...) to pixel
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to pixel.
      *
      * @param string $value
+     *
      * @return float
      */
     public static function cssToPixel($value)
@@ -420,9 +447,10 @@ class Converter
     }
 
     /**
-     * Transforms a size in CSS format (eg. 10px, 10px, ...) to cm
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to cm.
      *
      * @param string $value
+     *
      * @return float
      */
     public static function cssToCm($value)
@@ -431,9 +459,10 @@ class Converter
     }
 
     /**
-     * Transforms a size in CSS format (eg. 10px, 10px, ...) to emu
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to emu.
      *
      * @param string $value
+     *
      * @return float
      */
     public static function cssToEmu($value)

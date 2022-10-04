@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\Style\Frame as FrameStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment;
 
 /**
- * Frame style writer
+ * Frame style writer.
  *
  * @since 0.12.0
  */
@@ -33,7 +33,7 @@ class Frame extends AbstractStyle
     /**
      * Write style.
      */
-    public function write()
+    public function write(): void
     {
         $style = $this->getStyle();
         if (!$style instanceof FrameStyle) {
@@ -42,27 +42,27 @@ class Frame extends AbstractStyle
         $xmlWriter = $this->getXmlWriter();
 
         $maxZIndex = min(PHP_INT_MAX, self::PHP_32BIT_INT_MAX);
-        $zIndices = array(FrameStyle::WRAP_INFRONT => $maxZIndex, FrameStyle::WRAP_BEHIND => -$maxZIndex);
+        $zIndices = [FrameStyle::WRAP_INFRONT => $maxZIndex, FrameStyle::WRAP_BEHIND => -$maxZIndex];
 
-        $properties = array(
-            'width'              => 'width',
-            'height'             => 'height',
-            'left'               => 'margin-left',
-            'top'                => 'margin-top',
-            'wrapDistanceTop'    => 'mso-wrap-distance-top',
+        $properties = [
+            'width' => 'width',
+            'height' => 'height',
+            'left' => 'margin-left',
+            'top' => 'margin-top',
+            'wrapDistanceTop' => 'mso-wrap-distance-top',
             'wrapDistanceBottom' => 'mso-wrap-distance-bottom',
-            'wrapDistanceLeft'   => 'mso-wrap-distance-left',
-            'wrapDistanceRight'  => 'mso-wrap-distance-right',
-        );
+            'wrapDistanceLeft' => 'mso-wrap-distance-left',
+            'wrapDistanceRight' => 'mso-wrap-distance-right',
+        ];
         $sizeStyles = $this->getStyles($style, $properties, $style->getUnit());
 
-        $properties = array(
-            'pos'       => 'position',
-            'hPos'      => 'mso-position-horizontal',
-            'vPos'      => 'mso-position-vertical',
+        $properties = [
+            'pos' => 'position',
+            'hPos' => 'mso-position-horizontal',
+            'vPos' => 'mso-position-vertical',
             'hPosRelTo' => 'mso-position-horizontal-relative',
             'vPosRelTo' => 'mso-position-vertical-relative',
-        );
+        ];
         $posStyles = $this->getStyles($style, $properties);
 
         $styles = array_merge($sizeStyles, $posStyles);
@@ -83,7 +83,7 @@ class Frame extends AbstractStyle
     /**
      * Write alignment.
      */
-    public function writeAlignment()
+    public function writeAlignment(): void
     {
         $style = $this->getStyle();
         if (!$style instanceof FrameStyle) {
@@ -108,24 +108,22 @@ class Frame extends AbstractStyle
     /**
      * Write wrap.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\Frame $style
      * @param string $wrap
      */
-    private function writeWrap(XMLWriter $xmlWriter, FrameStyle $style, $wrap)
+    private function writeWrap(XMLWriter $xmlWriter, FrameStyle $style, $wrap): void
     {
         if ($wrap !== null) {
             $xmlWriter->startElement('w10:wrap');
             $xmlWriter->writeAttribute('type', $wrap);
 
-            $relativePositions = array(
-                FrameStyle::POS_RELTO_MARGIN  => 'margin',
-                FrameStyle::POS_RELTO_PAGE    => 'page',
+            $relativePositions = [
+                FrameStyle::POS_RELTO_MARGIN => 'margin',
+                FrameStyle::POS_RELTO_PAGE => 'page',
                 FrameStyle::POS_RELTO_TMARGIN => 'margin',
                 FrameStyle::POS_RELTO_BMARGIN => 'page',
                 FrameStyle::POS_RELTO_LMARGIN => 'margin',
                 FrameStyle::POS_RELTO_RMARGIN => 'page',
-            );
+            ];
             $pos = $style->getPos();
             $hPos = $style->getHPosRelTo();
             $vPos = $style->getVPosRelTo();
@@ -147,16 +145,16 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get style values in associative array
+     * Get style values in associative array.
      *
-     * @param \PhpOffice\PhpWord\Style\Frame $style
      * @param array $properties
      * @param string $suffix
+     *
      * @return array
      */
     private function getStyles(FrameStyle $style, $properties, $suffix = '')
     {
-        $styles = array();
+        $styles = [];
 
         foreach ($properties as $key => $property) {
             $method = "get{$key}";

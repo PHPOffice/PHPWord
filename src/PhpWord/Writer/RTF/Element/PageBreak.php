@@ -11,21 +11,21 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 /**
- * PageBreak element RTF writer
+ * PageBreak element RTF writer.
  *
  * @since 0.11.0
  */
 class PageBreak extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
      *
      * @return string
      */

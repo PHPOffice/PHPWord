@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Shared\Converter;
 
 /**
- * Paper size from ISO/IEC 29500-1:2012 pg. 1656-1657
+ * Paper size from ISO/IEC 29500-1:2012 pg. 1656-1657.
  *
  * 1 = Letter paper (8.5 in. by 11 in.)
  * 2 = Letter small paper (8.5 in. by 11 in.)
@@ -94,43 +94,43 @@ use PhpOffice\PhpWord\Shared\Converter;
 class Paper extends AbstractStyle
 {
     /**
-     * Paper sizes
+     * Paper sizes.
      *
      * @var array
      */
-    private $sizes = array(
-        'A3'        => array(297, 420, 'mm'),
-        'A4'        => array(210, 297, 'mm'),
-        'A5'        => array(148, 210, 'mm'),
-        'B5'        => array(176, 250, 'mm'),
-        'Folio'     => array(8.5, 13, 'in'),
-        'Legal'     => array(8.5, 14, 'in'),
-        'Letter'    => array(8.5, 11, 'in'),
-    );
+    private $sizes = [
+        'A3' => [297, 420, 'mm'],
+        'A4' => [210, 297, 'mm'],
+        'A5' => [148, 210, 'mm'],
+        'B5' => [176, 250, 'mm'],
+        'Folio' => [8.5, 13, 'in'],
+        'Legal' => [8.5, 14, 'in'],
+        'Letter' => [8.5, 11, 'in'],
+    ];
 
     /**
-     * Paper size
+     * Paper size.
      *
      * @var string
      */
     private $size = 'A4';
 
     /**
-     * Width
+     * Width.
      *
      * @var float (twip)
      */
     private $width;
 
     /**
-     * Height
+     * Height.
      *
      * @var float (twip)
      */
     private $height;
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param string $size
      */
@@ -140,7 +140,7 @@ class Paper extends AbstractStyle
     }
 
     /**
-     * Get size
+     * Get size.
      *
      * @return string
      */
@@ -150,16 +150,17 @@ class Paper extends AbstractStyle
     }
 
     /**
-     * Set size
+     * Set size.
      *
      * @param string $size
+     *
      * @return self
      */
     public function setSize($size)
     {
         $this->size = $this->setEnumVal($size, array_keys($this->sizes), $this->size);
 
-        list($width, $height, $unit) = $this->sizes[$this->size];
+        [$width, $height, $unit] = $this->sizes[$this->size];
 
         if ($unit == 'mm') {
             $this->width = Converter::cmToTwip($width / 10);
@@ -173,7 +174,7 @@ class Paper extends AbstractStyle
     }
 
     /**
-     * Get width
+     * Get width.
      *
      * @return float
      */
@@ -183,7 +184,7 @@ class Paper extends AbstractStyle
     }
 
     /**
-     * Get height
+     * Get height.
      *
      * @return float
      */

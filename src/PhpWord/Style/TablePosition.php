@@ -11,23 +11,24 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * TablePosition style
+ * TablePosition style.
  *
  * @see http://www.datypic.com/sc/ooxml/e-w_tblpPr-1.html
  */
 class TablePosition extends AbstractStyle
 {
     /**
-     * Vertical anchor constants
+     * Vertical anchor constants.
      *
      * @const string
+     *
      * @see http://www.datypic.com/sc/ooxml/t-w_ST_VAnchor.html
      */
     const VANCHOR_TEXT = 'text'; // Relative to vertical text extents
@@ -35,9 +36,10 @@ class TablePosition extends AbstractStyle
     const VANCHOR_PAGE = 'page'; // Relative to page
 
     /**
-     * Horizontal anchor constants
+     * Horizontal anchor constants.
      *
      * @const string
+     *
      * @see http://www.datypic.com/sc/ooxml/t-w_ST_HAnchor.html
      */
     const HANCHOR_TEXT = 'text'; // Relative to text extents
@@ -45,9 +47,10 @@ class TablePosition extends AbstractStyle
     const HANCHOR_PAGE = 'page'; // Relative to page
 
     /**
-     * Horizontal alignment constants
+     * Horizontal alignment constants.
      *
      * @const string
+     *
      * @see http://www.datypic.com/sc/ooxml/t-w_ST_XAlign.html
      */
     const XALIGN_LEFT = 'left'; // Left aligned horizontally
@@ -57,9 +60,10 @@ class TablePosition extends AbstractStyle
     const XALIGN_OUTSIDE = 'outside'; // Outside
 
     /**
-     * Vertical alignment constants
+     * Vertical alignment constants.
      *
      * @const string
+     *
      * @see http://www.datypic.com/sc/ooxml/t-w_ST_YAlign.html
      */
     const YALIGN_INLINE = 'inline'; // In line with text
@@ -70,91 +74,95 @@ class TablePosition extends AbstractStyle
     const YALIGN_OUTSIDE = 'outside'; // Centered vertically
 
     /**
-     * Distance from left of table to text
+     * Distance from left of table to text.
      *
      * @var int
      */
     private $leftFromText;
 
     /**
-     * Distance from right of table to text
+     * Distance from right of table to text.
      *
      * @var int
      */
     private $rightFromText;
 
     /**
-     * Distance from top of table to text
+     * Distance from top of table to text.
      *
      * @var int
      */
     private $topFromText;
 
     /**
-     * Distance from bottom of table to text
+     * Distance from bottom of table to text.
      *
      * @var int
      */
     private $bottomFromText;
 
     /**
-     * Table vertical anchor
+     * Table vertical anchor.
      *
      * @var string
+     *
      * @see http://www.datypic.com/sc/ooxml/t-w_ST_VAnchor.html
      */
     private $vertAnchor;
 
     /**
-     * Table horizontal anchor
+     * Table horizontal anchor.
      *
      * @var string
+     *
      * @see http://www.datypic.com/sc/ooxml/t-w_ST_HAnchor.html
      */
     private $horzAnchor;
 
     /**
-     * Relative horizontal alignment from anchor
+     * Relative horizontal alignment from anchor.
      *
      * @var string
+     *
      * @see http://www.datypic.com/sc/ooxml/t-w_ST_XAlign.html
      */
     private $tblpXSpec;
 
     /**
-     * Absolute horizontal distance from anchor
+     * Absolute horizontal distance from anchor.
      *
      * @var int
      */
     private $tblpX;
 
     /**
-     * Relative vertical alignment from anchor
+     * Relative vertical alignment from anchor.
      *
      * @var string
+     *
      * @see http://www.datypic.com/sc/ooxml/t-w_ST_YAlign.html
      */
     private $tblpYSpec;
 
     /**
-     * Absolute vertical distance from anchor
+     * Absolute vertical distance from anchor.
      *
      * @var int
      */
     private $tblpY;
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param array $style
      */
-    public function __construct($style = array())
+    public function __construct($style = [])
     {
         $this->setStyleByArray($style);
     }
 
     /**
-     * Get distance from left of table to text
+     * Get distance from left of table to text.
      *
      * @return int
      */
@@ -164,9 +172,10 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set distance from left of table to text
+     * Set distance from left of table to text.
      *
      * @param int $value
+     *
      * @return self
      */
     public function setLeftFromText($value = null)
@@ -177,7 +186,7 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Get distance from right of table to text
+     * Get distance from right of table to text.
      *
      * @return int
      */
@@ -187,9 +196,10 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set distance from right of table to text
+     * Set distance from right of table to text.
      *
      * @param int $value
+     *
      * @return self
      */
     public function setRightFromText($value = null)
@@ -200,7 +210,7 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Get distance from top of table to text
+     * Get distance from top of table to text.
      *
      * @return int
      */
@@ -210,9 +220,10 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set distance from top of table to text
+     * Set distance from top of table to text.
      *
      * @param int $value
+     *
      * @return self
      */
     public function setTopFromText($value = null)
@@ -223,7 +234,7 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Get distance from bottom of table to text
+     * Get distance from bottom of table to text.
      *
      * @return int
      */
@@ -233,9 +244,10 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set distance from bottom of table to text
+     * Set distance from bottom of table to text.
      *
      * @param int $value
+     *
      * @return self
      */
     public function setBottomFromText($value = null)
@@ -246,7 +258,7 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Get table vertical anchor
+     * Get table vertical anchor.
      *
      * @return string
      */
@@ -256,25 +268,26 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set table vertical anchor
+     * Set table vertical anchor.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setVertAnchor($value = null)
     {
-        $enum = array(
-          self::VANCHOR_TEXT,
-          self::VANCHOR_MARGIN,
-          self::VANCHOR_PAGE,
-        );
+        $enum = [
+            self::VANCHOR_TEXT,
+            self::VANCHOR_MARGIN,
+            self::VANCHOR_PAGE,
+        ];
         $this->vertAnchor = $this->setEnumVal($value, $enum, $this->vertAnchor);
 
         return $this;
     }
 
     /**
-     * Get table horizontal anchor
+     * Get table horizontal anchor.
      *
      * @return string
      */
@@ -284,25 +297,26 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set table horizontal anchor
+     * Set table horizontal anchor.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setHorzAnchor($value = null)
     {
-        $enum = array(
-          self::HANCHOR_TEXT,
-          self::HANCHOR_MARGIN,
-          self::HANCHOR_PAGE,
-        );
+        $enum = [
+            self::HANCHOR_TEXT,
+            self::HANCHOR_MARGIN,
+            self::HANCHOR_PAGE,
+        ];
         $this->horzAnchor = $this->setEnumVal($value, $enum, $this->horzAnchor);
 
         return $this;
     }
 
     /**
-     * Get relative horizontal alignment from anchor
+     * Get relative horizontal alignment from anchor.
      *
      * @return string
      */
@@ -312,27 +326,28 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set relative horizontal alignment from anchor
+     * Set relative horizontal alignment from anchor.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setTblpXSpec($value = null)
     {
-        $enum = array(
+        $enum = [
             self::XALIGN_LEFT,
             self::XALIGN_CENTER,
             self::XALIGN_RIGHT,
             self::XALIGN_INSIDE,
             self::XALIGN_OUTSIDE,
-        );
+        ];
         $this->tblpXSpec = $this->setEnumVal($value, $enum, $this->tblpXSpec);
 
         return $this;
     }
 
     /**
-     * Get absolute horizontal distance from anchor
+     * Get absolute horizontal distance from anchor.
      *
      * @return int
      */
@@ -342,9 +357,10 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set absolute horizontal distance from anchor
+     * Set absolute horizontal distance from anchor.
      *
      * @param int $value
+     *
      * @return self
      */
     public function setTblpX($value = null)
@@ -355,7 +371,7 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Get relative vertical alignment from anchor
+     * Get relative vertical alignment from anchor.
      *
      * @return string
      */
@@ -365,28 +381,29 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set relative vertical alignment from anchor
+     * Set relative vertical alignment from anchor.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setTblpYSpec($value = null)
     {
-        $enum = array(
+        $enum = [
             self::YALIGN_INLINE,
             self::YALIGN_TOP,
             self::YALIGN_CENTER,
             self::YALIGN_BOTTOM,
             self::YALIGN_INSIDE,
             self::YALIGN_OUTSIDE,
-        );
+        ];
         $this->tblpYSpec = $this->setEnumVal($value, $enum, $this->tblpYSpec);
 
         return $this;
     }
 
     /**
-     * Get absolute vertical distance from anchor
+     * Get absolute vertical distance from anchor.
      *
      * @return int
      */
@@ -396,9 +413,10 @@ class TablePosition extends AbstractStyle
     }
 
     /**
-     * Set absolute vertical distance from anchor
+     * Set absolute vertical distance from anchor.
      *
      * @param int $value
+     *
      * @return self
      */
     public function setTblpY($value = null)

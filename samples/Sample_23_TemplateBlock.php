@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // Template processor instance creation
@@ -14,7 +15,7 @@ $templateProcessor->deleteBlock('DELETEME');
 echo date('H:i:s'), ' Saving the result document...', EOL;
 $templateProcessor->saveAs('results/Sample_23_TemplateBlock.docx');
 
-echo getEndingNotes(array('Word2007' => 'docx'), 'Sample_23_TemplateBlock');
+echo getEndingNotes(['Word2007' => 'docx'], 'Sample_23_TemplateBlock');
 if (!CLI) {
     include_once 'Sample_Footer.php';
 }

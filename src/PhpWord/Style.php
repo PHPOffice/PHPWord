@@ -24,22 +24,23 @@ use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
 
 /**
- * Style collection
+ * Style collection.
  */
 class Style
 {
     /**
-     * Style register
+     * Style register.
      *
      * @var array
      */
-    private static $styles = array();
+    private static $styles = [];
 
     /**
-     * Add paragraph style
+     * Add paragraph style.
      *
      * @param string $styleName
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles
+     *
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public static function addParagraphStyle($styleName, $styles)
@@ -48,11 +49,12 @@ class Style
     }
 
     /**
-     * Add font style
+     * Add font style.
      *
      * @param string $styleName
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
+     *
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
@@ -61,10 +63,11 @@ class Style
     }
 
     /**
-     * Add link style
+     * Add link style.
      *
      * @param string $styleName
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles
+     *
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function addLinkStyle($styleName, $styles)
@@ -73,11 +76,13 @@ class Style
     }
 
     /**
-     * Add numbering style
+     * Add numbering style.
      *
      * @param string $styleName
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styleValues
+     *
      * @return \PhpOffice\PhpWord\Style\Numbering
+     *
      * @since 0.10.0
      */
     public static function addNumberingStyle($styleName, $styleValues)
@@ -86,11 +91,12 @@ class Style
     }
 
     /**
-     * Add title style
+     * Add title style.
      *
-     * @param int|null $depth Provide null to set title font
+     * @param null|int $depth Provide null to set title font
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
+     *
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
@@ -105,13 +111,14 @@ class Style
     }
 
     /**
-     * Add toc style
+     * Add toc style.
      *
      * @param int $depth Provide null to set title font
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
-     * @since 0.19.0
+     *
      * @return \PhpOffice\PhpWord\Style\Font
+     * @since 0.19.0
      */
     public static function addTocStyle($depth, $fontStyle, $paragraphStyle = null)
     {
@@ -121,11 +128,12 @@ class Style
     }
 
     /**
-     * Add table style
+     * Add table style.
      *
      * @param string $styleName
      * @param array $styleTable
-     * @param array|null $styleFirstRow
+     * @param null|array $styleFirstRow
+     *
      * @return \PhpOffice\PhpWord\Style\Table
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
@@ -134,9 +142,10 @@ class Style
     }
 
     /**
-     * Count styles
+     * Count styles.
      *
      * @return int
+     *
      * @since 0.10.0
      */
     public static function countStyles()
@@ -149,15 +158,16 @@ class Style
      *
      * @since 0.10.0
      */
-    public static function resetStyles()
+    public static function resetStyles(): void
     {
-        self::$styles = array();
+        self::$styles = [];
     }
 
     /**
-     * Set default paragraph style
+     * Set default paragraph style.
      *
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles Paragraph style definition
+     *
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public static function setDefaultParagraphStyle($styles)
@@ -166,7 +176,7 @@ class Style
     }
 
     /**
-     * Get all styles
+     * Get all styles.
      *
      * @return \PhpOffice\PhpWord\Style\AbstractStyle[]
      */
@@ -176,9 +186,10 @@ class Style
     }
 
     /**
-     * Get style by name
+     * Get style by name.
      *
      * @param string $styleName
+     *
      * @return \PhpOffice\PhpWord\Style\AbstractStyle Paragraph|Font|Table|Numbering
      */
     public static function getStyle($styleName)
@@ -191,13 +202,14 @@ class Style
     }
 
     /**
-     * Set style values and put it to static style collection
+     * Set style values and put it to static style collection.
      *
      * The $styleValues could be an array or object
      *
      * @param string $name
      * @param \PhpOffice\PhpWord\Style\AbstractStyle $style
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $value
+     *
      * @return \PhpOffice\PhpWord\Style\AbstractStyle
      */
     private static function setStyleValues($name, $style, $value = null)
