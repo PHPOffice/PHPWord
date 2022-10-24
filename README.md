@@ -60,7 +60,7 @@ With PHPWord, you can create OOXML, ODF, or RTF documents dynamically using your
 
 PHPWord requires the following:
 
-- PHP 7.4+
+- PHP 7.1+
 - [XML Parser extension](http://www.php.net/manual/en/xml.installation.php)
 - [Laminas Escaper component](https://docs.laminas.dev/laminas-escaper/intro/)
 - [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write OOXML and ODF)
