@@ -74,8 +74,7 @@ class Media
                     $mediaData['imageType'] = $image->getImageType();
                     if ($isMemImage) {
                         $mediaData['isMemImage'] = true;
-                        $mediaData['createFunction'] = $image->getImageCreateFunction();
-                        $mediaData['imageFunction'] = $image->getImageFunction();
+                        $mediaData['imageString'] = $image->getImageString();
                     }
                     $target = "{$container}_image{$mediaTypeCount}.{$extension}";
                     $image->setTarget($target);
