@@ -353,7 +353,11 @@ abstract class AbstractWriter implements WriterInterface
                     imagesavealpha($image, true);
                 }
                 ob_start();
-                call_user_func($element['imageFunction'], $image);
+                if (!empty($element['imageQuality'])) {
+                    call_user_func($element['imageFunction'], $image, null, $element['imageQuality']);
+                } else {
+                    call_user_func($element['imageFunction'], $image);
+                }
                 $imageContents = ob_get_contents();
                 ob_end_clean();
                 $zip->addFromString($target, $imageContents);
