@@ -396,6 +396,8 @@ class TemplateProcessor
         $varInlineArgs = [];
         // size format documentation: https://msdn.microsoft.com/en-us/library/documentformat.openxml.vml.shape%28v=office.14%29.aspx?f=255&MSPPError=-2147217396
         foreach ($varElements as $argIdx => $varArg) {
+            [$returnValue] = $this->preg_match('/^([0-9]*[a-z%]{0,2}|auto)x([0-9]*[a-z%]{0,2}|auto)$/i', $varArg); // 60x40
+
             if (strpos($varArg, '=')) { // arg=value
                 [$argName, $argValue] = explode('=', $varArg, 2);
                 $argName = strtolower($argName);
@@ -404,7 +406,7 @@ class TemplateProcessor
                 } else {
                     $varInlineArgs[strtolower($argName)] = $argValue;
                 }
-            } elseif (preg_match('/^([0-9]*[a-z%]{0,2}|auto)x([0-9]*[a-z%]{0,2}|auto)$/i', $varArg)) { // 60x40
+            } elseif (1 === $returnValue) {
                 [$varInlineArgs['width'], $varInlineArgs['height']] = explode('x', $varArg, 2);
             } else { // :60:40:f
                 switch ($argIdx) {
@@ -433,7 +435,10 @@ class TemplateProcessor
         if (null === $value && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
+
+        [$returnValue] = $this->preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '');
+
+        if (0 === $returnValue) {
             $value = null;
         }
         if (null === $value) {
@@ -456,20 +461,16 @@ class TemplateProcessor
         } elseif ($width === '') { // defined width is empty
             $heightFloat = (float) $height;
             $widthFloat = $heightFloat * $imageRatio;
-            $matches = [];
-            preg_match('/\\d([a-z%]+)$/', $height, $matches);
+            [, $matches] = $this->preg_match('/\\d([a-z%]+)$/', $height);
             $width = $widthFloat . $matches[1];
         } elseif ($height === '') { // defined height is empty
             $widthFloat = (float) $width;
             $heightFloat = $widthFloat / $imageRatio;
-            $matches = [];
-            preg_match('/\\d([a-z%]+)$/', $width, $matches);
+            [, $matches] = $this->preg_match('/\\d([a-z%]+)$/', $width);
             $height = $heightFloat . $matches[1];
         } else { // we have defined size, but we need also check it aspect ratio
-            $widthMatches = [];
-            preg_match('/\\d([a-z%]+)$/', $width, $widthMatches);
-            $heightMatches = [];
-            preg_match('/\\d([a-z%]+)$/', $height, $heightMatches);
+            [, $widthMatches] = $this->preg_match('/\\d([a-z%]+)$/', $width);
+            [, $heightMatches] = $this->preg_match('/\\d([a-z%]+)$/', $height);
             // try to fix only if dimensions are same
             if ($widthMatches[1] == $heightMatches[1]) {
                 $dimention = $widthMatches[1];
@@ -635,7 +636,9 @@ class TemplateProcessor
 
             foreach ($searchReplace as $searchString => $replaceImage) {
                 $varsToReplace = array_filter($partVariables, function ($partVar) use ($searchString) {
-                    return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString) . ':/', $partVar);
+                    [$returnValue] = $this->preg_match('/^' . preg_quote($searchString) . ':/', $partVar);
+
+                    return ($partVar == $searchString) || $returnValue;
                 });
 
                 foreach ($varsToReplace as $varNameWithArgs) {
@@ -653,8 +656,13 @@ class TemplateProcessor
 
                     // replace variable
                     $varNameWithArgsFixed = static::ensureMacroCompleted($varNameWithArgs);
-                    $matches = [];
-                    if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed) . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
+
+                    [$returnValue, $matches] = $this->preg_match(
+                        '/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed) . ')([^>]*)(<[^>]+>)/Uu',
+                        $partContent
+                    );
+
+                    if ($returnValue) {
                         $wholeTag = $matches[0];
                         array_shift($matches);
                         [$openTag, $prefix, , $postfix, $closeTag] = $matches;
@@ -726,8 +734,10 @@ class TemplateProcessor
         $rowEnd = $this->findRowEnd($tagPos);
         $xmlRow = $this->getSlice($rowStart, $rowEnd);
 
+        [$returnValue] = $this->preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow);
+
         // Check if there's a cell spanning multiple rows.
-        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+        if ($returnValue) {
             // $extraRowStart = $rowEnd;
             $extraRowEnd = $rowEnd;
             while (true) {
@@ -741,9 +751,11 @@ class TemplateProcessor
 
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
-                    !preg_match('#<w:vMerge w:val="continue"\s*/>#', $tmpXmlRow)
-                ) {
+
+                [$returnValue1] = $this->preg_match('#<w:vMerge/>#', $tmpXmlRow);
+                [$returnValue2] = $this->preg_match('#<w:vMerge w:val="continue"\s*/>#', $tmpXmlRow);
+
+                if (0 === $returnValue1 && 0 === $returnValue2) {
                     break;
                 }
                 // This row was a spanned row, update $rowEnd and search for the next row.
@@ -791,11 +803,16 @@ class TemplateProcessor
     public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null)
     {
         $xmlBlock = null;
-        $matches = [];
-        preg_match(
-            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\${' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->tempDocumentMainPart,
-            $matches
+
+        $regex = sprintf(
+            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\${%s}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\${\/%s}<\/w:.*?p>)/is',
+            preg_quote($blockname),
+            preg_quote($blockname)
+        );
+
+        [, $matches] = $this->preg_match(
+            $regex,
+            $this->tempDocumentMainPart
         );
 
         if (isset($matches[3])) {
@@ -831,11 +848,9 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement): void
     {
-        $matches = [];
-        preg_match(
+        [, $matches] = $this->preg_match(
             '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->tempDocumentMainPart,
-            $matches
+            $this->tempDocumentMainPart
         );
 
         if (isset($matches[3])) {
@@ -865,8 +880,13 @@ class TemplateProcessor
     public function setUpdateFields($update = true): void
     {
         $string = $update ? 'true' : 'false';
-        $matches = [];
-        if (preg_match('/<w:updateFields w:val=\"(true|false|1|0|on|off)\"\/>/', $this->tempDocumentSettingsPart, $matches)) {
+
+        [$returnValue, $matches] = $this->preg_match(
+            '/<w:updateFields w:val=\"(true|false|1|0|on|off)\"\/>/',
+            $this->tempDocumentSettingsPart
+        );
+
+        if (1 === $returnValue) {
             $this->tempDocumentSettingsPart = str_replace($matches[0], '<w:updateFields w:val="' . $string . '"/>', $this->tempDocumentSettingsPart);
         } else {
             $this->tempDocumentSettingsPart = str_replace('</w:settings>', '<w:updateFields w:val="' . $string . '"/></w:settings>', $this->tempDocumentSettingsPart);
@@ -1017,8 +1037,10 @@ class TemplateProcessor
 
         $pattern = '~PartName="\/(word\/document.*?\.xml)" ContentType="application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document\.main\+xml"~';
 
-        $matches = [];
-        preg_match($pattern, $contentTypes, $matches);
+        [, $matches] = $this->preg_match(
+            $pattern,
+            $contentTypes
+        );
 
         return array_key_exists(1, $matches) ? $matches[1] : 'word/document.xml';
     }
@@ -1289,8 +1311,13 @@ class TemplateProcessor
         if (!$this->textNeedsSplitting($text)) {
             return $text;
         }
-        $matches = [];
-        if (preg_match('/(<w:rPr.*<\/w:rPr>)/i', $text, $matches)) {
+
+        [$returnValue, $matches] = $this->preg_match(
+            '/(<w:rPr.*<\/w:rPr>)/i',
+            $text
+        );
+
+        if (1 === $returnValue) {
             $extractedStyle = $matches[0];
         } else {
             $extractedStyle = '';
@@ -1311,6 +1338,41 @@ class TemplateProcessor
      */
     protected function textNeedsSplitting($text)
     {
-        return preg_match('/[^>]\${|}[^<]/i', $text) == 1;
+        [$returnValue] = $this->preg_match('/[^>]\${|}[^<]/i', $text);
+
+        return 1 === $returnValue;
+    }
+
+    /**
+     * Custom wrapper around core PHP preg_match function.
+     *
+     * The default behavior of preg_match is to silent any parsing error.
+     * Therefore, this wrapper is here to make sure that it properly throws an
+     * exception in case of any preg_match issue.
+     *
+     * @return array{0: 0|1, 1: array<int, string>}
+     */
+    protected function preg_match(string $pattern, string $subject): array
+    {
+        $matches = [];
+
+        $returnValue = preg_match($pattern, $subject, $matches);
+
+        if (false === $returnValue) {
+            $message = array_flip(
+                array_filter(
+                    get_defined_constants(true)['pcre'],
+                    static function ($v): bool {
+                        return is_int($v);
+                    }
+                )
+            )[preg_last_error()];
+
+            throw new Exception(
+                sprintf('Unable to parse document. Reason: %s', $message)
+            );
+        }
+
+        return [$returnValue, $matches];
     }
 }
