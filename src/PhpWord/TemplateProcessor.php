@@ -1159,7 +1159,7 @@ class TemplateProcessor
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    protected function findTableStart($offset)
+    protected function findTableStart(int $offset): int
     {
         $rowStart = strrpos($this->tempDocumentMainPart, '<w:tbl ',
             ((strlen($this->tempDocumentMainPart) - $offset) * -1));
