@@ -188,7 +188,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      * @covers ::saveAs
      * @test
      */
-    public function testDeleteRow()
+    public function testDeleteRow(): void
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/delete-row.docx');
 

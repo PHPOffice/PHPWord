@@ -797,7 +797,6 @@ class TemplateProcessor
 
         // Check if there's a cell spanning multiple rows.
         if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
-            // $extraRowStart = $rowEnd;
             $extraRowStart = $rowStart;
             while (true) {
                 $extraRowStart = $this->findRowStart($extraRowStart + 1);
@@ -1182,7 +1181,7 @@ class TemplateProcessor
     *
     * @return integer
     */
-    protected function findTableEnd($offset)
+    protected function findTableEnd(int $offset): int
     {
         return strpos($this->tempDocumentMainPart, '</w:tbl>', $offset) + 7;
     }
