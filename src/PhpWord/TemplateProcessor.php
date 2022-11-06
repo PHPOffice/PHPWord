@@ -768,7 +768,7 @@ class TemplateProcessor
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function deleteRow($search)
+    public function deleteRow(string $search): void
     {
         if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
             $search = '${' . $search . '}';
