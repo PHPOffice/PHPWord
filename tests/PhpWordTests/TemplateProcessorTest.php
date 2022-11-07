@@ -183,30 +183,29 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers ::getVariables
      * @covers ::deleteRow
+     * @covers ::getVariables
      * @covers ::saveAs
-     * @test
      */
     public function testDeleteRow(): void
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/delete-row.docx');
 
-        $this->assertEquals(
-            array('deleteMe', 'deleteMeToo'),
+        self::assertEquals(
+            ['deleteMe', 'deleteMeToo'],
             $templateProcessor->getVariables()
         );
 
         $docName = 'delete-row-test-result.docx';
         $templateProcessor->deleteRow('deleteMe');
-        $this->assertEquals(
-            array(),
+        self::assertEquals(
+            [],
             $templateProcessor->getVariables()
         );
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
-        $this->assertTrue($docFound);
+        self::assertTrue($docFound);
     }
 
     /**

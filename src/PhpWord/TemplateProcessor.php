@@ -761,12 +761,6 @@ class TemplateProcessor
 
     /**
      * Delete a table row in a template document.
-     *
-     * @param string $search
-     *
-     * @return void
-     *
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function deleteRow(string $search): void
     {
@@ -776,7 +770,7 @@ class TemplateProcessor
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
-            throw new Exception(sprintf("Can not delete row %s, template variable not found or variable contains markup.", $search));
+            throw new Exception(sprintf('Can not delete row %s, template variable not found or variable contains markup.', $search));
         }
 
         $tableStart = $this->findTableStart($tagPos);
@@ -1151,21 +1145,21 @@ class TemplateProcessor
 
     /**
      * Find the start position of the nearest table before $offset.
-     *
-     * @param integer $offset
-     *
-     * @return integer
-     *
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function findTableStart(int $offset): int
     {
-        $rowStart = strrpos($this->tempDocumentMainPart, '<w:tbl ',
-            ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        $rowStart = strrpos(
+            $this->tempDocumentMainPart,
+            '<w:tbl ',
+            ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+        );
 
         if (!$rowStart) {
-            $rowStart = strrpos($this->tempDocumentMainPart, '<w:tbl>',
-                ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+            $rowStart = strrpos(
+                $this->tempDocumentMainPart,
+                '<w:tbl>',
+                ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+            );
         }
         if (!$rowStart) {
             throw new Exception('Can not find the start position of the table.');
@@ -1175,12 +1169,8 @@ class TemplateProcessor
     }
 
     /**
-    * Find the end position of the nearest table row after $offset.
-    *
-    * @param integer $offset
-    *
-    * @return integer
-    */
+     * Find the end position of the nearest table row after $offset.
+     */
     protected function findTableEnd(int $offset): int
     {
         return strpos($this->tempDocumentMainPart, '</w:tbl>', $offset) + 7;
