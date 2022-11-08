@@ -61,6 +61,7 @@
         "php": "^7.1|^8.0",
         "ext-dom": "*",
         "ext-json": "*",
+        "ext-pcre": "*",
         "ext-xml": "*",
         "laminas/laminas-escaper": ">=2.6"
     },
