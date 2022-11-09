@@ -191,7 +191,7 @@ class Chart extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param bool $scatter
      */
-    private function writeSeries(XMLWriter $xmlWriter, $scatter = false): void
+    private function writeSeries(XMLWriter $xmlWriter, bool $scatter = false): void
     {
         $series = $this->element->getSeries();
         $style = $this->element->getStyle();
@@ -205,6 +205,7 @@ class Chart extends AbstractPart
             foreach ($items as $seriesItem) {
                 $categories = $seriesItem['categories'];
                 $values = $seriesItem['values'];
+                $options = $seriesItem['options'] ?? [];
 
                 $xmlWriter->startElement('c:ser');
 
@@ -273,6 +274,8 @@ class Chart extends AbstractPart
                         $xmlWriter->endElement(); // c:spPr
                         //*/
                     }
+
+                    $xmlWriter->writeElementBlock('c:invertIfNegative', 'val', $options['invertIfNegative'] ?? '0');
                 }
 
                 $xmlWriter->endElement(); // c:ser
