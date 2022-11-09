@@ -83,6 +83,13 @@ class Chart extends AbstractStyle
     private $legendPosition = 'r';
 
     /**
+     * Should the legend overlay the chart?
+     *
+     * @var bool
+     */
+    private $legendOverlay = false;
+
+    /**
      * A list of display options for data labels.
      *
      * @var array
@@ -369,6 +376,26 @@ class Chart extends AbstractStyle
         $this->legendPosition = $this->setEnumVal($legendPosition, $enum, $this->legendPosition);
 
         return $this;
+    }
+
+    /**
+     * Returns if the legend overlays the chart
+     *
+     * @return bool
+     */
+    public function isLegendOverlay(): bool
+    {
+        return $this->legendOverlay;
+    }
+
+    /**
+     * Set the legend overlay chart option
+     *
+     * @param bool $legendOverlay
+     */
+    public function setLegendOverlay(bool $legendOverlay): void
+    {
+        $this->legendOverlay = $legendOverlay;
     }
 
     /*
