@@ -3,17 +3,17 @@ Search.appendIndex(
                 {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\AbstractCollection",
             "name": "AbstractCollection",
-            "summary": "Collection\u0020abstract\u0020class",
+            "summary": "Collection\u0020abstract\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Collection-AbstractCollection.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\AbstractCollection\u003A\u003AgetItems\u0028\u0029",
             "name": "getItems",
-            "summary": "Get\u0020items",
+            "summary": "Get\u0020items.",
             "url": "classes/PhpOffice-PhpWord-Collection-AbstractCollection.html#method_getItems"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\AbstractCollection\u003A\u003AgetItem\u0028\u0029",
             "name": "getItem",
-            "summary": "Get\u0020item\u0020by\u0020index",
+            "summary": "Get\u0020item\u0020by\u0020index.",
             "url": "classes/PhpOffice-PhpWord-Collection-AbstractCollection.html#method_getItem"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\AbstractCollection\u003A\u003AsetItem\u0028\u0029",
@@ -23,92 +23,92 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\AbstractCollection\u003A\u003AaddItem\u0028\u0029",
             "name": "addItem",
-            "summary": "Add\u0020new\u0020item",
+            "summary": "Add\u0020new\u0020item.",
             "url": "classes/PhpOffice-PhpWord-Collection-AbstractCollection.html#method_addItem"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\AbstractCollection\u003A\u003AcountItems\u0028\u0029",
             "name": "countItems",
-            "summary": "Get\u0020item\u0020count",
+            "summary": "Get\u0020item\u0020count.",
             "url": "classes/PhpOffice-PhpWord-Collection-AbstractCollection.html#method_countItems"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\AbstractCollection\u003A\u003A\u0024items",
             "name": "items",
-            "summary": "Items",
+            "summary": "Items.",
             "url": "classes/PhpOffice-PhpWord-Collection-AbstractCollection.html#property_items"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\Bookmarks",
             "name": "Bookmarks",
-            "summary": "Bookmarks\u0020collection",
+            "summary": "Bookmarks\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Collection-Bookmarks.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\Charts",
             "name": "Charts",
-            "summary": "Charts\u0020collection",
+            "summary": "Charts\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Collection-Charts.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\Comments",
             "name": "Comments",
-            "summary": "Comments\u0020collection",
+            "summary": "Comments\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Collection-Comments.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\Endnotes",
             "name": "Endnotes",
-            "summary": "Endnotes\u0020collection",
+            "summary": "Endnotes\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Collection-Endnotes.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\Footnotes",
             "name": "Footnotes",
-            "summary": "Footnotes\u0020collection",
+            "summary": "Footnotes\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Collection-Footnotes.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\Titles",
             "name": "Titles",
-            "summary": "Titles\u0020collection",
+            "summary": "Titles\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Collection-Titles.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties",
             "name": "FootnoteProperties",
-            "summary": "Footnote\u0020properties",
+            "summary": "Footnote\u0020properties.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003AgetPos\u0028\u0029",
             "name": "getPos",
-            "summary": "Get\u0020the\u0020Footnote\u0020Positioning\u0020Location",
+            "summary": "Get\u0020the\u0020Footnote\u0020Positioning\u0020Location.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#method_getPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003AsetPos\u0028\u0029",
             "name": "setPos",
-            "summary": "Set\u0020the\u0020Footnote\u0020Positioning\u0020Location\u0020\u0028pageBottom,\u0020beneathText,\u0020sectEnd,\u0020docEnd\u0029",
+            "summary": "Set\u0020the\u0020Footnote\u0020Positioning\u0020Location\u0020\u0028pageBottom,\u0020beneathText,\u0020sectEnd,\u0020docEnd\u0029.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#method_setPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003AgetNumFmt\u0028\u0029",
             "name": "getNumFmt",
-            "summary": "Get\u0020the\u0020Footnote\u0020Numbering\u0020Format",
+            "summary": "Get\u0020the\u0020Footnote\u0020Numbering\u0020Format.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#method_getNumFmt"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003AsetNumFmt\u0028\u0029",
             "name": "setNumFmt",
-            "summary": "Set\u0020the\u0020Footnote\u0020Numbering\u0020Format",
+            "summary": "Set\u0020the\u0020Footnote\u0020Numbering\u0020Format.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#method_setNumFmt"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003AgetNumStart\u0028\u0029",
             "name": "getNumStart",
-            "summary": "Get\u0020the\u0020Footnote\u0020Numbering\u0020Format",
+            "summary": "Get\u0020the\u0020Footnote\u0020Numbering\u0020Format.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#method_getNumStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003AsetNumStart\u0028\u0029",
             "name": "setNumStart",
-            "summary": "Set\u0020the\u0020Footnote\u0020Numbering\u0020Format",
+            "summary": "Set\u0020the\u0020Footnote\u0020Numbering\u0020Format.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#method_setNumStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003AgetNumRestart\u0028\u0029",
             "name": "getNumRestart",
-            "summary": "Get\u0020the\u0020Footnote\u0020and\u0020Endnote\u0020Numbering\u0020Starting\u0020Value",
+            "summary": "Get\u0020the\u0020Footnote\u0020and\u0020Endnote\u0020Numbering\u0020Starting\u0020Value.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#method_getNumRestart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003AsetNumRestart\u0028\u0029",
             "name": "setNumRestart",
-            "summary": "Set\u0020the\u0020Footnote\u0020and\u0020Endnote\u0020Numbering\u0020Starting\u0020Value\u0020\u0028continuous,\u0020eachSect,\u0020eachPage\u0029",
+            "summary": "Set\u0020the\u0020Footnote\u0020and\u0020Endnote\u0020Numbering\u0020Starting\u0020Value\u0020\u0028continuous,\u0020eachSect,\u0020eachPage\u0029.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#method_setNumRestart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003ARESTART_NUMBER_CONTINUOUS",
@@ -148,67 +148,67 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003A\u0024pos",
             "name": "pos",
-            "summary": "Footnote\u0020Positioning\u0020Location",
+            "summary": "Footnote\u0020Positioning\u0020Location.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#property_pos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003A\u0024numFmt",
             "name": "numFmt",
-            "summary": "Footnote\u0020Numbering\u0020Format\u0020w\u003AnumFmt,\u0020one\u0020of\u0020PhpOffice\\PhpWord\\SimpleType\\NumberFormat",
+            "summary": "Footnote\u0020Numbering\u0020Format\u0020w\u003AnumFmt,\u0020one\u0020of\u0020PhpOffice\\PhpWord\\SimpleType\\NumberFormat.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#property_numFmt"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003A\u0024numStart",
             "name": "numStart",
-            "summary": "Footnote\u0020and\u0020Endnote\u0020Numbering\u0020Starting\u0020Value",
+            "summary": "Footnote\u0020and\u0020Endnote\u0020Numbering\u0020Starting\u0020Value.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#property_numStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\FootnoteProperties\u003A\u003A\u0024numRestart",
             "name": "numRestart",
-            "summary": "Footnote\u0020and\u0020Endnote\u0020Numbering\u0020Restart\u0020Location",
+            "summary": "Footnote\u0020and\u0020Endnote\u0020Numbering\u0020Restart\u0020Location.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-FootnoteProperties.html#property_numRestart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\ProofState",
             "name": "ProofState",
-            "summary": "Spelling\u0020and\u0020Grammatical\u0020Checking\u0020State",
+            "summary": "Spelling\u0020and\u0020Grammatical\u0020Checking\u0020State.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\ProofState\u003A\u003AsetSpelling\u0028\u0029",
             "name": "setSpelling",
-            "summary": "Set\u0020the\u0020Spell\u0020Checking\u0020State\u0020\u0028dirty\u0020or\u0020clean\u0029",
+            "summary": "Set\u0020the\u0020Spell\u0020Checking\u0020State\u0020\u0028dirty\u0020or\u0020clean\u0029.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html#method_setSpelling"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\ProofState\u003A\u003AgetSpelling\u0028\u0029",
             "name": "getSpelling",
-            "summary": "Get\u0020the\u0020Spell\u0020Checking\u0020State",
+            "summary": "Get\u0020the\u0020Spell\u0020Checking\u0020State.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html#method_getSpelling"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\ProofState\u003A\u003AsetGrammar\u0028\u0029",
             "name": "setGrammar",
-            "summary": "Set\u0020the\u0020Grammatical\u0020Checking\u0020State\u0020\u0028dirty\u0020or\u0020clean\u0029",
+            "summary": "Set\u0020the\u0020Grammatical\u0020Checking\u0020State\u0020\u0028dirty\u0020or\u0020clean\u0029.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html#method_setGrammar"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\ProofState\u003A\u003AgetGrammar\u0028\u0029",
             "name": "getGrammar",
-            "summary": "Get\u0020the\u0020Grammatical\u0020Checking\u0020State",
+            "summary": "Get\u0020the\u0020Grammatical\u0020Checking\u0020State.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html#method_getGrammar"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\ProofState\u003A\u003ACLEAN",
             "name": "CLEAN",
-            "summary": "Check\u0020Completed",
+            "summary": "Check\u0020Completed.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html#constant_CLEAN"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\ProofState\u003A\u003ADIRTY",
             "name": "DIRTY",
-            "summary": "Check\u0020Not\u0020Completed",
+            "summary": "Check\u0020Not\u0020Completed.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html#constant_DIRTY"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\ProofState\u003A\u003A\u0024spelling",
             "name": "spelling",
-            "summary": "Spell\u0020Checking\u0020State",
+            "summary": "Spell\u0020Checking\u0020State.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html#property_spelling"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\ProofState\u003A\u003A\u0024grammar",
             "name": "grammar",
-            "summary": "Grammatical\u0020Checking\u0020State",
+            "summary": "Grammatical\u0020Checking\u0020State.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html#property_grammar"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TblWidth",
@@ -243,152 +243,142 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView",
             "name": "TrackChangesView",
-            "summary": "Visibility\u0020of\u0020Annotation\u0020Types",
+            "summary": "Visibility\u0020of\u0020Annotation\u0020Types.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AhasMarkup\u0028\u0029",
             "name": "hasMarkup",
-            "summary": "Get\u0020Display\u0020Visual\u0020Indicator\u0020Of\u0020Markup\u0020Area",
+            "summary": "Get\u0020Display\u0020Visual\u0020Indicator\u0020Of\u0020Markup\u0020Area.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_hasMarkup"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AsetMarkup\u0028\u0029",
             "name": "setMarkup",
-            "summary": "Set\u0020Display\u0020Visual\u0020Indicator\u0020Of\u0020Markup\u0020Area",
+            "summary": "Set\u0020Display\u0020Visual\u0020Indicator\u0020Of\u0020Markup\u0020Area.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_setMarkup"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AhasComments\u0028\u0029",
             "name": "hasComments",
-            "summary": "Get\u0020Display\u0020Comments",
+            "summary": "Get\u0020Display\u0020Comments.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_hasComments"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AsetComments\u0028\u0029",
             "name": "setComments",
-            "summary": "Set\u0020Display\u0020Comments",
+            "summary": "Set\u0020Display\u0020Comments.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_setComments"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AhasInsDel\u0028\u0029",
             "name": "hasInsDel",
-            "summary": "Get\u0020Display\u0020Content\u0020Revisions",
+            "summary": "Get\u0020Display\u0020Content\u0020Revisions.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_hasInsDel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AsetInsDel\u0028\u0029",
             "name": "setInsDel",
-            "summary": "Set\u0020Display\u0020Content\u0020Revisions",
+            "summary": "Set\u0020Display\u0020Content\u0020Revisions.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_setInsDel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AhasFormatting\u0028\u0029",
             "name": "hasFormatting",
-            "summary": "Get\u0020Display\u0020Formatting\u0020Revisions",
+            "summary": "Get\u0020Display\u0020Formatting\u0020Revisions.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_hasFormatting"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AsetFormatting\u0028\u0029",
             "name": "setFormatting",
-            "summary": "Set\u0020Display\u0020Formatting\u0020Revisions",
+            "summary": "Set\u0020Display\u0020Formatting\u0020Revisions.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_setFormatting"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AhasInkAnnotations\u0028\u0029",
             "name": "hasInkAnnotations",
-            "summary": "Get\u0020Display\u0020Ink\u0020Annotations",
+            "summary": "Get\u0020Display\u0020Ink\u0020Annotations.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_hasInkAnnotations"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003AsetInkAnnotations\u0028\u0029",
             "name": "setInkAnnotations",
-            "summary": "Set\u0020Display\u0020Ink\u0020Annotations",
+            "summary": "Set\u0020Display\u0020Ink\u0020Annotations.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#method_setInkAnnotations"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003A\u0024markup",
             "name": "markup",
-            "summary": "Display\u0020Visual\u0020Indicator\u0020Of\u0020Markup\u0020Area",
+            "summary": "Display\u0020Visual\u0020Indicator\u0020Of\u0020Markup\u0020Area.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#property_markup"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003A\u0024comments",
             "name": "comments",
-            "summary": "Display\u0020Comments",
+            "summary": "Display\u0020Comments.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#property_comments"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003A\u0024insDel",
             "name": "insDel",
-            "summary": "Display\u0020Content\u0020Revisions",
+            "summary": "Display\u0020Content\u0020Revisions.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#property_insDel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003A\u0024formatting",
             "name": "formatting",
-            "summary": "Display\u0020Formatting\u0020Revisions",
+            "summary": "Display\u0020Formatting\u0020Revisions.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#property_formatting"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TrackChangesView\u003A\u003A\u0024inkAnnotations",
             "name": "inkAnnotations",
-            "summary": "Display\u0020Ink\u0020Annotations",
+            "summary": "Display\u0020Ink\u0020Annotations.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-TrackChangesView.html#property_inkAnnotations"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer",
             "name": "AbstractContainer",
-            "summary": "Container\u0020abstract\u0020class",
+            "summary": "Container\u0020abstract\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003A__call\u0028\u0029",
             "name": "__call",
-            "summary": "Magic\u0020method\u0020to\u0020catch\u0020all\u0020\u0027addElement\u0027\u0020variation",
+            "summary": "Magic\u0020method\u0020to\u0020catch\u0020all\u0020\u0027addElement\u0027\u0020variation.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#method___call"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003AaddElement\u0028\u0029",
             "name": "addElement",
-            "summary": "Add\u0020element",
+            "summary": "Add\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#method_addElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003AgetElements\u0028\u0029",
             "name": "getElements",
-            "summary": "Get\u0020all\u0020elements",
+            "summary": "Get\u0020all\u0020elements.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#method_getElements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003AgetElement\u0028\u0029",
             "name": "getElement",
-            "summary": "Returns\u0020the\u0020element\u0020at\u0020the\u0020requested\u0020position",
+            "summary": "Returns\u0020the\u0020element\u0020at\u0020the\u0020requested\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#method_getElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003AremoveElement\u0028\u0029",
             "name": "removeElement",
-            "summary": "Removes\u0020the\u0020element\u0020at\u0020requested\u0020index",
+            "summary": "Removes\u0020the\u0020element\u0020at\u0020requested\u0020index.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#method_removeElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003AcountElements\u0028\u0029",
             "name": "countElements",
-            "summary": "Count\u0020elements",
+            "summary": "Count\u0020elements.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#method_countElements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003AcheckValidity\u0028\u0029",
             "name": "checkValidity",
-            "summary": "Check\u0020if\u0020a\u0020method\u0020is\u0020allowed\u0020for\u0020the\u0020current\u0020container",
+            "summary": "Check\u0020if\u0020a\u0020method\u0020is\u0020allowed\u0020for\u0020the\u0020current\u0020container.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#method_checkValidity"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003AcreateTextRun\u0028\u0029",
-            "name": "createTextRun",
-            "summary": "Create\u0020textrun\u0020element",
-            "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#method_createTextRun"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003AcreateFootnote\u0028\u0029",
-            "name": "createFootnote",
-            "summary": "Create\u0020footnote\u0020element",
-            "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#method_createFootnote"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003A\u0024elements",
             "name": "elements",
-            "summary": "Elements\u0020collection",
+            "summary": "Elements\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#property_elements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractContainer\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractContainer.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement",
             "name": "AbstractElement",
-            "summary": "Element\u0020abstract\u0020class",
+            "summary": "Element\u0020abstract\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetPhpWord\u0028\u0029",
             "name": "getPhpWord",
-            "summary": "Get\u0020PhpWord",
+            "summary": "Get\u0020PhpWord.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getPhpWord"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetPhpWord\u0028\u0029",
@@ -398,7 +388,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetSectionId\u0028\u0029",
             "name": "getSectionId",
-            "summary": "Get\u0020section\u0020number",
+            "summary": "Get\u0020section\u0020number.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getSectionId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetDocPart\u0028\u0029",
@@ -408,22 +398,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetDocPart\u0028\u0029",
             "name": "getDocPart",
-            "summary": "Get\u0020doc\u0020part",
+            "summary": "Get\u0020doc\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getDocPart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetDocPartId\u0028\u0029",
             "name": "getDocPartId",
-            "summary": "Get\u0020doc\u0020part\u0020Id",
+            "summary": "Get\u0020doc\u0020part\u0020Id.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getDocPartId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetMediaPart\u0028\u0029",
             "name": "getMediaPart",
-            "summary": "Return\u0020media\u0020element\u0020\u0028image,\u0020object,\u0020link\u0029\u0020container\u0020name",
+            "summary": "Return\u0020media\u0020element\u0020\u0028image,\u0020object,\u0020link\u0029\u0020container\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getMediaPart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetElementIndex\u0028\u0029",
             "name": "getElementIndex",
-            "summary": "Get\u0020element\u0020index",
+            "summary": "Get\u0020element\u0020index.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getElementIndex"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetElementIndex\u0028\u0029",
@@ -433,7 +423,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetElementId\u0028\u0029",
             "name": "getElementId",
-            "summary": "Get\u0020element\u0020unique\u0020ID",
+            "summary": "Get\u0020element\u0020unique\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getElementId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetElementId\u0028\u0029",
@@ -443,7 +433,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetRelationId\u0028\u0029",
             "name": "getRelationId",
-            "summary": "Get\u0020relation\u0020Id",
+            "summary": "Get\u0020relation\u0020Id.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getRelationId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetRelationId\u0028\u0029",
@@ -453,42 +443,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetNestedLevel\u0028\u0029",
             "name": "getNestedLevel",
-            "summary": "Get\u0020nested\u0020level",
+            "summary": "Get\u0020nested\u0020level.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getNestedLevel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetCommentRangeStart\u0028\u0029",
             "name": "getCommentRangeStart",
-            "summary": "Get\u0020comment\u0020start",
+            "summary": "Get\u0020comment\u0020start.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getCommentRangeStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetCommentRangeStart\u0028\u0029",
             "name": "setCommentRangeStart",
-            "summary": "Set\u0020comment\u0020start",
+            "summary": "Set\u0020comment\u0020start.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_setCommentRangeStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetCommentRangeEnd\u0028\u0029",
             "name": "getCommentRangeEnd",
-            "summary": "Get\u0020comment\u0020end",
+            "summary": "Get\u0020comment\u0020end.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getCommentRangeEnd"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetCommentRangeEnd\u0028\u0029",
             "name": "setCommentRangeEnd",
-            "summary": "Set\u0020comment\u0020end",
+            "summary": "Set\u0020comment\u0020end.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_setCommentRangeEnd"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetParent\u0028\u0029",
             "name": "getParent",
-            "summary": "Get\u0020parent\u0020element",
+            "summary": "Get\u0020parent\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getParent"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetParentContainer\u0028\u0029",
             "name": "setParentContainer",
-            "summary": "Set\u0020parent\u0020container",
+            "summary": "Set\u0020parent\u0020container.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_setParentContainer"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetMediaRelation\u0028\u0029",
             "name": "setMediaRelation",
-            "summary": "Set\u0020relation\u0020Id\u0020for\u0020media\u0020elements\u0020\u0028link,\u0020image,\u0020object\u003B\u0020legacy\u0020of\u0020OOXML\u0029",
+            "summary": "Set\u0020relation\u0020Id\u0020for\u0020media\u0020elements\u0020\u0028link,\u0020image,\u0020object\u003B\u0020legacy\u0020of\u0020OOXML\u0029.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_setMediaRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetCollectionRelation\u0028\u0029",
@@ -498,182 +488,182 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AisInSection\u0028\u0029",
             "name": "isInSection",
-            "summary": "Check\u0020if\u0020element\u0020is\u0020located\u0020in\u0020Section\u0020doc\u0020part\u0020\u0028as\u0020opposed\u0020to\u0020Header\/Footer\u0029",
+            "summary": "Check\u0020if\u0020element\u0020is\u0020located\u0020in\u0020Section\u0020doc\u0020part\u0020\u0028as\u0020opposed\u0020to\u0020Header\/Footer\u0029.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_isInSection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetNewStyle\u0028\u0029",
             "name": "setNewStyle",
-            "summary": "Set\u0020new\u0020style\u0020value",
+            "summary": "Set\u0020new\u0020style\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_setNewStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetTrackChange\u0028\u0029",
             "name": "setTrackChange",
-            "summary": "Sets\u0020the\u0020trackChange\u0020information",
+            "summary": "Sets\u0020the\u0020trackChange\u0020information.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_setTrackChange"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetTrackChange\u0028\u0029",
             "name": "getTrackChange",
-            "summary": "Gets\u0020the\u0020trackChange\u0020information",
+            "summary": "Gets\u0020the\u0020trackChange\u0020information.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getTrackChange"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetChangeInfo\u0028\u0029",
             "name": "setChangeInfo",
-            "summary": "Set\u0020changed",
+            "summary": "Set\u0020changed.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_setChangeInfo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AsetEnumVal\u0028\u0029",
             "name": "setEnumVal",
-            "summary": "Set\u0020enum\u0020value",
+            "summary": "Set\u0020enum\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_setEnumVal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024phpWord",
             "name": "phpWord",
-            "summary": "PhpWord\u0020object",
+            "summary": "PhpWord\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_phpWord"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024sectionId",
             "name": "sectionId",
-            "summary": "Section\u0020Id",
+            "summary": "Section\u0020Id.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_sectionId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024docPart",
             "name": "docPart",
-            "summary": "Document\u0020part\u0020type\u003A\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote",
+            "summary": "Document\u0020part\u0020type\u003A\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_docPart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024docPartId",
             "name": "docPartId",
-            "summary": "Document\u0020part\u0020Id",
+            "summary": "Document\u0020part\u0020Id.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_docPartId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024elementIndex",
             "name": "elementIndex",
-            "summary": "Index\u0020of\u0020element\u0020in\u0020the\u0020elements\u0020collection\u0020\u0028start\u0020with\u00201\u0029",
+            "summary": "Index\u0020of\u0020element\u0020in\u0020the\u0020elements\u0020collection\u0020\u0028start\u0020with\u00201\u0029.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_elementIndex"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024elementId",
             "name": "elementId",
-            "summary": "Unique\u0020Id\u0020for\u0020element",
+            "summary": "Unique\u0020Id\u0020for\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_elementId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024relationId",
             "name": "relationId",
-            "summary": "Relation\u0020Id",
+            "summary": "Relation\u0020Id.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_relationId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024nestedLevel",
             "name": "nestedLevel",
-            "summary": "Depth\u0020of\u0020table\u0020container\u0020nested\u0020level\u003B\u0020Primarily\u0020used\u0020for\u0020RTF\u0020writer\/reader",
+            "summary": "Depth\u0020of\u0020table\u0020container\u0020nested\u0020level\u003B\u0020Primarily\u0020used\u0020for\u0020RTF\u0020writer\/reader.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_nestedLevel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024parent",
             "name": "parent",
-            "summary": "A\u0020reference\u0020to\u0020the\u0020parent",
+            "summary": "A\u0020reference\u0020to\u0020the\u0020parent.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_parent"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024trackChange",
             "name": "trackChange",
-            "summary": "changed\u0020element\u0020info",
+            "summary": "changed\u0020element\u0020info.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_trackChange"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024parentContainer",
             "name": "parentContainer",
-            "summary": "Parent\u0020container\u0020type",
+            "summary": "Parent\u0020container\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_parentContainer"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024mediaRelation",
             "name": "mediaRelation",
-            "summary": "Has\u0020media\u0020relation\u0020flag\u003B\u0020true\u0020for\u0020Link,\u0020Image,\u0020and\u0020Object",
+            "summary": "Has\u0020media\u0020relation\u0020flag\u003B\u0020true\u0020for\u0020Link,\u0020Image,\u0020and\u0020Object.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_mediaRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024collectionRelation",
             "name": "collectionRelation",
-            "summary": "Is\u0020part\u0020of\u0020collection\u003B\u0020true\u0020for\u0020Title,\u0020Footnote,\u0020Endnote,\u0020Chart,\u0020and\u0020Comment",
+            "summary": "Is\u0020part\u0020of\u0020collection\u003B\u0020true\u0020for\u0020Title,\u0020Footnote,\u0020Endnote,\u0020Chart,\u0020and\u0020Comment.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_collectionRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024commentRangeStart",
             "name": "commentRangeStart",
-            "summary": "The\u0020start\u0020position\u0020for\u0020the\u0020linked\u0020comment",
+            "summary": "The\u0020start\u0020position\u0020for\u0020the\u0020linked\u0020comment.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_commentRangeStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024commentRangeEnd",
             "name": "commentRangeEnd",
-            "summary": "The\u0020end\u0020position\u0020for\u0020the\u0020linked\u0020comment",
+            "summary": "The\u0020end\u0020position\u0020for\u0020the\u0020linked\u0020comment.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_commentRangeEnd"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Bookmark",
             "name": "Bookmark",
-            "summary": "Bookmark\u0020element",
+            "summary": "Bookmark\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Bookmark.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Bookmark\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020Bookmark\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020Bookmark\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-Bookmark.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Bookmark\u003A\u003AgetName\u0028\u0029",
             "name": "getName",
-            "summary": "Get\u0020Bookmark\u0020name",
+            "summary": "Get\u0020Bookmark\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-Bookmark.html#method_getName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Bookmark\u003A\u003A\u0024name",
             "name": "name",
-            "summary": "Bookmark\u0020Name",
+            "summary": "Bookmark\u0020Name.",
             "url": "classes/PhpOffice-PhpWord-Element-Bookmark.html#property_name"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Bookmark\u003A\u003A\u0024collectionRelation",
             "name": "collectionRelation",
-            "summary": "Is\u0020part\u0020of\u0020collection",
+            "summary": "Is\u0020part\u0020of\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Element-Bookmark.html#property_collectionRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Cell",
             "name": "Cell",
-            "summary": "Table\u0020cell\u0020element",
+            "summary": "Table\u0020cell\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Cell.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Cell\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-Cell.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Cell\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020cell\u0020style",
+            "summary": "Get\u0020cell\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Cell.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Cell\u003A\u003AgetWidth\u0028\u0029",
             "name": "getWidth",
-            "summary": "Get\u0020cell\u0020width",
+            "summary": "Get\u0020cell\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Element-Cell.html#method_getWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Cell\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-Cell.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Cell\u003A\u003A\u0024width",
             "name": "width",
-            "summary": "Cell\u0020width",
+            "summary": "Cell\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Element-Cell.html#property_width"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Cell\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Cell\u0020style",
+            "summary": "Cell\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Cell.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart",
             "name": "Chart",
-            "summary": "Chart\u0020element",
+            "summary": "Chart\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
-            "summary": "Get\u0020type",
+            "summary": "Get\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html#method_getType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003AsetType\u0028\u0029",
@@ -683,232 +673,232 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003AaddSeries\u0028\u0029",
             "name": "addSeries",
-            "summary": "Add\u0020series",
+            "summary": "Add\u0020series.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html#method_addSeries"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003AgetSeries\u0028\u0029",
             "name": "getSeries",
-            "summary": "Get\u0020series",
+            "summary": "Get\u0020series.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html#method_getSeries"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020chart\u0020style",
+            "summary": "Get\u0020chart\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003A\u0024collectionRelation",
             "name": "collectionRelation",
-            "summary": "Is\u0020part\u0020of\u0020collection",
+            "summary": "Is\u0020part\u0020of\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html#property_collectionRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Type",
+            "summary": "Type.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003A\u0024series",
             "name": "series",
-            "summary": "Series",
+            "summary": "Series.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html#property_series"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Chart\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Chart\u0020style",
+            "summary": "Chart\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Chart.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\CheckBox",
             "name": "CheckBox",
-            "summary": "Check\u0020box\u0020element",
+            "summary": "Check\u0020box\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-CheckBox.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\CheckBox\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-CheckBox.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\CheckBox\u003A\u003AsetName\u0028\u0029",
             "name": "setName",
-            "summary": "Set\u0020name\u0020content",
+            "summary": "Set\u0020name\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-CheckBox.html#method_setName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\CheckBox\u003A\u003AgetName\u0028\u0029",
             "name": "getName",
-            "summary": "Get\u0020name\u0020content",
+            "summary": "Get\u0020name\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-CheckBox.html#method_getName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\CheckBox\u003A\u003A\u0024name",
             "name": "name",
-            "summary": "Name\u0020content",
+            "summary": "Name\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-CheckBox.html#property_name"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment",
             "name": "Comment",
-            "summary": "Comment\u0020element",
+            "summary": "Comment\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020Comment\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020Comment\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003AgetInitials\u0028\u0029",
             "name": "getInitials",
-            "summary": "Get\u0020Initials",
+            "summary": "Get\u0020Initials.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#method_getInitials"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003AsetStartElement\u0028\u0029",
             "name": "setStartElement",
-            "summary": "Sets\u0020the\u0020element\u0020where\u0020this\u0020comment\u0020starts",
+            "summary": "Sets\u0020the\u0020element\u0020where\u0020this\u0020comment\u0020starts.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#method_setStartElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003AgetStartElement\u0028\u0029",
             "name": "getStartElement",
-            "summary": "Get\u0020the\u0020element\u0020where\u0020this\u0020comment\u0020starts",
+            "summary": "Get\u0020the\u0020element\u0020where\u0020this\u0020comment\u0020starts.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#method_getStartElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003AsetEndElement\u0028\u0029",
             "name": "setEndElement",
-            "summary": "Sets\u0020the\u0020element\u0020where\u0020this\u0020comment\u0020ends",
+            "summary": "Sets\u0020the\u0020element\u0020where\u0020this\u0020comment\u0020ends.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#method_setEndElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003AgetEndElement\u0028\u0029",
             "name": "getEndElement",
-            "summary": "Get\u0020the\u0020element\u0020where\u0020this\u0020comment\u0020ends",
+            "summary": "Get\u0020the\u0020element\u0020where\u0020this\u0020comment\u0020ends.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#method_getEndElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003A\u0024initials",
             "name": "initials",
-            "summary": "Initials",
+            "summary": "Initials.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#property_initials"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003A\u0024startElement",
             "name": "startElement",
-            "summary": "The\u0020Element\u0020where\u0020this\u0020comment\u0020starts",
+            "summary": "The\u0020Element\u0020where\u0020this\u0020comment\u0020starts.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#property_startElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003A\u0024endElement",
             "name": "endElement",
-            "summary": "The\u0020Element\u0020where\u0020this\u0020comment\u0020ends",
+            "summary": "The\u0020Element\u0020where\u0020this\u0020comment\u0020ends.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#property_endElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Comment\u003A\u003A\u0024collectionRelation",
             "name": "collectionRelation",
-            "summary": "Is\u0020part\u0020of\u0020collection",
+            "summary": "Is\u0020part\u0020of\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Element-Comment.html#property_collectionRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Endnote",
             "name": "Endnote",
-            "summary": "Endnote\u0020element",
+            "summary": "Endnote\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Endnote.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Endnote\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-Endnote.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Endnote\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-Endnote.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field",
             "name": "Field",
-            "summary": "Field\u0020element",
+            "summary": "Field\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AsetFontStyle\u0028\u0029",
             "name": "setFontStyle",
-            "summary": "Set\u0020Font\u0020style",
+            "summary": "Set\u0020Font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_setFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AgetFontStyle\u0028\u0029",
             "name": "getFontStyle",
-            "summary": "Get\u0020Font\u0020style",
+            "summary": "Get\u0020Font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_getFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020Field\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020Field\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AsetType\u0028\u0029",
             "name": "setType",
-            "summary": "Set\u0020Field\u0020type",
+            "summary": "Set\u0020Field\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_setType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
-            "summary": "Get\u0020Field\u0020type",
+            "summary": "Get\u0020Field\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_getType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AsetProperties\u0028\u0029",
             "name": "setProperties",
-            "summary": "Set\u0020Field\u0020properties",
+            "summary": "Set\u0020Field\u0020properties.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_setProperties"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AgetProperties\u0028\u0029",
             "name": "getProperties",
-            "summary": "Get\u0020Field\u0020properties",
+            "summary": "Get\u0020Field\u0020properties.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_getProperties"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AsetOptions\u0028\u0029",
             "name": "setOptions",
-            "summary": "Set\u0020Field\u0020options",
+            "summary": "Set\u0020Field\u0020options.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_setOptions"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AgetOptions\u0028\u0029",
             "name": "getOptions",
-            "summary": "Get\u0020Field\u0020properties",
+            "summary": "Get\u0020Field\u0020properties.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_getOptions"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AsetText\u0028\u0029",
             "name": "setText",
-            "summary": "Set\u0020Field\u0020text",
+            "summary": "Set\u0020Field\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_setText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003AgetText\u0028\u0029",
             "name": "getText",
-            "summary": "Get\u0020Field\u0020text",
+            "summary": "Get\u0020Field\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#method_getText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003A\u0024fieldsArray",
             "name": "fieldsArray",
-            "summary": "Field\u0020properties\u0020and\u0020options.\u0020Depending\u0020on\u0020type,\u0020a\u0020field\u0020can\u0020have\u0020different\u0020properties\nand\u0020options",
+            "summary": "Field\u0020properties\u0020and\u0020options.\u0020Depending\u0020on\u0020type,\u0020a\u0020field\u0020can\u0020have\u0020different\u0020properties\nand\u0020options.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#property_fieldsArray"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Field\u0020type",
+            "summary": "Field\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003A\u0024text",
             "name": "text",
-            "summary": "Field\u0020text",
+            "summary": "Field\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#property_text"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003A\u0024properties",
             "name": "properties",
-            "summary": "Field\u0020properties",
+            "summary": "Field\u0020properties.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#property_properties"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003A\u0024options",
             "name": "options",
-            "summary": "Field\u0020options",
+            "summary": "Field\u0020options.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#property_options"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Field\u003A\u003A\u0024fontStyle",
             "name": "fontStyle",
-            "summary": "Font\u0020style",
+            "summary": "Font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Field.html#property_fontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer",
             "name": "Footer",
-            "summary": "Footer\u0020element",
+            "summary": "Footer\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Footer.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-Footer.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003AsetType\u0028\u0029",
@@ -918,27 +908,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
-            "summary": "Get\u0020type",
+            "summary": "Get\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Footer.html#method_getType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003AresetType\u0028\u0029",
             "name": "resetType",
-            "summary": "Reset\u0020type\u0020to\u0020default",
+            "summary": "Reset\u0020type\u0020to\u0020default.",
             "url": "classes/PhpOffice-PhpWord-Element-Footer.html#method_resetType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003AfirstPage\u0028\u0029",
             "name": "firstPage",
-            "summary": "First\u0020page\u0020only\u0020header",
+            "summary": "First\u0020page\u0020only\u0020header.",
             "url": "classes/PhpOffice-PhpWord-Element-Footer.html#method_firstPage"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003AevenPage\u0028\u0029",
             "name": "evenPage",
-            "summary": "Even\u0020numbered\u0020pages\u0020only",
+            "summary": "Even\u0020numbered\u0020pages\u0020only.",
             "url": "classes/PhpOffice-PhpWord-Element-Footer.html#method_evenPage"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003AAUTO",
             "name": "AUTO",
-            "summary": "Header\/footer\u0020types\u0020constants",
+            "summary": "Header\/footer\u0020types\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Element-Footer.html#constant_AUTO"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003AFIRST",
@@ -953,232 +943,222 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-Footer.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footer\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Header\u0020type",
+            "summary": "Header\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Footer.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footnote",
             "name": "Footnote",
-            "summary": "Container\u0020abstract\u0020class",
+            "summary": "Container\u0020abstract\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Element-Footnote.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footnote\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-Footnote.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footnote\u003A\u003AgetParagraphStyle\u0028\u0029",
             "name": "getParagraphStyle",
-            "summary": "Get\u0020paragraph\u0020style",
+            "summary": "Get\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Footnote.html#method_getParagraphStyle"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footnote\u003A\u003AgetReferenceId\u0028\u0029",
-            "name": "getReferenceId",
-            "summary": "Get\u0020Footnote\u0020Reference\u0020ID",
-            "url": "classes/PhpOffice-PhpWord-Element-Footnote.html#method_getReferenceId"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footnote\u003A\u003AsetReferenceId\u0028\u0029",
-            "name": "setReferenceId",
-            "summary": "Set\u0020Footnote\u0020Reference\u0020ID",
-            "url": "classes/PhpOffice-PhpWord-Element-Footnote.html#method_setReferenceId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footnote\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-Footnote.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footnote\u003A\u003A\u0024paragraphStyle",
             "name": "paragraphStyle",
-            "summary": "Paragraph\u0020style",
+            "summary": "Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Footnote.html#property_paragraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Footnote\u003A\u003A\u0024collectionRelation",
             "name": "collectionRelation",
-            "summary": "Is\u0020part\u0020of\u0020collection",
+            "summary": "Is\u0020part\u0020of\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Element-Footnote.html#property_collectionRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField",
             "name": "FormField",
-            "summary": "Form\u0020field\u0020element",
+            "summary": "Form\u0020field\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
-            "summary": "Get\u0020type",
+            "summary": "Get\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_getType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AsetType\u0028\u0029",
             "name": "setType",
-            "summary": "Set\u0020type",
+            "summary": "Set\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_setType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AgetName\u0028\u0029",
             "name": "getName",
-            "summary": "Get\u0020name",
+            "summary": "Get\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_getName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AsetName\u0028\u0029",
             "name": "setName",
-            "summary": "Set\u0020name",
+            "summary": "Set\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_setName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AgetDefault\u0028\u0029",
             "name": "getDefault",
-            "summary": "Get\u0020default",
+            "summary": "Get\u0020default.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_getDefault"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AsetDefault\u0028\u0029",
             "name": "setDefault",
-            "summary": "Set\u0020default",
+            "summary": "Set\u0020default.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_setDefault"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "Get\u0020value",
+            "summary": "Get\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_getValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AsetValue\u0028\u0029",
             "name": "setValue",
-            "summary": "Set\u0020value",
+            "summary": "Set\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_setValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AgetEntries\u0028\u0029",
             "name": "getEntries",
-            "summary": "Get\u0020entries",
+            "summary": "Get\u0020entries.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_getEntries"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003AsetEntries\u0028\u0029",
             "name": "setEntries",
-            "summary": "Set\u0020entries",
+            "summary": "Set\u0020entries.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#method_setEntries"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Form\u0020field\u0020type\u003A\u0020textinput\u007Ccheckbox\u007Cdropdown",
+            "summary": "Form\u0020field\u0020type\u003A\u0020textinput\u007Ccheckbox\u007Cdropdown.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003A\u0024name",
             "name": "name",
-            "summary": "Form\u0020field\u0020name",
+            "summary": "Form\u0020field\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#property_name"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003A\u0024default",
             "name": "default",
-            "summary": "Default\u0020value",
+            "summary": "Default\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#property_default"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003A\u0024value",
             "name": "value",
-            "summary": "Value",
+            "summary": "Value.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#property_value"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\FormField\u003A\u003A\u0024entries",
             "name": "entries",
-            "summary": "Dropdown\u0020entries",
+            "summary": "Dropdown\u0020entries.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#property_entries"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Header",
             "name": "Header",
-            "summary": "Header\u0020element",
+            "summary": "Header\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Header.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Header\u003A\u003AaddWatermark\u0028\u0029",
             "name": "addWatermark",
-            "summary": "Add\u0020a\u0020Watermark\u0020Element",
+            "summary": "Add\u0020a\u0020Watermark\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-Header.html#method_addWatermark"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Header\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-Header.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image",
             "name": "Image",
-            "summary": "Image\u0020element",
+            "summary": "Image\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020image\u0020element",
+            "summary": "Create\u0020new\u0020image\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020Image\u0020style",
+            "summary": "Get\u0020Image\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetSource\u0028\u0029",
             "name": "getSource",
-            "summary": "Get\u0020image\u0020source",
+            "summary": "Get\u0020image\u0020source.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getSource"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetSourceType\u0028\u0029",
             "name": "getSourceType",
-            "summary": "Get\u0020image\u0020source\u0020type",
+            "summary": "Get\u0020image\u0020source\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getSourceType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AsetName\u0028\u0029",
             "name": "setName",
-            "summary": "Sets\u0020the\u0020image\u0020name",
+            "summary": "Sets\u0020the\u0020image\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_setName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetName\u0028\u0029",
             "name": "getName",
-            "summary": "Get\u0020image\u0020name",
+            "summary": "Get\u0020image\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetMediaId\u0028\u0029",
             "name": "getMediaId",
-            "summary": "Get\u0020image\u0020media\u0020ID",
+            "summary": "Get\u0020image\u0020media\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getMediaId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AisWatermark\u0028\u0029",
             "name": "isWatermark",
-            "summary": "Get\u0020is\u0020watermark",
+            "summary": "Get\u0020is\u0020watermark.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_isWatermark"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AsetIsWatermark\u0028\u0029",
             "name": "setIsWatermark",
-            "summary": "Set\u0020is\u0020watermark",
+            "summary": "Set\u0020is\u0020watermark.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_setIsWatermark"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageType\u0028\u0029",
             "name": "getImageType",
-            "summary": "Get\u0020image\u0020type",
+            "summary": "Get\u0020image\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageCreateFunction\u0028\u0029",
             "name": "getImageCreateFunction",
-            "summary": "Get\u0020image\u0020create\u0020function",
+            "summary": "Get\u0020image\u0020create\u0020function.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageCreateFunction"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageFunction\u0028\u0029",
             "name": "getImageFunction",
-            "summary": "Get\u0020image\u0020function",
+            "summary": "Get\u0020image\u0020function.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageFunction"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageExtension\u0028\u0029",
             "name": "getImageExtension",
-            "summary": "Get\u0020image\u0020extension",
+            "summary": "Get\u0020image\u0020extension.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageExtension"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AisMemImage\u0028\u0029",
             "name": "isMemImage",
-            "summary": "Get\u0020is\u0020memory\u0020image",
+            "summary": "Get\u0020is\u0020memory\u0020image.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_isMemImage"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetTarget\u0028\u0029",
             "name": "getTarget",
-            "summary": "Get\u0020target\u0020file\u0020name",
+            "summary": "Get\u0020target\u0020file\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getTarget"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AsetTarget\u0028\u0029",
@@ -1188,7 +1168,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetMediaIndex\u0028\u0029",
             "name": "getMediaIndex",
-            "summary": "Get\u0020media\u0020index",
+            "summary": "Get\u0020media\u0020index.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getMediaIndex"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AsetMediaIndex\u0028\u0029",
@@ -1198,7 +1178,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageStringData\u0028\u0029",
             "name": "getImageStringData",
-            "summary": "Get\u0020image\u0020string\u0020data",
+            "summary": "Get\u0020image\u0020string\u0020data.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageStringData"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AcheckImage\u0028\u0029",
@@ -1213,13 +1193,8 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetArchiveImageSize\u0028\u0029",
             "name": "getArchiveImageSize",
-            "summary": "Get\u0020image\u0020size\u0020from\u0020archive",
+            "summary": "Get\u0020image\u0020size\u0020from\u0020archive.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getArchiveImageSize"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetStringImageSize\u0028\u0029",
-            "name": "getStringImageSize",
-            "summary": "get\u0020image\u0020size\u0020from\u0020string",
-            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getStringImageSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AsetFunctions\u0028\u0029",
             "name": "setFunctions",
@@ -1231,19 +1206,9 @@ Search.appendIndex(
             "summary": "Set\u0020proportional\u0020width\/height\u0020if\u0020one\u0020dimension\u0020not\u0020available.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_setProportionalSize"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetIsWatermark\u0028\u0029",
-            "name": "getIsWatermark",
-            "summary": "Get\u0020is\u0020watermark",
-            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getIsWatermark"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetIsMemImage\u0028\u0029",
-            "name": "getIsMemImage",
-            "summary": "Get\u0020is\u0020memory\u0020image",
-            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getIsMemImage"
-        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003ASOURCE_LOCAL",
             "name": "SOURCE_LOCAL",
-            "summary": "Image\u0020source\u0020type\u0020constants",
+            "summary": "Image\u0020source\u0020type\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#constant_SOURCE_LOCAL"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003ASOURCE_GD",
@@ -1263,222 +1228,207 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024source",
             "name": "source",
-            "summary": "Image\u0020source",
+            "summary": "Image\u0020source.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_source"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024sourceType",
             "name": "sourceType",
-            "summary": "Source\u0020type\u003A\u0020local\u007Cgd\u007Carchive",
+            "summary": "Source\u0020type\u003A\u0020local\u007Cgd\u007Carchive.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_sourceType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Image\u0020style",
+            "summary": "Image\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024watermark",
             "name": "watermark",
-            "summary": "Is\u0020watermark",
+            "summary": "Is\u0020watermark.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_watermark"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024name",
             "name": "name",
-            "summary": "Name\u0020of\u0020image",
+            "summary": "Name\u0020of\u0020image.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_name"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024imageType",
             "name": "imageType",
-            "summary": "Image\u0020type",
+            "summary": "Image\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_imageType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024imageCreateFunc",
             "name": "imageCreateFunc",
-            "summary": "Image\u0020create\u0020function",
+            "summary": "Image\u0020create\u0020function.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_imageCreateFunc"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024imageFunc",
             "name": "imageFunc",
-            "summary": "Image\u0020function",
+            "summary": "Image\u0020function.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_imageFunc"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024imageExtension",
             "name": "imageExtension",
-            "summary": "Image\u0020extension",
+            "summary": "Image\u0020extension.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_imageExtension"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024memoryImage",
             "name": "memoryImage",
-            "summary": "Is\u0020memory\u0020image",
+            "summary": "Is\u0020memory\u0020image.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_memoryImage"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024target",
             "name": "target",
-            "summary": "Image\u0020target\u0020file\u0020name",
+            "summary": "Image\u0020target\u0020file\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_target"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024mediaIndex",
             "name": "mediaIndex",
-            "summary": "Image\u0020media\u0020index",
+            "summary": "Image\u0020media\u0020index.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_mediaIndex"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024mediaRelation",
             "name": "mediaRelation",
-            "summary": "Has\u0020media\u0020relation\u0020flag\u003B\u0020true\u0020for\u0020Link,\u0020Image,\u0020and\u0020Object",
+            "summary": "Has\u0020media\u0020relation\u0020flag\u003B\u0020true\u0020for\u0020Link,\u0020Image,\u0020and\u0020Object.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_mediaRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Line",
             "name": "Line",
-            "summary": "Line\u0020element",
+            "summary": "Line\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Line.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Line\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020line\u0020element",
+            "summary": "Create\u0020new\u0020line\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Line.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Line\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020line\u0020style",
+            "summary": "Get\u0020line\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Line.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Line\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Line\u0020style",
+            "summary": "Line\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Line.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link",
             "name": "Link",
-            "summary": "Link\u0020element",
+            "summary": "Link\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020Link\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020Link\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003AgetSource\u0028\u0029",
             "name": "getSource",
-            "summary": "Get\u0020link\u0020source",
+            "summary": "Get\u0020link\u0020source.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#method_getSource"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003AgetText\u0028\u0029",
             "name": "getText",
-            "summary": "Get\u0020link\u0020text",
+            "summary": "Get\u0020link\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#method_getText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003AgetFontStyle\u0028\u0029",
             "name": "getFontStyle",
-            "summary": "Get\u0020Text\u0020style",
+            "summary": "Get\u0020Text\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#method_getFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003AgetParagraphStyle\u0028\u0029",
             "name": "getParagraphStyle",
-            "summary": "Get\u0020Paragraph\u0020style",
+            "summary": "Get\u0020Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#method_getParagraphStyle"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003AgetTarget\u0028\u0029",
-            "name": "getTarget",
-            "summary": "Get\u0020link\u0020target",
-            "url": "classes/PhpOffice-PhpWord-Element-Link.html#method_getTarget"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003AgetLinkSrc\u0028\u0029",
-            "name": "getLinkSrc",
-            "summary": "Get\u0020Link\u0020source",
-            "url": "classes/PhpOffice-PhpWord-Element-Link.html#method_getLinkSrc"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003AgetLinkName\u0028\u0029",
-            "name": "getLinkName",
-            "summary": "Get\u0020Link\u0020name",
-            "url": "classes/PhpOffice-PhpWord-Element-Link.html#method_getLinkName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003AisInternal\u0028\u0029",
             "name": "isInternal",
-            "summary": "is\u0020internal",
+            "summary": "is\u0020internal.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#method_isInternal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003A\u0024source",
             "name": "source",
-            "summary": "Link\u0020source",
+            "summary": "Link\u0020source.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#property_source"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003A\u0024text",
             "name": "text",
-            "summary": "Link\u0020text",
+            "summary": "Link\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#property_text"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003A\u0024fontStyle",
             "name": "fontStyle",
-            "summary": "Font\u0020style",
+            "summary": "Font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#property_fontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003A\u0024paragraphStyle",
             "name": "paragraphStyle",
-            "summary": "Paragraph\u0020style",
+            "summary": "Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#property_paragraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003A\u0024mediaRelation",
             "name": "mediaRelation",
-            "summary": "Has\u0020media\u0020relation\u0020flag\u003B\u0020true\u0020for\u0020Link,\u0020Image,\u0020and\u0020Object",
+            "summary": "Has\u0020media\u0020relation\u0020flag\u003B\u0020true\u0020for\u0020Link,\u0020Image,\u0020and\u0020Object.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#property_mediaRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Link\u003A\u003A\u0024internal",
             "name": "internal",
-            "summary": "Has\u0020internal\u0020flag\u0020\u002D\u0020anchor\u0020to\u0020internal\u0020bookmark",
+            "summary": "Has\u0020internal\u0020flag\u0020\u002D\u0020anchor\u0020to\u0020internal\u0020bookmark.",
             "url": "classes/PhpOffice-PhpWord-Element-Link.html#property_internal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItem",
             "name": "ListItem",
-            "summary": "List\u0020item\u0020element",
+            "summary": "List\u0020item\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItem.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItem\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020ListItem",
+            "summary": "Create\u0020a\u0020new\u0020ListItem.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItem.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItem\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020style",
+            "summary": "Get\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItem.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItem\u003A\u003AgetTextObject\u0028\u0029",
             "name": "getTextObject",
-            "summary": "Get\u0020Text\u0020object",
+            "summary": "Get\u0020Text\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItem.html#method_getTextObject"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItem\u003A\u003AgetDepth\u0028\u0029",
             "name": "getDepth",
-            "summary": "Get\u0020depth",
+            "summary": "Get\u0020depth.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItem.html#method_getDepth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItem\u003A\u003AgetText\u0028\u0029",
             "name": "getText",
-            "summary": "Get\u0020text",
+            "summary": "Get\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItem.html#method_getText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItem\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Element\u0020style",
+            "summary": "Element\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItem.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItem\u003A\u003A\u0024textObject",
             "name": "textObject",
-            "summary": "Text\u0020object",
+            "summary": "Text\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItem.html#property_textObject"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItem\u003A\u003A\u0024depth",
             "name": "depth",
-            "summary": "Depth",
+            "summary": "Depth.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItem.html#property_depth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItemRun",
             "name": "ListItemRun",
-            "summary": "List\u0020item\u0020element",
+            "summary": "List\u0020item\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItemRun.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItemRun\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020ListItem",
+            "summary": "Create\u0020a\u0020new\u0020ListItem.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItemRun.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItemRun\u003A\u003AgetStyle\u0028\u0029",
@@ -1493,47 +1443,47 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItemRun\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItemRun.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItemRun\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "ListItem\u0020Style",
+            "summary": "ListItem\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItemRun.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\ListItemRun\u003A\u003A\u0024depth",
             "name": "depth",
-            "summary": "ListItem\u0020Depth",
+            "summary": "ListItem\u0020Depth.",
             "url": "classes/PhpOffice-PhpWord-Element-ListItemRun.html#property_depth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject",
             "name": "OLEObject",
-            "summary": "OLEObject\u0020element",
+            "summary": "OLEObject\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020Ole\u002DObject\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020Ole\u002DObject\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003AgetSource\u0028\u0029",
             "name": "getSource",
-            "summary": "Get\u0020object\u0020source",
+            "summary": "Get\u0020object\u0020source.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#method_getSource"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020object\u0020style",
+            "summary": "Get\u0020object\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003AgetIcon\u0028\u0029",
             "name": "getIcon",
-            "summary": "Get\u0020object\u0020icon",
+            "summary": "Get\u0020object\u0020icon.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#method_getIcon"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003AgetImageRelationId\u0028\u0029",
             "name": "getImageRelationId",
-            "summary": "Get\u0020image\u0020relation\u0020ID",
+            "summary": "Get\u0020image\u0020relation\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#method_getImageRelationId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003AsetImageRelationId\u0028\u0029",
@@ -1541,229 +1491,219 @@ Search.appendIndex(
             "summary": "Set\u0020Image\u0020Relation\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#method_setImageRelationId"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003AgetObjectId\u0028\u0029",
-            "name": "getObjectId",
-            "summary": "Get\u0020Object\u0020ID",
-            "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#method_getObjectId"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003AsetObjectId\u0028\u0029",
-            "name": "setObjectId",
-            "summary": "Set\u0020Object\u0020ID",
-            "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#method_setObjectId"
-        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003A\u0024source",
             "name": "source",
-            "summary": "Ole\u002DObject\u0020Src",
+            "summary": "Ole\u002DObject\u0020Src.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#property_source"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Image\u0020Style",
+            "summary": "Image\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003A\u0024icon",
             "name": "icon",
-            "summary": "Icon",
+            "summary": "Icon.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#property_icon"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003A\u0024imageRelationId",
             "name": "imageRelationId",
-            "summary": "Image\u0020Relation\u0020ID",
+            "summary": "Image\u0020Relation\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#property_imageRelationId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\OLEObject\u003A\u003A\u0024mediaRelation",
             "name": "mediaRelation",
-            "summary": "Has\u0020media\u0020relation\u0020flag\u003B\u0020true\u0020for\u0020Link,\u0020Image,\u0020and\u0020Object",
+            "summary": "Has\u0020media\u0020relation\u0020flag\u003B\u0020true\u0020for\u0020Link,\u0020Image,\u0020and\u0020Object.",
             "url": "classes/PhpOffice-PhpWord-Element-OLEObject.html#property_mediaRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PageBreak",
             "name": "PageBreak",
-            "summary": "Page\u0020break\u0020element",
+            "summary": "Page\u0020break\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-PageBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PageBreak\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020page\u0020break",
+            "summary": "Create\u0020new\u0020page\u0020break.",
             "url": "classes/PhpOffice-PhpWord-Element-PageBreak.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PreserveText",
             "name": "PreserveText",
-            "summary": "Preserve\u0020text\/field\u0020element",
+            "summary": "Preserve\u0020text\/field\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-PreserveText.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PreserveText\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020Preserve\u0020Text\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020Preserve\u0020Text\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-PreserveText.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PreserveText\u003A\u003AgetFontStyle\u0028\u0029",
             "name": "getFontStyle",
-            "summary": "Get\u0020Text\u0020style",
+            "summary": "Get\u0020Text\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-PreserveText.html#method_getFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PreserveText\u003A\u003AgetParagraphStyle\u0028\u0029",
             "name": "getParagraphStyle",
-            "summary": "Get\u0020Paragraph\u0020style",
+            "summary": "Get\u0020Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-PreserveText.html#method_getParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PreserveText\u003A\u003AgetText\u0028\u0029",
             "name": "getText",
-            "summary": "Get\u0020Text\u0020content",
+            "summary": "Get\u0020Text\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-PreserveText.html#method_getText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PreserveText\u003A\u003A\u0024text",
             "name": "text",
-            "summary": "Text\u0020content",
+            "summary": "Text\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-PreserveText.html#property_text"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PreserveText\u003A\u003A\u0024fontStyle",
             "name": "fontStyle",
-            "summary": "Text\u0020style",
+            "summary": "Text\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-PreserveText.html#property_fontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\PreserveText\u003A\u003A\u0024paragraphStyle",
             "name": "paragraphStyle",
-            "summary": "Paragraph\u0020style",
+            "summary": "Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-PreserveText.html#property_paragraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Row",
             "name": "Row",
-            "summary": "Table\u0020row\u0020element",
+            "summary": "Table\u0020row\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Row\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020table\u0020row",
+            "summary": "Create\u0020a\u0020new\u0020table\u0020row.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Row\u003A\u003AaddCell\u0028\u0029",
             "name": "addCell",
-            "summary": "Add\u0020a\u0020cell",
+            "summary": "Add\u0020a\u0020cell.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html#method_addCell"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Row\u003A\u003AgetCells\u0028\u0029",
             "name": "getCells",
-            "summary": "Get\u0020all\u0020cells",
+            "summary": "Get\u0020all\u0020cells.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html#method_getCells"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Row\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020row\u0020style",
+            "summary": "Get\u0020row\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Row\u003A\u003AgetHeight\u0028\u0029",
             "name": "getHeight",
-            "summary": "Get\u0020row\u0020height",
+            "summary": "Get\u0020row\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html#method_getHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Row\u003A\u003A\u0024height",
             "name": "height",
-            "summary": "Row\u0020height",
+            "summary": "Row\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html#property_height"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Row\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Row\u0020style",
+            "summary": "Row\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Row\u003A\u003A\u0024cells",
             "name": "cells",
-            "summary": "Row\u0020cells",
+            "summary": "Row\u0020cells.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html#property_cells"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT",
             "name": "SDT",
-            "summary": "Structured\u0020document\u0020tag\u0020\u0028SDT\u0029\u0020element",
+            "summary": "Structured\u0020document\u0020tag\u0020\u0028SDT\u0029\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
-            "summary": "Get\u0020type",
+            "summary": "Get\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_getType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AsetType\u0028\u0029",
             "name": "setType",
-            "summary": "Set\u0020type",
+            "summary": "Set\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_setType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "Get\u0020value",
+            "summary": "Get\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_getValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AsetValue\u0028\u0029",
             "name": "setValue",
-            "summary": "Set\u0020value",
+            "summary": "Set\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_setValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AgetListItems\u0028\u0029",
             "name": "getListItems",
-            "summary": "Get\u0020listItems",
+            "summary": "Get\u0020listItems.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_getListItems"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AsetListItems\u0028\u0029",
             "name": "setListItems",
-            "summary": "Set\u0020listItems",
+            "summary": "Set\u0020listItems.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_setListItems"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AgetTag\u0028\u0029",
             "name": "getTag",
-            "summary": "Get\u0020tag",
+            "summary": "Get\u0020tag.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_getTag"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AsetTag\u0028\u0029",
             "name": "setTag",
-            "summary": "Set\u0020tag",
+            "summary": "Set\u0020tag.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_setTag"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AgetAlias\u0028\u0029",
             "name": "getAlias",
-            "summary": "Get\u0020alias",
+            "summary": "Get\u0020alias.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_getAlias"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003AsetAlias\u0028\u0029",
             "name": "setAlias",
-            "summary": "Set\u0020alias",
+            "summary": "Set\u0020alias.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#method_setAlias"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Form\u0020field\u0020type\u003A\u0020comboBox\u007CdropDownList\u007Cdate",
+            "summary": "Form\u0020field\u0020type\u003A\u0020comboBox\u007CdropDownList\u007Cdate.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003A\u0024value",
             "name": "value",
-            "summary": "Value",
+            "summary": "Value.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#property_value"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003A\u0024listItems",
             "name": "listItems",
-            "summary": "CheckBox\/DropDown\u0020list\u0020entries",
+            "summary": "CheckBox\/DropDown\u0020list\u0020entries.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#property_listItems"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003A\u0024alias",
             "name": "alias",
-            "summary": "Alias",
+            "summary": "Alias.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#property_alias"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT\u003A\u003A\u0024tag",
             "name": "tag",
-            "summary": "Tag",
+            "summary": "Tag.",
             "url": "classes/PhpOffice-PhpWord-Element-SDT.html#property_tag"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section",
             "name": "Section",
-            "summary": "Container\u0020abstract\u0020class",
+            "summary": "Container\u0020abstract\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AsetStyle\u0028\u0029",
@@ -1773,42 +1713,37 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020section\u0020style",
+            "summary": "Get\u0020section\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AaddHeader\u0028\u0029",
             "name": "addHeader",
-            "summary": "Add\u0020header",
+            "summary": "Add\u0020header.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_addHeader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AaddFooter\u0028\u0029",
             "name": "addFooter",
-            "summary": "Add\u0020footer",
+            "summary": "Add\u0020footer.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_addFooter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AgetHeaders\u0028\u0029",
             "name": "getHeaders",
-            "summary": "Get\u0020header\u0020elements",
+            "summary": "Get\u0020header\u0020elements.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_getHeaders"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AgetFooters\u0028\u0029",
             "name": "getFooters",
-            "summary": "Get\u0020footer\u0020elements",
+            "summary": "Get\u0020footer\u0020elements.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_getFooters"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AgetFootnoteProperties\u0028\u0029",
             "name": "getFootnoteProperties",
-            "summary": "Get\u0020the\u0020footnote\u0020properties",
+            "summary": "Get\u0020the\u0020footnote\u0020properties.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_getFootnoteProperties"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AgetFootnotePropoperties\u0028\u0029",
-            "name": "getFootnotePropoperties",
-            "summary": "Get\u0020the\u0020footnote\u0020properties",
-            "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_getFootnotePropoperties"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AsetFootnoteProperties\u0028\u0029",
             "name": "setFootnoteProperties",
-            "summary": "Set\u0020the\u0020footnote\u0020properties",
+            "summary": "Set\u0020the\u0020footnote\u0020properties.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_setFootnoteProperties"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AhasDifferentFirstPage\u0028\u0029",
@@ -1818,127 +1753,102 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AaddHeaderFooter\u0028\u0029",
             "name": "addHeaderFooter",
-            "summary": "Add\u0020header\/footer",
+            "summary": "Add\u0020header\/footer.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_addHeaderFooter"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AsetSettings\u0028\u0029",
-            "name": "setSettings",
-            "summary": "Set\u0020section\u0020style",
-            "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_setSettings"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AgetSettings\u0028\u0029",
-            "name": "getSettings",
-            "summary": "Get\u0020section\u0020style",
-            "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_getSettings"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AcreateHeader\u0028\u0029",
-            "name": "createHeader",
-            "summary": "Create\u0020header",
-            "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_createHeader"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AcreateFooter\u0028\u0029",
-            "name": "createFooter",
-            "summary": "Create\u0020footer",
-            "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_createFooter"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003AgetFooter\u0028\u0029",
-            "name": "getFooter",
-            "summary": "Get\u0020footer",
-            "url": "classes/PhpOffice-PhpWord-Element-Section.html#method_getFooter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Section\u0020style",
+            "summary": "Section\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003A\u0024headers",
             "name": "headers",
-            "summary": "Section\u0020headers,\u0020indexed\u0020from\u00201,\u0020not\u0020zero",
+            "summary": "Section\u0020headers,\u0020indexed\u0020from\u00201,\u0020not\u0020zero.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#property_headers"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003A\u0024footers",
             "name": "footers",
-            "summary": "Section\u0020footers,\u0020indexed\u0020from\u00201,\u0020not\u0020zero",
+            "summary": "Section\u0020footers,\u0020indexed\u0020from\u00201,\u0020not\u0020zero.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#property_footers"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Section\u003A\u003A\u0024footnoteProperties",
             "name": "footnoteProperties",
-            "summary": "The\u0020properties\u0020for\u0020the\u0020footnote\u0020of\u0020this\u0020section",
+            "summary": "The\u0020properties\u0020for\u0020the\u0020footnote\u0020of\u0020this\u0020section.",
             "url": "classes/PhpOffice-PhpWord-Element-Section.html#property_footnoteProperties"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Shape",
             "name": "Shape",
-            "summary": "Shape\u0020element",
+            "summary": "Shape\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Shape.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Shape\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-Shape.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Shape\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
-            "summary": "Get\u0020type",
+            "summary": "Get\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-Shape.html#method_getType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Shape\u003A\u003AsetType\u0028\u0029",
             "name": "setType",
-            "summary": "Set\u0020pattern",
+            "summary": "Set\u0020pattern.",
             "url": "classes/PhpOffice-PhpWord-Element-Shape.html#method_setType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Shape\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020shape\u0020style",
+            "summary": "Get\u0020shape\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Shape.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Shape\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Shape\u0020type\u0020arc\u007Ccurve\u007Cline\u007Cpolyline\u007Crect\u007Coval",
+            "summary": "Shape\u0020type\u0020arc\u007Ccurve\u007Cline\u007Cpolyline\u007Crect\u007Coval.",
             "url": "classes/PhpOffice-PhpWord-Element-Shape.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Shape\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Shape\u0020style",
+            "summary": "Shape\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Shape.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table",
             "name": "Table",
-            "summary": "Table\u0020element",
+            "summary": "Table\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020table",
+            "summary": "Create\u0020a\u0020new\u0020table.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003AaddRow\u0028\u0029",
             "name": "addRow",
-            "summary": "Add\u0020a\u0020row",
+            "summary": "Add\u0020a\u0020row.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#method_addRow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003AaddCell\u0028\u0029",
             "name": "addCell",
-            "summary": "Add\u0020a\u0020cell",
+            "summary": "Add\u0020a\u0020cell.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#method_addCell"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003AgetRows\u0028\u0029",
             "name": "getRows",
-            "summary": "Get\u0020all\u0020rows",
+            "summary": "Get\u0020all\u0020rows.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#method_getRows"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020table\u0020style",
+            "summary": "Get\u0020table\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003AgetWidth\u0028\u0029",
             "name": "getWidth",
-            "summary": "Get\u0020table\u0020width",
+            "summary": "Get\u0020table\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#method_getWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003AsetWidth\u0028\u0029",
@@ -1948,252 +1858,252 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003AcountColumns\u0028\u0029",
             "name": "countColumns",
-            "summary": "Get\u0020column\u0020count",
+            "summary": "Get\u0020column\u0020count.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#method_countColumns"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003AfindFirstDefinedCellWidths\u0028\u0029",
             "name": "findFirstDefinedCellWidths",
-            "summary": "The\u0020first\u0020declared\u0020cell\u0020width\u0020for\u0020each\u0020column",
+            "summary": "The\u0020first\u0020declared\u0020cell\u0020width\u0020for\u0020each\u0020column.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#method_findFirstDefinedCellWidths"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Table\u0020style",
+            "summary": "Table\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003A\u0024rows",
             "name": "rows",
-            "summary": "Table\u0020rows",
+            "summary": "Table\u0020rows.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#property_rows"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Table\u003A\u003A\u0024width",
             "name": "width",
-            "summary": "Table\u0020width",
+            "summary": "Table\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Element-Table.html#property_width"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text",
             "name": "Text",
-            "summary": "Text\u0020element",
+            "summary": "Text\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020Text\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020Text\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003AsetFontStyle\u0028\u0029",
             "name": "setFontStyle",
-            "summary": "Set\u0020Text\u0020style",
+            "summary": "Set\u0020Text\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#method_setFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003AgetFontStyle\u0028\u0029",
             "name": "getFontStyle",
-            "summary": "Get\u0020Text\u0020style",
+            "summary": "Get\u0020Text\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#method_getFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003AsetParagraphStyle\u0028\u0029",
             "name": "setParagraphStyle",
-            "summary": "Set\u0020Paragraph\u0020style",
+            "summary": "Set\u0020Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#method_setParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003AgetParagraphStyle\u0028\u0029",
             "name": "getParagraphStyle",
-            "summary": "Get\u0020Paragraph\u0020style",
+            "summary": "Get\u0020Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#method_getParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003AsetText\u0028\u0029",
             "name": "setText",
-            "summary": "Set\u0020text\u0020content",
+            "summary": "Set\u0020text\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#method_setText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003AgetText\u0028\u0029",
             "name": "getText",
-            "summary": "Get\u0020Text\u0020content",
+            "summary": "Get\u0020Text\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#method_getText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003A\u0024text",
             "name": "text",
-            "summary": "Text\u0020content",
+            "summary": "Text\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#property_text"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003A\u0024fontStyle",
             "name": "fontStyle",
-            "summary": "Text\u0020style",
+            "summary": "Text\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#property_fontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Text\u003A\u003A\u0024paragraphStyle",
             "name": "paragraphStyle",
-            "summary": "Paragraph\u0020style",
+            "summary": "Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Text.html#property_paragraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBox",
             "name": "TextBox",
-            "summary": "TextBox\u0020element",
+            "summary": "TextBox\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBox.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBox\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020textbox",
+            "summary": "Create\u0020a\u0020new\u0020textbox.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBox.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBox\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020textbox\u0020style",
+            "summary": "Get\u0020textbox\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBox.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBox\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBox.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBox\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "TextBox\u0020style",
+            "summary": "TextBox\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBox.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBreak",
             "name": "TextBreak",
-            "summary": "Text\u0020break\u0020element",
+            "summary": "Text\u0020break\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBreak\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020TextBreak\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020TextBreak\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBreak.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBreak\u003A\u003AsetFontStyle\u0028\u0029",
             "name": "setFontStyle",
-            "summary": "Set\u0020Text\u0020style",
+            "summary": "Set\u0020Text\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBreak.html#method_setFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBreak\u003A\u003AgetFontStyle\u0028\u0029",
             "name": "getFontStyle",
-            "summary": "Get\u0020Text\u0020style",
+            "summary": "Get\u0020Text\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBreak.html#method_getFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBreak\u003A\u003AsetParagraphStyle\u0028\u0029",
             "name": "setParagraphStyle",
-            "summary": "Set\u0020Paragraph\u0020style",
+            "summary": "Set\u0020Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBreak.html#method_setParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBreak\u003A\u003AgetParagraphStyle\u0028\u0029",
             "name": "getParagraphStyle",
-            "summary": "Get\u0020Paragraph\u0020style",
+            "summary": "Get\u0020Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBreak.html#method_getParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBreak\u003A\u003AhasStyle\u0028\u0029",
             "name": "hasStyle",
-            "summary": "Has\u0020font\/paragraph\u0020style\u0020defined",
+            "summary": "Has\u0020font\/paragraph\u0020style\u0020defined.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBreak.html#method_hasStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBreak\u003A\u003A\u0024paragraphStyle",
             "name": "paragraphStyle",
-            "summary": "Paragraph\u0020style",
+            "summary": "Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBreak.html#property_paragraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextBreak\u003A\u003A\u0024fontStyle",
             "name": "fontStyle",
-            "summary": "Text\u0020style",
+            "summary": "Text\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextBreak.html#property_fontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextRun",
             "name": "TextRun",
-            "summary": "Textrun\/paragraph\u0020element",
+            "summary": "Textrun\/paragraph\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-TextRun.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextRun\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Element-TextRun.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextRun\u003A\u003AgetParagraphStyle\u0028\u0029",
             "name": "getParagraphStyle",
-            "summary": "Get\u0020Paragraph\u0020style",
+            "summary": "Get\u0020Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextRun.html#method_getParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextRun\u003A\u003AsetParagraphStyle\u0028\u0029",
             "name": "setParagraphStyle",
-            "summary": "Set\u0020Paragraph\u0020style",
+            "summary": "Set\u0020Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextRun.html#method_setParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextRun\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-TextRun.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextRun\u003A\u003A\u0024paragraphStyle",
             "name": "paragraphStyle",
-            "summary": "Paragraph\u0020style",
+            "summary": "Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextRun.html#property_paragraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title",
             "name": "Title",
-            "summary": "Title\u0020element",
+            "summary": "Title\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020Title\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020Title\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003AgetText\u0028\u0029",
             "name": "getText",
-            "summary": "Get\u0020Title\u0020Text\u0020content",
+            "summary": "Get\u0020Title\u0020Text\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#method_getText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003AgetDepth\u0028\u0029",
             "name": "getDepth",
-            "summary": "Get\u0020depth",
+            "summary": "Get\u0020depth.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#method_getDepth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020Title\u0020style",
+            "summary": "Get\u0020Title\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003A\u0024text",
             "name": "text",
-            "summary": "Title\u0020Text\u0020content",
+            "summary": "Title\u0020Text\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#property_text"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003A\u0024depth",
             "name": "depth",
-            "summary": "Title\u0020depth",
+            "summary": "Title\u0020depth.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#property_depth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Name\u0020of\u0020the\u0020heading\u0020style,\u0020e.g.\u0020\u0027Heading1\u0027",
+            "summary": "Name\u0020of\u0020the\u0020heading\u0020style,\u0020e.g.\u0020\u0027Heading1\u0027.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003A\u0024collectionRelation",
             "name": "collectionRelation",
-            "summary": "Is\u0020part\u0020of\u0020collection",
+            "summary": "Is\u0020part\u0020of\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#property_collectionRelation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC",
             "name": "TOC",
-            "summary": "Table\u0020of\u0020contents",
+            "summary": "Table\u0020of\u0020contents.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020Table\u002Dof\u002DContents\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020Table\u002Dof\u002DContents\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003AgetTitles\u0028\u0029",
             "name": "getTitles",
-            "summary": "Get\u0020all\u0020titles",
+            "summary": "Get\u0020all\u0020titles.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html#method_getTitles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003AgetStyleTOC\u0028\u0029",
             "name": "getStyleTOC",
-            "summary": "Get\u0020TOC\u0020Style",
+            "summary": "Get\u0020TOC\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html#method_getStyleTOC"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003AgetStyleFont\u0028\u0029",
             "name": "getStyleFont",
-            "summary": "Get\u0020Font\u0020Style",
+            "summary": "Get\u0020Font\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html#method_getStyleFont"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003AsetMaxDepth\u0028\u0029",
@@ -2203,7 +2113,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003AgetMaxDepth\u0028\u0029",
             "name": "getMaxDepth",
-            "summary": "Get\u0020Max\u0020Depth",
+            "summary": "Get\u0020Max\u0020Depth.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html#method_getMaxDepth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003AsetMinDepth\u0028\u0029",
@@ -2213,52 +2123,52 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003AgetMinDepth\u0028\u0029",
             "name": "getMinDepth",
-            "summary": "Get\u0020Min\u0020Depth",
+            "summary": "Get\u0020Min\u0020Depth.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html#method_getMinDepth"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003A\u0024TOCStyle",
-            "name": "TOCStyle",
-            "summary": "TOC\u0020style",
-            "url": "classes/PhpOffice-PhpWord-Element-TOC.html#property_TOCStyle"
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003A\u0024tocStyle",
+            "name": "tocStyle",
+            "summary": "TOC\u0020style.",
+            "url": "classes/PhpOffice-PhpWord-Element-TOC.html#property_tocStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003A\u0024fontStyle",
             "name": "fontStyle",
-            "summary": "Font\u0020style",
+            "summary": "Font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html#property_fontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003A\u0024minDepth",
             "name": "minDepth",
-            "summary": "Min\u0020title\u0020depth\u0020to\u0020show",
+            "summary": "Min\u0020title\u0020depth\u0020to\u0020show.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html#property_minDepth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC\u003A\u003A\u0024maxDepth",
             "name": "maxDepth",
-            "summary": "Max\u0020title\u0020depth\u0020to\u0020show",
+            "summary": "Max\u0020title\u0020depth\u0020to\u0020show.",
             "url": "classes/PhpOffice-PhpWord-Element-TOC.html#property_maxDepth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange",
             "name": "TrackChange",
-            "summary": "TrackChange\u0020element",
+            "summary": "TrackChange\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Element-TrackChange.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020TrackChange\u0020Element",
+            "summary": "Create\u0020a\u0020new\u0020TrackChange\u0020Element.",
             "url": "classes/PhpOffice-PhpWord-Element-TrackChange.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange\u003A\u003AgetAuthor\u0028\u0029",
             "name": "getAuthor",
-            "summary": "Get\u0020TrackChange\u0020Author",
+            "summary": "Get\u0020TrackChange\u0020Author.",
             "url": "classes/PhpOffice-PhpWord-Element-TrackChange.html#method_getAuthor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange\u003A\u003AgetDate\u0028\u0029",
             "name": "getDate",
-            "summary": "Get\u0020TrackChange\u0020Date",
+            "summary": "Get\u0020TrackChange\u0020Date.",
             "url": "classes/PhpOffice-PhpWord-Element-TrackChange.html#method_getDate"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange\u003A\u003AgetChangeType\u0028\u0029",
             "name": "getChangeType",
-            "summary": "Get\u0020the\u0020Change\u0020type",
+            "summary": "Get\u0020the\u0020Change\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Element-TrackChange.html#method_getChangeType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange\u003A\u003AINSERTED",
@@ -2273,22 +2183,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange\u003A\u003A\u0024container",
             "name": "container",
-            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange",
+            "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
             "url": "classes/PhpOffice-PhpWord-Element-TrackChange.html#property_container"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange\u003A\u003A\u0024changeType",
             "name": "changeType",
-            "summary": "The\u0020type\u0020of\u0020change,\u0020\u0028insert\u0020or\u0020delete\u0029,\u0020not\u0020applicable\u0020for\u0020PhpOffice\\PhpWord\\Element\\Comment",
+            "summary": "The\u0020type\u0020of\u0020change,\u0020\u0028insert\u0020or\u0020delete\u0029,\u0020not\u0020applicable\u0020for\u0020PhpOffice\\PhpWord\\Element\\Comment.",
             "url": "classes/PhpOffice-PhpWord-Element-TrackChange.html#property_changeType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange\u003A\u003A\u0024author",
             "name": "author",
-            "summary": "Author",
+            "summary": "Author.",
             "url": "classes/PhpOffice-PhpWord-Element-TrackChange.html#property_author"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TrackChange\u003A\u003A\u0024date",
             "name": "date",
-            "summary": "Date",
+            "summary": "Date.",
             "url": "classes/PhpOffice-PhpWord-Element-TrackChange.html#property_date"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Escaper\\AbstractEscaper",
@@ -2363,7 +2273,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Exception\\CopyFileException",
             "name": "CopyFileException",
-            "summary": "General\u0020exception",
+            "summary": "General\u0020exception.",
             "url": "classes/PhpOffice-PhpWord-Exception-CopyFileException.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Exception\\CopyFileException\u003A\u003A__construct\u0028\u0029",
@@ -2373,7 +2283,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Exception\\CreateTemporaryFileException",
             "name": "CreateTemporaryFileException",
-            "summary": "General\u0020exception",
+            "summary": "General\u0020exception.",
             "url": "classes/PhpOffice-PhpWord-Exception-CreateTemporaryFileException.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Exception\\CreateTemporaryFileException\u003A\u003A__construct\u0028\u0029",
@@ -2383,27 +2293,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Exception\\Exception",
             "name": "Exception",
-            "summary": "General\u0020exception",
+            "summary": "General\u0020exception.",
             "url": "classes/PhpOffice-PhpWord-Exception-Exception.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Exception\\InvalidImageException",
             "name": "InvalidImageException",
-            "summary": "Exception\u0020used\u0020for\u0020when\u0020an\u0020image\u0020is\u0020not\u0020found",
+            "summary": "Exception\u0020used\u0020for\u0020when\u0020an\u0020image\u0020is\u0020not\u0020found.",
             "url": "classes/PhpOffice-PhpWord-Exception-InvalidImageException.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Exception\\InvalidObjectException",
             "name": "InvalidObjectException",
-            "summary": "Exception\u0020used\u0020for\u0020when\u0020an\u0020image\u0020is\u0020not\u0020found",
+            "summary": "Exception\u0020used\u0020for\u0020when\u0020an\u0020image\u0020is\u0020not\u0020found.",
             "url": "classes/PhpOffice-PhpWord-Exception-InvalidObjectException.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Exception\\InvalidStyleException",
             "name": "InvalidStyleException",
-            "summary": "Exception\u0020used\u0020for\u0020when\u0020a\u0020style\u0020value\u0020is\u0020invalid",
+            "summary": "Exception\u0020used\u0020for\u0020when\u0020a\u0020style\u0020value\u0020is\u0020invalid.",
             "url": "classes/PhpOffice-PhpWord-Exception-InvalidStyleException.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Exception\\UnsupportedImageTypeException",
             "name": "UnsupportedImageTypeException",
-            "summary": "Exception\u0020used\u0020for\u0020when\u0020an\u0020image\u0020type\u0020is\u0020unsupported",
+            "summary": "Exception\u0020used\u0020for\u0020when\u0020an\u0020image\u0020type\u0020is\u0020unsupported.",
             "url": "classes/PhpOffice-PhpWord-Exception-UnsupportedImageTypeException.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\IOFactory",
@@ -2413,297 +2323,247 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\IOFactory\u003A\u003AcreateWriter\u0028\u0029",
             "name": "createWriter",
-            "summary": "Create\u0020new\u0020writer",
+            "summary": "Create\u0020new\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-IOFactory.html#method_createWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\IOFactory\u003A\u003AcreateReader\u0028\u0029",
             "name": "createReader",
-            "summary": "Create\u0020new\u0020reader",
+            "summary": "Create\u0020new\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-IOFactory.html#method_createReader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\IOFactory\u003A\u003AcreateObject\u0028\u0029",
             "name": "createObject",
-            "summary": "Create\u0020new\u0020object",
+            "summary": "Create\u0020new\u0020object.",
             "url": "classes/PhpOffice-PhpWord-IOFactory.html#method_createObject"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\IOFactory\u003A\u003Aload\u0028\u0029",
             "name": "load",
-            "summary": "Loads\u0020PhpWord\u0020from\u0020file",
+            "summary": "Loads\u0020PhpWord\u0020from\u0020file.",
             "url": "classes/PhpOffice-PhpWord-IOFactory.html#method_load"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\IOFactory\u003A\u003AisConcreteClass\u0028\u0029",
             "name": "isConcreteClass",
-            "summary": "Check\u0020if\u0020it\u0027s\u0020a\u0020concrete\u0020class\u0020\u0028not\u0020abstract\u0020nor\u0020interface\u0029",
+            "summary": "Check\u0020if\u0020it\u0027s\u0020a\u0020concrete\u0020class\u0020\u0028not\u0020abstract\u0020nor\u0020interface\u0029.",
             "url": "classes/PhpOffice-PhpWord-IOFactory.html#method_isConcreteClass"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Media",
             "name": "Media",
-            "summary": "Media\u0020collection",
+            "summary": "Media\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Media.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AaddElement\u0028\u0029",
             "name": "addElement",
-            "summary": "Add\u0020new\u0020media\u0020element",
+            "summary": "Add\u0020new\u0020media\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Media.html#method_addElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AcountElements\u0028\u0029",
             "name": "countElements",
-            "summary": "Get\u0020media\u0020elements\u0020count",
+            "summary": "Get\u0020media\u0020elements\u0020count.",
             "url": "classes/PhpOffice-PhpWord-Media.html#method_countElements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AgetElements\u0028\u0029",
             "name": "getElements",
-            "summary": "Get\u0020media\u0020elements",
+            "summary": "Get\u0020media\u0020elements.",
             "url": "classes/PhpOffice-PhpWord-Media.html#method_getElements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AgetElementsByType\u0028\u0029",
             "name": "getElementsByType",
-            "summary": "Get\u0020elements\u0020by\u0020media\u0020type",
+            "summary": "Get\u0020elements\u0020by\u0020media\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Media.html#method_getElementsByType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AresetElements\u0028\u0029",
             "name": "resetElements",
-            "summary": "Reset\u0020media\u0020elements",
+            "summary": "Reset\u0020media\u0020elements.",
             "url": "classes/PhpOffice-PhpWord-Media.html#method_resetElements"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AaddSectionMediaElement\u0028\u0029",
-            "name": "addSectionMediaElement",
-            "summary": "Add\u0020new\u0020Section\u0020Media\u0020Element",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_addSectionMediaElement"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AaddSectionLinkElement\u0028\u0029",
-            "name": "addSectionLinkElement",
-            "summary": "Add\u0020new\u0020Section\u0020Link\u0020Element",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_addSectionLinkElement"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AgetSectionMediaElements\u0028\u0029",
-            "name": "getSectionMediaElements",
-            "summary": "Get\u0020Section\u0020Media\u0020Elements",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_getSectionMediaElements"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AcountSectionMediaElements\u0028\u0029",
-            "name": "countSectionMediaElements",
-            "summary": "Get\u0020Section\u0020Media\u0020Elements\u0020Count",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_countSectionMediaElements"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AaddHeaderMediaElement\u0028\u0029",
-            "name": "addHeaderMediaElement",
-            "summary": "Add\u0020new\u0020Header\u0020Media\u0020Element",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_addHeaderMediaElement"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AcountHeaderMediaElements\u0028\u0029",
-            "name": "countHeaderMediaElements",
-            "summary": "Get\u0020Header\u0020Media\u0020Elements\u0020Count",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_countHeaderMediaElements"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AgetHeaderMediaElements\u0028\u0029",
-            "name": "getHeaderMediaElements",
-            "summary": "Get\u0020Header\u0020Media\u0020Elements",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_getHeaderMediaElements"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AaddFooterMediaElement\u0028\u0029",
-            "name": "addFooterMediaElement",
-            "summary": "Add\u0020new\u0020Footer\u0020Media\u0020Element",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_addFooterMediaElement"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AcountFooterMediaElements\u0028\u0029",
-            "name": "countFooterMediaElements",
-            "summary": "Get\u0020Footer\u0020Media\u0020Elements\u0020Count",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_countFooterMediaElements"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003AgetFooterMediaElements\u0028\u0029",
-            "name": "getFooterMediaElements",
-            "summary": "Get\u0020Footer\u0020Media\u0020Elements",
-            "url": "classes/PhpOffice-PhpWord-Media.html#method_getFooterMediaElements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Media\u003A\u003A\u0024elements",
             "name": "elements",
-            "summary": "Media\u0020elements",
+            "summary": "Media\u0020elements.",
             "url": "classes/PhpOffice-PhpWord-Media.html#property_elements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Compatibility",
             "name": "Compatibility",
-            "summary": "Compatibility\u0020setting\u0020class",
+            "summary": "Compatibility\u0020setting\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Compatibility.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Compatibility\u003A\u003AgetOoxmlVersion\u0028\u0029",
             "name": "getOoxmlVersion",
-            "summary": "Get\u0020OOXML\u0020version",
+            "summary": "Get\u0020OOXML\u0020version.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Compatibility.html#method_getOoxmlVersion"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Compatibility\u003A\u003AsetOoxmlVersion\u0028\u0029",
             "name": "setOoxmlVersion",
-            "summary": "Set\u0020OOXML\u0020version",
+            "summary": "Set\u0020OOXML\u0020version.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Compatibility.html#method_setOoxmlVersion"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Compatibility\u003A\u003A\u0024ooxmlVersion",
             "name": "ooxmlVersion",
-            "summary": "OOXML\u0020version",
+            "summary": "OOXML\u0020version.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Compatibility.html#property_ooxmlVersion"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo",
             "name": "DocInfo",
-            "summary": "Document\u0020information",
+            "summary": "Document\u0020information.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetCreator\u0028\u0029",
             "name": "getCreator",
-            "summary": "Get\u0020Creator",
+            "summary": "Get\u0020Creator.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getCreator"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetCreator\u0028\u0029",
             "name": "setCreator",
-            "summary": "Set\u0020Creator",
+            "summary": "Set\u0020Creator.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setCreator"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetLastModifiedBy\u0028\u0029",
             "name": "getLastModifiedBy",
-            "summary": "Get\u0020Last\u0020Modified\u0020By",
+            "summary": "Get\u0020Last\u0020Modified\u0020By.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getLastModifiedBy"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetLastModifiedBy\u0028\u0029",
             "name": "setLastModifiedBy",
-            "summary": "Set\u0020Last\u0020Modified\u0020By",
+            "summary": "Set\u0020Last\u0020Modified\u0020By.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setLastModifiedBy"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetCreated\u0028\u0029",
             "name": "getCreated",
-            "summary": "Get\u0020Created",
+            "summary": "Get\u0020Created.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getCreated"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetCreated\u0028\u0029",
             "name": "setCreated",
-            "summary": "Set\u0020Created",
+            "summary": "Set\u0020Created.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setCreated"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetModified\u0028\u0029",
             "name": "getModified",
-            "summary": "Get\u0020Modified",
+            "summary": "Get\u0020Modified.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getModified"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetModified\u0028\u0029",
             "name": "setModified",
-            "summary": "Set\u0020Modified",
+            "summary": "Set\u0020Modified.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setModified"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetTitle\u0028\u0029",
             "name": "getTitle",
-            "summary": "Get\u0020Title",
+            "summary": "Get\u0020Title.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getTitle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetTitle\u0028\u0029",
             "name": "setTitle",
-            "summary": "Set\u0020Title",
+            "summary": "Set\u0020Title.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setTitle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetDescription\u0028\u0029",
             "name": "getDescription",
-            "summary": "Get\u0020Description",
+            "summary": "Get\u0020Description.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getDescription"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetDescription\u0028\u0029",
             "name": "setDescription",
-            "summary": "Set\u0020Description",
+            "summary": "Set\u0020Description.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setDescription"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetSubject\u0028\u0029",
             "name": "getSubject",
-            "summary": "Get\u0020Subject",
+            "summary": "Get\u0020Subject.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getSubject"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetSubject\u0028\u0029",
             "name": "setSubject",
-            "summary": "Set\u0020Subject",
+            "summary": "Set\u0020Subject.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setSubject"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetKeywords\u0028\u0029",
             "name": "getKeywords",
-            "summary": "Get\u0020Keywords",
+            "summary": "Get\u0020Keywords.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getKeywords"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetKeywords\u0028\u0029",
             "name": "setKeywords",
-            "summary": "Set\u0020Keywords",
+            "summary": "Set\u0020Keywords.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setKeywords"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetCategory\u0028\u0029",
             "name": "getCategory",
-            "summary": "Get\u0020Category",
+            "summary": "Get\u0020Category.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getCategory"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetCategory\u0028\u0029",
             "name": "setCategory",
-            "summary": "Set\u0020Category",
+            "summary": "Set\u0020Category.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setCategory"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetCompany\u0028\u0029",
             "name": "getCompany",
-            "summary": "Get\u0020Company",
+            "summary": "Get\u0020Company.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getCompany"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetCompany\u0028\u0029",
             "name": "setCompany",
-            "summary": "Set\u0020Company",
+            "summary": "Set\u0020Company.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setCompany"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetManager\u0028\u0029",
             "name": "getManager",
-            "summary": "Get\u0020Manager",
+            "summary": "Get\u0020Manager.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getManager"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetManager\u0028\u0029",
             "name": "setManager",
-            "summary": "Set\u0020Manager",
+            "summary": "Set\u0020Manager.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setManager"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetCustomProperties\u0028\u0029",
             "name": "getCustomProperties",
-            "summary": "Get\u0020a\u0020List\u0020of\u0020Custom\u0020Property\u0020Names",
+            "summary": "Get\u0020a\u0020List\u0020of\u0020Custom\u0020Property\u0020Names.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getCustomProperties"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AisCustomPropertySet\u0028\u0029",
             "name": "isCustomPropertySet",
-            "summary": "Check\u0020if\u0020a\u0020Custom\u0020Property\u0020is\u0020defined",
+            "summary": "Check\u0020if\u0020a\u0020Custom\u0020Property\u0020is\u0020defined.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_isCustomPropertySet"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetCustomPropertyValue\u0028\u0029",
             "name": "getCustomPropertyValue",
-            "summary": "Get\u0020a\u0020Custom\u0020Property\u0020Value",
+            "summary": "Get\u0020a\u0020Custom\u0020Property\u0020Value.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getCustomPropertyValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetCustomPropertyType\u0028\u0029",
             "name": "getCustomPropertyType",
-            "summary": "Get\u0020a\u0020Custom\u0020Property\u0020Type",
+            "summary": "Get\u0020a\u0020Custom\u0020Property\u0020Type.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getCustomPropertyType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetCustomProperty\u0028\u0029",
             "name": "setCustomProperty",
-            "summary": "Set\u0020a\u0020Custom\u0020Property",
+            "summary": "Set\u0020a\u0020Custom\u0020Property.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setCustomProperty"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AconvertProperty\u0028\u0029",
             "name": "convertProperty",
-            "summary": "Convert\u0020document\u0020property\u0020based\u0020on\u0020type",
+            "summary": "Convert\u0020document\u0020property\u0020based\u0020on\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_convertProperty"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AconvertPropertyType\u0028\u0029",
             "name": "convertPropertyType",
-            "summary": "Convert\u0020document\u0020property\u0020type",
+            "summary": "Convert\u0020document\u0020property\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_convertPropertyType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AsetValue\u0028\u0029",
             "name": "setValue",
-            "summary": "Set\u0020default\u0020for\u0020null\u0020and\u0020empty\u0020value",
+            "summary": "Set\u0020default\u0020for\u0020null\u0020and\u0020empty\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_setValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003AgetConversion\u0028\u0029",
             "name": "getConversion",
-            "summary": "Get\u0020conversion\u0020model\u0020depending\u0020on\u0020property\u0020type",
+            "summary": "Get\u0020conversion\u0020model\u0020depending\u0020on\u0020property\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#method_getConversion"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003APROPERTY_TYPE_BOOLEAN",
@@ -2738,117 +2598,117 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024creator",
             "name": "creator",
-            "summary": "Creator",
+            "summary": "Creator.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_creator"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024lastModifiedBy",
             "name": "lastModifiedBy",
-            "summary": "LastModifiedBy",
+            "summary": "LastModifiedBy.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_lastModifiedBy"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024created",
             "name": "created",
-            "summary": "Created",
+            "summary": "Created.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_created"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024modified",
             "name": "modified",
-            "summary": "Modified",
+            "summary": "Modified.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_modified"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024title",
             "name": "title",
-            "summary": "Title",
+            "summary": "Title.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_title"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024description",
             "name": "description",
-            "summary": "Description",
+            "summary": "Description.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_description"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024subject",
             "name": "subject",
-            "summary": "Subject",
+            "summary": "Subject.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_subject"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024keywords",
             "name": "keywords",
-            "summary": "Keywords",
+            "summary": "Keywords.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_keywords"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024category",
             "name": "category",
-            "summary": "Category",
+            "summary": "Category.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_category"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024company",
             "name": "company",
-            "summary": "Company",
+            "summary": "Company.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_company"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024manager",
             "name": "manager",
-            "summary": "Manager",
+            "summary": "Manager.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_manager"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\DocInfo\u003A\u003A\u0024customProperties",
             "name": "customProperties",
-            "summary": "Custom\u0020Properties",
+            "summary": "Custom\u0020Properties.",
             "url": "classes/PhpOffice-PhpWord-Metadata-DocInfo.html#property_customProperties"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection",
             "name": "Protection",
-            "summary": "Document\u0020protection\u0020class",
+            "summary": "Document\u0020protection\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AgetEditing\u0028\u0029",
             "name": "getEditing",
-            "summary": "Get\u0020editing\u0020protection",
+            "summary": "Get\u0020editing\u0020protection.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method_getEditing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AsetEditing\u0028\u0029",
             "name": "setEditing",
-            "summary": "Set\u0020editing\u0020protection",
+            "summary": "Set\u0020editing\u0020protection.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method_setEditing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AgetPassword\u0028\u0029",
             "name": "getPassword",
-            "summary": "Get\u0020password",
+            "summary": "Get\u0020password.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method_getPassword"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AsetPassword\u0028\u0029",
             "name": "setPassword",
-            "summary": "Set\u0020password",
+            "summary": "Set\u0020password.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method_setPassword"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AgetSpinCount\u0028\u0029",
             "name": "getSpinCount",
-            "summary": "Get\u0020count\u0020for\u0020hash\u0020iterations",
+            "summary": "Get\u0020count\u0020for\u0020hash\u0020iterations.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method_getSpinCount"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AsetSpinCount\u0028\u0029",
             "name": "setSpinCount",
-            "summary": "Set\u0020count\u0020for\u0020hash\u0020iterations",
+            "summary": "Set\u0020count\u0020for\u0020hash\u0020iterations.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method_setSpinCount"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AgetAlgorithm\u0028\u0029",
             "name": "getAlgorithm",
-            "summary": "Get\u0020algorithm",
+            "summary": "Get\u0020algorithm.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method_getAlgorithm"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AsetAlgorithm\u0028\u0029",
             "name": "setAlgorithm",
-            "summary": "Set\u0020algorithm",
+            "summary": "Set\u0020algorithm.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method_setAlgorithm"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AgetSalt\u0028\u0029",
             "name": "getSalt",
-            "summary": "Get\u0020salt",
+            "summary": "Get\u0020salt.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#method_getSalt"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003AsetSalt\u0028\u0029",
@@ -2858,32 +2718,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003A\u0024editing",
             "name": "editing",
-            "summary": "Editing\u0020restriction\u0020none\u007CreadOnly\u007Ccomments\u007CtrackedChanges\u007Cforms",
+            "summary": "Editing\u0020restriction\u0020none\u007CreadOnly\u007Ccomments\u007CtrackedChanges\u007Cforms.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#property_editing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003A\u0024password",
             "name": "password",
-            "summary": "password",
+            "summary": "password.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#property_password"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003A\u0024spinCount",
             "name": "spinCount",
-            "summary": "Iterations\u0020to\u0020Run\u0020Hashing\u0020Algorithm",
+            "summary": "Iterations\u0020to\u0020Run\u0020Hashing\u0020Algorithm.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#property_spinCount"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003A\u0024algorithm",
             "name": "algorithm",
-            "summary": "Cryptographic\u0020Hashing\u0020Algorithm\u0020\u0028see\u0020constants\u0020defined\u0020in\u0020\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u0029",
+            "summary": "Cryptographic\u0020Hashing\u0020Algorithm\u0020\u0028see\u0020constants\u0020defined\u0020in\u0020\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u0029.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#property_algorithm"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Protection\u003A\u003A\u0024salt",
             "name": "salt",
-            "summary": "Salt\u0020for\u0020Password\u0020Verifier",
+            "summary": "Salt\u0020for\u0020Password\u0020Verifier.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Protection.html#property_salt"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings",
             "name": "Settings",
-            "summary": "Setting\u0020class",
+            "summary": "Setting\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AgetDocumentProtection\u0028\u0029",
@@ -2908,22 +2768,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AhasHideSpellingErrors\u0028\u0029",
             "name": "hasHideSpellingErrors",
-            "summary": "Are\u0020spelling\u0020errors\u0020hidden",
+            "summary": "Are\u0020spelling\u0020errors\u0020hidden.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_hasHideSpellingErrors"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AsetHideSpellingErrors\u0028\u0029",
             "name": "setHideSpellingErrors",
-            "summary": "Hide\u0020spelling\u0020errors",
+            "summary": "Hide\u0020spelling\u0020errors.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_setHideSpellingErrors"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AhasHideGrammaticalErrors\u0028\u0029",
             "name": "hasHideGrammaticalErrors",
-            "summary": "Are\u0020grammatical\u0020errors\u0020hidden",
+            "summary": "Are\u0020grammatical\u0020errors\u0020hidden.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_hasHideGrammaticalErrors"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AsetHideGrammaticalErrors\u0028\u0029",
             "name": "setHideGrammaticalErrors",
-            "summary": "Hide\u0020grammatical\u0020errors",
+            "summary": "Hide\u0020grammatical\u0020errors.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_setHideGrammaticalErrors"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AhasEvenAndOddHeaders\u0028\u0029",
@@ -2938,12 +2798,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AgetRevisionView\u0028\u0029",
             "name": "getRevisionView",
-            "summary": "Get\u0020the\u0020Visibility\u0020of\u0020Annotation\u0020Types",
+            "summary": "Get\u0020the\u0020Visibility\u0020of\u0020Annotation\u0020Types.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_getRevisionView"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AsetRevisionView\u0028\u0029",
             "name": "setRevisionView",
-            "summary": "Set\u0020the\u0020Visibility\u0020of\u0020Annotation\u0020Types",
+            "summary": "Set\u0020the\u0020Visibility\u0020of\u0020Annotation\u0020Types.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_setRevisionView"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AhasTrackRevisions\u0028\u0029",
@@ -2998,12 +2858,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AgetThemeFontLang\u0028\u0029",
             "name": "getThemeFontLang",
-            "summary": "Returns\u0020the\u0020Language",
+            "summary": "Returns\u0020the\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_getThemeFontLang"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AsetThemeFontLang\u0028\u0029",
             "name": "setThemeFontLang",
-            "summary": "sets\u0020the\u0020Language\u0020for\u0020this\u0020document",
+            "summary": "sets\u0020the\u0020Language\u0020for\u0020this\u0020document.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_setThemeFontLang"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AhasUpdateFields\u0028\u0029",
@@ -3018,12 +2878,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AgetDecimalSymbol\u0028\u0029",
             "name": "getDecimalSymbol",
-            "summary": "Returns\u0020the\u0020Radix\u0020Point\u0020for\u0020Field\u0020Code\u0020Evaluation",
+            "summary": "Returns\u0020the\u0020Radix\u0020Point\u0020for\u0020Field\u0020Code\u0020Evaluation.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_getDecimalSymbol"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AsetDecimalSymbol\u0028\u0029",
             "name": "setDecimalSymbol",
-            "summary": "sets\u0020the\u0020Radix\u0020Point\u0020for\u0020Field\u0020Code\u0020Evaluation",
+            "summary": "sets\u0020the\u0020Radix\u0020Point\u0020for\u0020Field\u0020Code\u0020Evaluation.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_setDecimalSymbol"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AhasAutoHyphenation\u0028\u0029",
@@ -3068,52 +2928,52 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024zoom",
             "name": "zoom",
-            "summary": "Magnification\u0020Setting",
+            "summary": "Magnification\u0020Setting.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_zoom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024mirrorMargins",
             "name": "mirrorMargins",
-            "summary": "Mirror\u0020Page\u0020Margins",
+            "summary": "Mirror\u0020Page\u0020Margins.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_mirrorMargins"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024hideSpellingErrors",
             "name": "hideSpellingErrors",
-            "summary": "Hide\u0020spelling\u0020errors",
+            "summary": "Hide\u0020spelling\u0020errors.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_hideSpellingErrors"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024hideGrammaticalErrors",
             "name": "hideGrammaticalErrors",
-            "summary": "Hide\u0020grammatical\u0020errors",
+            "summary": "Hide\u0020grammatical\u0020errors.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_hideGrammaticalErrors"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024revisionView",
             "name": "revisionView",
-            "summary": "Visibility\u0020of\u0020Annotation\u0020Types",
+            "summary": "Visibility\u0020of\u0020Annotation\u0020Types.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_revisionView"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024trackRevisions",
             "name": "trackRevisions",
-            "summary": "Track\u0020Revisions\u0020to\u0020Document",
+            "summary": "Track\u0020Revisions\u0020to\u0020Document.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_trackRevisions"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024doNotTrackMoves",
             "name": "doNotTrackMoves",
-            "summary": "Do\u0020Not\u0020Use\u0020Move\u0020Syntax\u0020When\u0020Tracking\u0020Revisions",
+            "summary": "Do\u0020Not\u0020Use\u0020Move\u0020Syntax\u0020When\u0020Tracking\u0020Revisions.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_doNotTrackMoves"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024doNotTrackFormatting",
             "name": "doNotTrackFormatting",
-            "summary": "Do\u0020Not\u0020Track\u0020Formatting\u0020Revisions\u0020When\u0020Tracking\u0020Revisions",
+            "summary": "Do\u0020Not\u0020Track\u0020Formatting\u0020Revisions\u0020When\u0020Tracking\u0020Revisions.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_doNotTrackFormatting"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024proofState",
             "name": "proofState",
-            "summary": "Spelling\u0020and\u0020Grammatical\u0020Checking\u0020State",
+            "summary": "Spelling\u0020and\u0020Grammatical\u0020Checking\u0020State.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_proofState"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024documentProtection",
             "name": "documentProtection",
-            "summary": "Document\u0020Editing\u0020Restrictions",
+            "summary": "Document\u0020Editing\u0020Restrictions.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_documentProtection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024evenAndOddHeaders",
@@ -3123,97 +2983,92 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024themeFontLang",
             "name": "themeFontLang",
-            "summary": "Theme\u0020Font\u0020Languages",
+            "summary": "Theme\u0020Font\u0020Languages.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_themeFontLang"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024updateFields",
             "name": "updateFields",
-            "summary": "Automatically\u0020Recalculate\u0020Fields\u0020on\u0020Open",
+            "summary": "Automatically\u0020Recalculate\u0020Fields\u0020on\u0020Open.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_updateFields"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024decimalSymbol",
             "name": "decimalSymbol",
-            "summary": "Radix\u0020Point\u0020for\u0020Field\u0020Code\u0020Evaluation",
+            "summary": "Radix\u0020Point\u0020for\u0020Field\u0020Code\u0020Evaluation.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_decimalSymbol"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024autoHyphenation",
             "name": "autoHyphenation",
-            "summary": "Automatically\u0020hyphenate\u0020document\u0020contents\u0020when\u0020displayed",
+            "summary": "Automatically\u0020hyphenate\u0020document\u0020contents\u0020when\u0020displayed.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_autoHyphenation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024consecutiveHyphenLimit",
             "name": "consecutiveHyphenLimit",
-            "summary": "Maximum\u0020number\u0020of\u0020consecutively\u0020hyphenated\u0020lines",
+            "summary": "Maximum\u0020number\u0020of\u0020consecutively\u0020hyphenated\u0020lines.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_consecutiveHyphenLimit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024hyphenationZone",
             "name": "hyphenationZone",
-            "summary": "The\u0020allowed\u0020amount\u0020of\u0020whitespace\u0020before\u0020hyphenation\u0020is\u0020applied",
+            "summary": "The\u0020allowed\u0020amount\u0020of\u0020whitespace\u0020before\u0020hyphenation\u0020is\u0020applied.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_hyphenationZone"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024doNotHyphenateCaps",
             "name": "doNotHyphenateCaps",
-            "summary": "Do\u0020not\u0020hyphenate\u0020words\u0020in\u0020all\u0020capital\u0020letters",
+            "summary": "Do\u0020not\u0020hyphenate\u0020words\u0020in\u0020all\u0020capital\u0020letters.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_doNotHyphenateCaps"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord",
             "name": "PhpWord",
-            "summary": "PHPWord\u0020main\u0020class",
+            "summary": "PHPWord\u0020main\u0020class.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003A__call\u0028\u0029",
             "name": "__call",
-            "summary": "Dynamic\u0020function\u0020call\u0020to\u0020reduce\u0020static\u0020dependency",
+            "summary": "Dynamic\u0020function\u0020call\u0020to\u0020reduce\u0020static\u0020dependency.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method___call"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetDocInfo\u0028\u0029",
             "name": "getDocInfo",
-            "summary": "Get\u0020document\u0020properties\u0020object",
+            "summary": "Get\u0020document\u0020properties\u0020object.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getDocInfo"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetProtection\u0028\u0029",
-            "name": "getProtection",
-            "summary": "Get\u0020protection",
-            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getProtection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetCompatibility\u0028\u0029",
             "name": "getCompatibility",
-            "summary": "Get\u0020compatibility",
+            "summary": "Get\u0020compatibility.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getCompatibility"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetSettings\u0028\u0029",
             "name": "getSettings",
-            "summary": "Get\u0020compatibility",
+            "summary": "Get\u0020compatibility.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getSettings"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetSections\u0028\u0029",
             "name": "getSections",
-            "summary": "Get\u0020all\u0020sections",
+            "summary": "Get\u0020all\u0020sections.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getSections"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetSection\u0028\u0029",
             "name": "getSection",
-            "summary": "Returns\u0020the\u0020section\u0020at\u0020the\u0020requested\u0020position",
+            "summary": "Returns\u0020the\u0020section\u0020at\u0020the\u0020requested\u0020position.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getSection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AaddSection\u0028\u0029",
             "name": "addSection",
-            "summary": "Create\u0020new\u0020section",
+            "summary": "Create\u0020new\u0020section.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_addSection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AsortSections\u0028\u0029",
             "name": "sortSections",
-            "summary": "Sorts\u0020the\u0020sections\u0020using\u0020the\u0020callable\u0020passed",
+            "summary": "Sorts\u0020the\u0020sections\u0020using\u0020the\u0020callable\u0020passed.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_sortSections"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetDefaultFontName\u0028\u0029",
             "name": "getDefaultFontName",
-            "summary": "Get\u0020default\u0020font\u0020name",
+            "summary": "Get\u0020default\u0020font\u0020name.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getDefaultFontName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AsetDefaultFontName\u0028\u0029",
@@ -3223,7 +3078,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetDefaultFontSize\u0028\u0029",
             "name": "getDefaultFontSize",
-            "summary": "Get\u0020default\u0020font\u0020size",
+            "summary": "Get\u0020default\u0020font\u0020size.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getDefaultFontSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AsetDefaultFontSize\u0028\u0029",
@@ -3233,72 +3088,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AsetDefaultParagraphStyle\u0028\u0029",
             "name": "setDefaultParagraphStyle",
-            "summary": "Set\u0020default\u0020paragraph\u0020style\u0020definition\u0020to\u0020styles.xml",
+            "summary": "Set\u0020default\u0020paragraph\u0020style\u0020definition\u0020to\u0020styles.xml.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_setDefaultParagraphStyle"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AloadTemplate\u0028\u0029",
-            "name": "loadTemplate",
-            "summary": "Load\u0020template\u0020by\u0020filename",
-            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_loadTemplate"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003Asave\u0028\u0029",
             "name": "save",
-            "summary": "Save\u0020to\u0020file\u0020or\u0020download",
+            "summary": "Save\u0020to\u0020file\u0020or\u0020download.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_save"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AcreateSection\u0028\u0029",
-            "name": "createSection",
-            "summary": "Create\u0020new\u0020section",
-            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_createSection"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetDocumentProperties\u0028\u0029",
-            "name": "getDocumentProperties",
-            "summary": "Get\u0020document\u0020properties\u0020object",
-            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getDocumentProperties"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AsetDocumentProperties\u0028\u0029",
-            "name": "setDocumentProperties",
-            "summary": "Set\u0020document\u0020properties\u0020object",
-            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_setDocumentProperties"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003ADEFAULT_FONT_NAME",
-            "name": "DEFAULT_FONT_NAME",
-            "summary": "Default\u0020font\u0020settings",
-            "url": "classes/PhpOffice-PhpWord-PhpWord.html#constant_DEFAULT_FONT_NAME"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003ADEFAULT_FONT_SIZE",
-            "name": "DEFAULT_FONT_SIZE",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-PhpWord.html#constant_DEFAULT_FONT_SIZE"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003ADEFAULT_FONT_COLOR",
-            "name": "DEFAULT_FONT_COLOR",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-PhpWord.html#constant_DEFAULT_FONT_COLOR"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003ADEFAULT_FONT_CONTENT_TYPE",
-            "name": "DEFAULT_FONT_CONTENT_TYPE",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-PhpWord.html#constant_DEFAULT_FONT_CONTENT_TYPE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003A\u0024sections",
             "name": "sections",
-            "summary": "Collection\u0020of\u0020sections",
+            "summary": "Collection\u0020of\u0020sections.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#property_sections"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003A\u0024collections",
             "name": "collections",
-            "summary": "Collections",
+            "summary": "Collections.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#property_collections"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003A\u0024metadata",
             "name": "metadata",
-            "summary": "Metadata",
+            "summary": "Metadata.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#property_metadata"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\AbstractReader",
             "name": "AbstractReader",
-            "summary": "Reader\u0020abstract\u0020class",
+            "summary": "Reader\u0020abstract\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Reader-AbstractReader.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\AbstractReader\u003A\u003AisReadDataOnly\u0028\u0029",
@@ -3308,23 +3123,18 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\AbstractReader\u003A\u003AsetReadDataOnly\u0028\u0029",
             "name": "setReadDataOnly",
-            "summary": "Set\u0020read\u0020data\u0020only",
+            "summary": "Set\u0020read\u0020data\u0020only.",
             "url": "classes/PhpOffice-PhpWord-Reader-AbstractReader.html#method_setReadDataOnly"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\AbstractReader\u003A\u003AopenFile\u0028\u0029",
             "name": "openFile",
-            "summary": "Open\u0020file\u0020for\u0020reading",
+            "summary": "Open\u0020file\u0020for\u0020reading.",
             "url": "classes/PhpOffice-PhpWord-Reader-AbstractReader.html#method_openFile"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\AbstractReader\u003A\u003AcanRead\u0028\u0029",
             "name": "canRead",
             "summary": "Can\u0020the\u0020current\u0020ReaderInterface\u0020read\u0020the\u0020file\u003F",
             "url": "classes/PhpOffice-PhpWord-Reader-AbstractReader.html#method_canRead"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\AbstractReader\u003A\u003AgetReadDataOnly\u0028\u0029",
-            "name": "getReadDataOnly",
-            "summary": "Read\u0020data\u0020only\u003F",
-            "url": "classes/PhpOffice-PhpWord-Reader-AbstractReader.html#method_getReadDataOnly"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\AbstractReader\u003A\u003A\u0024readDataOnly",
             "name": "readDataOnly",
@@ -3333,32 +3143,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\AbstractReader\u003A\u003A\u0024fileHandle",
             "name": "fileHandle",
-            "summary": "File\u0020pointer",
+            "summary": "File\u0020pointer.",
             "url": "classes/PhpOffice-PhpWord-Reader-AbstractReader.html#property_fileHandle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\HTML",
             "name": "HTML",
-            "summary": "HTML\u0020Reader\u0020class",
+            "summary": "HTML\u0020Reader\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Reader-HTML.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\HTML\u003A\u003Aload\u0028\u0029",
             "name": "load",
-            "summary": "Loads\u0020PhpWord\u0020from\u0020file",
+            "summary": "Loads\u0020PhpWord\u0020from\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Reader-HTML.html#method_load"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc",
             "name": "MsDoc",
-            "summary": "Reader\u0020for\u0020Word97",
+            "summary": "Reader\u0020for\u0020Word97.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003Aload\u0028\u0029",
             "name": "load",
-            "summary": "Loads\u0020PhpWord\u0020from\u0020file",
+            "summary": "Loads\u0020PhpWord\u0020from\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_load"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AloadOLE\u0028\u0029",
             "name": "loadOLE",
-            "summary": "Load\u0020an\u0020OLE\u0020Document",
+            "summary": "Load\u0020an\u0020OLE\u0020Document.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_loadOLE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AgetNumInLcb\u0028\u0029",
@@ -3388,22 +3198,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AreadRecordPlcfSed\u0028\u0029",
             "name": "readRecordPlcfSed",
-            "summary": "Section\u0020and\u0020information\u0020about\u0020them",
+            "summary": "Section\u0020and\u0020information\u0020about\u0020them.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_readRecordPlcfSed"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AreadRecordSttbfFfn\u0028\u0029",
             "name": "readRecordSttbfFfn",
-            "summary": "Specifies\u0020the\u0020fonts\u0020that\u0020are\u0020used\u0020in\u0020the\u0020document",
+            "summary": "Specifies\u0020the\u0020fonts\u0020that\u0020are\u0020used\u0020in\u0020the\u0020document.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_readRecordSttbfFfn"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AreadRecordPlcfBtePapx\u0028\u0029",
             "name": "readRecordPlcfBtePapx",
-            "summary": "Paragraph\u0020and\u0020information\u0020about\u0020them",
+            "summary": "Paragraph\u0020and\u0020information\u0020about\u0020them.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_readRecordPlcfBtePapx"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AreadRecordPlcfBteChpx\u0028\u0029",
             "name": "readRecordPlcfBteChpx",
-            "summary": "Character\u0020formatting\u0020properties\u0020to\u0020text\u0020in\u0020a\u0020document",
+            "summary": "Character\u0020formatting\u0020properties\u0020to\u0020text\u0020in\u0020a\u0020document.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_readRecordPlcfBteChpx"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AreadSprm\u0028\u0029",
@@ -3423,7 +3233,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AloadRecordHeader\u0028\u0029",
             "name": "loadRecordHeader",
-            "summary": "Read\u0020a\u0020record\u0020header",
+            "summary": "Read\u0020a\u0020record\u0020header.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_loadRecordHeader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AgeneratePhpWord\u0028\u0029",
@@ -3433,22 +3243,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AgetInt1d\u0028\u0029",
             "name": "getInt1d",
-            "summary": "Read\u00208\u002Dbit\u0020unsigned\u0020integer",
+            "summary": "Read\u00208\u002Dbit\u0020unsigned\u0020integer.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_getInt1d"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AgetInt2d\u0028\u0029",
             "name": "getInt2d",
-            "summary": "Read\u002016\u002Dbit\u0020unsigned\u0020integer",
+            "summary": "Read\u002016\u002Dbit\u0020unsigned\u0020integer.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_getInt2d"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AgetInt3d\u0028\u0029",
             "name": "getInt3d",
-            "summary": "Read\u002024\u002Dbit\u0020signed\u0020integer",
+            "summary": "Read\u002024\u002Dbit\u0020signed\u0020integer.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_getInt3d"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AgetInt4d\u0028\u0029",
             "name": "getInt4d",
-            "summary": "Read\u002032\u002Dbit\u0020signed\u0020integer",
+            "summary": "Read\u002032\u002Dbit\u0020signed\u0020integer.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#method_getInt4d"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003AVERSION_97",
@@ -3578,27 +3388,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003A\u0024phpWord",
             "name": "phpWord",
-            "summary": "PhpWord\u0020object",
+            "summary": "PhpWord\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#property_phpWord"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003A\u0024dataWorkDocument",
             "name": "dataWorkDocument",
-            "summary": "WordDocument\u0020Stream",
+            "summary": "WordDocument\u0020Stream.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#property_dataWorkDocument"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003A\u0024data1Table",
             "name": "data1Table",
-            "summary": "1Table\u0020Stream",
+            "summary": "1Table\u0020Stream.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#property_data1Table"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003A\u0024dataData",
             "name": "dataData",
-            "summary": "Data\u0020Stream",
+            "summary": "Data\u0020Stream.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#property_dataData"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003A\u0024dataObjectPool",
             "name": "dataObjectPool",
-            "summary": "Object\u0020Pool\u0020Stream",
+            "summary": "Object\u0020Pool\u0020Stream.",
             "url": "classes/PhpOffice-PhpWord-Reader-MsDoc.html#property_dataObjectPool"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\MsDoc\u003A\u003A\u0024arrayCharacters",
@@ -3628,12 +3438,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\\AbstractPart",
             "name": "AbstractPart",
-            "summary": "Abstract\u0020part\u0020reader",
+            "summary": "Abstract\u0020part\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-ODText-AbstractPart.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\\Content",
             "name": "Content",
-            "summary": "Content\u0020reader",
+            "summary": "Content\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-ODText-Content.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\\Content\u003A\u003Aread\u0028\u0029",
@@ -3643,7 +3453,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\\Meta",
             "name": "Meta",
-            "summary": "Meta\u0020reader",
+            "summary": "Meta\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-ODText-Meta.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\\Meta\u003A\u003Aread\u0028\u0029",
@@ -3653,12 +3463,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText",
             "name": "ODText",
-            "summary": "Reader\u0020for\u0020ODText",
+            "summary": "Reader\u0020for\u0020ODText.",
             "url": "classes/PhpOffice-PhpWord-Reader-ODText.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\u003A\u003Aload\u0028\u0029",
             "name": "load",
-            "summary": "Loads\u0020PhpWord\u0020from\u0020file",
+            "summary": "Loads\u0020PhpWord\u0020from\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Reader-ODText.html#method_load"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\u003A\u003AreadPart\u0028\u0029",
@@ -3668,12 +3478,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\u003A\u003AreadRelationships\u0028\u0029",
             "name": "readRelationships",
-            "summary": "Read\u0020all\u0020relationship\u0020files",
+            "summary": "Read\u0020all\u0020relationship\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Reader-ODText.html#method_readRelationships"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ReaderInterface",
             "name": "ReaderInterface",
-            "summary": "Reader\u0020interface",
+            "summary": "Reader\u0020interface.",
             "url": "classes/PhpOffice-PhpWord-Reader-ReaderInterface.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ReaderInterface\u003A\u003AcanRead\u0028\u0029",
@@ -3683,17 +3493,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ReaderInterface\u003A\u003Aload\u0028\u0029",
             "name": "load",
-            "summary": "Loads\u0020PhpWord\u0020from\u0020file",
+            "summary": "Loads\u0020PhpWord\u0020from\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Reader-ReaderInterface.html#method_load"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document",
             "name": "Document",
-            "summary": "RTF\u0020document\u0020reader",
+            "summary": "RTF\u0020document\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003Aread\u0028\u0029",
             "name": "read",
-            "summary": "Parse\u0020RTF\u0020content",
+            "summary": "Parse\u0020RTF\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#method_read"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003AmarkOpening\u0028\u0029",
@@ -3783,77 +3593,77 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024phpWord",
             "name": "phpWord",
-            "summary": "PhpWord\u0020object",
+            "summary": "PhpWord\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_phpWord"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024section",
             "name": "section",
-            "summary": "Section\u0020object",
+            "summary": "Section\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_section"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024textrun",
             "name": "textrun",
-            "summary": "Textrun\u0020object",
+            "summary": "Textrun\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_textrun"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024rtf",
             "name": "rtf",
-            "summary": "RTF\u0020content",
+            "summary": "RTF\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_rtf"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024length",
             "name": "length",
-            "summary": "Content\u0020length",
+            "summary": "Content\u0020length.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_length"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024offset",
             "name": "offset",
-            "summary": "Character\u0020index",
+            "summary": "Character\u0020index.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_offset"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024control",
             "name": "control",
-            "summary": "Current\u0020control\u0020word",
+            "summary": "Current\u0020control\u0020word.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_control"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024text",
             "name": "text",
-            "summary": "Text\u0020content",
+            "summary": "Text\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_text"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024isControl",
             "name": "isControl",
-            "summary": "Parsing\u0020a\u0020control\u0020word\u0020flag",
+            "summary": "Parsing\u0020a\u0020control\u0020word\u0020flag.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_isControl"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024isFirst",
             "name": "isFirst",
-            "summary": "First\u0020character\u0020flag\u003A\u0020watch\u0020out\u0020for\u0020control\u0020symbols",
+            "summary": "First\u0020character\u0020flag\u003A\u0020watch\u0020out\u0020for\u0020control\u0020symbols.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_isFirst"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024groups",
             "name": "groups",
-            "summary": "Group\u0020groups",
+            "summary": "Group\u0020groups.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_groups"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\\Document\u003A\u003A\u0024flags",
             "name": "flags",
-            "summary": "Parser\u0020flags\u003B\u0020not\u0020used",
+            "summary": "Parser\u0020flags\u003B\u0020not\u0020used.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF-Document.html#property_flags"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF",
             "name": "RTF",
-            "summary": "RTF\u0020Reader\u0020class",
+            "summary": "RTF\u0020Reader\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\RTF\u003A\u003Aload\u0028\u0029",
             "name": "load",
-            "summary": "Loads\u0020PhpWord\u0020from\u0020file",
+            "summary": "Loads\u0020PhpWord\u0020from\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Reader-RTF.html#method_load"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart",
             "name": "AbstractPart",
-            "summary": "Abstract\u0020part\u0020reader",
+            "summary": "Abstract\u0020part\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003Aread\u0028\u0029",
@@ -3863,7 +3673,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AsetRels\u0028\u0029",
@@ -3878,7 +3688,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AgetHeadingDepth\u0028\u0029",
             "name": "getHeadingDepth",
-            "summary": "Returns\u0020the\u0020depth\u0020of\u0020the\u0020Heading,\u0020returns\u00200\u0020for\u0020a\u0020Title",
+            "summary": "Returns\u0020the\u0020depth\u0020of\u0020the\u0020Heading,\u0020returns\u00200\u0020for\u0020a\u0020Title.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getHeadingDepth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadRun\u0028\u0029",
@@ -3888,7 +3698,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadRunChild\u0028\u0029",
             "name": "readRunChild",
-            "summary": "Parses\u0020nodes\u0020under\u0020w\u003Ar",
+            "summary": "Parses\u0020nodes\u0020under\u0020w\u003Ar.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readRunChild"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadTable\u0028\u0029",
@@ -3903,67 +3713,67 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadFontStyle\u0028\u0029",
             "name": "readFontStyle",
-            "summary": "Read\u0020w\u003ArPr",
+            "summary": "Read\u0020w\u003ArPr.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadTableStyle\u0028\u0029",
             "name": "readTableStyle",
-            "summary": "Read\u0020w\u003AtblPr",
+            "summary": "Read\u0020w\u003AtblPr.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readTableStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadTablePosition\u0028\u0029",
             "name": "readTablePosition",
-            "summary": "Read\u0020w\u003AtblpPr",
+            "summary": "Read\u0020w\u003AtblpPr.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readTablePosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadTableIndent\u0028\u0029",
             "name": "readTableIndent",
-            "summary": "Read\u0020w\u003AtblInd",
+            "summary": "Read\u0020w\u003AtblInd.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readTableIndent"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadCellStyle\u0028\u0029",
             "name": "readCellStyle",
-            "summary": "Read\u0020w\u003AtcPr",
+            "summary": "Read\u0020w\u003AtcPr.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readCellStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AfindPossibleElement\u0028\u0029",
             "name": "findPossibleElement",
-            "summary": "Returns\u0020the\u0020first\u0020child\u0020element\u0020found",
+            "summary": "Returns\u0020the\u0020first\u0020child\u0020element\u0020found.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_findPossibleElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AfindPossibleAttribute\u0028\u0029",
             "name": "findPossibleAttribute",
-            "summary": "Returns\u0020the\u0020first\u0020attribute\u0020found",
+            "summary": "Returns\u0020the\u0020first\u0020attribute\u0020found.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_findPossibleAttribute"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadStyleDefs\u0028\u0029",
             "name": "readStyleDefs",
-            "summary": "Read\u0020style\u0020definition",
+            "summary": "Read\u0020style\u0020definition.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readStyleDefs"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadStyleDef\u0028\u0029",
             "name": "readStyleDef",
-            "summary": "Return\u0020style\u0020definition\u0020based\u0020on\u0020conversion\u0020method",
+            "summary": "Return\u0020style\u0020definition\u0020based\u0020on\u0020conversion\u0020method.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readStyleDef"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AisOn\u0028\u0029",
             "name": "isOn",
-            "summary": "Parses\u0020the\u0020value\u0020of\u0020the\u0020on\/off\u0020value,\u0020null\u0020is\u0020considered\u0020true\u0020as\u0020it\u0020means\u0020the\u0020w\u003Aval\u0020attribute\u0020was\u0020not\u0020present",
+            "summary": "Parses\u0020the\u0020value\u0020of\u0020the\u0020on\/off\u0020value,\u0020null\u0020is\u0020considered\u0020true\u0020as\u0020it\u0020means\u0020the\u0020w\u003Aval\u0020attribute\u0020was\u0020not\u0020present.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_isOn"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AgetMediaTarget\u0028\u0029",
             "name": "getMediaTarget",
-            "summary": "Returns\u0020the\u0020target\u0020of\u0020image,\u0020object,\u0020or\u0020link\u0020as\u0020stored\u0020in\u0020\u003A\u003AreadMainRels",
+            "summary": "Returns\u0020the\u0020target\u0020of\u0020image,\u0020object,\u0020or\u0020link\u0020as\u0020stored\u0020in\u0020\u003A\u003AreadMainRels.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getMediaTarget"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AgetTargetMode\u0028\u0029",
             "name": "getTargetMode",
-            "summary": "Returns\u0020the\u0020target\u0020mode",
+            "summary": "Returns\u0020the\u0020target\u0020mode.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getTargetMode"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AREAD_VALUE",
             "name": "READ_VALUE",
-            "summary": "Conversion\u0020method",
+            "summary": "Conversion\u0020method.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#constant_READ_VALUE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AREAD_EQUAL",
@@ -3988,37 +3798,37 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003A\u0024docFile",
             "name": "docFile",
-            "summary": "Document\u0020file",
+            "summary": "Document\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#property_docFile"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003A\u0024xmlFile",
             "name": "xmlFile",
-            "summary": "XML\u0020file",
+            "summary": "XML\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#property_xmlFile"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003A\u0024rels",
             "name": "rels",
-            "summary": "Part\u0020relationships",
+            "summary": "Part\u0020relationships.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#property_rels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsApp",
             "name": "DocPropsApp",
-            "summary": "Extended\u0020properties\u0020reader",
+            "summary": "Extended\u0020properties\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-DocPropsApp.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsApp\u003A\u003A\u0024mapping",
             "name": "mapping",
-            "summary": "Property\u0020mapping",
+            "summary": "Property\u0020mapping.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-DocPropsApp.html#property_mapping"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsApp\u003A\u003A\u0024callbacks",
             "name": "callbacks",
-            "summary": "Callback\u0020functions",
+            "summary": "Callback\u0020functions.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-DocPropsApp.html#property_callbacks"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsCore",
             "name": "DocPropsCore",
-            "summary": "Core\u0020properties\u0020reader",
+            "summary": "Core\u0020properties\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-DocPropsCore.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsCore\u003A\u003Aread\u0028\u0029",
@@ -4028,17 +3838,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsCore\u003A\u003A\u0024mapping",
             "name": "mapping",
-            "summary": "Property\u0020mapping",
+            "summary": "Property\u0020mapping.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-DocPropsCore.html#property_mapping"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsCore\u003A\u003A\u0024callbacks",
             "name": "callbacks",
-            "summary": "Callback\u0020functions",
+            "summary": "Callback\u0020functions.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-DocPropsCore.html#property_callbacks"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsCustom",
             "name": "DocPropsCustom",
-            "summary": "Custom\u0020properties\u0020reader",
+            "summary": "Custom\u0020properties\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-DocPropsCustom.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsCustom\u003A\u003Aread\u0028\u0029",
@@ -4048,7 +3858,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Document",
             "name": "Document",
-            "summary": "Document\u0020reader",
+            "summary": "Document\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Document.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Document\u003A\u003Aread\u0028\u0029",
@@ -4063,7 +3873,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Document\u003A\u003AreadSectionStyle\u0028\u0029",
             "name": "readSectionStyle",
-            "summary": "Read\u0020w\u003AsectPr",
+            "summary": "Read\u0020w\u003AsectPr.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Document.html#method_readSectionStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Document\u003A\u003AreadWPNode\u0028\u0029",
@@ -4078,27 +3888,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Document\u003A\u003A\u0024phpWord",
             "name": "phpWord",
-            "summary": "PhpWord\u0020object",
+            "summary": "PhpWord\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Document.html#property_phpWord"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Endnotes",
             "name": "Endnotes",
-            "summary": "Endnotes\u0020reader",
+            "summary": "Endnotes\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Endnotes.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Endnotes\u003A\u003A\u0024collection",
             "name": "collection",
-            "summary": "Collection\u0020name",
+            "summary": "Collection\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Endnotes.html#property_collection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Endnotes\u003A\u003A\u0024element",
             "name": "element",
-            "summary": "Element\u0020name",
+            "summary": "Element\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Endnotes.html#property_element"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Footnotes",
             "name": "Footnotes",
-            "summary": "Footnotes\u0020reader",
+            "summary": "Footnotes\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Footnotes.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Footnotes\u003A\u003Aread\u0028\u0029",
@@ -4108,22 +3918,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Footnotes\u003A\u003AgetElement\u0028\u0029",
             "name": "getElement",
-            "summary": "Searches\u0020for\u0020the\u0020element\u0020with\u0020the\u0020given\u0020relationId",
+            "summary": "Searches\u0020for\u0020the\u0020element\u0020with\u0020the\u0020given\u0020relationId.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Footnotes.html#method_getElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Footnotes\u003A\u003A\u0024collection",
             "name": "collection",
-            "summary": "Collection\u0020name\u0020footnotes\u007Cendnotes",
+            "summary": "Collection\u0020name\u0020footnotes\u007Cendnotes.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Footnotes.html#property_collection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Footnotes\u003A\u003A\u0024element",
             "name": "element",
-            "summary": "Element\u0020name\u0020footnote\u007Cendnote",
+            "summary": "Element\u0020name\u0020footnote\u007Cendnote.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Footnotes.html#property_element"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Numbering",
             "name": "Numbering",
-            "summary": "Numbering\u0020reader",
+            "summary": "Numbering\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Numbering.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Numbering\u003A\u003Aread\u0028\u0029",
@@ -4133,12 +3943,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Numbering\u003A\u003AreadLevel\u0028\u0029",
             "name": "readLevel",
-            "summary": "Read\u0020numbering\u0020level\u0020definition\u0020from\u0020w\u003AabstractNum\u0020and\u0020w\u003Anum",
+            "summary": "Read\u0020numbering\u0020level\u0020definition\u0020from\u0020w\u003AabstractNum\u0020and\u0020w\u003Anum.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Numbering.html#method_readLevel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Settings",
             "name": "Settings",
-            "summary": "Settings\u0020reader",
+            "summary": "Settings\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Settings.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Settings\u003A\u003Aread\u0028\u0029",
@@ -4148,27 +3958,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Settings\u003A\u003AsetThemeFontLang\u0028\u0029",
             "name": "setThemeFontLang",
-            "summary": "Sets\u0020the\u0020document\u0020Language",
+            "summary": "Sets\u0020the\u0020document\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Settings.html#method_setThemeFontLang"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Settings\u003A\u003AsetDocumentProtection\u0028\u0029",
             "name": "setDocumentProtection",
-            "summary": "Sets\u0020the\u0020document\u0020protection",
+            "summary": "Sets\u0020the\u0020document\u0020protection.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Settings.html#method_setDocumentProtection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Settings\u003A\u003AsetProofState\u0028\u0029",
             "name": "setProofState",
-            "summary": "Sets\u0020the\u0020proof\u0020state",
+            "summary": "Sets\u0020the\u0020proof\u0020state.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Settings.html#method_setProofState"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Settings\u003A\u003AsetZoom\u0028\u0029",
             "name": "setZoom",
-            "summary": "Sets\u0020the\u0020proof\u0020state",
+            "summary": "Sets\u0020the\u0020proof\u0020state.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Settings.html#method_setZoom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Settings\u003A\u003AsetRevisionView\u0028\u0029",
             "name": "setRevisionView",
-            "summary": "Set\u0020the\u0020Revision\u0020view",
+            "summary": "Set\u0020the\u0020Revision\u0020view.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Settings.html#method_setRevisionView"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Settings\u003A\u003AsetConsecutiveHyphenLimit\u0028\u0029",
@@ -4188,7 +3998,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Styles",
             "name": "Styles",
-            "summary": "Styles\u0020reader",
+            "summary": "Styles\u0020reader.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Styles.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Styles\u003A\u003Aread\u0028\u0029",
@@ -4198,12 +4008,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007",
             "name": "Word2007",
-            "summary": "Reader\u0020for\u0020Word2007",
+            "summary": "Reader\u0020for\u0020Word2007.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\u003A\u003Aload\u0028\u0029",
             "name": "load",
-            "summary": "Loads\u0020PhpWord\u0020from\u0020file",
+            "summary": "Loads\u0020PhpWord\u0020from\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007.html#method_load"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\u003A\u003AreadPart\u0028\u0029",
@@ -4213,42 +4023,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\u003A\u003AreadRelationships\u0028\u0029",
             "name": "readRelationships",
-            "summary": "Read\u0020all\u0020relationship\u0020files",
+            "summary": "Read\u0020all\u0020relationship\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007.html#method_readRelationships"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\u003A\u003AgetRels\u0028\u0029",
             "name": "getRels",
-            "summary": "Get\u0020relationship\u0020array",
+            "summary": "Get\u0020relationship\u0020array.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007.html#method_getRels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings",
             "name": "Settings",
-            "summary": "PHPWord\u0020settings\u0020class",
+            "summary": "PHPWord\u0020settings\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Settings.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AhasCompatibility\u0028\u0029",
             "name": "hasCompatibility",
-            "summary": "Return\u0020the\u0020compatibility\u0020option\u0020used\u0020by\u0020the\u0020XMLWriter",
+            "summary": "Return\u0020the\u0020compatibility\u0020option\u0020used\u0020by\u0020the\u0020XMLWriter.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_hasCompatibility"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetCompatibility\u0028\u0029",
             "name": "setCompatibility",
-            "summary": "Set\u0020the\u0020compatibility\u0020option\u0020used\u0020by\u0020the\u0020XMLWriter",
+            "summary": "Set\u0020the\u0020compatibility\u0020option\u0020used\u0020by\u0020the\u0020XMLWriter.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setCompatibility"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetZipClass\u0028\u0029",
             "name": "getZipClass",
-            "summary": "Get\u0020zip\u0020handler\u0020class",
+            "summary": "Get\u0020zip\u0020handler\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_getZipClass"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetZipClass\u0028\u0029",
             "name": "setZipClass",
-            "summary": "Set\u0020zip\u0020handler\u0020class",
+            "summary": "Set\u0020zip\u0020handler\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setZipClass"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetPdfRenderer\u0028\u0029",
             "name": "setPdfRenderer",
-            "summary": "Set\u0020details\u0020of\u0020the\u0020external\u0020library\u0020for\u0020rendering\u0020PDF\u0020files",
+            "summary": "Set\u0020details\u0020of\u0020the\u0020external\u0020library\u0020for\u0020rendering\u0020PDF\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setPdfRenderer"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetPdfRendererName\u0028\u0029",
@@ -4258,7 +4068,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetPdfRendererName\u0028\u0029",
             "name": "setPdfRendererName",
-            "summary": "Identify\u0020the\u0020external\u0020library\u0020to\u0020use\u0020for\u0020rendering\u0020PDF\u0020files",
+            "summary": "Identify\u0020the\u0020external\u0020library\u0020to\u0020use\u0020for\u0020rendering\u0020PDF\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setPdfRendererName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetPdfRendererPath\u0028\u0029",
@@ -4268,17 +4078,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetPdfRendererPath\u0028\u0029",
             "name": "setPdfRendererPath",
-            "summary": "Location\u0020of\u0020external\u0020library\u0020to\u0020use\u0020for\u0020rendering\u0020PDF\u0020files",
+            "summary": "Location\u0020of\u0020external\u0020library\u0020to\u0020use\u0020for\u0020rendering\u0020PDF\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setPdfRendererPath"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetMeasurementUnit\u0028\u0029",
             "name": "getMeasurementUnit",
-            "summary": "Get\u0020measurement\u0020unit",
+            "summary": "Get\u0020measurement\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_getMeasurementUnit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetMeasurementUnit\u0028\u0029",
             "name": "setMeasurementUnit",
-            "summary": "Set\u0020measurement\u0020unit",
+            "summary": "Set\u0020measurement\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setMeasurementUnit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetTempDir\u0028\u0029",
@@ -4303,47 +4113,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetDefaultFontName\u0028\u0029",
             "name": "getDefaultFontName",
-            "summary": "Get\u0020default\u0020font\u0020name",
+            "summary": "Get\u0020default\u0020font\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_getDefaultFontName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetDefaultFontName\u0028\u0029",
             "name": "setDefaultFontName",
-            "summary": "Set\u0020default\u0020font\u0020name",
+            "summary": "Set\u0020default\u0020font\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setDefaultFontName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetDefaultFontSize\u0028\u0029",
             "name": "getDefaultFontSize",
-            "summary": "Get\u0020default\u0020font\u0020size",
+            "summary": "Get\u0020default\u0020font\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_getDefaultFontSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetDefaultFontSize\u0028\u0029",
             "name": "setDefaultFontSize",
-            "summary": "Set\u0020default\u0020font\u0020size",
+            "summary": "Set\u0020default\u0020font\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setDefaultFontSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AloadConfig\u0028\u0029",
             "name": "loadConfig",
-            "summary": "Load\u0020setting\u0020from\u0020phpword.yml\u0020or\u0020phpword.yml.dist",
+            "summary": "Load\u0020setting\u0020from\u0020phpword.yml\u0020or\u0020phpword.yml.dist.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_loadConfig"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetDefaultPaper\u0028\u0029",
             "name": "getDefaultPaper",
-            "summary": "Get\u0020default\u0020paper",
+            "summary": "Get\u0020default\u0020paper.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_getDefaultPaper"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetDefaultPaper\u0028\u0029",
             "name": "setDefaultPaper",
-            "summary": "Set\u0020default\u0020paper",
+            "summary": "Set\u0020default\u0020paper.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setDefaultPaper"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetCompatibility\u0028\u0029",
-            "name": "getCompatibility",
-            "summary": "Return\u0020the\u0020compatibility\u0020option\u0020used\u0020by\u0020the\u0020XMLWriter",
-            "url": "classes/PhpOffice-PhpWord-Settings.html#method_getCompatibility"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AZIPARCHIVE",
             "name": "ZIPARCHIVE",
-            "summary": "Zip\u0020libraries",
+            "summary": "Zip\u0020libraries.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#constant_ZIPARCHIVE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003APCLZIP",
@@ -4358,7 +4163,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003APDF_RENDERER_DOMPDF",
             "name": "PDF_RENDERER_DOMPDF",
-            "summary": "PDF\u0020rendering\u0020libraries",
+            "summary": "PDF\u0020rendering\u0020libraries.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#constant_PDF_RENDERER_DOMPDF"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003APDF_RENDERER_TCPDF",
@@ -4373,7 +4178,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AUNIT_TWIP",
             "name": "UNIT_TWIP",
-            "summary": "Measurement\u0020units\u0020multiplication\u0020factor",
+            "summary": "Measurement\u0020units\u0020multiplication\u0020factor.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#constant_UNIT_TWIP"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AUNIT_CM",
@@ -4403,7 +4208,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003ADEFAULT_FONT_NAME",
             "name": "DEFAULT_FONT_NAME",
-            "summary": "Default\u0020font\u0020settings",
+            "summary": "Default\u0020font\u0020settings.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#constant_DEFAULT_FONT_NAME"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003ADEFAULT_FONT_SIZE",
@@ -4428,42 +4233,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024xmlWriterCompatibility",
             "name": "xmlWriterCompatibility",
-            "summary": "Compatibility\u0020option\u0020for\u0020XMLWriter",
+            "summary": "Compatibility\u0020option\u0020for\u0020XMLWriter.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_xmlWriterCompatibility"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024zipClass",
             "name": "zipClass",
-            "summary": "Name\u0020of\u0020the\u0020class\u0020used\u0020for\u0020Zip\u0020file\u0020management",
+            "summary": "Name\u0020of\u0020the\u0020class\u0020used\u0020for\u0020Zip\u0020file\u0020management.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_zipClass"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024pdfRendererName",
             "name": "pdfRendererName",
-            "summary": "Name\u0020of\u0020the\u0020external\u0020Library\u0020used\u0020for\u0020rendering\u0020PDF\u0020files",
+            "summary": "Name\u0020of\u0020the\u0020external\u0020Library\u0020used\u0020for\u0020rendering\u0020PDF\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_pdfRendererName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024pdfRendererPath",
             "name": "pdfRendererPath",
-            "summary": "Directory\u0020Path\u0020to\u0020the\u0020external\u0020Library\u0020used\u0020for\u0020rendering\u0020PDF\u0020files",
+            "summary": "Directory\u0020Path\u0020to\u0020the\u0020external\u0020Library\u0020used\u0020for\u0020rendering\u0020PDF\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_pdfRendererPath"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024measurementUnit",
             "name": "measurementUnit",
-            "summary": "Measurement\u0020unit",
+            "summary": "Measurement\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_measurementUnit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024defaultFontName",
             "name": "defaultFontName",
-            "summary": "Default\u0020font\u0020name",
+            "summary": "Default\u0020font\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_defaultFontName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024defaultFontSize",
             "name": "defaultFontSize",
-            "summary": "Default\u0020font\u0020size",
+            "summary": "Default\u0020font\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_defaultFontSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024defaultPaper",
             "name": "defaultPaper",
-            "summary": "Default\u0020paper",
+            "summary": "Default\u0020paper.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_defaultPaper"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024tempDir",
@@ -4488,17 +4293,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\AbstractEnum\u003A\u003Avalues\u0028\u0029",
             "name": "values",
-            "summary": "Returns\u0020all\u0020values\u0020for\u0020this\u0020enum",
+            "summary": "Returns\u0020all\u0020values\u0020for\u0020this\u0020enum.",
             "url": "classes/PhpOffice-PhpWord-Shared-AbstractEnum.html#method_values"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\AbstractEnum\u003A\u003AisValid\u0028\u0029",
             "name": "isValid",
-            "summary": "Returns\u0020true\u0020the\u0020value\u0020is\u0020valid\u0020for\u0020this\u0020enum",
+            "summary": "Returns\u0020true\u0020the\u0020value\u0020is\u0020valid\u0020for\u0020this\u0020enum.",
             "url": "classes/PhpOffice-PhpWord-Shared-AbstractEnum.html#method_isValid"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\AbstractEnum\u003A\u003Avalidate\u0028\u0029",
             "name": "validate",
-            "summary": "Validates\u0020that\u0020the\u0020value\u0020passed\u0020is\u0020a\u0020valid\u0020value",
+            "summary": "Validates\u0020that\u0020the\u0020value\u0020passed\u0020is\u0020a\u0020valid\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Shared-AbstractEnum.html#method_validate"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\AbstractEnum\u003A\u003A\u0024constCacheArray",
@@ -4508,152 +4313,152 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter",
             "name": "Converter",
-            "summary": "Common\u0020converter\u0020functions",
+            "summary": "Common\u0020converter\u0020functions.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcmToTwip\u0028\u0029",
             "name": "cmToTwip",
-            "summary": "Convert\u0020centimeter\u0020to\u0020twip",
+            "summary": "Convert\u0020centimeter\u0020to\u0020twip.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cmToTwip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcmToInch\u0028\u0029",
             "name": "cmToInch",
-            "summary": "Convert\u0020centimeter\u0020to\u0020inch",
+            "summary": "Convert\u0020centimeter\u0020to\u0020inch.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cmToInch"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcmToPixel\u0028\u0029",
             "name": "cmToPixel",
-            "summary": "Convert\u0020centimeter\u0020to\u0020pixel",
+            "summary": "Convert\u0020centimeter\u0020to\u0020pixel.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cmToPixel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcmToPoint\u0028\u0029",
             "name": "cmToPoint",
-            "summary": "Convert\u0020centimeter\u0020to\u0020point",
+            "summary": "Convert\u0020centimeter\u0020to\u0020point.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cmToPoint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcmToEmu\u0028\u0029",
             "name": "cmToEmu",
-            "summary": "Convert\u0020centimeter\u0020to\u0020EMU",
+            "summary": "Convert\u0020centimeter\u0020to\u0020EMU.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cmToEmu"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AinchToTwip\u0028\u0029",
             "name": "inchToTwip",
-            "summary": "Convert\u0020inch\u0020to\u0020twip",
+            "summary": "Convert\u0020inch\u0020to\u0020twip.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_inchToTwip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AinchToCm\u0028\u0029",
             "name": "inchToCm",
-            "summary": "Convert\u0020inch\u0020to\u0020centimeter",
+            "summary": "Convert\u0020inch\u0020to\u0020centimeter.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_inchToCm"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AinchToPixel\u0028\u0029",
             "name": "inchToPixel",
-            "summary": "Convert\u0020inch\u0020to\u0020pixel",
+            "summary": "Convert\u0020inch\u0020to\u0020pixel.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_inchToPixel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AinchToPoint\u0028\u0029",
             "name": "inchToPoint",
-            "summary": "Convert\u0020inch\u0020to\u0020point",
+            "summary": "Convert\u0020inch\u0020to\u0020point.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_inchToPoint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AinchToEmu\u0028\u0029",
             "name": "inchToEmu",
-            "summary": "Convert\u0020inch\u0020to\u0020EMU",
+            "summary": "Convert\u0020inch\u0020to\u0020EMU.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_inchToEmu"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003ApixelToTwip\u0028\u0029",
             "name": "pixelToTwip",
-            "summary": "Convert\u0020pixel\u0020to\u0020twip",
+            "summary": "Convert\u0020pixel\u0020to\u0020twip.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_pixelToTwip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003ApixelToCm\u0028\u0029",
             "name": "pixelToCm",
-            "summary": "Convert\u0020pixel\u0020to\u0020centimeter",
+            "summary": "Convert\u0020pixel\u0020to\u0020centimeter.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_pixelToCm"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003ApixelToPoint\u0028\u0029",
             "name": "pixelToPoint",
-            "summary": "Convert\u0020pixel\u0020to\u0020point",
+            "summary": "Convert\u0020pixel\u0020to\u0020point.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_pixelToPoint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003ApixelToEmu\u0028\u0029",
             "name": "pixelToEmu",
-            "summary": "Convert\u0020pixel\u0020to\u0020EMU",
+            "summary": "Convert\u0020pixel\u0020to\u0020EMU.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_pixelToEmu"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003ApointToTwip\u0028\u0029",
             "name": "pointToTwip",
-            "summary": "Convert\u0020point\u0020to\u0020twip\u0020unit",
+            "summary": "Convert\u0020point\u0020to\u0020twip\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_pointToTwip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003ApointToPixel\u0028\u0029",
             "name": "pointToPixel",
-            "summary": "Convert\u0020point\u0020to\u0020pixel",
+            "summary": "Convert\u0020point\u0020to\u0020pixel.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_pointToPixel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003ApointToEmu\u0028\u0029",
             "name": "pointToEmu",
-            "summary": "Convert\u0020point\u0020to\u0020EMU",
+            "summary": "Convert\u0020point\u0020to\u0020EMU.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_pointToEmu"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003ApointToCm\u0028\u0029",
             "name": "pointToCm",
-            "summary": "Convert\u0020point\u0020to\u0020cm",
+            "summary": "Convert\u0020point\u0020to\u0020cm.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_pointToCm"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AemuToPixel\u0028\u0029",
             "name": "emuToPixel",
-            "summary": "Convert\u0020EMU\u0020to\u0020pixel",
+            "summary": "Convert\u0020EMU\u0020to\u0020pixel.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_emuToPixel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003ApicaToPoint\u0028\u0029",
             "name": "picaToPoint",
-            "summary": "Convert\u0020pica\u0020to\u0020point",
+            "summary": "Convert\u0020pica\u0020to\u0020point.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_picaToPoint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AdegreeToAngle\u0028\u0029",
             "name": "degreeToAngle",
-            "summary": "Convert\u0020degree\u0020to\u0020angle",
+            "summary": "Convert\u0020degree\u0020to\u0020angle.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_degreeToAngle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AangleToDegree\u0028\u0029",
             "name": "angleToDegree",
-            "summary": "Convert\u0020angle\u0020to\u0020degrees",
+            "summary": "Convert\u0020angle\u0020to\u0020degrees.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_angleToDegree"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AstringToRgb\u0028\u0029",
             "name": "stringToRgb",
-            "summary": "Convert\u0020colorname\u0020as\u0020string\u0020to\u0020RGB",
+            "summary": "Convert\u0020colorname\u0020as\u0020string\u0020to\u0020RGB.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_stringToRgb"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AhtmlToRgb\u0028\u0029",
             "name": "htmlToRgb",
-            "summary": "Convert\u0020HTML\u0020hexadecimal\u0020to\u0020RGB",
+            "summary": "Convert\u0020HTML\u0020hexadecimal\u0020to\u0020RGB.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_htmlToRgb"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcssToPoint\u0028\u0029",
             "name": "cssToPoint",
-            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020points",
+            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020points.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cssToPoint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcssToTwip\u0028\u0029",
             "name": "cssToTwip",
-            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020twips",
+            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020twips.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cssToTwip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcssToPixel\u0028\u0029",
             "name": "cssToPixel",
-            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020pixel",
+            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020pixel.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cssToPixel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcssToCm\u0028\u0029",
             "name": "cssToCm",
-            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020cm",
+            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020cm.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cssToCm"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AcssToEmu\u0028\u0029",
             "name": "cssToEmu",
-            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020emu",
+            "summary": "Transforms\u0020a\u0020size\u0020in\u0020CSS\u0020format\u0020\u0028eg.\u002010px,\u002010px,\u0020...\u0029\u0020to\u0020emu.",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#method_cssToEmu"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Converter\u003A\u003AINCH_TO_CM",
@@ -4693,82 +4498,82 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing",
             "name": "Drawing",
-            "summary": "Drawing",
+            "summary": "Drawing.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003ApixelsToEmu\u0028\u0029",
             "name": "pixelsToEmu",
-            "summary": "Convert\u0020pixels\u0020to\u0020EMU",
+            "summary": "Convert\u0020pixels\u0020to\u0020EMU.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_pixelsToEmu"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AemuToPixels\u0028\u0029",
             "name": "emuToPixels",
-            "summary": "Convert\u0020EMU\u0020to\u0020pixels",
+            "summary": "Convert\u0020EMU\u0020to\u0020pixels.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_emuToPixels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003ApixelsToPoints\u0028\u0029",
             "name": "pixelsToPoints",
-            "summary": "Convert\u0020pixels\u0020to\u0020points",
+            "summary": "Convert\u0020pixels\u0020to\u0020points.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_pixelsToPoints"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003ApointsToCentimeters\u0028\u0029",
             "name": "pointsToCentimeters",
-            "summary": "Convert\u0020points\u0020width\u0020to\u0020centimeters",
+            "summary": "Convert\u0020points\u0020width\u0020to\u0020centimeters.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_pointsToCentimeters"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003ApointsToPixels\u0028\u0029",
             "name": "pointsToPixels",
-            "summary": "Convert\u0020points\u0020width\u0020to\u0020pixels",
+            "summary": "Convert\u0020points\u0020width\u0020to\u0020pixels.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_pointsToPixels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003ApixelsToCentimeters\u0028\u0029",
             "name": "pixelsToCentimeters",
-            "summary": "Convert\u0020pixels\u0020to\u0020centimeters",
+            "summary": "Convert\u0020pixels\u0020to\u0020centimeters.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_pixelsToCentimeters"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AcentimetersToPixels\u0028\u0029",
             "name": "centimetersToPixels",
-            "summary": "Convert\u0020centimeters\u0020width\u0020to\u0020pixels",
+            "summary": "Convert\u0020centimeters\u0020width\u0020to\u0020pixels.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_centimetersToPixels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AdegreesToAngle\u0028\u0029",
             "name": "degreesToAngle",
-            "summary": "Convert\u0020degrees\u0020to\u0020angle",
+            "summary": "Convert\u0020degrees\u0020to\u0020angle.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_degreesToAngle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AangleToDegrees\u0028\u0029",
             "name": "angleToDegrees",
-            "summary": "Convert\u0020angle\u0020to\u0020degrees",
+            "summary": "Convert\u0020angle\u0020to\u0020degrees.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_angleToDegrees"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AcentimetersToTwips\u0028\u0029",
             "name": "centimetersToTwips",
-            "summary": "Convert\u0020centimeters\u0020width\u0020to\u0020twips",
+            "summary": "Convert\u0020centimeters\u0020width\u0020to\u0020twips.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_centimetersToTwips"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AtwipsToCentimeters\u0028\u0029",
             "name": "twipsToCentimeters",
-            "summary": "Convert\u0020twips\u0020width\u0020to\u0020centimeters",
+            "summary": "Convert\u0020twips\u0020width\u0020to\u0020centimeters.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_twipsToCentimeters"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AinchesToTwips\u0028\u0029",
             "name": "inchesToTwips",
-            "summary": "Convert\u0020inches\u0020width\u0020to\u0020twips",
+            "summary": "Convert\u0020inches\u0020width\u0020to\u0020twips.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_inchesToTwips"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AtwipsToInches\u0028\u0029",
             "name": "twipsToInches",
-            "summary": "Convert\u0020twips\u0020width\u0020to\u0020inches",
+            "summary": "Convert\u0020twips\u0020width\u0020to\u0020inches.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_twipsToInches"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AtwipsToPixels\u0028\u0029",
             "name": "twipsToPixels",
-            "summary": "Convert\u0020twips\u0020width\u0020to\u0020pixels",
+            "summary": "Convert\u0020twips\u0020width\u0020to\u0020pixels.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_twipsToPixels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003AhtmlToRGB\u0028\u0029",
             "name": "htmlToRGB",
-            "summary": "Convert\u0020HTML\u0020hexadecimal\u0020to\u0020RGB",
+            "summary": "Convert\u0020HTML\u0020hexadecimal\u0020to\u0020RGB.",
             "url": "classes/PhpOffice-PhpWord-Shared-Drawing.html#method_htmlToRGB"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing\u003A\u003ADPI_96",
@@ -4778,7 +4583,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html",
             "name": "Html",
-            "summary": "Common\u0020Html\u0020functions",
+            "summary": "Common\u0020Html\u0020functions.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AaddHtml\u0028\u0029",
@@ -4788,7 +4593,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseInlineStyle\u0028\u0029",
             "name": "parseInlineStyle",
-            "summary": "parse\u0020Inline\u0020style\u0020of\u0020a\u0020node",
+            "summary": "parse\u0020Inline\u0020style\u0020of\u0020a\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseInlineStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseNode\u0028\u0029",
@@ -4803,52 +4608,52 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseParagraph\u0028\u0029",
             "name": "parseParagraph",
-            "summary": "Parse\u0020paragraph\u0020node",
+            "summary": "Parse\u0020paragraph\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseParagraph"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseInput\u0028\u0029",
             "name": "parseInput",
-            "summary": "Parse\u0020input\u0020node",
+            "summary": "Parse\u0020input\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseInput"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseHeading\u0028\u0029",
             "name": "parseHeading",
-            "summary": "Parse\u0020heading\u0020node",
+            "summary": "Parse\u0020heading\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseHeading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseText\u0028\u0029",
             "name": "parseText",
-            "summary": "Parse\u0020text\u0020node",
+            "summary": "Parse\u0020text\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseProperty\u0028\u0029",
             "name": "parseProperty",
-            "summary": "Parse\u0020property\u0020node",
+            "summary": "Parse\u0020property\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseProperty"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseSpan\u0028\u0029",
             "name": "parseSpan",
-            "summary": "Parse\u0020span\u0020node",
+            "summary": "Parse\u0020span\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseSpan"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseTable\u0028\u0029",
             "name": "parseTable",
-            "summary": "Parse\u0020table\u0020node",
+            "summary": "Parse\u0020table\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseTable"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseRow\u0028\u0029",
             "name": "parseRow",
-            "summary": "Parse\u0020a\u0020table\u0020row",
+            "summary": "Parse\u0020a\u0020table\u0020row.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseRow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseCell\u0028\u0029",
             "name": "parseCell",
-            "summary": "Parse\u0020table\u0020cell",
+            "summary": "Parse\u0020table\u0020cell.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseCell"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AshouldAddTextRun\u0028\u0029",
             "name": "shouldAddTextRun",
-            "summary": "Checks\u0020if\u0020\u0024node\u0020contains\u0020an\u0020HTML\u0020element\u0020that\u0020cannot\u0020be\u0020added\u0020to\u0020TextRun",
+            "summary": "Checks\u0020if\u0020\u0024node\u0020contains\u0020an\u0020HTML\u0020element\u0020that\u0020cannot\u0020be\u0020added\u0020to\u0020TextRun.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_shouldAddTextRun"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003ArecursiveParseStylesInHierarchy\u0028\u0029",
@@ -4858,12 +4663,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AfilterOutNonInheritedStyles\u0028\u0029",
             "name": "filterOutNonInheritedStyles",
-            "summary": "Removes\u0020non\u002Dinherited\u0020styles\u0020from\u0020array",
+            "summary": "Removes\u0020non\u002Dinherited\u0020styles\u0020from\u0020array.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_filterOutNonInheritedStyles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseList\u0028\u0029",
             "name": "parseList",
-            "summary": "Parse\u0020list\u0020node",
+            "summary": "Parse\u0020list\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseList"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AgetListStyle\u0028\u0029",
@@ -4873,22 +4678,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseListItem\u0028\u0029",
             "name": "parseListItem",
-            "summary": "Parse\u0020list\u0020item\u0020node",
+            "summary": "Parse\u0020list\u0020item\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseListItem"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseStyle\u0028\u0029",
             "name": "parseStyle",
-            "summary": "Parse\u0020style",
+            "summary": "Parse\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseImage\u0028\u0029",
             "name": "parseImage",
-            "summary": "Parse\u0020image\u0020node",
+            "summary": "Parse\u0020image\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseImage"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AmapBorderStyle\u0028\u0029",
             "name": "mapBorderStyle",
-            "summary": "Transforms\u0020a\u0020CSS\u0020border\u0020style\u0020into\u0020a\u0020word\u0020border\u0020style",
+            "summary": "Transforms\u0020a\u0020CSS\u0020border\u0020style\u0020into\u0020a\u0020word\u0020border\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_mapBorderStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AmapBorderColor\u0028\u0029",
@@ -4898,32 +4703,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AmapAlign\u0028\u0029",
             "name": "mapAlign",
-            "summary": "Transforms\u0020a\u0020HTML\/CSS\u0020alignment\u0020into\u0020a\u0020\\PhpOffice\\PhpWord\\SimpleType\\Jc",
+            "summary": "Transforms\u0020a\u0020HTML\/CSS\u0020alignment\u0020into\u0020a\u0020\\PhpOffice\\PhpWord\\SimpleType\\Jc.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_mapAlign"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AmapAlignVertical\u0028\u0029",
             "name": "mapAlignVertical",
-            "summary": "Transforms\u0020a\u0020HTML\/CSS\u0020vertical\u0020alignment",
+            "summary": "Transforms\u0020a\u0020HTML\/CSS\u0020vertical\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_mapAlignVertical"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AmapListType\u0028\u0029",
             "name": "mapListType",
-            "summary": "Map\u0020list\u0020style\u0020for\u0020ordered\u0020list",
+            "summary": "Map\u0020list\u0020style\u0020for\u0020ordered\u0020list.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_mapListType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseLineBreak\u0028\u0029",
             "name": "parseLineBreak",
-            "summary": "Parse\u0020line\u0020break",
+            "summary": "Parse\u0020line\u0020break.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseLineBreak"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseLink\u0028\u0029",
             "name": "parseLink",
-            "summary": "Parse\u0020link\u0020node",
+            "summary": "Parse\u0020link\u0020node.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseLink"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseHorizRule\u0028\u0029",
             "name": "parseHorizRule",
-            "summary": "Render\u0020horizontal\u0020rule\nNote\u003A\u0020Word\u0020rule\u0020is\u0020not\u0020the\u0020same\u0020as\u0020HTML\u0027s\u0020\u003Chr\u003E\u0020since\u0020it\u0020does\u0020not\u0020support\u0020width\u0020and\u0020thus\u0020neither\u0020alignment",
+            "summary": "Render\u0020horizontal\u0020rule\nNote\u003A\u0020Word\u0020rule\u0020is\u0020not\u0020the\u0020same\u0020as\u0020HTML\u0027s\u0020\u003Chr\u003E\u0020since\u0020it\u0020does\u0020not\u0020support\u0020width\u0020and\u0020thus\u0020neither\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseHorizRule"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003A\u0024listIndex",
@@ -4943,32 +4748,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder",
             "name": "PasswordEncoder",
-            "summary": "Password\u0020encoder\u0020for\u0020microsoft\u0020office\u0020applications",
+            "summary": "Password\u0020encoder\u0020for\u0020microsoft\u0020office\u0020applications.",
             "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003AhashPassword\u0028\u0029",
             "name": "hashPassword",
-            "summary": "Create\u0020a\u0020hashed\u0020password\u0020that\u0020MS\u0020Word\u0020will\u0020be\u0020able\u0020to\u0020work\u0020with",
+            "summary": "Create\u0020a\u0020hashed\u0020password\u0020that\u0020MS\u0020Word\u0020will\u0020be\u0020able\u0020to\u0020work\u0020with.",
             "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html#method_hashPassword"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003AgetAlgorithm\u0028\u0029",
             "name": "getAlgorithm",
-            "summary": "Get\u0020algorithm\u0020from\u0020self\u003A\u003A\u0024algorithmMapping",
+            "summary": "Get\u0020algorithm\u0020from\u0020self\u003A\u003A\u0024algorithmMapping.",
             "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html#method_getAlgorithm"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003AgetAlgorithmId\u0028\u0029",
             "name": "getAlgorithmId",
-            "summary": "Returns\u0020the\u0020algorithm\u0020ID",
+            "summary": "Returns\u0020the\u0020algorithm\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html#method_getAlgorithmId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003AbuildCombinedKey\u0028\u0029",
             "name": "buildCombinedKey",
-            "summary": "Build\u0020combined\u0020key\u0020from\u0020low\u002Dorder\u0020word\u0020and\u0020high\u002Dorder\u0020word",
+            "summary": "Build\u0020combined\u0020key\u0020from\u0020low\u002Dorder\u0020word\u0020and\u0020high\u002Dorder\u0020word.",
             "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html#method_buildCombinedKey"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003Aint32\u0028\u0029",
             "name": "int32",
-            "summary": "Simulate\u0020behaviour\u0020of\u0020\u0028signed\u0029\u0020int32",
+            "summary": "Simulate\u0020behaviour\u0020of\u0020\u0028signed\u0029\u0020int32.",
             "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html#method_int32"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003AALGORITHM_MD2",
@@ -5028,7 +4833,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003A\u0024algorithmMapping",
             "name": "algorithmMapping",
-            "summary": "Mapping\u0020between\u0020algorithm\u0020name\u0020and\u0020algorithm\u0020ID",
+            "summary": "Mapping\u0020between\u0020algorithm\u0020name\u0020and\u0020algorithm\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html#property_algorithmMapping"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003A\u0024initialCodeArray",
@@ -5498,22 +5303,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text",
             "name": "Text",
-            "summary": "Text",
+            "summary": "Text.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003AbuildControlCharacters\u0028\u0029",
             "name": "buildControlCharacters",
-            "summary": "Build\u0020control\u0020characters\u0020array",
+            "summary": "Build\u0020control\u0020characters\u0020array.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_buildControlCharacters"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003AcontrolCharacterPHP2OOXML\u0028\u0029",
             "name": "controlCharacterPHP2OOXML",
-            "summary": "Convert\u0020from\u0020PHP\u0020control\u0020character\u0020to\u0020OpenXML\u0020escaped\u0020control\u0020character",
+            "summary": "Convert\u0020from\u0020PHP\u0020control\u0020character\u0020to\u0020OpenXML\u0020escaped\u0020control\u0020character.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_controlCharacterPHP2OOXML"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003AnumberFormat\u0028\u0029",
             "name": "numberFormat",
-            "summary": "Return\u0020a\u0020number\u0020formatted\u0020for\u0020being\u0020integrated\u0020in\u0020xml\u0020files",
+            "summary": "Return\u0020a\u0020number\u0020formatted\u0020for\u0020being\u0020integrated\u0020in\u0020xml\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_numberFormat"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003Achr\u0028\u0029",
@@ -5523,127 +5328,127 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003AcontrolCharacterOOXML2PHP\u0028\u0029",
             "name": "controlCharacterOOXML2PHP",
-            "summary": "Convert\u0020from\u0020OpenXML\u0020escaped\u0020control\u0020character\u0020to\u0020PHP\u0020control\u0020character",
+            "summary": "Convert\u0020from\u0020OpenXML\u0020escaped\u0020control\u0020character\u0020to\u0020PHP\u0020control\u0020character.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_controlCharacterOOXML2PHP"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003AisUTF8\u0028\u0029",
             "name": "isUTF8",
-            "summary": "Check\u0020if\u0020a\u0020string\u0020contains\u0020UTF\u002D8\u0020data",
+            "summary": "Check\u0020if\u0020a\u0020string\u0020contains\u0020UTF\u002D8\u0020data.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_isUTF8"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003AtoUTF8\u0028\u0029",
             "name": "toUTF8",
-            "summary": "Return\u0020UTF8\u0020encoded\u0020value",
+            "summary": "Return\u0020UTF8\u0020encoded\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_toUTF8"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003AtoUnicode\u0028\u0029",
             "name": "toUnicode",
-            "summary": "Returns\u0020unicode\u0020from\u0020UTF8\u0020text",
+            "summary": "Returns\u0020unicode\u0020from\u0020UTF8\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_toUnicode"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003Autf8ToUnicode\u0028\u0029",
             "name": "utf8ToUnicode",
-            "summary": "Returns\u0020unicode\u0020array\u0020from\u0020UTF8\u0020text",
+            "summary": "Returns\u0020unicode\u0020array\u0020from\u0020UTF8\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_utf8ToUnicode"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003AunicodeToEntities\u0028\u0029",
             "name": "unicodeToEntities",
-            "summary": "Returns\u0020entites\u0020from\u0020unicode\u0020array",
+            "summary": "Returns\u0020entites\u0020from\u0020unicode\u0020array.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_unicodeToEntities"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003AremoveUnderscorePrefix\u0028\u0029",
             "name": "removeUnderscorePrefix",
-            "summary": "Return\u0020name\u0020without\u0020underscore\u0020for\u0020\u003C\u00200.10.0\u0020variable\u0020name\u0020compatibility",
+            "summary": "Return\u0020name\u0020without\u0020underscore\u0020for\u0020\u003C\u00200.10.0\u0020variable\u0020name\u0020compatibility.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#method_removeUnderscorePrefix"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Text\u003A\u003A\u0024controlCharacters",
             "name": "controlCharacters",
-            "summary": "Control\u0020characters\u0020array",
+            "summary": "Control\u0020characters\u0020array.",
             "url": "classes/PhpOffice-PhpWord-Shared-Text.html#property_controlCharacters"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader",
             "name": "XMLReader",
-            "summary": "XML\u0020Reader\u0020wrapper",
+            "summary": "XML\u0020Reader\u0020wrapper.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003AgetDomFromZip\u0028\u0029",
             "name": "getDomFromZip",
-            "summary": "Get\u0020DOMDocument\u0020from\u0020ZipArchive",
+            "summary": "Get\u0020DOMDocument\u0020from\u0020ZipArchive.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#method_getDomFromZip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003AgetDomFromString\u0028\u0029",
             "name": "getDomFromString",
-            "summary": "Get\u0020DOMDocument\u0020from\u0020content\u0020string",
+            "summary": "Get\u0020DOMDocument\u0020from\u0020content\u0020string.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#method_getDomFromString"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003AgetElements\u0028\u0029",
             "name": "getElements",
-            "summary": "Get\u0020elements",
+            "summary": "Get\u0020elements.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#method_getElements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003AregisterNamespace\u0028\u0029",
             "name": "registerNamespace",
-            "summary": "Registers\u0020the\u0020namespace\u0020with\u0020the\u0020DOMXPath\u0020object",
+            "summary": "Registers\u0020the\u0020namespace\u0020with\u0020the\u0020DOMXPath\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#method_registerNamespace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003AgetElement\u0028\u0029",
             "name": "getElement",
-            "summary": "Get\u0020element",
+            "summary": "Get\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#method_getElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003AgetAttribute\u0028\u0029",
             "name": "getAttribute",
-            "summary": "Get\u0020element\u0020attribute",
+            "summary": "Get\u0020element\u0020attribute.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#method_getAttribute"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "Get\u0020element\u0020value",
+            "summary": "Get\u0020element\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#method_getValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003AcountElements\u0028\u0029",
             "name": "countElements",
-            "summary": "Count\u0020elements",
+            "summary": "Count\u0020elements.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#method_countElements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003AelementExists\u0028\u0029",
             "name": "elementExists",
-            "summary": "Element\u0020exists",
+            "summary": "Element\u0020exists.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#method_elementExists"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003A\u0024dom",
             "name": "dom",
-            "summary": "DOMDocument\u0020object",
+            "summary": "DOMDocument\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#property_dom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLReader\u003A\u003A\u0024xpath",
             "name": "xpath",
-            "summary": "DOMXpath\u0020object",
+            "summary": "DOMXpath\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLReader.html#property_xpath"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLWriter",
             "name": "XMLWriter",
-            "summary": "XMLWriter",
+            "summary": "XMLWriter.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLWriter.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLWriter\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020\\PhpOffice\\PhpWord\\Shared\\XMLWriter\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020\\PhpOffice\\PhpWord\\Shared\\XMLWriter\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLWriter.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLWriter\u003A\u003A__destruct\u0028\u0029",
             "name": "__destruct",
-            "summary": "Destructor",
+            "summary": "Destructor.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLWriter.html#method___destruct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLWriter\u003A\u003AgetData\u0028\u0029",
             "name": "getData",
-            "summary": "Get\u0020written\u0020data",
+            "summary": "Get\u0020written\u0020data.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLWriter.html#method_getData"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLWriter\u003A\u003AwriteElementBlock\u0028\u0029",
             "name": "writeElementBlock",
-            "summary": "Write\u0020simple\u0020element\u0020and\u0020attribute\u0028s\u0029\u0020block",
+            "summary": "Write\u0020simple\u0020element\u0020and\u0020attribute\u0028s\u0029\u0020block.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLWriter.html#method_writeElementBlock"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLWriter\u003A\u003AwriteElementIf\u0028\u0029",
@@ -5673,72 +5478,72 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\XMLWriter\u003A\u003A\u0024tempFileName",
             "name": "tempFileName",
-            "summary": "Temporary\u0020filename",
+            "summary": "Temporary\u0020filename.",
             "url": "classes/PhpOffice-PhpWord-Shared-XMLWriter.html#property_tempFileName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive",
             "name": "ZipArchive",
-            "summary": "ZipArchive\u0020wrapper",
+            "summary": "ZipArchive\u0020wrapper.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003A__call\u0028\u0029",
             "name": "__call",
-            "summary": "Catch\u0020function\u0020calls\u003A\u0020pass\u0020to\u0020ZipArchive\u0020or\u0020PCLZip",
+            "summary": "Catch\u0020function\u0020calls\u003A\u0020pass\u0020to\u0020ZipArchive\u0020or\u0020PCLZip.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method___call"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003Aopen\u0028\u0029",
             "name": "open",
-            "summary": "Open\u0020a\u0020new\u0020zip\u0020archive",
+            "summary": "Open\u0020a\u0020new\u0020zip\u0020archive.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_open"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003Aclose\u0028\u0029",
             "name": "close",
-            "summary": "Close\u0020the\u0020active\u0020archive",
+            "summary": "Close\u0020the\u0020active\u0020archive.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_close"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003AextractTo\u0028\u0029",
             "name": "extractTo",
-            "summary": "Extract\u0020the\u0020archive\u0020contents\u0020\u0028emulate\u0020\\ZipArchive\u0029",
+            "summary": "Extract\u0020the\u0020archive\u0020contents\u0020\u0028emulate\u0020\\ZipArchive\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_extractTo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003AgetFromName\u0028\u0029",
             "name": "getFromName",
-            "summary": "Extract\u0020file\u0020from\u0020archive\u0020by\u0020given\u0020file\u0020name\u0020\u0028emulate\u0020\\ZipArchive\u0029",
+            "summary": "Extract\u0020file\u0020from\u0020archive\u0020by\u0020given\u0020file\u0020name\u0020\u0028emulate\u0020\\ZipArchive\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_getFromName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003ApclzipAddFile\u0028\u0029",
             "name": "pclzipAddFile",
-            "summary": "Add\u0020a\u0020new\u0020file\u0020to\u0020the\u0020zip\u0020archive\u0020\u0028emulate\u0020\\ZipArchive\u0029",
+            "summary": "Add\u0020a\u0020new\u0020file\u0020to\u0020the\u0020zip\u0020archive\u0020\u0028emulate\u0020\\ZipArchive\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_pclzipAddFile"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003ApclzipAddFromString\u0028\u0029",
             "name": "pclzipAddFromString",
-            "summary": "Add\u0020a\u0020new\u0020file\u0020to\u0020the\u0020zip\u0020archive\u0020from\u0020a\u0020string\u0020of\u0020raw\u0020data\u0020\u0028emulate\u0020\\ZipArchive\u0029",
+            "summary": "Add\u0020a\u0020new\u0020file\u0020to\u0020the\u0020zip\u0020archive\u0020from\u0020a\u0020string\u0020of\u0020raw\u0020data\u0020\u0028emulate\u0020\\ZipArchive\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_pclzipAddFromString"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003ApclzipExtractTo\u0028\u0029",
             "name": "pclzipExtractTo",
-            "summary": "Extract\u0020the\u0020archive\u0020contents\u0020\u0028emulate\u0020\\ZipArchive\u0029",
+            "summary": "Extract\u0020the\u0020archive\u0020contents\u0020\u0028emulate\u0020\\ZipArchive\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_pclzipExtractTo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003ApclzipGetFromName\u0028\u0029",
             "name": "pclzipGetFromName",
-            "summary": "Extract\u0020file\u0020from\u0020archive\u0020by\u0020given\u0020file\u0020name\u0020\u0028emulate\u0020\\ZipArchive\u0029",
+            "summary": "Extract\u0020file\u0020from\u0020archive\u0020by\u0020given\u0020file\u0020name\u0020\u0028emulate\u0020\\ZipArchive\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_pclzipGetFromName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003ApclzipGetNameIndex\u0028\u0029",
             "name": "pclzipGetNameIndex",
-            "summary": "Returns\u0020the\u0020name\u0020of\u0020an\u0020entry\u0020using\u0020its\u0020index\u0020\u0028emulate\u0020\\ZipArchive\u0029",
+            "summary": "Returns\u0020the\u0020name\u0020of\u0020an\u0020entry\u0020using\u0020its\u0020index\u0020\u0028emulate\u0020\\ZipArchive\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_pclzipGetNameIndex"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003ApclzipLocateName\u0028\u0029",
             "name": "pclzipLocateName",
-            "summary": "Returns\u0020the\u0020index\u0020of\u0020the\u0020entry\u0020in\u0020the\u0020archive\u0020\u0028emulate\u0020\\ZipArchive\u0029",
+            "summary": "Returns\u0020the\u0020index\u0020of\u0020the\u0020entry\u0020in\u0020the\u0020archive\u0020\u0028emulate\u0020\\ZipArchive\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#method_pclzipLocateName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003ACREATE",
@@ -5753,27 +5558,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003A\u0024numFiles",
             "name": "numFiles",
-            "summary": "Number\u0020of\u0020files\u0020\u0028emulate\u0020ZipArchive\u003A\u003A\u0024numFiles\u0029",
+            "summary": "Number\u0020of\u0020files\u0020\u0028emulate\u0020ZipArchive\u003A\u003A\u0024numFiles\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#property_numFiles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003A\u0024filename",
             "name": "filename",
-            "summary": "Archive\u0020filename\u0020\u0028emulate\u0020ZipArchive\u003A\u003A\u0024filename\u0029",
+            "summary": "Archive\u0020filename\u0020\u0028emulate\u0020ZipArchive\u003A\u003A\u0024filename\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#property_filename"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003A\u0024tempDir",
             "name": "tempDir",
-            "summary": "Temporary\u0020storage\u0020directory",
+            "summary": "Temporary\u0020storage\u0020directory.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#property_tempDir"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003A\u0024zip",
             "name": "zip",
-            "summary": "Internal\u0020zip\u0020archive\u0020object",
+            "summary": "Internal\u0020zip\u0020archive\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#property_zip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\ZipArchive\u003A\u003A\u0024usePclzip",
             "name": "usePclzip",
-            "summary": "Use\u0020PCLZip\u0020\u0028default\u0020behaviour\u0029",
+            "summary": "Use\u0020PCLZip\u0020\u0028default\u0020behaviour\u0029.",
             "url": "classes/PhpOffice-PhpWord-Shared-ZipArchive.html#property_usePclzip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\Border",
@@ -5918,32 +5723,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\DocProtect",
             "name": "DocProtect",
-            "summary": "Document\u0020Protection\u0020Types",
+            "summary": "Document\u0020Protection\u0020Types.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-DocProtect.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\DocProtect\u003A\u003ANONE",
             "name": "NONE",
-            "summary": "No\u0020Editing\u0020Restrictions",
+            "summary": "No\u0020Editing\u0020Restrictions.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-DocProtect.html#constant_NONE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\DocProtect\u003A\u003AREAD_ONLY",
             "name": "READ_ONLY",
-            "summary": "Allow\u0020No\u0020Editing",
+            "summary": "Allow\u0020No\u0020Editing.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-DocProtect.html#constant_READ_ONLY"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\DocProtect\u003A\u003ACOMMENTS",
             "name": "COMMENTS",
-            "summary": "Allow\u0020Editing\u0020of\u0020Comments",
+            "summary": "Allow\u0020Editing\u0020of\u0020Comments.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-DocProtect.html#constant_COMMENTS"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\DocProtect\u003A\u003ATRACKED_CHANGES",
             "name": "TRACKED_CHANGES",
-            "summary": "Allow\u0020Editing\u0020With\u0020Revision\u0020Tracking",
+            "summary": "Allow\u0020Editing\u0020With\u0020Revision\u0020Tracking.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-DocProtect.html#constant_TRACKED_CHANGES"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\DocProtect\u003A\u003AFORMS",
             "name": "FORMS",
-            "summary": "Allow\u0020Editing\u0020of\u0020Form\u0020Fields",
+            "summary": "Allow\u0020Editing\u0020of\u0020Form\u0020Fields.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-DocProtect.html#constant_FORMS"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\Jc",
@@ -6038,22 +5843,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\LineSpacingRule",
             "name": "LineSpacingRule",
-            "summary": "Line\u0020Spacing\u0020Rule",
+            "summary": "Line\u0020Spacing\u0020Rule.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-LineSpacingRule.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\LineSpacingRule\u003A\u003AAUTO",
             "name": "AUTO",
-            "summary": "Automatically\u0020Determined\u0020Line\u0020Height",
+            "summary": "Automatically\u0020Determined\u0020Line\u0020Height.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-LineSpacingRule.html#constant_AUTO"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\LineSpacingRule\u003A\u003AEXACT",
             "name": "EXACT",
-            "summary": "Exact\u0020Line\u0020Height",
+            "summary": "Exact\u0020Line\u0020Height.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-LineSpacingRule.html#constant_EXACT"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\LineSpacingRule\u003A\u003AAT_LEAST",
             "name": "AT_LEAST",
-            "summary": "Minimum\u0020Line\u0020Height",
+            "summary": "Minimum\u0020Line\u0020Height.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-LineSpacingRule.html#constant_AT_LEAST"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\NumberFormat",
@@ -6363,7 +6168,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\TblWidth",
             "name": "TblWidth",
-            "summary": "Table\u0020Width\u0020Units",
+            "summary": "Table\u0020Width\u0020Units.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-TblWidth.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\TblWidth\u003A\u003ANIL",
@@ -6388,7 +6193,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\TextAlignment",
             "name": "TextAlignment",
-            "summary": "Magnification\u0020Preset\u0020Values",
+            "summary": "Magnification\u0020Preset\u0020Values.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-TextAlignment.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\TextAlignment\u003A\u003ATOP",
@@ -6443,7 +6248,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\Zoom",
             "name": "Zoom",
-            "summary": "Magnification\u0020Preset\u0020Values",
+            "summary": "Magnification\u0020Preset\u0020Values.",
             "url": "classes/PhpOffice-PhpWord-SimpleType-Zoom.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\SimpleType\\Zoom\u003A\u003ANONE",
@@ -6468,337 +6273,332 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle",
             "name": "AbstractStyle",
-            "summary": "Abstract\u0020style\u0020class",
+            "summary": "Abstract\u0020style\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AgetStyleName\u0028\u0029",
             "name": "getStyleName",
-            "summary": "Get\u0020style\u0020name",
+            "summary": "Get\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_getStyleName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetStyleName\u0028\u0029",
             "name": "setStyleName",
-            "summary": "Set\u0020style\u0020name",
+            "summary": "Set\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setStyleName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AgetIndex\u0028\u0029",
             "name": "getIndex",
-            "summary": "Get\u0020index\u0020number",
+            "summary": "Get\u0020index\u0020number.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_getIndex"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetIndex\u0028\u0029",
             "name": "setIndex",
-            "summary": "Set\u0020index\u0020number",
+            "summary": "Set\u0020index\u0020number.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setIndex"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003A\u0024isAuto",
             "name": "isAuto",
-            "summary": "Is\u0020this\u0020an\u0020automatic\u0020style\u003F\u0020\u0028Used\u0020primarily\u0020in\u0020OpenDocument\u0020driver\u0029",
+            "summary": "Is\u0020this\u0020an\u0020automatic\u0020style\u003F\u0020\u0028Used\u0020primarily\u0020in\u0020OpenDocument\u0020driver\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#property_isAuto"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetAuto\u0028\u0029",
             "name": "setAuto",
-            "summary": "Set\u0020is\u0020automatic\u0020style\u0020flag",
+            "summary": "Set\u0020is\u0020automatic\u0020style\u0020flag.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setAuto"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AgetChildStyleValue\u0028\u0029",
             "name": "getChildStyleValue",
-            "summary": "Return\u0020style\u0020value\u0020of\u0020child\u0020style\u0020object,\u0020e.g.\u0020\u0060left\u0060\u0020from\u0020\u0060Indentation\u0060\u0020child\u0020style\u0020of\u0020\u0060Paragraph\u0060",
+            "summary": "Return\u0020style\u0020value\u0020of\u0020child\u0020style\u0020object,\u0020e.g.\u0020\u0060left\u0060\u0020from\u0020\u0060Indentation\u0060\u0020child\u0020style\u0020of\u0020\u0060Paragraph\u0060.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_getChildStyleValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetStyleValue\u0028\u0029",
             "name": "setStyleValue",
-            "summary": "Set\u0020style\u0020value\u0020template\u0020method",
+            "summary": "Set\u0020style\u0020value\u0020template\u0020method.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setStyleValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetStyleByArray\u0028\u0029",
             "name": "setStyleByArray",
-            "summary": "Set\u0020style\u0020by\u0020using\u0020associative\u0020array",
+            "summary": "Set\u0020style\u0020by\u0020using\u0020associative\u0020array.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setStyleByArray"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetNonEmptyVal\u0028\u0029",
             "name": "setNonEmptyVal",
-            "summary": "Set\u0020default\u0020for\u0020null\u0020and\u0020empty\u0020value",
+            "summary": "Set\u0020default\u0020for\u0020null\u0020and\u0020empty\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setNonEmptyVal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetBoolVal\u0028\u0029",
             "name": "setBoolVal",
-            "summary": "Set\u0020bool\u0020value",
+            "summary": "Set\u0020bool\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setBoolVal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetNumericVal\u0028\u0029",
             "name": "setNumericVal",
-            "summary": "Set\u0020numeric\u0020value",
+            "summary": "Set\u0020numeric\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setNumericVal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetIntVal\u0028\u0029",
             "name": "setIntVal",
-            "summary": "Set\u0020integer\u0020value\u003A\u0020Convert\u0020string\u0020that\u0020contains\u0020only\u0020numeric\u0020into\u0020integer",
+            "summary": "Set\u0020integer\u0020value\u003A\u0020Convert\u0020string\u0020that\u0020contains\u0020only\u0020numeric\u0020into\u0020integer.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setIntVal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetFloatVal\u0028\u0029",
             "name": "setFloatVal",
-            "summary": "Set\u0020float\u0020value\u003A\u0020Convert\u0020string\u0020that\u0020contains\u0020only\u0020numeric\u0020into\u0020float",
+            "summary": "Set\u0020float\u0020value\u003A\u0020Convert\u0020string\u0020that\u0020contains\u0020only\u0020numeric\u0020into\u0020float.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setFloatVal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetEnumVal\u0028\u0029",
             "name": "setEnumVal",
-            "summary": "Set\u0020enum\u0020value",
+            "summary": "Set\u0020enum\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setEnumVal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetObjectVal\u0028\u0029",
             "name": "setObjectVal",
-            "summary": "Set\u0020object\u0020value",
+            "summary": "Set\u0020object\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setObjectVal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetPairedVal\u0028\u0029",
             "name": "setPairedVal",
-            "summary": "Set\u0020\u0024property\u0020value\u0020and\u0020set\u0020\u0024pairProperty\u0020\u003D\u0020false\u0020when\u0020\u0024value\u0020\u003D\u0020true",
+            "summary": "Set\u0020\u0024property\u0020value\u0020and\u0020set\u0020\u0024pairProperty\u0020\u003D\u0020false\u0020when\u0020\u0024value\u0020\u003D\u0020true.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setPairedVal"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003AsetArrayStyle\u0028\u0029",
-            "name": "setArrayStyle",
-            "summary": "Set\u0020style\u0020using\u0020associative\u0020array",
-            "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setArrayStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003A\u0024styleName",
             "name": "styleName",
-            "summary": "Style\u0020name",
+            "summary": "Style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#property_styleName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003A\u0024index",
             "name": "index",
-            "summary": "Index\u0020number\u0020in\u0020Style\u0020collection\u0020for\u0020named\u0020style",
+            "summary": "Index\u0020number\u0020in\u0020Style\u0020collection\u0020for\u0020named\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#property_index"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\AbstractStyle\u003A\u003A\u0024aliases",
             "name": "aliases",
-            "summary": "Aliases",
+            "summary": "Aliases.",
             "url": "classes/PhpOffice-PhpWord-Style-AbstractStyle.html#property_aliases"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border",
             "name": "Border",
-            "summary": "Border\u0020style",
+            "summary": "Border\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderSize\u0028\u0029",
             "name": "getBorderSize",
-            "summary": "Get\u0020border\u0020size",
+            "summary": "Get\u0020border\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderSize\u0028\u0029",
             "name": "setBorderSize",
-            "summary": "Set\u0020border\u0020size",
+            "summary": "Set\u0020border\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderColor\u0028\u0029",
             "name": "getBorderColor",
-            "summary": "Get\u0020border\u0020color",
+            "summary": "Get\u0020border\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderColor\u0028\u0029",
             "name": "setBorderColor",
-            "summary": "Set\u0020border\u0020color",
+            "summary": "Set\u0020border\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderStyle\u0028\u0029",
             "name": "getBorderStyle",
-            "summary": "Get\u0020border\u0020style",
+            "summary": "Get\u0020border\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderStyle\u0028\u0029",
             "name": "setBorderStyle",
-            "summary": "Set\u0020border\u0020style",
+            "summary": "Set\u0020border\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderTopSize\u0028\u0029",
             "name": "getBorderTopSize",
-            "summary": "Get\u0020border\u0020top\u0020size",
+            "summary": "Get\u0020border\u0020top\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderTopSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderTopSize\u0028\u0029",
             "name": "setBorderTopSize",
-            "summary": "Set\u0020border\u0020top\u0020size",
+            "summary": "Set\u0020border\u0020top\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderTopSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderTopColor\u0028\u0029",
             "name": "getBorderTopColor",
-            "summary": "Get\u0020border\u0020top\u0020color",
+            "summary": "Get\u0020border\u0020top\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderTopColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderTopColor\u0028\u0029",
             "name": "setBorderTopColor",
-            "summary": "Set\u0020border\u0020top\u0020color",
+            "summary": "Set\u0020border\u0020top\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderTopColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderTopStyle\u0028\u0029",
             "name": "getBorderTopStyle",
-            "summary": "Get\u0020border\u0020top\u0020style",
+            "summary": "Get\u0020border\u0020top\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderTopStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderTopStyle\u0028\u0029",
             "name": "setBorderTopStyle",
-            "summary": "Set\u0020border\u0020top\u0020Style",
+            "summary": "Set\u0020border\u0020top\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderTopStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderLeftSize\u0028\u0029",
             "name": "getBorderLeftSize",
-            "summary": "Get\u0020border\u0020left\u0020size",
+            "summary": "Get\u0020border\u0020left\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderLeftSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderLeftSize\u0028\u0029",
             "name": "setBorderLeftSize",
-            "summary": "Set\u0020border\u0020left\u0020size",
+            "summary": "Set\u0020border\u0020left\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderLeftSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderLeftColor\u0028\u0029",
             "name": "getBorderLeftColor",
-            "summary": "Get\u0020border\u0020left\u0020color",
+            "summary": "Get\u0020border\u0020left\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderLeftColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderLeftColor\u0028\u0029",
             "name": "setBorderLeftColor",
-            "summary": "Set\u0020border\u0020left\u0020color",
+            "summary": "Set\u0020border\u0020left\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderLeftColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderLeftStyle\u0028\u0029",
             "name": "getBorderLeftStyle",
-            "summary": "Get\u0020border\u0020left\u0020style",
+            "summary": "Get\u0020border\u0020left\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderLeftStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderLeftStyle\u0028\u0029",
             "name": "setBorderLeftStyle",
-            "summary": "Set\u0020border\u0020left\u0020style",
+            "summary": "Set\u0020border\u0020left\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderLeftStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderRightSize\u0028\u0029",
             "name": "getBorderRightSize",
-            "summary": "Get\u0020border\u0020right\u0020size",
+            "summary": "Get\u0020border\u0020right\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderRightSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderRightSize\u0028\u0029",
             "name": "setBorderRightSize",
-            "summary": "Set\u0020border\u0020right\u0020size",
+            "summary": "Set\u0020border\u0020right\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderRightSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderRightColor\u0028\u0029",
             "name": "getBorderRightColor",
-            "summary": "Get\u0020border\u0020right\u0020color",
+            "summary": "Get\u0020border\u0020right\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderRightColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderRightColor\u0028\u0029",
             "name": "setBorderRightColor",
-            "summary": "Set\u0020border\u0020right\u0020color",
+            "summary": "Set\u0020border\u0020right\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderRightColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderRightStyle\u0028\u0029",
             "name": "getBorderRightStyle",
-            "summary": "Get\u0020border\u0020right\u0020style",
+            "summary": "Get\u0020border\u0020right\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderRightStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderRightStyle\u0028\u0029",
             "name": "setBorderRightStyle",
-            "summary": "Set\u0020border\u0020right\u0020style",
+            "summary": "Set\u0020border\u0020right\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderRightStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderBottomSize\u0028\u0029",
             "name": "getBorderBottomSize",
-            "summary": "Get\u0020border\u0020bottom\u0020size",
+            "summary": "Get\u0020border\u0020bottom\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderBottomSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderBottomSize\u0028\u0029",
             "name": "setBorderBottomSize",
-            "summary": "Set\u0020border\u0020bottom\u0020size",
+            "summary": "Set\u0020border\u0020bottom\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderBottomSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderBottomColor\u0028\u0029",
             "name": "getBorderBottomColor",
-            "summary": "Get\u0020border\u0020bottom\u0020color",
+            "summary": "Get\u0020border\u0020bottom\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderBottomColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderBottomColor\u0028\u0029",
             "name": "setBorderBottomColor",
-            "summary": "Set\u0020border\u0020bottom\u0020color",
+            "summary": "Set\u0020border\u0020bottom\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderBottomColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AgetBorderBottomStyle\u0028\u0029",
             "name": "getBorderBottomStyle",
-            "summary": "Get\u0020border\u0020bottom\u0020style",
+            "summary": "Get\u0020border\u0020bottom\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderBottomStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AsetBorderBottomStyle\u0028\u0029",
             "name": "setBorderBottomStyle",
-            "summary": "Set\u0020border\u0020bottom\u0020style",
+            "summary": "Set\u0020border\u0020bottom\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderBottomStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003AhasBorder\u0028\u0029",
             "name": "hasBorder",
-            "summary": "Check\u0020if\u0020any\u0020of\u0020the\u0020border\u0020is\u0020not\u0020null",
+            "summary": "Check\u0020if\u0020any\u0020of\u0020the\u0020border\u0020is\u0020not\u0020null.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#method_hasBorder"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderTopSize",
             "name": "borderTopSize",
-            "summary": "Border\u0020Top\u0020Size",
+            "summary": "Border\u0020Top\u0020Size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderTopSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderTopColor",
             "name": "borderTopColor",
-            "summary": "Border\u0020Top\u0020Color",
+            "summary": "Border\u0020Top\u0020Color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderTopColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderTopStyle",
             "name": "borderTopStyle",
-            "summary": "Border\u0020Top\u0020Style",
+            "summary": "Border\u0020Top\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderTopStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderLeftSize",
             "name": "borderLeftSize",
-            "summary": "Border\u0020Left\u0020Size",
+            "summary": "Border\u0020Left\u0020Size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderLeftSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderLeftColor",
             "name": "borderLeftColor",
-            "summary": "Border\u0020Left\u0020Color",
+            "summary": "Border\u0020Left\u0020Color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderLeftColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderLeftStyle",
             "name": "borderLeftStyle",
-            "summary": "Border\u0020Left\u0020Style",
+            "summary": "Border\u0020Left\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderLeftStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderRightSize",
             "name": "borderRightSize",
-            "summary": "Border\u0020Right\u0020Size",
+            "summary": "Border\u0020Right\u0020Size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderRightSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderRightColor",
             "name": "borderRightColor",
-            "summary": "Border\u0020Right\u0020Color",
+            "summary": "Border\u0020Right\u0020Color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderRightColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderRightStyle",
             "name": "borderRightStyle",
-            "summary": "Border\u0020Right\u0020Style",
+            "summary": "Border\u0020Right\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderRightStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderBottomSize",
             "name": "borderBottomSize",
-            "summary": "Border\u0020Bottom\u0020Size",
+            "summary": "Border\u0020Bottom\u0020Size.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderBottomSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderBottomColor",
             "name": "borderBottomColor",
-            "summary": "Border\u0020Bottom\u0020Color",
+            "summary": "Border\u0020Bottom\u0020Color.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderBottomColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Border\u003A\u003A\u0024borderBottomStyle",
             "name": "borderBottomStyle",
-            "summary": "Border\u0020Bottom\u0020Style",
+            "summary": "Border\u0020Bottom\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Style-Border.html#property_borderBottomStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell",
             "name": "Cell",
-            "summary": "Table\u0020cell\u0020style",
+            "summary": "Table\u0020cell\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetVAlign\u0028\u0029",
@@ -6808,7 +6608,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetVAlign\u0028\u0029",
             "name": "setVAlign",
-            "summary": "Set\u0020vertical\u0020align",
+            "summary": "Set\u0020vertical\u0020align.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setVAlign"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetTextDirection\u0028\u0029",
@@ -6818,17 +6618,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetTextDirection\u0028\u0029",
             "name": "setTextDirection",
-            "summary": "Set\u0020text\u0020direction",
+            "summary": "Set\u0020text\u0020direction.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setTextDirection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetBgColor\u0028\u0029",
             "name": "getBgColor",
-            "summary": "Get\u0020background",
+            "summary": "Get\u0020background.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getBgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetBgColor\u0028\u0029",
             "name": "setBgColor",
-            "summary": "Set\u0020background",
+            "summary": "Set\u0020background.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setBgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetGridSpan\u0028\u0029",
@@ -6838,7 +6638,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetGridSpan\u0028\u0029",
             "name": "setGridSpan",
-            "summary": "Set\u0020grid\u0020span\u0020\u0028colspan\u0029",
+            "summary": "Set\u0020grid\u0020span\u0020\u0028colspan\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setGridSpan"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetVMerge\u0028\u0029",
@@ -6848,97 +6648,72 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetVMerge\u0028\u0029",
             "name": "setVMerge",
-            "summary": "Set\u0020vertical\u0020merge\u0020\u0028rowspan\u0029",
+            "summary": "Set\u0020vertical\u0020merge\u0020\u0028rowspan\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setVMerge"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetShading\u0028\u0029",
             "name": "getShading",
-            "summary": "Get\u0020shading",
+            "summary": "Get\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getShading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetShading\u0028\u0029",
             "name": "setShading",
-            "summary": "Set\u0020shading",
+            "summary": "Set\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setShading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetWidth\u0028\u0029",
             "name": "getWidth",
-            "summary": "Get\u0020cell\u0020width",
+            "summary": "Get\u0020cell\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetWidth\u0028\u0029",
             "name": "setWidth",
-            "summary": "Set\u0020cell\u0020width",
+            "summary": "Set\u0020cell\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetUnit\u0028\u0029",
             "name": "getUnit",
-            "summary": "Get\u0020width\u0020unit",
+            "summary": "Get\u0020width\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getUnit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetUnit\u0028\u0029",
             "name": "setUnit",
-            "summary": "Set\u0020width\u0020unit",
+            "summary": "Set\u0020width\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setUnit"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetDefaultBorderColor\u0028\u0029",
-            "name": "getDefaultBorderColor",
-            "summary": "Get\u0020default\u0020border\u0020color",
-            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getDefaultBorderColor"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AVALIGN_TOP",
-            "name": "VALIGN_TOP",
-            "summary": "Vertical\u0020alignment\u0020constants",
-            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_VALIGN_TOP"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AVALIGN_CENTER",
-            "name": "VALIGN_CENTER",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_VALIGN_CENTER"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AVALIGN_BOTTOM",
-            "name": "VALIGN_BOTTOM",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_VALIGN_BOTTOM"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AVALIGN_BOTH",
-            "name": "VALIGN_BOTH",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_VALIGN_BOTH"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003ATEXT_DIR_LRTB",
             "name": "TEXT_DIR_LRTB",
-            "summary": "Left\u0020to\u0020Right,\u0020Top\u0020to\u0020Bottom",
+            "summary": "Left\u0020to\u0020Right,\u0020Top\u0020to\u0020Bottom.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_TEXT_DIR_LRTB"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003ATEXT_DIR_TBRL",
             "name": "TEXT_DIR_TBRL",
-            "summary": "Top\u0020to\u0020Bottom,\u0020Right\u0020to\u0020Left",
+            "summary": "Top\u0020to\u0020Bottom,\u0020Right\u0020to\u0020Left.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_TEXT_DIR_TBRL"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003ATEXT_DIR_BTLR",
             "name": "TEXT_DIR_BTLR",
-            "summary": "Bottom\u0020to\u0020Top,\u0020Left\u0020to\u0020Right",
+            "summary": "Bottom\u0020to\u0020Top,\u0020Left\u0020to\u0020Right.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_TEXT_DIR_BTLR"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003ATEXT_DIR_LRTBV",
             "name": "TEXT_DIR_LRTBV",
-            "summary": "Left\u0020to\u0020Right,\u0020Top\u0020to\u0020Bottom\u0020Rotated",
+            "summary": "Left\u0020to\u0020Right,\u0020Top\u0020to\u0020Bottom\u0020Rotated.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_TEXT_DIR_LRTBV"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003ATEXT_DIR_TBRLV",
             "name": "TEXT_DIR_TBRLV",
-            "summary": "Top\u0020to\u0020Bottom,\u0020Right\u0020to\u0020Left\u0020Rotated",
+            "summary": "Top\u0020to\u0020Bottom,\u0020Right\u0020to\u0020Left\u0020Rotated.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_TEXT_DIR_TBRLV"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003ATEXT_DIR_TBLRV",
             "name": "TEXT_DIR_TBLRV",
-            "summary": "Top\u0020to\u0020Bottom,\u0020Left\u0020to\u0020Right\u0020Rotated",
+            "summary": "Top\u0020to\u0020Bottom,\u0020Left\u0020to\u0020Right\u0020Rotated.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_TEXT_DIR_TBLRV"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AVMERGE_RESTART",
             "name": "VMERGE_RESTART",
-            "summary": "Vertical\u0020merge\u0020\u0028rowspan\u0029\u0020constants",
+            "summary": "Vertical\u0020merge\u0020\u0028rowspan\u0029\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_VMERGE_RESTART"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AVMERGE_CONTINUE",
@@ -6948,82 +6723,82 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003ADEFAULT_BORDER_COLOR",
             "name": "DEFAULT_BORDER_COLOR",
-            "summary": "Default\u0020border\u0020color",
+            "summary": "Default\u0020border\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#constant_DEFAULT_BORDER_COLOR"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024vAlign",
             "name": "vAlign",
-            "summary": "Vertical\u0020align\u0020\u0028top,\u0020center,\u0020both,\u0020bottom\u0029",
+            "summary": "Vertical\u0020align\u0020\u0028top,\u0020center,\u0020both,\u0020bottom\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_vAlign"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024textDirection",
             "name": "textDirection",
-            "summary": "Text\u0020Direction",
+            "summary": "Text\u0020Direction.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_textDirection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024gridSpan",
             "name": "gridSpan",
-            "summary": "colspan",
+            "summary": "colspan.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_gridSpan"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024vMerge",
             "name": "vMerge",
-            "summary": "rowspan\u0020\u0028restart,\u0020continue\u0029",
+            "summary": "rowspan\u0020\u0028restart,\u0020continue\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_vMerge"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024shading",
             "name": "shading",
-            "summary": "Shading",
+            "summary": "Shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_shading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024width",
             "name": "width",
-            "summary": "Width",
+            "summary": "Width.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_width"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024unit",
             "name": "unit",
-            "summary": "Width\u0020unit",
+            "summary": "Width\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_unit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart",
             "name": "Chart",
-            "summary": "Chart\u0020style",
+            "summary": "Chart\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetWidth\u0028\u0029",
             "name": "getWidth",
-            "summary": "Get\u0020width",
+            "summary": "Get\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_getWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetWidth\u0028\u0029",
             "name": "setWidth",
-            "summary": "Set\u0020width",
+            "summary": "Set\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetHeight\u0028\u0029",
             "name": "getHeight",
-            "summary": "Get\u0020height",
+            "summary": "Get\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_getHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetHeight\u0028\u0029",
             "name": "setHeight",
-            "summary": "Set\u0020height",
+            "summary": "Set\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024is3d",
             "name": "is3d",
-            "summary": "Is\u00203D\u003B\u0020applies\u0020to\u0020pie,\u0020bar,\u0020line,\u0020area",
+            "summary": "Is\u00203D\u003B\u0020applies\u0020to\u0020pie,\u0020bar,\u0020line,\u0020area.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_is3d"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003Aset3d\u0028\u0029",
             "name": "set3d",
-            "summary": "Set\u00203D",
+            "summary": "Set\u00203D.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_set3d"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetColors\u0028\u0029",
@@ -7038,47 +6813,47 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetTitle\u0028\u0029",
             "name": "getTitle",
-            "summary": "Get\u0020the\u0020chart\u0020title",
+            "summary": "Get\u0020the\u0020chart\u0020title.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_getTitle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetTitle\u0028\u0029",
             "name": "setTitle",
-            "summary": "Set\u0020the\u0020chart\u0020title",
+            "summary": "Set\u0020the\u0020chart\u0020title.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setTitle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AisShowLegend\u0028\u0029",
             "name": "isShowLegend",
-            "summary": "Get\u0020chart\u0020legend\u0020visibility",
+            "summary": "Get\u0020chart\u0020legend\u0020visibility.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_isShowLegend"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetShowLegend\u0028\u0029",
             "name": "setShowLegend",
-            "summary": "Set\u0020chart\u0020legend\u0020visibility",
+            "summary": "Set\u0020chart\u0020legend\u0020visibility.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setShowLegend"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetLegendPosition\u0028\u0029",
             "name": "getLegendPosition",
-            "summary": "Get\u0020chart\u0020legend\u0020position",
+            "summary": "Get\u0020chart\u0020legend\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_getLegendPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetLegendPosition\u0028\u0029",
             "name": "setLegendPosition",
-            "summary": "Set\u0020chart\u0020legend\u0020position.\u0020choices\u003A\n\u0022r\u0022\u0020\u002D\u0020right\u0020of\u0020chart\n\u0022b\u0022\u0020\u002D\u0020bottom\u0020of\u0020chart\n\u0022t\u0022\u0020\u002D\u0020top\u0020of\u0020chart\n\u0022l\u0022\u0020\u002D\u0020left\u0020of\u0020chart\n\u0022tr\u0022\u0020\u002D\u0020top\u0020right\u0020of\u0020chart",
+            "summary": "Set\u0020chart\u0020legend\u0020position.\u0020choices\u003A\n\u0022r\u0022\u0020\u002D\u0020right\u0020of\u0020chart\n\u0022b\u0022\u0020\u002D\u0020bottom\u0020of\u0020chart\n\u0022t\u0022\u0020\u002D\u0020top\u0020of\u0020chart\n\u0022l\u0022\u0020\u002D\u0020left\u0020of\u0020chart\n\u0022tr\u0022\u0020\u002D\u0020top\u0020right\u0020of\u0020chart.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setLegendPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024showAxisLabels",
             "name": "showAxisLabels",
-            "summary": "Show\u0020labels\u0020for\u0020axis",
+            "summary": "Show\u0020labels\u0020for\u0020axis.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_showAxisLabels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetShowAxisLabels\u0028\u0029",
             "name": "setShowAxisLabels",
-            "summary": "Set\u0020show\u0020Gridlines\u0020for\u0020Y\u002DAxis",
+            "summary": "Set\u0020show\u0020Gridlines\u0020for\u0020Y\u002DAxis.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setShowAxisLabels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetDataLabelOptions\u0028\u0029",
             "name": "getDataLabelOptions",
-            "summary": "get\u0020the\u0020list\u0020of\u0020options\u0020for\u0020data\u0020labels",
+            "summary": "get\u0020the\u0020list\u0020of\u0020options\u0020for\u0020data\u0020labels.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_getDataLabelOptions"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetDataLabelOptions\u0028\u0029",
@@ -7093,47 +6868,47 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetShowGridY\u0028\u0029",
             "name": "setShowGridY",
-            "summary": "Set\u0020show\u0020Gridlines\u0020for\u0020Y\u002DAxis",
+            "summary": "Set\u0020show\u0020Gridlines\u0020for\u0020Y\u002DAxis.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setShowGridY"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetCategoryLabelPosition\u0028\u0029",
             "name": "getCategoryLabelPosition",
-            "summary": "Get\u0020the\u0020categoryLabelPosition\u0020setting",
+            "summary": "Get\u0020the\u0020categoryLabelPosition\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_getCategoryLabelPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetCategoryLabelPosition\u0028\u0029",
             "name": "setCategoryLabelPosition",
-            "summary": "Set\u0020the\u0020categoryLabelPosition\u0020setting\n\u0022none\u0022\u0020\u002D\u0020skips\u0020writing\u0020\u0020labels\n\u0022nextTo\u0022\u0020\u002D\u0020sets\u0020labels\u0020next\u0020to\u0020the\u0020\u0020\u0028bar\u0020graphs\u0020on\u0020the\u0020left\u0029\n\u0022low\u0022\u0020\u002D\u0020labels\u0020on\u0020the\u0020left\u0020side\u0020of\u0020the\u0020graph\n\u0022high\u0022\u0020\u002D\u0020labels\u0020on\u0020the\u0020right\u0020side\u0020of\u0020the\u0020graph",
+            "summary": "Set\u0020the\u0020categoryLabelPosition\u0020setting\n\u0022none\u0022\u0020\u002D\u0020skips\u0020writing\u0020\u0020labels\n\u0022nextTo\u0022\u0020\u002D\u0020sets\u0020labels\u0020next\u0020to\u0020the\u0020\u0020\u0028bar\u0020graphs\u0020on\u0020the\u0020left\u0029\n\u0022low\u0022\u0020\u002D\u0020labels\u0020on\u0020the\u0020left\u0020side\u0020of\u0020the\u0020graph\n\u0022high\u0022\u0020\u002D\u0020labels\u0020on\u0020the\u0020right\u0020side\u0020of\u0020the\u0020graph.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setCategoryLabelPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetValueLabelPosition\u0028\u0029",
             "name": "getValueLabelPosition",
-            "summary": "Get\u0020the\u0020valueAxisLabelPosition\u0020setting",
+            "summary": "Get\u0020the\u0020valueAxisLabelPosition\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_getValueLabelPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetValueLabelPosition\u0028\u0029",
             "name": "setValueLabelPosition",
-            "summary": "Set\u0020the\u0020valueLabelPosition\u0020setting\n\u0022none\u0022\u0020\u002D\u0020skips\u0020writing\u0020labels\n\u0022nextTo\u0022\u0020\u002D\u0020sets\u0020labels\u0020next\u0020to\u0020the\u0020value\n\u0022low\u0022\u0020\u002D\u0020sets\u0020labels\u0020are\u0020below\u0020the\u0020graph\n\u0022high\u0022\u0020\u002D\u0020sets\u0020labels\u0020above\u0020the\u0020graph",
+            "summary": "Set\u0020the\u0020valueLabelPosition\u0020setting\n\u0022none\u0022\u0020\u002D\u0020skips\u0020writing\u0020labels\n\u0022nextTo\u0022\u0020\u002D\u0020sets\u0020labels\u0020next\u0020to\u0020the\u0020value\n\u0022low\u0022\u0020\u002D\u0020sets\u0020labels\u0020are\u0020below\u0020the\u0020graph\n\u0022high\u0022\u0020\u002D\u0020sets\u0020labels\u0020above\u0020the\u0020graph.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setValueLabelPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetCategoryAxisTitle\u0028\u0029",
             "name": "getCategoryAxisTitle",
-            "summary": "Get\u0020the\u0020categoryAxisTitle",
+            "summary": "Get\u0020the\u0020categoryAxisTitle.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_getCategoryAxisTitle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetCategoryAxisTitle\u0028\u0029",
             "name": "setCategoryAxisTitle",
-            "summary": "Set\u0020the\u0020title\u0020that\u0020appears\u0020on\u0020the\u0020category\u0020side\u0020of\u0020the\u0020chart",
+            "summary": "Set\u0020the\u0020title\u0020that\u0020appears\u0020on\u0020the\u0020category\u0020side\u0020of\u0020the\u0020chart.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setCategoryAxisTitle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetValueAxisTitle\u0028\u0029",
             "name": "getValueAxisTitle",
-            "summary": "Get\u0020the\u0020valueAxisTitle",
+            "summary": "Get\u0020the\u0020valueAxisTitle.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_getValueAxisTitle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetValueAxisTitle\u0028\u0029",
             "name": "setValueAxisTitle",
-            "summary": "Set\u0020the\u0020title\u0020that\u0020appears\u0020on\u0020the\u0020value\u0020side\u0020of\u0020the\u0020chart",
+            "summary": "Set\u0020the\u0020title\u0020that\u0020appears\u0020on\u0020the\u0020value\u0020side\u0020of\u0020the\u0020chart.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setValueAxisTitle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AgetMajorTickPosition\u0028\u0029",
@@ -7143,42 +6918,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetMajorTickPosition\u0028\u0029",
             "name": "setMajorTickPosition",
-            "summary": "Set\u0020the\u0020position\u0020for\u0020major\u0020tick\u0020marks",
+            "summary": "Set\u0020the\u0020position\u0020for\u0020major\u0020tick\u0020marks.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setMajorTickPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AshowGridX\u0028\u0029",
             "name": "showGridX",
-            "summary": "Show\u0020Gridlines\u0020for\u0020X\u002DAxis",
+            "summary": "Show\u0020Gridlines\u0020for\u0020X\u002DAxis.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_showGridX"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003AsetShowGridX\u0028\u0029",
             "name": "setShowGridX",
-            "summary": "Set\u0020show\u0020Gridlines\u0020for\u0020X\u002DAxis",
+            "summary": "Set\u0020show\u0020Gridlines\u0020for\u0020X\u002DAxis.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#method_setShowGridX"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024width",
             "name": "width",
-            "summary": "Width\u0020\u0028in\u0020EMU\u0029",
+            "summary": "Width\u0020\u0028in\u0020EMU\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_width"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024height",
             "name": "height",
-            "summary": "Height\u0020\u0028in\u0020EMU\u0029",
+            "summary": "Height\u0020\u0028in\u0020EMU\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_height"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024colors",
             "name": "colors",
-            "summary": "A\u0020list\u0020of\u0020colors\u0020to\u0020use\u0020in\u0020the\u0020chart",
+            "summary": "A\u0020list\u0020of\u0020colors\u0020to\u0020use\u0020in\u0020the\u0020chart.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_colors"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024title",
             "name": "title",
-            "summary": "Chart\u0020title",
+            "summary": "Chart\u0020title.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_title"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024showLegend",
             "name": "showLegend",
-            "summary": "Chart\u0020legend\u0020visibility",
+            "summary": "Chart\u0020legend\u0020visibility.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_showLegend"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024legendPosition",
@@ -7188,17 +6963,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024dataLabelOptions",
             "name": "dataLabelOptions",
-            "summary": "A\u0020list\u0020of\u0020display\u0020options\u0020for\u0020data\u0020labels",
+            "summary": "A\u0020list\u0020of\u0020display\u0020options\u0020for\u0020data\u0020labels.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_dataLabelOptions"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024categoryLabelPosition",
             "name": "categoryLabelPosition",
-            "summary": "A\u0020string\u0020that\u0020tells\u0020the\u0020writer\u0020where\u0020to\u0020write\u0020chart\u0020labels\u0020or\u0020to\u0020skip\n\u0022nextTo\u0022\u0020\u002D\u0020sets\u0020labels\u0020next\u0020to\u0020the\u0020axis\u0020\u0028bar\u0020graphs\u0020on\u0020the\u0020left\u0029\u0020\u0028default\u0029\n\u0022low\u0022\u0020\u002D\u0020labels\u0020on\u0020the\u0020left\u0020side\u0020of\u0020the\u0020graph\n\u0022high\u0022\u0020\u002D\u0020labels\u0020on\u0020the\u0020right\u0020side\u0020of\u0020the\u0020graph",
+            "summary": "A\u0020string\u0020that\u0020tells\u0020the\u0020writer\u0020where\u0020to\u0020write\u0020chart\u0020labels\u0020or\u0020to\u0020skip\n\u0022nextTo\u0022\u0020\u002D\u0020sets\u0020labels\u0020next\u0020to\u0020the\u0020axis\u0020\u0028bar\u0020graphs\u0020on\u0020the\u0020left\u0029\u0020\u0028default\u0029\n\u0022low\u0022\u0020\u002D\u0020labels\u0020on\u0020the\u0020left\u0020side\u0020of\u0020the\u0020graph\n\u0022high\u0022\u0020\u002D\u0020labels\u0020on\u0020the\u0020right\u0020side\u0020of\u0020the\u0020graph.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_categoryLabelPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024valueLabelPosition",
             "name": "valueLabelPosition",
-            "summary": "A\u0020string\u0020that\u0020tells\u0020the\u0020writer\u0020where\u0020to\u0020write\u0020chart\u0020labels\u0020or\u0020to\u0020skip\n\u0022nextTo\u0022\u0020\u002D\u0020sets\u0020labels\u0020next\u0020to\u0020the\u0020axis\u0020\u0028bar\u0020graphs\u0020on\u0020the\u0020bottom\u0029\u0020\u0028default\u0029\n\u0022low\u0022\u0020\u002D\u0020labels\u0020are\u0020below\u0020the\u0020graph\n\u0022high\u0022\u0020\u002D\u0020labels\u0020above\u0020the\u0020graph",
+            "summary": "A\u0020string\u0020that\u0020tells\u0020the\u0020writer\u0020where\u0020to\u0020write\u0020chart\u0020labels\u0020or\u0020to\u0020skip\n\u0022nextTo\u0022\u0020\u002D\u0020sets\u0020labels\u0020next\u0020to\u0020the\u0020axis\u0020\u0028bar\u0020graphs\u0020on\u0020the\u0020bottom\u0029\u0020\u0028default\u0029\n\u0022low\u0022\u0020\u002D\u0020labels\u0020are\u0020below\u0020the\u0020graph\n\u0022high\u0022\u0020\u002D\u0020labels\u0020above\u0020the\u0020graph.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_valueLabelPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024categoryAxisTitle",
@@ -7213,52 +6988,52 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024majorTickMarkPos",
             "name": "majorTickMarkPos",
-            "summary": "The\u0020position\u0020for\u0020major\u0020tick\u0020marks\nPossible\u0020values\u0020are\u0020\u0027in\u0027,\u0020\u0027out\u0027,\u0020\u0027cross\u0027,\u0020\u0027none\u0027",
+            "summary": "The\u0020position\u0020for\u0020major\u0020tick\u0020marks\nPossible\u0020values\u0020are\u0020\u0027in\u0027,\u0020\u0027out\u0027,\u0020\u0027cross\u0027,\u0020\u0027none\u0027.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_majorTickMarkPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024gridY",
             "name": "gridY",
-            "summary": "Show\u0020Gridlines\u0020for\u0020Y\u002DAxis",
+            "summary": "Show\u0020Gridlines\u0020for\u0020Y\u002DAxis.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_gridY"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Chart\u003A\u003A\u0024gridX",
             "name": "gridX",
-            "summary": "Show\u0020Gridlines\u0020for\u0020X\u002DAxis",
+            "summary": "Show\u0020Gridlines\u0020for\u0020X\u002DAxis.",
             "url": "classes/PhpOffice-PhpWord-Style-Chart.html#property_gridX"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion",
             "name": "Extrusion",
-            "summary": "3D\u0020extrusion\u0020style",
+            "summary": "3D\u0020extrusion\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Extrusion.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Extrusion.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
-            "summary": "Get\u0020type",
+            "summary": "Get\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Extrusion.html#method_getType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion\u003A\u003AsetType\u0028\u0029",
             "name": "setType",
-            "summary": "Set\u0020pattern",
+            "summary": "Set\u0020pattern.",
             "url": "classes/PhpOffice-PhpWord-Style-Extrusion.html#method_setType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion\u003A\u003AgetColor\u0028\u0029",
             "name": "getColor",
-            "summary": "Get\u0020color",
+            "summary": "Get\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Extrusion.html#method_getColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion\u003A\u003AsetColor\u0028\u0029",
             "name": "setColor",
-            "summary": "Set\u0020color",
+            "summary": "Set\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Extrusion.html#method_setColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion\u003A\u003AEXTRUSION_PARALLEL",
             "name": "EXTRUSION_PARALLEL",
-            "summary": "Type\u0020constants",
+            "summary": "Type\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-Extrusion.html#constant_EXTRUSION_PARALLEL"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion\u003A\u003AEXTRUSION_PERSPECTIVE",
@@ -7268,352 +7043,322 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Type\u003A\u0020parallel\u007Cperspective",
+            "summary": "Type\u003A\u0020parallel\u007Cperspective.",
             "url": "classes/PhpOffice-PhpWord-Style-Extrusion.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Extrusion\u003A\u003A\u0024color",
             "name": "color",
-            "summary": "Color",
+            "summary": "Color.",
             "url": "classes/PhpOffice-PhpWord-Style-Extrusion.html#property_color"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Fill",
             "name": "Fill",
-            "summary": "Fill\u0020style",
+            "summary": "Fill\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Fill.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Fill\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Fill.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Fill\u003A\u003AgetColor\u0028\u0029",
             "name": "getColor",
-            "summary": "Get\u0020color",
+            "summary": "Get\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Fill.html#method_getColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Fill\u003A\u003AsetColor\u0028\u0029",
             "name": "setColor",
-            "summary": "Set\u0020color",
+            "summary": "Set\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Fill.html#method_setColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Fill\u003A\u003A\u0024color",
             "name": "color",
-            "summary": "Color",
+            "summary": "Color.",
             "url": "classes/PhpOffice-PhpWord-Style-Fill.html#property_color"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font",
             "name": "Font",
-            "summary": "Font\u0020style",
+            "summary": "Font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020font\u0020style",
+            "summary": "Create\u0020new\u0020font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetStyleValues\u0028\u0029",
             "name": "getStyleValues",
-            "summary": "Get\u0020style\u0020values",
+            "summary": "Get\u0020style\u0020values.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getStyleValues"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetStyleType\u0028\u0029",
             "name": "getStyleType",
-            "summary": "Get\u0020style\u0020type",
+            "summary": "Get\u0020style\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getStyleType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetName\u0028\u0029",
             "name": "getName",
-            "summary": "Get\u0020font\u0020name",
+            "summary": "Get\u0020font\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetName\u0028\u0029",
             "name": "setName",
-            "summary": "Set\u0020font\u0020name",
+            "summary": "Set\u0020font\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetHint\u0028\u0029",
             "name": "getHint",
-            "summary": "Get\u0020Font\u0020Content\u0020Type",
+            "summary": "Get\u0020Font\u0020Content\u0020Type.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getHint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetHint\u0028\u0029",
             "name": "setHint",
-            "summary": "Set\u0020Font\u0020Content\u0020Type",
+            "summary": "Set\u0020Font\u0020Content\u0020Type.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setHint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetSize\u0028\u0029",
             "name": "getSize",
-            "summary": "Get\u0020font\u0020size",
+            "summary": "Get\u0020font\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetSize\u0028\u0029",
             "name": "setSize",
-            "summary": "Set\u0020font\u0020size",
+            "summary": "Set\u0020font\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetColor\u0028\u0029",
             "name": "getColor",
-            "summary": "Get\u0020font\u0020color",
+            "summary": "Get\u0020font\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetColor\u0028\u0029",
             "name": "setColor",
-            "summary": "Set\u0020font\u0020color",
+            "summary": "Set\u0020font\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisBold\u0028\u0029",
             "name": "isBold",
-            "summary": "Get\u0020bold",
+            "summary": "Get\u0020bold.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isBold"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetBold\u0028\u0029",
             "name": "setBold",
-            "summary": "Set\u0020bold",
+            "summary": "Set\u0020bold.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setBold"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisItalic\u0028\u0029",
             "name": "isItalic",
-            "summary": "Get\u0020italic",
+            "summary": "Get\u0020italic.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isItalic"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetItalic\u0028\u0029",
             "name": "setItalic",
-            "summary": "Set\u0020italic",
+            "summary": "Set\u0020italic.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setItalic"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetUnderline\u0028\u0029",
             "name": "getUnderline",
-            "summary": "Get\u0020underline",
+            "summary": "Get\u0020underline.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getUnderline"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetUnderline\u0028\u0029",
             "name": "setUnderline",
-            "summary": "Set\u0020underline",
+            "summary": "Set\u0020underline.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setUnderline"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisSuperScript\u0028\u0029",
             "name": "isSuperScript",
-            "summary": "Get\u0020superscript",
+            "summary": "Get\u0020superscript.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isSuperScript"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetSuperScript\u0028\u0029",
             "name": "setSuperScript",
-            "summary": "Set\u0020superscript",
+            "summary": "Set\u0020superscript.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setSuperScript"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisSubScript\u0028\u0029",
             "name": "isSubScript",
-            "summary": "Get\u0020subscript",
+            "summary": "Get\u0020subscript.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isSubScript"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetSubScript\u0028\u0029",
             "name": "setSubScript",
-            "summary": "Set\u0020subscript",
+            "summary": "Set\u0020subscript.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setSubScript"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisStrikethrough\u0028\u0029",
             "name": "isStrikethrough",
-            "summary": "Get\u0020strikethrough",
+            "summary": "Get\u0020strikethrough.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isStrikethrough"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetStrikethrough\u0028\u0029",
             "name": "setStrikethrough",
-            "summary": "Set\u0020strikethrough",
+            "summary": "Set\u0020strikethrough.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setStrikethrough"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisDoubleStrikethrough\u0028\u0029",
             "name": "isDoubleStrikethrough",
-            "summary": "Get\u0020double\u0020strikethrough",
+            "summary": "Get\u0020double\u0020strikethrough.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isDoubleStrikethrough"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetDoubleStrikethrough\u0028\u0029",
             "name": "setDoubleStrikethrough",
-            "summary": "Set\u0020double\u0020strikethrough",
+            "summary": "Set\u0020double\u0020strikethrough.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setDoubleStrikethrough"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisSmallCaps\u0028\u0029",
             "name": "isSmallCaps",
-            "summary": "Get\u0020small\u0020caps",
+            "summary": "Get\u0020small\u0020caps.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isSmallCaps"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetSmallCaps\u0028\u0029",
             "name": "setSmallCaps",
-            "summary": "Set\u0020small\u0020caps",
+            "summary": "Set\u0020small\u0020caps.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setSmallCaps"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisAllCaps\u0028\u0029",
             "name": "isAllCaps",
-            "summary": "Get\u0020all\u0020caps",
+            "summary": "Get\u0020all\u0020caps.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isAllCaps"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetAllCaps\u0028\u0029",
             "name": "setAllCaps",
-            "summary": "Set\u0020all\u0020caps",
+            "summary": "Set\u0020all\u0020caps.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setAllCaps"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetFgColor\u0028\u0029",
             "name": "getFgColor",
-            "summary": "Get\u0020foreground\/highlight\u0020color",
+            "summary": "Get\u0020foreground\/highlight\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getFgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetFgColor\u0028\u0029",
             "name": "setFgColor",
-            "summary": "Set\u0020foreground\/highlight\u0020color",
+            "summary": "Set\u0020foreground\/highlight\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setFgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetBgColor\u0028\u0029",
             "name": "getBgColor",
-            "summary": "Get\u0020background",
+            "summary": "Get\u0020background.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getBgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetBgColor\u0028\u0029",
             "name": "setBgColor",
-            "summary": "Set\u0020background",
+            "summary": "Set\u0020background.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setBgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetScale\u0028\u0029",
             "name": "getScale",
-            "summary": "Get\u0020scale",
+            "summary": "Get\u0020scale.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getScale"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetScale\u0028\u0029",
             "name": "setScale",
-            "summary": "Set\u0020scale",
+            "summary": "Set\u0020scale.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setScale"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetSpacing\u0028\u0029",
             "name": "getSpacing",
-            "summary": "Get\u0020font\u0020spacing",
+            "summary": "Get\u0020font\u0020spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getSpacing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetSpacing\u0028\u0029",
             "name": "setSpacing",
-            "summary": "Set\u0020font\u0020spacing",
+            "summary": "Set\u0020font\u0020spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setSpacing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetKerning\u0028\u0029",
             "name": "getKerning",
-            "summary": "Get\u0020font\u0020kerning",
+            "summary": "Get\u0020font\u0020kerning.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getKerning"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetKerning\u0028\u0029",
             "name": "setKerning",
-            "summary": "Set\u0020font\u0020kerning",
+            "summary": "Set\u0020font\u0020kerning.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setKerning"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisNoProof\u0028\u0029",
             "name": "isNoProof",
-            "summary": "Get\u0020noProof\u0020\u0028disables\u0020autocorrect\u0029",
+            "summary": "Get\u0020noProof\u0020\u0028disables\u0020autocorrect\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isNoProof"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetNoProof\u0028\u0029",
             "name": "setNoProof",
-            "summary": "Set\u0020noProof\u0020\u0028disables\u0020autocorrect\u0029",
+            "summary": "Set\u0020noProof\u0020\u0028disables\u0020autocorrect\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setNoProof"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetLineHeight\u0028\u0029",
             "name": "getLineHeight",
-            "summary": "Get\u0020line\u0020height",
+            "summary": "Get\u0020line\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getLineHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetLineHeight\u0028\u0029",
             "name": "setLineHeight",
-            "summary": "Set\u0020lineheight",
+            "summary": "Set\u0020lineheight.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setLineHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetParagraph\u0028\u0029",
             "name": "getParagraph",
-            "summary": "Get\u0020paragraph\u0020style",
+            "summary": "Get\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getParagraph"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetParagraph\u0028\u0029",
             "name": "setParagraph",
-            "summary": "Set\u0020Paragraph",
+            "summary": "Set\u0020Paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setParagraph"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisRTL\u0028\u0029",
             "name": "isRTL",
-            "summary": "Get\u0020rtl",
+            "summary": "Get\u0020rtl.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isRTL"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetRTL\u0028\u0029",
             "name": "setRTL",
-            "summary": "Set\u0020rtl",
+            "summary": "Set\u0020rtl.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setRTL"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetShading\u0028\u0029",
             "name": "getShading",
-            "summary": "Get\u0020shading",
+            "summary": "Get\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getShading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetShading\u0028\u0029",
             "name": "setShading",
-            "summary": "Set\u0020shading",
+            "summary": "Set\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setShading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetLang\u0028\u0029",
             "name": "getLang",
-            "summary": "Get\u0020language",
+            "summary": "Get\u0020language.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getLang"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetLang\u0028\u0029",
             "name": "setLang",
-            "summary": "Set\u0020language",
+            "summary": "Set\u0020language.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setLang"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetBold\u0028\u0029",
-            "name": "getBold",
-            "summary": "Get\u0020bold",
-            "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getBold"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetItalic\u0028\u0029",
-            "name": "getItalic",
-            "summary": "Get\u0020italic",
-            "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getItalic"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetSuperScript\u0028\u0029",
-            "name": "getSuperScript",
-            "summary": "Get\u0020superscript",
-            "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getSuperScript"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetSubScript\u0028\u0029",
-            "name": "getSubScript",
-            "summary": "Get\u0020subscript",
-            "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getSubScript"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetStrikethrough\u0028\u0029",
-            "name": "getStrikethrough",
-            "summary": "Get\u0020strikethrough",
-            "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getStrikethrough"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetParagraphStyle\u0028\u0029",
-            "name": "getParagraphStyle",
-            "summary": "Get\u0020paragraph\u0020style",
-            "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AisHidden\u0028\u0029",
             "name": "isHidden",
-            "summary": "Get\u0020hidden\u0020text",
+            "summary": "Get\u0020hidden\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_isHidden"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetHidden\u0028\u0029",
             "name": "setHidden",
-            "summary": "Set\u0020hidden\u0020text",
+            "summary": "Set\u0020hidden\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setHidden"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AgetPosition\u0028\u0029",
             "name": "getPosition",
-            "summary": "Get\u0020position",
+            "summary": "Get\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_getPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AsetPosition\u0028\u0029",
             "name": "setPosition",
-            "summary": "Set\u0020position",
+            "summary": "Set\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#method_setPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AUNDERLINE_NONE",
             "name": "UNDERLINE_NONE",
-            "summary": "Underline\u0020types",
+            "summary": "Underline\u0020types.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#constant_UNDERLINE_NONE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AUNDERLINE_DASH",
@@ -7640,16 +7385,6 @@ Search.appendIndex(
             "name": "UNDERLINE_DOUBLE",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#constant_UNDERLINE_DOUBLE"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AUNDERLINE_DOTHASH",
-            "name": "UNDERLINE_DOTHASH",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Font.html#constant_UNDERLINE_DOTHASH"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AUNDERLINE_DOTHASHHEAVY",
-            "name": "UNDERLINE_DOTHASHHEAVY",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Font.html#constant_UNDERLINE_DOTHASHHEAVY"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AUNDERLINE_DOTDASH",
             "name": "UNDERLINE_DOTDASH",
@@ -7713,7 +7448,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AFGCOLOR_YELLOW",
             "name": "FGCOLOR_YELLOW",
-            "summary": "Foreground\u0020colors",
+            "summary": "Foreground\u0020colors.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#constant_FGCOLOR_YELLOW"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003AFGCOLOR_LIGHTGREEN",
@@ -7788,142 +7523,142 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024aliases",
             "name": "aliases",
-            "summary": "Aliases",
+            "summary": "Aliases.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_aliases"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Font\u0020style\u0020type",
+            "summary": "Font\u0020style\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024name",
             "name": "name",
-            "summary": "Font\u0020name",
+            "summary": "Font\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_name"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024hint",
             "name": "hint",
-            "summary": "Font\u0020Content\u0020Type",
+            "summary": "Font\u0020Content\u0020Type.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_hint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024size",
             "name": "size",
-            "summary": "Font\u0020size",
+            "summary": "Font\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_size"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024color",
             "name": "color",
-            "summary": "Font\u0020color",
+            "summary": "Font\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_color"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024bold",
             "name": "bold",
-            "summary": "Bold",
+            "summary": "Bold.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_bold"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024italic",
             "name": "italic",
-            "summary": "Italic",
+            "summary": "Italic.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_italic"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024underline",
             "name": "underline",
-            "summary": "Undeline",
+            "summary": "Undeline.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_underline"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024superScript",
             "name": "superScript",
-            "summary": "Superscript",
+            "summary": "Superscript.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_superScript"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024subScript",
             "name": "subScript",
-            "summary": "Subscript",
+            "summary": "Subscript.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_subScript"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024strikethrough",
             "name": "strikethrough",
-            "summary": "Strikethrough",
+            "summary": "Strikethrough.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_strikethrough"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024doubleStrikethrough",
             "name": "doubleStrikethrough",
-            "summary": "Double\u0020strikethrough",
+            "summary": "Double\u0020strikethrough.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_doubleStrikethrough"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024smallCaps",
             "name": "smallCaps",
-            "summary": "Small\u0020caps",
+            "summary": "Small\u0020caps.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_smallCaps"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024allCaps",
             "name": "allCaps",
-            "summary": "All\u0020caps",
+            "summary": "All\u0020caps.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_allCaps"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024fgColor",
             "name": "fgColor",
-            "summary": "Foreground\/highlight",
+            "summary": "Foreground\/highlight.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_fgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024scale",
             "name": "scale",
-            "summary": "Expanded\/compressed\u0020text\u003A\u00200\u002D600\u0020\u0028percent\u0029",
+            "summary": "Expanded\/compressed\u0020text\u003A\u00200\u002D600\u0020\u0028percent\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_scale"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024spacing",
             "name": "spacing",
-            "summary": "Character\u0020spacing\u0020adjustment\u003A\u0020twip",
+            "summary": "Character\u0020spacing\u0020adjustment\u003A\u0020twip.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_spacing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024kerning",
             "name": "kerning",
-            "summary": "Font\u0020kerning\u003A\u0020halfpoint",
+            "summary": "Font\u0020kerning\u003A\u0020halfpoint.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_kerning"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024paragraph",
             "name": "paragraph",
-            "summary": "Paragraph\u0020style",
+            "summary": "Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_paragraph"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024shading",
             "name": "shading",
-            "summary": "Shading",
+            "summary": "Shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_shading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024rtl",
             "name": "rtl",
-            "summary": "Right\u0020to\u0020left\u0020languages",
+            "summary": "Right\u0020to\u0020left\u0020languages.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_rtl"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024noProof",
             "name": "noProof",
-            "summary": "noProof\u0020\u0028disables\u0020AutoCorrect\u0029",
+            "summary": "noProof\u0020\u0028disables\u0020AutoCorrect\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_noProof"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024lang",
             "name": "lang",
-            "summary": "Languages",
+            "summary": "Languages.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_lang"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024hidden",
             "name": "hidden",
-            "summary": "Hidden\u0020text",
+            "summary": "Hidden\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_hidden"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Font\u003A\u003A\u0024position",
             "name": "position",
-            "summary": "Vertically\u0020Raised\u0020or\u0020Lowered\u0020Text",
+            "summary": "Vertically\u0020Raised\u0020or\u0020Lowered\u0020Text.",
             "url": "classes/PhpOffice-PhpWord-Style-Font.html#property_position"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame",
             "name": "Frame",
-            "summary": "Frame\u0020defines\u0020the\u0020size\u0020and\u0020position\u0020of\u0020an\u0020object",
+            "summary": "Frame\u0020defines\u0020the\u0020size\u0020and\u0020position\u0020of\u0020an\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetAlignment\u0028\u0029",
@@ -7936,179 +7671,169 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setAlignment"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetAlign\u0028\u0029",
-            "name": "getAlign",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getAlign"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetAlign\u0028\u0029",
-            "name": "setAlign",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setAlign"
-        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetUnit\u0028\u0029",
             "name": "getUnit",
-            "summary": "Get\u0020unit",
+            "summary": "Get\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getUnit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetUnit\u0028\u0029",
             "name": "setUnit",
-            "summary": "Set\u0020unit",
+            "summary": "Set\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setUnit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetWidth\u0028\u0029",
             "name": "getWidth",
-            "summary": "Get\u0020width",
+            "summary": "Get\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetWidth\u0028\u0029",
             "name": "setWidth",
-            "summary": "Set\u0020width",
+            "summary": "Set\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetHeight\u0028\u0029",
             "name": "getHeight",
-            "summary": "Get\u0020height",
+            "summary": "Get\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetHeight\u0028\u0029",
             "name": "setHeight",
-            "summary": "Set\u0020height",
+            "summary": "Set\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetLeft\u0028\u0029",
             "name": "getLeft",
-            "summary": "Get\u0020left",
+            "summary": "Get\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetLeft\u0028\u0029",
             "name": "setLeft",
-            "summary": "Set\u0020left",
+            "summary": "Set\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetTop\u0028\u0029",
             "name": "getTop",
-            "summary": "Get\u0020topmost\u0020position",
+            "summary": "Get\u0020topmost\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetTop\u0028\u0029",
             "name": "setTop",
-            "summary": "Set\u0020topmost\u0020position",
+            "summary": "Set\u0020topmost\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetPos\u0028\u0029",
             "name": "getPos",
-            "summary": "Get\u0020position\u0020type",
+            "summary": "Get\u0020position\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetPos\u0028\u0029",
             "name": "setPos",
-            "summary": "Set\u0020position\u0020type",
+            "summary": "Set\u0020position\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetHPos\u0028\u0029",
             "name": "getHPos",
-            "summary": "Get\u0020horizontal\u0020position",
+            "summary": "Get\u0020horizontal\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getHPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetHPos\u0028\u0029",
             "name": "setHPos",
-            "summary": "Set\u0020horizontal\u0020position",
+            "summary": "Set\u0020horizontal\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setHPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetVPos\u0028\u0029",
             "name": "getVPos",
-            "summary": "Get\u0020vertical\u0020position",
+            "summary": "Get\u0020vertical\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getVPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetVPos\u0028\u0029",
             "name": "setVPos",
-            "summary": "Set\u0020vertical\u0020position",
+            "summary": "Set\u0020vertical\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setVPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetHPosRelTo\u0028\u0029",
             "name": "getHPosRelTo",
-            "summary": "Get\u0020horizontal\u0020position\u0020relative\u0020to",
+            "summary": "Get\u0020horizontal\u0020position\u0020relative\u0020to.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getHPosRelTo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetHPosRelTo\u0028\u0029",
             "name": "setHPosRelTo",
-            "summary": "Set\u0020horizontal\u0020position\u0020relative\u0020to",
+            "summary": "Set\u0020horizontal\u0020position\u0020relative\u0020to.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setHPosRelTo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetVPosRelTo\u0028\u0029",
             "name": "getVPosRelTo",
-            "summary": "Get\u0020vertical\u0020position\u0020relative\u0020to",
+            "summary": "Get\u0020vertical\u0020position\u0020relative\u0020to.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getVPosRelTo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetVPosRelTo\u0028\u0029",
             "name": "setVPosRelTo",
-            "summary": "Set\u0020vertical\u0020position\u0020relative\u0020to",
+            "summary": "Set\u0020vertical\u0020position\u0020relative\u0020to.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setVPosRelTo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetWrap\u0028\u0029",
             "name": "getWrap",
-            "summary": "Get\u0020wrap\u0020type",
+            "summary": "Get\u0020wrap\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getWrap"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetWrap\u0028\u0029",
             "name": "setWrap",
-            "summary": "Set\u0020wrap\u0020type",
+            "summary": "Set\u0020wrap\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setWrap"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetWrapDistanceTop\u0028\u0029",
             "name": "getWrapDistanceTop",
-            "summary": "Get\u0020top\u0020distance\u0020from\u0020text\u0020wrap",
+            "summary": "Get\u0020top\u0020distance\u0020from\u0020text\u0020wrap.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getWrapDistanceTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetWrapDistanceTop\u0028\u0029",
             "name": "setWrapDistanceTop",
-            "summary": "Set\u0020top\u0020distance\u0020from\u0020text\u0020wrap",
+            "summary": "Set\u0020top\u0020distance\u0020from\u0020text\u0020wrap.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setWrapDistanceTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetWrapDistanceBottom\u0028\u0029",
             "name": "getWrapDistanceBottom",
-            "summary": "Get\u0020bottom\u0020distance\u0020from\u0020text\u0020wrap",
+            "summary": "Get\u0020bottom\u0020distance\u0020from\u0020text\u0020wrap.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getWrapDistanceBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetWrapDistanceBottom\u0028\u0029",
             "name": "setWrapDistanceBottom",
-            "summary": "Set\u0020bottom\u0020distance\u0020from\u0020text\u0020wrap",
+            "summary": "Set\u0020bottom\u0020distance\u0020from\u0020text\u0020wrap.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setWrapDistanceBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetWrapDistanceLeft\u0028\u0029",
             "name": "getWrapDistanceLeft",
-            "summary": "Get\u0020left\u0020distance\u0020from\u0020text\u0020wrap",
+            "summary": "Get\u0020left\u0020distance\u0020from\u0020text\u0020wrap.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getWrapDistanceLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetWrapDistanceLeft\u0028\u0029",
             "name": "setWrapDistanceLeft",
-            "summary": "Set\u0020left\u0020distance\u0020from\u0020text\u0020wrap",
+            "summary": "Set\u0020left\u0020distance\u0020from\u0020text\u0020wrap.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setWrapDistanceLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetWrapDistanceRight\u0028\u0029",
             "name": "getWrapDistanceRight",
-            "summary": "Get\u0020right\u0020distance\u0020from\u0020text\u0020wrap",
+            "summary": "Get\u0020right\u0020distance\u0020from\u0020text\u0020wrap.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getWrapDistanceRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetWrapDistanceRight\u0028\u0029",
             "name": "setWrapDistanceRight",
-            "summary": "Set\u0020right\u0020distance\u0020from\u0020text\u0020wrap",
+            "summary": "Set\u0020right\u0020distance\u0020from\u0020text\u0020wrap.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setWrapDistanceRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AgetPosition\u0028\u0029",
             "name": "getPosition",
-            "summary": "Get\u0020position",
+            "summary": "Get\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_getPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AsetPosition\u0028\u0029",
             "name": "setPosition",
-            "summary": "Set\u0020position",
+            "summary": "Set\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#method_setPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AUNIT_PT",
             "name": "UNIT_PT",
-            "summary": "Length\u0020unit",
+            "summary": "Length\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#constant_UNIT_PT"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AUNIT_PX",
@@ -8128,7 +7853,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003APOS_CENTER",
             "name": "POS_CENTER",
-            "summary": "Horizontal\/vertical\u0020value",
+            "summary": "Horizontal\/vertical\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#constant_POS_CENTER"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003APOS_LEFT",
@@ -8163,7 +7888,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003APOS_RELTO_MARGIN",
             "name": "POS_RELTO_MARGIN",
-            "summary": "Position\u0020relative\u0020to",
+            "summary": "Position\u0020relative\u0020to.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#constant_POS_RELTO_MARGIN"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003APOS_RELTO_PAGE",
@@ -8223,7 +7948,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AWRAP_INLINE",
             "name": "WRAP_INLINE",
-            "summary": "Wrap\u0020type",
+            "summary": "Wrap\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#constant_WRAP_INLINE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003AWRAP_SQUARE",
@@ -8263,177 +7988,177 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024unit",
             "name": "unit",
-            "summary": "Unit",
+            "summary": "Unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_unit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024width",
             "name": "width",
-            "summary": "Width",
+            "summary": "Width.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_width"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024height",
             "name": "height",
-            "summary": "Height",
+            "summary": "Height.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_height"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024left",
             "name": "left",
-            "summary": "Leftmost\u0020\u0028horizontal\u0029\u0020position",
+            "summary": "Leftmost\u0020\u0028horizontal\u0029\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_left"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024top",
             "name": "top",
-            "summary": "Topmost\u0020\u0028vertical\u0029\u0020position",
+            "summary": "Topmost\u0020\u0028vertical\u0029\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_top"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024pos",
             "name": "pos",
-            "summary": "Position\u0020type\u003A\u0020absolute\u007Crelative",
+            "summary": "Position\u0020type\u003A\u0020absolute\u007Crelative.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_pos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024hPos",
             "name": "hPos",
-            "summary": "Horizontal\u0020position",
+            "summary": "Horizontal\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_hPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024hPosRelTo",
             "name": "hPosRelTo",
-            "summary": "Horizontal\u0020position\u0020relative\u0020to",
+            "summary": "Horizontal\u0020position\u0020relative\u0020to.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_hPosRelTo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024vPos",
             "name": "vPos",
-            "summary": "Vertical\u0020position",
+            "summary": "Vertical\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_vPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024vPosRelTo",
             "name": "vPosRelTo",
-            "summary": "Vertical\u0020position\u0020relative\u0020to",
+            "summary": "Vertical\u0020position\u0020relative\u0020to.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_vPosRelTo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024wrap",
             "name": "wrap",
-            "summary": "Wrap\u0020type",
+            "summary": "Wrap\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_wrap"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024wrapDistanceTop",
             "name": "wrapDistanceTop",
-            "summary": "Top\u0020wrap\u0020distance",
+            "summary": "Top\u0020wrap\u0020distance.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_wrapDistanceTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024wrapDistanceBottom",
             "name": "wrapDistanceBottom",
-            "summary": "Bottom\u0020wrap\u0020distance",
+            "summary": "Bottom\u0020wrap\u0020distance.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_wrapDistanceBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024wrapDistanceLeft",
             "name": "wrapDistanceLeft",
-            "summary": "Left\u0020wrap\u0020distance",
+            "summary": "Left\u0020wrap\u0020distance.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_wrapDistanceLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024wrapDistanceRight",
             "name": "wrapDistanceRight",
-            "summary": "Right\u0020wrap\u0020distance",
+            "summary": "Right\u0020wrap\u0020distance.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_wrapDistanceRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Frame\u003A\u003A\u0024position",
             "name": "position",
-            "summary": "Vertically\u0020raised\u0020or\u0020lowered\u0020text",
+            "summary": "Vertically\u0020raised\u0020or\u0020lowered\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-Frame.html#property_position"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image",
             "name": "Image",
-            "summary": "Image\u0020and\u0020memory\u0020image\u0020style",
+            "summary": "Image\u0020and\u0020memory\u0020image\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AgetMarginTop\u0028\u0029",
             "name": "getMarginTop",
-            "summary": "Get\u0020margin\u0020top",
+            "summary": "Get\u0020margin\u0020top.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_getMarginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AsetMarginTop\u0028\u0029",
             "name": "setMarginTop",
-            "summary": "Set\u0020margin\u0020top",
+            "summary": "Set\u0020margin\u0020top.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_setMarginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AgetMarginLeft\u0028\u0029",
             "name": "getMarginLeft",
-            "summary": "Get\u0020margin\u0020left",
+            "summary": "Get\u0020margin\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_getMarginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AsetMarginLeft\u0028\u0029",
             "name": "setMarginLeft",
-            "summary": "Set\u0020margin\u0020left",
+            "summary": "Set\u0020margin\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_setMarginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AgetWrappingStyle\u0028\u0029",
             "name": "getWrappingStyle",
-            "summary": "Get\u0020wrapping\u0020style",
+            "summary": "Get\u0020wrapping\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_getWrappingStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AsetWrappingStyle\u0028\u0029",
             "name": "setWrappingStyle",
-            "summary": "Set\u0020wrapping\u0020style",
+            "summary": "Set\u0020wrapping\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_setWrappingStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AgetPositioning\u0028\u0029",
             "name": "getPositioning",
-            "summary": "Get\u0020positioning\u0020type",
+            "summary": "Get\u0020positioning\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_getPositioning"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AsetPositioning\u0028\u0029",
             "name": "setPositioning",
-            "summary": "Set\u0020positioning\u0020type",
+            "summary": "Set\u0020positioning\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_setPositioning"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AgetPosHorizontal\u0028\u0029",
             "name": "getPosHorizontal",
-            "summary": "Get\u0020horizontal\u0020alignment",
+            "summary": "Get\u0020horizontal\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_getPosHorizontal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AsetPosHorizontal\u0028\u0029",
             "name": "setPosHorizontal",
-            "summary": "Set\u0020horizontal\u0020alignment",
+            "summary": "Set\u0020horizontal\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_setPosHorizontal"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AgetPosVertical\u0028\u0029",
             "name": "getPosVertical",
-            "summary": "Get\u0020vertical\u0020alignment",
+            "summary": "Get\u0020vertical\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_getPosVertical"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AsetPosVertical\u0028\u0029",
             "name": "setPosVertical",
-            "summary": "Set\u0020vertical\u0020alignment",
+            "summary": "Set\u0020vertical\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_setPosVertical"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AgetPosHorizontalRel\u0028\u0029",
             "name": "getPosHorizontalRel",
-            "summary": "Get\u0020horizontal\u0020relation",
+            "summary": "Get\u0020horizontal\u0020relation.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_getPosHorizontalRel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AsetPosHorizontalRel\u0028\u0029",
             "name": "setPosHorizontalRel",
-            "summary": "Set\u0020horizontal\u0020relation",
+            "summary": "Set\u0020horizontal\u0020relation.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_setPosHorizontalRel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AgetPosVerticalRel\u0028\u0029",
             "name": "getPosVerticalRel",
-            "summary": "Get\u0020vertical\u0020relation",
+            "summary": "Get\u0020vertical\u0020relation.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_getPosVerticalRel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AsetPosVerticalRel\u0028\u0029",
             "name": "setPosVerticalRel",
-            "summary": "Set\u0020vertical\u0020relation",
+            "summary": "Set\u0020vertical\u0020relation.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#method_setPosVerticalRel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AWRAPPING_STYLE_INLINE",
             "name": "WRAPPING_STYLE_INLINE",
-            "summary": "Backward\u0020compatibility\u0020constants",
+            "summary": "Backward\u0020compatibility\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-Image.html#constant_WRAPPING_STYLE_INLINE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Image\u003A\u003AWRAPPING_STYLE_SQUARE",
@@ -8568,127 +8293,127 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation",
             "name": "Indentation",
-            "summary": "Paragraph\u0020indentation\u0020style",
+            "summary": "Paragraph\u0020indentation\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AgetLeft\u0028\u0029",
             "name": "getLeft",
-            "summary": "Get\u0020left",
+            "summary": "Get\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_getLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AsetLeft\u0028\u0029",
             "name": "setLeft",
-            "summary": "Set\u0020left",
+            "summary": "Set\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_setLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AgetRight\u0028\u0029",
             "name": "getRight",
-            "summary": "Get\u0020right",
+            "summary": "Get\u0020right.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_getRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AsetRight\u0028\u0029",
             "name": "setRight",
-            "summary": "Set\u0020right",
+            "summary": "Set\u0020right.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_setRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AgetFirstLine\u0028\u0029",
             "name": "getFirstLine",
-            "summary": "Get\u0020first\u0020line",
+            "summary": "Get\u0020first\u0020line.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_getFirstLine"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AsetFirstLine\u0028\u0029",
             "name": "setFirstLine",
-            "summary": "Set\u0020first\u0020line",
+            "summary": "Set\u0020first\u0020line.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_setFirstLine"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AgetHanging\u0028\u0029",
             "name": "getHanging",
-            "summary": "Get\u0020hanging",
+            "summary": "Get\u0020hanging.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_getHanging"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AsetHanging\u0028\u0029",
             "name": "setHanging",
-            "summary": "Set\u0020hanging",
+            "summary": "Set\u0020hanging.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_setHanging"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003A\u0024left",
             "name": "left",
-            "summary": "Left\u0020indentation\u0020\u0028twip\u0029",
+            "summary": "Left\u0020indentation\u0020\u0028twip\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#property_left"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003A\u0024right",
             "name": "right",
-            "summary": "Right\u0020indentation\u0020\u0028twip\u0029",
+            "summary": "Right\u0020indentation\u0020\u0028twip\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#property_right"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003A\u0024firstLine",
             "name": "firstLine",
-            "summary": "Additional\u0020first\u0020line\u0020indentation\u0020\u0028twip\u0029",
+            "summary": "Additional\u0020first\u0020line\u0020indentation\u0020\u0028twip\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#property_firstLine"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003A\u0024hanging",
             "name": "hanging",
-            "summary": "Indentation\u0020removed\u0020from\u0020first\u0020line\u0020\u0028twip\u0029",
+            "summary": "Indentation\u0020removed\u0020from\u0020first\u0020line\u0020\u0028twip\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#property_hanging"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language",
             "name": "Language",
-            "summary": "Language\nA\u0020couple\u0020of\u0020predefined\u0020values\u0020are\u0020defined\u0020here,\u0020see\u0020the\u0020websites\u0020below\u0020for\u0020more\u0020values",
+            "summary": "Language\nA\u0020couple\u0020of\u0020predefined\u0020values\u0020are\u0020defined\u0020here,\u0020see\u0020the\u0020websites\u0020below\u0020for\u0020more\u0020values.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Constructor",
+            "summary": "Constructor.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AsetLatin\u0028\u0029",
             "name": "setLatin",
-            "summary": "Set\u0020the\u0020Latin\u0020Language",
+            "summary": "Set\u0020the\u0020Latin\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method_setLatin"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AgetLatin\u0028\u0029",
             "name": "getLatin",
-            "summary": "Get\u0020the\u0020Latin\u0020Language",
+            "summary": "Get\u0020the\u0020Latin\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method_getLatin"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AsetLangId\u0028\u0029",
             "name": "setLangId",
-            "summary": "Set\u0020the\u0020Language\u0020ID",
+            "summary": "Set\u0020the\u0020Language\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method_setLangId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AgetLangId\u0028\u0029",
             "name": "getLangId",
-            "summary": "Get\u0020the\u0020Language\u0020ID",
+            "summary": "Get\u0020the\u0020Language\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method_getLangId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AsetEastAsia\u0028\u0029",
             "name": "setEastAsia",
-            "summary": "Set\u0020the\u0020East\u0020Asian\u0020Language",
+            "summary": "Set\u0020the\u0020East\u0020Asian\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method_setEastAsia"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AgetEastAsia\u0028\u0029",
             "name": "getEastAsia",
-            "summary": "Get\u0020the\u0020East\u0020Asian\u0020Language",
+            "summary": "Get\u0020the\u0020East\u0020Asian\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method_getEastAsia"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AsetBidirectional\u0028\u0029",
             "name": "setBidirectional",
-            "summary": "Set\u0020the\u0020Complex\u0020Script\u0020Language",
+            "summary": "Set\u0020the\u0020Complex\u0020Script\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method_setBidirectional"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AgetBidirectional\u0028\u0029",
             "name": "getBidirectional",
-            "summary": "Get\u0020the\u0020Complex\u0020Script\u0020Language",
+            "summary": "Get\u0020the\u0020Complex\u0020Script\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method_getBidirectional"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AvalidateLocale\u0028\u0029",
             "name": "validateLocale",
-            "summary": "Validates\u0020that\u0020the\u0020language\u0020passed\u0020is\u0020in\u0020the\u0020format\u0020xx\u002Dxx",
+            "summary": "Validates\u0020that\u0020the\u0020language\u0020passed\u0020is\u0020in\u0020the\u0020format\u0020xx\u002Dxx.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#method_validateLocale"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AEN_US",
@@ -8853,107 +8578,107 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003A\u0024langId",
             "name": "langId",
-            "summary": "Language\u0020ID,\u0020used\u0020for\u0020RTF\u0020document\u0020generation",
+            "summary": "Language\u0020ID,\u0020used\u0020for\u0020RTF\u0020document\u0020generation.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#property_langId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003A\u0024latin",
             "name": "latin",
-            "summary": "Latin\u0020Language",
+            "summary": "Latin\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#property_latin"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003A\u0024eastAsia",
             "name": "eastAsia",
-            "summary": "East\u0020Asian\u0020Language",
+            "summary": "East\u0020Asian\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#property_eastAsia"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003A\u0024bidirectional",
             "name": "bidirectional",
-            "summary": "Complex\u0020Script\u0020Language",
+            "summary": "Complex\u0020Script\u0020Language.",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#property_bidirectional"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line",
             "name": "Line",
-            "summary": "Line\u0020style",
+            "summary": "Line\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AisFlip\u0028\u0029",
             "name": "isFlip",
-            "summary": "Get\u0020flip",
+            "summary": "Get\u0020flip.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_isFlip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AsetFlip\u0028\u0029",
             "name": "setFlip",
-            "summary": "Set\u0020flip",
+            "summary": "Set\u0020flip.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_setFlip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AgetConnectorType\u0028\u0029",
             "name": "getConnectorType",
-            "summary": "Get\u0020connectorType",
+            "summary": "Get\u0020connectorType.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_getConnectorType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AsetConnectorType\u0028\u0029",
             "name": "setConnectorType",
-            "summary": "Set\u0020connectorType",
+            "summary": "Set\u0020connectorType.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_setConnectorType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AgetWeight\u0028\u0029",
             "name": "getWeight",
-            "summary": "Get\u0020weight",
+            "summary": "Get\u0020weight.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_getWeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AsetWeight\u0028\u0029",
             "name": "setWeight",
-            "summary": "Set\u0020weight",
+            "summary": "Set\u0020weight.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_setWeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AgetColor\u0028\u0029",
             "name": "getColor",
-            "summary": "Get\u0020color",
+            "summary": "Get\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_getColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AsetColor\u0028\u0029",
             "name": "setColor",
-            "summary": "Set\u0020color",
+            "summary": "Set\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_setColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AgetBeginArrow\u0028\u0029",
             "name": "getBeginArrow",
-            "summary": "Get\u0020beginArrow",
+            "summary": "Get\u0020beginArrow.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_getBeginArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AsetBeginArrow\u0028\u0029",
             "name": "setBeginArrow",
-            "summary": "Set\u0020beginArrow",
+            "summary": "Set\u0020beginArrow.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_setBeginArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AgetEndArrow\u0028\u0029",
             "name": "getEndArrow",
-            "summary": "Get\u0020endArrow",
+            "summary": "Get\u0020endArrow.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_getEndArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AsetEndArrow\u0028\u0029",
             "name": "setEndArrow",
-            "summary": "Set\u0020endArrow",
+            "summary": "Set\u0020endArrow.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_setEndArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AgetDash\u0028\u0029",
             "name": "getDash",
-            "summary": "Get\u0020Dash",
+            "summary": "Get\u0020Dash.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_getDash"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AsetDash\u0028\u0029",
             "name": "setDash",
-            "summary": "Set\u0020Dash",
+            "summary": "Set\u0020Dash.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#method_setDash"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003ACONNECTOR_TYPE_STRAIGHT",
             "name": "CONNECTOR_TYPE_STRAIGHT",
-            "summary": "Connector\u0020types",
+            "summary": "Connector\u0020types.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#constant_CONNECTOR_TYPE_STRAIGHT"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AARROW_STYLE_BLOCK",
             "name": "ARROW_STYLE_BLOCK",
-            "summary": "Arrow\u0020styles",
+            "summary": "Arrow\u0020styles.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#constant_ARROW_STYLE_BLOCK"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003AARROW_STYLE_OPEN",
@@ -8978,7 +8703,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003ADASH_STYLE_DASH",
             "name": "DASH_STYLE_DASH",
-            "summary": "Dash\u0020styles",
+            "summary": "Dash\u0020styles.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#constant_DASH_STYLE_DASH"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003ADASH_STYLE_ROUND_DOT",
@@ -9013,87 +8738,87 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003A\u0024flip",
             "name": "flip",
-            "summary": "flip\u0020Line",
+            "summary": "flip\u0020Line.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#property_flip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003A\u0024connectorType",
             "name": "connectorType",
-            "summary": "connectorType",
+            "summary": "connectorType.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#property_connectorType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003A\u0024weight",
             "name": "weight",
-            "summary": "Line\u0020Weight",
+            "summary": "Line\u0020Weight.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#property_weight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003A\u0024color",
             "name": "color",
-            "summary": "Line\u0020color",
+            "summary": "Line\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#property_color"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003A\u0024dash",
             "name": "dash",
-            "summary": "Dash\u0020style",
+            "summary": "Dash\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#property_dash"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003A\u0024beginArrow",
             "name": "beginArrow",
-            "summary": "Begin\u0020arrow",
+            "summary": "Begin\u0020arrow.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#property_beginArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Line\u003A\u003A\u0024endArrow",
             "name": "endArrow",
-            "summary": "End\u0020arrow",
+            "summary": "End\u0020arrow.",
             "url": "classes/PhpOffice-PhpWord-Style-Line.html#property_endArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering",
             "name": "LineNumbering",
-            "summary": "Line\u0020numbering\u0020style",
+            "summary": "Line\u0020numbering\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003AgetStart\u0028\u0029",
             "name": "getStart",
-            "summary": "Get\u0020start",
+            "summary": "Get\u0020start.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#method_getStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003AsetStart\u0028\u0029",
             "name": "setStart",
-            "summary": "Set\u0020start",
+            "summary": "Set\u0020start.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#method_setStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003AgetIncrement\u0028\u0029",
             "name": "getIncrement",
-            "summary": "Get\u0020increment",
+            "summary": "Get\u0020increment.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#method_getIncrement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003AsetIncrement\u0028\u0029",
             "name": "setIncrement",
-            "summary": "Set\u0020increment",
+            "summary": "Set\u0020increment.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#method_setIncrement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003AgetDistance\u0028\u0029",
             "name": "getDistance",
-            "summary": "Get\u0020distance",
+            "summary": "Get\u0020distance.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#method_getDistance"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003AsetDistance\u0028\u0029",
             "name": "setDistance",
-            "summary": "Set\u0020distance",
+            "summary": "Set\u0020distance.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#method_setDistance"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003AgetRestart\u0028\u0029",
             "name": "getRestart",
-            "summary": "Get\u0020restart",
+            "summary": "Get\u0020restart.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#method_getRestart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003AsetRestart\u0028\u0029",
             "name": "setRestart",
-            "summary": "Set\u0020distance",
+            "summary": "Set\u0020distance.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#method_setRestart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003ALINE_NUMBERING_CONTINUOUS",
@@ -9113,67 +8838,67 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003A\u0024start",
             "name": "start",
-            "summary": "Line\u0020numbering\u0020starting\u0020value",
+            "summary": "Line\u0020numbering\u0020starting\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#property_start"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003A\u0024increment",
             "name": "increment",
-            "summary": "Line\u0020number\u0020increments",
+            "summary": "Line\u0020number\u0020increments.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#property_increment"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003A\u0024distance",
             "name": "distance",
-            "summary": "Distance\u0020between\u0020text\u0020and\u0020line\u0020numbering\u0020in\u0020twip",
+            "summary": "Distance\u0020between\u0020text\u0020and\u0020line\u0020numbering\u0020in\u0020twip.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#property_distance"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\LineNumbering\u003A\u003A\u0024restart",
             "name": "restart",
-            "summary": "Line\u0020numbering\u0020restart\u0020setting\u0020continuous\u007CnewPage\u007CnewSection",
+            "summary": "Line\u0020numbering\u0020restart\u0020setting\u0020continuous\u007CnewPage\u007CnewSection.",
             "url": "classes/PhpOffice-PhpWord-Style-LineNumbering.html#property_restart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem",
             "name": "ListItem",
-            "summary": "List\u0020item\u0020style",
+            "summary": "List\u0020item\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003AgetListType\u0028\u0029",
             "name": "getListType",
-            "summary": "Get\u0020List\u0020Type",
+            "summary": "Get\u0020List\u0020Type.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#method_getListType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003AsetListType\u0028\u0029",
             "name": "setListType",
-            "summary": "Set\u0020legacy\u0020list\u0020type\u0020for\u0020version\u0020\u003C\u00200.10.0",
+            "summary": "Set\u0020legacy\u0020list\u0020type\u0020for\u0020version\u0020\u003C\u00200.10.0.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#method_setListType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003AgetNumStyle\u0028\u0029",
             "name": "getNumStyle",
-            "summary": "Get\u0020numbering\u0020style\u0020name",
+            "summary": "Get\u0020numbering\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#method_getNumStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003AsetNumStyle\u0028\u0029",
             "name": "setNumStyle",
-            "summary": "Set\u0020numbering\u0020style\u0020name",
+            "summary": "Set\u0020numbering\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#method_setNumStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003AgetNumId\u0028\u0029",
             "name": "getNumId",
-            "summary": "Get\u0020numbering\u0020Id",
+            "summary": "Get\u0020numbering\u0020Id.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#method_getNumId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003AsetNumId\u0028\u0029",
             "name": "setNumId",
-            "summary": "Set\u0020numbering\u0020Id.\u0020Same\u0020numId\u0020means\u0020same\u0020list",
+            "summary": "Set\u0020numbering\u0020Id.\u0020Same\u0020numId\u0020means\u0020same\u0020list.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#method_setNumId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003AgetListTypeStyle\u0028\u0029",
             "name": "getListTypeStyle",
-            "summary": "Get\u0020legacy\u0020numbering\u0020definition",
+            "summary": "Get\u0020legacy\u0020numbering\u0020definition.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#method_getListTypeStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003ATYPE_SQUARE_FILLED",
@@ -9208,142 +8933,142 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003A\u0024listType",
             "name": "listType",
-            "summary": "Legacy\u0020list\u0020type",
+            "summary": "Legacy\u0020list\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#property_listType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003A\u0024numStyle",
             "name": "numStyle",
-            "summary": "Numbering\u0020style\u0020name",
+            "summary": "Numbering\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#property_numStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\ListItem\u003A\u003A\u0024numId",
             "name": "numId",
-            "summary": "Numbering\u0020definition\u0020instance\u0020ID",
+            "summary": "Numbering\u0020definition\u0020instance\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Style-ListItem.html#property_numId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering",
             "name": "Numbering",
-            "summary": "Numbering\u0020style",
+            "summary": "Numbering\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering\u003A\u003AgetNumId\u0028\u0029",
             "name": "getNumId",
-            "summary": "Get\u0020Id",
+            "summary": "Get\u0020Id.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html#method_getNumId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering\u003A\u003AsetNumId\u0028\u0029",
             "name": "setNumId",
-            "summary": "Set\u0020Id",
+            "summary": "Set\u0020Id.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html#method_setNumId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
-            "summary": "Get\u0020multilevel\u0020type",
+            "summary": "Get\u0020multilevel\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html#method_getType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering\u003A\u003AsetType\u0028\u0029",
             "name": "setType",
-            "summary": "Set\u0020multilevel\u0020type",
+            "summary": "Set\u0020multilevel\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html#method_setType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering\u003A\u003AgetLevels\u0028\u0029",
             "name": "getLevels",
-            "summary": "Get\u0020levels",
+            "summary": "Get\u0020levels.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html#method_getLevels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering\u003A\u003AsetLevels\u0028\u0029",
             "name": "setLevels",
-            "summary": "Set\u0020multilevel\u0020type",
+            "summary": "Set\u0020multilevel\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html#method_setLevels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering\u003A\u003A\u0024numId",
             "name": "numId",
-            "summary": "Numbering\u0020definition\u0020instance\u0020ID",
+            "summary": "Numbering\u0020definition\u0020instance\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html#property_numId"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Multilevel\u0020type\u0020singleLevel\u007Cmultilevel\u007ChybridMultilevel",
+            "summary": "Multilevel\u0020type\u0020singleLevel\u007Cmultilevel\u007ChybridMultilevel.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Numbering\u003A\u003A\u0024levels",
             "name": "levels",
-            "summary": "Numbering\u0020levels",
+            "summary": "Numbering\u0020levels.",
             "url": "classes/PhpOffice-PhpWord-Style-Numbering.html#property_levels"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel",
             "name": "NumberingLevel",
-            "summary": "Numbering\u0020level\u0020definition",
+            "summary": "Numbering\u0020level\u0020definition.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetLevel\u0028\u0029",
             "name": "getLevel",
-            "summary": "Get\u0020level",
+            "summary": "Get\u0020level.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getLevel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetLevel\u0028\u0029",
             "name": "setLevel",
-            "summary": "Set\u0020level",
+            "summary": "Set\u0020level.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setLevel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetStart\u0028\u0029",
             "name": "getStart",
-            "summary": "Get\u0020start",
+            "summary": "Get\u0020start.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetStart\u0028\u0029",
             "name": "setStart",
-            "summary": "Set\u0020start",
+            "summary": "Set\u0020start.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetFormat\u0028\u0029",
             "name": "getFormat",
-            "summary": "Get\u0020format",
+            "summary": "Get\u0020format.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getFormat"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetFormat\u0028\u0029",
             "name": "setFormat",
-            "summary": "Set\u0020format",
+            "summary": "Set\u0020format.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setFormat"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetRestart\u0028\u0029",
             "name": "getRestart",
-            "summary": "Get\u0020restart",
+            "summary": "Get\u0020restart.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getRestart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetRestart\u0028\u0029",
             "name": "setRestart",
-            "summary": "Set\u0020restart",
+            "summary": "Set\u0020restart.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setRestart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetPStyle\u0028\u0029",
             "name": "getPStyle",
-            "summary": "Get\u0020related\u0020paragraph\u0020style",
+            "summary": "Get\u0020related\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getPStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetPStyle\u0028\u0029",
             "name": "setPStyle",
-            "summary": "Set\u0020\u0020related\u0020paragraph\u0020style",
+            "summary": "Set\u0020\u0020related\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setPStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetSuffix\u0028\u0029",
             "name": "getSuffix",
-            "summary": "Get\u0020suffix",
+            "summary": "Get\u0020suffix.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getSuffix"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetSuffix\u0028\u0029",
             "name": "setSuffix",
-            "summary": "Set\u0020suffix",
+            "summary": "Set\u0020suffix.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setSuffix"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetText\u0028\u0029",
             "name": "getText",
-            "summary": "Get\u0020text",
+            "summary": "Get\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetText\u0028\u0029",
             "name": "setText",
-            "summary": "Set\u0020text",
+            "summary": "Set\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetAlignment\u0028\u0029",
@@ -9356,219 +9081,209 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setAlignment"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetAlign\u0028\u0029",
-            "name": "getAlign",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getAlign"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetAlign\u0028\u0029",
-            "name": "setAlign",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setAlign"
-        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetLeft\u0028\u0029",
             "name": "getLeft",
-            "summary": "Get\u0020left",
+            "summary": "Get\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetLeft\u0028\u0029",
             "name": "setLeft",
-            "summary": "Set\u0020left",
+            "summary": "Set\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetHanging\u0028\u0029",
             "name": "getHanging",
-            "summary": "Get\u0020hanging",
+            "summary": "Get\u0020hanging.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getHanging"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetHanging\u0028\u0029",
             "name": "setHanging",
-            "summary": "Set\u0020hanging",
+            "summary": "Set\u0020hanging.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setHanging"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetTabPos\u0028\u0029",
             "name": "getTabPos",
-            "summary": "Get\u0020tab",
+            "summary": "Get\u0020tab.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getTabPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetTabPos\u0028\u0029",
             "name": "setTabPos",
-            "summary": "Set\u0020tab",
+            "summary": "Set\u0020tab.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setTabPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetFont\u0028\u0029",
             "name": "getFont",
-            "summary": "Get\u0020font",
+            "summary": "Get\u0020font.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getFont"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetFont\u0028\u0029",
             "name": "setFont",
-            "summary": "Set\u0020font",
+            "summary": "Set\u0020font.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setFont"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AgetHint\u0028\u0029",
             "name": "getHint",
-            "summary": "Get\u0020hint",
+            "summary": "Get\u0020hint.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_getHint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003AsetHint\u0028\u0029",
             "name": "setHint",
-            "summary": "Set\u0020hint",
+            "summary": "Set\u0020hint.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#method_setHint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024level",
             "name": "level",
-            "summary": "Level\u0020number,\u00200\u0020to\u00208\u0020\u0028total\u00209\u0020levels\u0029",
+            "summary": "Level\u0020number,\u00200\u0020to\u00208\u0020\u0028total\u00209\u0020levels\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_level"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024start",
             "name": "start",
-            "summary": "Starting\u0020value\u0020w\u003Astart",
+            "summary": "Starting\u0020value\u0020w\u003Astart.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_start"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024format",
             "name": "format",
-            "summary": "Numbering\u0020format\u0020w\u003AnumFmt,\u0020one\u0020of\u0020PhpOffice\\PhpWord\\SimpleType\\NumberFormat",
+            "summary": "Numbering\u0020format\u0020w\u003AnumFmt,\u0020one\u0020of\u0020PhpOffice\\PhpWord\\SimpleType\\NumberFormat.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_format"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024restart",
             "name": "restart",
-            "summary": "Restart\u0020numbering\u0020level\u0020symbol\u0020w\u003AlvlRestart",
+            "summary": "Restart\u0020numbering\u0020level\u0020symbol\u0020w\u003AlvlRestart.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_restart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024pStyle",
             "name": "pStyle",
-            "summary": "Related\u0020paragraph\u0020style",
+            "summary": "Related\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_pStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024suffix",
             "name": "suffix",
-            "summary": "Content\u0020between\u0020numbering\u0020symbol\u0020and\u0020paragraph\u0020text\u0020w\u003Asuff",
+            "summary": "Content\u0020between\u0020numbering\u0020symbol\u0020and\u0020paragraph\u0020text\u0020w\u003Asuff.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_suffix"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024text",
             "name": "text",
-            "summary": "Numbering\u0020level\u0020text\u0020e.g.\u0020\u00251\u0020for\u0020nonbullet\u0020or\u0020bullet\u0020character",
+            "summary": "Numbering\u0020level\u0020text\u0020e.g.\u0020\u00251\u0020for\u0020nonbullet\u0020or\u0020bullet\u0020character.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_text"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024alignment",
             "name": "alignment",
-            "summary": "Justification,\u0020w\u003AlvlJc",
+            "summary": "Justification,\u0020w\u003AlvlJc.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_alignment"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024left",
             "name": "left",
-            "summary": "Left",
+            "summary": "Left.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_left"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024hanging",
             "name": "hanging",
-            "summary": "Hanging",
+            "summary": "Hanging.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_hanging"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024tabPos",
             "name": "tabPos",
-            "summary": "Tab\u0020position",
+            "summary": "Tab\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_tabPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024font",
             "name": "font",
-            "summary": "Font\u0020family",
+            "summary": "Font\u0020family.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_font"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\NumberingLevel\u003A\u003A\u0024hint",
             "name": "hint",
-            "summary": "Hint\u0020default\u007CeastAsia\u007Ccs",
+            "summary": "Hint\u0020default\u007CeastAsia\u007Ccs.",
             "url": "classes/PhpOffice-PhpWord-Style-NumberingLevel.html#property_hint"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline",
             "name": "Outline",
-            "summary": "Outline\u0020defines\u0020the\u0020line\/border\u0020of\u0020the\u0020object",
+            "summary": "Outline\u0020defines\u0020the\u0020line\/border\u0020of\u0020the\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AgetUnit\u0028\u0029",
             "name": "getUnit",
-            "summary": "Get\u0020unit",
+            "summary": "Get\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_getUnit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AgetWeight\u0028\u0029",
             "name": "getWeight",
-            "summary": "Get\u0020weight",
+            "summary": "Get\u0020weight.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_getWeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AsetWeight\u0028\u0029",
             "name": "setWeight",
-            "summary": "Set\u0020weight",
+            "summary": "Set\u0020weight.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_setWeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AgetColor\u0028\u0029",
             "name": "getColor",
-            "summary": "Get\u0020color",
+            "summary": "Get\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_getColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AsetColor\u0028\u0029",
             "name": "setColor",
-            "summary": "Set\u0020color",
+            "summary": "Set\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_setColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AgetDash\u0028\u0029",
             "name": "getDash",
-            "summary": "Get\u0020dash\u0020type",
+            "summary": "Get\u0020dash\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_getDash"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AsetDash\u0028\u0029",
             "name": "setDash",
-            "summary": "Set\u0020dash\u0020type",
+            "summary": "Set\u0020dash\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_setDash"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AgetLine\u0028\u0029",
             "name": "getLine",
-            "summary": "Get\u0020line\u0020style",
+            "summary": "Get\u0020line\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_getLine"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AsetLine\u0028\u0029",
             "name": "setLine",
-            "summary": "Set\u0020line\u0020style",
+            "summary": "Set\u0020line\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_setLine"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AgetEndCap\u0028\u0029",
             "name": "getEndCap",
-            "summary": "Get\u0020endCap\u0020style",
+            "summary": "Get\u0020endCap\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_getEndCap"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AsetEndCap\u0028\u0029",
             "name": "setEndCap",
-            "summary": "Set\u0020endCap\u0020style",
+            "summary": "Set\u0020endCap\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_setEndCap"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AgetStartArrow\u0028\u0029",
             "name": "getStartArrow",
-            "summary": "Get\u0020startArrow",
+            "summary": "Get\u0020startArrow.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_getStartArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AsetStartArrow\u0028\u0029",
             "name": "setStartArrow",
-            "summary": "Set\u0020pattern",
+            "summary": "Set\u0020pattern.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_setStartArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AgetEndArrow\u0028\u0029",
             "name": "getEndArrow",
-            "summary": "Get\u0020endArrow",
+            "summary": "Get\u0020endArrow.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_getEndArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AsetEndArrow\u0028\u0029",
             "name": "setEndArrow",
-            "summary": "Set\u0020pattern",
+            "summary": "Set\u0020pattern.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#method_setEndArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003ALINE_SINGLE",
             "name": "LINE_SINGLE",
-            "summary": "Line\u0020style\u0020constants",
+            "summary": "Line\u0020style\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#constant_LINE_SINGLE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003ALINE_THIN_THIN",
@@ -9593,7 +9308,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AENDCAP_FLAT",
             "name": "ENDCAP_FLAT",
-            "summary": "Line\u0020style\u0020constants",
+            "summary": "Line\u0020style\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#constant_ENDCAP_FLAT"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AENDCAP_SQUARE",
@@ -9608,7 +9323,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AARROW_NONE",
             "name": "ARROW_NONE",
-            "summary": "Arrowhead\u0020type\u0020constants",
+            "summary": "Arrowhead\u0020type\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#constant_ARROW_NONE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003AARROW_BLOCK",
@@ -9638,107 +9353,107 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003A\u0024unit",
             "name": "unit",
-            "summary": "Unit\u003B\u0020No\u0020set\u0020method\u0020for\u0020now",
+            "summary": "Unit\u003B\u0020No\u0020set\u0020method\u0020for\u0020now.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#property_unit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003A\u0024weight",
             "name": "weight",
-            "summary": "Outline\u0020weight",
+            "summary": "Outline\u0020weight.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#property_weight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003A\u0024color",
             "name": "color",
-            "summary": "Outline\u0020color",
+            "summary": "Outline\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#property_color"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003A\u0024dash",
             "name": "dash",
-            "summary": "Dash\u0020type",
+            "summary": "Dash\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#property_dash"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003A\u0024line",
             "name": "line",
-            "summary": "Line\u0020style",
+            "summary": "Line\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#property_line"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003A\u0024endCap",
             "name": "endCap",
-            "summary": "End\u0020cap",
+            "summary": "End\u0020cap.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#property_endCap"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003A\u0024startArrow",
             "name": "startArrow",
-            "summary": "Start\u0020arrow\u0020type",
+            "summary": "Start\u0020arrow\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#property_startArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Outline\u003A\u003A\u0024endArrow",
             "name": "endArrow",
-            "summary": "End\u0020arrow\u0020type",
+            "summary": "End\u0020arrow\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Outline.html#property_endArrow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper",
             "name": "Paper",
-            "summary": "Paper\u0020size\u0020from\u0020ISO\/IEC\u002029500\u002D1\u003A2012\u0020pg.\u00201656\u002D1657",
+            "summary": "Paper\u0020size\u0020from\u0020ISO\/IEC\u002029500\u002D1\u003A2012\u0020pg.\u00201656\u002D1657.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper\u003A\u003AgetSize\u0028\u0029",
             "name": "getSize",
-            "summary": "Get\u0020size",
+            "summary": "Get\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html#method_getSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper\u003A\u003AsetSize\u0028\u0029",
             "name": "setSize",
-            "summary": "Set\u0020size",
+            "summary": "Set\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html#method_setSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper\u003A\u003AgetWidth\u0028\u0029",
             "name": "getWidth",
-            "summary": "Get\u0020width",
+            "summary": "Get\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html#method_getWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper\u003A\u003AgetHeight\u0028\u0029",
             "name": "getHeight",
-            "summary": "Get\u0020height",
+            "summary": "Get\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html#method_getHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper\u003A\u003A\u0024sizes",
             "name": "sizes",
-            "summary": "Paper\u0020sizes",
+            "summary": "Paper\u0020sizes.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html#property_sizes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper\u003A\u003A\u0024size",
             "name": "size",
-            "summary": "Paper\u0020size",
+            "summary": "Paper\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html#property_size"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper\u003A\u003A\u0024width",
             "name": "width",
-            "summary": "Width",
+            "summary": "Width.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html#property_width"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paper\u003A\u003A\u0024height",
             "name": "height",
-            "summary": "Height",
+            "summary": "Height.",
             "url": "classes/PhpOffice-PhpWord-Style-Paper.html#property_height"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph",
             "name": "Paragraph",
-            "summary": "Paragraph\u0020style",
+            "summary": "Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetStyleValue\u0028\u0029",
             "name": "setStyleValue",
-            "summary": "Set\u0020Style\u0020value",
+            "summary": "Set\u0020Style\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setStyleValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetStyleValues\u0028\u0029",
             "name": "getStyleValues",
-            "summary": "Get\u0020style\u0020values",
+            "summary": "Get\u0020style\u0020values.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getStyleValues"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetAlignment\u0028\u0029",
@@ -9751,254 +9466,224 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setAlignment"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetAlign\u0028\u0029",
-            "name": "getAlign",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getAlign"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetAlign\u0028\u0029",
-            "name": "setAlign",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setAlign"
-        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetBasedOn\u0028\u0029",
             "name": "getBasedOn",
-            "summary": "Get\u0020parent\u0020style\u0020ID",
+            "summary": "Get\u0020parent\u0020style\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getBasedOn"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetBasedOn\u0028\u0029",
             "name": "setBasedOn",
-            "summary": "Set\u0020parent\u0020style\u0020ID",
+            "summary": "Set\u0020parent\u0020style\u0020ID.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setBasedOn"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetNext\u0028\u0029",
             "name": "getNext",
-            "summary": "Get\u0020style\u0020for\u0020next\u0020paragraph",
+            "summary": "Get\u0020style\u0020for\u0020next\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getNext"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetNext\u0028\u0029",
             "name": "setNext",
-            "summary": "Set\u0020style\u0020for\u0020next\u0020paragraph",
+            "summary": "Set\u0020style\u0020for\u0020next\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setNext"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetIndentation\u0028\u0029",
             "name": "getIndentation",
-            "summary": "Get\u0020shading",
+            "summary": "Get\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetIndentation\u0028\u0029",
             "name": "setIndentation",
-            "summary": "Set\u0020shading",
+            "summary": "Set\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetIndent\u0028\u0029",
             "name": "getIndent",
-            "summary": "Get\u0020indentation",
+            "summary": "Get\u0020indentation.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndent"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetIndent\u0028\u0029",
             "name": "setIndent",
-            "summary": "Set\u0020indentation",
+            "summary": "Set\u0020indentation.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndent"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetHanging\u0028\u0029",
             "name": "getHanging",
-            "summary": "Get\u0020hanging",
+            "summary": "Get\u0020hanging.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getHanging"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetHanging\u0028\u0029",
             "name": "setHanging",
-            "summary": "Set\u0020hanging",
+            "summary": "Set\u0020hanging.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setHanging"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetSpace\u0028\u0029",
             "name": "getSpace",
-            "summary": "Get\u0020spacing",
+            "summary": "Get\u0020spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getSpace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetSpace\u0028\u0029",
             "name": "setSpace",
-            "summary": "Set\u0020spacing",
+            "summary": "Set\u0020spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setSpace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetSpaceBefore\u0028\u0029",
             "name": "getSpaceBefore",
-            "summary": "Get\u0020space\u0020before\u0020paragraph",
+            "summary": "Get\u0020space\u0020before\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getSpaceBefore"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetSpaceBefore\u0028\u0029",
             "name": "setSpaceBefore",
-            "summary": "Set\u0020space\u0020before\u0020paragraph",
+            "summary": "Set\u0020space\u0020before\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setSpaceBefore"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetSpaceAfter\u0028\u0029",
             "name": "getSpaceAfter",
-            "summary": "Get\u0020space\u0020after\u0020paragraph",
+            "summary": "Get\u0020space\u0020after\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getSpaceAfter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetSpaceAfter\u0028\u0029",
             "name": "setSpaceAfter",
-            "summary": "Set\u0020space\u0020after\u0020paragraph",
+            "summary": "Set\u0020space\u0020after\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setSpaceAfter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetSpacing\u0028\u0029",
             "name": "getSpacing",
-            "summary": "Get\u0020spacing\u0020between\u0020lines",
+            "summary": "Get\u0020spacing\u0020between\u0020lines.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getSpacing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetSpacing\u0028\u0029",
             "name": "setSpacing",
-            "summary": "Set\u0020spacing\u0020between\u0020lines",
+            "summary": "Set\u0020spacing\u0020between\u0020lines.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setSpacing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetSpacingLineRule\u0028\u0029",
             "name": "getSpacingLineRule",
-            "summary": "Get\u0020spacing\u0020line\u0020rule",
+            "summary": "Get\u0020spacing\u0020line\u0020rule.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getSpacingLineRule"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetSpacingLineRule\u0028\u0029",
             "name": "setSpacingLineRule",
-            "summary": "Set\u0020the\u0020spacing\u0020line\u0020rule",
+            "summary": "Set\u0020the\u0020spacing\u0020line\u0020rule.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setSpacingLineRule"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetLineHeight\u0028\u0029",
             "name": "getLineHeight",
-            "summary": "Get\u0020line\u0020height",
+            "summary": "Get\u0020line\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getLineHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetLineHeight\u0028\u0029",
             "name": "setLineHeight",
-            "summary": "Set\u0020the\u0020line\u0020height",
+            "summary": "Set\u0020the\u0020line\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setLineHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AhasWidowControl\u0028\u0029",
             "name": "hasWidowControl",
-            "summary": "Get\u0020allow\u0020first\/last\u0020line\u0020to\u0020display\u0020on\u0020a\u0020separate\u0020page\u0020setting",
+            "summary": "Get\u0020allow\u0020first\/last\u0020line\u0020to\u0020display\u0020on\u0020a\u0020separate\u0020page\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_hasWidowControl"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetWidowControl\u0028\u0029",
             "name": "setWidowControl",
-            "summary": "Set\u0020keep\u0020paragraph\u0020with\u0020next\u0020paragraph\u0020setting",
+            "summary": "Set\u0020keep\u0020paragraph\u0020with\u0020next\u0020paragraph\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setWidowControl"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AisKeepNext\u0028\u0029",
             "name": "isKeepNext",
-            "summary": "Get\u0020keep\u0020paragraph\u0020with\u0020next\u0020paragraph\u0020setting",
+            "summary": "Get\u0020keep\u0020paragraph\u0020with\u0020next\u0020paragraph\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_isKeepNext"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetKeepNext\u0028\u0029",
             "name": "setKeepNext",
-            "summary": "Set\u0020keep\u0020paragraph\u0020with\u0020next\u0020paragraph\u0020setting",
+            "summary": "Set\u0020keep\u0020paragraph\u0020with\u0020next\u0020paragraph\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setKeepNext"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AisKeepLines\u0028\u0029",
             "name": "isKeepLines",
-            "summary": "Get\u0020keep\u0020all\u0020lines\u0020on\u0020one\u0020page\u0020setting",
+            "summary": "Get\u0020keep\u0020all\u0020lines\u0020on\u0020one\u0020page\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_isKeepLines"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetKeepLines\u0028\u0029",
             "name": "setKeepLines",
-            "summary": "Set\u0020keep\u0020all\u0020lines\u0020on\u0020one\u0020page\u0020setting",
+            "summary": "Set\u0020keep\u0020all\u0020lines\u0020on\u0020one\u0020page\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setKeepLines"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AhasPageBreakBefore\u0028\u0029",
             "name": "hasPageBreakBefore",
-            "summary": "Get\u0020start\u0020paragraph\u0020on\u0020next\u0020page\u0020setting",
+            "summary": "Get\u0020start\u0020paragraph\u0020on\u0020next\u0020page\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_hasPageBreakBefore"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetPageBreakBefore\u0028\u0029",
             "name": "setPageBreakBefore",
-            "summary": "Set\u0020start\u0020paragraph\u0020on\u0020next\u0020page\u0020setting",
+            "summary": "Set\u0020start\u0020paragraph\u0020on\u0020next\u0020page\u0020setting.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setPageBreakBefore"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetNumStyle\u0028\u0029",
             "name": "getNumStyle",
-            "summary": "Get\u0020numbering\u0020style\u0020name",
+            "summary": "Get\u0020numbering\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getNumStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetNumStyle\u0028\u0029",
             "name": "setNumStyle",
-            "summary": "Set\u0020numbering\u0020style\u0020name",
+            "summary": "Set\u0020numbering\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setNumStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetNumLevel\u0028\u0029",
             "name": "getNumLevel",
-            "summary": "Get\u0020numbering\u0020level",
+            "summary": "Get\u0020numbering\u0020level.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getNumLevel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetNumLevel\u0028\u0029",
             "name": "setNumLevel",
-            "summary": "Set\u0020numbering\u0020level",
+            "summary": "Set\u0020numbering\u0020level.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setNumLevel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetTabs\u0028\u0029",
             "name": "getTabs",
-            "summary": "Get\u0020tabs",
+            "summary": "Get\u0020tabs.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getTabs"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetTabs\u0028\u0029",
             "name": "setTabs",
-            "summary": "Set\u0020tabs",
+            "summary": "Set\u0020tabs.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setTabs"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetWidowControl\u0028\u0029",
-            "name": "getWidowControl",
-            "summary": "Get\u0020allow\u0020first\/last\u0020line\u0020to\u0020display\u0020on\u0020a\u0020separate\u0020page\u0020setting",
-            "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getWidowControl"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetKeepNext\u0028\u0029",
-            "name": "getKeepNext",
-            "summary": "Get\u0020keep\u0020paragraph\u0020with\u0020next\u0020paragraph\u0020setting",
-            "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getKeepNext"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetKeepLines\u0028\u0029",
-            "name": "getKeepLines",
-            "summary": "Get\u0020keep\u0020all\u0020lines\u0020on\u0020one\u0020page\u0020setting",
-            "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getKeepLines"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetPageBreakBefore\u0028\u0029",
-            "name": "getPageBreakBefore",
-            "summary": "Get\u0020start\u0020paragraph\u0020on\u0020next\u0020page\u0020setting",
-            "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getPageBreakBefore"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetShading\u0028\u0029",
             "name": "getShading",
-            "summary": "Get\u0020shading",
+            "summary": "Get\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getShading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetShading\u0028\u0029",
             "name": "setShading",
-            "summary": "Set\u0020shading",
+            "summary": "Set\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setShading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AhasContextualSpacing\u0028\u0029",
             "name": "hasContextualSpacing",
-            "summary": "Get\u0020contextualSpacing",
+            "summary": "Get\u0020contextualSpacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_hasContextualSpacing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetContextualSpacing\u0028\u0029",
             "name": "setContextualSpacing",
-            "summary": "Set\u0020contextualSpacing",
+            "summary": "Set\u0020contextualSpacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setContextualSpacing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AisBidi\u0028\u0029",
             "name": "isBidi",
-            "summary": "Get\u0020bidirectional",
+            "summary": "Get\u0020bidirectional.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_isBidi"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetBidi\u0028\u0029",
             "name": "setBidi",
-            "summary": "Set\u0020bidi",
+            "summary": "Set\u0020bidi.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setBidi"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AgetTextAlignment\u0028\u0029",
             "name": "getTextAlignment",
-            "summary": "Get\u0020textAlignment",
+            "summary": "Get\u0020textAlignment.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getTextAlignment"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetTextAlignment\u0028\u0029",
             "name": "setTextAlignment",
-            "summary": "Set\u0020textAlignment",
+            "summary": "Set\u0020textAlignment.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setTextAlignment"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AhasSuppressAutoHyphens\u0028\u0029",
@@ -10018,17 +9703,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024aliases",
             "name": "aliases",
-            "summary": "Aliases",
+            "summary": "Aliases.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_aliases"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024basedOn",
             "name": "basedOn",
-            "summary": "Parent\u0020style",
+            "summary": "Parent\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_basedOn"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024next",
             "name": "next",
-            "summary": "Style\u0020for\u0020next\u0020paragraph",
+            "summary": "Style\u0020for\u0020next\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_next"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024alignment",
@@ -10038,197 +9723,182 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024indentation",
             "name": "indentation",
-            "summary": "Indentation",
+            "summary": "Indentation.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_indentation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024spacing",
             "name": "spacing",
-            "summary": "Spacing",
+            "summary": "Spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_spacing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024lineHeight",
             "name": "lineHeight",
-            "summary": "Text\u0020line\u0020height",
+            "summary": "Text\u0020line\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_lineHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024widowControl",
             "name": "widowControl",
-            "summary": "Allow\u0020first\/last\u0020line\u0020to\u0020display\u0020on\u0020a\u0020separate\u0020page",
+            "summary": "Allow\u0020first\/last\u0020line\u0020to\u0020display\u0020on\u0020a\u0020separate\u0020page.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_widowControl"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024keepNext",
             "name": "keepNext",
-            "summary": "Keep\u0020paragraph\u0020with\u0020next\u0020paragraph",
+            "summary": "Keep\u0020paragraph\u0020with\u0020next\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_keepNext"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024keepLines",
             "name": "keepLines",
-            "summary": "Keep\u0020all\u0020lines\u0020on\u0020one\u0020page",
+            "summary": "Keep\u0020all\u0020lines\u0020on\u0020one\u0020page.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_keepLines"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024pageBreakBefore",
             "name": "pageBreakBefore",
-            "summary": "Start\u0020paragraph\u0020on\u0020next\u0020page",
+            "summary": "Start\u0020paragraph\u0020on\u0020next\u0020page.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_pageBreakBefore"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024numStyle",
             "name": "numStyle",
-            "summary": "Numbering\u0020style\u0020name",
+            "summary": "Numbering\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_numStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024numLevel",
             "name": "numLevel",
-            "summary": "Numbering\u0020level",
+            "summary": "Numbering\u0020level.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_numLevel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024tabs",
             "name": "tabs",
-            "summary": "Set\u0020of\u0020Custom\u0020Tab\u0020Stops",
+            "summary": "Set\u0020of\u0020Custom\u0020Tab\u0020Stops.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_tabs"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024shading",
             "name": "shading",
-            "summary": "Shading",
+            "summary": "Shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_shading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024contextualSpacing",
             "name": "contextualSpacing",
-            "summary": "Ignore\u0020Spacing\u0020Above\u0020and\u0020Below\u0020When\u0020Using\u0020Identical\u0020Styles",
+            "summary": "Ignore\u0020Spacing\u0020Above\u0020and\u0020Below\u0020When\u0020Using\u0020Identical\u0020Styles.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_contextualSpacing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024bidi",
             "name": "bidi",
-            "summary": "Right\u0020to\u0020Left\u0020Paragraph\u0020Layout",
+            "summary": "Right\u0020to\u0020Left\u0020Paragraph\u0020Layout.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_bidi"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024textAlignment",
             "name": "textAlignment",
-            "summary": "Vertical\u0020Character\u0020Alignment\u0020on\u0020Line",
+            "summary": "Vertical\u0020Character\u0020Alignment\u0020on\u0020Line.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_textAlignment"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003A\u0024suppressAutoHyphens",
             "name": "suppressAutoHyphens",
-            "summary": "Suppress\u0020hyphenation\u0020for\u0020paragraph",
+            "summary": "Suppress\u0020hyphenation\u0020for\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#property_suppressAutoHyphens"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row",
             "name": "Row",
-            "summary": "Table\u0020row\u0020style",
+            "summary": "Table\u0020row\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020row\u0020style",
+            "summary": "Create\u0020a\u0020new\u0020row\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003AisTblHeader\u0028\u0029",
             "name": "isTblHeader",
-            "summary": "Is\u0020tblHeader",
+            "summary": "Is\u0020tblHeader.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#method_isTblHeader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003AsetTblHeader\u0028\u0029",
             "name": "setTblHeader",
-            "summary": "Is\u0020tblHeader",
+            "summary": "Is\u0020tblHeader.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#method_setTblHeader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003AisCantSplit\u0028\u0029",
             "name": "isCantSplit",
-            "summary": "Is\u0020cantSplit",
+            "summary": "Is\u0020cantSplit.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#method_isCantSplit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003AsetCantSplit\u0028\u0029",
             "name": "setCantSplit",
-            "summary": "Is\u0020cantSplit",
+            "summary": "Is\u0020cantSplit.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#method_setCantSplit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003AisExactHeight\u0028\u0029",
             "name": "isExactHeight",
-            "summary": "Is\u0020exactHeight",
+            "summary": "Is\u0020exactHeight.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#method_isExactHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003AsetExactHeight\u0028\u0029",
             "name": "setExactHeight",
-            "summary": "Set\u0020exactHeight",
+            "summary": "Set\u0020exactHeight.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#method_setExactHeight"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003AgetTblHeader\u0028\u0029",
-            "name": "getTblHeader",
-            "summary": "Get\u0020tblHeader",
-            "url": "classes/PhpOffice-PhpWord-Style-Row.html#method_getTblHeader"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003AgetCantSplit\u0028\u0029",
-            "name": "getCantSplit",
-            "summary": "Get\u0020cantSplit",
-            "url": "classes/PhpOffice-PhpWord-Style-Row.html#method_getCantSplit"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003AgetExactHeight\u0028\u0029",
-            "name": "getExactHeight",
-            "summary": "Get\u0020exactHeight",
-            "url": "classes/PhpOffice-PhpWord-Style-Row.html#method_getExactHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003A\u0024tblHeader",
             "name": "tblHeader",
-            "summary": "Repeat\u0020table\u0020row\u0020on\u0020every\u0020new\u0020page",
+            "summary": "Repeat\u0020table\u0020row\u0020on\u0020every\u0020new\u0020page.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#property_tblHeader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003A\u0024cantSplit",
             "name": "cantSplit",
-            "summary": "Table\u0020row\u0020cannot\u0020break\u0020across\u0020pages",
+            "summary": "Table\u0020row\u0020cannot\u0020break\u0020across\u0020pages.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#property_cantSplit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Row\u003A\u003A\u0024exactHeight",
             "name": "exactHeight",
-            "summary": "Table\u0020row\u0020exact\u0020height",
+            "summary": "Table\u0020row\u0020exact\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Row.html#property_exactHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section",
             "name": "Section",
-            "summary": "Section\u0020settings",
+            "summary": "Section\u0020settings.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetPaperSize\u0028\u0029",
             "name": "getPaperSize",
-            "summary": "Get\u0020paper\u0020size",
+            "summary": "Get\u0020paper\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getPaperSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetPaperSize\u0028\u0029",
             "name": "setPaperSize",
-            "summary": "Set\u0020paper\u0020size",
+            "summary": "Set\u0020paper\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setPaperSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetSettingValue\u0028\u0029",
             "name": "setSettingValue",
-            "summary": "Set\u0020Setting\u0020Value",
+            "summary": "Set\u0020Setting\u0020Value.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setSettingValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetOrientation\u0028\u0029",
             "name": "setOrientation",
-            "summary": "Set\u0020orientation",
+            "summary": "Set\u0020orientation.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setOrientation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetOrientation\u0028\u0029",
             "name": "getOrientation",
-            "summary": "Get\u0020Page\u0020Orientation",
+            "summary": "Get\u0020Page\u0020Orientation.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getOrientation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetPortrait\u0028\u0029",
             "name": "setPortrait",
-            "summary": "Set\u0020Portrait\u0020Orientation",
+            "summary": "Set\u0020Portrait\u0020Orientation.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setPortrait"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetLandscape\u0028\u0029",
             "name": "setLandscape",
-            "summary": "Set\u0020Landscape\u0020Orientation",
+            "summary": "Set\u0020Landscape\u0020Orientation.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setLandscape"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetPageSizeW\u0028\u0029",
             "name": "getPageSizeW",
-            "summary": "Get\u0020Page\u0020Size\u0020Width",
+            "summary": "Get\u0020Page\u0020Size\u0020Width.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getPageSizeW"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetPageSizeW\u0028\u0029",
@@ -10238,7 +9908,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetPageSizeH\u0028\u0029",
             "name": "getPageSizeH",
-            "summary": "Get\u0020Page\u0020Size\u0020Height",
+            "summary": "Get\u0020Page\u0020Size\u0020Height.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getPageSizeH"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetPageSizeH\u0028\u0029",
@@ -10248,137 +9918,137 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetMarginTop\u0028\u0029",
             "name": "getMarginTop",
-            "summary": "Get\u0020Margin\u0020Top",
+            "summary": "Get\u0020Margin\u0020Top.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getMarginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetMarginTop\u0028\u0029",
             "name": "setMarginTop",
-            "summary": "Set\u0020Margin\u0020Top",
+            "summary": "Set\u0020Margin\u0020Top.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setMarginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetMarginLeft\u0028\u0029",
             "name": "getMarginLeft",
-            "summary": "Get\u0020Margin\u0020Left",
+            "summary": "Get\u0020Margin\u0020Left.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getMarginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetMarginLeft\u0028\u0029",
             "name": "setMarginLeft",
-            "summary": "Set\u0020Margin\u0020Left",
+            "summary": "Set\u0020Margin\u0020Left.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setMarginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetMarginRight\u0028\u0029",
             "name": "getMarginRight",
-            "summary": "Get\u0020Margin\u0020Right",
+            "summary": "Get\u0020Margin\u0020Right.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getMarginRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetMarginRight\u0028\u0029",
             "name": "setMarginRight",
-            "summary": "Set\u0020Margin\u0020Right",
+            "summary": "Set\u0020Margin\u0020Right.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setMarginRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetMarginBottom\u0028\u0029",
             "name": "getMarginBottom",
-            "summary": "Get\u0020Margin\u0020Bottom",
+            "summary": "Get\u0020Margin\u0020Bottom.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getMarginBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetMarginBottom\u0028\u0029",
             "name": "setMarginBottom",
-            "summary": "Set\u0020Margin\u0020Bottom",
+            "summary": "Set\u0020Margin\u0020Bottom.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setMarginBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetGutter\u0028\u0029",
             "name": "getGutter",
-            "summary": "Get\u0020gutter",
+            "summary": "Get\u0020gutter.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getGutter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetGutter\u0028\u0029",
             "name": "setGutter",
-            "summary": "Set\u0020gutter",
+            "summary": "Set\u0020gutter.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setGutter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetHeaderHeight\u0028\u0029",
             "name": "getHeaderHeight",
-            "summary": "Get\u0020Header\u0020Height",
+            "summary": "Get\u0020Header\u0020Height.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getHeaderHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetHeaderHeight\u0028\u0029",
             "name": "setHeaderHeight",
-            "summary": "Set\u0020Header\u0020Height",
+            "summary": "Set\u0020Header\u0020Height.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setHeaderHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetFooterHeight\u0028\u0029",
             "name": "getFooterHeight",
-            "summary": "Get\u0020Footer\u0020Height",
+            "summary": "Get\u0020Footer\u0020Height.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getFooterHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetFooterHeight\u0028\u0029",
             "name": "setFooterHeight",
-            "summary": "Set\u0020Footer\u0020Height",
+            "summary": "Set\u0020Footer\u0020Height.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setFooterHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetPageNumberingStart\u0028\u0029",
             "name": "getPageNumberingStart",
-            "summary": "Get\u0020page\u0020numbering\u0020start",
+            "summary": "Get\u0020page\u0020numbering\u0020start.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getPageNumberingStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetPageNumberingStart\u0028\u0029",
             "name": "setPageNumberingStart",
-            "summary": "Set\u0020page\u0020numbering\u0020start",
+            "summary": "Set\u0020page\u0020numbering\u0020start.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setPageNumberingStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetColsNum\u0028\u0029",
             "name": "getColsNum",
-            "summary": "Get\u0020Section\u0020Columns\u0020Count",
+            "summary": "Get\u0020Section\u0020Columns\u0020Count.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getColsNum"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetColsNum\u0028\u0029",
             "name": "setColsNum",
-            "summary": "Set\u0020Section\u0020Columns\u0020Count",
+            "summary": "Set\u0020Section\u0020Columns\u0020Count.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setColsNum"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetColsSpace\u0028\u0029",
             "name": "getColsSpace",
-            "summary": "Get\u0020Section\u0020Space\u0020Between\u0020Columns",
+            "summary": "Get\u0020Section\u0020Space\u0020Between\u0020Columns.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getColsSpace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetColsSpace\u0028\u0029",
             "name": "setColsSpace",
-            "summary": "Set\u0020Section\u0020Space\u0020Between\u0020Columns",
+            "summary": "Set\u0020Section\u0020Space\u0020Between\u0020Columns.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setColsSpace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetBreakType\u0028\u0029",
             "name": "getBreakType",
-            "summary": "Get\u0020Break\u0020Type",
+            "summary": "Get\u0020Break\u0020Type.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getBreakType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetBreakType\u0028\u0029",
             "name": "setBreakType",
-            "summary": "Set\u0020Break\u0020Type",
+            "summary": "Set\u0020Break\u0020Type.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setBreakType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetLineNumbering\u0028\u0029",
             "name": "getLineNumbering",
-            "summary": "Get\u0020line\u0020numbering",
+            "summary": "Get\u0020line\u0020numbering.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getLineNumbering"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetLineNumbering\u0028\u0029",
             "name": "setLineNumbering",
-            "summary": "Set\u0020line\u0020numbering",
+            "summary": "Set\u0020line\u0020numbering.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setLineNumbering"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AgetVAlign\u0028\u0029",
             "name": "getVAlign",
-            "summary": "Get\u0020vertical\u0020alignment",
+            "summary": "Get\u0020vertical\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_getVAlign"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AsetVAlign\u0028\u0029",
             "name": "setVAlign",
-            "summary": "Set\u0020vertical\u0020alignment",
+            "summary": "Set\u0020vertical\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#method_setVAlign"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AORIENTATION_PORTRAIT",
             "name": "ORIENTATION_PORTRAIT",
-            "summary": "Page\u0020orientation",
+            "summary": "Page\u0020orientation.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#constant_ORIENTATION_PORTRAIT"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003AORIENTATION_LANDSCAPE",
@@ -10388,7 +10058,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003ADEFAULT_WIDTH",
             "name": "DEFAULT_WIDTH",
-            "summary": "Page\u0020default\u0020constants",
+            "summary": "Page\u0020default\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#constant_DEFAULT_WIDTH"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003ADEFAULT_HEIGHT",
@@ -10428,132 +10098,132 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024orientation",
             "name": "orientation",
-            "summary": "Page\u0020Orientation",
+            "summary": "Page\u0020Orientation.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_orientation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024paper",
             "name": "paper",
-            "summary": "Paper\u0020size",
+            "summary": "Paper\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_paper"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024pageSizeW",
             "name": "pageSizeW",
-            "summary": "Page\u0020Size\u0020Width",
+            "summary": "Page\u0020Size\u0020Width.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_pageSizeW"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024pageSizeH",
             "name": "pageSizeH",
-            "summary": "Page\u0020Size\u0020Height",
+            "summary": "Page\u0020Size\u0020Height.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_pageSizeH"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024marginTop",
             "name": "marginTop",
-            "summary": "Top\u0020margin\u0020spacing",
+            "summary": "Top\u0020margin\u0020spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_marginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024marginLeft",
             "name": "marginLeft",
-            "summary": "Left\u0020margin\u0020spacing",
+            "summary": "Left\u0020margin\u0020spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_marginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024marginRight",
             "name": "marginRight",
-            "summary": "Right\u0020margin\u0020spacing",
+            "summary": "Right\u0020margin\u0020spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_marginRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024marginBottom",
             "name": "marginBottom",
-            "summary": "Bottom\u0020margin\u0020spacing",
+            "summary": "Bottom\u0020margin\u0020spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_marginBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024gutter",
             "name": "gutter",
-            "summary": "Page\u0020gutter\u0020spacing",
+            "summary": "Page\u0020gutter\u0020spacing.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_gutter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024headerHeight",
             "name": "headerHeight",
-            "summary": "Header\u0020height",
+            "summary": "Header\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_headerHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024footerHeight",
             "name": "footerHeight",
-            "summary": "Footer\u0020height",
+            "summary": "Footer\u0020height.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_footerHeight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024pageNumberingStart",
             "name": "pageNumberingStart",
-            "summary": "Page\u0020Numbering\u0020Start",
+            "summary": "Page\u0020Numbering\u0020Start.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_pageNumberingStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024colsNum",
             "name": "colsNum",
-            "summary": "Section\u0020columns\u0020count",
+            "summary": "Section\u0020columns\u0020count.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_colsNum"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024colsSpace",
             "name": "colsSpace",
-            "summary": "Section\u0020spacing\u0020between\u0020columns",
+            "summary": "Section\u0020spacing\u0020between\u0020columns.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_colsSpace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024breakType",
             "name": "breakType",
-            "summary": "Section\u0020break\u0020type",
+            "summary": "Section\u0020break\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_breakType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024lineNumbering",
             "name": "lineNumbering",
-            "summary": "Line\u0020numbering",
+            "summary": "Line\u0020numbering.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_lineNumbering"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Section\u003A\u003A\u0024vAlign",
             "name": "vAlign",
-            "summary": "Vertical\u0020Text\u0020Alignment\u0020on\u0020Page\nOne\u0020of\u0020\\PhpOffice\\PhpWord\\SimpleType\\VerticalJc",
+            "summary": "Vertical\u0020Text\u0020Alignment\u0020on\u0020Page\nOne\u0020of\u0020\\PhpOffice\\PhpWord\\SimpleType\\VerticalJc.",
             "url": "classes/PhpOffice-PhpWord-Style-Section.html#property_vAlign"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading",
             "name": "Shading",
-            "summary": "Shading\u0020style",
+            "summary": "Shading\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003AgetPattern\u0028\u0029",
             "name": "getPattern",
-            "summary": "Get\u0020pattern",
+            "summary": "Get\u0020pattern.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#method_getPattern"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003AsetPattern\u0028\u0029",
             "name": "setPattern",
-            "summary": "Set\u0020pattern",
+            "summary": "Set\u0020pattern.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#method_setPattern"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003AgetColor\u0028\u0029",
             "name": "getColor",
-            "summary": "Get\u0020color",
+            "summary": "Get\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#method_getColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003AsetColor\u0028\u0029",
             "name": "setColor",
-            "summary": "Set\u0020pattern",
+            "summary": "Set\u0020pattern.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#method_setColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003AgetFill\u0028\u0029",
             "name": "getFill",
-            "summary": "Get\u0020fill",
+            "summary": "Get\u0020fill.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#method_getFill"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003AsetFill\u0028\u0029",
             "name": "setFill",
-            "summary": "Set\u0020fill",
+            "summary": "Set\u0020fill.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#method_setFill"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003APATTERN_CLEAR",
             "name": "PATTERN_CLEAR",
-            "summary": "Pattern\u0020constants\u0020\u0028partly\u0029",
+            "summary": "Pattern\u0020constants\u0020\u0028partly\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#constant_PATTERN_CLEAR"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003APATTERN_SOLID",
@@ -10588,257 +10258,247 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003A\u0024pattern",
             "name": "pattern",
-            "summary": "Shading\u0020pattern",
+            "summary": "Shading\u0020pattern.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#property_pattern"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003A\u0024color",
             "name": "color",
-            "summary": "Shading\u0020pattern\u0020color",
+            "summary": "Shading\u0020pattern\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#property_color"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shading\u003A\u003A\u0024fill",
             "name": "fill",
-            "summary": "Shading\u0020background\u0020color",
+            "summary": "Shading\u0020background\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Shading.html#property_fill"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shadow",
             "name": "Shadow",
-            "summary": "Shadow\u0020style",
+            "summary": "Shadow\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Shadow.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shadow\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Shadow.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shadow\u003A\u003AgetColor\u0028\u0029",
             "name": "getColor",
-            "summary": "Get\u0020color",
+            "summary": "Get\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Shadow.html#method_getColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shadow\u003A\u003AsetColor\u0028\u0029",
             "name": "setColor",
-            "summary": "Set\u0020color",
+            "summary": "Set\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-Shadow.html#method_setColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shadow\u003A\u003AgetOffset\u0028\u0029",
             "name": "getOffset",
-            "summary": "Get\u0020offset",
+            "summary": "Get\u0020offset.",
             "url": "classes/PhpOffice-PhpWord-Style-Shadow.html#method_getOffset"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shadow\u003A\u003AsetOffset\u0028\u0029",
             "name": "setOffset",
-            "summary": "Set\u0020offset",
+            "summary": "Set\u0020offset.",
             "url": "classes/PhpOffice-PhpWord-Style-Shadow.html#method_setOffset"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shadow\u003A\u003A\u0024color",
             "name": "color",
-            "summary": "Color",
+            "summary": "Color.",
             "url": "classes/PhpOffice-PhpWord-Style-Shadow.html#property_color"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shadow\u003A\u003A\u0024offset",
             "name": "offset",
-            "summary": "Offset\u003B\u0020Format\u003A\u00203pt,3pt",
+            "summary": "Offset\u003B\u0020Format\u003A\u00203pt,3pt.",
             "url": "classes/PhpOffice-PhpWord-Style-Shadow.html#property_offset"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape",
             "name": "Shape",
-            "summary": "Shape\u0020style",
+            "summary": "Shape\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AgetPoints\u0028\u0029",
             "name": "getPoints",
-            "summary": "Get\u0020points",
+            "summary": "Get\u0020points.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_getPoints"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AsetPoints\u0028\u0029",
             "name": "setPoints",
-            "summary": "Set\u0020points",
+            "summary": "Set\u0020points.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_setPoints"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AgetRoundness\u0028\u0029",
             "name": "getRoundness",
-            "summary": "Get\u0020roundness",
+            "summary": "Get\u0020roundness.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_getRoundness"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AsetRoundness\u0028\u0029",
             "name": "setRoundness",
-            "summary": "Set\u0020roundness",
+            "summary": "Set\u0020roundness.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_setRoundness"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AgetFrame\u0028\u0029",
             "name": "getFrame",
-            "summary": "Get\u0020frame",
+            "summary": "Get\u0020frame.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_getFrame"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AsetFrame\u0028\u0029",
             "name": "setFrame",
-            "summary": "Set\u0020frame",
+            "summary": "Set\u0020frame.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_setFrame"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AgetFill\u0028\u0029",
             "name": "getFill",
-            "summary": "Get\u0020fill",
+            "summary": "Get\u0020fill.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_getFill"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AsetFill\u0028\u0029",
             "name": "setFill",
-            "summary": "Set\u0020fill",
+            "summary": "Set\u0020fill.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_setFill"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AgetOutline\u0028\u0029",
             "name": "getOutline",
-            "summary": "Get\u0020outline",
+            "summary": "Get\u0020outline.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_getOutline"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AsetOutline\u0028\u0029",
             "name": "setOutline",
-            "summary": "Set\u0020outline",
+            "summary": "Set\u0020outline.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_setOutline"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AgetShadow\u0028\u0029",
             "name": "getShadow",
-            "summary": "Get\u0020shadow",
+            "summary": "Get\u0020shadow.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_getShadow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AsetShadow\u0028\u0029",
             "name": "setShadow",
-            "summary": "Set\u0020shadow",
+            "summary": "Set\u0020shadow.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_setShadow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AgetExtrusion\u0028\u0029",
             "name": "getExtrusion",
-            "summary": "Get\u00203D\u0020extrusion",
+            "summary": "Get\u00203D\u0020extrusion.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_getExtrusion"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003AsetExtrusion\u0028\u0029",
             "name": "setExtrusion",
-            "summary": "Set\u00203D\u0020extrusion",
+            "summary": "Set\u00203D\u0020extrusion.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#method_setExtrusion"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003A\u0024points",
             "name": "points",
-            "summary": "Points",
+            "summary": "Points.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#property_points"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003A\u0024roundness",
             "name": "roundness",
-            "summary": "Roundness\u0020measure\u0020of\u0020corners\u003B\u00200\u0020\u003D\u0020straightest\u0020\u0028rectangular\u0029\u003B\u00201\u0020\u003D\u0020roundest\u0020\u0028circle\/oval\u0029",
+            "summary": "Roundness\u0020measure\u0020of\u0020corners\u003B\u00200\u0020\u003D\u0020straightest\u0020\u0028rectangular\u0029\u003B\u00201\u0020\u003D\u0020roundest\u0020\u0028circle\/oval\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#property_roundness"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003A\u0024frame",
             "name": "frame",
-            "summary": "Frame",
+            "summary": "Frame.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#property_frame"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003A\u0024fill",
             "name": "fill",
-            "summary": "Fill",
+            "summary": "Fill.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#property_fill"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003A\u0024outline",
             "name": "outline",
-            "summary": "Outline",
+            "summary": "Outline.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#property_outline"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003A\u0024shadow",
             "name": "shadow",
-            "summary": "Shadow",
+            "summary": "Shadow.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#property_shadow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Shape\u003A\u003A\u0024extrusion",
             "name": "extrusion",
-            "summary": "3D\u0020extrusion",
+            "summary": "3D\u0020extrusion.",
             "url": "classes/PhpOffice-PhpWord-Style-Shape.html#property_extrusion"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing",
             "name": "Spacing",
-            "summary": "Spacing\u0020between\u0020lines\u0020and\u0020above\/below\u0020paragraph\u0020style",
+            "summary": "Spacing\u0020between\u0020lines\u0020and\u0020above\/below\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AgetBefore\u0028\u0029",
             "name": "getBefore",
-            "summary": "Get\u0020before",
+            "summary": "Get\u0020before.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_getBefore"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AsetBefore\u0028\u0029",
             "name": "setBefore",
-            "summary": "Set\u0020before",
+            "summary": "Set\u0020before.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_setBefore"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AgetAfter\u0028\u0029",
             "name": "getAfter",
-            "summary": "Get\u0020after",
+            "summary": "Get\u0020after.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_getAfter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AsetAfter\u0028\u0029",
             "name": "setAfter",
-            "summary": "Set\u0020after",
+            "summary": "Set\u0020after.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_setAfter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AgetLine\u0028\u0029",
             "name": "getLine",
-            "summary": "Get\u0020line",
+            "summary": "Get\u0020line.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_getLine"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AsetLine\u0028\u0029",
             "name": "setLine",
-            "summary": "Set\u0020distance",
+            "summary": "Set\u0020distance.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_setLine"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AgetLineRule\u0028\u0029",
             "name": "getLineRule",
-            "summary": "Get\u0020line\u0020rule",
+            "summary": "Get\u0020line\u0020rule.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_getLineRule"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AsetLineRule\u0028\u0029",
             "name": "setLineRule",
-            "summary": "Set\u0020line\u0020rule",
+            "summary": "Set\u0020line\u0020rule.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_setLineRule"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AgetRule\u0028\u0029",
-            "name": "getRule",
-            "summary": "Get\u0020line\u0020rule",
-            "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_getRule"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003AsetRule\u0028\u0029",
-            "name": "setRule",
-            "summary": "Set\u0020line\u0020rule",
-            "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#method_setRule"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003A\u0024before",
             "name": "before",
-            "summary": "Spacing\u0020above\u0020paragraph\u0020\u0028twip\u0029",
+            "summary": "Spacing\u0020above\u0020paragraph\u0020\u0028twip\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#property_before"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003A\u0024after",
             "name": "after",
-            "summary": "Spacing\u0020below\u0020paragraph\u0020\u0028twip\u0029",
+            "summary": "Spacing\u0020below\u0020paragraph\u0020\u0028twip\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#property_after"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003A\u0024line",
             "name": "line",
-            "summary": "Spacing\u0020between\u0020lines\u0020in\u0020paragraph\u0020\u0028twip\u0029",
+            "summary": "Spacing\u0020between\u0020lines\u0020in\u0020paragraph\u0020\u0028twip\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#property_line"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Spacing\u003A\u003A\u0024lineRule",
             "name": "lineRule",
-            "summary": "Type\u0020of\u0020spacing\u0020between\u0020lines",
+            "summary": "Type\u0020of\u0020spacing\u0020between\u0020lines.",
             "url": "classes/PhpOffice-PhpWord-Style-Spacing.html#property_lineRule"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab",
             "name": "Tab",
-            "summary": "Tab\u0020style",
+            "summary": "Tab\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003A__construct\u0028\u0029",
@@ -10848,37 +10508,37 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003AgetType\u0028\u0029",
             "name": "getType",
-            "summary": "Get\u0020stop\u0020type",
+            "summary": "Get\u0020stop\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#method_getType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003AsetType\u0028\u0029",
             "name": "setType",
-            "summary": "Set\u0020stop\u0020type",
+            "summary": "Set\u0020stop\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#method_setType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003AgetLeader\u0028\u0029",
             "name": "getLeader",
-            "summary": "Get\u0020leader",
+            "summary": "Get\u0020leader.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#method_getLeader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003AsetLeader\u0028\u0029",
             "name": "setLeader",
-            "summary": "Set\u0020leader",
+            "summary": "Set\u0020leader.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#method_setLeader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003AgetPosition\u0028\u0029",
             "name": "getPosition",
-            "summary": "Get\u0020position",
+            "summary": "Get\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#method_getPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003AsetPosition\u0028\u0029",
             "name": "setPosition",
-            "summary": "Set\u0020position",
+            "summary": "Set\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#method_setPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003ATAB_STOP_CLEAR",
             "name": "TAB_STOP_CLEAR",
-            "summary": "Tab\u0020stop\u0020types",
+            "summary": "Tab\u0020stop\u0020types.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#constant_TAB_STOP_CLEAR"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003ATAB_STOP_LEFT",
@@ -10913,7 +10573,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003ATAB_LEADER_NONE",
             "name": "TAB_LEADER_NONE",
-            "summary": "Tab\u0020leader\u0020types",
+            "summary": "Tab\u0020leader\u0020types.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#constant_TAB_LEADER_NONE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003ATAB_LEADER_DOT",
@@ -10943,27 +10603,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003A\u0024type",
             "name": "type",
-            "summary": "Tab\u0020stop\u0020type",
+            "summary": "Tab\u0020stop\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#property_type"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003A\u0024leader",
             "name": "leader",
-            "summary": "Tab\u0020leader\u0020character",
+            "summary": "Tab\u0020leader\u0020character.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#property_leader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Tab\u003A\u003A\u0024position",
             "name": "position",
-            "summary": "Tab\u0020stop\u0020position\u0020\u0028twip\u0029",
+            "summary": "Tab\u0020stop\u0020position\u0020\u0028twip\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Tab.html#property_position"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table",
             "name": "Table",
-            "summary": "Border\u0020style",
+            "summary": "Border\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020table\u0020style",
+            "summary": "Create\u0020new\u0020table\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetCellSpacing\u0028\u0029",
@@ -10978,142 +10638,142 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetFirstRow\u0028\u0029",
             "name": "getFirstRow",
-            "summary": "Set\u0020first\u0020row",
+            "summary": "Set\u0020first\u0020row.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getFirstRow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetBgColor\u0028\u0029",
             "name": "getBgColor",
-            "summary": "Get\u0020background",
+            "summary": "Get\u0020background.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getBgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetBgColor\u0028\u0029",
             "name": "setBgColor",
-            "summary": "Set\u0020background",
+            "summary": "Set\u0020background.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setBgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetBorderSize\u0028\u0029",
             "name": "getBorderSize",
-            "summary": "Get\u0020TLRBHV\u0020Border\u0020Size",
+            "summary": "Get\u0020TLRBHV\u0020Border\u0020Size.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getBorderSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetBorderSize\u0028\u0029",
             "name": "setBorderSize",
-            "summary": "Set\u0020TLRBHV\u0020Border\u0020Size",
+            "summary": "Set\u0020TLRBHV\u0020Border\u0020Size.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setBorderSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetBorderColor\u0028\u0029",
             "name": "getBorderColor",
-            "summary": "Get\u0020TLRBHV\u0020Border\u0020Color",
+            "summary": "Get\u0020TLRBHV\u0020Border\u0020Color.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getBorderColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetBorderColor\u0028\u0029",
             "name": "setBorderColor",
-            "summary": "Set\u0020TLRBHV\u0020Border\u0020Color",
+            "summary": "Set\u0020TLRBHV\u0020Border\u0020Color.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setBorderColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetBorderInsideHSize\u0028\u0029",
             "name": "getBorderInsideHSize",
-            "summary": "Get\u0020border\u0020size\u0020inside\u0020horizontal",
+            "summary": "Get\u0020border\u0020size\u0020inside\u0020horizontal.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getBorderInsideHSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetBorderInsideHSize\u0028\u0029",
             "name": "setBorderInsideHSize",
-            "summary": "Set\u0020border\u0020size\u0020inside\u0020horizontal",
+            "summary": "Set\u0020border\u0020size\u0020inside\u0020horizontal.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setBorderInsideHSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetBorderInsideHColor\u0028\u0029",
             "name": "getBorderInsideHColor",
-            "summary": "Get\u0020border\u0020color\u0020inside\u0020horizontal",
+            "summary": "Get\u0020border\u0020color\u0020inside\u0020horizontal.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getBorderInsideHColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetBorderInsideHColor\u0028\u0029",
             "name": "setBorderInsideHColor",
-            "summary": "Set\u0020border\u0020color\u0020inside\u0020horizontal",
+            "summary": "Set\u0020border\u0020color\u0020inside\u0020horizontal.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setBorderInsideHColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetBorderInsideVSize\u0028\u0029",
             "name": "getBorderInsideVSize",
-            "summary": "Get\u0020border\u0020size\u0020inside\u0020vertical",
+            "summary": "Get\u0020border\u0020size\u0020inside\u0020vertical.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getBorderInsideVSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetBorderInsideVSize\u0028\u0029",
             "name": "setBorderInsideVSize",
-            "summary": "Set\u0020border\u0020size\u0020inside\u0020vertical",
+            "summary": "Set\u0020border\u0020size\u0020inside\u0020vertical.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setBorderInsideVSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetBorderInsideVColor\u0028\u0029",
             "name": "getBorderInsideVColor",
-            "summary": "Get\u0020border\u0020color\u0020inside\u0020vertical",
+            "summary": "Get\u0020border\u0020color\u0020inside\u0020vertical.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getBorderInsideVColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetBorderInsideVColor\u0028\u0029",
             "name": "setBorderInsideVColor",
-            "summary": "Set\u0020border\u0020color\u0020inside\u0020vertical",
+            "summary": "Set\u0020border\u0020color\u0020inside\u0020vertical.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setBorderInsideVColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetCellMarginTop\u0028\u0029",
             "name": "getCellMarginTop",
-            "summary": "Get\u0020cell\u0020margin\u0020top",
+            "summary": "Get\u0020cell\u0020margin\u0020top.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getCellMarginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetCellMarginTop\u0028\u0029",
             "name": "setCellMarginTop",
-            "summary": "Set\u0020cell\u0020margin\u0020top",
+            "summary": "Set\u0020cell\u0020margin\u0020top.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setCellMarginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetCellMarginLeft\u0028\u0029",
             "name": "getCellMarginLeft",
-            "summary": "Get\u0020cell\u0020margin\u0020left",
+            "summary": "Get\u0020cell\u0020margin\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getCellMarginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetCellMarginLeft\u0028\u0029",
             "name": "setCellMarginLeft",
-            "summary": "Set\u0020cell\u0020margin\u0020left",
+            "summary": "Set\u0020cell\u0020margin\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setCellMarginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetCellMarginRight\u0028\u0029",
             "name": "getCellMarginRight",
-            "summary": "Get\u0020cell\u0020margin\u0020right",
+            "summary": "Get\u0020cell\u0020margin\u0020right.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getCellMarginRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetCellMarginRight\u0028\u0029",
             "name": "setCellMarginRight",
-            "summary": "Set\u0020cell\u0020margin\u0020right",
+            "summary": "Set\u0020cell\u0020margin\u0020right.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setCellMarginRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetCellMarginBottom\u0028\u0029",
             "name": "getCellMarginBottom",
-            "summary": "Get\u0020cell\u0020margin\u0020bottom",
+            "summary": "Get\u0020cell\u0020margin\u0020bottom.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getCellMarginBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetCellMarginBottom\u0028\u0029",
             "name": "setCellMarginBottom",
-            "summary": "Set\u0020cell\u0020margin\u0020bottom",
+            "summary": "Set\u0020cell\u0020margin\u0020bottom.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setCellMarginBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetCellMargin\u0028\u0029",
             "name": "getCellMargin",
-            "summary": "Get\u0020cell\u0020margin",
+            "summary": "Get\u0020cell\u0020margin.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getCellMargin"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetCellMargin\u0028\u0029",
             "name": "setCellMargin",
-            "summary": "Set\u0020TLRB\u0020cell\u0020margin",
+            "summary": "Set\u0020TLRB\u0020cell\u0020margin.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setCellMargin"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AhasMargin\u0028\u0029",
             "name": "hasMargin",
-            "summary": "Check\u0020if\u0020any\u0020of\u0020the\u0020margin\u0020is\u0020not\u0020null",
+            "summary": "Check\u0020if\u0020any\u0020of\u0020the\u0020margin\u0020is\u0020not\u0020null.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_hasMargin"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetShading\u0028\u0029",
             "name": "getShading",
-            "summary": "Get\u0020shading",
+            "summary": "Get\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getShading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetShading\u0028\u0029",
             "name": "setShading",
-            "summary": "Set\u0020shading",
+            "summary": "Set\u0020shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setShading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetAlignment\u0028\u0029",
@@ -11126,64 +10786,54 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setAlignment"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetAlign\u0028\u0029",
-            "name": "getAlign",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getAlign"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetAlign\u0028\u0029",
-            "name": "setAlign",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setAlign"
-        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetWidth\u0028\u0029",
             "name": "getWidth",
-            "summary": "Get\u0020width",
+            "summary": "Get\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetWidth\u0028\u0029",
             "name": "setWidth",
-            "summary": "Set\u0020width",
+            "summary": "Set\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetUnit\u0028\u0029",
             "name": "getUnit",
-            "summary": "Get\u0020width\u0020unit",
+            "summary": "Get\u0020width\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getUnit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetUnit\u0028\u0029",
             "name": "setUnit",
-            "summary": "Set\u0020width\u0020unit",
+            "summary": "Set\u0020width\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setUnit"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetLayout\u0028\u0029",
             "name": "getLayout",
-            "summary": "Get\u0020layout",
+            "summary": "Get\u0020layout.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getLayout"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetLayout\u0028\u0029",
             "name": "setLayout",
-            "summary": "Set\u0020layout",
+            "summary": "Set\u0020layout.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setLayout"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetTableOnlyProperty\u0028\u0029",
             "name": "getTableOnlyProperty",
-            "summary": "Get\u0020table\u0020style\u0020only\u0020property\u0020by\u0020checking\u0020if\u0020it\u0027s\u0020a\u0020firstRow",
+            "summary": "Get\u0020table\u0020style\u0020only\u0020property\u0020by\u0020checking\u0020if\u0020it\u0027s\u0020a\u0020firstRow.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getTableOnlyProperty"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetTableOnlyProperty\u0028\u0029",
             "name": "setTableOnlyProperty",
-            "summary": "Set\u0020table\u0020style\u0020only\u0020property\u0020by\u0020checking\u0020if\u0020it\u0027s\u0020a\u0020firstRow",
+            "summary": "Set\u0020table\u0020style\u0020only\u0020property\u0020by\u0020checking\u0020if\u0020it\u0027s\u0020a\u0020firstRow.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setTableOnlyProperty"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetPosition\u0028\u0029",
             "name": "getPosition",
-            "summary": "Get\u0020position",
+            "summary": "Get\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetPosition\u0028\u0029",
             "name": "setPosition",
-            "summary": "Set\u0020position",
+            "summary": "Set\u0020position.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setPosition"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetIndent\u0028\u0029",
@@ -11198,47 +10848,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AgetColumnWidths\u0028\u0029",
             "name": "getColumnWidths",
-            "summary": "Get\u0020the\u0020columnWidths",
+            "summary": "Get\u0020the\u0020columnWidths.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_getColumnWidths"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetColumnWidths\u0028\u0029",
             "name": "setColumnWidths",
-            "summary": "The\u0020column\u0020widths",
+            "summary": "The\u0020column\u0020widths.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setColumnWidths"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AisBidiVisual\u0028\u0029",
             "name": "isBidiVisual",
-            "summary": "Get\u0020bidiVisual",
+            "summary": "Get\u0020bidiVisual.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_isBidiVisual"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AsetBidiVisual\u0028\u0029",
             "name": "setBidiVisual",
-            "summary": "Set\u0020bidiVisual",
+            "summary": "Set\u0020bidiVisual.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#method_setBidiVisual"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AWIDTH_AUTO",
-            "name": "WIDTH_AUTO",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Table.html#constant_WIDTH_AUTO"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AWIDTH_PERCENT",
-            "name": "WIDTH_PERCENT",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Table.html#constant_WIDTH_PERCENT"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003AWIDTH_TWIP",
-            "name": "WIDTH_TWIP",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-Table.html#constant_WIDTH_TWIP"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003ALAYOUT_AUTO",
             "name": "LAYOUT_AUTO",
-            "summary": "AutoFit\u0020Table\u0020Layout",
+            "summary": "AutoFit\u0020Table\u0020Layout.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#constant_LAYOUT_AUTO"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003ALAYOUT_FIXED",
             "name": "LAYOUT_FIXED",
-            "summary": "Fixed\u0020Width\u0020Table\u0020Layout",
+            "summary": "Fixed\u0020Width\u0020Table\u0020Layout.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#constant_LAYOUT_FIXED"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024isFirstRow",
@@ -11248,52 +10883,52 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024firstRowStyle",
             "name": "firstRowStyle",
-            "summary": "Style\u0020for\u0020first\u0020row",
+            "summary": "Style\u0020for\u0020first\u0020row.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_firstRowStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024cellMarginTop",
             "name": "cellMarginTop",
-            "summary": "Cell\u0020margin\u0020top",
+            "summary": "Cell\u0020margin\u0020top.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_cellMarginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024cellMarginLeft",
             "name": "cellMarginLeft",
-            "summary": "Cell\u0020margin\u0020left",
+            "summary": "Cell\u0020margin\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_cellMarginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024cellMarginRight",
             "name": "cellMarginRight",
-            "summary": "Cell\u0020margin\u0020right",
+            "summary": "Cell\u0020margin\u0020right.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_cellMarginRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024cellMarginBottom",
             "name": "cellMarginBottom",
-            "summary": "Cell\u0020margin\u0020bottom",
+            "summary": "Cell\u0020margin\u0020bottom.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_cellMarginBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024borderInsideHSize",
             "name": "borderInsideHSize",
-            "summary": "Border\u0020size\u0020inside\u0020horizontal",
+            "summary": "Border\u0020size\u0020inside\u0020horizontal.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_borderInsideHSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024borderInsideHColor",
             "name": "borderInsideHColor",
-            "summary": "Border\u0020color\u0020inside\u0020horizontal",
+            "summary": "Border\u0020color\u0020inside\u0020horizontal.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_borderInsideHColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024borderInsideVSize",
             "name": "borderInsideVSize",
-            "summary": "Border\u0020size\u0020inside\u0020vertical",
+            "summary": "Border\u0020size\u0020inside\u0020vertical.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_borderInsideVSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024borderInsideVColor",
             "name": "borderInsideVColor",
-            "summary": "Border\u0020color\u0020inside\u0020vertical",
+            "summary": "Border\u0020color\u0020inside\u0020vertical.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_borderInsideVColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024shading",
             "name": "shading",
-            "summary": "Shading",
+            "summary": "Shading.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_shading"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024alignment",
@@ -11323,7 +10958,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024position",
             "name": "position",
-            "summary": "Position",
+            "summary": "Position.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_position"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024indent",
@@ -11333,127 +10968,127 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024columnWidths",
             "name": "columnWidths",
-            "summary": "The\u0020width\u0020of\u0020each\u0020column,\u0020computed\u0020based\u0020on\u0020the\u0020max\u0020cell\u0020width\u0020of\u0020each\u0020column",
+            "summary": "The\u0020width\u0020of\u0020each\u0020column,\u0020computed\u0020based\u0020on\u0020the\u0020max\u0020cell\u0020width\u0020of\u0020each\u0020column.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_columnWidths"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Table\u003A\u003A\u0024bidiVisual",
             "name": "bidiVisual",
-            "summary": "Visually\u0020Right\u0020to\u0020Left\u0020Table",
+            "summary": "Visually\u0020Right\u0020to\u0020Left\u0020Table.",
             "url": "classes/PhpOffice-PhpWord-Style-Table.html#property_bidiVisual"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition",
             "name": "TablePosition",
-            "summary": "TablePosition\u0020style",
+            "summary": "TablePosition\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020instance",
+            "summary": "Create\u0020a\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetLeftFromText\u0028\u0029",
             "name": "getLeftFromText",
-            "summary": "Get\u0020distance\u0020from\u0020left\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Get\u0020distance\u0020from\u0020left\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getLeftFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetLeftFromText\u0028\u0029",
             "name": "setLeftFromText",
-            "summary": "Set\u0020distance\u0020from\u0020left\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Set\u0020distance\u0020from\u0020left\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setLeftFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetRightFromText\u0028\u0029",
             "name": "getRightFromText",
-            "summary": "Get\u0020distance\u0020from\u0020right\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Get\u0020distance\u0020from\u0020right\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getRightFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetRightFromText\u0028\u0029",
             "name": "setRightFromText",
-            "summary": "Set\u0020distance\u0020from\u0020right\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Set\u0020distance\u0020from\u0020right\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setRightFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetTopFromText\u0028\u0029",
             "name": "getTopFromText",
-            "summary": "Get\u0020distance\u0020from\u0020top\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Get\u0020distance\u0020from\u0020top\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getTopFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetTopFromText\u0028\u0029",
             "name": "setTopFromText",
-            "summary": "Set\u0020distance\u0020from\u0020top\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Set\u0020distance\u0020from\u0020top\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setTopFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetBottomFromText\u0028\u0029",
             "name": "getBottomFromText",
-            "summary": "Get\u0020distance\u0020from\u0020bottom\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Get\u0020distance\u0020from\u0020bottom\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getBottomFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetBottomFromText\u0028\u0029",
             "name": "setBottomFromText",
-            "summary": "Set\u0020distance\u0020from\u0020bottom\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Set\u0020distance\u0020from\u0020bottom\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setBottomFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetVertAnchor\u0028\u0029",
             "name": "getVertAnchor",
-            "summary": "Get\u0020table\u0020vertical\u0020anchor",
+            "summary": "Get\u0020table\u0020vertical\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getVertAnchor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetVertAnchor\u0028\u0029",
             "name": "setVertAnchor",
-            "summary": "Set\u0020table\u0020vertical\u0020anchor",
+            "summary": "Set\u0020table\u0020vertical\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setVertAnchor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetHorzAnchor\u0028\u0029",
             "name": "getHorzAnchor",
-            "summary": "Get\u0020table\u0020horizontal\u0020anchor",
+            "summary": "Get\u0020table\u0020horizontal\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getHorzAnchor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetHorzAnchor\u0028\u0029",
             "name": "setHorzAnchor",
-            "summary": "Set\u0020table\u0020horizontal\u0020anchor",
+            "summary": "Set\u0020table\u0020horizontal\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setHorzAnchor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetTblpXSpec\u0028\u0029",
             "name": "getTblpXSpec",
-            "summary": "Get\u0020relative\u0020horizontal\u0020alignment\u0020from\u0020anchor",
+            "summary": "Get\u0020relative\u0020horizontal\u0020alignment\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getTblpXSpec"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetTblpXSpec\u0028\u0029",
             "name": "setTblpXSpec",
-            "summary": "Set\u0020relative\u0020horizontal\u0020alignment\u0020from\u0020anchor",
+            "summary": "Set\u0020relative\u0020horizontal\u0020alignment\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setTblpXSpec"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetTblpX\u0028\u0029",
             "name": "getTblpX",
-            "summary": "Get\u0020absolute\u0020horizontal\u0020distance\u0020from\u0020anchor",
+            "summary": "Get\u0020absolute\u0020horizontal\u0020distance\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getTblpX"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetTblpX\u0028\u0029",
             "name": "setTblpX",
-            "summary": "Set\u0020absolute\u0020horizontal\u0020distance\u0020from\u0020anchor",
+            "summary": "Set\u0020absolute\u0020horizontal\u0020distance\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setTblpX"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetTblpYSpec\u0028\u0029",
             "name": "getTblpYSpec",
-            "summary": "Get\u0020relative\u0020vertical\u0020alignment\u0020from\u0020anchor",
+            "summary": "Get\u0020relative\u0020vertical\u0020alignment\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getTblpYSpec"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetTblpYSpec\u0028\u0029",
             "name": "setTblpYSpec",
-            "summary": "Set\u0020relative\u0020vertical\u0020alignment\u0020from\u0020anchor",
+            "summary": "Set\u0020relative\u0020vertical\u0020alignment\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setTblpYSpec"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AgetTblpY\u0028\u0029",
             "name": "getTblpY",
-            "summary": "Get\u0020absolute\u0020vertical\u0020distance\u0020from\u0020anchor",
+            "summary": "Get\u0020absolute\u0020vertical\u0020distance\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_getTblpY"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AsetTblpY\u0028\u0029",
             "name": "setTblpY",
-            "summary": "Set\u0020absolute\u0020vertical\u0020distance\u0020from\u0020anchor",
+            "summary": "Set\u0020absolute\u0020vertical\u0020distance\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#method_setTblpY"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AVANCHOR_TEXT",
             "name": "VANCHOR_TEXT",
-            "summary": "Vertical\u0020anchor\u0020constants",
+            "summary": "Vertical\u0020anchor\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#constant_VANCHOR_TEXT"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AVANCHOR_MARGIN",
@@ -11468,7 +11103,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AHANCHOR_TEXT",
             "name": "HANCHOR_TEXT",
-            "summary": "Horizontal\u0020anchor\u0020constants",
+            "summary": "Horizontal\u0020anchor\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#constant_HANCHOR_TEXT"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AHANCHOR_MARGIN",
@@ -11483,7 +11118,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AXALIGN_LEFT",
             "name": "XALIGN_LEFT",
-            "summary": "Horizontal\u0020alignment\u0020constants",
+            "summary": "Horizontal\u0020alignment\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#constant_XALIGN_LEFT"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AXALIGN_CENTER",
@@ -11508,7 +11143,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AYALIGN_INLINE",
             "name": "YALIGN_INLINE",
-            "summary": "Vertical\u0020alignment\u0020constants",
+            "summary": "Vertical\u0020alignment\u0020constants.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#constant_YALIGN_INLINE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003AYALIGN_TOP",
@@ -11538,57 +11173,57 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024leftFromText",
             "name": "leftFromText",
-            "summary": "Distance\u0020from\u0020left\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Distance\u0020from\u0020left\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_leftFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024rightFromText",
             "name": "rightFromText",
-            "summary": "Distance\u0020from\u0020right\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Distance\u0020from\u0020right\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_rightFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024topFromText",
             "name": "topFromText",
-            "summary": "Distance\u0020from\u0020top\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Distance\u0020from\u0020top\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_topFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024bottomFromText",
             "name": "bottomFromText",
-            "summary": "Distance\u0020from\u0020bottom\u0020of\u0020table\u0020to\u0020text",
+            "summary": "Distance\u0020from\u0020bottom\u0020of\u0020table\u0020to\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_bottomFromText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024vertAnchor",
             "name": "vertAnchor",
-            "summary": "Table\u0020vertical\u0020anchor",
+            "summary": "Table\u0020vertical\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_vertAnchor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024horzAnchor",
             "name": "horzAnchor",
-            "summary": "Table\u0020horizontal\u0020anchor",
+            "summary": "Table\u0020horizontal\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_horzAnchor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024tblpXSpec",
             "name": "tblpXSpec",
-            "summary": "Relative\u0020horizontal\u0020alignment\u0020from\u0020anchor",
+            "summary": "Relative\u0020horizontal\u0020alignment\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_tblpXSpec"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024tblpX",
             "name": "tblpX",
-            "summary": "Absolute\u0020horizontal\u0020distance\u0020from\u0020anchor",
+            "summary": "Absolute\u0020horizontal\u0020distance\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_tblpX"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024tblpYSpec",
             "name": "tblpYSpec",
-            "summary": "Relative\u0020vertical\u0020alignment\u0020from\u0020anchor",
+            "summary": "Relative\u0020vertical\u0020alignment\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_tblpYSpec"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TablePosition\u003A\u003A\u0024tblpY",
             "name": "tblpY",
-            "summary": "Absolute\u0020vertical\u0020distance\u0020from\u0020anchor",
+            "summary": "Absolute\u0020vertical\u0020distance\u0020from\u0020anchor.",
             "url": "classes/PhpOffice-PhpWord-Style-TablePosition.html#property_tblpY"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox",
             "name": "TextBox",
-            "summary": "TextBox\u0020style",
+            "summary": "TextBox\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AsetInnerMarginTop\u0028\u0029",
@@ -11598,7 +11233,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AgetInnerMarginTop\u0028\u0029",
             "name": "getInnerMarginTop",
-            "summary": "Get\u0020margin\u0020top",
+            "summary": "Get\u0020margin\u0020top.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#method_getInnerMarginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AsetInnerMarginLeft\u0028\u0029",
@@ -11608,7 +11243,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AgetInnerMarginLeft\u0028\u0029",
             "name": "getInnerMarginLeft",
-            "summary": "Get\u0020margin\u0020left",
+            "summary": "Get\u0020margin\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#method_getInnerMarginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AsetInnerMarginRight\u0028\u0029",
@@ -11618,7 +11253,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AgetInnerMarginRight\u0028\u0029",
             "name": "getInnerMarginRight",
-            "summary": "Get\u0020margin\u0020right",
+            "summary": "Get\u0020margin\u0020right.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#method_getInnerMarginRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AsetInnerMarginBottom\u0028\u0029",
@@ -11628,7 +11263,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AgetInnerMarginBottom\u0028\u0029",
             "name": "getInnerMarginBottom",
-            "summary": "Get\u0020margin\u0020bottom",
+            "summary": "Get\u0020margin\u0020bottom.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#method_getInnerMarginBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AsetInnerMargin\u0028\u0029",
@@ -11638,7 +11273,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AgetInnerMargin\u0028\u0029",
             "name": "getInnerMargin",
-            "summary": "Get\u0020cell\u0020margin",
+            "summary": "Get\u0020cell\u0020margin.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#method_getInnerMargin"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AhasInnerMargins\u0028\u0029",
@@ -11653,7 +11288,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AgetBorderSize\u0028\u0029",
             "name": "getBorderSize",
-            "summary": "Get\u0020border\u0020size",
+            "summary": "Get\u0020border\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#method_getBorderSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AsetBorderColor\u0028\u0029",
@@ -11663,142 +11298,122 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AgetBorderColor\u0028\u0029",
             "name": "getBorderColor",
-            "summary": "Get\u0020border\u0020color",
+            "summary": "Get\u0020border\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#method_getBorderColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003A\u0024innerMarginTop",
             "name": "innerMarginTop",
-            "summary": "margin\u0020top",
+            "summary": "margin\u0020top.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#property_innerMarginTop"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003A\u0024innerMarginLeft",
             "name": "innerMarginLeft",
-            "summary": "margin\u0020left",
+            "summary": "margin\u0020left.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#property_innerMarginLeft"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003A\u0024innerMarginRight",
             "name": "innerMarginRight",
-            "summary": "margin\u0020right",
+            "summary": "margin\u0020right.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#property_innerMarginRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003A\u0024innerMarginBottom",
             "name": "innerMarginBottom",
-            "summary": "Cell\u0020margin\u0020bottom",
+            "summary": "Cell\u0020margin\u0020bottom.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#property_innerMarginBottom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003A\u0024borderSize",
             "name": "borderSize",
-            "summary": "border\u0020size",
+            "summary": "border\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#property_borderSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003A\u0024borderColor",
             "name": "borderColor",
-            "summary": "border\u0020color",
+            "summary": "border\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#property_borderColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC",
             "name": "TOC",
-            "summary": "TOC\u0020style",
+            "summary": "TOC\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-TOC.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020a\u0020new\u0020TOC\u0020Style",
+            "summary": "Create\u0020a\u0020new\u0020TOC\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Style-TOC.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003AgetTabPos\u0028\u0029",
             "name": "getTabPos",
-            "summary": "Get\u0020Tab\u0020Position",
+            "summary": "Get\u0020Tab\u0020Position.",
             "url": "classes/PhpOffice-PhpWord-Style-TOC.html#method_getTabPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003AsetTabPos\u0028\u0029",
             "name": "setTabPos",
-            "summary": "Set\u0020Tab\u0020Position",
+            "summary": "Set\u0020Tab\u0020Position.",
             "url": "classes/PhpOffice-PhpWord-Style-TOC.html#method_setTabPos"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003AgetTabLeader\u0028\u0029",
             "name": "getTabLeader",
-            "summary": "Get\u0020Tab\u0020Leader",
+            "summary": "Get\u0020Tab\u0020Leader.",
             "url": "classes/PhpOffice-PhpWord-Style-TOC.html#method_getTabLeader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003AsetTabLeader\u0028\u0029",
             "name": "setTabLeader",
-            "summary": "Set\u0020Tab\u0020Leader",
+            "summary": "Set\u0020Tab\u0020Leader.",
             "url": "classes/PhpOffice-PhpWord-Style-TOC.html#method_setTabLeader"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003AgetIndent\u0028\u0029",
             "name": "getIndent",
-            "summary": "Get\u0020Indent",
+            "summary": "Get\u0020Indent.",
             "url": "classes/PhpOffice-PhpWord-Style-TOC.html#method_getIndent"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003AsetIndent\u0028\u0029",
             "name": "setIndent",
-            "summary": "Set\u0020Indent",
+            "summary": "Set\u0020Indent.",
             "url": "classes/PhpOffice-PhpWord-Style-TOC.html#method_setIndent"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003ATABLEADER_DOT",
-            "name": "TABLEADER_DOT",
-            "summary": "Tab\u0020leader\u0020types\u0020for\u0020backward\u0020compatibility",
-            "url": "classes/PhpOffice-PhpWord-Style-TOC.html#constant_TABLEADER_DOT"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003ATABLEADER_UNDERSCORE",
-            "name": "TABLEADER_UNDERSCORE",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-TOC.html#constant_TABLEADER_UNDERSCORE"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003ATABLEADER_LINE",
-            "name": "TABLEADER_LINE",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-TOC.html#constant_TABLEADER_LINE"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003ATABLEADER_NONE",
-            "name": "TABLEADER_NONE",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Style-TOC.html#constant_TABLEADER_NONE"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC\u003A\u003A\u0024indent",
             "name": "indent",
-            "summary": "Indent",
+            "summary": "Indent.",
             "url": "classes/PhpOffice-PhpWord-Style-TOC.html#property_indent"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style",
             "name": "Style",
-            "summary": "Style\u0020collection",
+            "summary": "Style\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Style.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AaddParagraphStyle\u0028\u0029",
             "name": "addParagraphStyle",
-            "summary": "Add\u0020paragraph\u0020style",
+            "summary": "Add\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_addParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AaddFontStyle\u0028\u0029",
             "name": "addFontStyle",
-            "summary": "Add\u0020font\u0020style",
+            "summary": "Add\u0020font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_addFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AaddLinkStyle\u0028\u0029",
             "name": "addLinkStyle",
-            "summary": "Add\u0020link\u0020style",
+            "summary": "Add\u0020link\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_addLinkStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AaddNumberingStyle\u0028\u0029",
             "name": "addNumberingStyle",
-            "summary": "Add\u0020numbering\u0020style",
+            "summary": "Add\u0020numbering\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_addNumberingStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AaddTitleStyle\u0028\u0029",
             "name": "addTitleStyle",
-            "summary": "Add\u0020title\u0020style",
+            "summary": "Add\u0020title\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_addTitleStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AaddTableStyle\u0028\u0029",
             "name": "addTableStyle",
-            "summary": "Add\u0020table\u0020style",
+            "summary": "Add\u0020table\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_addTableStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AcountStyles\u0028\u0029",
             "name": "countStyles",
-            "summary": "Count\u0020styles",
+            "summary": "Count\u0020styles.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_countStyles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AresetStyles\u0028\u0029",
@@ -11808,33 +11423,28 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AsetDefaultParagraphStyle\u0028\u0029",
             "name": "setDefaultParagraphStyle",
-            "summary": "Set\u0020default\u0020paragraph\u0020style",
+            "summary": "Set\u0020default\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_setDefaultParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AgetStyles\u0028\u0029",
             "name": "getStyles",
-            "summary": "Get\u0020all\u0020styles",
+            "summary": "Get\u0020all\u0020styles.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_getStyles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020style\u0020by\u0020name",
+            "summary": "Get\u0020style\u0020by\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003AsetStyleValues\u0028\u0029",
             "name": "setStyleValues",
-            "summary": "Set\u0020style\u0020values\u0020and\u0020put\u0020it\u0020to\u0020static\u0020style\u0020collection",
+            "summary": "Set\u0020style\u0020values\u0020and\u0020put\u0020it\u0020to\u0020static\u0020style\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Style.html#method_setStyleValues"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\u003A\u003A\u0024styles",
             "name": "styles",
-            "summary": "Style\u0020register",
+            "summary": "Style\u0020register.",
             "url": "classes/PhpOffice-PhpWord-Style.html#property_styles"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Template",
-            "name": "Template",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Template.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor",
             "name": "TemplateProcessor",
@@ -11848,7 +11458,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003Azip\u0028\u0029",
             "name": "zip",
-            "summary": "Expose\u0020zip\u0020class",
+            "summary": "Expose\u0020zip\u0020class.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_zip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AreadPartWithRels\u0028\u0029",
@@ -11973,7 +11583,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AsetUpdateFields\u0028\u0029",
             "name": "setUpdateFields",
-            "summary": "Automatically\u0020Recalculate\u0020Fields\u0020on\u0020Open",
+            "summary": "Automatically\u0020Recalculate\u0020Fields\u0020on\u0020Open.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setUpdateFields"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003Asave\u0028\u0029",
@@ -12018,7 +11628,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AgetSettingsPartName\u0028\u0029",
             "name": "getSettingsPartName",
-            "summary": "The\u0020name\u0020of\u0020the\u0020file\u0020containing\u0020the\u0020Settings\u0020part",
+            "summary": "The\u0020name\u0020of\u0020the\u0020file\u0020containing\u0020the\u0020Settings\u0020part.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_getSettingsPartName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AgetFooterName\u0028\u0029",
@@ -12058,47 +11668,47 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AindexClonedVariables\u0028\u0029",
             "name": "indexClonedVariables",
-            "summary": "Replaces\u0020variable\u0020names\u0020in\u0020cloned\nrows\/blocks\u0020with\u0020indexed\u0020names",
+            "summary": "Replaces\u0020variable\u0020names\u0020in\u0020cloned\nrows\/blocks\u0020with\u0020indexed\u0020names.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_indexClonedVariables"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AreplaceClonedVariables\u0028\u0029",
             "name": "replaceClonedVariables",
-            "summary": "Raplaces\u0020variables\u0020with\u0020values\u0020from\u0020array,\u0020array\u0020keys\u0020are\u0020the\u0020variable\u0020names",
+            "summary": "Raplaces\u0020variables\u0020with\u0020values\u0020from\u0020array,\u0020array\u0020keys\u0020are\u0020the\u0020variable\u0020names.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_replaceClonedVariables"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AreplaceXmlBlock\u0028\u0029",
             "name": "replaceXmlBlock",
-            "summary": "Replace\u0020an\u0020XML\u0020block\u0020surrounding\u0020a\u0020macro\u0020with\u0020a\u0020new\u0020block",
+            "summary": "Replace\u0020an\u0020XML\u0020block\u0020surrounding\u0020a\u0020macro\u0020with\u0020a\u0020new\u0020block.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_replaceXmlBlock"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AfindContainingXmlBlockForMacro\u0028\u0029",
             "name": "findContainingXmlBlockForMacro",
-            "summary": "Find\u0020start\u0020and\u0020end\u0020of\u0020XML\u0020block\u0020containing\u0020the\u0020given\u0020macro\ne.g.\u0020\u003Cw\u003Ap\u003E...\u0024\u007Bmacro\u007D...\u003C\/w\u003Ap\u003E",
+            "summary": "Find\u0020start\u0020and\u0020end\u0020of\u0020XML\u0020block\u0020containing\u0020the\u0020given\u0020macro\ne.g.\u0020\u003Cw\u003Ap\u003E...\u0024\u007Bmacro\u007D...\u003C\/w\u003Ap\u003E.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findContainingXmlBlockForMacro"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AfindMacro\u0028\u0029",
             "name": "findMacro",
-            "summary": "Find\u0020the\u0020position\u0020of\u0020\u0028the\u0020start\u0020of\u0029\u0020a\u0020macro",
+            "summary": "Find\u0020the\u0020position\u0020of\u0020\u0028the\u0020start\u0020of\u0029\u0020a\u0020macro.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findMacro"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AfindXmlBlockStart\u0028\u0029",
             "name": "findXmlBlockStart",
-            "summary": "Find\u0020the\u0020start\u0020position\u0020of\u0020the\u0020nearest\u0020XML\u0020block\u0020start\u0020before\u0020\u0024offset",
+            "summary": "Find\u0020the\u0020start\u0020position\u0020of\u0020the\u0020nearest\u0020XML\u0020block\u0020start\u0020before\u0020\u0024offset.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findXmlBlockStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AfindXmlBlockEnd\u0028\u0029",
             "name": "findXmlBlockEnd",
-            "summary": "Find\u0020the\u0020nearest\u0020block\u0020end\u0020position\u0020after\u0020\u0024offset",
+            "summary": "Find\u0020the\u0020nearest\u0020block\u0020end\u0020position\u0020after\u0020\u0024offset.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findXmlBlockEnd"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AsplitTextIntoTexts\u0028\u0029",
             "name": "splitTextIntoTexts",
-            "summary": "Splits\u0020a\u0020w\u003Ar\/w\u003At\u0020into\u0020a\u0020list\u0020of\u0020w\u003Ar\u0020where\u0020each\u0020\u0024\u007Bmacro\u007D\u0020is\u0020in\u0020a\u0020separate\u0020w\u003Ar",
+            "summary": "Splits\u0020a\u0020w\u003Ar\/w\u003At\u0020into\u0020a\u0020list\u0020of\u0020w\u003Ar\u0020where\u0020each\u0020\u0024\u007Bmacro\u007D\u0020is\u0020in\u0020a\u0020separate\u0020w\u003Ar.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_splitTextIntoTexts"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AtextNeedsSplitting\u0028\u0029",
             "name": "textNeedsSplitting",
-            "summary": "Returns\u0020true\u0020if\u0020string\u0020contains\u0020a\u0020macro\u0020that\u0020is\u0020not\u0020in\u0020it\u0027s\u0020own\u0020w\u003Ar",
+            "summary": "Returns\u0020true\u0020if\u0020string\u0020contains\u0020a\u0020macro\u0020that\u0020is\u0020not\u0020in\u0020it\u0027s\u0020own\u0020w\u003Ar.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_textNeedsSplitting"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AMAXIMUM_REPLACEMENTS_DEFAULT",
@@ -12118,22 +11728,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003A\u0024tempDocumentMainPart",
             "name": "tempDocumentMainPart",
-            "summary": "Content\u0020of\u0020main\u0020document\u0020part\u0020\u0028in\u0020XML\u0020format\u0029\u0020of\u0020the\u0020temporary\u0020document",
+            "summary": "Content\u0020of\u0020main\u0020document\u0020part\u0020\u0028in\u0020XML\u0020format\u0029\u0020of\u0020the\u0020temporary\u0020document.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#property_tempDocumentMainPart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003A\u0024tempDocumentSettingsPart",
             "name": "tempDocumentSettingsPart",
-            "summary": "Content\u0020of\u0020settings\u0020part\u0020\u0028in\u0020XML\u0020format\u0029\u0020of\u0020the\u0020temporary\u0020document",
+            "summary": "Content\u0020of\u0020settings\u0020part\u0020\u0028in\u0020XML\u0020format\u0029\u0020of\u0020the\u0020temporary\u0020document.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#property_tempDocumentSettingsPart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003A\u0024tempDocumentHeaders",
             "name": "tempDocumentHeaders",
-            "summary": "Content\u0020of\u0020headers\u0020\u0028in\u0020XML\u0020format\u0029\u0020of\u0020the\u0020temporary\u0020document",
+            "summary": "Content\u0020of\u0020headers\u0020\u0028in\u0020XML\u0020format\u0029\u0020of\u0020the\u0020temporary\u0020document.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#property_tempDocumentHeaders"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003A\u0024tempDocumentFooters",
             "name": "tempDocumentFooters",
-            "summary": "Content\u0020of\u0020footers\u0020\u0028in\u0020XML\u0020format\u0029\u0020of\u0020the\u0020temporary\u0020document",
+            "summary": "Content\u0020of\u0020footers\u0020\u0028in\u0020XML\u0020format\u0029\u0020of\u0020the\u0020temporary\u0020document.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#property_tempDocumentFooters"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003A\u0024tempDocumentRelations",
@@ -12148,57 +11758,57 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003A\u0024tempDocumentNewImages",
             "name": "tempDocumentNewImages",
-            "summary": "new\u0020inserted\u0020images\u0020list",
+            "summary": "new\u0020inserted\u0020images\u0020list.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#property_tempDocumentNewImages"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter",
             "name": "AbstractWriter",
-            "summary": "Abstract\u0020writer\u0020class",
+            "summary": "Abstract\u0020writer\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AgetPhpWord\u0028\u0029",
             "name": "getPhpWord",
-            "summary": "Get\u0020PhpWord\u0020object",
+            "summary": "Get\u0020PhpWord\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getPhpWord"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AsetPhpWord\u0028\u0029",
             "name": "setPhpWord",
-            "summary": "Set\u0020PhpWord\u0020object",
+            "summary": "Set\u0020PhpWord\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setPhpWord"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AgetWriterPart\u0028\u0029",
             "name": "getWriterPart",
-            "summary": "Get\u0020writer\u0020part",
+            "summary": "Get\u0020writer\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getWriterPart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AisUseDiskCaching\u0028\u0029",
             "name": "isUseDiskCaching",
-            "summary": "Get\u0020use\u0020disk\u0020caching\u0020status",
+            "summary": "Get\u0020use\u0020disk\u0020caching\u0020status.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_isUseDiskCaching"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AsetUseDiskCaching\u0028\u0029",
             "name": "setUseDiskCaching",
-            "summary": "Set\u0020use\u0020disk\u0020caching\u0020status",
+            "summary": "Set\u0020use\u0020disk\u0020caching\u0020status.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setUseDiskCaching"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AgetDiskCachingDirectory\u0028\u0029",
             "name": "getDiskCachingDirectory",
-            "summary": "Get\u0020disk\u0020caching\u0020directory",
+            "summary": "Get\u0020disk\u0020caching\u0020directory.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getDiskCachingDirectory"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AgetTempDir\u0028\u0029",
             "name": "getTempDir",
-            "summary": "Get\u0020temporary\u0020directory",
+            "summary": "Get\u0020temporary\u0020directory.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempDir"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AsetTempDir\u0028\u0029",
             "name": "setTempDir",
-            "summary": "Set\u0020temporary\u0020directory",
+            "summary": "Set\u0020temporary\u0020directory.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setTempDir"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AgetTempFile\u0028\u0029",
             "name": "getTempFile",
-            "summary": "Get\u0020temporary\u0020file\u0020name",
+            "summary": "Get\u0020temporary\u0020file\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempFile"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AcleanupTempFile\u0028\u0029",
@@ -12213,12 +11823,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AgetZipArchive\u0028\u0029",
             "name": "getZipArchive",
-            "summary": "Get\u0020ZipArchive\u0020object",
+            "summary": "Get\u0020ZipArchive\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getZipArchive"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AopenFile\u0028\u0029",
             "name": "openFile",
-            "summary": "Open\u0020file\u0020for\u0020writing",
+            "summary": "Open\u0020file\u0020for\u0020writing.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_openFile"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AwriteFile\u0028\u0029",
@@ -12241,69 +11851,64 @@ Search.appendIndex(
             "summary": "Delete\u0020directory.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_deleteDir"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003AgetUseDiskCaching\u0028\u0029",
-            "name": "getUseDiskCaching",
-            "summary": "Get\u0020use\u0020disk\u0020caching\u0020status",
-            "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getUseDiskCaching"
-        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003A\u0024phpWord",
             "name": "phpWord",
-            "summary": "PHPWord\u0020object",
+            "summary": "PHPWord\u0020object.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_phpWord"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003A\u0024parts",
             "name": "parts",
-            "summary": "Part\u0020name\u0020and\u0020file\u0020name\u0020pairs",
+            "summary": "Part\u0020name\u0020and\u0020file\u0020name\u0020pairs.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_parts"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003A\u0024writerParts",
             "name": "writerParts",
-            "summary": "Individual\u0020writers",
+            "summary": "Individual\u0020writers.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_writerParts"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003A\u0024mediaPaths",
             "name": "mediaPaths",
-            "summary": "Paths\u0020to\u0020store\u0020media\u0020files",
+            "summary": "Paths\u0020to\u0020store\u0020media\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_mediaPaths"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003A\u0024useDiskCaching",
             "name": "useDiskCaching",
-            "summary": "Use\u0020disk\u0020caching",
+            "summary": "Use\u0020disk\u0020caching.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_useDiskCaching"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003A\u0024diskCachingDirectory",
             "name": "diskCachingDirectory",
-            "summary": "Disk\u0020caching\u0020directory",
+            "summary": "Disk\u0020caching\u0020directory.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_diskCachingDirectory"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003A\u0024tempDir",
             "name": "tempDir",
-            "summary": "Temporary\u0020directory",
+            "summary": "Temporary\u0020directory.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempDir"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003A\u0024originalFilename",
             "name": "originalFilename",
-            "summary": "Original\u0020file\u0020name",
+            "summary": "Original\u0020file\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_originalFilename"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter\u003A\u003A\u0024tempFilename",
             "name": "tempFilename",
-            "summary": "Temporary\u0020file\u0020name",
+            "summary": "Temporary\u0020file\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempFilename"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\AbstractElement",
             "name": "AbstractElement",
-            "summary": "Abstract\u0020HTML\u0020element\u0020writer",
+            "summary": "Abstract\u0020HTML\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\AbstractElement\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\AbstractElement\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\AbstractElement\u003A\u003AsetWithoutP\u0028\u0029",
@@ -12313,17 +11918,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\AbstractElement\u003A\u003A\u0024parentWriter",
             "name": "parentWriter",
-            "summary": "Parent\u0020writer",
+            "summary": "Parent\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_parentWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\AbstractElement\u003A\u003A\u0024element",
             "name": "element",
-            "summary": "Element",
+            "summary": "Element.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_element"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\AbstractElement\u003A\u003A\u0024withoutP",
             "name": "withoutP",
-            "summary": "Without\u0020paragraph",
+            "summary": "Without\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_withoutP"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\AbstractElement\u003A\u003A\u0024escaper",
@@ -12333,127 +11938,127 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Bookmark",
             "name": "Bookmark",
-            "summary": "Bookmark\u0020element\u0020HTML\u0020writer",
+            "summary": "Bookmark\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Bookmark.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Bookmark\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020bookmark",
+            "summary": "Write\u0020bookmark.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Bookmark.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Container",
             "name": "Container",
-            "summary": "Container\u0020element\u0020HTML\u0020writer",
+            "summary": "Container\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Container.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Container\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020container",
+            "summary": "Write\u0020container.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Container.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Container\u003A\u003A\u0024namespace",
             "name": "namespace",
-            "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028RTF\u0029",
+            "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028RTF\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Container.html#property_namespace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Endnote",
             "name": "Endnote",
-            "summary": "Endnote\u0020element\u0020HTML\u0020writer",
+            "summary": "Endnote\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Endnote\u003A\u003A\u0024noteType",
             "name": "noteType",
-            "summary": "Note\u0020type",
+            "summary": "Note\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html#property_noteType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Footnote",
             "name": "Footnote",
-            "summary": "Footnote\u0020element\u0020HTML\u0020writer",
+            "summary": "Footnote\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Footnote.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Footnote\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020footnote\/endnote\u0020marks\u003B\u0020The\u0020actual\u0020content\u0020is\u0020written\u0020in\u0020parent\u0020writer\u0020\u0028HTML\u0029",
+            "summary": "Write\u0020footnote\/endnote\u0020marks\u003B\u0020The\u0020actual\u0020content\u0020is\u0020written\u0020in\u0020parent\u0020writer\u0020\u0028HTML\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Footnote.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Footnote\u003A\u003A\u0024noteType",
             "name": "noteType",
-            "summary": "Note\u0020type\u0020footnote\u007Cendnote",
+            "summary": "Note\u0020type\u0020footnote\u007Cendnote.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Footnote.html#property_noteType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Image",
             "name": "Image",
-            "summary": "Image\u0020element\u0020HTML\u0020writer",
+            "summary": "Image\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Image.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Image\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020image",
+            "summary": "Write\u0020image.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Image.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Link",
             "name": "Link",
-            "summary": "Link\u0020element\u0020HTML\u0020writer",
+            "summary": "Link\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Link.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Link\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020link",
+            "summary": "Write\u0020link.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Link.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\ListItem",
             "name": "ListItem",
-            "summary": "ListItem\u0020element\u0020HTML\u0020writer",
+            "summary": "ListItem\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-ListItem.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\ListItem\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020list\u0020item",
+            "summary": "Write\u0020list\u0020item.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-ListItem.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\ListItemRun",
             "name": "ListItemRun",
-            "summary": "ListItem\u0020element\u0020HTML\u0020writer",
+            "summary": "ListItem\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-ListItemRun.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\ListItemRun\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020list\u0020item",
+            "summary": "Write\u0020list\u0020item.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-ListItemRun.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\PageBreak",
             "name": "PageBreak",
-            "summary": "PageBreak\u0020element\u0020HTML\u0020writer",
+            "summary": "PageBreak\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-PageBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\PageBreak\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020page\u0020break",
+            "summary": "Write\u0020page\u0020break.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-PageBreak.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Table",
             "name": "Table",
-            "summary": "Table\u0020element\u0020HTML\u0020writer",
+            "summary": "Table\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Table.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Table\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020table",
+            "summary": "Write\u0020table.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Table.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Table\u003A\u003AgetTableStyle\u0028\u0029",
             "name": "getTableStyle",
-            "summary": "Translates\u0020Table\u0020style\u0020in\u0020CSS\u0020equivalent",
+            "summary": "Translates\u0020Table\u0020style\u0020in\u0020CSS\u0020equivalent.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Table.html#method_getTableStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text",
             "name": "Text",
-            "summary": "Text\u0020element\u0020HTML\u0020writer",
+            "summary": "Text\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020text",
+            "summary": "Write\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003AsetOpeningText\u0028\u0029",
@@ -12468,27 +12073,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003AwriteOpening\u0028\u0029",
             "name": "writeOpening",
-            "summary": "Write\u0020opening",
+            "summary": "Write\u0020opening.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#method_writeOpening"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003AwriteClosing\u0028\u0029",
             "name": "writeClosing",
-            "summary": "Write\u0020ending",
+            "summary": "Write\u0020ending.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#method_writeClosing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003AwriteTrackChangeOpening\u0028\u0029",
             "name": "writeTrackChangeOpening",
-            "summary": "writes\u0020the\u0020track\u0020change\u0020opening\u0020tag",
+            "summary": "writes\u0020the\u0020track\u0020change\u0020opening\u0020tag.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#method_writeTrackChangeOpening"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003AwriteTrackChangeClosing\u0028\u0029",
             "name": "writeTrackChangeClosing",
-            "summary": "writes\u0020the\u0020track\u0020change\u0020closing\u0020tag",
+            "summary": "writes\u0020the\u0020track\u0020change\u0020closing\u0020tag.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#method_writeTrackChangeClosing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003AgetParagraphStyle\u0028\u0029",
             "name": "getParagraphStyle",
-            "summary": "Write\u0020paragraph\u0020style",
+            "summary": "Write\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#method_getParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003AgetFontStyle\u0028\u0029",
@@ -12498,52 +12103,52 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003A\u0024openingText",
             "name": "openingText",
-            "summary": "Text\u0020written\u0020after\u0020opening",
+            "summary": "Text\u0020written\u0020after\u0020opening.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#property_openingText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003A\u0024closingText",
             "name": "closingText",
-            "summary": "Text\u0020written\u0020before\u0020closing",
+            "summary": "Text\u0020written\u0020before\u0020closing.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#property_closingText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003A\u0024openingTags",
             "name": "openingTags",
-            "summary": "Opening\u0020tags",
+            "summary": "Opening\u0020tags.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#property_openingTags"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text\u003A\u003A\u0024closingTags",
             "name": "closingTags",
-            "summary": "Closing\u0020tag",
+            "summary": "Closing\u0020tag.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Text.html#property_closingTags"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\TextBreak",
             "name": "TextBreak",
-            "summary": "TextBreak\u0020element\u0020HTML\u0020writer",
+            "summary": "TextBreak\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-TextBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\TextBreak\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020text\u0020break",
+            "summary": "Write\u0020text\u0020break.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-TextBreak.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\TextRun",
             "name": "TextRun",
-            "summary": "TextRun\u0020element\u0020HTML\u0020writer",
+            "summary": "TextRun\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-TextRun.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\TextRun\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020text\u0020run",
+            "summary": "Write\u0020text\u0020run.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-TextRun.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Title",
             "name": "Title",
-            "summary": "TextRun\u0020element\u0020HTML\u0020writer",
+            "summary": "TextRun\u0020element\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Title.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Title\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020heading",
+            "summary": "Write\u0020heading.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Title.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\AbstractPart",
@@ -12583,47 +12188,47 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Body",
             "name": "Body",
-            "summary": "RTF\u0020body\u0020part\u0020writer",
+            "summary": "RTF\u0020body\u0020part\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Part-Body.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Body\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Part-Body.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Body\u003A\u003AwriteNotes\u0028\u0029",
             "name": "writeNotes",
-            "summary": "Write\u0020footnote\/endnote\u0020contents\u0020as\u0020textruns",
+            "summary": "Write\u0020footnote\/endnote\u0020contents\u0020as\u0020textruns.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Part-Body.html#method_writeNotes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Head",
             "name": "Head",
-            "summary": "RTF\u0020head\u0020part\u0020writer",
+            "summary": "RTF\u0020head\u0020part\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Head\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Head\u003A\u003AwriteStyles\u0028\u0029",
             "name": "writeStyles",
-            "summary": "Get\u0020styles",
+            "summary": "Get\u0020styles.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html#method_writeStyles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle",
             "name": "AbstractStyle",
-            "summary": "Style\u0020writer",
+            "summary": "Style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-AbstractStyle.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-AbstractStyle.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-AbstractStyle.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle\u003A\u003AsetParentWriter\u0028\u0029",
@@ -12633,17 +12238,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle\u003A\u003AgetParentWriter\u0028\u0029",
             "name": "getParentWriter",
-            "summary": "Get\u0020parent\u0020writer",
+            "summary": "Get\u0020parent\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-AbstractStyle.html#method_getParentWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020style",
+            "summary": "Get\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-AbstractStyle.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle\u003A\u003AassembleCss\u0028\u0029",
             "name": "assembleCss",
-            "summary": "Takes\u0020array\u0020where\u0020of\u0020CSS\u0020properties\u0020\/\u0020values\u0020and\u0020converts\u0020to\u0020CSS\u0020string",
+            "summary": "Takes\u0020array\u0020where\u0020of\u0020CSS\u0020properties\u0020\/\u0020values\u0020and\u0020converts\u0020to\u0020CSS\u0020string.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-AbstractStyle.html#method_assembleCss"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle\u003A\u003AgetValueIf\u0028\u0029",
@@ -12653,62 +12258,62 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle\u003A\u003A\u0024parentWriter",
             "name": "parentWriter",
-            "summary": "Parent\u0020writer",
+            "summary": "Parent\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-AbstractStyle.html#property_parentWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\AbstractStyle\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Style",
+            "summary": "Style.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-AbstractStyle.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\Font",
             "name": "Font",
-            "summary": "Font\u0020style\u0020HTML\u0020writer",
+            "summary": "Font\u0020style\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-Font.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\Font\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-Font.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\Generic",
             "name": "Generic",
-            "summary": "Generic\u0020style\u0020writer",
+            "summary": "Generic\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-Generic.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\Generic\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-Generic.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\Image",
             "name": "Image",
-            "summary": "Paragraph\u0020style\u0020HTML\u0020writer",
+            "summary": "Paragraph\u0020style\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-Image.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\Image\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-Image.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\Paragraph",
             "name": "Paragraph",
-            "summary": "Paragraph\u0020style\u0020HTML\u0020writer",
+            "summary": "Paragraph\u0020style\u0020HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-Paragraph.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Style\\Paragraph\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Style-Paragraph.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML",
             "name": "HTML",
-            "summary": "HTML\u0020writer",
+            "summary": "HTML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\u003A\u003Asave\u0028\u0029",
@@ -12718,7 +12323,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\u003A\u003AgetContent\u0028\u0029",
             "name": "getContent",
-            "summary": "Get\u0020content",
+            "summary": "Get\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML.html#method_getContent"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\u003A\u003A\u0024isPdf",
@@ -12728,7 +12333,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\u003A\u003AgetNotes\u0028\u0029",
             "name": "getNotes",
-            "summary": "Get\u0020notes",
+            "summary": "Get\u0020notes.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML.html#method_getNotes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\u003A\u003AaddNote\u0028\u0029",
@@ -12736,34 +12341,29 @@ Search.appendIndex(
             "summary": "Add\u0020note.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML.html#method_addNote"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\u003A\u003AwriteDocument\u0028\u0029",
-            "name": "writeDocument",
-            "summary": "Write\u0020document",
-            "url": "classes/PhpOffice-PhpWord-Writer-HTML.html#method_writeDocument"
-        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\u003A\u003A\u0024notes",
             "name": "notes",
-            "summary": "Footnotes\u0020and\u0020endnotes\u0020collection",
+            "summary": "Footnotes\u0020and\u0020endnotes\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML.html#property_notes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\AbstractElement",
             "name": "AbstractElement",
-            "summary": "Abstract\u0020element\u0020writer",
+            "summary": "Abstract\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-AbstractElement.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Container",
             "name": "Container",
-            "summary": "Container\u0020element\u0020writer\u0020\u0028section,\u0020textrun,\u0020header,\u0020footnote,\u0020cell,\u0020etc.\u0029",
+            "summary": "Container\u0020element\u0020writer\u0020\u0028section,\u0020textrun,\u0020header,\u0020footnote,\u0020cell,\u0020etc.\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Container.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Container\u003A\u003A\u0024namespace",
             "name": "namespace",
-            "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028ODText\u0029",
+            "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028ODText\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Container.html#property_namespace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field",
             "name": "Field",
-            "summary": "Field\u0020element\u0020writer",
+            "summary": "Field\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field\u003A\u003Awrite\u0028\u0029",
@@ -12778,42 +12378,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Image",
             "name": "Image",
-            "summary": "Image\u0020element\u0020writer",
+            "summary": "Image\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Image.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Image\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Image.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Link",
             "name": "Link",
-            "summary": "Text\u0020element\u0020writer",
+            "summary": "Text\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Link.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Link\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Link.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\PageBreak",
             "name": "PageBreak",
-            "summary": "PageBreak\u0020element\u0020writer",
+            "summary": "PageBreak\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-PageBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\PageBreak\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-PageBreak.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Table",
             "name": "Table",
-            "summary": "Table\u0020element\u0020writer",
+            "summary": "Table\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Table.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Table\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Table.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Table\u003A\u003AwriteColumns\u0028\u0029",
@@ -12828,12 +12428,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Text",
             "name": "Text",
-            "summary": "Text\u0020element\u0020writer",
+            "summary": "Text\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Text.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Text\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Text.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Text\u003A\u003Areplacetabs\u0028\u0029",
@@ -12848,42 +12448,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\TextBreak",
             "name": "TextBreak",
-            "summary": "TextBreak\u0020element\u0020writer",
+            "summary": "TextBreak\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-TextBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\TextBreak\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-TextBreak.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\TextRun",
             "name": "TextRun",
-            "summary": "TextRun\u0020element\u0020writer",
+            "summary": "TextRun\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-TextRun.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\TextRun\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-TextRun.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Title",
             "name": "Title",
-            "summary": "Title\u0020element\u0020writer",
+            "summary": "Title\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Title.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Title\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Title.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Title\u003A\u003AcompareToFirstElement\u0028\u0029",
             "name": "compareToFirstElement",
-            "summary": "Test\u0020if\u0020element\u0020is\u0020same\u0020as\u0020first\u0020element\u0020in\u0020array",
+            "summary": "Test\u0020if\u0020element\u0020is\u0020same\u0020as\u0020first\u0020element\u0020in\u0020array.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Title.html#method_compareToFirstElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart",
             "name": "AbstractPart",
-            "summary": "ODText\u0020writer\u0020part\u0020abstract",
+            "summary": "ODText\u0020writer\u0020part\u0020abstract.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart\u003A\u003AwriteCommonRootAttributes\u0028\u0029",
@@ -12903,12 +12503,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content",
             "name": "Content",
-            "summary": "ODText\u0020content\u0020part\u0020writer\u003A\u0020content.xml",
+            "summary": "ODText\u0020content\u0020part\u0020writer\u003A\u0020content.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AwriteAutoStyles\u0028\u0029",
@@ -12928,32 +12528,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AgetContainerStyle\u0028\u0029",
             "name": "getContainerStyle",
-            "summary": "Get\u0020all\u0020styles\u0020of\u0020each\u0020elements\u0020in\u0020container\u0020recursively",
+            "summary": "Get\u0020all\u0020styles\u0020of\u0020each\u0020elements\u0020in\u0020container\u0020recursively.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_getContainerStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AgetElementStyle\u0028\u0029",
             "name": "getElementStyle",
-            "summary": "Get\u0020style\u0020of\u0020individual\u0020element",
+            "summary": "Get\u0020style\u0020of\u0020individual\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_getElementStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AgetElementStyleField\u0028\u0029",
             "name": "getElementStyleField",
-            "summary": "Get\u0020font\u0020style\u0020of\u0020individual\u0020field\u0020element",
+            "summary": "Get\u0020font\u0020style\u0020of\u0020individual\u0020field\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_getElementStyleField"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AgetElementStyleTextRun\u0028\u0029",
             "name": "getElementStyleTextRun",
-            "summary": "Get\u0020style\u0020of\u0020individual\u0020element",
+            "summary": "Get\u0020style\u0020of\u0020individual\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_getElementStyleTextRun"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AcollectTrackedChanges\u0028\u0029",
             "name": "collectTrackedChanges",
-            "summary": "Finds\u0020all\u0020tracked\u0020changes",
+            "summary": "Finds\u0020all\u0020tracked\u0020changes.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_collectTrackedChanges"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003A\u0024autoStyles",
             "name": "autoStyles",
-            "summary": "Auto\u0020style\u0020collection",
+            "summary": "Auto\u0020style\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#property_autoStyles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003A\u0024imageParagraphStyles",
@@ -12963,47 +12563,47 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Manifest",
             "name": "Manifest",
-            "summary": "ODText\u0020manifest\u0020part\u0020writer\u003A\u0020META\u002DINF\/manifest.xml",
+            "summary": "ODText\u0020manifest\u0020part\u0020writer\u003A\u0020META\u002DINF\/manifest.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Manifest.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Manifest\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Manifest.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Meta",
             "name": "Meta",
-            "summary": "ODText\u0020meta\u0020part\u0020writer\u003A\u0020meta.xml",
+            "summary": "ODText\u0020meta\u0020part\u0020writer\u003A\u0020meta.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Meta.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Meta\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Meta.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Meta\u003A\u003AwriteCustomProperty\u0028\u0029",
             "name": "writeCustomProperty",
-            "summary": "Write\u0020individual\u0020property",
+            "summary": "Write\u0020individual\u0020property.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Meta.html#method_writeCustomProperty"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Mimetype",
             "name": "Mimetype",
-            "summary": "ODText\u0020mimetype\u0020part\u0020writer\u003A\u0020mimetype",
+            "summary": "ODText\u0020mimetype\u0020part\u0020writer\u003A\u0020mimetype.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Mimetype.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Mimetype\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Mimetype.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Styles",
             "name": "Styles",
-            "summary": "ODText\u0020styles\u0020part\u0020writer\u003A\u0020styles.xml",
+            "summary": "ODText\u0020styles\u0020part\u0020writer\u003A\u0020styles.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Styles\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Styles\u003A\u003AwriteDefault\u0028\u0029",
@@ -13018,12 +12618,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Styles\u003A\u003Acvttwiptostr\u0028\u0029",
             "name": "cvttwiptostr",
-            "summary": "Convert\u0020int\u0020in\u0020twips\u0020to\u0020inches\/cm\u0020then\u0020to\u0020string\u0020and\u0020append\u0020unit",
+            "summary": "Convert\u0020int\u0020in\u0020twips\u0020to\u0020inches\/cm\u0020then\u0020to\u0020string\u0020and\u0020append\u0020unit.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html#method_cvttwiptostr"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Styles\u003A\u003AwritePageLayout\u0028\u0029",
             "name": "writePageLayout",
-            "summary": "call\u0020writePageLayoutIndiv\u0020to\u0020write\u0020page\u0020layout\u0020styles\u0020for\u0020each\u0020page",
+            "summary": "call\u0020writePageLayoutIndiv\u0020to\u0020write\u0020page\u0020layout\u0020styles\u0020for\u0020each\u0020page.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html#method_writePageLayout"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Styles\u003A\u003AwritePageLayoutIndiv\u0028\u0029",
@@ -13038,12 +12638,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\AbstractStyle",
             "name": "AbstractStyle",
-            "summary": "Style\u0020writer",
+            "summary": "Style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-AbstractStyle.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Font",
             "name": "Font",
-            "summary": "Font\u0020style\u0020writer",
+            "summary": "Font\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Font.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Font\u003A\u003Awrite\u0028\u0029",
@@ -13053,7 +12653,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Image",
             "name": "Image",
-            "summary": "Image\u0020style\u0020writer",
+            "summary": "Image\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Image.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Image\u003A\u003Awrite\u0028\u0029",
@@ -13063,7 +12663,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Paragraph",
             "name": "Paragraph",
-            "summary": "Font\u0020style\u0020writer",
+            "summary": "Font\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Paragraph.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Paragraph\u003A\u003Awrite\u0028\u0029",
@@ -13073,7 +12673,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Section",
             "name": "Section",
-            "summary": "Section\u0020style\u0020writer",
+            "summary": "Section\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Section.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Section\u003A\u003Awrite\u0028\u0029",
@@ -13083,7 +12683,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Table",
             "name": "Table",
-            "summary": "Table\u0020style\u0020writer",
+            "summary": "Table\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Table.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Table\u003A\u003Awrite\u0028\u0029",
@@ -13093,12 +12693,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText",
             "name": "ODText",
-            "summary": "ODText\u0020writer",
+            "summary": "ODText\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020ODText\u0020writer",
+            "summary": "Create\u0020new\u0020ODText\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\u003A\u003Asave\u0028\u0029",
@@ -13108,87 +12708,87 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer",
             "name": "AbstractRenderer",
-            "summary": "Abstract\u0020PDF\u0020renderer",
+            "summary": "Abstract\u0020PDF\u0020renderer.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003AgetFont\u0028\u0029",
             "name": "getFont",
-            "summary": "Get\u0020Font",
+            "summary": "Get\u0020Font.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getFont"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003AsetFont\u0028\u0029",
             "name": "setFont",
-            "summary": "Set\u0020font.\u0020Examples\u003A\n\u0020\u0020\u0020\u0020\u0020\u0027arialunicid0\u002Dchinese\u002Dsimplified\u0027\n\u0020\u0020\u0020\u0020\u0020\u0027arialunicid0\u002Dchinese\u002Dtraditional\u0027\n\u0020\u0020\u0020\u0020\u0020\u0027arialunicid0\u002Dkorean\u0027\n\u0020\u0020\u0020\u0020\u0020\u0027arialunicid0\u002Djapanese\u0027",
+            "summary": "Set\u0020font.\u0020Examples\u003A\n\u0020\u0020\u0020\u0020\u0020\u0027arialunicid0\u002Dchinese\u002Dsimplified\u0027\n\u0020\u0020\u0020\u0020\u0020\u0027arialunicid0\u002Dchinese\u002Dtraditional\u0027\n\u0020\u0020\u0020\u0020\u0020\u0027arialunicid0\u002Dkorean\u0027\n\u0020\u0020\u0020\u0020\u0020\u0027arialunicid0\u002Djapanese\u0027.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setFont"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003AgetPaperSize\u0028\u0029",
             "name": "getPaperSize",
-            "summary": "Get\u0020Paper\u0020Size",
+            "summary": "Get\u0020Paper\u0020Size.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getPaperSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003AsetPaperSize\u0028\u0029",
             "name": "setPaperSize",
-            "summary": "Set\u0020Paper\u0020Size",
+            "summary": "Set\u0020Paper\u0020Size.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setPaperSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003AgetOrientation\u0028\u0029",
             "name": "getOrientation",
-            "summary": "Get\u0020Orientation",
+            "summary": "Get\u0020Orientation.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getOrientation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003AsetOrientation\u0028\u0029",
             "name": "setOrientation",
-            "summary": "Set\u0020Orientation",
+            "summary": "Set\u0020Orientation.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setOrientation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003AprepareForSave\u0028\u0029",
             "name": "prepareForSave",
-            "summary": "Save\u0020PhpWord\u0020to\u0020PDF\u0020file,\u0020pre\u002Dsave",
+            "summary": "Save\u0020PhpWord\u0020to\u0020PDF\u0020file,\u0020pre\u002Dsave.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_prepareForSave"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003ArestoreStateAfterSave\u0028\u0029",
             "name": "restoreStateAfterSave",
-            "summary": "Save\u0020PhpWord\u0020to\u0020PDF\u0020file,\u0020post\u002Dsave",
+            "summary": "Save\u0020PhpWord\u0020to\u0020PDF\u0020file,\u0020post\u002Dsave.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_restoreStateAfterSave"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003A\u0024includeFile",
             "name": "includeFile",
-            "summary": "Name\u0020of\u0020renderer\u0020include\u0020file",
+            "summary": "Name\u0020of\u0020renderer\u0020include\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_includeFile"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003A\u0024tempDir",
             "name": "tempDir",
-            "summary": "Temporary\u0020storage\u0020directory",
+            "summary": "Temporary\u0020storage\u0020directory.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_tempDir"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003A\u0024font",
             "name": "font",
-            "summary": "Font",
+            "summary": "Font.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_font"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003A\u0024paperSize",
             "name": "paperSize",
-            "summary": "Paper\u0020size",
+            "summary": "Paper\u0020size.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003A\u0024orientation",
             "name": "orientation",
-            "summary": "Orientation",
+            "summary": "Orientation.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_orientation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer\u003A\u003A\u0024paperSizes",
             "name": "paperSizes",
-            "summary": "Paper\u0020Sizes\u0020xRef\u0020List",
+            "summary": "Paper\u0020Sizes\u0020xRef\u0020List.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSizes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\DomPDF",
             "name": "DomPDF",
-            "summary": "DomPDF\u0020writer",
+            "summary": "DomPDF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-DomPDF.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\DomPDF\u003A\u003AcreateExternalWriterInstance\u0028\u0029",
@@ -13203,17 +12803,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\DomPDF\u003A\u003A\u0024includeFile",
             "name": "includeFile",
-            "summary": "Name\u0020of\u0020renderer\u0020include\u0020file",
+            "summary": "Name\u0020of\u0020renderer\u0020include\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-DomPDF.html#property_includeFile"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\MPDF",
             "name": "MPDF",
-            "summary": "MPDF\u0020writer",
+            "summary": "MPDF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-MPDF.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\MPDF\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Overridden\u0020to\u0020set\u0020the\u0020correct\u0020includefile,\u0020only\u0020needed\u0020for\u0020MPDF\u00205",
+            "summary": "Overridden\u0020to\u0020set\u0020the\u0020correct\u0020includefile,\u0020only\u0020needed\u0020for\u0020MPDF\u00205.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-MPDF.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\MPDF\u003A\u003AcreateExternalWriterInstance\u0028\u0029",
@@ -13228,12 +12828,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\MPDF\u003A\u003AgetMPdfClassName\u0028\u0029",
             "name": "getMPdfClassName",
-            "summary": "Return\u0020classname\u0020of\u0020MPDF\u0020to\u0020instantiate",
+            "summary": "Return\u0020classname\u0020of\u0020MPDF\u0020to\u0020instantiate.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-MPDF.html#method_getMPdfClassName"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\TCPDF",
             "name": "TCPDF",
-            "summary": "TCPDF\u0020writer",
+            "summary": "TCPDF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\TCPDF\u003A\u003AcreateExternalWriterInstance\u0028\u0029",
@@ -13248,17 +12848,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\TCPDF\u003A\u003A\u0024includeFile",
             "name": "includeFile",
-            "summary": "Name\u0020of\u0020renderer\u0020include\u0020file",
+            "summary": "Name\u0020of\u0020renderer\u0020include\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#property_includeFile"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF",
             "name": "PDF",
-            "summary": "PDF\u0020Writer",
+            "summary": "PDF\u0020Writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Instantiate\u0020a\u0020new\u0020renderer\u0020of\u0020the\u0020configured\u0020type\u0020within\u0020this\u0020container\u0020class",
+            "summary": "Instantiate\u0020a\u0020new\u0020renderer\u0020of\u0020the\u0020configured\u0020type\u0020within\u0020this\u0020container\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\u003A\u003A__call\u0028\u0029",
@@ -13268,17 +12868,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\u003A\u003A\u0024renderer",
             "name": "renderer",
-            "summary": "The\u0020wrapper\u0020for\u0020the\u0020requested\u0020PDF\u0020rendering\u0020engine",
+            "summary": "The\u0020wrapper\u0020for\u0020the\u0020requested\u0020PDF\u0020rendering\u0020engine.",
             "url": "classes/PhpOffice-PhpWord-Writer-PDF.html#property_renderer"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\AbstractElement",
             "name": "AbstractElement",
-            "summary": "Abstract\u0020RTF\u0020element\u0020writer",
+            "summary": "Abstract\u0020RTF\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\AbstractElement\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\AbstractElement\u003A\u003AgetStyles\u0028\u0029",
@@ -13288,47 +12888,47 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\AbstractElement\u003A\u003AwriteOpening\u0028\u0029",
             "name": "writeOpening",
-            "summary": "Write\u0020opening",
+            "summary": "Write\u0020opening.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#method_writeOpening"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\AbstractElement\u003A\u003AwriteText\u0028\u0029",
             "name": "writeText",
-            "summary": "Write\u0020text",
+            "summary": "Write\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#method_writeText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\AbstractElement\u003A\u003AwriteClosing\u0028\u0029",
             "name": "writeClosing",
-            "summary": "Write\u0020closing",
+            "summary": "Write\u0020closing.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#method_writeClosing"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\AbstractElement\u003A\u003AwriteFontStyle\u0028\u0029",
             "name": "writeFontStyle",
-            "summary": "Write\u0020font\u0020style",
+            "summary": "Write\u0020font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#method_writeFontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\AbstractElement\u003A\u003A\u0024fontStyle",
             "name": "fontStyle",
-            "summary": "Font\u0020style",
+            "summary": "Font\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#property_fontStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\AbstractElement\u003A\u003A\u0024paragraphStyle",
             "name": "paragraphStyle",
-            "summary": "Paragraph\u0020style",
+            "summary": "Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#property_paragraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Container",
             "name": "Container",
-            "summary": "Container\u0020element\u0020RTF\u0020writer",
+            "summary": "Container\u0020element\u0020RTF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Container.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Container\u003A\u003A\u0024namespace",
             "name": "namespace",
-            "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028RTF\u0029",
+            "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028RTF\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Container.html#property_namespace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Field",
             "name": "Field",
-            "summary": "Field\u0020element\u0020writer",
+            "summary": "Field\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Field.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Field\u003A\u003Awrite\u0028\u0029",
@@ -13353,102 +12953,102 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Image",
             "name": "Image",
-            "summary": "Image\u0020element\u0020RTF\u0020writer",
+            "summary": "Image\u0020element\u0020RTF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Image.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Image\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Image.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Link",
             "name": "Link",
-            "summary": "Link\u0020element\u0020RTF\u0020writer",
+            "summary": "Link\u0020element\u0020RTF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Link.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Link\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Link.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\ListItem",
             "name": "ListItem",
-            "summary": "ListItem\u0020element\u0020RTF\u0020writer\u003B\u0020extends\u0020from\u0020text",
+            "summary": "ListItem\u0020element\u0020RTF\u0020writer\u003B\u0020extends\u0020from\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-ListItem.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\PageBreak",
             "name": "PageBreak",
-            "summary": "PageBreak\u0020element\u0020RTF\u0020writer",
+            "summary": "PageBreak\u0020element\u0020RTF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-PageBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\PageBreak\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-PageBreak.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table",
             "name": "Table",
-            "summary": "Table\u0020element\u0020RTF\u0020writer",
+            "summary": "Table\u0020element\u0020RTF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table\u003A\u003AwriteRowDef\u0028\u0029",
             "name": "writeRowDef",
-            "summary": "Write\u0020column",
+            "summary": "Write\u0020column.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#method_writeRowDef"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table\u003A\u003AwriteRow\u0028\u0029",
             "name": "writeRow",
-            "summary": "Write\u0020row",
+            "summary": "Write\u0020row.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#method_writeRow"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table\u003A\u003AwriteCell\u0028\u0029",
             "name": "writeCell",
-            "summary": "Write\u0020cell",
+            "summary": "Write\u0020cell.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#method_writeCell"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table\u003A\u003AgetVMerge\u0028\u0029",
             "name": "getVMerge",
-            "summary": "Get\u0020vertical\u0020merge\u0020style",
+            "summary": "Get\u0020vertical\u0020merge\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#method_getVMerge"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Text",
             "name": "Text",
-            "summary": "Text\u0020element\u0020RTF\u0020writer",
+            "summary": "Text\u0020element\u0020RTF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Text.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Text\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Text.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\TextBreak",
             "name": "TextBreak",
-            "summary": "TextBreak\u0020element\u0020RTF\u0020writer",
+            "summary": "TextBreak\u0020element\u0020RTF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-TextBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\TextBreak\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-TextBreak.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\TextRun",
             "name": "TextRun",
-            "summary": "TextRun\u0020element\u0020RTF\u0020writer",
+            "summary": "TextRun\u0020element\u0020RTF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-TextRun.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\TextRun\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-TextRun.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Title",
             "name": "Title",
-            "summary": "Title\u0020element\u0020RTF\u0020writer\u003B\u0020extends\u0020from\u0020text",
+            "summary": "Title\u0020element\u0020RTF\u0020writer\u003B\u0020extends\u0020from\u0020text.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Title.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Title\u003A\u003AgetStyles\u0028\u0029",
@@ -13458,7 +13058,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Title\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Title.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\AbstractPart",
@@ -13498,42 +13098,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Document",
             "name": "Document",
-            "summary": "RTF\u0020document\u0020part\u0020writer",
+            "summary": "RTF\u0020document\u0020part\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Document.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Document\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Document.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Document\u003A\u003AwriteInfo\u0028\u0029",
             "name": "writeInfo",
-            "summary": "Write\u0020document\u0020information",
+            "summary": "Write\u0020document\u0020information.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Document.html#method_writeInfo"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Document\u003A\u003AwriteFormatting\u0028\u0029",
             "name": "writeFormatting",
-            "summary": "Write\u0020document\u0020formatting\u0020properties",
+            "summary": "Write\u0020document\u0020formatting\u0020properties.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Document.html#method_writeFormatting"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Document\u003A\u003AwriteTitlepg\u0028\u0029",
             "name": "writeTitlepg",
-            "summary": "Write\u0020titlepg\u0020directive\u0020if\u0020any\u0020\u0022f\u0022\u0020headers\u0020or\u0020footers",
+            "summary": "Write\u0020titlepg\u0020directive\u0020if\u0020any\u0020\u0022f\u0022\u0020headers\u0020or\u0020footers.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Document.html#method_writeTitlepg"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Document\u003A\u003AwriteSections\u0028\u0029",
             "name": "writeSections",
-            "summary": "Write\u0020sections",
+            "summary": "Write\u0020sections.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Document.html#method_writeSections"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Document\u003A\u003AgetDateValue\u0028\u0029",
             "name": "getDateValue",
-            "summary": "Get\u0020date\u0020value",
+            "summary": "Get\u0020date\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Document.html#method_getDateValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header",
             "name": "Header",
-            "summary": "RTF\u0020header\u0020part\u0020writer",
+            "summary": "RTF\u0020header\u0020part\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Header.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003AgetFontTable\u0028\u0029",
@@ -13548,32 +13148,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Header.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003AwriteCharset\u0028\u0029",
             "name": "writeCharset",
-            "summary": "Write\u0020character\u0020set",
+            "summary": "Write\u0020character\u0020set.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Header.html#method_writeCharset"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003AwriteDefaults\u0028\u0029",
             "name": "writeDefaults",
-            "summary": "Write\u0020header\u0020defaults",
+            "summary": "Write\u0020header\u0020defaults.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Header.html#method_writeDefaults"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003AwriteFontTable\u0028\u0029",
             "name": "writeFontTable",
-            "summary": "Write\u0020font\u0020table",
+            "summary": "Write\u0020font\u0020table.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Header.html#method_writeFontTable"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003AwriteColorTable\u0028\u0029",
             "name": "writeColorTable",
-            "summary": "Write\u0020color\u0020table",
+            "summary": "Write\u0020color\u0020table.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Header.html#method_writeColorTable"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003AwriteGenerator\u0028\u0029",
             "name": "writeGenerator",
-            "summary": "Write",
+            "summary": "Write.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Header.html#method_writeGenerator"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003AregisterFont\u0028\u0029",
@@ -13598,32 +13198,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003A\u0024fontTable",
             "name": "fontTable",
-            "summary": "Font\u0020table",
+            "summary": "Font\u0020table.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Header.html#property_fontTable"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Header\u003A\u003A\u0024colorTable",
             "name": "colorTable",
-            "summary": "Color\u0020table",
+            "summary": "Color\u0020table.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Part-Header.html#property_colorTable"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\AbstractStyle",
             "name": "AbstractStyle",
-            "summary": "Abstract\u0020RTF\u0020style\u0020writer",
+            "summary": "Abstract\u0020RTF\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-AbstractStyle.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Border",
             "name": "Border",
-            "summary": "Border\u0020style\u0020writer",
+            "summary": "Border\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Border.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Border\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Border.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Border\u003A\u003AwriteSide\u0028\u0029",
             "name": "writeSide",
-            "summary": "Write\u0020side",
+            "summary": "Write\u0020side.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Border.html#method_writeSide"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Border\u003A\u003AsetSizes\u0028\u0029",
@@ -13638,22 +13238,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Border\u003A\u003A\u0024sizes",
             "name": "sizes",
-            "summary": "Sizes",
+            "summary": "Sizes.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Border.html#property_sizes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Border\u003A\u003A\u0024colors",
             "name": "colors",
-            "summary": "Colors",
+            "summary": "Colors.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Border.html#property_colors"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Font",
             "name": "Font",
-            "summary": "RTF\u0020font\u0020style\u0020writer",
+            "summary": "RTF\u0020font\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Font.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Font\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Font.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Font\u003A\u003AsetNameIndex\u0028\u0029",
@@ -13678,32 +13278,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Indentation",
             "name": "Indentation",
-            "summary": "RTF\u0020indentation\u0020style\u0020writer",
+            "summary": "RTF\u0020indentation\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Indentation.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Indentation\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Indentation.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Paragraph",
             "name": "Paragraph",
-            "summary": "RTF\u0020paragraph\u0020style\u0020writer",
+            "summary": "RTF\u0020paragraph\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Paragraph.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Paragraph\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Paragraph.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Paragraph\u003A\u003AwriteIndentation\u0028\u0029",
             "name": "writeIndentation",
-            "summary": "Writes\u0020an\u0020\\PhpOffice\\PhpWord\\Style\\Indentation",
+            "summary": "Writes\u0020an\u0020\\PhpOffice\\PhpWord\\Style\\Indentation.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Paragraph.html#method_writeIndentation"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Paragraph\u003A\u003AwriteTabs\u0028\u0029",
             "name": "writeTabs",
-            "summary": "Writes\u0020tabs",
+            "summary": "Writes\u0020tabs.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Paragraph.html#method_writeTabs"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Paragraph\u003A\u003AsetNestedLevel\u0028\u0029",
@@ -13713,22 +13313,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Paragraph\u003A\u003A\u0024nestedLevel",
             "name": "nestedLevel",
-            "summary": "Depth\u0020of\u0020table\u0020container\u0020nested\u0020level\u003B\u0020Primarily\u0020used\u0020for\u0020RTF\u0020writer\/reader",
+            "summary": "Depth\u0020of\u0020table\u0020container\u0020nested\u0020level\u003B\u0020Primarily\u0020used\u0020for\u0020RTF\u0020writer\/reader.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Paragraph.html#property_nestedLevel"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Section",
             "name": "Section",
-            "summary": "RTF\u0020section\u0020style\u0020writer",
+            "summary": "RTF\u0020section\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Section.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Section\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Section.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Tab",
             "name": "Tab",
-            "summary": "Line\u0020numbering\u0020style\u0020writer",
+            "summary": "Line\u0020numbering\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Style-Tab.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\Tab\u003A\u003Awrite\u0028\u0029",
@@ -13738,12 +13338,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF",
             "name": "RTF",
-            "summary": "RTF\u0020writer",
+            "summary": "RTF\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\u003A\u003Asave\u0028\u0029",
@@ -13753,7 +13353,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\u003A\u003AgetContent\u0028\u0029",
             "name": "getContent",
-            "summary": "Get\u0020content",
+            "summary": "Get\u0020content.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF.html#method_getContent"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\u003A\u003AgetFontTable\u0028\u0029",
@@ -13778,32 +13378,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\u003A\u003A\u0024lastParagraphStyle",
             "name": "lastParagraphStyle",
-            "summary": "Last\u0020paragraph\u0020style",
+            "summary": "Last\u0020paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF.html#property_lastParagraphStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement",
             "name": "AbstractElement",
-            "summary": "Abstract\u0020element\u0020writer",
+            "summary": "Abstract\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020element",
+            "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020instance",
+            "summary": "Create\u0020new\u0020instance.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AgetXmlWriter\u0028\u0029",
             "name": "getXmlWriter",
-            "summary": "Get\u0020XML\u0020Writer",
+            "summary": "Get\u0020XML\u0020Writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_getXmlWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AgetElement\u0028\u0029",
             "name": "getElement",
-            "summary": "Get\u0020element",
+            "summary": "Get\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_getElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AstartElementP\u0028\u0029",
@@ -13818,12 +13418,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AwriteCommentRangeStart\u0028\u0029",
             "name": "writeCommentRangeStart",
-            "summary": "Writes\u0020the\u0020w\u003AcommentRangeStart\u0020DOM\u0020element",
+            "summary": "Writes\u0020the\u0020w\u003AcommentRangeStart\u0020DOM\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_writeCommentRangeStart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AwriteCommentRangeEnd\u0028\u0029",
             "name": "writeCommentRangeEnd",
-            "summary": "Writes\u0020the\u0020w\u003AcommentRangeEnd\u0020DOM\u0020element",
+            "summary": "Writes\u0020the\u0020w\u003AcommentRangeEnd\u0020DOM\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_writeCommentRangeEnd"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AwriteParagraphStyle\u0028\u0029",
@@ -13843,42 +13443,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AgetText\u0028\u0029",
             "name": "getText",
-            "summary": "Convert\u0020text\u0020to\u0020valid\u0020format",
+            "summary": "Convert\u0020text\u0020to\u0020valid\u0020format.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_getText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AwriteText\u0028\u0029",
             "name": "writeText",
-            "summary": "Write\u0020an\u0020XML\u0020text,\u0020this\u0020will\u0020call\u0020text\u0028\u0029\u0020or\u0020writeRaw\u0028\u0029\u0020depending\u0020on\u0020the\u0020value\u0020of\u0020Settings\u003A\u003AisOutputEscapingEnabled\u0028\u0029",
+            "summary": "Write\u0020an\u0020XML\u0020text,\u0020this\u0020will\u0020call\u0020text\u0028\u0029\u0020or\u0020writeRaw\u0028\u0029\u0020depending\u0020on\u0020the\u0020value\u0020of\u0020Settings\u003A\u003AisOutputEscapingEnabled\u0028\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_writeText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003A\u0024xmlWriter",
             "name": "xmlWriter",
-            "summary": "XML\u0020writer",
+            "summary": "XML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#property_xmlWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003A\u0024element",
             "name": "element",
-            "summary": "Element",
+            "summary": "Element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#property_element"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003A\u0024withoutP",
             "name": "withoutP",
-            "summary": "Without\u0020paragraph",
+            "summary": "Without\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#property_withoutP"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Bookmark",
             "name": "Bookmark",
-            "summary": "Bookmark\u0020element\u0020writer",
+            "summary": "Bookmark\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Bookmark.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Bookmark\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020bookmark\u0020element",
+            "summary": "Write\u0020bookmark\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Bookmark.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Chart",
             "name": "Chart",
-            "summary": "Chart\u0020element\u0020writer",
+            "summary": "Chart\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Chart.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Chart\u003A\u003Awrite\u0028\u0029",
@@ -13888,7 +13488,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\CheckBox",
             "name": "CheckBox",
-            "summary": "CheckBox\u0020element\u0020writer",
+            "summary": "CheckBox\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-CheckBox.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\CheckBox\u003A\u003Awrite\u0028\u0029",
@@ -13898,7 +13498,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Container",
             "name": "Container",
-            "summary": "Container\u0020element\u0020writer\u0020\u0028section,\u0020textrun,\u0020header,\u0020footnote,\u0020cell,\u0020etc.\u0029",
+            "summary": "Container\u0020element\u0020writer\u0020\u0028section,\u0020textrun,\u0020header,\u0020footnote,\u0020cell,\u0020etc.\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Container.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Container\u003A\u003Awrite\u0028\u0029",
@@ -13908,27 +13508,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Container\u003A\u003AwriteElement\u0028\u0029",
             "name": "writeElement",
-            "summary": "Write\u0020individual\u0020element",
+            "summary": "Write\u0020individual\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Container.html#method_writeElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Container\u003A\u003A\u0024namespace",
             "name": "namespace",
-            "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028ODText\u0029",
+            "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028ODText\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Container.html#property_namespace"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Endnote",
             "name": "Endnote",
-            "summary": "Endnote\u0020element\u0020writer",
+            "summary": "Endnote\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Endnote.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Endnote\u003A\u003A\u0024referenceType",
             "name": "referenceType",
-            "summary": "Reference\u0020type",
+            "summary": "Reference\u0020type.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Endnote.html#property_referenceType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Field",
             "name": "Field",
-            "summary": "Field\u0020element\u0020writer",
+            "summary": "Field\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Field.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Field\u003A\u003Awrite\u0028\u0029",
@@ -13943,7 +13543,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Field\u003A\u003AwriteMacrobutton\u0028\u0029",
             "name": "writeMacrobutton",
-            "summary": "Writes\u0020a\u0020macrobutton\u0020field",
+            "summary": "Writes\u0020a\u0020macrobutton\u0020field.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Field.html#method_writeMacrobutton"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Field\u003A\u003AbuildPropertiesAndOptions\u0028\u0029",
@@ -13953,7 +13553,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Footnote",
             "name": "Footnote",
-            "summary": "Footnote\u0020element\u0020writer",
+            "summary": "Footnote\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Footnote.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Footnote\u003A\u003Awrite\u0028\u0029",
@@ -13963,12 +13563,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Footnote\u003A\u003A\u0024referenceType",
             "name": "referenceType",
-            "summary": "Reference\u0020type\u0020footnoteReference\u007CendnoteReference",
+            "summary": "Reference\u0020type\u0020footnoteReference\u007CendnoteReference.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Footnote.html#property_referenceType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\FormField",
             "name": "FormField",
-            "summary": "FormField\u0020element\u0020writer",
+            "summary": "FormField\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-FormField.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\FormField\u003A\u003Awrite\u0028\u0029",
@@ -13998,7 +13598,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Image",
             "name": "Image",
-            "summary": "Image\u0020element\u0020writer",
+            "summary": "Image\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Image.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Image\u003A\u003Awrite\u0028\u0029",
@@ -14018,7 +13618,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Line",
             "name": "Line",
-            "summary": "Line\u0020element\u0020writer",
+            "summary": "Line\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Line.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Line\u003A\u003Awrite\u0028\u0029",
@@ -14028,7 +13628,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Link",
             "name": "Link",
-            "summary": "Link\u0020element\u0020writer",
+            "summary": "Link\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Link.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Link\u003A\u003Awrite\u0028\u0029",
@@ -14038,7 +13638,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\ListItem",
             "name": "ListItem",
-            "summary": "ListItem\u0020element\u0020writer",
+            "summary": "ListItem\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-ListItem.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\ListItem\u003A\u003Awrite\u0028\u0029",
@@ -14048,7 +13648,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\ListItemRun",
             "name": "ListItemRun",
-            "summary": "ListItemRun\u0020element\u0020writer",
+            "summary": "ListItemRun\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-ListItemRun.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\ListItemRun\u003A\u003Awrite\u0028\u0029",
@@ -14073,7 +13673,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\OLEObject",
             "name": "OLEObject",
-            "summary": "OLEObject\u0020element\u0020writer",
+            "summary": "OLEObject\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-OLEObject.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\OLEObject\u003A\u003Awrite\u0028\u0029",
@@ -14083,7 +13683,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\PageBreak",
             "name": "PageBreak",
-            "summary": "PageBreak\u0020element\u0020writer",
+            "summary": "PageBreak\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-PageBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\PageBreak\u003A\u003Awrite\u0028\u0029",
@@ -14123,7 +13723,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\PreserveText",
             "name": "PreserveText",
-            "summary": "PreserveText\u0020element\u0020writer",
+            "summary": "PreserveText\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-PreserveText.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\PreserveText\u003A\u003Awrite\u0028\u0029",
@@ -14133,7 +13733,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\SDT",
             "name": "SDT",
-            "summary": "Structured\u0020document\u0020tag\u0020element\u0020writer",
+            "summary": "Structured\u0020document\u0020tag\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-SDT.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\SDT\u003A\u003Awrite\u0028\u0029",
@@ -14163,7 +13763,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Shape",
             "name": "Shape",
-            "summary": "Shape\u0020element\u0020writer",
+            "summary": "Shape\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Shape.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Shape\u003A\u003Awrite\u0028\u0029",
@@ -14198,12 +13798,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Shape\u003A\u003AgetPoints\u0028\u0029",
             "name": "getPoints",
-            "summary": "Set\u0020points",
+            "summary": "Set\u0020points.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Shape.html#method_getPoints"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Table",
             "name": "Table",
-            "summary": "Table\u0020element\u0020writer",
+            "summary": "Table\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Table.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Table\u003A\u003Awrite\u0028\u0029",
@@ -14258,7 +13858,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Text",
             "name": "Text",
-            "summary": "Text\u0020element\u0020writer",
+            "summary": "Text\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Text.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Text\u003A\u003Awrite\u0028\u0029",
@@ -14268,17 +13868,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Text\u003A\u003AwriteOpeningTrackChange\u0028\u0029",
             "name": "writeOpeningTrackChange",
-            "summary": "Write\u0020opening\u0020of\u0020changed\u0020element",
+            "summary": "Write\u0020opening\u0020of\u0020changed\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Text.html#method_writeOpeningTrackChange"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Text\u003A\u003AwriteClosingTrackChange\u0028\u0029",
             "name": "writeClosingTrackChange",
-            "summary": "Write\u0020ending",
+            "summary": "Write\u0020ending.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Text.html#method_writeClosingTrackChange"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TextBox",
             "name": "TextBox",
-            "summary": "TextBox\u0020element\u0020writer",
+            "summary": "TextBox\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-TextBox.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TextBox\u003A\u003Awrite\u0028\u0029",
@@ -14288,7 +13888,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TextBreak",
             "name": "TextBreak",
-            "summary": "TextBreak\u0020element\u0020writer",
+            "summary": "TextBreak\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-TextBreak.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TextBreak\u003A\u003Awrite\u0028\u0029",
@@ -14298,7 +13898,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TextRun",
             "name": "TextRun",
-            "summary": "TextRun\u0020element\u0020writer",
+            "summary": "TextRun\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-TextRun.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TextRun\u003A\u003Awrite\u0028\u0029",
@@ -14308,7 +13908,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Title",
             "name": "Title",
-            "summary": "TextRun\u0020element\u0020writer",
+            "summary": "TextRun\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Title.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Title\u003A\u003Awrite\u0028\u0029",
@@ -14318,7 +13918,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TOC",
             "name": "TOC",
-            "summary": "TOC\u0020element\u0020writer",
+            "summary": "TOC\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-TOC.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TOC\u003A\u003Awrite\u0028\u0029",
@@ -14328,12 +13928,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TOC\u003A\u003AwriteTitle\u0028\u0029",
             "name": "writeTitle",
-            "summary": "Write\u0020title",
+            "summary": "Write\u0020title.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-TOC.html#method_writeTitle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TOC\u003A\u003AwriteStyle\u0028\u0029",
             "name": "writeStyle",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-TOC.html#method_writeStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\TOC\u003A\u003AwriteFieldMark\u0028\u0029",
@@ -14343,12 +13943,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\AbstractPart",
             "name": "AbstractPart",
-            "summary": "Word2007\u0020writer\u0020part\u0020abstract\u0020class",
+            "summary": "Word2007\u0020writer\u0020part\u0020abstract\u0020class.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\AbstractPart\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\AbstractPart\u003A\u003AsetParentWriter\u0028\u0029",
@@ -14358,22 +13958,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\AbstractPart\u003A\u003AgetParentWriter\u0028\u0029",
             "name": "getParentWriter",
-            "summary": "Get\u0020parent\u0020writer",
+            "summary": "Get\u0020parent\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_getParentWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\AbstractPart\u003A\u003AgetXmlWriter\u0028\u0029",
             "name": "getXmlWriter",
-            "summary": "Get\u0020XML\u0020Writer",
+            "summary": "Get\u0020XML\u0020Writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_getXmlWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\AbstractPart\u003A\u003AwriteText\u0028\u0029",
             "name": "writeText",
-            "summary": "Write\u0020an\u0020XML\u0020text,\u0020this\u0020will\u0020call\u0020text\u0028\u0029\u0020or\u0020writeRaw\u0028\u0029\u0020depending\u0020on\u0020the\u0020value\u0020of\u0020Settings\u003A\u003AisOutputEscapingEnabled\u0028\u0029",
+            "summary": "Write\u0020an\u0020XML\u0020text,\u0020this\u0020will\u0020call\u0020text\u0028\u0029\u0020or\u0020writeRaw\u0028\u0029\u0020depending\u0020on\u0020the\u0020value\u0020of\u0020Settings\u003A\u003AisOutputEscapingEnabled\u0028\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_writeText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\AbstractPart\u003A\u003A\u0024parentWriter",
             "name": "parentWriter",
-            "summary": "Parent\u0020writer",
+            "summary": "Parent\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#property_parentWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\AbstractPart\u003A\u003A\u0024dateFormat",
@@ -14383,7 +13983,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart",
             "name": "Chart",
-            "summary": "Word2007\u0020chart\u0020part\u0020writer\u003A\u0020word\/charts\/chartx.xml",
+            "summary": "Word2007\u0020chart\u0020part\u0020writer\u003A\u0020word\/charts\/chartx.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Chart.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003AsetElement\u0028\u0029",
@@ -14393,12 +13993,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Chart.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003AwriteChart\u0028\u0029",
             "name": "writeChart",
-            "summary": "Write\u0020chart",
+            "summary": "Write\u0020chart.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Chart.html#method_writeChart"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003AwritePlotArea\u0028\u0029",
@@ -14418,12 +14018,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003AwriteAxis\u0028\u0029",
             "name": "writeAxis",
-            "summary": "Write\u0020axis",
+            "summary": "Write\u0020axis.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Chart.html#method_writeAxis"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003AwriteShape\u0028\u0029",
             "name": "writeShape",
-            "summary": "Write\u0020shape",
+            "summary": "Write\u0020shape.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Chart.html#method_writeShape"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003AwriteAxisTitle\u0028\u0029",
@@ -14433,27 +14033,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003A\u0024element",
             "name": "element",
-            "summary": "Chart\u0020element",
+            "summary": "Chart\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Chart.html#property_element"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003A\u0024types",
             "name": "types",
-            "summary": "Type\u0020definition",
+            "summary": "Type\u0020definition.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Chart.html#property_types"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Chart\u003A\u003A\u0024options",
             "name": "options",
-            "summary": "Chart\u0020options",
+            "summary": "Chart\u0020options.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Chart.html#property_options"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Comments",
             "name": "Comments",
-            "summary": "Word2007\u0020comments\u0020part\u0020writer\u003A\u0020word\/comments.xml",
+            "summary": "Word2007\u0020comments\u0020part\u0020writer\u003A\u0020word\/comments.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Comments.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Comments\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Comments.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Comments\u003A\u003AwriteComment\u0028\u0029",
@@ -14463,67 +14063,67 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Comments\u003A\u003AsetElements\u0028\u0029",
             "name": "setElements",
-            "summary": "Set\u0020element",
+            "summary": "Set\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Comments.html#method_setElements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Comments\u003A\u003A\u0024elements",
             "name": "elements",
-            "summary": "Comments\u0020collection\u0020to\u0020be\u0020written",
+            "summary": "Comments\u0020collection\u0020to\u0020be\u0020written.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Comments.html#property_elements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\ContentTypes",
             "name": "ContentTypes",
-            "summary": "Word2007\u0020contenttypes\u0020part\u0020writer\u003A\u0020\u005BContent_Types\u005D.xml",
+            "summary": "Word2007\u0020contenttypes\u0020part\u0020writer\u003A\u0020\u005BContent_Types\u005D.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-ContentTypes.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\ContentTypes\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-ContentTypes.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\ContentTypes\u003A\u003AwriteContentType\u0028\u0029",
             "name": "writeContentType",
-            "summary": "Write\u0020content\u0020types\u0020element",
+            "summary": "Write\u0020content\u0020types\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-ContentTypes.html#method_writeContentType"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\DocPropsApp",
             "name": "DocPropsApp",
-            "summary": "Word2007\u0020extended\u0020document\u0020properties\u0020part\u0020writer\u003A\u0020docProps\/app.xml",
+            "summary": "Word2007\u0020extended\u0020document\u0020properties\u0020part\u0020writer\u003A\u0020docProps\/app.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-DocPropsApp.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\DocPropsApp\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-DocPropsApp.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\DocPropsCore",
             "name": "DocPropsCore",
-            "summary": "Word2007\u0020core\u0020document\u0020properties\u0020part\u0020writer\u003A\u0020docProps\/core.xml",
+            "summary": "Word2007\u0020core\u0020document\u0020properties\u0020part\u0020writer\u003A\u0020docProps\/core.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-DocPropsCore.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\DocPropsCore\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-DocPropsCore.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\DocPropsCustom",
             "name": "DocPropsCustom",
-            "summary": "Word2007\u0020custom\u0020document\u0020properties\u0020part\u0020writer\u003A\u0020docProps\/custom.xml",
+            "summary": "Word2007\u0020custom\u0020document\u0020properties\u0020part\u0020writer\u003A\u0020docProps\/custom.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-DocPropsCustom.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\DocPropsCustom\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-DocPropsCustom.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Document",
             "name": "Document",
-            "summary": "Word2007\u0020document\u0020part\u0020writer\u003A\u0020word\/document.xml",
+            "summary": "Word2007\u0020document\u0020part\u0020writer\u003A\u0020word\/document.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Document.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Document\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Document.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Document\u003A\u003AwriteSection\u0028\u0029",
@@ -14538,32 +14138,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Endnotes",
             "name": "Endnotes",
-            "summary": "Word2007\u0020endnotes\u0020part\u0020writer\u003A\u0020word\/endnotes.xml",
+            "summary": "Word2007\u0020endnotes\u0020part\u0020writer\u003A\u0020word\/endnotes.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Endnotes.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Endnotes\u003A\u003A\u0024rootNode",
             "name": "rootNode",
-            "summary": "Name\u0020of\u0020XML\u0020root\u0020element",
+            "summary": "Name\u0020of\u0020XML\u0020root\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Endnotes.html#property_rootNode"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Endnotes\u003A\u003A\u0024elementNode",
             "name": "elementNode",
-            "summary": "Name\u0020of\u0020XML\u0020node\u0020element",
+            "summary": "Name\u0020of\u0020XML\u0020node\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Endnotes.html#property_elementNode"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Endnotes\u003A\u003A\u0024refNode",
             "name": "refNode",
-            "summary": "Name\u0020of\u0020XML\u0020reference\u0020element",
+            "summary": "Name\u0020of\u0020XML\u0020reference\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Endnotes.html#property_refNode"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Endnotes\u003A\u003A\u0024refStyle",
             "name": "refStyle",
-            "summary": "Reference\u0020style\u0020name",
+            "summary": "Reference\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Endnotes.html#property_refStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\FontTable",
             "name": "FontTable",
-            "summary": "Word2007\u0020font\u0020table\u0020writer\u003A\u0020word\/fontTable.xml",
+            "summary": "Word2007\u0020font\u0020table\u0020writer\u003A\u0020word\/fontTable.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-FontTable.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\FontTable\u003A\u003Awrite\u0028\u0029",
@@ -14573,42 +14173,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footer",
             "name": "Footer",
-            "summary": "Word2007\u0020footer\u0020part\u0020writer\u003A\u0020word\/footerx.xml",
+            "summary": "Word2007\u0020footer\u0020part\u0020writer\u003A\u0020word\/footerx.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footer.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footer\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footer.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footer\u003A\u003AsetElement\u0028\u0029",
             "name": "setElement",
-            "summary": "Set\u0020element",
+            "summary": "Set\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footer.html#method_setElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footer\u003A\u003A\u0024rootElement",
             "name": "rootElement",
-            "summary": "Root\u0020element\u0020name",
+            "summary": "Root\u0020element\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footer.html#property_rootElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footer\u003A\u003A\u0024element",
             "name": "element",
-            "summary": "Footer\/header\u0020element\u0020to\u0020be\u0020written",
+            "summary": "Footer\/header\u0020element\u0020to\u0020be\u0020written.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footer.html#property_element"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footnotes",
             "name": "Footnotes",
-            "summary": "Word2007\u0020footnotes\u0020part\u0020writer\u003A\u0020word\/\u0028footnotes\u007Cendnotes\u0029.xml",
+            "summary": "Word2007\u0020footnotes\u0020part\u0020writer\u003A\u0020word\/\u0028footnotes\u007Cendnotes\u0029.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footnotes.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footnotes\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footnotes.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footnotes\u003A\u003AsetElements\u0028\u0029",
             "name": "setElements",
-            "summary": "Set\u0020element",
+            "summary": "Set\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footnotes.html#method_setElements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footnotes\u003A\u003AwriteNote\u0028\u0029",
@@ -14618,47 +14218,47 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footnotes\u003A\u003A\u0024rootNode",
             "name": "rootNode",
-            "summary": "Name\u0020of\u0020XML\u0020root\u0020element",
+            "summary": "Name\u0020of\u0020XML\u0020root\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footnotes.html#property_rootNode"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footnotes\u003A\u003A\u0024elementNode",
             "name": "elementNode",
-            "summary": "Name\u0020of\u0020XML\u0020node\u0020element",
+            "summary": "Name\u0020of\u0020XML\u0020node\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footnotes.html#property_elementNode"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footnotes\u003A\u003A\u0024refNode",
             "name": "refNode",
-            "summary": "Name\u0020of\u0020XML\u0020reference\u0020element",
+            "summary": "Name\u0020of\u0020XML\u0020reference\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footnotes.html#property_refNode"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footnotes\u003A\u003A\u0024refStyle",
             "name": "refStyle",
-            "summary": "Reference\u0020style\u0020name",
+            "summary": "Reference\u0020style\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footnotes.html#property_refStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Footnotes\u003A\u003A\u0024elements",
             "name": "elements",
-            "summary": "Footnotes\/endnotes\u0020collection\u0020to\u0020be\u0020written",
+            "summary": "Footnotes\/endnotes\u0020collection\u0020to\u0020be\u0020written.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Footnotes.html#property_elements"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Header",
             "name": "Header",
-            "summary": "Word2007\u0020header\u0020part\u0020writer\u003A\u0020word\/headerx.xml",
+            "summary": "Word2007\u0020header\u0020part\u0020writer\u003A\u0020word\/headerx.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Header.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Header\u003A\u003A\u0024rootElement",
             "name": "rootElement",
-            "summary": "Root\u0020element\u0020name",
+            "summary": "Root\u0020element\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Header.html#property_rootElement"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Numbering",
             "name": "Numbering",
-            "summary": "Word2007\u0020numbering\u0020part\u0020writer\u003A\u0020word\/numbering.xml",
+            "summary": "Word2007\u0020numbering\u0020part\u0020writer\u003A\u0020word\/numbering.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Numbering.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Numbering\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Numbering.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Numbering\u003A\u003AwriteLevel\u0028\u0029",
@@ -14678,17 +14278,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Numbering\u003A\u003AgetRandomHexNumber\u0028\u0029",
             "name": "getRandomHexNumber",
-            "summary": "Get\u0020random\u0020hexadecimal\u0020number\u0020value",
+            "summary": "Get\u0020random\u0020hexadecimal\u0020number\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Numbering.html#method_getRandomHexNumber"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Rels",
             "name": "Rels",
-            "summary": "Word2007\u0020main\u0020relationship\u0020writer\u003A\u0020_rels\/.rels",
+            "summary": "Word2007\u0020main\u0020relationship\u0020writer\u003A\u0020_rels\/.rels.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Rels.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Rels\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Rels.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Rels\u003A\u003AwriteRels\u0028\u0029",
@@ -14708,42 +14308,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\RelsDocument",
             "name": "RelsDocument",
-            "summary": "Word2007\u0020document\u0020relationship\u0020writer\u003A\u0020word\/_rels\/document.xml.rels",
+            "summary": "Word2007\u0020document\u0020relationship\u0020writer\u003A\u0020word\/_rels\/document.xml.rels.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-RelsDocument.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\RelsDocument\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-RelsDocument.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\RelsPart",
             "name": "RelsPart",
-            "summary": "Word2007\u0020part\u0020relationship\u0020writer\u003A\u0020word\/_rels\/\u0028header\u007Cfooter\u007Cfootnotes\u007Cendnotes\u0029\u002A.xml.rels",
+            "summary": "Word2007\u0020part\u0020relationship\u0020writer\u003A\u0020word\/_rels\/\u0028header\u007Cfooter\u007Cfootnotes\u007Cendnotes\u0029\u002A.xml.rels.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-RelsPart.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\RelsPart\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-RelsPart.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\RelsPart\u003A\u003AsetMedia\u0028\u0029",
             "name": "setMedia",
-            "summary": "Set\u0020media",
+            "summary": "Set\u0020media.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-RelsPart.html#method_setMedia"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\RelsPart\u003A\u003A\u0024media",
             "name": "media",
-            "summary": "Media\u0020relationships",
+            "summary": "Media\u0020relationships.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-RelsPart.html#property_media"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings",
             "name": "Settings",
-            "summary": "Word2007\u0020settings\u0020part\u0020writer\u003A\u0020word\/settings.xml",
+            "summary": "Word2007\u0020settings\u0020part\u0020writer\u003A\u0020word\/settings.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Settings.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Settings.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003AwriteSetting\u0028\u0029",
@@ -14758,7 +14358,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003AsetOnOffValue\u0028\u0029",
             "name": "setOnOffValue",
-            "summary": "Adds\u0020a\u0020boolean\u0020attribute\u0020to\u0020the\u0020settings\u0020array",
+            "summary": "Adds\u0020a\u0020boolean\u0020attribute\u0020to\u0020the\u0020settings\u0020array.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Settings.html#method_setOnOffValue"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003AsetDocumentProtection\u0028\u0029",
@@ -14768,22 +14368,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003AsetProofState\u0028\u0029",
             "name": "setProofState",
-            "summary": "Set\u0020the\u0020Proof\u0020state",
+            "summary": "Set\u0020the\u0020Proof\u0020state.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Settings.html#method_setProofState"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003AsetRevisionView\u0028\u0029",
             "name": "setRevisionView",
-            "summary": "Set\u0020the\u0020Revision\u0020View",
+            "summary": "Set\u0020the\u0020Revision\u0020View.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Settings.html#method_setRevisionView"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003AsetThemeFontLang\u0028\u0029",
             "name": "setThemeFontLang",
-            "summary": "Sets\u0020the\u0020language",
+            "summary": "Sets\u0020the\u0020language.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Settings.html#method_setThemeFontLang"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003AsetZoom\u0028\u0029",
             "name": "setZoom",
-            "summary": "Set\u0020the\u0020magnification",
+            "summary": "Set\u0020the\u0020magnification.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Settings.html#method_setZoom"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003AsetConsecutiveHyphenLimit\u0028\u0029",
@@ -14803,17 +14403,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Settings\u003A\u003A\u0024settings",
             "name": "settings",
-            "summary": "Settings\u0020value",
+            "summary": "Settings\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Settings.html#property_settings"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Styles",
             "name": "Styles",
-            "summary": "Word2007\u0020styles\u0020part\u0020writer\u003A\u0020word\/styles.xml",
+            "summary": "Word2007\u0020styles\u0020part\u0020writer\u003A\u0020word\/styles.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Styles.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Styles\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Styles.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Styles\u003A\u003AwriteDefaultStyles\u0028\u0029",
@@ -14838,67 +14438,67 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Theme",
             "name": "Theme",
-            "summary": "Word2007\u0020theme\u0020writer\u003A\u0020word\/theme\/theme1.xml",
+            "summary": "Word2007\u0020theme\u0020writer\u003A\u0020word\/theme\/theme1.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Theme.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Theme\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Theme.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Theme\u003A\u003AwriteColorScheme\u0028\u0029",
             "name": "writeColorScheme",
-            "summary": "Write\u0020color\u0020scheme",
+            "summary": "Write\u0020color\u0020scheme.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Theme.html#method_writeColorScheme"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Theme\u003A\u003AwriteFontScheme\u0028\u0029",
             "name": "writeFontScheme",
-            "summary": "Write\u0020font\u0020scheme",
+            "summary": "Write\u0020font\u0020scheme.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Theme.html#method_writeFontScheme"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Theme\u003A\u003AwriteFormatScheme\u0028\u0029",
             "name": "writeFormatScheme",
-            "summary": "Write\u0020format\u0020scheme",
+            "summary": "Write\u0020format\u0020scheme.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Theme.html#method_writeFormatScheme"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Theme\u003A\u003AwriteFormatFill\u0028\u0029",
             "name": "writeFormatFill",
-            "summary": "Write\u0020fill\u0020format\u0020scheme",
+            "summary": "Write\u0020fill\u0020format\u0020scheme.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Theme.html#method_writeFormatFill"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Theme\u003A\u003AwriteFormatLine\u0028\u0029",
             "name": "writeFormatLine",
-            "summary": "Write\u0020line\u0020format\u0020scheme",
+            "summary": "Write\u0020line\u0020format\u0020scheme.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Theme.html#method_writeFormatLine"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Theme\u003A\u003AwriteFormatEffect\u0028\u0029",
             "name": "writeFormatEffect",
-            "summary": "Write\u0020effect\u0020format\u0020scheme",
+            "summary": "Write\u0020effect\u0020format\u0020scheme.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Theme.html#method_writeFormatEffect"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\Theme\u003A\u003AwriteFormatBackground\u0028\u0029",
             "name": "writeFormatBackground",
-            "summary": "Write\u0020background\u0020format\u0020scheme",
+            "summary": "Write\u0020background\u0020format\u0020scheme.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-Theme.html#method_writeFormatBackground"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\WebSettings",
             "name": "WebSettings",
-            "summary": "Word2007\u0020web\u0020settings\u0020part\u0020writer\u003A\u0020word\/webSettings.xml",
+            "summary": "Word2007\u0020web\u0020settings\u0020part\u0020writer\u003A\u0020word\/webSettings.xml.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-WebSettings.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\WebSettings\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020part",
+            "summary": "Write\u0020part.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Part-WebSettings.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle",
             "name": "AbstractStyle",
-            "summary": "Style\u0020writer",
+            "summary": "Style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-AbstractStyle.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003Awrite\u0028\u0029",
             "name": "write",
-            "summary": "Write\u0020style",
+            "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-AbstractStyle.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003A__construct\u0028\u0029",
@@ -14908,17 +14508,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003AgetXmlWriter\u0028\u0029",
             "name": "getXmlWriter",
-            "summary": "Get\u0020XML\u0020Writer",
+            "summary": "Get\u0020XML\u0020Writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-AbstractStyle.html#method_getXmlWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003AgetStyle\u0028\u0029",
             "name": "getStyle",
-            "summary": "Get\u0020Style",
+            "summary": "Get\u0020Style.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-AbstractStyle.html#method_getStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003AconvertTwip\u0028\u0029",
             "name": "convertTwip",
-            "summary": "Convert\u0020twip\u0020value",
+            "summary": "Convert\u0020twip\u0020value.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-AbstractStyle.html#method_convertTwip"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003AwriteChildStyle\u0028\u0029",
@@ -14928,27 +14528,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003AwriteOnOf\u0028\u0029",
             "name": "writeOnOf",
-            "summary": "Writes\u0020boolean\u0020as\u00200\u0020or\u00201",
+            "summary": "Writes\u0020boolean\u0020as\u00200\u0020or\u00201.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-AbstractStyle.html#method_writeOnOf"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003AassembleStyle\u0028\u0029",
             "name": "assembleStyle",
-            "summary": "Assemble\u0020style\u0020array\u0020into\u0020style\u0020string",
+            "summary": "Assemble\u0020style\u0020array\u0020into\u0020style\u0020string.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-AbstractStyle.html#method_assembleStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003A\u0024xmlWriter",
             "name": "xmlWriter",
-            "summary": "XML\u0020writer",
+            "summary": "XML\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-AbstractStyle.html#property_xmlWriter"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\AbstractStyle\u003A\u003A\u0024style",
             "name": "style",
-            "summary": "Style\u003B\u0020set\u0020protected\u0020for\u0020a\u0020while",
+            "summary": "Style\u003B\u0020set\u0020protected\u0020for\u0020a\u0020while.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-AbstractStyle.html#property_style"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Cell",
             "name": "Cell",
-            "summary": "Cell\u0020style\u0020writer",
+            "summary": "Cell\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Cell.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Cell\u003A\u003Awrite\u0028\u0029",
@@ -14968,7 +14568,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Extrusion",
             "name": "Extrusion",
-            "summary": "3D\u0020extrusion\u0020style\u0020writer",
+            "summary": "3D\u0020extrusion\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Extrusion.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Extrusion\u003A\u003Awrite\u0028\u0029",
@@ -14978,7 +14578,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Fill",
             "name": "Fill",
-            "summary": "Fill\u0020style\u0020writer",
+            "summary": "Fill\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Fill.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Fill\u003A\u003Awrite\u0028\u0029",
@@ -14988,7 +14588,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Font",
             "name": "Font",
-            "summary": "Font\u0020style\u0020writer",
+            "summary": "Font\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Font.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Font\u003A\u003Awrite\u0028\u0029",
@@ -15008,12 +14608,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Font\u003A\u003A\u0024isInline",
             "name": "isInline",
-            "summary": "Is\u0020inline\u0020in\u0020element",
+            "summary": "Is\u0020inline\u0020in\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Font.html#property_isInline"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Frame",
             "name": "Frame",
-            "summary": "Frame\u0020style\u0020writer",
+            "summary": "Frame\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Frame.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Frame\u003A\u003Awrite\u0028\u0029",
@@ -15033,7 +14633,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Frame\u003A\u003AgetStyles\u0028\u0029",
             "name": "getStyles",
-            "summary": "Get\u0020style\u0020values\u0020in\u0020associative\u0020array",
+            "summary": "Get\u0020style\u0020values\u0020in\u0020associative\u0020array.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Frame.html#method_getStyles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Frame\u003A\u003APHP_32BIT_INT_MAX",
@@ -15043,12 +14643,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Image",
             "name": "Image",
-            "summary": "Image\u0020style\u0020writer",
+            "summary": "Image\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Image.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Indentation",
             "name": "Indentation",
-            "summary": "Paragraph\u0020indentation\u0020style\u0020writer",
+            "summary": "Paragraph\u0020indentation\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Indentation.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Indentation\u003A\u003Awrite\u0028\u0029",
@@ -15058,7 +14658,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Line",
             "name": "Line",
-            "summary": "Line\u0020style\u0020writer",
+            "summary": "Line\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Line.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Line\u003A\u003AwriteStroke\u0028\u0029",
@@ -15068,7 +14668,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\LineNumbering",
             "name": "LineNumbering",
-            "summary": "Line\u0020numbering\u0020style\u0020writer",
+            "summary": "Line\u0020numbering\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-LineNumbering.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\LineNumbering\u003A\u003Awrite\u0028\u0029",
@@ -15078,7 +14678,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\MarginBorder",
             "name": "MarginBorder",
-            "summary": "Margin\u0020border\u0020style\u0020writer",
+            "summary": "Margin\u0020border\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-MarginBorder.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\MarginBorder\u003A\u003Awrite\u0028\u0029",
@@ -15113,27 +14713,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\MarginBorder\u003A\u003A\u0024sizes",
             "name": "sizes",
-            "summary": "Sizes",
+            "summary": "Sizes.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-MarginBorder.html#property_sizes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\MarginBorder\u003A\u003A\u0024colors",
             "name": "colors",
-            "summary": "Colors",
+            "summary": "Colors.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-MarginBorder.html#property_colors"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\MarginBorder\u003A\u003A\u0024styles",
             "name": "styles",
-            "summary": "Border\u0020styles",
+            "summary": "Border\u0020styles.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-MarginBorder.html#property_styles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\MarginBorder\u003A\u003A\u0024attributes",
             "name": "attributes",
-            "summary": "Other\u0020attributes",
+            "summary": "Other\u0020attributes.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-MarginBorder.html#property_attributes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Outline",
             "name": "Outline",
-            "summary": "Outline\u0020style\u0020writer",
+            "summary": "Outline\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Outline.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Outline\u003A\u003Awrite\u0028\u0029",
@@ -15143,7 +14743,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Paragraph",
             "name": "Paragraph",
-            "summary": "Paragraph\u0020style\u0020writer",
+            "summary": "Paragraph\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Paragraph.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Paragraph\u003A\u003Awrite\u0028\u0029",
@@ -15178,17 +14778,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Paragraph\u003A\u003A\u0024withoutPPR",
             "name": "withoutPPR",
-            "summary": "Without\u0020w\u003ApPr",
+            "summary": "Without\u0020w\u003ApPr.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Paragraph.html#property_withoutPPR"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Paragraph\u003A\u003A\u0024isInline",
             "name": "isInline",
-            "summary": "Is\u0020inline\u0020in\u0020element",
+            "summary": "Is\u0020inline\u0020in\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Paragraph.html#property_isInline"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Row",
             "name": "Row",
-            "summary": "Row\u0020style\u0020writer",
+            "summary": "Row\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Row.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Row\u003A\u003Awrite\u0028\u0029",
@@ -15208,7 +14808,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Section",
             "name": "Section",
-            "summary": "Section\u0020style\u0020writer",
+            "summary": "Section\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Section.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Section\u003A\u003Awrite\u0028\u0029",
@@ -15218,7 +14818,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Shading",
             "name": "Shading",
-            "summary": "Shading\u0020style\u0020writer",
+            "summary": "Shading\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Shading.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Shading\u003A\u003Awrite\u0028\u0029",
@@ -15228,7 +14828,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Shadow",
             "name": "Shadow",
-            "summary": "Shadow\u0020style\u0020writer",
+            "summary": "Shadow\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Shadow.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Shadow\u003A\u003Awrite\u0028\u0029",
@@ -15238,7 +14838,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Shape",
             "name": "Shape",
-            "summary": "Shape\u0020style\u0020writer",
+            "summary": "Shape\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Shape.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Shape\u003A\u003Awrite\u0028\u0029",
@@ -15248,7 +14848,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Spacing",
             "name": "Spacing",
-            "summary": "Spacing\u0020between\u0020lines\u0020and\u0020above\/below\u0020paragraph\u0020style\u0020writer",
+            "summary": "Spacing\u0020between\u0020lines\u0020and\u0020above\/below\u0020paragraph\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Spacing.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Spacing\u003A\u003Awrite\u0028\u0029",
@@ -15258,7 +14858,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Tab",
             "name": "Tab",
-            "summary": "Line\u0020numbering\u0020style\u0020writer",
+            "summary": "Line\u0020numbering\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Tab.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Tab\u003A\u003Awrite\u0028\u0029",
@@ -15268,7 +14868,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Table",
             "name": "Table",
-            "summary": "Table\u0020style\u0020writer",
+            "summary": "Table\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Table.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Table\u003A\u003Awrite\u0028\u0029",
@@ -15283,7 +14883,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Table\u003A\u003AwriteLayout\u0028\u0029",
             "name": "writeLayout",
-            "summary": "Enable\/Disable\u0020automatic\u0020resizing\u0020of\u0020the\u0020table",
+            "summary": "Enable\/Disable\u0020automatic\u0020resizing\u0020of\u0020the\u0020table.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Table.html#method_writeLayout"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Table\u003A\u003AwriteMargin\u0028\u0029",
@@ -15298,7 +14898,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Table\u003A\u003AwriteTblWidth\u0028\u0029",
             "name": "writeTblWidth",
-            "summary": "Writes\u0020a\u0020table\u0020width",
+            "summary": "Writes\u0020a\u0020table\u0020width.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-Table.html#method_writeTblWidth"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\Table\u003A\u003AwriteFirstRow\u0028\u0029",
@@ -15328,7 +14928,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\TablePosition",
             "name": "TablePosition",
-            "summary": "TablePosition\u0020style\u0020writer",
+            "summary": "TablePosition\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-TablePosition.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\TablePosition\u003A\u003Awrite\u0028\u0029",
@@ -15338,7 +14938,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\TextBox",
             "name": "TextBox",
-            "summary": "TextBox\u0020style\u0020writer",
+            "summary": "TextBox\u0020style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Style-TextBox.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\TextBox\u003A\u003AwriteInnerMargin\u0028\u0029",
@@ -15353,12 +14953,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007",
             "name": "Word2007",
-            "summary": "Word2007\u0020writer",
+            "summary": "Word2007\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Create\u0020new\u0020Word2007\u0020writer",
+            "summary": "Create\u0020new\u0020Word2007\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007.html#method___construct"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003Asave\u0028\u0029",
@@ -15368,12 +14968,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003AgetContentTypes\u0028\u0029",
             "name": "getContentTypes",
-            "summary": "Get\u0020content\u0020types",
+            "summary": "Get\u0020content\u0020types.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007.html#method_getContentTypes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003AgetRelationships\u0028\u0029",
             "name": "getRelationships",
-            "summary": "Get\u0020content\u0020types",
+            "summary": "Get\u0020content\u0020types.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007.html#method_getRelationships"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003AaddHeaderFooterMedia\u0028\u0029",
@@ -15388,12 +14988,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003AaddNotes\u0028\u0029",
             "name": "addNotes",
-            "summary": "Add\u0020footnotes\/endnotes",
+            "summary": "Add\u0020footnotes\/endnotes.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007.html#method_addNotes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003AaddComments\u0028\u0029",
             "name": "addComments",
-            "summary": "Add\u0020comments",
+            "summary": "Add\u0020comments.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007.html#method_addComments"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003AaddChart\u0028\u0029",
@@ -15408,22 +15008,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003A\u0024contentTypes",
             "name": "contentTypes",
-            "summary": "Content\u0020types\u0020values",
+            "summary": "Content\u0020types\u0020values.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007.html#property_contentTypes"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\u003A\u003A\u0024relationships",
             "name": "relationships",
-            "summary": "Document\u0020relationship",
+            "summary": "Document\u0020relationship.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007.html#property_relationships"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\WriterInterface",
             "name": "WriterInterface",
-            "summary": "Writer\u0020interface",
+            "summary": "Writer\u0020interface.",
             "url": "classes/PhpOffice-PhpWord-Writer-WriterInterface.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\WriterInterface\u003A\u003Asave\u0028\u0029",
             "name": "save",
-            "summary": "Save\u0020PhpWord\u0020to\u0020file",
+            "summary": "Save\u0020PhpWord\u0020to\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Writer-WriterInterface.html#method_save"
         },                {
             "fqsen": "\\",
