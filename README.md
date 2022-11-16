@@ -1,9 +1,9 @@
 # ![PHPWord](https://rawgit.com/PHPOffice/PHPWord/develop/docs/images/phpword.svg "PHPWord")
 
 [![Latest Stable Version](https://poser.pugx.org/phpoffice/phpword/v/stable.png)](https://packagist.org/packages/phpoffice/phpword)
-[![Build Status](https://travis-ci.org/PHPOffice/PHPWord.svg?branch=master)](https://travis-ci.org/PHPOffice/PHPWord)
+[![CI](https://github.com/PHPOffice/PHPWord/actions/workflows/ci.yml/badge.svg)](https://github.com/PHPOffice/PHPWord/actions/workflows/ci.yml)
 [![Code Quality](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/)
-[![Coverage Status](https://coveralls.io/repos/github/PHPOffice/PHPWord/badge.svg?branch=master)](https://coveralls.io/github/PHPOffice/PHPWord?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/)
 [![Total Downloads](https://poser.pugx.org/phpoffice/phpword/downloads.png)](https://packagist.org/packages/phpoffice/phpword)
 [![License](https://poser.pugx.org/phpoffice/phpword/license.png)](https://packagist.org/packages/phpoffice/phpword)
 [![Join the chat at https://gitter.im/PHPOffice/PHPWord](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/PHPOffice/PHPWord)
