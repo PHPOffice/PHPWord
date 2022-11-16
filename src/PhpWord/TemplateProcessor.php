@@ -1146,7 +1146,7 @@ class TemplateProcessor
     /**
      * Find the start position of the nearest table before $offset.
      */
-    protected function findTableStart(int $offset): int
+    private function findTableStart(int $offset): int
     {
         $rowStart = strrpos(
             $this->tempDocumentMainPart,
@@ -1171,7 +1171,7 @@ class TemplateProcessor
     /**
      * Find the end position of the nearest table row after $offset.
      */
-    protected function findTableEnd(int $offset): int
+    private function findTableEnd(int $offset): int
     {
         return strpos($this->tempDocumentMainPart, '</w:tbl>', $offset) + 7;
     }
