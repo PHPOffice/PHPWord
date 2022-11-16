@@ -92,10 +92,5 @@
         "psr-4": {
             "PhpOffice\\PhpWordTests\\": "tests/PhpWordTests"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-develop": "0.19-dev"
-        }
     }
 }

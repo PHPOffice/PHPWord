@@ -39,7 +39,7 @@ Example:
 
 .. code-block:: bash
 
-    composer require phpoffice/phpword:dev-develop
+    composer require phpoffice/phpword:dev-master
 
 Using samples
 -------------

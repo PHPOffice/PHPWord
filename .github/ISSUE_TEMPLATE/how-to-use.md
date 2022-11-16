@@ -9,6 +9,6 @@ labels: WontFix
 
 Documentation is available on [Read the Docs](https://phpword.readthedocs.io/en/latest/).
 
-Sample code is in the [`/samples/` directory](https://github.com/PHPOffice/PHPWord/tree/develop/samples).
+Sample code is in the [`/samples/` directory](https://github.com/PHPOffice/PHPWord/tree/master/samples).
 
 Usage questions belong on [Stack Overflow](https://stackoverflow.com/questions/tagged/phpword).
