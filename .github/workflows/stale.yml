@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/stale@v5
         with:
+          ascending: true # oldest issues first
           days-before-stale: 90
           days-before-close: 60
           exempt-issue-labels: 'pinned,security'
