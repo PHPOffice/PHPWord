@@ -11,7 +11,7 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v5
+      - uses: actions/stale@v6
         with:
           operations-per-run: 500 # allow to consume half of the 1000 operations per hour limit of GitHub API
           ascending: true # oldest issues first
