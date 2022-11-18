@@ -536,11 +536,9 @@ class Html
                 switch ($attribute->name) {
                     case 'start':
                         $start = (int) $attribute->value;
-
                         break;
                     case 'type':
                         $type = $attribute->value;
-
                         break;
                 }
             }
