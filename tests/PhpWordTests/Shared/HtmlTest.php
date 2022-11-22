@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWordTests\Shared;
 
 use Exception;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -132,6 +133,17 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr'));
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz'));
         self::assertEquals('22.5', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz', 'w:val'));
+    }
+
+    public function testParseStyleTableClassName(): void
+    {
+        $html = '<style type="text/css">.pStyle { font-size:15px; }</style><table class="pStyle"><tr><td></td></tr></table>';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        self::assertInstanceOf(Table::class, $section->getElement(0));
+        self::assertEquals('pStyle', $section->getElement(0)->getStyle()->getStyleName());
     }
 
     /**
