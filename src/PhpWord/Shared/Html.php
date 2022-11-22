@@ -162,6 +162,7 @@ class Html
             $attributeClass = $attributes->getNamedItem('class');
             if ($attributeClass && self::$css) {
                 $styles = self::parseStyleDeclarations(self::$css->getStyle('.' . $attributeClass->value), $styles);
+                $styles['className'] = $attributeClass->value;
             }
 
             $attributeStyle = $attributes->getNamedItem('style');
@@ -410,6 +411,11 @@ class Html
         $elementStyles = self::parseInlineStyle($node, $styles['table']);
 
         $newElement = $element->addTable($elementStyles);
+
+        // Add style name from CSS Class
+        if (isset($elementStyles['className'])) {
+            $newElement->getStyle()->setStyleName($elementStyles['className']);
+        }
 
         $attributes = $node->attributes;
         if ($attributes->getNamedItem('border') !== null) {
