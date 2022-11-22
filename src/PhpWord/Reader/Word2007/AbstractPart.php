@@ -558,7 +558,7 @@ abstract class AbstractPart
             'valign' => [self::READ_VALUE, 'w:vAlign'],
             'textDirection' => [self::READ_VALUE, 'w:textDirection'],
             'gridSpan' => [self::READ_VALUE, 'w:gridSpan'],
-            'vMerge' => [self::READ_VALUE, 'w:vMerge'],
+            'vMerge' => [self::READ_VALUE, 'w:vMerge', null, null, 'continue'],
             'bgColor' => [self::READ_VALUE, 'w:shd', 'w:fill'],
         ];
 
