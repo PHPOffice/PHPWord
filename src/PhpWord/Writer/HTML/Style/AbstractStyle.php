@@ -124,4 +124,87 @@ abstract class AbstractStyle
     {
         return $condition == true ? $value : '';
     }
+
+    /**
+     * Returns the CSS border values for Cell and Table elements
+     *
+     * @return array
+     */
+    protected function getBorderStyles()
+    {
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Cell
+            && !$style instanceof \PhpOffice\PhpWord\Style\Table) {
+            return [];
+        }
+        $css = [];
+        $borders = ['top', 'left', 'bottom', 'right'];
+        foreach ($borders as $side) {
+            $ucfSide = ucfirst($side);
+            $borderWidth = call_user_func([$style, "getBorder{$ucfSide}Size"]);
+            if ($borderWidth !== null) {
+                $borderWidth = (int)$borderWidth / 8;
+                if ($borderWidth < 0.25) {
+                    $borderWidth = 0;
+                }
+            }
+            $borderStyle = call_user_func([$style, "getBorder{$ucfSide}Style"]);
+            if ($borderStyle !== null) {
+                $borderStyle = $this->getBorderStyleCSSValue($borderStyle);
+            }
+            $borderColor = call_user_func([$style, "getBorder{$ucfSide}Color"]);
+            $css["border-{$side}-width"] = $this->getValueIf($borderWidth !== null, "{$borderWidth}pt");
+            $css["border-{$side}-style"] = $borderStyle;
+            $css["border-{$side}-color"] = $this->getValueIf($borderColor !== null, "#{$borderColor}");
+        }
+        return $css;
+    }
+
+    /**
+     * Returns the corresponding CSS border style values
+     *
+     * @param string $xmlValue
+     * @return string
+     */
+    protected function getBorderStyleCSSValue(string $xmlValue)
+    {
+        switch ($xmlValue) {
+            case 'dashDotStroked':
+            case 'dashed':
+            case 'dashSmallGap':
+                $cssValue = 'dashed';
+                break;
+            case 'inset':
+                $cssValue = 'inset';
+                break;
+            case 'nil':
+                $cssValue = 'hidden';
+                break;
+            case 'none':
+                $cssValue = 'none';
+                break;
+            case 'outset':
+                $cssValue = 'outset';
+                break;
+            case 'dotDash':
+            case 'dotDotDash':
+            case 'dotted':
+                $cssValue = 'dotted';
+                break;
+            case 'double':
+            case 'doubleWave':
+            case 'triple':
+                $cssValue = 'double';
+                break;
+            case 'threeDEmboss':
+                $cssValue = 'ridge';
+                break;
+            case 'threeDEngrave':
+                $cssValue = 'groove';
+                break;
+            default:
+                $cssValue = 'solid';
+        }
+        return $cssValue;
+    }
 }
