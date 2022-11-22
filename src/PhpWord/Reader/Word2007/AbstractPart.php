@@ -568,7 +568,7 @@ abstract class AbstractPart
                     'valign' => [self::READ_VALUE, 'w:vAlign'],
                     'textDirection' => [self::READ_VALUE, 'w:textDirection'],
                     'gridSpan' => [self::READ_VALUE, 'w:gridSpan'],
-                    'vMerge' => [self::READ_VALUE, 'w:vMerge'],
+                    'vMerge' => [self::READ_VALUE, 'w:vMerge', null, null, 'continue'],
                     'bgColor' => [self::READ_VALUE, 'w:shd', 'w:fill'],
                 ];
 
@@ -647,7 +647,7 @@ abstract class AbstractPart
         $styles = [];
 
         foreach ($styleDefs as $styleProp => $styleVal) {
-            [$method, $element, $attribute, $expected] = array_pad($styleVal, 4, null);
+            [$method, $element, $attribute, $expected, $default] = array_pad($styleVal, 5, null);
 
             $element = $this->findPossibleElement($xmlReader, $parentNode, $element);
             if ($element === null) {
@@ -661,7 +661,7 @@ abstract class AbstractPart
 
                 // Use w:val as default if no attribute assigned
                 $attribute = ($attribute === null) ? 'w:val' : $attribute;
-                $attributeValue = $xmlReader->getAttribute($attribute, $node);
+                $attributeValue = $xmlReader->getAttribute($attribute, $node) ?? $default;
 
                 $styleValue = $this->readStyleDef($method, $attributeValue, $expected);
                 if ($styleValue !== null) {
