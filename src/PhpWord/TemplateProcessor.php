@@ -1027,7 +1027,7 @@ class TemplateProcessor
      *
      * @param mixed $search
      * @param mixed $replace
-     * @param string $documentPartXML
+     * @param array<int, string>|string $documentPartXML
      * @param int $limit
      *
      * @return string
