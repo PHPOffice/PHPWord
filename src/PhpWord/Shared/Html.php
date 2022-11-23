@@ -160,8 +160,10 @@ class Html
             }
 
             $attributeClass = $attributes->getNamedItem('class');
-            if ($attributeClass && self::$css) {
-                $styles = self::parseStyleDeclarations(self::$css->getStyle('.' . $attributeClass->value), $styles);
+            if ($attributeClass) {
+                if (self::$css) {
+                    $styles = self::parseStyleDeclarations(self::$css->getStyle('.' . $attributeClass->value), $styles);
+                }
                 $styles['className'] = $attributeClass->value;
             }
 
