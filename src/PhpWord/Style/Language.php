@@ -69,7 +69,7 @@ final class Language extends AbstractStyle
 
     const NL_NL = 'nl-NL';
     const NL_NL_ID = 1043;
-    
+
     const SV_SE = 'sv-SE';
     const SV_SE_ID = 1053;
 
