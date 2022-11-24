@@ -760,6 +760,70 @@ class TemplateProcessor
     }
 
     /**
+     * Delete a table row in a template document.
+     */
+    public function deleteRow(string $search): void
+    {
+        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
+            $search = '${' . $search . '}';
+        }
+
+        $tagPos = strpos($this->tempDocumentMainPart, $search);
+        if (!$tagPos) {
+            throw new Exception(sprintf('Can not delete row %s, template variable not found or variable contains markup.', $search));
+        }
+
+        $tableStart = $this->findTableStart($tagPos);
+        $tableEnd = $this->findTableEnd($tagPos);
+        $xmlTable = $this->getSlice($tableStart, $tableEnd);
+
+        if (substr_count($xmlTable, '<w:tr') === 1) {
+            $this->tempDocumentMainPart = $this->getSlice(0, $tableStart) . $this->getSlice($tableEnd);
+
+            return;
+        }
+
+        $rowStart = $this->findRowStart($tagPos);
+        $rowEnd = $this->findRowEnd($tagPos);
+        $xmlRow = $this->getSlice($rowStart, $rowEnd);
+
+        $this->tempDocumentMainPart = $this->getSlice(0, $rowStart) . $this->getSlice($rowEnd);
+
+        // Check if there's a cell spanning multiple rows.
+        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+            $extraRowStart = $rowStart;
+            while (true) {
+                $extraRowStart = $this->findRowStart($extraRowStart + 1);
+                $extraRowEnd = $this->findRowEnd($extraRowStart + 1);
+
+                // If extraRowEnd is lower then 7, there was no next row found.
+                if ($extraRowEnd < 7) {
+                    break;
+                }
+
+                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)
+                ) {
+                    break;
+                }
+
+                $tableStart = $this->findTableStart($extraRowEnd + 1);
+                $tableEnd = $this->findTableEnd($extraRowEnd + 1);
+                $xmlTable = $this->getSlice($tableStart, $tableEnd);
+                if (substr_count($xmlTable, '<w:tr') === 1) {
+                    $this->tempDocumentMainPart = $this->getSlice(0, $tableStart) . $this->getSlice($tableEnd);
+
+                    return;
+                }
+
+                $this->tempDocumentMainPart = $this->getSlice(0, $extraRowStart) . $this->getSlice($extraRowEnd);
+            }
+        }
+    }
+
+    /**
      * Clones a table row and populates it's values from a two-dimensional array in a template document.
      *
      * @param string $search
@@ -1077,6 +1141,39 @@ class TemplateProcessor
     protected function getDocumentContentTypesName()
     {
         return '[Content_Types].xml';
+    }
+
+    /**
+     * Find the start position of the nearest table before $offset.
+     */
+    private function findTableStart(int $offset): int
+    {
+        $rowStart = strrpos(
+            $this->tempDocumentMainPart,
+            '<w:tbl ',
+            ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+        );
+
+        if (!$rowStart) {
+            $rowStart = strrpos(
+                $this->tempDocumentMainPart,
+                '<w:tbl>',
+                ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+            );
+        }
+        if (!$rowStart) {
+            throw new Exception('Can not find the start position of the table.');
+        }
+
+        return $rowStart;
+    }
+
+    /**
+     * Find the end position of the nearest table row after $offset.
+     */
+    private function findTableEnd(int $offset): int
+    {
+        return strpos($this->tempDocumentMainPart, '</w:tbl>', $offset) + 7;
     }
 
     /**

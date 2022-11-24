@@ -71,7 +71,6 @@
         "ext-libxml": "*",
         "dompdf/dompdf": "^2.0",
         "mpdf/mpdf": "^8.1",
-        "php-coveralls/php-coveralls": "^2.5",
         "phpmd/phpmd": "^2.13",
         "phpunit/phpunit": ">=7.0",
         "tecnickcom/tcpdf": "^6.5",
@@ -92,11 +91,6 @@
     "autoload-dev": {
         "psr-4": {
             "PhpOffice\\PhpWordTests\\": "tests/PhpWordTests"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-develop": "0.19-dev"
         }
     }
 }

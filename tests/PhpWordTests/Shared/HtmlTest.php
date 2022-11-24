@@ -107,6 +107,33 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         self::assertEquals('text with entities <my text>', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
     }
 
+    public function testParseStyle(): void
+    {
+        $html = '<style type="text/css">
+        .pStyle {
+          font-size:15px;
+        }
+        .tableStyle {
+          width:100%;
+          background-color:red;
+        }
+        </style>
+        
+        <p class="pStyle">Calculator</p>';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:t'));
+        self::assertEquals('Calculator', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz'));
+        self::assertEquals('22.5', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz', 'w:val'));
+    }
+
     /**
      * Test underline.
      */
