@@ -89,7 +89,7 @@ class Image extends AbstractElement
     /**
      * Image function.
      *
-     * @var string
+     * @var null|callable(resource): void
      */
     private $imageFunc;
 
@@ -259,17 +259,15 @@ class Image extends AbstractElement
     /**
      * Get image function.
      *
-     * @return string
+     * @return null|callable(resource): void
      */
-    public function getImageFunction()
+    public function getImageFunction(): ?callable
     {
         return $this->imageFunc;
     }
 
     /**
      * Get image quality.
-     *
-     * @return null|int
      */
     public function getImageQuality(): ?int
     {
@@ -337,20 +335,13 @@ class Image extends AbstractElement
     }
 
     /**
-     * Get image string data.
-     *
-     * @param bool $base64
-     *
-     * @return null|string
-     *
-     * @since 0.11.0
+     * Get image string.
      */
-    public function getImageStringData($base64 = false)
+    public function getImageString(): ?string
     {
         $source = $this->source;
         $actualSource = null;
         $imageBinary = null;
-        $imageData = null;
         $isTemp = false;
 
         // Get actual source from archive image or other source
@@ -387,11 +378,8 @@ class Image extends AbstractElement
                 imagesavealpha($imageResource, true);
             }
             ob_start();
-            if (!empty($this->imageQuality)) {
-                call_user_func($this->imageFunc, $imageResource, null, $this->imageQuality);
-            } else {
-                call_user_func($this->imageFunc, $imageResource);
-            }
+            $callback = $this->imageFunc;
+            $callback($imageResource);
             $imageBinary = ob_get_contents();
             ob_end_clean();
         } elseif ($this->sourceType == self::SOURCE_STRING) {
@@ -403,20 +391,36 @@ class Image extends AbstractElement
                 fclose($fileHandle);
             }
         }
-        if ($imageBinary !== null) {
-            if ($base64) {
-                $imageData = chunk_split(base64_encode($imageBinary));
-            } else {
-                $imageData = chunk_split(bin2hex($imageBinary));
-            }
-        }
 
         // Delete temporary file if necessary
         if ($isTemp === true) {
             @unlink($actualSource);
         }
 
-        return $imageData;
+        return $imageBinary;
+    }
+
+    /**
+     * Get image string data.
+     *
+     * @param bool $base64
+     *
+     * @return null|string
+     *
+     * @since 0.11.0
+     */
+    public function getImageStringData($base64 = false)
+    {
+        $imageBinary = $this->getImageString();
+        if ($imageBinary === null) {
+            return null;
+        }
+
+        if ($base64) {
+            return chunk_split(base64_encode($imageBinary));
+        }
+
+        return chunk_split(bin2hex($imageBinary));
     }
 
     /**
@@ -527,21 +531,28 @@ class Image extends AbstractElement
         switch ($this->imageType) {
             case 'image/png':
                 $this->imageCreateFunc = $this->sourceType == self::SOURCE_STRING ? 'imagecreatefromstring' : 'imagecreatefrompng';
-                $this->imageFunc = 'imagepng';
+                $this->imageFunc = function ($resource): void {
+                    imagepng($resource, null, $this->imageQuality);
+                };
                 $this->imageExtension = 'png';
                 $this->imageQuality = 0;
 
                 break;
             case 'image/gif':
                 $this->imageCreateFunc = $this->sourceType == self::SOURCE_STRING ? 'imagecreatefromstring' : 'imagecreatefromgif';
-                $this->imageFunc = 'imagegif';
+                $this->imageFunc = function ($resource): void {
+                    imagegif($resource);
+                };
                 $this->imageExtension = 'gif';
+                $this->imageQuality = null;
 
                 break;
             case 'image/jpeg':
             case 'image/jpg':
                 $this->imageCreateFunc = $this->sourceType == self::SOURCE_STRING ? 'imagecreatefromstring' : 'imagecreatefromjpeg';
-                $this->imageFunc = 'imagejpeg';
+                $this->imageFunc = function ($resource): void {
+                    imagejpeg($resource, null, $this->imageQuality);
+                };
                 $this->imageExtension = 'jpg';
                 $this->imageQuality = 100;
 
@@ -549,11 +560,16 @@ class Image extends AbstractElement
             case 'image/bmp':
             case 'image/x-ms-bmp':
                 $this->imageType = 'image/bmp';
+                $this->imageFunc = null;
                 $this->imageExtension = 'bmp';
+                $this->imageQuality = null;
 
                 break;
             case 'image/tiff':
+                $this->imageType = 'image/tiff';
+                $this->imageFunc = null;
                 $this->imageExtension = 'tif';
+                $this->imageQuality = null;
 
                 break;
         }
