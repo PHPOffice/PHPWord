@@ -18,9 +18,10 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\TrackChange;
-use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
 
@@ -74,11 +75,11 @@ class Text extends AbstractElement
         $content .= $this->writeOpening();
         $content .= $this->openingText;
         $content .= $this->openingTags;
-        if (Settings::isOutputEscapingEnabled()) {
-            $content .= $this->escaper->escapeHtml($element->getText());
-        } else {
-            $content .= $element->getText();
+        $contenx = HTML::escapeOrNot($element->getText());
+        if (!$this->withoutP && !trim($contenx)) {
+            $contenx = '&nbsp;';
         }
+        $content .= $contenx;
         $content .= $this->closingTags;
         $content .= $this->closingText;
         $content .= $this->writeClosing();
@@ -115,10 +116,7 @@ class Text extends AbstractElement
     {
         $content = '';
         if (!$this->withoutP) {
-            $style = '';
-            if (method_exists($this->element, 'getParagraphStyle')) {
-                $style = $this->getParagraphStyle();
-            }
+            $style = $this->getParagraphStyle();
             $content .= "<p{$style}>";
         }
 
@@ -141,12 +139,7 @@ class Text extends AbstractElement
         $content .= $this->writeTrackChangeClosing();
 
         if (!$this->withoutP) {
-            if (Settings::isOutputEscapingEnabled()) {
-                $content .= $this->escaper->escapeHtml($this->closingText);
-            } else {
-                $content .= $this->closingText;
-            }
-
+            $content .= HTML::escapeOrNot($this->closingText);
             $content .= '</p>' . PHP_EOL;
         }
 
@@ -248,17 +241,39 @@ class Text extends AbstractElement
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $style = '';
+        $langtext = '';
+        $lang = null;
         $fontStyle = $element->getFontStyle();
         $fStyleIsObject = ($fontStyle instanceof Font);
         if ($fStyleIsObject) {
             $styleWriter = new FontStyleWriter($fontStyle);
-            $style = $styleWriter->write();
-        } elseif (is_string($fontStyle)) {
-            $style = $fontStyle;
+            $styl2 = $styleWriter->write();
+            if ($styl2) {
+                $style = " style=\"$styl2\"";
+            }
+            $lang = $fontStyle->getLang();
+        } elseif (!empty($fontStyle)) {
+            $style = " class=\"$fontStyle\"";
+            /** @var \PhpOffice\PhpWord\Style\Font $styl3 Type hint */
+            $styl3 = Style::getStyle($fontStyle);
+            if (!empty($styl3) && method_exists($styl3, 'getLang')) {
+                $lang = $styl3->getLang();
+            }
         }
-        if ($style) {
-            $attribute = $fStyleIsObject ? 'style' : 'class';
-            $this->openingTags = "<span {$attribute}=\"{$style}\">";
+        if ($lang) {
+            $langtext = $lang->getLatin();
+            if (!$langtext) {
+                $langtext = $lang->getEastAsia();
+            }
+            if (!$langtext) {
+                $langtext = $lang->getBidirectional();
+            }
+            if ($langtext) {
+                $langtext = " lang='$langtext'";
+            }
+        }
+        if ($style || $langtext) {
+            $this->openingTags = "<span$langtext$style>";
             $this->closingTags = '</span>';
         }
     }

@@ -80,7 +80,7 @@ class Title extends AbstractElement
     /**
      * Get Title Text content.
      *
-     * @return string
+     * @return string|TextRun
      */
     public function getText()
     {

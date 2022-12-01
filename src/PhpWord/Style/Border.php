@@ -25,7 +25,7 @@ class Border extends AbstractStyle
     /**
      * Border Top Size.
      *
-     * @var float|int
+     * @var null|float|int
      */
     protected $borderTopSize;
 
@@ -46,7 +46,7 @@ class Border extends AbstractStyle
     /**
      * Border Left Size.
      *
-     * @var float|int
+     * @var null|float|int
      */
     protected $borderLeftSize;
 
@@ -67,7 +67,7 @@ class Border extends AbstractStyle
     /**
      * Border Right Size.
      *
-     * @var float|int
+     * @var null|float|int
      */
     protected $borderRightSize;
 
@@ -88,7 +88,7 @@ class Border extends AbstractStyle
     /**
      * Border Bottom Size.
      *
-     * @var float|int
+     * @var null|float|int
      */
     protected $borderBottomSize;
 
@@ -124,7 +124,7 @@ class Border extends AbstractStyle
     /**
      * Set border size.
      *
-     * @param float|int $value
+     * @param null|float|int $value
      *
      * @return self
      */
@@ -205,7 +205,7 @@ class Border extends AbstractStyle
     /**
      * Get border top size.
      *
-     * @return float|int
+     * @return null|float|int
      */
     public function getBorderTopSize()
     {
@@ -215,7 +215,7 @@ class Border extends AbstractStyle
     /**
      * Set border top size.
      *
-     * @param float|int $value
+     * @param null|float|int $value
      *
      * @return self
      */
@@ -287,7 +287,7 @@ class Border extends AbstractStyle
     /**
      * Set border left size.
      *
-     * @param float|int $value
+     * @param null|float|int $value
      *
      * @return self
      */
@@ -349,7 +349,7 @@ class Border extends AbstractStyle
     /**
      * Get border right size.
      *
-     * @return float|int
+     * @return null|float|int
      */
     public function getBorderRightSize()
     {
@@ -421,7 +421,7 @@ class Border extends AbstractStyle
     /**
      * Get border bottom size.
      *
-     * @return float|int
+     * @return null|float|int
      */
     public function getBorderBottomSize()
     {

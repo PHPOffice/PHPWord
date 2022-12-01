@@ -21,6 +21,9 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Writer\HTML;
+use PhpOffice\PhpWord\Writer\HTML\Element\Table as TableStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Generic as GenericStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
@@ -63,8 +66,10 @@ class Head extends AbstractPart
             $method = 'get' . $key;
             if ($docProps->$method() != '') {
                 $content .= '<meta name="' . $value . '"'
-                          . ' content="' . (Settings::isOutputEscapingEnabled() ? $this->escaper->escapeHtmlAttr($docProps->$method()) : $docProps->$method()) . '"'
-                          . ' />' . PHP_EOL;
+                    . ' content="'
+                    . HTML::escapeOrNot($docProps->$method())
+                    . '"'
+                    . ' />' . PHP_EOL;
             }
         }
         $content .= $this->writeStyles();
@@ -83,11 +88,16 @@ class Head extends AbstractPart
         $css = '<style>' . PHP_EOL;
 
         // Default styles
+        $astarray = [
+            'font-family' => FontStyleWriter::getFontFamily(Settings::getDefaultFontName(), $this->getParentWriter()->getPhpWord()->getDefaultHtmlGenericFont()),
+            'font-size' => Settings::getDefaultFontSize() . 'pt',
+        ];
+        $hws = $this->getParentWriter()->getPhpWord()->getDefaultHtmlWhiteSpace();
+        if ($hws) {
+            $astarray['white-space'] = $hws;
+        }
         $defaultStyles = [
-            '*' => [
-                'font-family' => Settings::getDefaultFontName(),
-                'font-size' => Settings::getDefaultFontSize() . 'pt',
-            ],
+            '*' => $astarray,
             'a.NoteRef' => [
                 'text-decoration' => 'none',
             ],
@@ -116,20 +126,57 @@ class Head extends AbstractPart
         $customStyles = Style::getStyles();
         if (is_array($customStyles)) {
             foreach ($customStyles as $name => $style) {
+                $stylep = null;
                 if ($style instanceof Font) {
                     $styleWriter = new FontStyleWriter($style);
                     if ($style->getStyleType() == 'title') {
                         $name = str_replace('Heading_', 'h', $name);
+                        $stylep = $style->getParagraph();
+                        $style = $stylep;
                     } else {
                         $name = '.' . $name;
                     }
                     $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
-                } elseif ($style instanceof Paragraph) {
+                }
+                if ($style instanceof Paragraph) {
                     $styleWriter = new ParagraphStyleWriter($style);
-                    $name = '.' . $name;
+                    if (!$stylep) {
+                        $name = '.' . $name;
+                    }
+                    if ($name === '.Normal') {
+                        $name = "p, $name";
+                    }
                     $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                 }
+                if ($style instanceof Table) {
+                    $css .= ".{$name} {" . TableStyleWriter::getTableStyleString($style) . '}' . PHP_EOL;
+                }
             }
+        }
+        $secno = 0;
+        $sections = $this->getParentWriter()->getPhpWord()->getSections();
+        $intotwip = \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
+        $css .= 'body > div + div {page-break-before: always;}' . PHP_EOL;
+        $css .= 'div > *:first-child {page-break-before: auto;}' . PHP_EOL;
+        foreach ($sections as $section) {
+            ++$secno;
+            $secstyl = $section->getStyle();
+            $css .= "@page page$secno {";
+            $ps = $secstyl->getPaperSize();
+            $or = $secstyl->getOrientation();
+            if ($this->getParentWriter()->isPdf()) {
+                if ($or === 'landscape') {
+                    $ps .= '-L';
+                }
+                $css .= "sheet-size: $ps; ";
+            } else {
+                $css .= "size: $ps $or; ";
+            }
+            $css .= 'margin-right: ' . (string) ($secstyl->getMarginRight() / $intotwip) . 'in; ';
+            $css .= 'margin-left: ' . (string) ($secstyl->getMarginLeft() / $intotwip) . 'in; ';
+            $css .= 'margin-top: ' . (string) ($secstyl->getMarginTop() / $intotwip) . 'in; ';
+            $css .= 'margin-bottom: ' . (string) ($secstyl->getMarginBottom() / $intotwip) . 'in; ';
+            $css .= '}' . PHP_EOL;
         }
         $css .= '</style>' . PHP_EOL;
 

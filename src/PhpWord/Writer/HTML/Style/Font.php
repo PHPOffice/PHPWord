@@ -39,14 +39,14 @@ class Font extends AbstractStyle
         }
         $css = [];
 
-        $font = $style->getName();
+        $font = self::getFontFamily($style->getName(), $style->getHtmlGenericFont());
         $size = $style->getSize();
         $color = $style->getColor();
         $fgColor = $style->getFgColor();
         $underline = $style->getUnderline() != FontStyle::UNDERLINE_NONE;
         $lineThrough = $style->isStrikethrough() || $style->isDoubleStrikethrough();
 
-        $css['font-family'] = $this->getValueIf($font !== null, "'{$font}'");
+        $css['font-family'] = $this->getValueIf(!empty($font), "{$font}");
         $css['font-size'] = $this->getValueIf($size !== null, "{$size}pt");
         $css['color'] = $this->getValueIf($color !== null, "#{$color}");
         $css['background'] = $this->getValueIf($fgColor != '', $fgColor);
@@ -61,10 +61,35 @@ class Font extends AbstractStyle
         $css['text-transform'] = $this->getValueIf($style->isAllCaps(), 'uppercase');
         $css['font-variant'] = $this->getValueIf($style->isSmallCaps(), 'small-caps');
         $css['display'] = $this->getValueIf($style->isHidden(), 'none');
+        $whitespace = $style->getHtmlWhiteSpace();
+        if ($whitespace) {
+            $css['white-space'] = $whitespace;
+        }
 
         $spacing = $style->getSpacing();
         $css['letter-spacing'] = $this->getValueIf(null !== $spacing, ($spacing / 20) . 'pt');
 
         return $this->assembleCss($css);
+    }
+
+    /**
+     * Set font and alternates for css font-family.
+     *
+     * @param  string $font
+     * @param  string $genericFont
+     *
+     * @return string
+     */
+    public static function getFontFamily($font, $genericFont)
+    {
+        if (empty($font)) {
+            return '';
+        }
+        $fontfamily = "'" . htmlspecialchars($font, ENT_QUOTES, 'UTF-8') . "'";
+        if (!empty($genericFont)) {
+            $fontfamily .= ", $genericFont";
+        }
+
+        return $fontfamily;
     }
 }

@@ -36,6 +36,14 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 class HtmlTest extends AbstractWebServerEmbeddedTest
 {
     /**
+     * Tear down after each test.
+     */
+    protected function tearDown(): void
+    {
+        TestHelperDOCX::clear();
+    }
+
+    /**
      * Test unit conversion functions with various numbers.
      */
     public function testAddHtml(): void
@@ -815,7 +823,10 @@ HTML;
         self::assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink/w:r/w:rPr/w:u'));
         self::assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:hyperlink/w:r/w:rPr/w:u', 'w:val'));
+    }
 
+    public function testParseLink2(): void
+    {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addBookmark('bookmark');

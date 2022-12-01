@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWordTests\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
@@ -116,13 +117,18 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
         $footnote->addText('Test');
 
         $writer = new Word2007($phpWord);
-        $writer->setUseDiskCaching(true);
+        $dir = Settings::getTempDir() . DIRECTORY_SEPARATOR . 'phpwordcachefooter';
+        if (!is_dir($dir) && !mkdir($dir)) {
+            self::fail('Unable to create temp directory');
+        }
+        $writer->setUseDiskCaching(true, $dir);
         $file = __DIR__ . '/../_files/temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
 
         unlink($file);
+        TestHelperDOCX::deleteDir($dir);
     }
 
     /**

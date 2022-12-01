@@ -21,6 +21,7 @@ use DOMDocument;
 use Exception;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Exception\Exception as WordException;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
@@ -54,11 +55,8 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      * @covers ::save
      * @covers ::zip
      */
-    public function testTemplateCanBeSavedInTemporaryLocation()
+    public function xtestTemplateCanBeSavedInTemporaryLocation(string $templateFqfn, TemplateProcessor $templateProcessor)
     {
-        $templateFqfn = __DIR__ . '/_files/templates/with_table_macros.docx';
-
-        $templateProcessor = new TemplateProcessor($templateFqfn);
         $xslDomDocument = new DOMDocument();
         $xslDomDocument->load(__DIR__ . '/_files/xsl/remove_tables_by_needle.xsl');
         foreach (['${employee.', '${scoreboard.', '${reference.'] as $needle) {
@@ -103,13 +101,13 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      * XSL stylesheet can be applied.
      *
      * @covers ::applyXslStyleSheet
-     *
-     * @depends testTemplateCanBeSavedInTemporaryLocation
-     *
-     * @param string $actualDocumentFqfn
      */
-    public function testXslStyleSheetCanBeApplied($actualDocumentFqfn): void
+    public function testXslStyleSheetCanBeApplied(): void
     {
+        $templateFqfn = __DIR__ . '/_files/templates/with_table_macros.docx';
+        $templateProcessor = new TemplateProcessor($templateFqfn);
+
+        $actualDocumentFqfn = $this->xtestTemplateCanBeSavedInTemporaryLocation($templateFqfn, $templateProcessor);
         $expectedDocumentFqfn = __DIR__ . '/_files/documents/without_table_macros.docx';
 
         $actualDocumentZip = new ZipArchive();
@@ -864,5 +862,17 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $templateProcessor->setUpdateFields(false);
         self::assertStringContainsString('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
+    }
+
+    /**
+     * Should not allow unserialize to avoid malware.
+     */
+    public function testUnserialize(): void
+    {
+        $this->expectException(WordException::class);
+        $this->expectExceptionMessage('unserialize not permitted');
+        $object = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $serialized = serialize($object);
+        $object2 = unserialize($serialized);
     }
 }

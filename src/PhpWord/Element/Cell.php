@@ -32,7 +32,7 @@ class Cell extends AbstractContainer
     /**
      * Cell width.
      *
-     * @var int
+     * @var null|int
      */
     private $width;
 
@@ -46,7 +46,7 @@ class Cell extends AbstractContainer
     /**
      * Create new instance.
      *
-     * @param int $width
+     * @param null|int $width
      * @param array|\PhpOffice\PhpWord\Style\Cell $style
      */
     public function __construct($width = null, $style = null)

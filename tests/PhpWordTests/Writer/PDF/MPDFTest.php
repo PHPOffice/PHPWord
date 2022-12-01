@@ -39,6 +39,11 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addText('Test 1');
         $section->addPageBreak();
+        $section->addText('Test 2');
+        $oSettings = new \PhpOffice\PhpWord\Style\Section();
+        $oSettings->setSettingValue('orientation', 'landscape');
+        $section = $phpWord->addSection($oSettings);
+        $section->addText('Section 2 - landscape');
 
         $rendererName = Settings::PDF_RENDERER_MPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');

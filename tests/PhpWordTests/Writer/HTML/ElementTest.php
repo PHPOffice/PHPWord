@@ -76,8 +76,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/p[1]/ins')->length);
-        self::assertEquals(1, $xpath->query('/html/body/p[2]/del')->length);
+        self::assertEquals(1, $xpath->query('/html/body/div/p[1]/ins')->length);
+        self::assertEquals(1, $xpath->query('/html/body/div/p[2]/del')->length);
     }
 
     /**
@@ -100,14 +100,14 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/table/tr[1]/td')->length);
-        self::assertEquals('2', $xpath->query('/html/body/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
-        self::assertEquals(2, $xpath->query('/html/body/table/tr[2]/td')->length);
+        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[1]/td')->length);
+        self::assertEquals('2', $xpath->query('/html/body/div/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
+        self::assertEquals(2, $xpath->query('/html/body/div/table/tr[2]/td')->length);
 
-        self::assertEquals('#6086B8', $xpath->query('/html/body/table/tr[1]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/table/tr[2]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertNull($xpath->query('/html/body/table/tr[2]/td')->item(0)->attributes->getNamedItem('color'));
+        self::assertEquals('#6086B8', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
+        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
+        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
+        self::assertNull($xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('color'));
     }
 
     /**
@@ -131,12 +131,16 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $row3->addCell(null, ['vMerge' => 'continue']);
         $row3->addCell(500)->addText('third cell being spanned');
 
+        $row4 = $table->addRow();
+        $row4->addCell(1000)->addText('unspanned cell on left');
+        $row4->addCell(500)->addText('unspanned cell on right');
+
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(2, $xpath->query('/html/body/table/tr[1]/td')->length);
-        self::assertEquals('3', $xpath->query('/html/body/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
-        self::assertEquals(1, $xpath->query('/html/body/table/tr[2]/td')->length);
+        self::assertEquals(2, $xpath->query('/html/body/div/table/tr[1]/td')->length);
+        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
+        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[2]/td')->length);
     }
 
     private function getAsHTML(PhpWord $phpWord)
@@ -211,7 +215,25 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals('table-layout: fixed;', $xpath->query('/html/body/table[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('table-layout: auto;', $xpath->query('/html/body/table[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals('table-layout: fixed;', $xpath->query('/html/body/div/table[1]')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals('table-layout: auto;', $xpath->query('/html/body/div/table[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+    }
+
+    /**
+     * Tests writing page break.
+     */
+    public function testWritePageBreak(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('Text on first page');
+        $section->addPageBreak();
+        $section->addText('Text on second page');
+
+        $dom = $this->getAsHTML($phpWord);
+        $xpath = new DOMXPath($dom);
+
+        self::assertEquals(1, $xpath->query('/html/body/div')->length);
+        self::assertEquals('page-break-before: always; height: 0; margin: 0; padding: 0; overflow: hidden;', $xpath->query('/html/body/div[1]/div')->item(0)->attributes->getNamedItem('style')->textContent);
     }
 }

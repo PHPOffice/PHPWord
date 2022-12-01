@@ -131,6 +131,27 @@ class TemplateProcessor
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
     }
 
+    public function __destruct()
+    {
+        if ($this->zipClass !== null) {
+            try {
+                $this->zipClass->close();
+            } catch (\Exception $e) {
+            }
+        }
+        if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
+            unlink($this->tempDocumentFilename);
+        }
+    }
+
+    public function __wakeup(): void
+    {
+        $this->tempDocumentFilename = '';
+        $this->zipClass = null;
+
+        throw new Exception('unserialize not permitted for this class');
+    }
+
     /**
      * Expose zip class.
      *
