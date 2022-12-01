@@ -27,6 +27,7 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use Throwable;
 use XSLTProcessor;
 
 class TemplateProcessor
@@ -136,7 +137,7 @@ class TemplateProcessor
         if ($this->zipClass !== null) {
             try {
                 $this->zipClass->close();
-            } catch (\Exception $e) {
+            } catch (Throwable $e) {
             }
         }
         if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
