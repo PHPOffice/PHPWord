@@ -138,6 +138,7 @@ class TemplateProcessor
             try {
                 $this->zipClass->close();
             } catch (Throwable $e) {
+                // Nothing to do here.
             }
         }
         if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {

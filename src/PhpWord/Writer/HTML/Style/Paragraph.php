@@ -82,7 +82,7 @@ class Paragraph extends AbstractStyle
         }
 
         $lht = $style->getLineHeight();
-        if ($lht != null) {
+        if (!empty($lht)) {
             $css['line-height'] = $lht;
         }
         $ind = $style->getIndentation();
