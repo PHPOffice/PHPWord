@@ -364,9 +364,8 @@ abstract class AbstractPart
                     } elseif ('w:tc' == $rowNode->nodeName) { // Cell
                         $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
                         $cellStyle = null;
-                        $cellStyleNode = $xmlReader->getElement('w:tcPr', $rowNode);
-                        if (null !== $cellStyleNode) {
-                            $cellStyle = $this->readCellStyle($xmlReader, $cellStyleNode);
+                        if ($xmlReader->elementExists('w:tcPr', $rowNode)) {
+                            $cellStyle = $this->readCellStyle($xmlReader, $rowNode);
                         }
 
                         $cell = $row->addCell($cellWidth, $cellStyle);
@@ -554,15 +553,33 @@ abstract class AbstractPart
      */
     private function readCellStyle(XMLReader $xmlReader, DOMElement $domNode)
     {
-        $styleDefs = [
-            'valign' => [self::READ_VALUE, 'w:vAlign'],
-            'textDirection' => [self::READ_VALUE, 'w:textDirection'],
-            'gridSpan' => [self::READ_VALUE, 'w:gridSpan'],
-            'vMerge' => [self::READ_VALUE, 'w:vMerge', null, null, 'continue'],
-            'bgColor' => [self::READ_VALUE, 'w:shd', 'w:fill'],
-        ];
+        $style = null;
+        $margins = ['top', 'left', 'bottom', 'right'];
+        $borders = array_merge($margins, ['insideH', 'insideV']);
 
-        return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+        if ($xmlReader->elementExists('w:tcPr', $domNode)) {
+            $styleNode = $xmlReader->getElement('w:tcPr', $domNode);
+            $styleDefs = [];
+            foreach ($margins as $side) {
+                $ucfSide = ucfirst($side);
+                $styleDefs["cellMargin$ucfSide"] = [self::READ_VALUE, "w:tcMar/w:$side", 'w:w'];
+            }
+            foreach ($borders as $side) {
+                $ucfSide = ucfirst($side);
+                $styleDefs["border{$ucfSide}Size"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:sz'];
+                $styleDefs["border{$ucfSide}Color"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:color'];
+                $styleDefs["border{$ucfSide}Style"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:val'];
+            }
+            $styleDefs['valign'] = [self::READ_VALUE, 'w:vAlign'];
+            $styleDefs['textDirection'] = [self::READ_VALUE, 'w:textDirection'];
+            $styleDefs['gridSpan'] = [self::READ_VALUE, 'w:gridSpan'];
+            $styleDefs['vMerge'] = [self::READ_VALUE, 'w:vMerge', null, null, 'continue'];
+            $styleDefs['bgColor'] = [self::READ_VALUE, 'w:shd', 'w:fill'];
+
+            $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
+        }
+
+        return $style;
     }
 
     /**
