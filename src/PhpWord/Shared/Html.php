@@ -443,8 +443,12 @@ class Html
         if ($node->parentNode->nodeName == 'thead') {
             $rowStyles['tblHeader'] = true;
         }
+        
+        // set cell height to control row heights
+        $height = isset($rowStyles['height']) ? $rowStyles['height'] : null;
+        unset($rowStyles['height']); // would not apply
 
-        return $element->addRow(null, $rowStyles);
+        return $element->addRow($height, $rowStyles);
     }
 
     /**
@@ -808,6 +812,10 @@ class Html
                         $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO;
                     }
 
+                    break;
+                case 'height':
+                    $styles['height'] = Converter::cssToTwip($cValue);
+                    $styles['exactHeight'] = true;
                     break;
                 case 'border':
                 case 'border-top':
