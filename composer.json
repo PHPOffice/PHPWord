@@ -73,7 +73,8 @@
         "phpmd/phpmd": "^2.13",
         "phpunit/phpunit": ">=7.0",
         "tecnickcom/tcpdf": "^6.5",
-        "symfony/process": "^4.4"
+        "symfony/process": "^4.4",
+        "friendsofphp/php-cs-fixer": "^3.3"
     },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",
