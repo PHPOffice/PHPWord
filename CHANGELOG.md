@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improved TextDirection for styling a cell by @terryzwt in #2429
 - Word2007 Reader : Added option to disable loading images by @aelliott1485 in #2450
 - HTML Writer : Added border-spacing to default styles for table by @kernusr in #2451
+- Word2007 Reader : Support for table cell borders and margins by @kernusr in #2454
 
 ### Bug fixes
 
