@@ -443,7 +443,7 @@ class Html
         if ($node->parentNode->nodeName == 'thead') {
             $rowStyles['tblHeader'] = true;
         }
-        
+
         // set cell height to control row heights
         $height = isset($rowStyles['height']) ? $rowStyles['height'] : null;
         unset($rowStyles['height']); // would not apply
