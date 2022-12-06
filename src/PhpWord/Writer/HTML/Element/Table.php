@@ -17,9 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Writer\HTML\Style\Cell as CellStyleWriter;
-use PhpOffice\PhpWord\Writer\HTML\Style\Table as TableStyleWriter;
-
 /**
  * Table element HTML writer.
  *
@@ -88,8 +85,7 @@ class Table extends AbstractElement
                         $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
                         $cellBgColorAttr = (null === $cellBgColor ? '' : " bgcolor=\"#{$cellBgColor}\"");
                         $cellFgColorAttr = (null === $cellFgColor ? '' : " color=\"#{$cellFgColor}\"");
-                        $cellStyles = (null === $cellStyle) ? '' : self::getCellStyle($this->element->getStyle());
-                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>{$cellStyles}" . PHP_EOL;
+                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);
                         $content .= $writer->write();
                         if ($cellRowSpan > 1) {
@@ -131,44 +127,17 @@ class Table extends AbstractElement
         if ($tableStyle == null) {
             return '';
         }
-        $style = '';
-        $tStyleIsObject = ($tableStyle instanceof \PhpOffice\PhpWord\Style\Table);
-        if ($tStyleIsObject) {
-            $styleWriter = new TableStyleWriter($tableStyle);
-            $style = $styleWriter->write();
-        } elseif (is_string($tableStyle)) {
-            $style = $tableStyle;
+        if (is_string($tableStyle)) {
+            $style = ' class="' . $tableStyle;
+        } else {
+            $style = ' style="';
+            if ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED) {
+                $style .= 'table-layout: fixed;';
+            } elseif ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO) {
+                $style .= 'table-layout: auto;';
+            }
         }
-        if ($style) {
-            $attribute = $tStyleIsObject ? 'style' : 'class';
-            $style = " {$attribute}=\"{$style}\"";
-        }
-        return $style;
-    }
 
-    /**
-     * Translates Cell style in CSS equivalent.
-     *
-     * @param $cellStyle
-     * @return string
-     */
-    private function getCellStyle($cellStyle = null)
-    {
-        if ($cellStyle == null) {
-            return '';
-        }
-        $style = '';
-        $cStyleIsObject = ($cellStyle instanceof \PhpOffice\PhpWord\Style\Cell);
-        if ($cStyleIsObject) {
-            $styleWriter = new CellStyleWriter($cellStyle);
-            $style = $styleWriter->write();
-        } elseif (is_string($cellStyle)) {
-            $style = $cellStyle;
-        }
-        if ($style) {
-            $attribute = $cStyleIsObject ? 'style' : 'class';
-            $style = " {$attribute}=\"{$style}\"";
-        }
-        return $style;
+        return $style . '"';
     }
 }
