@@ -445,7 +445,7 @@ class Html
         }
 
         // set cell height to control row heights
-        $height = isset($rowStyles['height']) ? $rowStyles['height'] : null;
+        $height = $rowStyles['height'] ?? null;
         unset($rowStyles['height']); // would not apply
 
         return $element->addRow($height, $rowStyles);
@@ -816,6 +816,7 @@ class Html
                 case 'height':
                     $styles['height'] = Converter::cssToTwip($cValue);
                     $styles['exactHeight'] = true;
+
                     break;
                 case 'border':
                 case 'border-top':
