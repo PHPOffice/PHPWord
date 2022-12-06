@@ -95,6 +95,20 @@ class TemplateProcessor
     protected $tempDocumentNewImages = [];
 
     /**
+     * current fix for ordered list and unordered list being mixed up.
+     *
+     *
+     */
+    public function repairListItems($numIdBullets, $numIdNumbers, $bullets = false) {
+        // TODO: insert a possibiltiy to divide ordered and unordered lists
+        // for the moment we use either numbers or bullets for all list
+        $replace = $numIdNumbers;
+        if($bullets) $replace = $numIdBullets;
+
+        $this->tempDocumentMainPart = str_replace('<w:numId w:val=""', '<w:numId w:val="' . $replace . '"', $this->tempDocumentMainPart);
+    }
+
+    /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
      * @param string $documentTemplate The fully qualified template filename
