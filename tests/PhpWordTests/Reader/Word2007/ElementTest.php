@@ -278,6 +278,38 @@ class ElementTest extends AbstractTestReader
     }
 
     /**
+     * Test reading of nested table
+     */
+    public function testReadNestedTable()
+    {
+        $documentXml = '<w:tbl>
+          <w:tr>
+            <w:tc>
+              <w:tbl>
+                <w:tr>
+                  <w:tc>
+                    <w:p>
+                      <w:t>${Field}</w:t>
+                    </w:p>
+                  </w:tc>
+                </w:tr>
+              </w:tbl>
+              <w:p />
+            </w:tc>
+          </w:tr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $section = $phpWord->getSection(0);
+        $table = $section->getElement(0);
+        $rows = $table->getRows();
+        $cells = $rows[0]->getCells();
+        $nestedTable = $cells[0]->getElement(0);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $nestedTable);
+    }
+
+    /**
      * Test reading Drawing.
      */
     public function testReadDrawing(): void
