@@ -142,6 +142,15 @@ class ZipArchive
             if ($flags === null) {
                 $flags = 0;
             }
+            
+            // when doing word to PDF for some reason phpword deletes the file it's using before finishing and makes images explode
+            $fileSize = filesize($this->filename);
+
+            if ($fileSize == 0 && file_exists($this->filename . "_fallback")) {
+                $this->filename = $this->filename . "_fallback";
+            } else if (str_contains($this->filename, "pdf_") && $fileSize > 0) {
+                copy($this->filename, $this->filename . "_fallback");
+            }
 
             $result = $zip->open($this->filename, $flags);
 
