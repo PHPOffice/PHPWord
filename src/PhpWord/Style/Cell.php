@@ -119,7 +119,7 @@ class Cell extends Border
     private $unit = TblWidth::TWIP;
 
     /**
-     * Prevent text from wrapping in the cell
+     * Prevent text from wrapping in the cell.
      *
      * @var bool
      */
@@ -321,7 +321,7 @@ class Cell extends Border
     }
 
     /**
-     * Set noWrap
+     * Set noWrap.
      *
      * @param $value
      */
@@ -333,7 +333,7 @@ class Cell extends Border
     }
 
     /**
-     * Get noWrap
+     * Get noWrap.
      *
      * @return bool
      */

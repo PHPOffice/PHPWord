@@ -560,7 +560,7 @@ abstract class AbstractPart
             'gridSpan' => [self::READ_VALUE, 'w:gridSpan'],
             'vMerge' => [self::READ_VALUE, 'w:vMerge', null, null, 'continue'],
             'bgColor' => [self::READ_VALUE, 'w:shd', 'w:fill'],
-            'noWrap' => [self::READ_VALUE, 'w:noWrap', null, null, true]
+            'noWrap' => [self::READ_VALUE, 'w:noWrap', null, null, true],
         ];
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
