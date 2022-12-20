@@ -119,6 +119,13 @@ class Cell extends Border
     private $unit = TblWidth::TWIP;
 
     /**
+     * Prevent text from wrapping in the cell
+     *
+     * @var bool
+     */
+    private $noWrap;
+
+    /**
      * Get vertical align.
      *
      * @return string
@@ -311,5 +318,27 @@ class Cell extends Border
         $this->unit = $this->setEnumVal($value, [TblWidth::AUTO, TblWidth::PERCENT, TblWidth::TWIP], TblWidth::TWIP);
 
         return $this;
+    }
+
+    /**
+     * Set noWrap
+     *
+     * @param $value
+     */
+    public function setNoWrap($value)
+    {
+        $this->noWrap = $this->setBoolVal($value, true);
+
+        return $this;
+    }
+
+    /**
+     * Get noWrap
+     *
+     * @return bool
+     */
+    public function getNoWrap()
+    {
+        return $this->noWrap;
     }
 }
