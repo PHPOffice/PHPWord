@@ -165,7 +165,7 @@ class Settings
      *
      * @var bool
      */
-    private $bookFoldPrinting;
+    private $bookFoldPrinting = false;
 
     /**
      * @return Protection
