@@ -163,7 +163,7 @@ class Settings
     /**
      * Enable or disable book-folded printing.
      *
-     * @var null|bool
+     * @var bool
      */
     private $bookFoldPrinting;
 
