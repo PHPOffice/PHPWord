@@ -492,7 +492,7 @@ class Settings
     /**
      * @return bool
      */
-    public function hasBookFoldPrinting()
+    public function hasBookFoldPrinting(): bool
     {
         return $this->bookFoldPrinting;
     }
