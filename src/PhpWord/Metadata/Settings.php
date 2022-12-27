@@ -500,7 +500,7 @@ class Settings
     /**
      * @param bool $bookFoldPrinting
      */
-    public function setBookFoldPrinting($bookFoldPrinting): void
+    public function setBookFoldPrinting(bool $bookFoldPrinting): void
     {
         $this->bookFoldPrinting = $bookFoldPrinting;
     }
