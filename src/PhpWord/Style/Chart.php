@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- *
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -60,6 +60,14 @@ class Chart extends AbstractStyle
     private $title;
 
     /**
+     * Chart data table visibility.
+     *
+     * @var bool
+     * @since 0.19.0
+     */
+    private $showDataTable = false;
+
+    /**
      * Chart legend visibility.
      *
      * @var bool
@@ -75,6 +83,13 @@ class Chart extends AbstractStyle
     private $legendPosition = 'r';
 
     /**
+     * Should the legend overlay the chart?
+     *
+     * @var bool
+     */
+    private $legendOverlay = false;
+
+    /**
      * A list of display options for data labels.
      *
      * @var array
@@ -88,6 +103,19 @@ class Chart extends AbstractStyle
         'showLeaderLines' => false,
         'showBubbleSize' => false,
     ];
+
+    /**
+     * A list of display options for data table.
+     *
+     * @var array
+     * @since 0.19.0
+     */
+    private $dataTableOptions = array(
+        'showHorzBorder' => true,
+        'showVertBorder' => true,
+        'showOutline' => true,
+        'showKeys' => true
+    );
 
     /**
      * A string that tells the writer where to write chart labels or to skip
@@ -118,6 +146,22 @@ class Chart extends AbstractStyle
      * @var string
      */
     private $valueAxisTitle;
+
+    /**
+     * The lower axis limit.
+     *
+     * @var float|int
+     * @since 0.19.0
+     */
+    private $valueAxisMin;
+
+    /**
+     * The upper axis limit.
+     *
+     * @var float|int
+     * @since 0.19.0
+     */
+    private $valueAxisMax;
 
     /**
      * The position for major tick marks
@@ -334,6 +378,26 @@ class Chart extends AbstractStyle
         return $this;
     }
 
+    /**
+     * Returns if the legend overlays the chart
+     *
+     * @return bool
+     */
+    public function isLegendOverlay(): bool
+    {
+        return $this->legendOverlay;
+    }
+
+    /**
+     * Set the legend overlay chart option
+     *
+     * @param bool $legendOverlay
+     */
+    public function setLegendOverlay(bool $legendOverlay): void
+    {
+        $this->legendOverlay = $legendOverlay;
+    }
+
     /*
      * Show labels for axis
      *
@@ -456,8 +520,8 @@ class Chart extends AbstractStyle
      * "low" - sets labels are below the graph
      * "high" - sets labels above the graph.
      *
-     * @param string
-     * @param mixed $labelPosition
+     * @param string $labelPosition
+     * @return Chart
      */
     public function setValueLabelPosition($labelPosition)
     {
@@ -547,6 +611,115 @@ class Chart extends AbstractStyle
     public function setShowGridX($value = true)
     {
         $this->gridX = $this->setBoolVal($value, $this->gridX);
+
+        return $this;
+    }
+
+    /**
+     * Get chart data table visibility.
+     *
+     * @return bool
+     *
+     * @since 0.19.0
+     */
+    public function isShowDataTable()
+    {
+        return $this->showDataTable;
+    }
+
+    /**
+     * Set chart data table visibility.
+     *
+     * @param bool $showDataTable
+     *
+     * @since 0.19.0
+     */
+    public function setShowDataTable($showDataTable)
+    {
+        $this->showDataTable = $showDataTable;
+
+        return $this;
+    }
+
+    /**
+     * Get values for data table options.
+     *
+     * @return array
+     * @since 0.19.0
+     */
+    public function getDataTableOptions()
+    {
+        return $this->dataTableOptions;
+    }
+
+    /**
+     * Set values for data table options.
+     * This will only change values for options defined in $this->dataTableOptions, and cannot create new ones.
+     *
+     * @param array $values [description]
+     *
+     * @since 0.19.0
+     */
+    public function setDataTableOptions($values = array())
+    {
+        foreach (array_keys($this->dataTableOptions) as $option) {
+            if (isset($values[$option])) {
+                $this->dataTableOptions[$option] = $this->setBoolVal(
+                    $values[$option],
+                    $this->dataTableOptions[$option]
+                );
+            }
+        }
+    }
+
+    /**
+     * Get value axis min value.
+     *
+     * @return float|int
+     * @since 0.19.0
+     */
+    public function getValueAxisMin()
+    {
+        return $this->valueAxisMin;
+    }
+
+    /**
+     * Set value axis min value.
+     *
+     * @param float|int $valueAxisMin
+     *
+     * @return self
+     * @since 0.19.0
+     */
+    public function setValueAxisMin($valueAxisMin)
+    {
+        $this->valueAxisMin = $this->setFloatVal($valueAxisMin);
+
+        return $this;
+    }
+
+    /**
+     * Set value axis max value.
+     *
+     * @return float|int
+     * @since 0.19.0
+     */
+    public function getValueAxisMax()
+    {
+        return $this->valueAxisMax;
+    }
+
+    /**
+     * Set value axis max value.
+     *
+     * @param float|int $valueAxisMax
+     *
+     * @return self
+     * @since 0.19.0
+     */
+    public function setValueAxisMax($valueAxisMax)
+    {
+        $this->valueAxisMax = $this->setFloatVal($valueAxisMax);
 
         return $this;
     }

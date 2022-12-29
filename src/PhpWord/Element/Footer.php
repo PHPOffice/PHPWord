@@ -52,7 +52,7 @@ class Footer extends AbstractContainer
      * @param int $containerId
      * @param string $type
      */
-    public function __construct($sectionId, $containerId = 1, $type = self::AUTO)
+    public function __construct(int $sectionId, int $containerId = 1, string $type = self::AUTO)
     {
         $this->sectionId = $sectionId;
         $this->setType($type);
@@ -62,11 +62,11 @@ class Footer extends AbstractContainer
     /**
      * Set type.
      *
-     * @since 0.10.0
-     *
      * @param string $value
+     *
+     * @since 0.10.0
      */
-    public function setType($value = self::AUTO): void
+    public function setType(string $value = self::AUTO): void
     {
         if (!in_array($value, [self::AUTO, self::FIRST, self::EVEN])) {
             $value = self::AUTO;
@@ -81,7 +81,7 @@ class Footer extends AbstractContainer
      *
      * @since 0.10.0
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -91,7 +91,7 @@ class Footer extends AbstractContainer
      *
      * @return string
      */
-    public function resetType()
+    public function resetType(): string
     {
         return $this->type = self::AUTO;
     }
@@ -101,7 +101,7 @@ class Footer extends AbstractContainer
      *
      * @return string
      */
-    public function firstPage()
+    public function firstPage(): string
     {
         return $this->type = self::FIRST;
     }
@@ -111,7 +111,7 @@ class Footer extends AbstractContainer
      *
      * @return string
      */
-    public function evenPage()
+    public function evenPage(): string
     {
         return $this->type = self::EVEN;
     }

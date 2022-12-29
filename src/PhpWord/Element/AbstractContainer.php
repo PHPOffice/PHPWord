@@ -37,6 +37,7 @@ use ReflectionClass;
  * @method Title addTitle(mixed $text, int $depth = 1)
  * @method TOC addTOC(mixed $fontStyle = null, mixed $tocStyle = null, int $minDepth = 1, int $maxDepth = 9)
  * @method PageBreak addPageBreak()
+ * @method ColumnBreak addColumnBreak()
  * @method Table addTable(mixed $style = null)
  * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false, $name = null)
  * @method OLEObject addOLEObject(string $source, mixed $style = null)
@@ -86,7 +87,7 @@ abstract class AbstractContainer extends AbstractElement
             'Text', 'TextRun', 'Bookmark', 'Link', 'PreserveText', 'TextBreak',
             'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'OLEObject',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
-            'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
+            'Line', 'Shape', 'Title', 'TOC', 'PageBreak', 'ColumnBreak',
             'Chart', 'FormField', 'SDT', 'Comment',
         ];
         $functions = [];
