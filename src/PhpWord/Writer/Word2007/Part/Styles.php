@@ -192,8 +192,8 @@ class Styles extends AbstractPart
             $xmlWriter->startElement('w:link');
             $xmlWriter->writeAttribute('w:val', $styleLink);
             $xmlWriter->endElement();
-        } elseif (null !== $paragraphStyle) {
-            // if type is 'paragraph' it should have a styleId
+        } else {
+            //all other types like paragraphs and characters should also receive a styleid. We will set this like the stylename.
             $xmlWriter->writeAttribute('w:styleId', $styleName);
         }
 
