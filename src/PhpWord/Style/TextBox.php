@@ -67,14 +67,14 @@ class TextBox extends Image
     private $borderColor;
     
     /**
-     * background color
+     * background color.
      *
      * @var string
      */
     private $bgColor;
 
     /**
-     * Set background color
+     * Set background color.
      *
      * @param string $value
      */
@@ -84,7 +84,7 @@ class TextBox extends Image
     }
 
     /**
-     * Get background color
+     * Get background color.
      *
      * @return string
      */
