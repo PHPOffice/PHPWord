@@ -65,7 +65,7 @@ class TextBox extends Image
      * @var string
      */
     private $borderColor;
-    
+
     /**
      * background color.
      *
@@ -78,7 +78,7 @@ class TextBox extends Image
      *
      * @param string $value
      */
-    public function setBgColor($value = null)
+    public function setBgColor($value = null): void
     {
         $this->bgColor = $value;
     }
