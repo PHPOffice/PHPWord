@@ -442,7 +442,6 @@ abstract class AbstractElement
         if ($styleValue instanceof AbstractStyle) {
             return $styleValue;
         }
-        
         if (null !== $styleValue && is_array($styleValue)) {
             $styleObject->setStyleByArray($styleValue);
             $style = $styleObject;
