@@ -65,6 +65,33 @@ class TextBox extends Image
      * @var string
      */
     private $borderColor;
+    
+    /**
+     * background color
+     *
+     * @var string
+     */
+    private $bgColor;
+
+    /**
+     * Set background color
+     *
+     * @param string $value
+     */
+    public function setBgColor($value = null)
+    {
+        $this->bgColor = $value;
+    }
+
+    /**
+     * Get background color
+     *
+     * @return string
+     */
+    public function getBgColor()
+    {
+        return $this->bgColor;
+    }
 
     /**
      * Set margin top.
