@@ -28,6 +28,7 @@ class TextBox extends Frame
 {
     /**
      * Writer inner margin.
+     * @return void
      */
     public function writeInnerMargin(): void
     {
@@ -44,6 +45,7 @@ class TextBox extends Frame
 
     /**
      * Writer border.
+     * @return void
      */
     public function writeBorder(): void
     {
