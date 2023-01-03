@@ -25,8 +25,6 @@ class TextBox extends Image
 {
     /**
      * Write element.
-     *
-     * @return void
      */
     public function write(): void
     {
