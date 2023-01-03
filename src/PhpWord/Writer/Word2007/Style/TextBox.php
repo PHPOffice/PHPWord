@@ -9,6 +9,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -29,7 +30,7 @@ class TextBox extends Frame
     public function writeInnerMargin(): void
     {
         $style = $this->getStyle();
-        if (! $style instanceof TextBoxStyle || ! $style->hasInnerMargins()) {
+        if (!$style instanceof TextBoxStyle || !$style->hasInnerMargins()) {
             return;
         }
 
@@ -45,7 +46,7 @@ class TextBox extends Frame
     public function writeBorder(): void
     {
         $style = $this->getStyle();
-        if (! $style instanceof TextBoxStyle) {
+        if (!$style instanceof TextBoxStyle) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();

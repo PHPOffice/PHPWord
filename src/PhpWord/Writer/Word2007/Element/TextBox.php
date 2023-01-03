@@ -9,6 +9,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -30,13 +31,13 @@ class TextBox extends Image
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (! $element instanceof \PhpOffice\PhpWord\Element\TextBox) {
+        if (!$element instanceof \PhpOffice\PhpWord\Element\TextBox) {
             return;
         }
         $style = $element->getStyle();
         $styleWriter = new TextBoxStyleWriter($xmlWriter, $style);
 
-        if (! $this->withoutP) {
+        if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }

@@ -9,6 +9,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -72,19 +73,14 @@ class TextBox extends Image
 
     /**
      * Set background color.
-     *
-     * @param null|string $value
-     * @return void
      */
-    public function setBgColor(string $value = null): void
+    public function setBgColor(?string $value = null): void
     {
         $this->bgColor = $value;
     }
 
     /**
      * Get background color.
-     *
-     * @return null|string
      */
     public function getBgColor(): ?string
     {
@@ -93,19 +89,14 @@ class TextBox extends Image
 
     /**
      * Set margin top.
-     *
-     * @param null|int $value
-     * @return void
      */
-    public function setInnerMarginTop(int $value = null): void
+    public function setInnerMarginTop(?int $value = null): void
     {
         $this->innerMarginTop = $value;
     }
 
     /**
      * Get margin top.
-     *
-     * @return null|int
      */
     public function getInnerMarginTop(): ?int
     {
@@ -114,19 +105,14 @@ class TextBox extends Image
 
     /**
      * Set margin left.
-     *
-     * @param null|int $value
-     * @return void
      */
-    public function setInnerMarginLeft(int $value = null): void
+    public function setInnerMarginLeft(?int $value = null): void
     {
         $this->innerMarginLeft = $value;
     }
 
     /**
      * Get margin left.
-     *
-     * @return null|int
      */
     public function getInnerMarginLeft(): ?int
     {
@@ -135,19 +121,14 @@ class TextBox extends Image
 
     /**
      * Set margin right.
-     *
-     * @param null|int $value
-     * @return void
      */
-    public function setInnerMarginRight(int $value = null): void
+    public function setInnerMarginRight(?int $value = null): void
     {
         $this->innerMarginRight = $value;
     }
 
     /**
      * Get margin right.
-     *
-     * @return null|int
      */
     public function getInnerMarginRight(): ?int
     {
@@ -156,19 +137,14 @@ class TextBox extends Image
 
     /**
      * Set margin bottom.
-     *
-     * @param null|int $value
-     * @return void
      */
-    public function setInnerMarginBottom(int $value = null): void
+    public function setInnerMarginBottom(?int $value = null): void
     {
         $this->innerMarginBottom = $value;
     }
 
     /**
      * Get margin bottom.
-     *
-     * @return null|int
      */
     public function getInnerMarginBottom(): ?int
     {
@@ -179,9 +155,8 @@ class TextBox extends Image
      * Set TLRB cell margin.
      *
      * @param null|int $value Margin in twips
-     * @return void
      */
-    public function setInnerMargin(int $value = null): void
+    public function setInnerMargin(?int $value = null): void
     {
         $this->setInnerMarginTop($value);
         $this->setInnerMarginLeft($value);
@@ -201,8 +176,6 @@ class TextBox extends Image
 
     /**
      * Has inner margin?
-     *
-     * @return bool
      */
     public function hasInnerMargins(): bool
     {
@@ -222,38 +195,30 @@ class TextBox extends Image
      * Set border size.
      *
      * @param null|int $value Size in points
-     * @return void
      */
-    public function setBorderSize(int $value = null): void
+    public function setBorderSize(?int $value = null): void
     {
         $this->borderSize = $value;
     }
 
     /**
      * Get border size.
-     *
-     * @return int
      */
-    public function getBorderSize(): int
+    public function getBorderSize(): ?int
     {
         return $this->borderSize;
     }
 
     /**
      * Set border color.
-     *
-     * @param null|string $value
-     * @return void
      */
-    public function setBorderColor(string $value = null): void
+    public function setBorderColor(?string $value = null): void
     {
         $this->borderColor = $value;
     }
 
     /**
      * Get border color.
-     *
-     * @return null|string
      */
     public function getBorderColor(): ?string
     {

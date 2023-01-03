@@ -9,6 +9,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -35,24 +36,24 @@ class TextBoxTest extends TestCase
         $object = new TextBox();
 
         $properties = [
-            'width'             => 200,
-            'height'            => 200,
-            'alignment'         => Jc::START,
-            'marginTop'         => 240,
-            'marginLeft'        => 240,
-            'wrappingStyle'     => 'inline',
-            'positioning'       => 'absolute',
-            'posHorizontal'     => 'center',
-            'posVertical'       => 'top',
-            'posHorizontalRel'  => 'margin',
-            'posVerticalRel'    => 'page',
-            'innerMarginTop'    => '5',
-            'innerMarginRight'  => '5',
+            'width' => 200,
+            'height' => 200,
+            'alignment' => Jc::START,
+            'marginTop' => 240,
+            'marginLeft' => 240,
+            'wrappingStyle' => 'inline',
+            'positioning' => 'absolute',
+            'posHorizontal' => 'center',
+            'posVertical' => 'top',
+            'posHorizontalRel' => 'margin',
+            'posVerticalRel' => 'page',
+            'innerMarginTop' => '5',
+            'innerMarginRight' => '5',
             'innerMarginBottom' => '5',
-            'innerMarginLeft'   => '5',
-            'borderSize'        => '2',
-            'borderColor'       => 'red',
-            'bgColor'           => 'blue',
+            'innerMarginLeft' => '5',
+            'borderSize' => '2',
+            'borderColor' => 'red',
+            'bgColor' => 'blue',
         ];
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
@@ -70,24 +71,24 @@ class TextBoxTest extends TestCase
         $object = new TextBox();
 
         $properties = [
-            'width'             => 200,
-            'height'            => 200,
-            'alignment'         => Jc::START,
-            'marginTop'         => 240,
-            'marginLeft'        => 240,
-            'wrappingStyle'     => 'inline',
-            'positioning'       => 'absolute',
-            'posHorizontal'     => 'center',
-            'posVertical'       => 'top',
-            'posHorizontalRel'  => 'margin',
-            'posVerticalRel'    => 'page',
-            'innerMarginTop'    => '5',
-            'innerMarginRight'  => '5',
+            'width' => 200,
+            'height' => 200,
+            'alignment' => Jc::START,
+            'marginTop' => 240,
+            'marginLeft' => 240,
+            'wrappingStyle' => 'inline',
+            'positioning' => 'absolute',
+            'posHorizontal' => 'center',
+            'posVertical' => 'top',
+            'posHorizontalRel' => 'margin',
+            'posVerticalRel' => 'page',
+            'innerMarginTop' => '5',
+            'innerMarginRight' => '5',
             'innerMarginBottom' => '5',
-            'innerMarginLeft'   => '5',
-            'borderSize'        => '2',
-            'borderColor'       => 'red',
-            'bgColor'           => 'blue',
+            'innerMarginLeft' => '5',
+            'borderSize' => '2',
+            'borderColor' => 'red',
+            'bgColor' => 'blue',
         ];
         foreach ($properties as $key => $value) {
             $get = "get{$key}";
