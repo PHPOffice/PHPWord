@@ -2,10 +2,8 @@
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
- *
  * PHPWord is free software distributed under the terms of the GNU Lesser
  * General Public License version 3 as published by the Free Software Foundation.
- *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
@@ -61,11 +59,11 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         self::assertNotNull($doc);
 
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key3"]/vt:i4'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key4"]/vt:r8'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key5"]/vt:lpwstr'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key3"]/vt:i4'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key4"]/vt:r8'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key5"]/vt:lpwstr'));
     }
 
     /**
@@ -408,7 +406,13 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         // behind
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
         $style = $element->getAttribute('style');
-        self::assertRegExp('/z\-index:\-[0-9]*/', $style);
+
+        // Try to address CI coverage issue for PHP 7.1 and 7.2 when using regex match assertions
+        if (method_exists(static::class, 'assertRegExp')) {
+            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
+        } else {
+            self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
+        }
 
         // square
         $element = $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:pict/v:shape/w10:wrap');
@@ -551,7 +555,13 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $cell->addText('Test');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        self::assertEquals(Cell::DEFAULT_BORDER_COLOR, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top', 'w:color'));
+        self::assertEquals(
+            Cell::DEFAULT_BORDER_COLOR,
+            $doc->getElementAttribute(
+                '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top',
+                'w:color'
+            )
+        );
     }
 
     /**
