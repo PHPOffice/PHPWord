@@ -135,7 +135,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     /**
      * Test font-variant style
      */
-    public function testParseFontVariant()
+    public function testParseFontVariant(): void
     {
         $html = '<span style="font-variant: small-caps;">test</span>';
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
