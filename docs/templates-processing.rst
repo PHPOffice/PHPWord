@@ -4,7 +4,7 @@ Templates processing
 ====================
 
 You can create an OOXML document template with included search-patterns (macros) which can be replaced by any value you wish. Only single-line values can be replaced.
-Macros are defined like this: ``${search-pattern}``.
+By default Macros are defined like this: ``${search-pattern}`` but you can define custom macros.
 To load a template file, create a new instance of the TemplateProcessor.
 
 .. code-block:: php
@@ -34,6 +34,30 @@ You can also set multiple values by passing all of them in an array.
 .. code-block:: php
 
     $templateProcessor->setValues(array('firstname' => 'John', 'lastname' => 'Doe'));
+
+setMacroOpeningChars
+""""""""
+You can define a custom opening macro. The following will set ``{#`` as the opening search pattern.
+
+.. code-block:: php
+
+    $templateProcessor->setMacroOpeningChars('{#');
+
+setMacroClosingChars
+""""""""
+You can define a custom closing macro. The following will set ``#}`` as the closing search pattern.
+
+.. code-block:: php
+
+    $templateProcessor->setMacroClosingChars('#}');
+
+setMacroChars
+""""""""
+You can define a custom opening and closing macro at the same time . The following will set the search-pattern like this: ``{#search-pattern#}`` .
+
+.. code-block:: php
+
+    $templateProcessor->setMacroChars('{#', '#}');
 
 setImageValue
 """""""""""""
