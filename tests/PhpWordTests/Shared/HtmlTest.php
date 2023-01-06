@@ -504,13 +504,13 @@ HTML;
         self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
 
         // <tr style="height: 200pt; ... 200pt = 3000 twips (200 / 96 * 1440)
-        $xpath = '/w:document/w:body/w:tbl/w:tr[2]/w:trPr';
+        $xpath = '/w:document/w:body/w:tbl/w:tr[2]/w:trPr/w:trHeight';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(3000, $doc->getElement($xpath)->getAttribute('w:val'));
         self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
 
         // <tr style="width: 300; .. 300px = 4500 twips (300 / 72 * 1440)
-        $xpath = '/w:document/w:body/w:tbl/w:tr[3]/w:tc/w:tbl/w:tr/w:trPr';
+        $xpath = '/w:document/w:body/w:tbl/w:tr[3]/w:tc/w:tbl/w:tr/w:trPr/w:trHeight';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(4500, $doc->getElement($xpath)->getAttribute('w:val'));
         self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
