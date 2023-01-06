@@ -500,7 +500,7 @@ HTML;
         // <tr style="height: 100; ... 100px = 1500 twips (100 / 96 * 1440)
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:trPr/w:trHeight';
         self::assertTrue($doc->elementExists($xpath));
-        self::assertEquals(1500, $doc->getElement($xpath)->getAttribute('w:w'));
+        self::assertEquals(1500, $doc->getElement($xpath)->getAttribute('w:val'));
         self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
 
         // <tr style="height: 200pt; ... 200pt = 3000 twips (200 / 96 * 1440)
