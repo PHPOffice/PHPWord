@@ -476,7 +476,7 @@ HTML;
 
         $html = <<<HTML
 <table>
-    <tr style="height: 100;">
+    <tr style="height: 100px;">
         <td>100px</td>
     </tr>
     <tr style="height: 200pt;">
@@ -485,7 +485,7 @@ HTML;
     <tr>
         <td>
             <table>
-                <tr style="height: 300;">
+                <tr style="height: 300px;">
                     <td>300px</td>
                 </tr>
             </table>
