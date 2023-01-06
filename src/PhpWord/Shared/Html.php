@@ -814,7 +814,7 @@ class Html
 
                     break;
                 case 'height':
-                    $styles['height'] = Converter::cssToTwip($cValue);
+                    $styles['height'] = Converter::cssToTwip($value);
                     $styles['exactHeight'] = true;
 
                     break;
