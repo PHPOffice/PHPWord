@@ -2,10 +2,8 @@
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
- *
  * PHPWord is free software distributed under the terms of the GNU Lesser
  * General Public License version 3 as published by the Free Software Foundation.
- *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
@@ -20,13 +18,15 @@ namespace PhpOffice\PhpWordTests\Element;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Text.
  *
  * @runTestsInSeparateProcesses
  */
-class TextTest extends \PHPUnit\Framework\TestCase
+class TextTest extends TestCase
 {
     /**
      * New instance.
@@ -83,5 +83,52 @@ class TextTest extends \PHPUnit\Framework\TestCase
 
         $oText->setParagraphStyle(['alignment' => Jc::CENTER, 'spaceAfter' => 100]);
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());
+    }
+
+    /**
+     * Test that the via constructor passed style objects and their values remain unchanged.
+     */
+    public function testPassingStyleObjectsToConstructor(): void
+    {
+        $paragraphStyle = new Paragraph();
+        $paragraphStyle->setSpaceBefore(100);
+        $fontStyle = new Font();
+        $fontStyle->setSize(10);
+
+        $text = new Text('test', $fontStyle, $paragraphStyle);
+
+        // Test Paragraph style
+        self::assertInstanceOf(Paragraph::class, $text->getParagraphStyle());
+        self::assertEquals($text->getParagraphStyle(), $paragraphStyle);
+        self::assertEquals(100, $paragraphStyle->getSpaceBefore());
+
+        // test Font style
+        self::assertInstanceOf(Font::class, $text->getFontStyle());
+        self::assertEquals($text->getFontStyle(), $fontStyle);
+        self::assertEquals(10, $fontStyle->getSize());
+    }
+
+    /**
+     * Test that the via constructor passed style objects and their values remain unchanged.
+     */
+    public function testPassingStyleArrayToConstructor(): void
+    {
+        $paragraphStyle = [
+            'spaceBefore' => 100,
+        ];
+
+        $fontStyle = [
+            'size' => 10,
+        ];
+
+        $text = new Text('test', $fontStyle, $paragraphStyle);
+
+        // Test Paragraph style
+        self::assertInstanceOf(Paragraph::class, $text->getParagraphStyle());
+        self::assertEquals(100, $text->getParagraphStyle()->getSpaceBefore());
+
+        // Test font style
+        self::assertInstanceOf(Font::class, $text->getFontStyle());
+        self::assertEquals(10, $text->getFontStyle()->getSize());
     }
 }
