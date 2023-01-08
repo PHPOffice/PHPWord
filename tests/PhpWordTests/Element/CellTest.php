@@ -19,6 +19,9 @@ namespace PhpOffice\PhpWordTests\Element;
 
 use BadMethodCallException;
 use PhpOffice\PhpWord\Element\Cell;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Style\Cell as CellStyle;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 
 /**
@@ -269,5 +272,36 @@ class CellTest extends AbstractWebServerEmbeddedTest
         $oCell = new Cell();
 
         self::assertIsArray($oCell->getElements());
+    }
+
+    /**
+     * Test that the via constructor passed style objects and their values remain unchanged.
+     */
+    public function testPassingStyleObjectsToConstructor(): void
+    {
+        $cellStyle = new CellStyle();
+        $cellStyle->setBorderTopColor('red');
+        $cell = new Cell(150, $cellStyle);
+
+        // Test Paragraph style
+        self::assertInstanceOf(CellStyle::class, $cell->getStyle());
+        self::assertSame($cell->getStyle(), $cellStyle);
+        self::assertEquals('red', $cell->getStyle()->getBorderTopColor());
+    }
+
+    /**
+     * Test that the via constructor passed style objects and their values remain unchanged.
+     */
+    public function testPassingStyleArrayToConstructor(): void
+    {
+        $cellStyle = [
+            'borderTopColor' => 'red',
+        ];
+
+        $cell = new Cell(150, $cellStyle);
+
+        // Test Paragraph style
+        self::assertInstanceOf(CellStyle::class, $cell->getStyle());
+        self::assertEquals('red', $cell->getStyle()->getBorderTopColor());
     }
 }

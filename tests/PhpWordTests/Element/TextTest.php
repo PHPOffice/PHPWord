@@ -99,12 +99,12 @@ class TextTest extends TestCase
 
         // Test Paragraph style
         self::assertInstanceOf(Paragraph::class, $text->getParagraphStyle());
-        self::assertEquals($text->getParagraphStyle(), $paragraphStyle);
+        self::assertSame($text->getParagraphStyle(), $paragraphStyle);
         self::assertEquals(100, $paragraphStyle->getSpaceBefore());
 
         // test Font style
         self::assertInstanceOf(Font::class, $text->getFontStyle());
-        self::assertEquals($text->getFontStyle(), $fontStyle);
+        self::assertSame($text->getFontStyle(), $fontStyle);
         self::assertEquals(10, $fontStyle->getSize());
     }
 
