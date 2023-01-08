@@ -556,15 +556,36 @@ abstract class AbstractPart
      */
     private function readCellStyle(XMLReader $xmlReader, DOMElement $domNode)
     {
-        $styleDefs = [
-            'valign' => [self::READ_VALUE, 'w:vAlign'],
-            'textDirection' => [self::READ_VALUE, 'w:textDirection'],
-            'gridSpan' => [self::READ_VALUE, 'w:gridSpan'],
-            'vMerge' => [self::READ_VALUE, 'w:vMerge', null, null, 'continue'],
-            'bgColor' => [self::READ_VALUE, 'w:shd', 'w:fill'],
-        ];
+        $style = null;
+        $margins = ['top', 'left', 'bottom', 'right'];
+        $borders = array_merge($margins, ['insideH', 'insideV']);
 
-        return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+        if ($xmlReader->elementExists('w:tcPr', $domNode)) {
+            if ($xmlReader->elementExists('w:tcPr/w:tcStyle', $domNode)) {
+                $style = $xmlReader->getAttribute('w:val', $domNode, 'w:tcPr/w:tcStyle');
+            } else {
+                $styleNode = $xmlReader->getElement('w:tcPr', $domNode);
+
+                $styleDefs = [
+                    'valign' => [self::READ_VALUE, 'w:vAlign'],
+                    'textDirection' => [self::READ_VALUE, 'w:textDirection'],
+                    'gridSpan' => [self::READ_VALUE, 'w:gridSpan'],
+                    'vMerge' => [self::READ_VALUE, 'w:vMerge', null, null, 'continue'],
+                    'bgColor' => [self::READ_VALUE, 'w:shd', 'w:fill'],
+                ];
+
+                foreach ($borders as $side) {
+                    $ucfSide = ucfirst($side);
+                    $styleDefs["border{$ucfSide}Size"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:sz'];
+                    $styleDefs["border{$ucfSide}Color"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:color'];
+                    $styleDefs["border{$ucfSide}Style"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:val'];
+                }
+
+                $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
+            }
+        }
+
+        return $style;
     }
 
     /**
