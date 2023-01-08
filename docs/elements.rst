@@ -72,8 +72,8 @@ italics, etc) or other elements, e.g. images or links. The syntaxes are as follo
     $textrun = $section->addTextRun([$paragraphStyle]);
 
 - ``$text``. Text to be displayed in the document.
-- ``$fontStyle``. See :ref:`font-style`.
-- ``$paragraphStyle``. See :ref:`paragraph-style`.
+- ``$fontStyle``. Array or Font style object. See :ref:`font-style`.
+- ``$paragraphStyle``. Array or Paragraph style object. See :ref:`paragraph-style`.
 
 For available styling options see :ref:`font-style` and :ref:`paragraph-style`.
 
@@ -97,8 +97,8 @@ If `depth` is 0, a Title will be inserted, otherwise a Heading1, Heading2, ...
     $section->addTitle($text, [$depth]);
 
 - ``depth``.
-- ``$fontStyle``. See :ref:`font-style`.
-- ``$paragraphStyle``. See :ref:`paragraph-style`.
+- ``$fontStyle``. Array or Font style object. See :ref:`font-style`.
+- ``$paragraphStyle``. Array or Paragraph style object. See :ref:`paragraph-style`.
 - ``$text``. Text to be displayed in the document. This can be `string` or a `\PhpOffice\PhpWord\Element\TextRun`
 
 It's necessary to add a title style to your document because otherwise the title won't be detected as a real title.
@@ -114,8 +114,8 @@ You can add Hyperlinks to the document by using the function addLink:
 
 - ``$linkSrc``. The URL of the link.
 - ``$linkName``. Placeholder of the URL that appears in the document.
-- ``$fontStyle``. See :ref:`font-style`.
-- ``$paragraphStyle``. See :ref:`paragraph-style`.
+- ``$fontStyle``. Array or Font style object. See :ref:`font-style`.
+- ``$paragraphStyle``. Array or Paragraph style object. See :ref:`paragraph-style`.
 
 Preserve texts
 ~~~~~~~~~~~~~~
@@ -139,8 +139,8 @@ Text breaks are empty new lines. To add text breaks, use the following syntax. A
     $section->addTextBreak([$breakCount], [$fontStyle], [$paragraphStyle]);
 
 - ``$breakCount``. How many lines.
-- ``$fontStyle``. See :ref:`font-style`.
-- ``$paragraphStyle``. See :ref:`paragraph-style`.
+- ``$fontStyle``. Array or Font style object. See :ref:`font-style`.
+- ``$paragraphStyle``. Array or Paragraph style object. See :ref:`paragraph-style`.
 
 Page breaks
 ~~~~~~~~~~~
@@ -172,10 +172,10 @@ Parameters:
 
 - ``$text``. Text that appears in the document.
 - ``$depth``. Depth of list item.
-- ``$fontStyle``. See :ref:`font-style`.
+- ``$fontStyle``. Array or Font style object. See :ref:`font-style`.
 - ``$listStyle``. List style of the current element TYPE\_NUMBER,
   TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\\Style\\ListItem.
-- ``$paragraphStyle``. See :ref:`paragraph-style`.
+- ``$paragraphStyle``. Array or style Paragraph object. See :ref:`paragraph-style`.
 
 See ``Sample_09_Tables.php`` for more code sample.
 
@@ -250,7 +250,7 @@ To add an image, use the ``addImage`` method to sections, headers, footers, text
     $section->addImage($src, [$style]);
 
 - ``$src``. String path to a local image, URL of a remote image or the image data, as a string. Warning: Do not pass user-generated strings here, as that would allow an attacker to read arbitrary files or perform server-side request forgery by passing file paths or URLs instead of image data.
-- ``$style``. See :ref:`image-style`.
+- ``$style``. Array or Image style object. See :ref:`image-style`.
 
 Examples:
 
@@ -382,8 +382,8 @@ Checkbox elements can be added to sections or table cells by using ``addCheckBox
 
 - ``$name``. Name of the check box.
 - ``$text``. Text to be displayed in the document.
-- ``$fontStyle``. See :ref:`font-style`.
-- ``$paragraphStyle``. See :ref:`paragraph-style`.
+- ``$fontStyle``. Array or Font style object.  See :ref:`font-style`.
+- ``$paragraphStyle``. Array or Paragraph style object.  See :ref:`paragraph-style`.
 
 Textboxes
 ---------
@@ -405,7 +405,7 @@ Currently the following fields are supported:
 
     $section->addField($fieldType, [$properties], [$options], [$fieldText], [$fontStyle])
 
-- ``$fontStyle``. See :ref:`font-style`.
+- ``$fontStyle``. Array or Font style object See :ref:`font-style`.
 
 See ``\PhpOffice\PhpWord\Element\Field`` for list of properties and options available for each field type.
 Options which are not specifically defined can be added. Those must start with a ``\``.
