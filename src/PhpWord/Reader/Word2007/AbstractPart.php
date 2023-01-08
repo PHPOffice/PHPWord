@@ -323,6 +323,8 @@ abstract class AbstractPart
                     $element->setChangeInfo($type, $author, $date);
                 }
             }
+        } elseif ($node->nodeName == 'w:softHyphen') {
+            $element = $parent->addText("\u{200c}", $fontStyle, $paragraphStyle);
         }
     }
 

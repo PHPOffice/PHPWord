@@ -29,7 +29,7 @@ Use ``php://output`` as the filename.
 .. code-block:: php
 
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
-    $section = $phpWord->createSection();
+    $section = $phpWord->addSection();
     $section->addText('Hello World!');
     $file = 'HelloWorld.docx';
     header("Content-Description: File Transfer");

@@ -2,10 +2,8 @@
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
- *
  * PHPWord is free software distributed under the terms of the GNU Lesser
  * General Public License version 3 as published by the Free Software Foundation.
- *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
@@ -19,15 +17,15 @@ namespace PhpOffice\PhpWordTests;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for PhpOffice\PhpWord\Settings.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Settings
- *
  * @runTestsInSeparateProcesses
  */
-class SettingsTest extends \PHPUnit\Framework\TestCase
+class SettingsTest extends TestCase
 {
     private $compatibility;
 
@@ -151,7 +149,6 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers ::getTempDir
      * @covers ::setTempDir
-     *
      * @depends testPhpTempDirIsUsedByDefault
      */
     public function testTempDirCanBeSet(): void
@@ -189,6 +186,12 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(12, Settings::getDefaultFontSize());
         self::assertFalse(Settings::setDefaultFontSize(null));
         self::assertEquals(12, Settings::getDefaultFontSize());
+        self::assertTrue(Settings::setDefaultFontSize(12.5));
+        self::assertEquals(12.5, Settings::getDefaultFontSize());
+        self::assertFalse(Settings::setDefaultFontSize(0.5));
+        self::assertEquals(12.5, Settings::getDefaultFontSize());
+        self::assertFalse(Settings::setDefaultFontSize(0));
+        self::assertEquals(12.5, Settings::getDefaultFontSize());
     }
 
     /**
