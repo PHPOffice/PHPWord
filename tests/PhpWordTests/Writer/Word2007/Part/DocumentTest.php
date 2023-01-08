@@ -23,14 +23,16 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\Style\Cell;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Tab;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document.
  *
  * @runTestsInSeparateProcesses
  */
-class DocumentTest extends \PHPUnit\Framework\TestCase
+class DocumentTest extends TestCase
 {
     /**
      * Executed before each method of the class.
@@ -131,10 +133,10 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $section->addTOC();
         $section->addPageBreak();
         $section->addText('After page break.');
-        $section->addTitle('Title 1', 1);
-        $section->addListItem('List Item 1', 0);
-        $section->addListItem('List Item 2', 0);
-        $section->addListItem('List Item 3', 0);
+        $section->addTitle('Title 1');
+        $section->addListItem('List Item 1');
+        $section->addListItem('List Item 2');
+        $section->addListItem('List Item 3');
 
         $section = $phpWord->addSection();
         $section->addTitle('Title 2', 2);
@@ -213,7 +215,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     {
         $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
 
-        $tabs = [new \PhpOffice\PhpWord\Style\Tab('right', 9090)];
+        $tabs = [new Tab('right', 9090)];
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle(
             'pStyle',
@@ -243,7 +245,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $section->addListItem('List Item', 0, null, null, 'pStyle'); // Style #5
         $section->addObject($objectSrc, ['alignment' => Jc::CENTER]);
         $section->addTOC($fontStyle);
-        $section->addTitle('Title 1', 1);
+        $section->addTitle('Title 1');
         $section->addTOC('fStyle');
         $table = $section->addTable('tStyle');
         $table->setWidth(100);
@@ -407,11 +409,12 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
         $style = $element->getAttribute('style');
 
-        // Try to address CI coverage issue for PHP 7.1 and 7.2 when using regex match assertions
-        if (method_exists(static::class, 'assertRegExp')) {
-            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
-        } else {
+        // Address CI coverage issue for PHP 7.1 and 7.2 when using regex match assertions
+        // Prefer not using the deprecated method!
+        if (method_exists(static::class, 'assertMatchesRegularExpression')) {
             self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
+        } else {
+            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
         }
 
         // square
@@ -443,7 +446,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->addTitleStyle(1, ['bold' => true], ['spaceAfter' => 240]);
-        $phpWord->addSection()->addTitle('Test', 1);
+        $phpWord->addSection()->addTitle('Test');
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:pPr/w:pStyle';
@@ -610,8 +613,6 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $textrun->addText('Test');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-
-        $parent = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellMar';
 
         $parent = '/w:document/w:body/w:tbl/w:tr/w:trPr';
         self::assertEquals($rHeight, $doc->getElementAttribute("{$parent}/w:trHeight", 'w:val'));
