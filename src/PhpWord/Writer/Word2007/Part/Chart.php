@@ -386,10 +386,10 @@ class Chart extends AbstractPart
         }
 
         $xmlWriter->startElement('c:scaling');
-        if ($axisType === 'c:valAx' && $min = $style->getValueAxisMin()) {
+        if ($axisType === 'c:valAx' && (null !== ($min = $style->getValueAxisMin()))) {
             $xmlWriter->writeElementBlock('c:min', 'val', $min);
         }
-        if ($axisType === 'c:valAx' && $max = $style->getValueAxisMax()) {
+        if ($axisType === 'c:valAx' && (null !== ($max = $style->getValueAxisMax()))) {
             $xmlWriter->writeElementBlock('c:max', 'val', $max);
         }
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
