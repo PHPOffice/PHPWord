@@ -11,19 +11,19 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Page break element
+ * Page break element.
  */
 class PageBreak extends AbstractElement
 {
     /**
-     * Create new page break
+     * Create new page break.
      */
     public function __construct()
     {

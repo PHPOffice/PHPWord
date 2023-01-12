@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 use PhpOffice\PhpWord\Shared\Converter;
@@ -8,21 +9,21 @@ echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Define styles
-$phpWord->addTitleStyle(1, array('size' => 14, 'bold' => true), array('keepNext' => true, 'spaceBefore' => 240));
-$phpWord->addTitleStyle(2, array('size' => 14, 'bold' => true), array('keepNext' => true, 'spaceBefore' => 240));
+$phpWord->addTitleStyle(1, ['size' => 14, 'bold' => true], ['keepNext' => true, 'spaceBefore' => 240]);
+$phpWord->addTitleStyle(2, ['size' => 14, 'bold' => true], ['keepNext' => true, 'spaceBefore' => 240]);
 
 // 2D charts
 $section = $phpWord->addSection();
 $section->addTitle('2D charts', 1);
-$section = $phpWord->addSection(array('colsNum' => 2, 'breakType' => 'continuous'));
+$section = $phpWord->addSection(['colsNum' => 2, 'breakType' => 'continuous']);
 
-$chartTypes = array('pie', 'doughnut', 'bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column');
-$twoSeries = array('bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column');
-$threeSeries = array('bar', 'line');
-$categories = array('A', 'B', 'C', 'D', 'E');
-$series1 = array(1, 3, 2, 5, 4);
-$series2 = array(3, 1, 7, 2, 6);
-$series3 = array(8, 3, 2, 5, 4);
+$chartTypes = ['pie', 'doughnut', 'bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column'];
+$twoSeries = ['bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column'];
+$threeSeries = ['bar', 'line'];
+$categories = ['A', 'B', 'C', 'D', 'E'];
+$series1 = [1, 3, 2, 5, 4];
+$series2 = [3, 1, 7, 2, 6];
+$series3 = [8, 3, 2, 5, 4];
 $showGridLines = false;
 $showAxisLabels = false;
 $showLegend = true;
@@ -48,20 +49,20 @@ foreach ($chartTypes as $chartType) {
 }
 
 // 3D charts
-$section = $phpWord->addSection(array('breakType' => 'continuous'));
+$section = $phpWord->addSection(['breakType' => 'continuous']);
 $section->addTitle('3D charts', 1);
-$section = $phpWord->addSection(array('colsNum' => 2, 'breakType' => 'continuous'));
+$section = $phpWord->addSection(['colsNum' => 2, 'breakType' => 'continuous']);
 
-$chartTypes = array('pie', 'bar', 'column', 'line', 'area');
-$multiSeries = array('bar', 'column', 'line', 'area');
-$style = array(
-    'width'          => Converter::cmToEmu(5),
-    'height'         => Converter::cmToEmu(4),
-    '3d'             => true,
+$chartTypes = ['pie', 'bar', 'column', 'line', 'area'];
+$multiSeries = ['bar', 'column', 'line', 'area'];
+$style = [
+    'width' => Converter::cmToEmu(5),
+    'height' => Converter::cmToEmu(4),
+    '3d' => true,
     'showAxisLabels' => $showAxisLabels,
-    'showGridX'      => $showGridLines,
-    'showGridY'      => $showGridLines,
-);
+    'showGridX' => $showGridLines,
+    'showGridY' => $showGridLines,
+];
 foreach ($chartTypes as $chartType) {
     $section->addTitle(ucfirst($chartType), 2);
     $chart = $section->addChart($chartType, $categories, $series1, $style);

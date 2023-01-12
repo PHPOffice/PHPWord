@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,12 +23,12 @@ use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Section as SectionStyleWriter;
 
 /**
- * Word2007 document part writer: word/document.xml
+ * Word2007 document part writer: word/document.xml.
  */
 class Document extends AbstractPart
 {
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
@@ -58,7 +58,7 @@ class Document extends AbstractPart
 
         if ($sectionCount > 0) {
             foreach ($sections as $section) {
-                $currentSection++;
+                ++$currentSection;
 
                 $containerWriter = new Container($xmlWriter, $section);
                 $containerWriter->write();
@@ -79,11 +79,8 @@ class Document extends AbstractPart
 
     /**
      * Write begin section.
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Section $section
      */
-    private function writeSection(XMLWriter $xmlWriter, Section $section)
+    private function writeSection(XMLWriter $xmlWriter, Section $section): void
     {
         $xmlWriter->startElement('w:p');
         $xmlWriter->startElement('w:pPr');
@@ -94,11 +91,8 @@ class Document extends AbstractPart
 
     /**
      * Write end section.
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Section $section
      */
-    private function writeSectionSettings(XMLWriter $xmlWriter, Section $section)
+    private function writeSectionSettings(XMLWriter $xmlWriter, Section $section): void
     {
         $xmlWriter->startElement('w:sectPr');
 

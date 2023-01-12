@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word document
@@ -10,13 +11,13 @@ $phpWord->getSettings()->setUpdateFields(true);
 $section = $phpWord->addSection();
 
 // Define styles
-$fontStyle12 = array('spaceAfter' => 60, 'size' => 12);
-$fontStyle10 = array('size' => 10);
-$phpWord->addTitleStyle(null, array('size' => 22, 'bold' => true));
-$phpWord->addTitleStyle(1, array('size' => 20, 'color' => '333333', 'bold' => true));
-$phpWord->addTitleStyle(2, array('size' => 16, 'color' => '666666'));
-$phpWord->addTitleStyle(3, array('size' => 14, 'italic' => true));
-$phpWord->addTitleStyle(4, array('size' => 12));
+$fontStyle12 = ['spaceAfter' => 60, 'size' => 12];
+$fontStyle10 = ['size' => 10];
+$phpWord->addTitleStyle(null, ['size' => 22, 'bold' => true]);
+$phpWord->addTitleStyle(1, ['size' => 20, 'color' => '333333', 'bold' => true]);
+$phpWord->addTitleStyle(2, ['size' => 16, 'color' => '666666']);
+$phpWord->addTitleStyle(3, ['size' => 14, 'italic' => true]);
+$phpWord->addTitleStyle(4, ['size' => 12]);
 
 // Add text elements
 $section->addTitle('Table of contents 1', 0);

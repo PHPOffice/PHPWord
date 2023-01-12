@@ -11,21 +11,21 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
 /**
- * Paragraph style HTML writer
+ * Paragraph style HTML writer.
  *
  * @since 0.10.0
  */
 class Image extends AbstractStyle
 {
     /**
-     * Write style
+     * Write style.
      *
      * @return string
      */
@@ -35,7 +35,7 @@ class Image extends AbstractStyle
         if (!$style instanceof \PhpOffice\PhpWord\Style\Image) {
             return '';
         }
-        $css = array();
+        $css = [];
 
         $width = $style->getWidth();
         $height = $style->getHeight();

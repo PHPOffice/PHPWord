@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,18 +20,18 @@ namespace PhpOffice\PhpWord\Writer\ODText\Part;
 use PhpOffice\PhpWord\Media;
 
 /**
- * ODText manifest part writer: META-INF/manifest.xml
+ * ODText manifest part writer: META-INF/manifest.xml.
  */
 class Manifest extends AbstractPart
 {
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
     public function write()
     {
-        $parts = array('content.xml', 'meta.xml', 'styles.xml');
+        $parts = ['content.xml', 'meta.xml', 'styles.xml'];
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8');

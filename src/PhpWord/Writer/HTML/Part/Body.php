@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,14 +21,14 @@ use PhpOffice\PhpWord\Writer\HTML\Element\Container;
 use PhpOffice\PhpWord\Writer\HTML\Element\TextRun as TextRunWriter;
 
 /**
- * RTF body part writer
+ * RTF body part writer.
  *
  * @since 0.11.0
  */
 class Body extends AbstractPart
 {
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
@@ -52,7 +52,7 @@ class Body extends AbstractPart
     }
 
     /**
-     * Write footnote/endnote contents as textruns
+     * Write footnote/endnote contents as textruns.
      *
      * @return string
      */
@@ -68,7 +68,7 @@ class Body extends AbstractPart
         if (!empty($notes)) {
             $content .= '<hr />' . PHP_EOL;
             foreach ($notes as $noteId => $noteMark) {
-                list($noteType, $noteTypeId) = explode('-', $noteMark);
+                [$noteType, $noteTypeId] = explode('-', $noteMark);
                 $method = 'get' . ($noteType == 'endnote' ? 'Endnotes' : 'Footnotes');
                 $collection = $phpWord->$method()->getItems();
 

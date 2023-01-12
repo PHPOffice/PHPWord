@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,7 +23,6 @@ use PhpOffice\PhpWord\Shared\AbstractEnum;
  * Numbering Format.
  *
  * @since 0.14.0
- *
  * @see http://www.datypic.com/sc/ooxml/t-w_ST_NumberFormat.html.
  */
 final class NumberFormat extends AbstractEnum

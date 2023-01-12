@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart as Word2007AbstractPart;
 
 /**
- * ODText writer part abstract
+ * ODText writer part abstract.
  */
 abstract class AbstractPart extends Word2007AbstractPart
 {
@@ -35,10 +35,8 @@ abstract class AbstractPart extends Word2007AbstractPart
 
     /**
      * Write common root attributes.
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
-    protected function writeCommonRootAttributes(XMLWriter $xmlWriter)
+    protected function writeCommonRootAttributes(XMLWriter $xmlWriter): void
     {
         $xmlWriter->writeAttribute('office:version', '1.2');
         $xmlWriter->writeAttribute('xmlns:office', 'urn:oasis:names:tc:opendocument:xmlns:office:1.0');
@@ -71,20 +69,18 @@ abstract class AbstractPart extends Word2007AbstractPart
 
     /**
      * Write font faces declaration.
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
-    protected function writeFontFaces(XMLWriter $xmlWriter)
+    protected function writeFontFaces(XMLWriter $xmlWriter): void
     {
         $xmlWriter->startElement('office:font-face-decls');
-        $fontTable = array();
+        $fontTable = [];
         $styles = Style::getStyles();
         $numFonts = 0;
         if (count($styles) > 0) {
             foreach ($styles as $style) {
                 // Font
                 if ($style instanceof Font) {
-                    $numFonts++;
+                    ++$numFonts;
                     $name = $style->getName();
                     if (!in_array($name, $fontTable)) {
                         $fontTable[] = $name;

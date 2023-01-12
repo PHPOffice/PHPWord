@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word document
@@ -7,7 +8,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Define styles
 $linkFontStyleName = 'myOwnLinStyle';
-$phpWord->addLinkStyle($linkFontStyleName, array('bold' => true, 'color' => '808000'));
+$phpWord->addLinkStyle($linkFontStyleName, ['bold' => true, 'color' => '808000']);
 
 // New section
 $section = $phpWord->addSection();
@@ -16,7 +17,7 @@ $section = $phpWord->addSection();
 $section->addLink(
     'https://github.com/PHPOffice/PHPWord',
     'PHPWord on GitHub',
-    array('color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE)
+    ['color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE]
 );
 $section->addTextBreak(2);
 $section->addLink('http://www.bing.com', null, $linkFontStyleName);

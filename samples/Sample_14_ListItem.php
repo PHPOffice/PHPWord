@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word document
@@ -7,24 +8,24 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Define styles
 $fontStyleName = 'myOwnStyle';
-$phpWord->addFontStyle($fontStyleName, array('color' => 'FF0000'));
+$phpWord->addFontStyle($fontStyleName, ['color' => 'FF0000']);
 
 $paragraphStyleName = 'P-Style';
-$phpWord->addParagraphStyle($paragraphStyleName, array('spaceAfter' => 95));
+$phpWord->addParagraphStyle($paragraphStyleName, ['spaceAfter' => 95]);
 
 $multilevelNumberingStyleName = 'multilevel';
 $phpWord->addNumberingStyle(
     $multilevelNumberingStyleName,
-    array(
-        'type'   => 'multilevel',
-        'levels' => array(
-            array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360),
-            array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
-        ),
-    )
+    [
+        'type' => 'multilevel',
+        'levels' => [
+            ['format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360],
+            ['format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720],
+        ],
+    ]
 );
 
-$predefinedMultilevelStyle = array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED);
+$predefinedMultilevelStyle = ['listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED];
 
 // New section
 $section = $phpWord->addSection();
@@ -63,32 +64,32 @@ $section->addTextBreak(2);
 $section->addText('List with inline formatting.');
 $listItemRun = $section->addListItemRun();
 $listItemRun->addText('List item 1');
-$listItemRun->addText(' in bold', array('bold' => true));
+$listItemRun->addText(' in bold', ['bold' => true]);
 $listItemRun = $section->addListItemRun(1, $predefinedMultilevelStyle, $paragraphStyleName);
 $listItemRun->addText('List item 2');
-$listItemRun->addText(' in italic', array('italic' => true));
+$listItemRun->addText(' in italic', ['italic' => true]);
 $footnote = $listItemRun->addFootnote();
 $footnote->addText('this is a footnote on a list item');
 $listItemRun = $section->addListItemRun();
 $listItemRun->addText('List item 3');
-$listItemRun->addText(' underlined', array('underline' => 'dash'));
+$listItemRun->addText(' underlined', ['underline' => 'dash']);
 $section->addTextBreak(2);
 
 // Numbered heading
 $headingNumberingStyleName = 'headingNumbering';
 $phpWord->addNumberingStyle(
     $headingNumberingStyleName,
-    array('type'   => 'multilevel',
-          'levels' => array(
-              array('pStyle' => 'Heading1', 'format' => 'decimal', 'text' => '%1'),
-              array('pStyle' => 'Heading2', 'format' => 'decimal', 'text' => '%1.%2'),
-              array('pStyle' => 'Heading3', 'format' => 'decimal', 'text' => '%1.%2.%3'),
-          ),
-    )
+    ['type' => 'multilevel',
+        'levels' => [
+            ['pStyle' => 'Heading1', 'format' => 'decimal', 'text' => '%1'],
+            ['pStyle' => 'Heading2', 'format' => 'decimal', 'text' => '%1.%2'],
+            ['pStyle' => 'Heading3', 'format' => 'decimal', 'text' => '%1.%2.%3'],
+        ],
+    ]
 );
-$phpWord->addTitleStyle(1, array('size' => 16), array('numStyle' => $headingNumberingStyleName, 'numLevel' => 0));
-$phpWord->addTitleStyle(2, array('size' => 14), array('numStyle' => $headingNumberingStyleName, 'numLevel' => 1));
-$phpWord->addTitleStyle(3, array('size' => 12), array('numStyle' => $headingNumberingStyleName, 'numLevel' => 2));
+$phpWord->addTitleStyle(1, ['size' => 16], ['numStyle' => $headingNumberingStyleName, 'numLevel' => 0]);
+$phpWord->addTitleStyle(2, ['size' => 14], ['numStyle' => $headingNumberingStyleName, 'numLevel' => 1]);
+$phpWord->addTitleStyle(3, ['size' => 12], ['numStyle' => $headingNumberingStyleName, 'numLevel' => 2]);
 
 $section->addTitle('Heading 1', 1);
 $section->addTitle('Heading 2', 2);

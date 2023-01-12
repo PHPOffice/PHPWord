@@ -11,25 +11,25 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 /**
- * Title element RTF writer; extends from text
+ * Title element RTF writer; extends from text.
  *
  * @since 0.11.0
  */
 class Title extends Text
 {
-    protected function getStyles()
+    protected function getStyles(): void
     {
         /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
         $element = $this->element;
         $style = $element->getStyle();
-        $style = str_replace('Heading', 'Heading_', $style);
+        $style = str_replace('Heading', 'Heading_', $style ?? '');
         $style = \PhpOffice\PhpWord\Style::getStyle($style);
         if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
             $this->fontStyle = $style;
@@ -49,7 +49,7 @@ class Title extends Text
     }
 
     /**
-     * Write element
+     * Write element.
      *
      * @return string
      */
@@ -57,7 +57,7 @@ class Title extends Text
     {
         /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
         $element = $this->element;
-        $elementClass = str_replace('\\Writer\\RTF', '', get_class($this));
+        $elementClass = str_replace('\\Writer\\RTF', '', static::class);
         if (!$element instanceof $elementClass || !is_string($element->getText())) {
             return '';
         }

@@ -11,48 +11,56 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Shared;
 
+use DOMDocument;
+use DOMElement;
+use DOMNodeList;
+use DOMXpath;
+use Exception;
+use InvalidArgumentException;
+use ZipArchive;
+
 /**
- * XML Reader wrapper
+ * XML Reader wrapper.
  *
  * @since   0.2.1
  */
 class XMLReader
 {
     /**
-     * DOMDocument object
+     * DOMDocument object.
      *
-     * @var \DOMDocument
+     * @var DOMDocument
      */
-    private $dom = null;
+    private $dom;
 
     /**
-     * DOMXpath object
+     * DOMXpath object.
      *
-     * @var \DOMXpath
+     * @var DOMXpath
      */
-    private $xpath = null;
+    private $xpath;
 
     /**
-     * Get DOMDocument from ZipArchive
+     * Get DOMDocument from ZipArchive.
      *
      * @param string $zipFile
      * @param string $xmlFile
-     * @throws \Exception
-     * @return \DOMDocument|false
+     *
+     * @return DOMDocument|false
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
         if (file_exists($zipFile) === false) {
-            throw new \Exception('Cannot find archive file.');
+            throw new Exception('Cannot find archive file.');
         }
 
-        $zip = new \ZipArchive();
+        $zip = new ZipArchive();
         $zip->open($zipFile);
         $content = $zip->getFromName($xmlFile);
         $zip->close();
@@ -65,17 +73,18 @@ class XMLReader
     }
 
     /**
-     * Get DOMDocument from content string
+     * Get DOMDocument from content string.
      *
      * @param string $content
-     * @return \DOMDocument
+     *
+     * @return DOMDocument
      */
     public function getDomFromString($content)
     {
         if (\PHP_VERSION_ID < 80000) {
             $originalLibXMLEntityValue = libxml_disable_entity_loader(true);
         }
-        $this->dom = new \DOMDocument();
+        $this->dom = new DOMDocument();
         $this->dom->loadXML($content);
         if (\PHP_VERSION_ID < 80000) {
             libxml_disable_entity_loader($originalLibXMLEntityValue);
@@ -85,22 +94,23 @@ class XMLReader
     }
 
     /**
-     * Get elements
+     * Get elements.
      *
      * @param string $path
-     * @param \DOMElement $contextNode
-     * @return \DOMNodeList
+     * @param DOMElement $contextNode
+     *
+     * @return DOMNodeList
      */
-    public function getElements($path, \DOMElement $contextNode = null)
+    public function getElements($path, ?DOMElement $contextNode = null)
     {
         if ($this->dom === null) {
-            return array();
+            return [];
         }
         if ($this->xpath === null) {
-            $this->xpath = new \DOMXpath($this->dom);
+            $this->xpath = new DOMXpath($this->dom);
         }
 
-        if (is_null($contextNode)) {
+        if (null === $contextNode) {
             return $this->xpath->query($path);
         }
 
@@ -108,33 +118,34 @@ class XMLReader
     }
 
     /**
-     * Registers the namespace with the DOMXPath object
+     * Registers the namespace with the DOMXPath object.
      *
      * @param string $prefix The prefix
      * @param string $namespaceURI The URI of the namespace
-     * @throws \InvalidArgumentException If called before having loaded the DOM document
+     *
      * @return bool true on success or false on failure
      */
     public function registerNamespace($prefix, $namespaceURI)
     {
         if ($this->dom === null) {
-            throw new \InvalidArgumentException('Dom needs to be loaded before registering a namespace');
+            throw new InvalidArgumentException('Dom needs to be loaded before registering a namespace');
         }
         if ($this->xpath === null) {
-            $this->xpath = new \DOMXpath($this->dom);
+            $this->xpath = new DOMXpath($this->dom);
         }
 
         return $this->xpath->registerNamespace($prefix, $namespaceURI);
     }
 
     /**
-     * Get element
+     * Get element.
      *
      * @param string $path
-     * @param \DOMElement $contextNode
-     * @return \DOMElement|null
+     * @param DOMElement $contextNode
+     *
+     * @return null|DOMElement
      */
-    public function getElement($path, \DOMElement $contextNode = null)
+    public function getElement($path, ?DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -145,20 +156,21 @@ class XMLReader
     }
 
     /**
-     * Get element attribute
+     * Get element attribute.
      *
      * @param string $attribute
-     * @param \DOMElement $contextNode
+     * @param DOMElement $contextNode
      * @param string $path
-     * @return string|null
+     *
+     * @return null|string
      */
-    public function getAttribute($attribute, \DOMElement $contextNode = null, $path = null)
+    public function getAttribute($attribute, ?DOMElement $contextNode = null, $path = null)
     {
         $return = null;
         if ($path !== null) {
             $elements = $this->getElements($path, $contextNode);
             if ($elements->length > 0) {
-                /** @var \DOMElement $node Type hint */
+                /** @var DOMElement $node Type hint */
                 $node = $elements->item(0);
                 $return = $node->getAttribute($attribute);
             }
@@ -172,13 +184,14 @@ class XMLReader
     }
 
     /**
-     * Get element value
+     * Get element value.
      *
      * @param string $path
-     * @param \DOMElement $contextNode
-     * @return string|null
+     * @param DOMElement $contextNode
+     *
+     * @return null|string
      */
-    public function getValue($path, \DOMElement $contextNode = null)
+    public function getValue($path, ?DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -189,13 +202,14 @@ class XMLReader
     }
 
     /**
-     * Count elements
+     * Count elements.
      *
      * @param string $path
-     * @param \DOMElement $contextNode
+     * @param DOMElement $contextNode
+     *
      * @return int
      */
-    public function countElements($path, \DOMElement $contextNode = null)
+    public function countElements($path, ?DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
 
@@ -203,13 +217,14 @@ class XMLReader
     }
 
     /**
-     * Element exists
+     * Element exists.
      *
      * @param string $path
-     * @param \DOMElement $contextNode
+     * @param DOMElement $contextNode
+     *
      * @return bool
      */
-    public function elementExists($path, \DOMElement $contextNode = null)
+    public function elementExists($path, ?DOMElement $contextNode = null)
     {
         return $this->getElements($path, $contextNode)->length > 0;
     }

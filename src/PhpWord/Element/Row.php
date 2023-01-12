@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,35 +20,35 @@ namespace PhpOffice\PhpWord\Element;
 use PhpOffice\PhpWord\Style\Row as RowStyle;
 
 /**
- * Table row element
+ * Table row element.
  *
  * @since 0.8.0
  */
 class Row extends AbstractElement
 {
     /**
-     * Row height
+     * Row height.
      *
      * @var int
      */
-    private $height = null;
+    private $height;
 
     /**
-     * Row style
+     * Row style.
      *
      * @var \PhpOffice\PhpWord\Style\Row
      */
     private $style;
 
     /**
-     * Row cells
+     * Row cells.
      *
      * @var \PhpOffice\PhpWord\Element\Cell[]
      */
-    private $cells = array();
+    private $cells = [];
 
     /**
-     * Create a new table row
+     * Create a new table row.
      *
      * @param int $height
      * @param mixed $style
@@ -60,10 +60,11 @@ class Row extends AbstractElement
     }
 
     /**
-     * Add a cell
+     * Add a cell.
      *
      * @param int $width
      * @param mixed $style
+     *
      * @return \PhpOffice\PhpWord\Element\Cell
      */
     public function addCell($width = null, $style = null)
@@ -76,7 +77,7 @@ class Row extends AbstractElement
     }
 
     /**
-     * Get all cells
+     * Get all cells.
      *
      * @return \PhpOffice\PhpWord\Element\Cell[]
      */
@@ -86,7 +87,7 @@ class Row extends AbstractElement
     }
 
     /**
-     * Get row style
+     * Get row style.
      *
      * @return \PhpOffice\PhpWord\Style\Row
      */
@@ -96,7 +97,7 @@ class Row extends AbstractElement
     }
 
     /**
-     * Get row height
+     * Get row height.
      *
      * @return int
      */

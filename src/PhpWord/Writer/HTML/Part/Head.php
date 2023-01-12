@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -26,30 +26,30 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Generic as GenericStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
 
 /**
- * RTF head part writer
+ * RTF head part writer.
  *
  * @since 0.11.0
  */
 class Head extends AbstractPart
 {
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
     public function write()
     {
         $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
-        $propertiesMapping = array(
-            'creator'     => 'author',
-            'title'       => '',
+        $propertiesMapping = [
+            'creator' => 'author',
+            'title' => '',
             'description' => '',
-            'subject'     => '',
-            'keywords'    => '',
-            'category'    => '',
-            'company'     => '',
-            'manager'     => '',
-        );
+            'subject' => '',
+            'keywords' => '',
+            'category' => '',
+            'company' => '',
+            'manager' => '',
+        ];
         $title = $docProps->getTitle();
         $title = ($title != '') ? $title : 'PHPWord';
 
@@ -74,7 +74,7 @@ class Head extends AbstractPart
     }
 
     /**
-     * Get styles
+     * Get styles.
      *
      * @return string
      */
@@ -83,30 +83,30 @@ class Head extends AbstractPart
         $css = '<style>' . PHP_EOL;
 
         // Default styles
-        $defaultStyles = array(
-            '*' => array(
+        $defaultStyles = [
+            '*' => [
                 'font-family' => Settings::getDefaultFontName(),
-                'font-size'   => Settings::getDefaultFontSize() . 'pt',
-            ),
-            'a.NoteRef' => array(
+                'font-size' => Settings::getDefaultFontSize() . 'pt',
+            ],
+            'a.NoteRef' => [
                 'text-decoration' => 'none',
-            ),
-            'hr' => array(
-                'height'     => '1px',
-                'padding'    => '0',
-                'margin'     => '1em 0',
-                'border'     => '0',
+            ],
+            'hr' => [
+                'height' => '1px',
+                'padding' => '0',
+                'margin' => '1em 0',
+                'border' => '0',
                 'border-top' => '1px solid #CCC',
-            ),
-            'table' => array(
-                'border'         => '1px solid black',
-                'border-spacing' => '0px',
-                'width '         => '100%',
-            ),
-            'td' => array(
+            ],
+            'table' => [
                 'border' => '1px solid black',
-            ),
-        );
+                'border-spacing' => '0px',
+                'width ' => '100%',
+            ],
+            'td' => [
+                'border' => '1px solid black',
+            ],
+        ];
         foreach ($defaultStyles as $selector => $style) {
             $styleWriter = new GenericStyleWriter($style);
             $css .= $selector . ' {' . $styleWriter->write() . '}' . PHP_EOL;

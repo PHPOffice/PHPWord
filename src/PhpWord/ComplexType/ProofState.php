@@ -11,48 +11,50 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\ComplexType;
 
+use InvalidArgumentException;
+
 /**
- * Spelling and Grammatical Checking State
+ * Spelling and Grammatical Checking State.
  *
  * @see http://www.datypic.com/sc/ooxml/e-w_proofState-1.html
  */
 final class ProofState
 {
     /**
-     * Check Completed
+     * Check Completed.
      */
     const CLEAN = 'clean';
 
     /**
-     * Check Not Completed
+     * Check Not Completed.
      */
     const DIRTY = 'dirty';
 
     /**
-     * Spell Checking State
+     * Spell Checking State.
      *
      * @var string
      */
     private $spelling;
 
     /**
-     * Grammatical Checking State
+     * Grammatical Checking State.
      *
      * @var string
      */
     private $grammar;
 
     /**
-     * Set the Spell Checking State (dirty or clean)
+     * Set the Spell Checking State (dirty or clean).
      *
      * @param string $spelling
-     * @throws \InvalidArgumentException
+     *
      * @return self
      */
     public function setSpelling($spelling)
@@ -60,14 +62,14 @@ final class ProofState
         if ($spelling == self::CLEAN || $spelling == self::DIRTY) {
             $this->spelling = $spelling;
         } else {
-            throw new \InvalidArgumentException('Invalid value, dirty or clean possible');
+            throw new InvalidArgumentException('Invalid value, dirty or clean possible');
         }
 
         return $this;
     }
 
     /**
-     * Get the Spell Checking State
+     * Get the Spell Checking State.
      *
      * @return string
      */
@@ -77,10 +79,10 @@ final class ProofState
     }
 
     /**
-     * Set the Grammatical Checking State (dirty or clean)
+     * Set the Grammatical Checking State (dirty or clean).
      *
      * @param string $grammar
-     * @throws \InvalidArgumentException
+     *
      * @return self
      */
     public function setGrammar($grammar)
@@ -88,14 +90,14 @@ final class ProofState
         if ($grammar == self::CLEAN || $grammar == self::DIRTY) {
             $this->grammar = $grammar;
         } else {
-            throw new \InvalidArgumentException('Invalid value, dirty or clean possible');
+            throw new InvalidArgumentException('Invalid value, dirty or clean possible');
         }
 
         return $this;
     }
 
     /**
-     * Get the Grammatical Checking State
+     * Get the Grammatical Checking State.
      *
      * @return string
      */

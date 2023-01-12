@@ -11,21 +11,21 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
- * PageBreak element HTML writer
+ * PageBreak element HTML writer.
  *
  * @since 0.10.0
  */
 class PageBreak extends TextBreak
 {
     /**
-     * Write page break
+     * Write page break.
      *
      * @since 0.12.0
      *

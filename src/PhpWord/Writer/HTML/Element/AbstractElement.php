@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,28 +22,28 @@ use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
- * Abstract HTML element writer
+ * Abstract HTML element writer.
  *
  * @since 0.11.0
  */
 abstract class AbstractElement
 {
     /**
-     * Parent writer
+     * Parent writer.
      *
      * @var \PhpOffice\PhpWord\Writer\AbstractWriter
      */
     protected $parentWriter;
 
     /**
-     * Element
+     * Element.
      *
      * @var \PhpOffice\PhpWord\Element\AbstractElement
      */
     protected $element;
 
     /**
-     * Without paragraph
+     * Without paragraph.
      *
      * @var bool
      */
@@ -55,15 +55,13 @@ abstract class AbstractElement
     protected $escaper;
 
     /**
-     * Write element
+     * Write element.
      */
     abstract public function write();
 
     /**
-     * Create new instance
+     * Create new instance.
      *
-     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $parentWriter
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      */
     public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false)
@@ -79,7 +77,7 @@ abstract class AbstractElement
      *
      * @param bool $value
      */
-    public function setWithoutP($value)
+    public function setWithoutP($value): void
     {
         $this->withoutP = $value;
     }

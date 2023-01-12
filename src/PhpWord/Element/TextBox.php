@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Element;
 use PhpOffice\PhpWord\Style\TextBox as TextBoxStyle;
 
 /**
- * TextBox element
+ * TextBox element.
  *
  * @since 0.11.0
  */
@@ -32,14 +32,14 @@ class TextBox extends AbstractContainer
     protected $container = 'TextBox';
 
     /**
-     * TextBox style
+     * TextBox style.
      *
      * @var \PhpOffice\PhpWord\Style\TextBox
      */
     private $style;
 
     /**
-     * Create a new textbox
+     * Create a new textbox.
      *
      * @param mixed $style
      */
@@ -49,7 +49,7 @@ class TextBox extends AbstractContainer
     }
 
     /**
-     * Get textbox style
+     * Get textbox style.
      *
      * @return \PhpOffice\PhpWord\Style\TextBox
      */

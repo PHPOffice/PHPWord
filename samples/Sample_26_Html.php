@@ -1,10 +1,11 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s') , ' Create new PhpWord object' , EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
-$phpWord->addParagraphStyle('Heading2', array('alignment' => 'center'));
+$phpWord->addParagraphStyle('Heading2', ['alignment' => 'center']);
 
 $section = $phpWord->addSection();
 $html = '<h1>Adding element via HTML</h1>';

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,14 +21,14 @@ use PhpOffice\PhpWord\Element\Image as ImageElement;
 use PhpOffice\PhpWord\Writer\HTML\Style\Image as ImageStyleWriter;
 
 /**
- * Image element HTML writer
+ * Image element HTML writer.
  *
  * @since 0.10.0
  */
 class Image extends Text
 {
     /**
-     * Write image
+     * Write image.
      *
      * @return string
      */

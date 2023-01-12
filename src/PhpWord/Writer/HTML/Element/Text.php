@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,42 +25,42 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
 
 /**
- * Text element HTML writer
+ * Text element HTML writer.
  *
  * @since 0.10.0
  */
 class Text extends AbstractElement
 {
     /**
-     * Text written after opening
+     * Text written after opening.
      *
      * @var string
      */
     private $openingText = '';
 
     /**
-     * Text written before closing
+     * Text written before closing.
      *
      * @var string
      */
     private $closingText = '';
 
     /**
-     * Opening tags
+     * Opening tags.
      *
      * @var string
      */
     private $openingTags = '';
 
     /**
-     * Closing tag
+     * Closing tag.
      *
      * @var string
      */
     private $closingTags = '';
 
     /**
-     * Write text
+     * Write text.
      *
      * @return string
      */
@@ -91,7 +91,7 @@ class Text extends AbstractElement
      *
      * @param string $value
      */
-    public function setOpeningText($value)
+    public function setOpeningText($value): void
     {
         $this->openingText = $value;
     }
@@ -101,13 +101,13 @@ class Text extends AbstractElement
      *
      * @param string $value
      */
-    public function setClosingText($value)
+    public function setClosingText($value): void
     {
         $this->closingText = $value;
     }
 
     /**
-     * Write opening
+     * Write opening.
      *
      * @return string
      */
@@ -129,7 +129,7 @@ class Text extends AbstractElement
     }
 
     /**
-     * Write ending
+     * Write ending.
      *
      * @return string
      */
@@ -154,7 +154,7 @@ class Text extends AbstractElement
     }
 
     /**
-     * writes the track change opening tag
+     * writes the track change opening tag.
      *
      * @return string the HTML, an empty string if no track change information
      */
@@ -172,7 +172,7 @@ class Text extends AbstractElement
             $content .= '<del data-phpword-prop=\'';
         }
 
-        $changedProp = array('changed' => array('author'=> $changed->getAuthor(), 'id'    => $this->element->getElementId()));
+        $changedProp = ['changed' => ['author' => $changed->getAuthor(), 'id' => $this->element->getElementId()]];
         if ($changed->getDate() != null) {
             $changedProp['changed']['date'] = $changed->getDate()->format('Y-m-d\TH:i:s\Z');
         }
@@ -189,7 +189,7 @@ class Text extends AbstractElement
     }
 
     /**
-     * writes the track change closing tag
+     * writes the track change closing tag.
      *
      * @return string the HTML, an empty string if no track change information
      */
@@ -211,7 +211,7 @@ class Text extends AbstractElement
     }
 
     /**
-     * Write paragraph style
+     * Write paragraph style.
      *
      * @return string
      */
@@ -243,7 +243,7 @@ class Text extends AbstractElement
     /**
      * Get font style.
      */
-    private function getFontStyle()
+    private function getFontStyle(): void
     {
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;

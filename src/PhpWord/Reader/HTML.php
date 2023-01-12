@@ -11,28 +11,27 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader;
 
+use Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html as HTMLParser;
 
 /**
- * HTML Reader class
+ * HTML Reader class.
  *
  * @since 0.11.0
  */
 class HTML extends AbstractReader implements ReaderInterface
 {
     /**
-     * Loads PhpWord from file
+     * Loads PhpWord from file.
      *
      * @param string $docFile
-     *
-     * @throws \Exception
      *
      * @return \PhpOffice\PhpWord\PhpWord
      */
@@ -44,7 +43,7 @@ class HTML extends AbstractReader implements ReaderInterface
             $section = $phpWord->addSection();
             HTMLParser::addHtml($section, file_get_contents($docFile), true);
         } else {
-            throw new \Exception("Cannot read {$docFile}.");
+            throw new Exception("Cannot read {$docFile}.");
         }
 
         return $phpWord;

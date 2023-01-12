@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,7 +21,7 @@ use PhpOffice\PhpWord\Element\ListItemRun as ListItemRunElement;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
- * ListItemRun element writer
+ * ListItemRun element writer.
  *
  * @since 0.10.0
  */
@@ -30,7 +30,7 @@ class ListItemRun extends AbstractElement
     /**
      * Write list item element.
      */
-    public function write()
+    public function write(): void
     {
         $element = $this->getElement();
 
@@ -41,7 +41,7 @@ class ListItemRun extends AbstractElement
         $this->writeParagraph($element);
     }
 
-    private function writeParagraph(ListItemRunElement $element)
+    private function writeParagraph(ListItemRunElement $element): void
     {
         $xmlWriter = $this->getXmlWriter();
         $xmlWriter->startElement('w:p');
@@ -54,7 +54,7 @@ class ListItemRun extends AbstractElement
         $xmlWriter->endElement(); // w:p
     }
 
-    private function writeParagraphProperties(ListItemRunElement $element)
+    private function writeParagraphProperties(ListItemRunElement $element): void
     {
         $xmlWriter = $this->getXmlWriter();
         $xmlWriter->startElement('w:pPr');
@@ -69,18 +69,18 @@ class ListItemRun extends AbstractElement
         $xmlWriter->endElement(); // w:pPr
     }
 
-    private function writeParagraphPropertiesNumbering(ListItemRunElement $element)
+    private function writeParagraphPropertiesNumbering(ListItemRunElement $element): void
     {
         $xmlWriter = $this->getXmlWriter();
         $xmlWriter->startElement('w:numPr');
 
-        $xmlWriter->writeElementBlock('w:ilvl', array(
+        $xmlWriter->writeElementBlock('w:ilvl', [
             'w:val' => $element->getDepth(),
-        ));
+        ]);
 
-        $xmlWriter->writeElementBlock('w:numId', array(
+        $xmlWriter->writeElementBlock('w:numId', [
             'w:val' => $element->getStyle()->getNumId(),
-        ));
+        ]);
 
         $xmlWriter->endElement(); // w:numPr
     }

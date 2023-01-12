@@ -19,7 +19,7 @@ if (file_exists($dompdfPath)) {
 }
 
 // Set writers
-$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
+$writers = ['Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf'];
 
 // Set PDF renderer
 if (null === Settings::getPdfRendererPath()) {
@@ -43,7 +43,7 @@ $pageHeading = IS_INDEX ? '' : "<h1>{$pageHeading}</h1>";
 // Populate samples
 $files = '';
 if ($handle = opendir('.')) {
-    $sampleFiles = array();
+    $sampleFiles = [];
     while (false !== ($sampleFile = readdir($handle))) {
         $sampleFiles[] = $sampleFile;
     }
@@ -59,7 +59,7 @@ if ($handle = opendir('.')) {
 }
 
 /**
- * Write documents
+ * Write documents.
  *
  * @param \PhpOffice\PhpWord\PhpWord $phpWord
  * @param string $filename
@@ -89,10 +89,11 @@ function write($phpWord, $filename, $writers)
 }
 
 /**
- * Get ending notes
+ * Get ending notes.
  *
  * @param array $writers
  * @param mixed $filename
+ *
  * @return string
  */
 function getEndingNotes($writers, $filename)
@@ -114,7 +115,7 @@ function getEndingNotes($writers, $filename)
             $result .= '<p>&nbsp;</p>';
             $result .= '<p>Results: ';
             foreach ($types as $type) {
-                if (!is_null($type)) {
+                if (null !== $type) {
                     $resultFile = 'results/' . SCRIPT_FILENAME . '.' . $type;
                     if (file_exists($resultFile)) {
                         $result .= "<a href='{$resultFile}' class='btn btn-primary'>{$type}</a> ";

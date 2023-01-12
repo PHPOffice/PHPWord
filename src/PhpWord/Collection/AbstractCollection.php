@@ -11,28 +11,28 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Collection;
 
 /**
- * Collection abstract class
+ * Collection abstract class.
  *
  * @since 0.10.0
  */
 abstract class AbstractCollection
 {
     /**
-     * Items
+     * Items.
      *
      * @var \PhpOffice\PhpWord\Element\AbstractContainer[]
      */
-    private $items = array();
+    private $items = [];
 
     /**
-     * Get items
+     * Get items.
      *
      * @return \PhpOffice\PhpWord\Element\AbstractContainer[]
      */
@@ -42,9 +42,10 @@ abstract class AbstractCollection
     }
 
     /**
-     * Get item by index
+     * Get item by index.
      *
      * @param int $index
+     *
      * @return \PhpOffice\PhpWord\Element\AbstractContainer
      */
     public function getItem($index)
@@ -62,7 +63,7 @@ abstract class AbstractCollection
      * @param int $index
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $item
      */
-    public function setItem($index, $item)
+    public function setItem($index, $item): void
     {
         if (array_key_exists($index, $this->items)) {
             $this->items[$index] = $item;
@@ -70,9 +71,10 @@ abstract class AbstractCollection
     }
 
     /**
-     * Add new item
+     * Add new item.
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $item
+     *
      * @return int
      */
     public function addItem($item)
@@ -84,7 +86,7 @@ abstract class AbstractCollection
     }
 
     /**
-     * Get item count
+     * Get item count.
      *
      * @return int
      */

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PhpWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,17 +20,16 @@ namespace PhpOffice\PhpWord\Writer\PDF;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
- * TCPDF writer
+ * TCPDF writer.
  *
  * @deprecated 0.13.0 Use `DomPDF` or `MPDF` instead.
- *
  * @see  http://www.tcpdf.org/
  * @since 0.11.0
  */
 class TCPDF extends AbstractRenderer implements WriterInterface
 {
     /**
-     * Name of renderer include file
+     * Name of renderer include file.
      *
      * @var string
      */
@@ -55,7 +54,7 @@ class TCPDF extends AbstractRenderer implements WriterInterface
      *
      * @param string $filename Name of the file to save as
      */
-    public function save($filename = null)
+    public function save($filename = null): void
     {
         $fileHandle = parent::prepareForSave($filename);
 

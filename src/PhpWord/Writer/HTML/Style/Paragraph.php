@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,14 +20,14 @@ namespace PhpOffice\PhpWord\Writer\HTML\Style;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
- * Paragraph style HTML writer
+ * Paragraph style HTML writer.
  *
  * @since 0.10.0
  */
 class Paragraph extends AbstractStyle
 {
     /**
-     * Write style
+     * Write style.
      *
      * @return string
      */
@@ -37,7 +37,7 @@ class Paragraph extends AbstractStyle
         if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
             return '';
         }
-        $css = array();
+        $css = [];
 
         // Alignment
         if ('' !== $style->getAlignment()) {
@@ -46,6 +46,7 @@ class Paragraph extends AbstractStyle
             switch ($style->getAlignment()) {
                 case Jc::CENTER:
                     $textAlign = 'center';
+
                     break;
                 case Jc::END:
                 case Jc::MEDIUM_KASHIDA:
@@ -53,15 +54,18 @@ class Paragraph extends AbstractStyle
                 case Jc::LOW_KASHIDA:
                 case Jc::RIGHT:
                     $textAlign = 'right';
+
                     break;
                 case Jc::BOTH:
                 case Jc::DISTRIBUTE:
                 case Jc::THAI_DISTRIBUTE:
                 case Jc::JUSTIFY:
                     $textAlign = 'justify';
+
                     break;
                 default: //all others, align left
                     $textAlign = 'left';
+
                     break;
             }
 
@@ -70,11 +74,11 @@ class Paragraph extends AbstractStyle
 
         // Spacing
         $spacing = $style->getSpace();
-        if (!is_null($spacing)) {
+        if (null !== $spacing) {
             $before = $spacing->getBefore();
             $after = $spacing->getAfter();
-            $css['margin-top'] = $this->getValueIf(!is_null($before), ($before / 20) . 'pt');
-            $css['margin-bottom'] = $this->getValueIf(!is_null($after), ($after / 20) . 'pt');
+            $css['margin-top'] = $this->getValueIf(null !== $before, ($before / 20) . 'pt');
+            $css['margin-bottom'] = $this->getValueIf(null !== $after, ($after / 20) . 'pt');
         } else {
             $css['margin-top'] = '0';
             $css['margin-bottom'] = '0';

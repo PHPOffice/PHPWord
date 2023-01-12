@@ -2,146 +2,151 @@
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
- *
  * PHPWord is free software distributed under the terms of the GNU Lesser
  * General Public License version 3 as published by the Free Software Foundation.
- *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * TextBox style
+ * TextBox style.
  *
  * @since 0.11.0
  */
 class TextBox extends Image
 {
     /**
-     * margin top
+     * margin top.
      *
-     * @var int
+     * @var null|int
      */
-    private $innerMarginTop = null;
+    private $innerMarginTop;
 
     /**
-     * margin left
+     * margin left.
      *
-     * @var int
+     * @var null|int
      */
-    private $innerMarginLeft = null;
+    private $innerMarginLeft;
 
     /**
-     * margin right
+     * margin right.
      *
-     * @var int
+     * @var null|int
      */
-    private $innerMarginRight = null;
+    private $innerMarginRight;
 
     /**
-     * Cell margin bottom
+     * Cell margin bottom.
      *
-     * @var int
+     * @var null|int
      */
-    private $innerMarginBottom = null;
+    private $innerMarginBottom;
 
     /**
-     * border size
+     * border size.
      *
-     * @var int
+     * @var null|int
      */
-    private $borderSize = null;
+    private $borderSize;
 
     /**
-     * border color
+     * border color.
      *
-     * @var string
+     * @var null|string
      */
     private $borderColor;
 
     /**
-     * Set margin top.
+     * background color.
      *
-     * @param int $value
+     * @var null|string
      */
-    public function setInnerMarginTop($value = null)
+    private $bgColor;
+
+    /**
+     * Set background color.
+     */
+    public function setBgColor(?string $value = null): void
+    {
+        $this->bgColor = $value;
+    }
+
+    /**
+     * Get background color.
+     */
+    public function getBgColor(): ?string
+    {
+        return $this->bgColor;
+    }
+
+    /**
+     * Set margin top.
+     */
+    public function setInnerMarginTop(?int $value = null): void
     {
         $this->innerMarginTop = $value;
     }
 
     /**
-     * Get margin top
-     *
-     * @return int
+     * Get margin top.
      */
-    public function getInnerMarginTop()
+    public function getInnerMarginTop(): ?int
     {
         return $this->innerMarginTop;
     }
 
     /**
      * Set margin left.
-     *
-     * @param int $value
      */
-    public function setInnerMarginLeft($value = null)
+    public function setInnerMarginLeft(?int $value = null): void
     {
         $this->innerMarginLeft = $value;
     }
 
     /**
-     * Get margin left
-     *
-     * @return int
+     * Get margin left.
      */
-    public function getInnerMarginLeft()
+    public function getInnerMarginLeft(): ?int
     {
         return $this->innerMarginLeft;
     }
 
     /**
      * Set margin right.
-     *
-     * @param int $value
      */
-    public function setInnerMarginRight($value = null)
+    public function setInnerMarginRight(?int $value = null): void
     {
         $this->innerMarginRight = $value;
     }
 
     /**
-     * Get margin right
-     *
-     * @return int
+     * Get margin right.
      */
-    public function getInnerMarginRight()
+    public function getInnerMarginRight(): ?int
     {
         return $this->innerMarginRight;
     }
 
     /**
      * Set margin bottom.
-     *
-     * @param int $value
      */
-    public function setInnerMarginBottom($value = null)
+    public function setInnerMarginBottom(?int $value = null): void
     {
         $this->innerMarginBottom = $value;
     }
 
     /**
-     * Get margin bottom
-     *
-     * @return int
+     * Get margin bottom.
      */
-    public function getInnerMarginBottom()
+    public function getInnerMarginBottom(): ?int
     {
         return $this->innerMarginBottom;
     }
@@ -149,9 +154,9 @@ class TextBox extends Image
     /**
      * Set TLRB cell margin.
      *
-     * @param int $value Margin in twips
+     * @param null|int $value Margin in twips
      */
-    public function setInnerMargin($value = null)
+    public function setInnerMargin(?int $value = null): void
     {
         $this->setInnerMarginTop($value);
         $this->setInnerMarginLeft($value);
@@ -160,26 +165,24 @@ class TextBox extends Image
     }
 
     /**
-     * Get cell margin
+     * Get cell margin.
      *
      * @return int[]
      */
-    public function getInnerMargin()
+    public function getInnerMargin(): array
     {
-        return array($this->innerMarginLeft, $this->innerMarginTop, $this->innerMarginRight, $this->innerMarginBottom);
+        return [$this->innerMarginLeft, $this->innerMarginTop, $this->innerMarginRight, $this->innerMarginBottom];
     }
 
     /**
      * Has inner margin?
-     *
-     * @return bool
      */
-    public function hasInnerMargins()
+    public function hasInnerMargins(): bool
     {
         $hasInnerMargins = false;
         $margins = $this->getInnerMargin();
         $numMargins = count($margins);
-        for ($i = 0; $i < $numMargins; $i++) {
+        for ($i = 0; $i < $numMargins; ++$i) {
             if ($margins[$i] !== null) {
                 $hasInnerMargins = true;
             }
@@ -191,39 +194,33 @@ class TextBox extends Image
     /**
      * Set border size.
      *
-     * @param int $value Size in points
+     * @param null|int $value Size in points
      */
-    public function setBorderSize($value = null)
+    public function setBorderSize(?int $value = null): void
     {
         $this->borderSize = $value;
     }
 
     /**
-     * Get border size
-     *
-     * @return int
+     * Get border size.
      */
-    public function getBorderSize()
+    public function getBorderSize(): ?int
     {
         return $this->borderSize;
     }
 
     /**
      * Set border color.
-     *
-     * @param string $value
      */
-    public function setBorderColor($value = null)
+    public function setBorderColor(?string $value = null): void
     {
         $this->borderColor = $value;
     }
 
     /**
-     * Get border color
-     *
-     * @return string
+     * Get border color.
      */
-    public function getBorderColor()
+    public function getBorderColor(): ?string
     {
         return $this->borderColor;
     }
