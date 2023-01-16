@@ -444,7 +444,11 @@ class Html
             $rowStyles['tblHeader'] = true;
         }
 
-        return $element->addRow(null, $rowStyles);
+        // set cell height to control row heights
+        $height = $rowStyles['height'] ?? null;
+        unset($rowStyles['height']); // would not apply
+
+        return $element->addRow($height, $rowStyles);
     }
 
     /**
@@ -807,6 +811,11 @@ class Html
                         $styles['width'] = $matches[1];
                         $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO;
                     }
+
+                    break;
+                case 'height':
+                    $styles['height'] = Converter::cssToTwip($value);
+                    $styles['exactHeight'] = true;
 
                     break;
                 case 'border':

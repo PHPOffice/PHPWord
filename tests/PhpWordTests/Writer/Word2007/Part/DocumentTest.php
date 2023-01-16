@@ -2,10 +2,8 @@
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
- *
  * PHPWord is free software distributed under the terms of the GNU Lesser
  * General Public License version 3 as published by the Free Software Foundation.
- *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
@@ -61,11 +59,11 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         self::assertNotNull($doc);
 
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key3"]/vt:i4'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key4"]/vt:r8'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key5"]/vt:lpwstr'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key3"]/vt:i4'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key4"]/vt:r8'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key5"]/vt:lpwstr'));
     }
 
     /**
@@ -555,7 +553,13 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $cell->addText('Test');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        self::assertEquals(Cell::DEFAULT_BORDER_COLOR, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top', 'w:color'));
+        self::assertEquals(
+            Cell::DEFAULT_BORDER_COLOR,
+            $doc->getElementAttribute(
+                '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top',
+                'w:color'
+            )
+        );
     }
 
     /**
