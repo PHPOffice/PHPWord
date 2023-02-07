@@ -450,6 +450,33 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @covers ::saveAs
+     * @covers ::setHtml
+     */
+    public function testSetHtml(): void
+    {
+        Settings::setOutputEscapingEnabled(true);
+        $content = '
+            <p>
+                <span style="font-size: 20px;">元宵节是中国的传统节日</span>， <strong>早在2000多年前的秦朝就有了</strong>。据资料与民俗传说，正月十五在西汉已经受到重视，汉武帝正月上辛夜在 甘泉宫祭祀“太一”的活动，（太一：主宰宇宙一切的神），被后人视作正月十五祭祀天神的先声。
+            </p>
+            <p>
+                元宵，原意为“ 上元节的晚上”，因 正月十五“上元节”主要活动是晚上的吃汤圆赏月，后来节日名称演化为“元宵节”。元宵之夜，大街小巷张灯结彩，<span style="color: rgb(0, 0, 0);">人们赏灯</span>，<a class="ed_inner_link" target="_blank" href="https://baike.sogou.com/lemma/ShowInnerLink.htm?lemmaId=139837&ss_c=ssc.citiao.link">猜灯谜</a>，<a class="ed_inner_link" target="_blank" href="https://baike.sogou.com/lemma/ShowInnerLink.htm?lemmaId=507346&ss_c=ssc.citiao.link">吃元宵</a>，将从除夕开始延续的庆祝活动推向又一个高潮，成为世代相沿的习俗。元宵在早期节庆形成过程之时，只称正月十五日、正月半或月望，隋以后称元夕或元夜。唐初受了道教的影响，又称上元，<span style="background-color: rgb(141, 179, 226);">唐末才偶称元宵</span>。但自宋以后也称灯夕。<em>到了清朝</em>，<span style="text-decoration: underline;">就另称灯节</span>。
+            </p>
+            <p>
+                <br/>
+            </p>
+        ';
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/html-to-template.docx');
+        $templateProcessor->setHtml('content', $content);
+        $docName = 'html-to-template-test.docx';
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+        self::assertTrue($docFound);
+    }
+
+    /**
      * @covers ::setValue
      */
     public function testSetValueWithCustomMacro(): void
