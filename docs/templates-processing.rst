@@ -43,7 +43,7 @@ In template documents, only paragraph insertion is currently supported, such as:
 
     ${content}
 
-The html content of ``${content}`` directly replaces the ``${content}`` section in the template
+The HTML content of ``${content}`` will simply replace the paragraph in which ``${content}`` is located.
 
 .. code-block:: php
 
