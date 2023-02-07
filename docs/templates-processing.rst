@@ -40,11 +40,13 @@ setHtml
 In template documents, only paragraph insertion is currently supported, such as:
 
 .. code-block:: clean
+
     ${content}
 
 The html content of ``${content}`` directly replaces the ``${content}`` section in the template
 
 .. code-block:: php
+
     $templateProcessor->setHtml('content', '<p>This is the test.</p>');
 
 setMacroOpeningChars
