@@ -1,23 +1,16 @@
 # ![PHPWord](https://rawgit.com/PHPOffice/PHPWord/develop/docs/images/phpword.svg "PHPWord")
 
-Master: 
 [![Latest Stable Version](https://poser.pugx.org/phpoffice/phpword/v/stable.png)](https://packagist.org/packages/phpoffice/phpword)
-[![Build Status](https://travis-ci.org/PHPOffice/PHPWord.svg?branch=master)](https://travis-ci.org/PHPOffice/PHPWord)
+[![CI](https://github.com/PHPOffice/PHPWord/actions/workflows/ci.yml/badge.svg)](https://github.com/PHPOffice/PHPWord/actions/workflows/ci.yml)
 [![Code Quality](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/)
-[![Coverage Status](https://coveralls.io/repos/github/PHPOffice/PHPWord/badge.svg?branch=master)](https://coveralls.io/github/PHPOffice/PHPWord?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/)
 [![Total Downloads](https://poser.pugx.org/phpoffice/phpword/downloads.png)](https://packagist.org/packages/phpoffice/phpword)
 [![License](https://poser.pugx.org/phpoffice/phpword/license.png)](https://packagist.org/packages/phpoffice/phpword)
 [![Join the chat at https://gitter.im/PHPOffice/PHPWord](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/PHPOffice/PHPWord)
 
-Develop:
-[![Latest Development Version](https://img.shields.io/badge/unstable-dev--develop-orange.svg)](https://packagist.org/packages/phpoffice/phpword#dev-develop)
-[![Build Status](https://travis-ci.org/PHPOffice/PHPWord.svg?branch=develop)](https://travis-ci.org/PHPOffice/PHPWord/branches)
-[![Code Quality](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/?branch=develop)
-[![Coverage Status](https://coveralls.io/repos/github/PHPOffice/PHPWord/badge.svg?branch=develop)](https://coveralls.io/github/PHPOffice/PHPWord?branch=develop)
-
 PHPWord is a library written in pure PHP that provides a set of classes to write to and read from different document file formats. The current version of PHPWord supports Microsoft [Office Open XML](http://en.wikipedia.org/wiki/Office_Open_XML) (OOXML or OpenXML), OASIS [Open Document Format for Office Applications](http://en.wikipedia.org/wiki/OpenDocument) (OpenDocument or ODF), [Rich Text Format](http://en.wikipedia.org/wiki/Rich_Text_Format) (RTF), HTML, and PDF.
 
-PHPWord is an open source project licensed under the terms of [LGPL version 3](COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading the [Developers' Documentation](http://phpword.readthedocs.org/).
+PHPWord is an open source project licensed under the terms of [LGPL version 3](COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://github.com/PHPOffice/PHPWord/actions) and unit testing. You can learn more about PHPWord by reading the [Developers' Documentation](http://phpword.readthedocs.org/).
 
 If you have any questions, please ask on [StackOverFlow](https://stackoverflow.com/questions/tagged/phpword)
 
@@ -60,7 +53,7 @@ With PHPWord, you can create OOXML, ODF, or RTF documents dynamically using your
 
 PHPWord requires the following:
 
-- PHP 7.4+
+- PHP 7.1+
 - [XML Parser extension](http://www.php.net/manual/en/xml.installation.php)
 - [Laminas Escaper component](https://docs.laminas.dev/laminas-escaper/intro/)
 - [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write OOXML and ODF)
@@ -78,9 +71,9 @@ Run the following to use the latest stable version
 ```sh
 composer require phpoffice/phpword
 ```
-or if you want the latest develop version
+or if you want the latest unreleased version
 ```sh
-composer require phpoffice/phpword:dev-develop
+composer require phpoffice/phpword:dev-master
 ```
 
 ## Getting started
@@ -165,6 +158,6 @@ You can also read the [Developers' Documentation](http://phpword.readthedocs.org
 We welcome everyone to contribute to PHPWord. Below are some of the things that you can do to contribute.
 
 - Read [our contributing guide](CONTRIBUTING.md).
-- [Fork us](https://github.com/PHPOffice/PHPWord/fork) and [request a pull](https://github.com/PHPOffice/PHPWord/pulls) to the [develop](https://github.com/PHPOffice/PHPWord/tree/develop) branch.
+- [Fork us](https://github.com/PHPOffice/PHPWord/fork) and [request a pull](https://github.com/PHPOffice/PHPWord/pulls) to the [master](https://github.com/PHPOffice/PHPWord/tree/master) branch.
 - Submit [bug reports or feature requests](https://github.com/PHPOffice/PHPWord/issues) to GitHub.
 - Follow [@PHPWord](https://twitter.com/PHPWord) and [@PHPOffice](https://twitter.com/PHPOffice) on Twitter.

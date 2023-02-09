@@ -9,7 +9,7 @@ Requirements
 Mandatory:
 
 - composer
-- PHP 7.4+
+- PHP 7.1+
 - `XML Parser <http://www.php.net/manual/en/xml.installation.php>`__ extension
 
 Optional:
@@ -39,7 +39,7 @@ Example:
 
 .. code-block:: bash
 
-    composer require phpoffice/phpword:dev-develop
+    composer require phpoffice/phpword:dev-master
 
 Using samples
 -------------

@@ -39,29 +39,21 @@ class MsDoc extends AbstractReader implements ReaderInterface
 
     /**
      * WordDocument Stream.
-     *
-     * @var
      */
     private $dataWorkDocument;
 
     /**
      * 1Table Stream.
-     *
-     * @var
      */
     private $data1Table;
 
     /**
      * Data Stream.
-     *
-     * @var
      */
     private $dataData;
 
     /**
      * Object Pool Stream.
-     *
-     * @var
      */
     private $dataObjectPool;
 
@@ -1513,8 +1505,6 @@ class MsDoc extends AbstractReader implements ReaderInterface
     }
 
     /**
-     * @param $sprm
-     *
      * @return stdClass
      */
     private function readSprm($sprm)
