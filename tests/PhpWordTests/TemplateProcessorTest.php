@@ -322,7 +322,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers ::cloneRow
      */
-    public function testCloneNotExistingRowShouldThrowException()
+    public function testCloneNotExistingRowShouldThrowException(): void
     {
         $mainPart = '<?xml version="1.0" encoding="UTF-8"?><w:p><w:r><w:rPr></w:rPr><w:t>text</w:t></w:r></w:p>';
         $templateProcessor = new TestableTemplateProcesor($mainPart);
