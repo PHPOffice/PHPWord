@@ -177,7 +177,7 @@ Parameters:
   TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\\Style\\ListItem.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
 
-See ``Sample_09_Tables.php`` for more code sample.
+See ``Sample_14_ListItem.php`` for more code sample.
 
 Advanced usage:
 
