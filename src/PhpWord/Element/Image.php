@@ -381,9 +381,9 @@ class Image extends AbstractElement
         }
         if ($imageBinary !== null) {
             if ($base64) {
-                $imageData = chunk_split(base64_encode($imageBinary));
+                $imageData = base64_encode($imageBinary);
             } else {
-                $imageData = chunk_split(bin2hex($imageBinary));
+                $imageData = bin2hex($imageBinary);
             }
         }
 

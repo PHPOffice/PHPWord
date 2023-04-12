@@ -38,7 +38,7 @@ class Title extends Text
                 $sect = $element->getParent();
                 if ($sect instanceof \PhpOffice\PhpWord\Element\Section) {
                     $elems = $sect->getElements();
-                    if ($elems[0] === $element) {
+                    if (self::isEqual($elems[0], $element)) {
                         $pstyle = clone $pstyle;
                         $pstyle->setPageBreakBefore(false);
                     }
@@ -46,6 +46,15 @@ class Title extends Text
             }
             $this->paragraphStyle = $pstyle;
         }
+    }
+
+    /**
+     * @param mixed $comparand1
+     * @param mixed $comparand2
+     */
+    private static function isEqual($comparand1, $comparand2): bool
+    {
+        return $comparand1 === $comparand2;
     }
 
     /**
@@ -71,7 +80,7 @@ class Title extends Text
         $style = $element->getStyle();
         if (is_string($style)) {
             $style = str_replace('Heading', '', $style);
-            if (is_numeric($style)) {
+            if ("$style" !== '') {
                 $style = (int) $style - 1;
                 if ($style >= 0 && $style <= 8) {
                     $content .= '{\\outlinelevel' . $style;

@@ -82,7 +82,19 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $pdf->setKeywords($docProps->getKeywords());
         $pdf->setCreator($docProps->getCreator());
 
-        $pdf->writeHTML($this->getContent());
+        $html = $this->getContent();
+        $bodyLocation = strpos($html, '<body>');
+        // Make sure first data presented to Mpdf includes body tag
+        //   so that Mpdf doesn't parse it as content. Issue 2432.
+        if ($bodyLocation !== false) {
+            $bodyLocation += strlen('<body>');
+            $pdf->WriteHTML(substr($html, 0, $bodyLocation));
+            $html = substr($html, $bodyLocation);
+        }
+        $lines = \explode("\n", $html);
+        foreach ($lines as $line) {
+            $pdf->WriteHTML("$line\n");
+        }
 
         //  Write to file
         fwrite($fileHandle, $pdf->output($filename, 'S'));
