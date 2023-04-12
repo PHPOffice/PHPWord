@@ -46,7 +46,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
     /**
      * Gets the implementation of external PDF library that should be used.
      *
-     * @return Mpdf implementation
+     * @return \Mpdf\Mpdf implementation
      */
     protected function createExternalWriterInstance()
     {
