@@ -70,7 +70,7 @@
         "dompdf/dompdf": "^2.0",
         "mpdf/mpdf": "^8.1",
         "phpmd/phpmd": "^2.13",
-        "phpunit/phpunit": ">=7.0",
+        "phpunit/phpunit": "^7.0 || ^8.5 || ^9.0",
         "tecnickcom/tcpdf": "^6.5",
         "symfony/process": "^4.4",
         "friendsofphp/php-cs-fixer": "^3.3",
