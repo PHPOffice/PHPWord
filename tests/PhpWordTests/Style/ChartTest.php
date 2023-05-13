@@ -190,7 +190,10 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($chart->getValueAxisTitle(), 'Test Value Axis Title');
     }
 
-    public function testChartValueFontColor()
+    /**
+     * Testing valueFontColor getter and setter.
+     */
+    public function testChartValueFontColor(): void
     {
         // Create a new instance of the class that generates the chart
         $chart = new Chart();
