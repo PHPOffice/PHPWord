@@ -206,6 +206,6 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         $chart->setValueFontColor('FF0000');
 
         // Assert that the font color matches the expected value
-        self::assertEquals($fontColor, $chart->getValueFontColor());
+        self::assertEquals('FF0000', $chart->getValueFontColor());
     }
 }
