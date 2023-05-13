@@ -211,3 +211,4 @@ Available Chart style options:
 - ``showAxisLabels``. Show labels for axis, *true* or *false*.
 - ``gridX``. Show Gridlines for X-Axis, *true* or *false*.
 - ``gridY``. Show Gridlines for Y-Axis, *true* or *false*.
+- ``valueFontColor``. Color for the value inside the chart.
