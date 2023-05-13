@@ -253,10 +253,8 @@ class Chart extends AbstractPart
                 $xmlWriter->writeElementBlock("c:{$option}", 'val', (int) $val);
             }
 
-
-            // Customize font color for data labels (values) 
+            // Customize font color for data labels (values)
             if (null !== $style->getValueFontColor()) {
-                $xmlWriter->startElement('c:dLbls');
                 $xmlWriter->startElement('c:txPr');
                 $xmlWriter->startElement('a:bodyPr');
                 $xmlWriter->endElement(); // a:bodyPr
@@ -274,7 +272,6 @@ class Chart extends AbstractPart
                 $xmlWriter->endElement(); // a:pPr
                 $xmlWriter->endElement(); // a:p
                 $xmlWriter->endElement(); // c:txPr
-                $xmlWriter->endElement(); // c:dLbls
             }
 
             $xmlWriter->endElement(); // c:dLbls
