@@ -195,16 +195,14 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         // Create a new instance of the class that generates the chart
         $chart = new Chart();
 
-        // Set the desired font color for the data labels
-        $fontColor = 'FF0000'; // Red color
+        $chart->getValueFontColor();
+
+        self::assertEquals($chart->getValueFontColor(), null);
 
         // Set the font color using the setter method
-        $chart->setValueFontColor($fontColor);
-
-        // Get the font color using the getter method
-        $actualFontColor = $chart->getValueFontColor();
+        $chart->setValueFontColor('FF0000');
 
         // Assert that the font color matches the expected value
-        $this->assertEquals($fontColor, $actualFontColor);
+        self::assertEquals($fontColor, $chart->getValueFontColor());
     }
 }
