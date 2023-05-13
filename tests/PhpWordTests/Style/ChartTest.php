@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -187,5 +188,23 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         $chart->setValueAxisTitle('Test Value Axis Title');
 
         self::assertEquals($chart->getValueAxisTitle(), 'Test Value Axis Title');
+    }
+
+    public function testChartValueFontColor()
+    {
+        // Create a new instance of the class that generates the chart
+        $chart = new Chart();
+
+        // Set the desired font color for the data labels
+        $fontColor = 'FF0000'; // Red color
+
+        // Set the font color using the setter method
+        $chart->setValueFontColor($fontColor);
+
+        // Get the font color using the getter method
+        $actualFontColor = $chart->getValueFontColor();
+
+        // Assert that the font color matches the expected value
+        $this->assertEquals($fontColor, $actualFontColor);
     }
 }
