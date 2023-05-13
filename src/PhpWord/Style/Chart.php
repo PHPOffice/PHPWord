@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -147,6 +148,13 @@ class Chart extends AbstractStyle
      * @var bool
      */
     private $gridX = false;
+
+    /**
+     * Chart value font color.
+     *
+     * @var string
+     */
+    private $valueFontColor;
 
     /**
      * Create a new instance.
@@ -547,6 +555,30 @@ class Chart extends AbstractStyle
     public function setShowGridX($value = true)
     {
         $this->gridX = $this->setBoolVal($value, $this->gridX);
+
+        return $this;
+    }
+
+    /**
+     * Get the chart value font color.
+     *
+     * @return string
+     */
+    public function getValueFontColor()
+    {
+        return $this->valueFontColor;
+    }
+
+    /**
+     * Set the chart value font color.
+     *
+     * @param string $color
+     *
+     * @return self
+     */
+    public function setValueFontColor($color)
+    {
+        $this->valueFontColor = $color;
 
         return $this;
     }
