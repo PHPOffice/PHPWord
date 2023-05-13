@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -250,6 +251,31 @@ class Chart extends AbstractPart
 
             foreach ($style->getDataLabelOptions() as $option => $val) {
                 $xmlWriter->writeElementBlock("c:{$option}", 'val', (int) $val);
+            }
+
+
+            // Customize font color for data labels (values)
+            $fontColor = $style->getValueFontColor();
+            if ($fontColor) {
+                $xmlWriter->startElement('c:dLbls');
+                $xmlWriter->startElement('c:txPr');
+                $xmlWriter->startElement('a:bodyPr');
+                $xmlWriter->endElement(); // a:bodyPr
+                $xmlWriter->startElement('a:lstStyle');
+                $xmlWriter->endElement(); // a:lstStyle
+                $xmlWriter->startElement('a:p');
+                $xmlWriter->startElement('a:pPr');
+                $xmlWriter->startElement('a:defRPr');
+                $xmlWriter->startElement('a:solidFill');
+                $xmlWriter->startElement('a:srgbClr');
+                $xmlWriter->writeAttribute('val', $fontColor);
+                $xmlWriter->endElement(); // a:srgbClr
+                $xmlWriter->endElement(); // a:solidFill
+                $xmlWriter->endElement(); // a:defRPr
+                $xmlWriter->endElement(); // a:pPr
+                $xmlWriter->endElement(); // a:p
+                $xmlWriter->endElement(); // c:txPr
+                $xmlWriter->endElement(); // c:dLbls
             }
 
             $xmlWriter->endElement(); // c:dLbls
