@@ -1266,7 +1266,7 @@ class TemplateProcessor
     }
 
     /**
-     * Raplaces variables with values from array, array keys are the variable names.
+     * Replaces variables with values from array, array keys are the variable names.
      *
      * @param array $variableReplacements
      * @param string $xmlBlock
