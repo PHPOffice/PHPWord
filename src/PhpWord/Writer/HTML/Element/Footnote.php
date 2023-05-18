@@ -11,28 +11,28 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
- * Footnote element HTML writer
+ * Footnote element HTML writer.
  *
  * @since 0.10.0
  */
 class Footnote extends AbstractElement
 {
     /**
-     * Note type footnote|endnote
+     * Note type footnote|endnote.
      *
      * @var string
      */
     protected $noteType = 'footnote';
 
     /**
-     * Write footnote/endnote marks; The actual content is written in parent writer (HTML)
+     * Write footnote/endnote marks; The actual content is written in parent writer (HTML).
      *
      * @return string
      */

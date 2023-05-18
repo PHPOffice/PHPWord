@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,14 +20,14 @@ namespace PhpOffice\PhpWord\Writer\ODText\Element;
 use PhpOffice\PhpWord\Writer\Word2007\Element\Container as Word2007Container;
 
 /**
- * Container element writer (section, textrun, header, footnote, cell, etc.)
+ * Container element writer (section, textrun, header, footnote, cell, etc.).
  *
  * @since 0.11.0
  */
 class Container extends Word2007Container
 {
     /**
-     * Namespace; Can't use __NAMESPACE__ in inherited class (ODText)
+     * Namespace; Can't use __NAMESPACE__ in inherited class (ODText).
      *
      * @var string
      */

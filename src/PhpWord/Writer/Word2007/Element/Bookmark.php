@@ -11,23 +11,23 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
- * Bookmark element writer
+ * Bookmark element writer.
  *
  * @since 0.12.0
  */
 class Bookmark extends AbstractElement
 {
     /**
-     * Write bookmark element
+     * Write bookmark element.
      */
-    public function write()
+    public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();

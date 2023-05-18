@@ -8,9 +8,9 @@ Requirements
 
 Mandatory:
 
-- PHP 5.3.3+
+- composer
+- PHP 7.1+
 - `XML Parser <http://www.php.net/manual/en/xml.installation.php>`__ extension
-- `Laminas Escaper <https://docs.laminas.dev/laminas-escaper/intro/>`__ component
 
 Optional:
 
@@ -28,26 +28,18 @@ You just need to `add dependency <https://getcomposer.org/doc/04-schema.md#packa
 
 Example:
 
-.. code-block:: json
+.. code-block:: bash
 
-    {
-        "require": {
-           "phpoffice/phpword": "v0.18.*"
-        }
-    }
+    composer require phpoffice/phpword
 
 If you are a developer or if you want to help us with testing then fetch the latest branch for developers.
 Notice: all contributions must be done against the developer branch.
 
 Example:
 
-.. code-block:: json
+.. code-block:: bash
 
-    {
-        "require": {
-           "phpoffice/phpword": "dev-develop"
-        }
-    }
+    composer require phpoffice/phpword:dev-master
 
 Using samples
 -------------

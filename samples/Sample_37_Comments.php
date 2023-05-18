@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word Document
@@ -7,7 +8,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // A comment
 $comment = new \PhpOffice\PhpWord\Element\Comment('Authors name', new \DateTime(), 'my_initials');
-$comment->addText('Test', array('bold' => true));
+$comment->addText('Test', ['bold' => true]);
 $phpWord->addComment($comment);
 
 $section = $phpWord->addSection();
@@ -27,9 +28,9 @@ $phpWord->addComment($commentWithStartAndEnd);
 
 $textrunWithEnd = $section->addTextRun();
 $textrunWithEnd->addText('This ');
-$textToStartOn = $textrunWithEnd->addText('is', array('bold' => true));
+$textToStartOn = $textrunWithEnd->addText('is', ['bold' => true]);
 $textToStartOn->setCommentRangeStart($commentWithStartAndEnd);
-$textrunWithEnd->addText(' another', array('italic' => true));
+$textrunWithEnd->addText(' another', ['italic' => true]);
 $textToEndOn = $textrunWithEnd->addText(' test');
 $textToEndOn->setCommentRangeEnd($commentWithStartAndEnd);
 
@@ -39,7 +40,7 @@ $section->addTextBreak(2);
 $commentOnImage = new \PhpOffice\PhpWord\Element\Comment('Mr Smart', new \DateTime());
 $imageComment = $commentOnImage->addTextRun();
 $imageComment->addText('Hey, Mars does look ');
-$imageComment->addText('red', array('color' => 'FF0000'));
+$imageComment->addText('red', ['color' => 'FF0000']);
 $phpWord->addComment($commentOnImage);
 $image = $section->addImage('resources/_mars.jpg');
 $image->setCommentRangeStart($commentOnImage);
@@ -50,7 +51,7 @@ $section->addTextBreak(2);
 $anotherText = $section->addText('another text');
 
 $comment1 = new \PhpOffice\PhpWord\Element\Comment('Authors name', new \DateTime(), 'my_initials');
-$comment1->addText('Test', array('bold' => true));
+$comment1->addText('Test', ['bold' => true]);
 $comment1->setStartElement($anotherText);
 $comment1->setEndElement($anotherText);
 $phpWord->addComment($comment1);

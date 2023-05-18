@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 /**
- * Line numbering style writer
+ * Line numbering style writer.
  *
  * @since 0.10.0
  */
@@ -33,11 +33,11 @@ class Tab extends AbstractStyle
         if (!$style instanceof \PhpOffice\PhpWord\Style\Tab) {
             return;
         }
-        $tabs = array(
-            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT   => '\tqr',
-            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER  => '\tqc',
+        $tabs = [
+            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT => '\tqr',
+            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER => '\tqc',
             \PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL => '\tqdec',
-        );
+        ];
         $content = '';
         if (isset($tabs[$style->getType()])) {
             $content .= $tabs[$style->getType()];

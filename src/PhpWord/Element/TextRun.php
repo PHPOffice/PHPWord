@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Element;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
- * Textrun/paragraph element
+ * Textrun/paragraph element.
  */
 class TextRun extends AbstractContainer
 {
@@ -30,16 +30,16 @@ class TextRun extends AbstractContainer
     protected $container = 'TextRun';
 
     /**
-     * Paragraph style
+     * Paragraph style.
      *
-     * @var string|\PhpOffice\PhpWord\Style\Paragraph
+     * @var \PhpOffice\PhpWord\Style\Paragraph|string
      */
     protected $paragraphStyle;
 
     /**
-     * Create new instance
+     * Create new instance.
      *
-     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @param array|\PhpOffice\PhpWord\Style\Paragraph|string $paragraphStyle
      */
     public function __construct($paragraphStyle = null)
     {
@@ -47,9 +47,9 @@ class TextRun extends AbstractContainer
     }
 
     /**
-     * Get Paragraph style
+     * Get Paragraph style.
      *
-     * @return string|\PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph|string
      */
     public function getParagraphStyle()
     {
@@ -57,10 +57,11 @@ class TextRun extends AbstractContainer
     }
 
     /**
-     * Set Paragraph style
+     * Set Paragraph style.
      *
-     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $style
-     * @return string|\PhpOffice\PhpWord\Style\Paragraph
+     * @param array|\PhpOffice\PhpWord\Style\Paragraph|string $style
+     *
+     * @return \PhpOffice\PhpWord\Style\Paragraph|string
      */
     public function setParagraphStyle($style = null)
     {

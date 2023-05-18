@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,12 +23,12 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
- * Word2007 writer part abstract class
+ * Word2007 writer part abstract class.
  */
 abstract class AbstractPart
 {
     /**
-     * Parent writer
+     * Parent writer.
      *
      * @var \PhpOffice\PhpWord\Writer\AbstractWriter
      */
@@ -40,7 +40,7 @@ abstract class AbstractPart
     protected $dateFormat = 'Y-m-d\TH:i:sP';
 
     /**
-     * Write part
+     * Write part.
      *
      * @return string
      */
@@ -51,34 +51,34 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
      */
-    public function setParentWriter(AbstractWriter $writer = null)
+    public function setParentWriter(?AbstractWriter $writer = null): void
     {
         $this->parentWriter = $writer;
     }
 
     /**
-     * Get parent writer
+     * Get parent writer.
      *
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      * @return \PhpOffice\PhpWord\Writer\AbstractWriter
      */
     public function getParentWriter()
     {
-        if (!is_null($this->parentWriter)) {
+        if (null !== $this->parentWriter) {
             return $this->parentWriter;
         }
+
         throw new Exception('No parent WriterInterface assigned.');
     }
 
     /**
-     * Get XML Writer
+     * Get XML Writer.
      *
      * @return \PhpOffice\PhpWord\Shared\XMLWriter
      */
     protected function getXmlWriter()
     {
         $useDiskCaching = false;
-        if (!is_null($this->parentWriter)) {
+        if (null !== $this->parentWriter) {
             if ($this->parentWriter->isUseDiskCaching()) {
                 $useDiskCaching = true;
             }
@@ -91,9 +91,10 @@ abstract class AbstractPart
     }
 
     /**
-     * Write an XML text, this will call text() or writeRaw() depending on the value of Settings::isOutputEscapingEnabled()
+     * Write an XML text, this will call text() or writeRaw() depending on the value of Settings::isOutputEscapingEnabled().
      *
      * @param string $content The text string to write
+     *
      * @return bool Returns true on success or false on failure
      */
     protected function writeText($content)

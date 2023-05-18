@@ -11,21 +11,21 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
- * TextRun element HTML writer
+ * TextRun element HTML writer.
  *
  * @since 0.10.0
  */
 class TextRun extends Text
 {
     /**
-     * Write text run
+     * Write text run.
      *
      * @return string
      */

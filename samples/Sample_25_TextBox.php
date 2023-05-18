@@ -1,4 +1,5 @@
 <?php
+
 include_once 'Sample_Header.php';
 
 // New Word Document
@@ -10,13 +11,13 @@ $section = $phpWord->addSection();
 
 // In section
 $textbox = $section->addTextBox(
-    array(
-        'alignment'   => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
-        'width'       => 400,
-        'height'      => 150,
-        'borderSize'  => 1,
+    [
+        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
+        'width' => 400,
+        'height' => 150,
+        'borderSize' => 1,
         'borderColor' => '#FF0000',
-    )
+    ]
 );
 $textbox->addText('Text box content in section.');
 $textbox->addText('Another line.');
@@ -26,19 +27,19 @@ $cell->addText('Table inside textbox');
 // Inside table
 $section->addTextBreak(2);
 $cell = $section->addTable()->addRow()->addCell(300);
-$textbox = $cell->addTextBox(array('borderSize' => 1, 'borderColor' => '#0000FF', 'innerMargin' => 100));
+$textbox = $cell->addTextBox(['borderSize' => 1, 'borderColor' => '#0000FF', 'innerMargin' => 100]);
 $textbox->addText('Textbox inside table');
 
 // Inside header with textrun
 $header = $section->addHeader();
-$textbox = $header->addTextBox(array('width' => 600, 'borderSize' => 1, 'borderColor' => '#00FF00'));
+$textbox = $header->addTextBox(['width' => 600, 'borderSize' => 1, 'borderColor' => '#00FF00']);
 $textrun = $textbox->addTextRun();
 $textrun->addText('TextBox in header. TextBox can contain a TextRun ');
-$textrun->addText('with bold text', array('bold' => true));
+$textrun->addText('with bold text', ['bold' => true]);
 $textrun->addText(', ');
 $textrun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
 $textrun->addText(', and image ');
-$textrun->addImage('resources/_earth.jpg', array('width' => 18, 'height' => 18));
+$textrun->addImage('resources/_earth.jpg', ['width' => 18, 'height' => 18]);
 $textrun->addText('.');
 
 // Save file

@@ -11,19 +11,19 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
- * Tab style
+ * Tab style.
  */
 class Tab extends AbstractStyle
 {
     /**
-     * Tab stop types
+     * Tab stop types.
      *
      * @const string
      */
@@ -36,7 +36,7 @@ class Tab extends AbstractStyle
     const TAB_STOP_NUM = 'num';
 
     /**
-     * Tab leader types
+     * Tab leader types.
      *
      * @const string
      */
@@ -48,23 +48,23 @@ class Tab extends AbstractStyle
     const TAB_LEADER_MIDDLEDOT = 'middleDot';
 
     /**
-     * Tab stop type
+     * Tab stop type.
      *
      * @var string
      */
     private $type = self::TAB_STOP_CLEAR;
 
     /**
-     * Tab leader character
+     * Tab leader character.
      *
      * @var string
      */
     private $leader = self::TAB_LEADER_NONE;
 
     /**
-     * Tab stop position (twip)
+     * Tab stop position (twip).
      *
-     * @var int|float
+     * @var float|int
      */
     private $position = 0;
 
@@ -79,14 +79,14 @@ class Tab extends AbstractStyle
      */
     public function __construct($type = null, $position = 0, $leader = null)
     {
-        $stopTypes = array(
+        $stopTypes = [
             self::TAB_STOP_CLEAR, self::TAB_STOP_LEFT, self::TAB_STOP_CENTER,
             self::TAB_STOP_RIGHT, self::TAB_STOP_DECIMAL, self::TAB_STOP_BAR, self::TAB_STOP_NUM,
-        );
-        $leaderTypes = array(
+        ];
+        $leaderTypes = [
             self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
             self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT,
-        );
+        ];
 
         $this->type = $this->setEnumVal($type, $stopTypes, $this->type);
         $this->position = $this->setNumericVal($position, $this->position);
@@ -94,7 +94,7 @@ class Tab extends AbstractStyle
     }
 
     /**
-     * Get stop type
+     * Get stop type.
      *
      * @return string
      */
@@ -104,25 +104,26 @@ class Tab extends AbstractStyle
     }
 
     /**
-     * Set stop type
+     * Set stop type.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setType($value)
     {
-        $enum = array(
+        $enum = [
             self::TAB_STOP_CLEAR, self::TAB_STOP_LEFT, self::TAB_STOP_CENTER,
             self::TAB_STOP_RIGHT, self::TAB_STOP_DECIMAL, self::TAB_STOP_BAR,
             self::TAB_STOP_NUM,
-        );
+        ];
         $this->type = $this->setEnumVal($value, $enum, $this->type);
 
         return $this;
     }
 
     /**
-     * Get leader
+     * Get leader.
      *
      * @return string
      */
@@ -132,26 +133,27 @@ class Tab extends AbstractStyle
     }
 
     /**
-     * Set leader
+     * Set leader.
      *
      * @param string $value
+     *
      * @return self
      */
     public function setLeader($value)
     {
-        $enum = array(
+        $enum = [
             self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
             self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT,
-        );
+        ];
         $this->leader = $this->setEnumVal($value, $enum, $this->leader);
 
         return $this;
     }
 
     /**
-     * Get position
+     * Get position.
      *
-     * @return int|float
+     * @return float|int
      */
     public function getPosition()
     {
@@ -159,9 +161,10 @@ class Tab extends AbstractStyle
     }
 
     /**
-     * Set position
+     * Set position.
      *
-     * @param int|float $value
+     * @param float|int $value
+     *
      * @return self
      */
     public function setPosition($value)

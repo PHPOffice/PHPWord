@@ -11,21 +11,22 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Footer element
+ * Footer element.
  */
 class Footer extends AbstractContainer
 {
     /**
-     * Header/footer types constants
+     * Header/footer types constants.
      *
      * @var string
+     *
      * @see  http://www.datypic.com/sc/ooxml/t-w_ST_HdrFtr.html Header or Footer Type
      */
     const AUTO = 'default';  // default and odd pages
@@ -38,14 +39,14 @@ class Footer extends AbstractContainer
     protected $container = 'Footer';
 
     /**
-     * Header type
+     * Header type.
      *
      * @var string
      */
     protected $type = self::AUTO;
 
     /**
-     * Create new instance
+     * Create new instance.
      *
      * @param int $sectionId
      * @param int $containerId
@@ -65,18 +66,19 @@ class Footer extends AbstractContainer
      *
      * @param string $value
      */
-    public function setType($value = self::AUTO)
+    public function setType($value = self::AUTO): void
     {
-        if (!in_array($value, array(self::AUTO, self::FIRST, self::EVEN))) {
+        if (!in_array($value, [self::AUTO, self::FIRST, self::EVEN])) {
             $value = self::AUTO;
         }
         $this->type = $value;
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
+     *
      * @since 0.10.0
      */
     public function getType()
@@ -85,7 +87,7 @@ class Footer extends AbstractContainer
     }
 
     /**
-     * Reset type to default
+     * Reset type to default.
      *
      * @return string
      */
@@ -95,7 +97,7 @@ class Footer extends AbstractContainer
     }
 
     /**
-     * First page only header
+     * First page only header.
      *
      * @return string
      */
@@ -105,7 +107,7 @@ class Footer extends AbstractContainer
     }
 
     /**
-     * Even numbered pages only
+     * Even numbered pages only.
      *
      * @return string
      */

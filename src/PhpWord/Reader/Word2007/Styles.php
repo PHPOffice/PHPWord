@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 use PhpOffice\PhpWord\Style\Language;
 
 /**
- * Styles reader
+ * Styles reader.
  *
  * @since 0.10.0
  */
@@ -30,10 +30,8 @@ class Styles extends AbstractPart
 {
     /**
      * Read styles.xml.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public function read(PhpWord $phpWord)
+    public function read(PhpWord $phpWord): void
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
@@ -65,10 +63,10 @@ class Styles extends AbstractPart
             foreach ($nodes as $node) {
                 $type = $xmlReader->getAttribute('w:type', $node);
                 $name = $xmlReader->getAttribute('w:val', $node, 'w:name');
-                if (is_null($name)) {
+                if (null === $name) {
                     $name = $xmlReader->getAttribute('w:styleId', $node);
                 }
-                $headingMatches = array();
+                $headingMatches = [];
                 preg_match('/Heading\s*(\d)/i', $name, $headingMatches);
                 // $default = ($xmlReader->getAttribute('w:default', $node) == 1);
                 switch ($type) {
@@ -86,18 +84,21 @@ class Styles extends AbstractPart
                                 $phpWord->addFontStyle($name, $fontStyle, $paragraphStyle);
                             }
                         }
+
                         break;
                     case 'character':
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
                         if (!empty($fontStyle)) {
                             $phpWord->addFontStyle($name, $fontStyle);
                         }
+
                         break;
                     case 'table':
                         $tStyle = $this->readTableStyle($xmlReader, $node);
                         if (!empty($tStyle)) {
                             $phpWord->addTableStyle($name, $tStyle);
                         }
+
                         break;
                 }
             }
