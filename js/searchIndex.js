@@ -1146,6 +1146,11 @@ Search.appendIndex(
             "summary": "Get\u0020image\u0020function.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageFunction"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageQuality\u0028\u0029",
+            "name": "getImageQuality",
+            "summary": "Get\u0020image\u0020quality.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageQuality"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageExtension\u0028\u0029",
             "name": "getImageExtension",
             "summary": "Get\u0020image\u0020extension.",
@@ -1175,6 +1180,11 @@ Search.appendIndex(
             "name": "setMediaIndex",
             "summary": "Set\u0020media\u0020index.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_setMediaIndex"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageString\u0028\u0029",
+            "name": "getImageString",
+            "summary": "Get\u0020image\u0020string.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageString"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageStringData\u0028\u0029",
             "name": "getImageStringData",
@@ -1270,6 +1280,11 @@ Search.appendIndex(
             "name": "imageExtension",
             "summary": "Image\u0020extension.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_imageExtension"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024imageQuality",
+            "name": "imageQuality",
+            "summary": "Image\u0020quality.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_imageQuality"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024memoryImage",
             "name": "memoryImage",
@@ -4496,6 +4511,46 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Shared-Converter.html#constant_DEGREE_TO_ANGLE"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Css",
+            "name": "Css",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Css.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Css\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Css.html#method___construct"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Css\u003A\u003Aprocess\u0028\u0029",
+            "name": "process",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Css.html#method_process"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Css\u003A\u003AgetStyles\u0028\u0029",
+            "name": "getStyles",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Css.html#method_getStyles"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Css\u003A\u003AgetStyle\u0028\u0029",
+            "name": "getStyle",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Css.html#method_getStyle"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Css\u003A\u003Asanitize\u0028\u0029",
+            "name": "sanitize",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Css.html#method_sanitize"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Css\u003A\u003A\u0024cssContent",
+            "name": "cssContent",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Css.html#property_cssContent"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Css\u003A\u003A\u0024styles",
+            "name": "styles",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Css.html#property_styles"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Drawing",
             "name": "Drawing",
             "summary": "Drawing.",
@@ -4686,6 +4741,11 @@ Search.appendIndex(
             "summary": "Parse\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseStyle"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseStyleDeclarations\u0028\u0029",
+            "name": "parseStyleDeclarations",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseStyleDeclarations"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseImage\u0028\u0029",
             "name": "parseImage",
             "summary": "Parse\u0020image\u0020node.",
@@ -4745,6 +4805,11 @@ Search.appendIndex(
             "name": "options",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#property_options"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003A\u0024css",
+            "name": "css",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Html.html#property_css"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder",
             "name": "PasswordEncoder",
@@ -8456,6 +8521,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_FR_BE_ID"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AFR_CH",
+            "name": "FR_CH",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_FR_CH"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AFR_CH_ID",
+            "name": "FR_CH_ID",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_FR_CH_ID"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AES_ES",
             "name": "ES_ES",
             "summary": "",
@@ -8476,6 +8551,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_DE_DE_ID"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003ADE_CH",
+            "name": "DE_CH",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_DE_CH"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003ADE_CH_ID",
+            "name": "DE_CH_ID",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_DE_CH_ID"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AHE_IL",
             "name": "HE_IL",
             "summary": "",
@@ -8495,6 +8580,16 @@ Search.appendIndex(
             "name": "IT_IT_ID",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_IT_IT_ID"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AIT_CH",
+            "name": "IT_CH",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_IT_CH"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AIT_CH_ID",
+            "name": "IT_CH_ID",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_IT_CH_ID"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AJA_JP",
             "name": "JA_JP",
@@ -8555,6 +8650,16 @@ Search.appendIndex(
             "name": "NL_NL_ID",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_NL_NL_ID"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003ASV_SE",
+            "name": "SV_SE",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_SV_SE"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003ASV_SE_ID",
+            "name": "SV_SE_ID",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Language.html#constant_SV_SE_ID"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Language\u003A\u003AUK_UA",
             "name": "UK_UA",
@@ -11226,6 +11331,16 @@ Search.appendIndex(
             "summary": "TextBox\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AsetBgColor\u0028\u0029",
+            "name": "setBgColor",
+            "summary": "Set\u0020background\u0020color.",
+            "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#method_setBgColor"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AgetBgColor\u0028\u0029",
+            "name": "getBgColor",
+            "summary": "Get\u0020background\u0020color.",
+            "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#method_getBgColor"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003AsetInnerMarginTop\u0028\u0029",
             "name": "setInnerMarginTop",
             "summary": "Set\u0020margin\u0020top.",
@@ -11330,6 +11445,11 @@ Search.appendIndex(
             "name": "borderColor",
             "summary": "border\u0020color.",
             "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#property_borderColor"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\TextBox\u003A\u003A\u0024bgColor",
+            "name": "bgColor",
+            "summary": "background\u0020color.",
+            "url": "classes/PhpOffice-PhpWord-Style-TextBox.html#property_bgColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\TOC",
             "name": "TOC",
@@ -11561,6 +11681,11 @@ Search.appendIndex(
             "summary": "Clone\u0020a\u0020table\u0020row\u0020in\u0020a\u0020template\u0020document.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_cloneRow"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AdeleteRow\u0028\u0029",
+            "name": "deleteRow",
+            "summary": "Delete\u0020a\u0020table\u0020row\u0020in\u0020a\u0020template\u0020document.",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_deleteRow"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AcloneRowAndSetValues\u0028\u0029",
             "name": "cloneRowAndSetValues",
             "summary": "Clones\u0020a\u0020table\u0020row\u0020and\u0020populates\u0020it\u0027s\u0020values\u0020from\u0020a\u0020two\u002Ddimensional\u0020array\u0020in\u0020a\u0020template\u0020document.",
@@ -11651,6 +11776,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_getDocumentContentTypesName"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AfindTableStart\u0028\u0029",
+            "name": "findTableStart",
+            "summary": "Find\u0020the\u0020start\u0020position\u0020of\u0020the\u0020nearest\u0020table\u0020before\u0020\u0024offset.",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findTableStart"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AfindTableEnd\u0028\u0029",
+            "name": "findTableEnd",
+            "summary": "Find\u0020the\u0020end\u0020position\u0020of\u0020the\u0020nearest\u0020table\u0020row\u0020after\u0020\u0024offset.",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findTableEnd"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AfindRowStart\u0028\u0029",
             "name": "findRowStart",
             "summary": "Find\u0020the\u0020start\u0020position\u0020of\u0020the\u0020nearest\u0020table\u0020row\u0020before\u0020\u0024offset.",
@@ -11673,7 +11808,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AreplaceClonedVariables\u0028\u0029",
             "name": "replaceClonedVariables",
-            "summary": "Raplaces\u0020variables\u0020with\u0020values\u0020from\u0020array,\u0020array\u0020keys\u0020are\u0020the\u0020variable\u0020names.",
+            "summary": "Replaces\u0020variables\u0020with\u0020values\u0020from\u0020array,\u0020array\u0020keys\u0020are\u0020the\u0020variable\u0020names.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_replaceClonedVariables"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AreplaceXmlBlock\u0028\u0029",
@@ -11710,6 +11845,21 @@ Search.appendIndex(
             "name": "textNeedsSplitting",
             "summary": "Returns\u0020true\u0020if\u0020string\u0020contains\u0020a\u0020macro\u0020that\u0020is\u0020not\u0020in\u0020it\u0027s\u0020own\u0020w\u003Ar.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_textNeedsSplitting"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AsetMacroOpeningChars\u0028\u0029",
+            "name": "setMacroOpeningChars",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroOpeningChars"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AsetMacroClosingChars\u0028\u0029",
+            "name": "setMacroClosingChars",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroClosingChars"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AsetMacroChars\u0028\u0029",
+            "name": "setMacroChars",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroChars"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AMAXIMUM_REPLACEMENTS_DEFAULT",
             "name": "MAXIMUM_REPLACEMENTS_DEFAULT",
@@ -11760,6 +11910,16 @@ Search.appendIndex(
             "name": "tempDocumentNewImages",
             "summary": "new\u0020inserted\u0020images\u0020list.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#property_tempDocumentNewImages"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003A\u0024macroOpeningChars",
+            "name": "macroOpeningChars",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#property_macroOpeningChars"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003A\u0024macroClosingChars",
+            "name": "macroClosingChars",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#property_macroClosingChars"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\AbstractWriter",
             "name": "AbstractWriter",

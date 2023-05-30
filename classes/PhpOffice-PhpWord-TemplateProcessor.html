@@ -116,6 +116,20 @@
 <dd></dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#property_macroClosingChars">$macroClosingChars</a>
+    <span>
+                &nbsp;: mixed            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#property_macroOpeningChars">$macroOpeningChars</a>
+    <span>
+                &nbsp;: mixed            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#property_tempDocumentContentTypes">$tempDocumentContentTypes</a>
     <span>
                 &nbsp;: string            </span>
@@ -221,6 +235,13 @@
 <dd>Delete a block of text.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_deleteRow">deleteRow()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Delete a table row in a template document.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_getVariableCount">getVariableCount()</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;    </span>
@@ -285,6 +306,27 @@
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setImageValue">setImageValue()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroChars">setMacroChars()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroClosingChars">setMacroClosingChars()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroOpeningChars">setMacroOpeningChars()</a>
     <span>
                         &nbsp;: void    </span>
 </dt>
@@ -465,7 +507,7 @@ rows/blocks with indexed names.</dd>
     <span>
                         &nbsp;: array&lt;string|int, string&gt;    </span>
 </dt>
-<dd>Raplaces variables with values from array, array keys are the variable names.</dd>
+<dd>Replaces variables with values from array, array keys are the variable names.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_savePartWithRels">savePartWithRels()</a>
@@ -522,6 +564,20 @@ rows/blocks with indexed names.</dd>
                         &nbsp;: mixed    </span>
 </dt>
 <dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findTableEnd">findTableEnd()</a>
+    <span>
+                        &nbsp;: int    </span>
+</dt>
+<dd>Find the end position of the nearest table row after $offset.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findTableStart">findTableStart()</a>
+    <span>
+                        &nbsp;: int    </span>
+</dt>
+<dd>Find the start position of the nearest table before $offset.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_fixImageWidthHeightRatio">fixImageWidthHeightRatio()</a>
@@ -587,6 +643,66 @@ rows/blocks with indexed names.</dd>
             Properties
             <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+            -static                                            "
+>
+    <h4 class="phpdocumentor-element__name" id="property_macroClosingChars">
+        $macroClosingChars
+        <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#property_macroClosingChars" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">99</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+    <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">$macroClosingChars</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;}&#039;</span></code>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+            -static                                            "
+>
+    <h4 class="phpdocumentor-element__name" id="property_macroOpeningChars">
+        $macroOpeningChars
+        <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#property_macroOpeningChars" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">97</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+    <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">$macroOpeningChars</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;${&#039;</span></code>
+
+    
+    
+
+</article>
                     <article
         class="
             phpdocumentor-element
@@ -894,7 +1010,7 @@ rows/blocks with indexed names.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">102</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 </aside>
 
     
@@ -955,7 +1071,7 @@ rows/blocks with indexed names.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">220</span>
+    <span class="phpdocumentor-element-found-in__line">224</span>
 </aside>
 
         <p class="phpdocumentor-summary">Applies XSL style sheet to template&#039;s parts.</p>
@@ -1018,7 +1134,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">791</span>
+    <span class="phpdocumentor-element-found-in__line">859</span>
 </aside>
 
         <p class="phpdocumentor-summary">Clone a block.</p>
@@ -1098,7 +1214,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">716</span>
+    <span class="phpdocumentor-element-found-in__line">720</span>
 </aside>
 
         <p class="phpdocumentor-summary">Clone a table row in a template document.</p>
@@ -1151,7 +1267,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">768</span>
+    <span class="phpdocumentor-element-found-in__line">836</span>
 </aside>
 
         <p class="phpdocumentor-summary">Clones a table row and populates it&#039;s values from a two-dimensional array in a template document.</p>
@@ -1204,7 +1320,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">855</span>
+    <span class="phpdocumentor-element-found-in__line">929</span>
 </aside>
 
         <p class="phpdocumentor-summary">Delete a block of text.</p>
@@ -1242,6 +1358,50 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_deleteRow">
+        deleteRow()
+        <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_deleteRow" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">769</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Delete a table row in a template document.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">deleteRow</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$search</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getVariableCount">
         getVariableCount()
         <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_getVariableCount" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1249,7 +1409,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">679</span>
+    <span class="phpdocumentor-element-found-in__line">683</span>
 </aside>
 
         <p class="phpdocumentor-summary">Returns count of all variables in template.</p>
@@ -1283,7 +1443,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">705</span>
+    <span class="phpdocumentor-element-found-in__line">709</span>
 </aside>
 
         <p class="phpdocumentor-summary">Returns array of all variables in template.</p>
@@ -1317,7 +1477,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">832</span>
+    <span class="phpdocumentor-element-found-in__line">904</span>
 </aside>
 
         <p class="phpdocumentor-summary">Replace a block.</p>
@@ -1370,7 +1530,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1182</span>
+    <span class="phpdocumentor-element-found-in__line">1299</span>
 </aside>
 
         <p class="phpdocumentor-summary">Replace an XML block surrounding a macro with a new block.</p>
@@ -1435,7 +1595,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">881</span>
+    <span class="phpdocumentor-element-found-in__line">955</span>
 </aside>
 
         <p class="phpdocumentor-summary">Saves the result document.</p>
@@ -1469,7 +1629,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">924</span>
+    <span class="phpdocumentor-element-found-in__line">998</span>
 </aside>
 
         <p class="phpdocumentor-summary">Saves the result document to the user defined file.</p>
@@ -1529,7 +1689,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">355</span>
+    <span class="phpdocumentor-element-found-in__line">359</span>
 </aside>
 
     
@@ -1580,7 +1740,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">294</span>
+    <span class="phpdocumentor-element-found-in__line">298</span>
 </aside>
 
     
@@ -1632,7 +1792,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">266</span>
+    <span class="phpdocumentor-element-found-in__line">270</span>
 </aside>
 
     
@@ -1684,7 +1844,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">598</span>
+    <span class="phpdocumentor-element-found-in__line">602</span>
 </aside>
 
     
@@ -1738,6 +1898,139 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_setMacroChars">
+        setMacroChars()
+        <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroChars" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1447</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">setMacroChars</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$macroOpeningChars</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$macroClosingChars</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$macroOpeningChars</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$macroClosingChars</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setMacroClosingChars">
+        setMacroClosingChars()
+        <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroClosingChars" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1442</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">setMacroClosingChars</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$macroClosingChars</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$macroClosingChars</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setMacroOpeningChars">
+        setMacroOpeningChars()
+        <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroOpeningChars" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1437</span>
+</aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">setMacroOpeningChars</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$macroOpeningChars</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$macroOpeningChars</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_setUpdateFields">
         setUpdateFields()
         <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setUpdateFields" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1745,7 +2038,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">865</span>
+    <span class="phpdocumentor-element-found-in__line">939</span>
 </aside>
 
         <p class="phpdocumentor-summary">Automatically Recalculate Fields on Open.</p>
@@ -1790,7 +2083,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">312</span>
+    <span class="phpdocumentor-element-found-in__line">316</span>
 </aside>
 
     
@@ -1850,7 +2143,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">345</span>
+    <span class="phpdocumentor-element-found-in__line">349</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set values from a one-dimensional array of &quot;variable =&gt; value&quot;-pairs.</p>
@@ -1894,7 +2187,7 @@ make sure that output is correctly escaped. Otherwise you may get broken documen
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">142</span>
+    <span class="phpdocumentor-element-found-in__line">146</span>
 </aside>
 
         <p class="phpdocumentor-summary">Expose zip class.</p>
@@ -1930,7 +2223,7 @@ To read a file: $templateProcessor-&gt;zip()-&gt;getFromName(&quot;word/media/im
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">239</span>
+    <span class="phpdocumentor-element-found-in__line">243</span>
 </aside>
 
     
@@ -1974,7 +2267,7 @@ To read a file: $templateProcessor-&gt;zip()-&gt;getFromName(&quot;word/media/im
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">253</span>
+    <span class="phpdocumentor-element-found-in__line">257</span>
 </aside>
 
     
@@ -2018,7 +2311,7 @@ To read a file: $templateProcessor-&gt;zip()-&gt;getFromName(&quot;word/media/im
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1203</span>
+    <span class="phpdocumentor-element-found-in__line">1320</span>
 </aside>
 
         <p class="phpdocumentor-summary">Find start and end of XML block containing the given macro
@@ -2076,7 +2369,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1234</span>
+    <span class="phpdocumentor-element-found-in__line">1351</span>
 </aside>
 
         <p class="phpdocumentor-summary">Find the position of (the start of) a macro.</p>
@@ -2134,7 +2427,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1110</span>
+    <span class="phpdocumentor-element-found-in__line">1224</span>
 </aside>
 
         <p class="phpdocumentor-summary">Find the end position of the nearest table row after $offset.</p>
@@ -2179,7 +2472,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1089</span>
+    <span class="phpdocumentor-element-found-in__line">1203</span>
 </aside>
 
         <p class="phpdocumentor-summary">Find the start position of the nearest table row before $offset.</p>
@@ -2224,7 +2517,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1272</span>
+    <span class="phpdocumentor-element-found-in__line">1389</span>
 </aside>
 
         <p class="phpdocumentor-summary">Find the nearest block end position after $offset.</p>
@@ -2280,7 +2573,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1250</span>
+    <span class="phpdocumentor-element-found-in__line">1367</span>
 </aside>
 
         <p class="phpdocumentor-summary">Find the start position of the nearest XML block start before $offset.</p>
@@ -2336,7 +2629,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">950</span>
+    <span class="phpdocumentor-element-found-in__line">1024</span>
 </aside>
 
         <p class="phpdocumentor-summary">Finds parts of broken macros and sticks them together.</p>
@@ -2383,7 +2676,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1077</span>
+    <span class="phpdocumentor-element-found-in__line">1158</span>
 </aside>
 
     
@@ -2416,7 +2709,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1043</span>
+    <span class="phpdocumentor-element-found-in__line">1124</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the name of the footer file for $index.</p>
@@ -2461,7 +2754,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1004</span>
+    <span class="phpdocumentor-element-found-in__line">1085</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the name of the header file for $index.</p>
@@ -2506,7 +2799,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1014</span>
+    <span class="phpdocumentor-element-found-in__line">1095</span>
 </aside>
 
         <p class="phpdocumentor-summary">Usually, the name of main part document will be &#039;document.xml&#039;. However, some .docx files (possibly those from Office 365, experienced also on documents from Word Online created from blank templates) have file &#039;document22.xml&#039; in their zip archive instead of &#039;document.xml&#039;. This method searches content types file to correctly determine the file name.</p>
@@ -2540,7 +2833,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1060</span>
+    <span class="phpdocumentor-element-found-in__line">1141</span>
 </aside>
 
     
@@ -2582,7 +2875,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1055</span>
+    <span class="phpdocumentor-element-found-in__line">1136</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get the name of the relations file for document part.</p>
@@ -2627,7 +2920,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1031</span>
+    <span class="phpdocumentor-element-found-in__line">1112</span>
 </aside>
 
         <p class="phpdocumentor-summary">The name of the file containing the Settings part.</p>
@@ -2661,7 +2954,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1123</span>
+    <span class="phpdocumentor-element-found-in__line">1237</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get a slice of a string.</p>
@@ -2714,7 +3007,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">989</span>
+    <span class="phpdocumentor-element-found-in__line">1067</span>
 </aside>
 
         <p class="phpdocumentor-summary">Find all variables in $documentPartXML.</p>
@@ -2759,7 +3052,7 @@ e.g. &lt;w:p&gt;...${macro}...&lt;/w:p&gt;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1141</span>
+    <span class="phpdocumentor-element-found-in__line">1255</span>
 </aside>
 
         <p class="phpdocumentor-summary">Replaces variable names in cloned
@@ -2813,7 +3106,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">152</span>
+    <span class="phpdocumentor-element-found-in__line">156</span>
 </aside>
 
     
@@ -2857,10 +3150,10 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1159</span>
+    <span class="phpdocumentor-element-found-in__line">1276</span>
 </aside>
 
-        <p class="phpdocumentor-summary">Raplaces variables with values from array, array keys are the variable names.</p>
+        <p class="phpdocumentor-summary">Replaces variables with values from array, array keys are the variable names.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -2910,7 +3203,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">908</span>
+    <span class="phpdocumentor-element-found-in__line">982</span>
 </aside>
 
     
@@ -2962,14 +3255,14 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">971</span>
+    <span class="phpdocumentor-element-found-in__line">1049</span>
 </aside>
 
         <p class="phpdocumentor-summary">Find and replace macros in the given XML section.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">setValueForPart</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$replace</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$documentPartXML</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limit</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                <span class="phpdocumentor-signature__name">setValueForPart</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$replace</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$documentPartXML</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limit</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -2993,7 +3286,7 @@ rows/blocks with indexed names.</p>
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$documentPartXML</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;|string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"></section>
@@ -3031,7 +3324,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1287</span>
+    <span class="phpdocumentor-element-found-in__line">1404</span>
 </aside>
 
         <p class="phpdocumentor-summary">Splits a w:r/w:t into a list of w:r where each ${macro} is in a separate w:r.</p>
@@ -3076,7 +3369,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1312</span>
+    <span class="phpdocumentor-element-found-in__line">1429</span>
 </aside>
 
         <p class="phpdocumentor-summary">Returns true if string contains a macro that is not in it&#039;s own w:r.</p>
@@ -3121,7 +3414,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">169</span>
+    <span class="phpdocumentor-element-found-in__line">173</span>
 </aside>
 
     
@@ -3173,7 +3466,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">196</span>
+    <span class="phpdocumentor-element-found-in__line">200</span>
 </aside>
 
     
@@ -3225,7 +3518,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">544</span>
+    <span class="phpdocumentor-element-found-in__line">548</span>
 </aside>
 
     
@@ -3288,7 +3581,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">430</span>
+    <span class="phpdocumentor-element-found-in__line">434</span>
 </aside>
 
     
@@ -3337,6 +3630,94 @@ rows/blocks with indexed names.</p>
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_findTableEnd">
+        findTableEnd()
+        <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findTableEnd" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1191</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Find the end position of the nearest table row after $offset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                <span class="phpdocumentor-signature__name">findTableEnd</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$offset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$offset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">int</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_findTableStart">
+        findTableStart()
+        <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_findTableStart" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1166</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Find the start position of the nearest table before $offset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                <span class="phpdocumentor-signature__name">findTableStart</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$offset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$offset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">int</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_fixImageWidthHeightRatio">
         fixImageWidthHeightRatio()
         <a href="classes/PhpOffice-PhpWord-TemplateProcessor.html#method_fixImageWidthHeightRatio" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3344,7 +3725,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">449</span>
+    <span class="phpdocumentor-element-found-in__line">453</span>
 </aside>
 
     
@@ -3407,7 +3788,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">391</span>
+    <span class="phpdocumentor-element-found-in__line">395</span>
 </aside>
 
     
@@ -3449,7 +3830,7 @@ rows/blocks with indexed names.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/TemplateProcessor.php"><a href="files/src-phpword-templateprocessor.html"><abbr title="src/PhpWord/TemplateProcessor.php">TemplateProcessor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">489</span>
+    <span class="phpdocumentor-element-found-in__line">493</span>
 </aside>
 
     

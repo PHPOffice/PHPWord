@@ -236,9 +236,16 @@
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/PhpOffice-PhpWord-Element-Image.html#property_imageFunc">$imageFunc</a>
     <span>
-                &nbsp;: string            </span>
+                &nbsp;: mixed            </span>
 </dt>
 <dd>Image function.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/PhpOffice-PhpWord-Element-Image.html#property_imageQuality">$imageQuality</a>
+    <span>
+                &nbsp;: null|int            </span>
+</dt>
+<dd>Image quality.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/PhpOffice-PhpWord-Element-Image.html#property_imageType">$imageType</a>
@@ -397,9 +404,23 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Element-Image.html#method_getImageFunction">getImageFunction()</a>
     <span>
-                        &nbsp;: string    </span>
+                        &nbsp;: callable|null    </span>
 </dt>
 <dd>Get image function.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Element-Image.html#method_getImageQuality">getImageQuality()</a>
+    <span>
+                        &nbsp;: int|null    </span>
+</dt>
+<dd>Get image quality.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Element-Image.html#method_getImageString">getImageString()</a>
+    <span>
+                        &nbsp;: string|null    </span>
+</dt>
+<dd>Get image string.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Element-Image.html#method_getImageStringData">getImageStringData()</a>
@@ -1061,7 +1082,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">129</span>
+    <span class="phpdocumentor-element-found-in__line">139</span>
 </aside>
 
         <p class="phpdocumentor-summary">Has media relation flag; true for Link, Image, and Object.</p>
@@ -1260,11 +1281,45 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">$imageFunc</span>
     </code>
 
         <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_imageQuality">
+        $imageQuality
+        <a href="classes/PhpOffice-PhpWord-Element-Image.html#property_imageQuality" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">111</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Image quality.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">null|int</span>
+    <span class="phpdocumentor-signature__name">$imageQuality</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Functions imagepng() and imagejpeg() have an optional parameter for
+quality.</p>
+</section>
 
     
 
@@ -1317,7 +1372,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">122</span>
+    <span class="phpdocumentor-element-found-in__line">132</span>
 </aside>
 
         <p class="phpdocumentor-summary">Image media index.</p>
@@ -1349,7 +1404,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">118</span>
 </aside>
 
         <p class="phpdocumentor-summary">Is memory image.</p>
@@ -1606,7 +1661,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">115</span>
+    <span class="phpdocumentor-element-found-in__line">125</span>
 </aside>
 
         <p class="phpdocumentor-summary">Image target file name.</p>
@@ -1706,7 +1761,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">139</span>
+    <span class="phpdocumentor-element-found-in__line">149</span>
 </aside>
 
         <p class="phpdocumentor-summary">Create new image element.</p>
@@ -1979,7 +2034,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">244</span>
+    <span class="phpdocumentor-element-found-in__line">254</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image create function.</p>
@@ -2013,7 +2068,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">264</span>
+    <span class="phpdocumentor-element-found-in__line">282</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image extension.</p>
@@ -2047,14 +2102,14 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">254</span>
+    <span class="phpdocumentor-element-found-in__line">264</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image function.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getImageFunction</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                <span class="phpdocumentor-signature__name">getImageFunction</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">callable|null</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -2062,7 +2117,75 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">string</span>
+    <span class="phpdocumentor-signature__response_type">callable|null</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getImageQuality">
+        getImageQuality()
+        <a href="classes/PhpOffice-PhpWord-Element-Image.html#method_getImageQuality" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">272</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Get image quality.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getImageQuality</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|null</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">int|null</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getImageString">
+        getImageString()
+        <a href="classes/PhpOffice-PhpWord-Element-Image.html#method_getImageString" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">340</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Get image string.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getImageString</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">string|null</span>
             &mdash;
             <section class="phpdocumentor-description"></section>
 
@@ -2081,7 +2204,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">328</span>
+    <span class="phpdocumentor-element-found-in__line">412</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image string data.</p>
@@ -2141,7 +2264,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">234</span>
+    <span class="phpdocumentor-element-found-in__line">244</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image type.</p>
@@ -2175,7 +2298,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">204</span>
+    <span class="phpdocumentor-element-found-in__line">214</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image media ID.</p>
@@ -2209,7 +2332,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">304</span>
+    <span class="phpdocumentor-element-found-in__line">322</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get media index.</p>
@@ -2243,7 +2366,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">194</span>
+    <span class="phpdocumentor-element-found-in__line">204</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image name.</p>
@@ -2447,7 +2570,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">164</span>
+    <span class="phpdocumentor-element-found-in__line">174</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image source.</p>
@@ -2481,7 +2604,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">174</span>
+    <span class="phpdocumentor-element-found-in__line">184</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image source type.</p>
@@ -2515,7 +2638,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">154</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get Image style.</p>
@@ -2549,7 +2672,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">284</span>
+    <span class="phpdocumentor-element-found-in__line">302</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get target file name.</p>
@@ -2651,7 +2774,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">274</span>
+    <span class="phpdocumentor-element-found-in__line">292</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get is memory image.</p>
@@ -2685,7 +2808,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">214</span>
+    <span class="phpdocumentor-element-found-in__line">224</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get is watermark.</p>
@@ -3002,7 +3125,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">224</span>
+    <span class="phpdocumentor-element-found-in__line">234</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set is watermark.</p>
@@ -3047,7 +3170,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">314</span>
+    <span class="phpdocumentor-element-found-in__line">332</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set media index.</p>
@@ -3092,7 +3215,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">184</span>
+    <span class="phpdocumentor-element-found-in__line">194</span>
 </aside>
 
         <p class="phpdocumentor-summary">Sets the image name.</p>
@@ -3273,7 +3396,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">294</span>
+    <span class="phpdocumentor-element-found-in__line">312</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set target file name.</p>
@@ -3502,7 +3625,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">401</span>
+    <span class="phpdocumentor-element-found-in__line">429</span>
 </aside>
 
         <p class="phpdocumentor-summary">Check memory image, supported type, image functions, and proportional width/height.</p>
@@ -3536,7 +3659,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">471</span>
+    <span class="phpdocumentor-element-found-in__line">499</span>
 </aside>
 
         <p class="phpdocumentor-summary">Get image size from archive.</p>
@@ -3666,7 +3789,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">501</span>
+    <span class="phpdocumentor-element-found-in__line">529</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set image functions and extensions.</p>
@@ -3738,7 +3861,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">542</span>
+    <span class="phpdocumentor-element-found-in__line">584</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set proportional width/height if one dimension not available.</p>
@@ -3791,7 +3914,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Image.php"><a href="files/src-phpword-element-image.html"><abbr title="src/PhpWord/Element/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">436</span>
+    <span class="phpdocumentor-element-found-in__line">464</span>
 </aside>
 
         <p class="phpdocumentor-summary">Set source type.</p>
