@@ -27,7 +27,7 @@ class Table extends AbstractElement
     /**
      * Table style.
      *
-     * @var \PhpOffice\PhpWord\Style\Table
+     * @var ?\PhpOffice\PhpWord\Style\Table
      */
     private $style;
 
@@ -41,7 +41,7 @@ class Table extends AbstractElement
     /**
      * Table width.
      *
-     * @var int
+     * @var ?int
      */
     private $width;
 
@@ -102,7 +102,7 @@ class Table extends AbstractElement
     /**
      * Get table style.
      *
-     * @return \PhpOffice\PhpWord\Style\Table
+     * @return null|\PhpOffice\PhpWord\Style\Table|string
      */
     public function getStyle()
     {
@@ -112,7 +112,7 @@ class Table extends AbstractElement
     /**
      * Get table width.
      *
-     * @return int
+     * @return ?int
      */
     public function getWidth()
     {

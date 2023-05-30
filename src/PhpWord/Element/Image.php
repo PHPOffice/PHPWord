@@ -54,7 +54,7 @@ class Image extends AbstractElement
     /**
      * Image style.
      *
-     * @var ImageStyle
+     * @var ?ImageStyle
      */
     private $style;
 
@@ -159,7 +159,7 @@ class Image extends AbstractElement
     /**
      * Get Image style.
      *
-     * @return ImageStyle
+     * @return ?ImageStyle
      */
     public function getStyle()
     {

@@ -250,7 +250,7 @@ class TemplateProcessor
     }
 
     /**
-     * @param string $subject
+     * @param ?string $subject
      *
      * @return string
      */

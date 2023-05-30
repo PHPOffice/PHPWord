@@ -173,7 +173,7 @@ class Style
      *
      * @param string $styleName
      *
-     * @return \PhpOffice\PhpWord\Style\AbstractStyle Paragraph|Font|Table|Numbering
+     * @return ?\PhpOffice\PhpWord\Style\AbstractStyle Paragraph|Font|Table|Numbering
      */
     public static function getStyle($styleName)
     {

@@ -43,7 +43,7 @@ class Title extends AbstractElement
     /**
      * Name of the heading style, e.g. 'Heading1'.
      *
-     * @var string
+     * @var ?string
      */
     private $style;
 
@@ -80,7 +80,7 @@ class Title extends AbstractElement
     /**
      * Get Title Text content.
      *
-     * @return string
+     * @return string|TextRun
      */
     public function getText()
     {
@@ -100,7 +100,7 @@ class Title extends AbstractElement
     /**
      * Get Title style.
      *
-     * @return string
+     * @return ?string
      */
     public function getStyle()
     {

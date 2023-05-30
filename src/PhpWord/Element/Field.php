@@ -268,7 +268,7 @@ class Field extends AbstractElement
     /**
      * Set Field text.
      *
-     * @param string|TextRun $text
+     * @param null|string|TextRun $text
      *
      * @return null|string|TextRun
      */

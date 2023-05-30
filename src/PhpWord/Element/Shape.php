@@ -36,7 +36,7 @@ class Shape extends AbstractElement
     /**
      * Shape style.
      *
-     * @var \PhpOffice\PhpWord\Style\Shape
+     * @var ?\PhpOffice\PhpWord\Style\Shape
      */
     private $style;
 
@@ -80,7 +80,7 @@ class Shape extends AbstractElement
     /**
      * Get shape style.
      *
-     * @return \PhpOffice\PhpWord\Style\Shape
+     * @return ?\PhpOffice\PhpWord\Style\Shape
      */
     public function getStyle()
     {

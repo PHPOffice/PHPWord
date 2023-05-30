@@ -441,7 +441,7 @@ class DocInfo
      *
      * @param string $propertyName
      *
-     * @return string
+     * @return ?string
      */
     public function getCustomPropertyType($propertyName)
     {

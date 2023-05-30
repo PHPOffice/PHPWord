@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWordTests;
 
 use DOMDocument;
 use DOMElement;
+use DOMNode;
 use DOMNodeList;
 use DOMXPath;
 
@@ -135,7 +136,7 @@ class XmlDocument
      * @param string $path
      * @param string $file
      *
-     * @return DOMNodeList
+     * @return DOMNodeList<DOMNode>
      */
     public function getNodeList($path, $file = '')
     {
@@ -160,7 +161,7 @@ class XmlDocument
      * @param string $path
      * @param string $file
      *
-     * @return DOMElement
+     * @return null|DOMElement
      */
     public function getElement($path, $file = '')
     {
@@ -216,7 +217,7 @@ class XmlDocument
      * @param   string  $path
      * @param   string  $file
      *
-     * @return  string
+     * @return  bool
      */
     public function elementExists($path, $file = '')
     {
@@ -234,20 +235,15 @@ class XmlDocument
      * @param string $path
      * @param string $file
      *
-     * @return string
+     * @return false|string
      */
     public function printXml($path = '/', $file = '')
     {
         if (!$file) {
             $file = $this->defaultFile;
         }
-        $element = $this->getElement($path, $file);
-        if ($element instanceof DOMDocument) {
-            $element->formatOutput = true;
-            $element->preserveWhiteSpace = false;
 
-            return $element->saveXML();
-        }
+        $element = $this->getElement($path, $file);
 
         $newdoc = new DOMDocument();
         $newdoc->formatOutput = true;
