@@ -347,7 +347,7 @@ abstract class AbstractWriter implements WriterInterface
 
             // Retrive GD image content or get local media
             if (isset($element['isMemImage']) && $element['isMemImage']) {
-                $imageContents = $element['isMemImage'];
+                $imageContents = $element['imageString'];
                 $zip->addFromString($target, $imageContents);
             } else {
                 $this->addFileToPackage($zip, $element['source'], $target);
