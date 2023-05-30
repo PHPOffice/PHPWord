@@ -2,6 +2,31 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.0](https://github.com/PHPOffice/PHPWord/tree/1.1.0) (2023-05-30)
+
+[Full Changelog](https://github.com/PHPOffice/PHPWord/compare/1.0.0...1.1.0)
+
+### Enhancements
+
+- Introduce deleteRow() method for TemplateProcessor
+- HTML Reader: Add basic support for CSS Style Tag
+- Allow customizing macro syntax in TemplateProcessor
+- Add background color support for textboxes
+- Add softhyphen support to word reader
+- Add support table row height when importing HTML
+- Add support for fractional font sizes
+- Added image quality support, with the maximum quality as default
+- Support for reading nested tables
+
+### Bug fixes
+
+- DOCX reader: Read empty vmerge
+- Fixed setting width of Cell Style
+
+### Miscellaneous
+
+- `master` is the new default branch
+
 ## [1.0.0](https://github.com/PHPOffice/PHPWord/tree/1.0.0) (2022-11-15)
 
 [Full Changelog](https://github.com/PHPOffice/PHPWord/compare/0.18.3...1.0.0)
