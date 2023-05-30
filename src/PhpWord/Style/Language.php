@@ -39,7 +39,7 @@ final class Language extends AbstractStyle
 
     const FR_BE = 'fr-BE';
     const FR_BE_ID = 2060;
-    
+
     const FR_CH = 'fr-CH';
     const FR_CH_ID = 4108;
 
@@ -48,7 +48,7 @@ final class Language extends AbstractStyle
 
     const DE_DE = 'de-DE';
     const DE_DE_ID = 1031;
-    
+
     const DE_CH = 'de-CH';
     const DE_CH_ID = 2055;
 
@@ -57,7 +57,7 @@ final class Language extends AbstractStyle
 
     const IT_IT = 'it-IT';
     const IT_IT_ID = 1040;
-    
+
     const IT_CH = 'it-CH';
     const IT_CH_ID = 2064;
 
