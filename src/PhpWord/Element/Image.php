@@ -535,7 +535,7 @@ class Image extends AbstractElement
                     imagepng($resource, null, $this->imageQuality);
                 };
                 $this->imageExtension = 'png';
-                $this->imageQuality = 0;
+                $this->imageQuality = -1;
 
                 break;
             case 'image/gif':
