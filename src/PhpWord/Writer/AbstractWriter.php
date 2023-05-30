@@ -347,17 +347,8 @@ abstract class AbstractWriter implements WriterInterface
 
             // Retrive GD image content or get local media
             if (isset($element['isMemImage']) && $element['isMemImage']) {
-                $image = call_user_func($element['createFunction'], $element['source']);
-                if ($element['imageType'] === 'image/png') {
-                    // PNG images need to preserve alpha channel information
-                    imagesavealpha($image, true);
-                }
-                ob_start();
-                call_user_func($element['imageFunction'], $image);
-                $imageContents = ob_get_contents();
-                ob_end_clean();
+                $imageContents = $element['imageString'];
                 $zip->addFromString($target, $imageContents);
-                imagedestroy($image);
             } else {
                 $this->addFileToPackage($zip, $element['source'], $target);
             }

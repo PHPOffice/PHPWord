@@ -2,10 +2,8 @@
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
- *
  * PHPWord is free software distributed under the terms of the GNU Lesser
  * General Public License version 3 as published by the Free Software Foundation.
- *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
@@ -27,121 +25,128 @@ class TextBox extends Image
     /**
      * margin top.
      *
-     * @var int
+     * @var null|int
      */
     private $innerMarginTop;
 
     /**
      * margin left.
      *
-     * @var int
+     * @var null|int
      */
     private $innerMarginLeft;
 
     /**
      * margin right.
      *
-     * @var int
+     * @var null|int
      */
     private $innerMarginRight;
 
     /**
      * Cell margin bottom.
      *
-     * @var int
+     * @var null|int
      */
     private $innerMarginBottom;
 
     /**
      * border size.
      *
-     * @var int
+     * @var null|int
      */
     private $borderSize;
 
     /**
      * border color.
      *
-     * @var string
+     * @var null|string
      */
     private $borderColor;
 
     /**
-     * Set margin top.
+     * background color.
      *
-     * @param int $value
+     * @var null|string
      */
-    public function setInnerMarginTop($value = null): void
+    private $bgColor;
+
+    /**
+     * Set background color.
+     */
+    public function setBgColor(?string $value = null): void
+    {
+        $this->bgColor = $value;
+    }
+
+    /**
+     * Get background color.
+     */
+    public function getBgColor(): ?string
+    {
+        return $this->bgColor;
+    }
+
+    /**
+     * Set margin top.
+     */
+    public function setInnerMarginTop(?int $value = null): void
     {
         $this->innerMarginTop = $value;
     }
 
     /**
      * Get margin top.
-     *
-     * @return int
      */
-    public function getInnerMarginTop()
+    public function getInnerMarginTop(): ?int
     {
         return $this->innerMarginTop;
     }
 
     /**
      * Set margin left.
-     *
-     * @param int $value
      */
-    public function setInnerMarginLeft($value = null): void
+    public function setInnerMarginLeft(?int $value = null): void
     {
         $this->innerMarginLeft = $value;
     }
 
     /**
      * Get margin left.
-     *
-     * @return int
      */
-    public function getInnerMarginLeft()
+    public function getInnerMarginLeft(): ?int
     {
         return $this->innerMarginLeft;
     }
 
     /**
      * Set margin right.
-     *
-     * @param int $value
      */
-    public function setInnerMarginRight($value = null): void
+    public function setInnerMarginRight(?int $value = null): void
     {
         $this->innerMarginRight = $value;
     }
 
     /**
      * Get margin right.
-     *
-     * @return int
      */
-    public function getInnerMarginRight()
+    public function getInnerMarginRight(): ?int
     {
         return $this->innerMarginRight;
     }
 
     /**
      * Set margin bottom.
-     *
-     * @param int $value
      */
-    public function setInnerMarginBottom($value = null): void
+    public function setInnerMarginBottom(?int $value = null): void
     {
         $this->innerMarginBottom = $value;
     }
 
     /**
      * Get margin bottom.
-     *
-     * @return int
      */
-    public function getInnerMarginBottom()
+    public function getInnerMarginBottom(): ?int
     {
         return $this->innerMarginBottom;
     }
@@ -149,9 +154,9 @@ class TextBox extends Image
     /**
      * Set TLRB cell margin.
      *
-     * @param int $value Margin in twips
+     * @param null|int $value Margin in twips
      */
-    public function setInnerMargin($value = null): void
+    public function setInnerMargin(?int $value = null): void
     {
         $this->setInnerMarginTop($value);
         $this->setInnerMarginLeft($value);
@@ -164,17 +169,15 @@ class TextBox extends Image
      *
      * @return int[]
      */
-    public function getInnerMargin()
+    public function getInnerMargin(): array
     {
         return [$this->innerMarginLeft, $this->innerMarginTop, $this->innerMarginRight, $this->innerMarginBottom];
     }
 
     /**
      * Has inner margin?
-     *
-     * @return bool
      */
-    public function hasInnerMargins()
+    public function hasInnerMargins(): bool
     {
         $hasInnerMargins = false;
         $margins = $this->getInnerMargin();
@@ -191,39 +194,33 @@ class TextBox extends Image
     /**
      * Set border size.
      *
-     * @param int $value Size in points
+     * @param null|int $value Size in points
      */
-    public function setBorderSize($value = null): void
+    public function setBorderSize(?int $value = null): void
     {
         $this->borderSize = $value;
     }
 
     /**
      * Get border size.
-     *
-     * @return int
      */
-    public function getBorderSize()
+    public function getBorderSize(): ?int
     {
         return $this->borderSize;
     }
 
     /**
      * Set border color.
-     *
-     * @param string $value
      */
-    public function setBorderColor($value = null): void
+    public function setBorderColor(?string $value = null): void
     {
         $this->borderColor = $value;
     }
 
     /**
      * Get border color.
-     *
-     * @return string
      */
-    public function getBorderColor()
+    public function getBorderColor(): ?string
     {
         return $this->borderColor;
     }

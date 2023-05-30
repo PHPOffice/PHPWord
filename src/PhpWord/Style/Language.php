@@ -40,17 +40,26 @@ final class Language extends AbstractStyle
     const FR_BE = 'fr-BE';
     const FR_BE_ID = 2060;
 
+    const FR_CH = 'fr-CH';
+    const FR_CH_ID = 4108;
+
     const ES_ES = 'es-ES';
     const ES_ES_ID = 3082;
 
     const DE_DE = 'de-DE';
     const DE_DE_ID = 1031;
 
+    const DE_CH = 'de-CH';
+    const DE_CH_ID = 2055;
+
     const HE_IL = 'he-IL';
     const HE_IL_ID = 1037;
 
     const IT_IT = 'it-IT';
     const IT_IT_ID = 1040;
+
+    const IT_CH = 'it-CH';
+    const IT_CH_ID = 2064;
 
     const JA_JP = 'ja-JP';
     const JA_JP_ID = 1041;

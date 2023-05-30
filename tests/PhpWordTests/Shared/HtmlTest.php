@@ -465,6 +465,58 @@ HTML;
     }
 
     /**
+     * Parse heights in rows, which also allows for controlling column height.
+     */
+    public function testParseTableRowHeight(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection([
+            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+        ]);
+
+        $html = <<<HTML
+<table>
+    <tr style="height: 100px;">
+        <td>100px</td>
+    </tr>
+    <tr style="height: 200pt;">
+        <td>200pt</td>
+    </tr>
+    <tr>
+        <td>
+            <table>
+                <tr style="height: 300px;">
+                    <td>300px</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // <tr style="height: 100; ... 100px = 1500 twips (100 / 96 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:trPr/w:trHeight';
+        self::assertTrue($doc->elementExists($xpath));
+        self::assertEquals(1500, $doc->getElement($xpath)->getAttribute('w:val'));
+        self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
+
+        // <tr style="height: 200pt; ... 200pt = 4000 twips (200 / 72 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr[2]/w:trPr/w:trHeight';
+        self::assertTrue($doc->elementExists($xpath));
+        self::assertEquals(4000, $doc->getElement($xpath)->getAttribute('w:val'));
+        self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
+
+        // <tr style="width: 300; .. 300px = 4500 twips (300 / 72 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr[3]/w:tc/w:tbl/w:tr/w:trPr/w:trHeight';
+        self::assertTrue($doc->elementExists($xpath));
+        self::assertEquals(4500, $doc->getElement($xpath)->getAttribute('w:val'));
+        self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
+    }
+
+    /**
      * Test parsing table (attribute border).
      */
     public function testParseTableAttributeBorder(): void

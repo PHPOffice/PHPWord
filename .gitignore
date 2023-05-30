@@ -8,7 +8,6 @@ Desktop.ini
 _build
 /build
 phpunit.xml
-composer.lock
 composer.phar
 vendor
 /report

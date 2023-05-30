@@ -57,6 +57,11 @@
         "check": "Runs PHP CheckStyle and PHP Mess detector",
         "fix": "Fixes issues found by PHP-CS"
     },
+    "config": {
+        "platform": {
+            "php": "8.0"
+        }
+    },
     "require": {
         "php": "^7.1|^8.0",
         "ext-dom": "*",

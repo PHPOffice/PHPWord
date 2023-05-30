@@ -2,10 +2,8 @@
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
- *
  * PHPWord is free software distributed under the terms of the GNU Lesser
  * General Public License version 3 as published by the Free Software Foundation.
- *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
@@ -20,15 +18,15 @@ namespace PhpOffice\PhpWordTests\Style;
 use InvalidArgumentException;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\TextBox;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Image.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Image
- *
  * @runTestsInSeparateProcesses
  */
-class TextBoxTest extends \PHPUnit\Framework\TestCase
+class TextBoxTest extends TestCase
 {
     /**
      * Test setting style with normal value.
@@ -55,6 +53,7 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
             'innerMarginLeft' => '5',
             'borderSize' => '2',
             'borderColor' => 'red',
+            'bgColor' => 'blue',
         ];
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
@@ -89,6 +88,7 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
             'innerMarginLeft' => '5',
             'borderSize' => '2',
             'borderColor' => 'red',
+            'bgColor' => 'blue',
         ];
         foreach ($properties as $key => $value) {
             $get = "get{$key}";
@@ -304,5 +304,16 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
         $object = new TextBox();
         $object->setBorderColor($expected);
         self::assertEquals($expected, $object->getBorderColor());
+    }
+
+    /**
+     * Test set/get bgColor.
+     */
+    public function testSetGetBgColor(): void
+    {
+        $expected = 'blue';
+        $object = new TextBox();
+        $object->setBgColor($expected);
+        self::assertEquals($expected, $object->getBgColor());
     }
 }
