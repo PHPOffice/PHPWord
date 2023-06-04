@@ -211,7 +211,7 @@ class PhpWord
     /**
      * Create new section.
      *
-     * @param array $style
+     * @param null|array|string $style
      *
      * @return \PhpOffice\PhpWord\Element\Section
      */

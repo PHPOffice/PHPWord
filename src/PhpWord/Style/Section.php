@@ -159,7 +159,7 @@ class Section extends Border
      * - evenPage: Even page section break
      * - oddPage: Odd page section break
      *
-     * @var string
+     * @var ?string
      */
     private $breakType;
 
@@ -176,7 +176,7 @@ class Section extends Border
      * Vertical Text Alignment on Page
      * One of \PhpOffice\PhpWord\SimpleType\VerticalJc.
      *
-     * @var string
+     * @var ?string
      */
     private $vAlign;
 
@@ -224,7 +224,7 @@ class Section extends Border
      * Set Setting Value.
      *
      * @param string $key
-     * @param string $value
+     * @param array|int|string $value
      *
      * @return self
      */
@@ -587,7 +587,7 @@ class Section extends Border
     /**
      * Get Break Type.
      *
-     * @return string
+     * @return ?string
      */
     public function getBreakType()
     {
@@ -635,7 +635,7 @@ class Section extends Border
     /**
      * Get vertical alignment.
      *
-     * @return string
+     * @return ?string
      */
     public function getVAlign()
     {

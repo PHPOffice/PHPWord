@@ -374,7 +374,7 @@ class Converter
      *
      * @param string $value
      *
-     * @return float
+     * @return ?float
      */
     public static function cssToPoint($value)
     {

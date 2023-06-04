@@ -107,7 +107,7 @@ class Cell extends Border
     /**
      * Width.
      *
-     * @var int
+     * @var ?int
      */
     private $width;
 
@@ -270,7 +270,7 @@ class Cell extends Border
     /**
      * Get cell width.
      *
-     * @return int
+     * @return ?int
      */
     public function getWidth()
     {

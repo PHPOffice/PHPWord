@@ -30,7 +30,7 @@ abstract class AbstractStyle
     /**
      * Style name.
      *
-     * @var string
+     * @var ?string
      */
     protected $styleName;
 
@@ -62,7 +62,7 @@ abstract class AbstractStyle
     /**
      * Get style name.
      *
-     * @return string
+     * @return ?string
      */
     public function getStyleName()
     {
@@ -161,7 +161,7 @@ abstract class AbstractStyle
      * Check if the set method is exists. Throws an exception?
      *
      * @param string $key
-     * @param string $value
+     * @param array|int|string $value
      *
      * @return self
      */
@@ -202,10 +202,10 @@ abstract class AbstractStyle
     /**
      * Set default for null and empty value.
      *
-     * @param string $value (was: mixed)
-     * @param string $default (was: mixed)
+     * @param ?string $value
+     * @param string $default
      *
-     * @return string (was: mixed)
+     * @return string
      */
     protected function setNonEmptyVal($value, $default)
     {
@@ -253,7 +253,7 @@ abstract class AbstractStyle
     /**
      * Set integer value: Convert string that contains only numeric into integer.
      *
-     * @param null|int $value
+     * @param null|float|int|string $value
      * @param null|int $default
      *
      * @return null|int

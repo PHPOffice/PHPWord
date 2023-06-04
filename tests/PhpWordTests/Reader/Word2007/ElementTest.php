@@ -270,11 +270,43 @@ class ElementTest extends AbstractTestReader
         self::assertEquals('Title', $title->getStyle());
         self::assertEquals('This is a non formatted title', $title->getText());
 
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[1]);
+        self::assertInstanceOf(\PhpOffice\PhpWord\Element\Title::class, $elements[1]);
         /** @var \PhpOffice\PhpWord\Element\Title $formattedTitle */
         $formattedTitle = $elements[1];
         self::assertEquals('Title', $formattedTitle->getStyle());
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $formattedTitle->getText());
+        self::assertInstanceOf(\PhpOffice\PhpWord\Element\TextRun::class, $formattedTitle->getText());
+    }
+
+    /**
+     * Test reading of nested table.
+     */
+    public function testReadNestedTable(): void
+    {
+        $documentXml = '<w:tbl>
+          <w:tr>
+            <w:tc>
+              <w:tbl>
+                <w:tr>
+                  <w:tc>
+                    <w:p>
+                      <w:t>${Field}</w:t>
+                    </w:p>
+                  </w:tc>
+                </w:tr>
+              </w:tbl>
+              <w:p />
+            </w:tc>
+          </w:tr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $section = $phpWord->getSection(0);
+        $table = $section->getElement(0);
+        $rows = $table->getRows();
+        $cells = $rows[0]->getCells();
+        $nestedTable = $cells[0]->getElement(0);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $nestedTable);
     }
 
     /**

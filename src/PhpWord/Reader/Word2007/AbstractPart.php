@@ -376,6 +376,8 @@ abstract class AbstractPart
                         foreach ($cellNodes as $cellNode) {
                             if ('w:p' == $cellNode->nodeName) { // Paragraph
                                 $this->readParagraph($xmlReader, $cellNode, $cell, $docPart);
+                            } elseif ($cellNode->nodeName == 'w:tbl') { // Table
+                                $this->readTable($xmlReader, $cellNode, $cell, $docPart);
                             }
                         }
                     }

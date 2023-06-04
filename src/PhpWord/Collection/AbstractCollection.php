@@ -46,7 +46,7 @@ abstract class AbstractCollection
      *
      * @param int $index
      *
-     * @return \PhpOffice\PhpWord\Element\AbstractContainer
+     * @return ?\PhpOffice\PhpWord\Element\AbstractContainer
      */
     public function getItem($index)
     {
@@ -61,7 +61,7 @@ abstract class AbstractCollection
      * Set item.
      *
      * @param int $index
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $item
+     * @param ?\PhpOffice\PhpWord\Element\AbstractContainer $item
      */
     public function setItem($index, $item): void
     {

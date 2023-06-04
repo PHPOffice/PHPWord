@@ -247,7 +247,7 @@ Applies the XSL stylesheet passed to header part, footer part and main part
 
 setComplexValue
 """""""""""""""
-Raplaces a ${macro} with the ComplexType passed.
+Replaces a ${macro} with the ComplexType passed.
 See ``Sample_40_TemplateSetComplexValue.php`` for examples.
 
 .. code-block:: php
@@ -258,7 +258,7 @@ See ``Sample_40_TemplateSetComplexValue.php`` for examples.
 
 setComplexBlock
 """""""""""""""
-Raplaces a ${macro} with the ComplexType passed.
+Replaces a ${macro} with the ComplexType passed.
 See ``Sample_40_TemplateSetComplexValue.php`` for examples.
 
 .. code-block:: php

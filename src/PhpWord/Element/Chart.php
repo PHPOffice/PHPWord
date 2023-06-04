@@ -50,7 +50,7 @@ class Chart extends AbstractElement
     /**
      * Chart style.
      *
-     * @var \PhpOffice\PhpWord\Style\Chart
+     * @var ?\PhpOffice\PhpWord\Style\Chart
      */
     private $style;
 
@@ -120,7 +120,7 @@ class Chart extends AbstractElement
     /**
      * Get chart style.
      *
-     * @return \PhpOffice\PhpWord\Style\Chart
+     * @return ?\PhpOffice\PhpWord\Style\Chart
      */
     public function getStyle()
     {

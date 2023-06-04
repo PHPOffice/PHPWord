@@ -29,14 +29,14 @@ class Row extends AbstractElement
     /**
      * Row height.
      *
-     * @var int
+     * @var ?int
      */
     private $height;
 
     /**
      * Row style.
      *
-     * @var \PhpOffice\PhpWord\Style\Row
+     * @var ?\PhpOffice\PhpWord\Style\Row
      */
     private $style;
 
@@ -89,7 +89,7 @@ class Row extends AbstractElement
     /**
      * Get row style.
      *
-     * @return \PhpOffice\PhpWord\Style\Row
+     * @return ?\PhpOffice\PhpWord\Style\Row
      */
     public function getStyle()
     {
@@ -99,7 +99,7 @@ class Row extends AbstractElement
     /**
      * Get row height.
      *
-     * @return int
+     * @return ?int
      */
     public function getHeight()
     {

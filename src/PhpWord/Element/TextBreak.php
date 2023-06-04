@@ -28,14 +28,14 @@ class TextBreak extends AbstractElement
     /**
      * Paragraph style.
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph|string
+     * @var null|\PhpOffice\PhpWord\Style\Paragraph|string
      */
     private $paragraphStyle;
 
     /**
      * Text style.
      *
-     * @var \PhpOffice\PhpWord\Style\Font|string
+     * @var null|\PhpOffice\PhpWord\Style\Font|string
      */
     private $fontStyle;
 
@@ -82,7 +82,7 @@ class TextBreak extends AbstractElement
     /**
      * Get Text style.
      *
-     * @return \PhpOffice\PhpWord\Style\Font|string
+     * @return null|\PhpOffice\PhpWord\Style\Font|string
      */
     public function getFontStyle()
     {
@@ -113,7 +113,7 @@ class TextBreak extends AbstractElement
     /**
      * Get Paragraph style.
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph|string
+     * @return null|\PhpOffice\PhpWord\Style\Paragraph|string
      */
     public function getParagraphStyle()
     {

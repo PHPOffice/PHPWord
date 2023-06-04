@@ -45,7 +45,8 @@
             "php-cs-fixer fix --ansi --dry-run --diff",
             "phpcs --report-width=200 --report-summary --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
             "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
-            "@test-no-coverage"
+            "@test-no-coverage",
+            "phpstan analyse --ansi"
         ],
         "fix": [
             "php-cs-fixer fix --ansi"
@@ -56,6 +57,11 @@
         "test-no-coverage": "Runs all unit tests, without code coverage",
         "check": "Runs PHP CheckStyle and PHP Mess detector",
         "fix": "Fixes issues found by PHP-CS"
+    },
+    "config": {
+        "platform": {
+            "php": "8.0"
+        }
     },
     "require": {
         "php": "^7.1|^8.0",
@@ -74,7 +80,7 @@
         "tecnickcom/tcpdf": "^6.5",
         "symfony/process": "^4.4",
         "friendsofphp/php-cs-fixer": "^3.3",
-        "squizlabs/php_codesniffer": "^3.7"
+        "phpstan/phpstan-phpunit": "@stable"
     },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",

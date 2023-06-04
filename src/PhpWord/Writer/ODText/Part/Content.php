@@ -280,7 +280,6 @@ class Content extends AbstractPart
                 $sty->setAlignment($style->getAlignment());
                 $this->imageParagraphStyles[] = $sty;
             } elseif ($element instanceof Table) {
-                /** @var \PhpOffice\PhpWord\Style\Table $style */
                 $style = $element->getStyle();
                 if (is_string($style)) {
                     $style = Style::getStyle($style);
