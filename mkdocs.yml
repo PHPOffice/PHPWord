@@ -55,6 +55,7 @@ nav:
       - Comment: 'usage/elements/comment.md'
       - Field: 'usage/elements/field.md'
       - Footnote & Endnote: 'usage/elements/note.md'
+      - Formula: 'usage/elements/formula.md'
       - Image: 'usage/elements/image.md'
       - Line: 'usage/elements/line.md'
       - Link: 'usage/elements/link.md'
