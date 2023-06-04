@@ -610,6 +610,159 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @covers ::setCheckbox
+     */
+    public function testSetCheckbox(): void
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:sdt>
+                <w:sdtPr>
+                    <w:alias w:val="${checkbox}"/>
+                    <w14:checkbox>
+                        <w14:checked w14:val="0"/>
+                    </w14:checkbox>
+                </w:sdtPr>
+                <w:sdtContent>
+                    <w:r>
+                        <w:t>☐</w:t>
+                    </w:r>
+                </w:sdtContent>
+            </w:sdt>
+        </w:p>
+        <w:p>
+            <w:sdt>
+                <w:sdtPr>
+                    <w:alias w:val="${checkbox2}"/>
+                    <w14:checkbox>
+                        <w14:checked w14:val="1"/>
+                    </w14:checkbox>
+                </w:sdtPr>
+                <w:sdtContent>
+                    <w:r>
+                        <w:t>☒</w:t>
+                    </w:r>
+                </w:sdtContent>
+            </w:sdt>
+        </w:p>';
+
+        $result = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:sdt>
+                <w:sdtPr>
+                    <w:alias w:val="${checkbox}"/>
+                    <w14:checkbox>
+                        <w14:checked w14:val="1"/>
+                    </w14:checkbox>
+                </w:sdtPr>
+                <w:sdtContent>
+                    <w:r>
+                        <w:t>☒</w:t>
+                    </w:r>
+                </w:sdtContent>
+            </w:sdt>
+        </w:p>
+        <w:p>
+            <w:sdt>
+                <w:sdtPr>
+                    <w:alias w:val="${checkbox2}"/>
+                    <w14:checkbox>
+                        <w14:checked w14:val="0"/>
+                    </w14:checkbox>
+                </w:sdtPr>
+                <w:sdtContent>
+                    <w:r>
+                        <w:t>☐</w:t>
+                    </w:r>
+                </w:sdtContent>
+            </w:sdt>
+        </w:p>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setCheckbox('checkbox', true);
+        $templateProcessor->setCheckbox('checkbox2', false);
+
+        self::assertEquals(preg_replace('/>\s+</', '><', $result), preg_replace('/>\s+</', '><', $templateProcessor->getMainPart()));
+    }
+
+    /**
+     * @covers ::setCheckbox
+     */
+    public function testSetCheckboxWithCustomMacro(): void
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:sdt>
+                <w:sdtPr>
+                    <w:alias w:val="{#checkbox#}"/>
+                    <w14:checkbox>
+                        <w14:checked w14:val="0"/>
+                    </w14:checkbox>
+                </w:sdtPr>
+                <w:sdtContent>
+                    <w:r>
+                        <w:t>☐</w:t>
+                    </w:r>
+                </w:sdtContent>
+            </w:sdt>
+        </w:p>
+        <w:p>
+            <w:sdt>
+                <w:sdtPr>
+                    <w:alias w:val="{#checkbox2#}"/>
+                    <w14:checkbox>
+                        <w14:checked w14:val="1"/>
+                    </w14:checkbox>
+                </w:sdtPr>
+                <w:sdtContent>
+                    <w:r>
+                        <w:t>☒</w:t>
+                    </w:r>
+                </w:sdtContent>
+            </w:sdt>
+        </w:p>';
+
+        $result = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:sdt>
+                <w:sdtPr>
+                    <w:alias w:val="{#checkbox#}"/>
+                    <w14:checkbox>
+                        <w14:checked w14:val="1"/>
+                    </w14:checkbox>
+                </w:sdtPr>
+                <w:sdtContent>
+                    <w:r>
+                        <w:t>☒</w:t>
+                    </w:r>
+                </w:sdtContent>
+            </w:sdt>
+        </w:p>
+        <w:p>
+            <w:sdt>
+                <w:sdtPr>
+                    <w:alias w:val="{#checkbox2#}"/>
+                    <w14:checkbox>
+                        <w14:checked w14:val="0"/>
+                    </w14:checkbox>
+                </w:sdtPr>
+                <w:sdtContent>
+                    <w:r>
+                        <w:t>☐</w:t>
+                    </w:r>
+                </w:sdtContent>
+            </w:sdt>
+        </w:p>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setMacroChars('{#', '#}');
+        $templateProcessor->setCheckbox('checkbox', true);
+        $templateProcessor->setCheckbox('checkbox2', false);
+
+        self::assertEquals(preg_replace('/>\s+</', '><', $result), preg_replace('/>\s+</', '><', $templateProcessor->getMainPart()));
+    }
+
+    /**
      * @covers ::setImageValue
      */
     public function testSetImageValue(): void
