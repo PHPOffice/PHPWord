@@ -44,7 +44,7 @@ class Indentation extends AbstractStyle
      *
      * @var float|int
      */
-    private $firstLine;
+    private $firstLine = 0;
 
     /**
      * Indentation removed from first line (twip).
@@ -80,7 +80,7 @@ class Indentation extends AbstractStyle
      *
      * @return self
      */
-    public function setLeft($value = null)
+    public function setLeft($value)
     {
         $this->left = $this->setNumericVal($value, $this->left);
 
@@ -104,7 +104,7 @@ class Indentation extends AbstractStyle
      *
      * @return self
      */
-    public function setRight($value = null)
+    public function setRight($value)
     {
         $this->right = $this->setNumericVal($value, $this->right);
 
@@ -128,7 +128,7 @@ class Indentation extends AbstractStyle
      *
      * @return self
      */
-    public function setFirstLine($value = null)
+    public function setFirstLine($value)
     {
         $this->firstLine = $this->setNumericVal($value, $this->firstLine);
 
