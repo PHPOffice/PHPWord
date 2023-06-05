@@ -42,7 +42,7 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section->addText('Test 2');
         $oSettings = new \PhpOffice\PhpWord\Style\Section();
         $oSettings->setSettingValue('orientation', 'landscape');
-        $section = $phpWord->addSection($oSettings);
+        $section = $phpWord->addSection($oSettings); // @phpstan-ignore-line
         $section->addText('Section 2 - landscape');
 
         $rendererName = Settings::PDF_RENDERER_MPDF;

@@ -87,7 +87,7 @@ class HTML extends AbstractWriter implements WriterInterface
         $langtext = '';
         $phpWord = $this->getPhpWord();
         $lang = $phpWord->getSettings()->getThemeFontLang();
-        if (!empty($lang)) {
+        if (!empty($lang)) { // @phpstan-ignore-line
             $lang2 = $lang->getLatin();
             if (!$lang2) {
                 $lang2 = $lang->getEastAsia();
@@ -143,7 +143,7 @@ class HTML extends AbstractWriter implements WriterInterface
      *
      * @param string $txt
      */
-    public static function escapeOrNot($txt)
+    public static function escapeOrNot($txt): string
     {
         if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
             return htmlspecialchars($txt, ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0), 'UTF-8');

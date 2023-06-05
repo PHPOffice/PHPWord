@@ -76,7 +76,7 @@ class Text extends AbstractElement
         $content .= $this->openingText;
         $content .= $this->openingTags;
         $contenx = HTML::escapeOrNot($element->getText());
-        if (!$this->withoutP && !trim($contenx)) {
+        if (!$this->withoutP && !trim(/** @scrutinizer ignore-type */ $contenx)) {
             $contenx = '&nbsp;';
         }
         $content .= $contenx;
@@ -256,7 +256,7 @@ class Text extends AbstractElement
             $style = " class=\"$fontStyle\"";
             /** @var \PhpOffice\PhpWord\Style\Font $styl3 Type hint */
             $styl3 = Style::getStyle($fontStyle);
-            if (!empty($styl3) && method_exists($styl3, 'getLang')) {
+            if (!empty($styl3) && method_exists($styl3, 'getLang')) { // @phpstan-ignore-line
                 $lang = $styl3->getLang();
             }
         }

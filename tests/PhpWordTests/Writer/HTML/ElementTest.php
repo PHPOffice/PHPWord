@@ -76,8 +76,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/div/p[1]/ins')->length);
-        self::assertEquals(1, $xpath->query('/html/body/div/p[2]/del')->length);
+        self::assertEquals(1, self::getLength($xpath, '/html/body/div/p[1]/ins'));
+        self::assertEquals(1, self::getLength($xpath, '/html/body/div/p[2]/del'));
     }
 
     /**
@@ -100,14 +100,14 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[1]/td')->length);
-        self::assertEquals('2', $xpath->query('/html/body/div/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
-        self::assertEquals(2, $xpath->query('/html/body/div/table/tr[2]/td')->length);
+        self::assertEquals(1, self::getLength($xpath, '/html/body/div/table/tr[1]/td'));
+        self::assertEquals('2', self::getTextContent($xpath, '/html/body/div/table/tr/td[1]', 0, 'colspan'));
+        self::assertEquals(2, self::getLength($xpath, '/html/body/div/table/tr[2]/td'));
 
-        self::assertEquals('#6086B8', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertNull($xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('color'));
+        self::assertEquals('#6086B8', self::getTextContent($xpath, '/html/body/div/table/tr[1]/td', 0, 'bgcolor'));
+        self::assertEquals('#ffffff', self::getTextContent($xpath, '/html/body/div/table/tr[1]/td', 0, 'color'));
+        self::assertEquals('#ffffff', self::getTextContent($xpath, '/html/body/div/table/tr[2]/td', 0, 'bgcolor'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/table/tr[2]/td', 0, 'color'));
     }
 
     /**
@@ -138,9 +138,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(2, $xpath->query('/html/body/div/table/tr[1]/td')->length);
-        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
-        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[2]/td')->length);
+        self::assertEquals(2, self::getLength($xpath, '/html/body/div/table/tr[1]/td'));
+        self::assertEquals('3', self::getTextContent($xpath, '/html/body/div/table/tr[1]/td[1]', 0, 'rowspan'));
+        self::assertEquals(1, self::getLength($xpath, '/html/body/div/table/tr[2]/td'));
     }
 
     private function getAsHTML(PhpWord $phpWord)
@@ -215,8 +215,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals('table-layout: fixed;', $xpath->query('/html/body/div/table[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('table-layout: auto;', $xpath->query('/html/body/div/table[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals('table-layout: fixed;', self::getTextContent($xpath, '/html/body/div/table[1]', 0, 'style'));
+        self::assertEquals('table-layout: auto;', self::getTextContent($xpath, '/html/body/div/table[2]', 0, 'style'));
     }
 
     /**
@@ -233,7 +233,49 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/div')->length);
-        self::assertEquals('page-break-before: always; height: 0; margin: 0; padding: 0; overflow: hidden;', $xpath->query('/html/body/div[1]/div')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals(1, self::getLength($xpath, '/html/body/div'));
+        self::assertEquals('page-break-before: always; height: 0; margin: 0; padding: 0; overflow: hidden;', self::getTextContent($xpath, '/html/body/div[1]/div', 0, 'style'));
+    }
+
+    private static function getTextContent(DOMXPath $xpath, string $query, int $itemNumber = 0, string $namedItem = ''): string
+    {
+        $returnVal = '';
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } elseif ($namedItem !== '') {
+            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem)->textContent;
+        } else {
+            $returnVal = $item->item($itemNumber)->textContent;
+        }
+
+        return $returnVal;
+    }
+
+    /** @return mixed */
+    private static function getNamedItem(DOMXPath $xpath, string $query, int $itemNumber, string $namedItem)
+    {
+        $returnVal = '';
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } else {
+            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem);
+        }
+
+        return $returnVal;
+    }
+
+    private static function getLength(DOMXPath $xpath, string $query): int
+    {
+        $returnVal = 0;
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } else {
+            $returnVal = $item->length;
+        }
+
+        return $returnVal;
     }
 }

@@ -79,8 +79,8 @@ class Table extends AbstractElement
                         $cellTag = $tblHeader ? 'th' : 'td';
                         $cellColSpanAttr = (is_numeric($cellColSpan) && ($cellColSpan > 1) ? " colspan=\"{$cellColSpan}\"" : '');
                         $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
-                        $cellBgColorAttr = (null === $cellBgColor ? '' : " bgcolor=\"#{$cellBgColor}\"");
-                        $cellFgColorAttr = (null === $cellFgColor ? '' : " color=\"#{$cellFgColor}\"");
+                        $cellBgColorAttr = (empty($cellBgColor) ? '' : " bgcolor=\"#{$cellBgColor}\"");
+                        $cellFgColorAttr = (empty($cellFgColor) ? '' : " color=\"#{$cellFgColor}\"");
                         $content .= "<{$cellTag}{$cellStyleCss}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);
                         $content .= $writer->write();
@@ -143,7 +143,7 @@ class Table extends AbstractElement
     public static function getTableStyleString($tableStyle)
     {
         $style = '';
-        if (method_exists($tableStyle, 'getLayout')) {
+        if (is_object($tableStyle) && method_exists($tableStyle, 'getLayout')) {
             if ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED) {
                 $style .= 'table-layout: fixed;';
             } elseif ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO) {

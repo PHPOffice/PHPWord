@@ -127,17 +127,17 @@ class StyleTest extends \PHPUnit\Framework\TestCase
             . ' border-left-style: none; '
             . 'border-bottom-style: none; '
             . 'border-right-style: none;';
-        self::assertEquals("table-layout: auto;$cssnone", $xpath->query('/html/body/div/table[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[1]/tr[1]/td[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[1]/tr[1]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[1]/tr[2]/td[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[1]/tr[2]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals("table-layout: auto;$cssnone", self::getTextContent($xpath, '/html/body/div/table[1]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[1]/tr[1]/td[1]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[1]/tr[1]/td[2]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[1]/tr[2]/td[1]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[1]/tr[2]/td[2]', 0, 'style'));
 
-        self::assertEmpty($xpath->query('/html/body/div/table[2]')->item(0)->attributes->getNamedItem('style'));
-        self::assertEmpty($xpath->query('/html/body/div/table[2]/tr[1]/td[1]')->item(0)->attributes->getNamedItem('style'));
-        self::assertEmpty($xpath->query('/html/body/div/table[2]/tr[1]/td[2]')->item(0)->attributes->getNamedItem('style'));
-        self::assertEmpty($xpath->query('/html/body/div/table[2]/tr[2]/td[1]')->item(0)->attributes->getNamedItem('style'));
-        self::assertEmpty($xpath->query('/html/body/div/table[2]/tr[2]/td[2]')->item(0)->attributes->getNamedItem('style'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/table[2]', 0, 'style'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/table[2]/tr[1]/td[1]', 0, 'style'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/table[2]/tr[1]/td[2]', 0, 'style'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/table[2]/tr[2]/td[1]', 0, 'style'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/table[2]/tr[2]/td[2]', 0, 'style'));
 
         $cssnone = ' border-top-style: dashed;'
             . ' border-top-color: red;'
@@ -147,11 +147,11 @@ class StyleTest extends \PHPUnit\Framework\TestCase
             . ' border-bottom-color: red;'
             . ' border-right-style: dashed;'
             . ' border-right-color: red;';
-        self::assertEquals("table-layout: auto;$cssnone", $xpath->query('/html/body/div/table[3]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[3]/tr[1]/td[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[3]/tr[1]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[3]/tr[2]/td[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[3]/tr[2]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals("table-layout: auto;$cssnone", self::getTextContent($xpath, '/html/body/div/table[3]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[3]/tr[1]/td[1]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[3]/tr[1]/td[2]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[3]/tr[2]/td[1]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[3]/tr[2]/td[2]', 0, 'style'));
 
         $cssnone = ' border-top-style: dotted;'
             . ' border-top-color: blue;'
@@ -161,11 +161,11 @@ class StyleTest extends \PHPUnit\Framework\TestCase
             . ' border-bottom-color: blue;'
             . ' border-right-style: dashed;'
             . ' border-right-color: green;';
-        self::assertEquals("table-layout: auto;$cssnone", $xpath->query('/html/body/div/table[4]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[4]/tr[1]/td[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[4]/tr[1]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[4]/tr[2]/td[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[4]/tr[2]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals("table-layout: auto;$cssnone", self::getTextContent($xpath, '/html/body/div/table[4]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[4]/tr[1]/td[1]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[4]/tr[1]/td[2]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[4]/tr[2]/td[1]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[4]/tr[2]/td[2]', 0, 'style'));
 
         $cssnone = ' border-top-style: solid;'
             . ' border-top-width: 0.25pt;'
@@ -175,16 +175,45 @@ class StyleTest extends \PHPUnit\Framework\TestCase
             . ' border-bottom-width: 0.25pt;'
             . ' border-right-style: solid;'
             . ' border-right-width: 0.25pt;';
-        self::assertEquals("table-layout: auto;$cssnone", $xpath->query('/html/body/div/table[5]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[5]/tr[1]/td[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[5]/tr[1]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[5]/tr[2]/td[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals($cssnone, $xpath->query('/html/body/div/table[5]/tr[2]/td[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals("table-layout: auto;$cssnone", self::getTextContent($xpath, '/html/body/div/table[5]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[5]/tr[1]/td[1]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[5]/tr[1]/td[2]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[5]/tr[2]/td[1]', 0, 'style'));
+        self::assertEquals($cssnone, self::getTextContent($xpath, '/html/body/div/table[5]/tr[2]/td[2]', 0, 'style'));
 
-        self::assertNull($xpath->query('/html/body/div/table[6]')->item(0)->attributes->getNamedItem('style'));
-        self::assertEquals('tstyle', $xpath->query('/html/body/div/table[6]')->item(0)->attributes->getNamedItem('class')->textContent);
-        $style = $xpath->query('/html/head/style')->item(0)->textContent;
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/table[6]', 0, 'style'));
+        self::assertEquals('tstyle', self::getTextContent($xpath, '/html/body/div/table[6]', 0, 'class'));
+        $style = self::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[.]tstyle[^\\r\\n]*/m', $style, $matches));
         self::assertEquals(".tstyle {table-layout: auto;$cssnone}", $matches[0]);
+    }
+
+    private static function getTextContent(DOMXPath $xpath, string $query, int $itemNumber = 0, string $namedItem = ''): string
+    {
+        $returnVal = '';
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } elseif ($namedItem !== '') {
+            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem)->textContent;
+        } else {
+            $returnVal = $item->item($itemNumber)->textContent;
+        }
+
+        return $returnVal;
+    }
+
+    /** @return mixed */
+    private static function getNamedItem(DOMXPath $xpath, string $query, int $itemNumber, string $namedItem)
+    {
+        $returnVal = '';
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } else {
+            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem);
+        }
+
+        return $returnVal;
     }
 }

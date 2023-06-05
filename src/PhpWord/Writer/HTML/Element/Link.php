@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Writer\Html;
+use PhpOffice\PhpWord\Writer\HTML;
 
 /**
  * Link element HTML writer.

@@ -32,7 +32,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
     /** @var string */
     private $defaultFontName;
 
-    /** @var int */
+    /** @var float|int */
     private $defaultFontSize;
 
     /**
@@ -86,15 +86,15 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEmpty($xpath->query('/html/body/div/p[1]')->item(0)->attributes->getNamedItem('class'));
-        self::assertEquals(0, $xpath->query('/html/body/div/p[1]/span')->length);
-        self::assertEquals('style1', $xpath->query('/html/body/div/p[2]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style2', $xpath->query('/html/body/div/p[3]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style3', $xpath->query('/html/body/div/p[4]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style4', $xpath->query('/html/body/div/p[5]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style5', $xpath->query('/html/body/div/p[6]/span')->item(0)->attributes->getNamedItem('class')->textContent);
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[1]', 0, 'class'));
+        self::assertEquals(0, self::getLength($xpath, '/html/body/div/p[1]/span'));
+        self::assertEquals('style1', self::getTextContent($xpath, '/html/body/div/p[2]/span', 0, 'class'));
+        self::assertEquals('style2', self::getTextContent($xpath, '/html/body/div/p[3]/span', 0, 'class'));
+        self::assertEquals('style3', self::getTextContent($xpath, '/html/body/div/p[4]/span', 0, 'class'));
+        self::assertEquals('style4', self::getTextContent($xpath, '/html/body/div/p[5]/span', 0, 'class'));
+        self::assertEquals('style5', self::getTextContent($xpath, '/html/body/div/p[6]/span', 0, 'class'));
 
-        $style = $xpath->query('/html/head/style')->item(0)->textContent;
+        $style = self::getTextContent($xpath, '/html/head/style');
         $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
         self::assertNotFalse($prg);
         self::assertEquals('* {font-family: \'Courier New\'; font-size: 12pt;}', $matches[0]);
@@ -137,14 +137,14 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEmpty($xpath->query('/html/body/div/p[1]')->item(0)->attributes->getNamedItem('class'));
-        self::assertEquals(0, $xpath->query('/html/body/div/p[1]/span')->length);
-        self::assertEquals('style1', $xpath->query('/html/body/div/p[2]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style2', $xpath->query('/html/body/div/p[3]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style3', $xpath->query('/html/body/div/p[4]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style4', $xpath->query('/html/body/div/p[5]/span')->item(0)->attributes->getNamedItem('class')->textContent);
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[1]', 0, 'class'));
+        self::assertEquals(0, self::getLength($xpath, '/html/body/div/p[1]/span'));
+        self::assertEquals('style1', self::getTextContent($xpath, '/html/body/div/p[2]/span', 0, 'class'));
+        self::assertEquals('style2', self::getTextContent($xpath, '/html/body/div/p[3]/span', 0, 'class'));
+        self::assertEquals('style3', self::getTextContent($xpath, '/html/body/div/p[4]/span', 0, 'class'));
+        self::assertEquals('style4', self::getTextContent($xpath, '/html/body/div/p[5]/span', 0, 'class'));
 
-        $style = $xpath->query('/html/head/style')->item(0)->textContent;
+        $style = self::getTextContent($xpath, '/html/head/style');
         $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
         self::assertNotFalse($prg);
         self::assertEquals('* {font-family: \'Courier New\'; font-size: 12pt;}', $matches[0]);
@@ -185,14 +185,14 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEmpty($xpath->query('/html/body/div/p[1]')->item(0)->attributes->getNamedItem('class'));
-        self::assertEquals(0, $xpath->query('/html/body/div/p[1]/span')->length);
-        self::assertEquals('style1', $xpath->query('/html/body/div/p[2]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style2', $xpath->query('/html/body/div/p[3]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style3', $xpath->query('/html/body/div/p[4]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('style4', $xpath->query('/html/body/div/p[5]/span')->item(0)->attributes->getNamedItem('class')->textContent);
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[1]', 0, 'class'));
+        self::assertEquals(0, self::getLength($xpath, '/html/body/div/p[1]/span'));
+        self::assertEquals('style1', self::getTextContent($xpath, '/html/body/div/p[2]/span', 0, 'class'));
+        self::assertEquals('style2', self::getTextContent($xpath, '/html/body/div/p[3]/span', 0, 'class'));
+        self::assertEquals('style3', self::getTextContent($xpath, '/html/body/div/p[4]/span', 0, 'class'));
+        self::assertEquals('style4', self::getTextContent($xpath, '/html/body/div/p[5]/span', 0, 'class'));
 
-        $style = $xpath->query('/html/head/style')->item(0)->textContent;
+        $style = self::getTextContent($xpath, '/html/head/style');
         $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
         self::assertNotFalse($prg);
         self::assertEquals('* {font-family: \'Courier New\', monospace; font-size: 12pt;}', $matches[0]);
@@ -233,7 +233,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        $style = $xpath->query('/html/head/style')->item(0)->textContent;
+        $style = self::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[*][^\\r\\n]*/m', $style, $matches));
         self::assertEquals('* {font-family: \'Arial\'; font-size: 12pt; white-space: pre-wrap;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
@@ -267,11 +267,11 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals('font-family: \'Courier New\'; font-size: 10pt; white-space: pre-wrap;', $xpath->query('/html/body/div/p[1]/span')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('font-family: \'Verdana\'; font-size: 8.5pt;', $xpath->query('/html/body/div/p[2]/span')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEmpty($xpath->query('/html/body/div/p[3]')->item(0)->attributes->getNamedItem('class'));
-        self::assertEmpty($xpath->query('/html/body/div/p[3]')->item(0)->attributes->getNamedItem('style'));
-        self::assertEquals(0, $xpath->query('/html/body/div/p[3]/span')->length);
+        self::assertEquals('font-family: \'Courier New\'; font-size: 10pt; white-space: pre-wrap;', self::getTextContent($xpath, '/html/body/div/p[1]/span', 0, 'style'));
+        self::assertEquals('font-family: \'Verdana\'; font-size: 8.5pt;', self::getTextContent($xpath, '/html/body/div/p[2]/span', 0, 'style'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[3]', 0, 'class'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[3]', 0, 'style'));
+        self::assertEquals(0, self::getLength($xpath, '/html/body/div/p[3]/span'));
     }
 
     /**
@@ -297,16 +297,58 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
-        self::assertEquals('ar-DZ', $xpath->query('/html/body/div/p[1]/span')->item(0)->attributes->getNamedItem('lang')->textContent);
-        self::assertEquals('fr-BE', $xpath->query('/html/body/div/p[2]/span')->item(0)->attributes->getNamedItem('lang')->textContent);
-        self::assertEquals('fr-BE', $xpath->query('/html/body/div/p[3]/span')->item(0)->attributes->getNamedItem('lang')->textContent);
-        self::assertEquals('font-family: \'Verdana\';', $xpath->query('/html/body/div/p[3]/span')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals(0, $xpath->query('/html/body/div/p[4]/span')->length);
-        self::assertEquals('hi-IN', $xpath->query('/html/body/div/p[5]/span')->item(0)->attributes->getNamedItem('lang')->textContent);
-        self::assertEquals('hindi', $xpath->query('/html/body/div/p[5]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('nonexistent', $xpath->query('/html/body/div/p[6]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEmpty($xpath->query('/html/body/div/p[6]/span')->item(0)->attributes->getNamedItem('lang'));
-        self::assertEquals('nolang', $xpath->query('/html/body/div/p[7]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEmpty($xpath->query('/html/body/div/p[7]/span')->item(0)->attributes->getNamedItem('lang'));
+        self::assertEquals('ar-DZ', self::getTextContent($xpath, '/html/body/div/p[1]/span', 0, 'lang'));
+        self::assertEquals('fr-BE', self::getTextContent($xpath, '/html/body/div/p[2]/span', 0, 'lang'));
+        self::assertEquals('fr-BE', self::getTextContent($xpath, '/html/body/div/p[3]/span', 0, 'lang'));
+        self::assertEquals('font-family: \'Verdana\';', self::getTextContent($xpath, '/html/body/div/p[3]/span', 0, 'style'));
+        self::assertEquals(0, self::getLength($xpath, '/html/body/div/p[4]/span'));
+        self::assertEquals('hi-IN', self::getTextContent($xpath, '/html/body/div/p[5]/span', 0, 'lang'));
+        self::assertEquals('hindi', self::getTextContent($xpath, '/html/body/div/p[5]/span', 0, 'class'));
+        self::assertEquals('nonexistent', self::getTextContent($xpath, '/html/body/div/p[6]/span', 0, 'class'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[6]/span', 0, 'lang'));
+        self::assertEquals('nolang', self::getTextContent($xpath, '/html/body/div/p[7]/span', 0, 'class'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[7]/span', 0, 'lang'));
+    }
+
+    private static function getTextContent(DOMXPath $xpath, string $query, int $itemNumber = 0, string $namedItem = ''): string
+    {
+        $returnVal = '';
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } elseif ($namedItem !== '') {
+            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem)->textContent;
+        } else {
+            $returnVal = $item->item($itemNumber)->textContent;
+        }
+
+        return $returnVal;
+    }
+
+    /** @return mixed */
+    private static function getNamedItem(DOMXPath $xpath, string $query, int $itemNumber, string $namedItem)
+    {
+        $returnVal = '';
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } else {
+            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem);
+        }
+
+        return $returnVal;
+    }
+
+    private static function getLength(DOMXPath $xpath, string $query): int
+    {
+        $returnVal = 0;
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } else {
+            $returnVal = $item->length;
+        }
+
+        return $returnVal;
     }
 }

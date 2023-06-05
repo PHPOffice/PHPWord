@@ -28,7 +28,7 @@ use PhpOffice\PhpWord\Writer\HTML;
  */
 class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
-    private function getAsHTML(PhpWord $phpWord)
+    private function getAsHTML(PhpWord $phpWord): DOMDocument
     {
         $htmlWriter = new HTML($phpWord);
         $dom = new DOMDocument();
@@ -55,14 +55,14 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(0, $xpath->query('/html/body/div/p[1]/span')->length);
-        self::assertEmpty($xpath->query('/html/body/div/p[1]')->item(0)->attributes->getNamedItem('class'));
-        self::assertEquals('margin-top: 0pt; margin-bottom: 0pt; line-height: 1.08;', $xpath->query('/html/body/div/p[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals(0, $xpath->query('/html/body/div/p[2]/span')->length);
-        self::assertEmpty($xpath->query('/html/body/div/p[2]')->item(0)->attributes->getNamedItem('style'));
-        self::assertEquals('indented', $xpath->query('/html/body/div/p[2]')->item(0)->attributes->getNamedItem('class')->textContent);
+        self::assertEquals(0, self::getLength($xpath, '/html/body/div/p[1]/span'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[1]', 0, 'class'));
+        self::assertEquals('margin-top: 0pt; margin-bottom: 0pt; line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[1]', 0, 'style'));
+        self::assertEquals(0, self::getLength($xpath, '/html/body/div/p[2]/span'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[2]', 0, 'style'));
+        self::assertEquals('indented', self::getTextContent($xpath, '/html/body/div/p[2]', 0, 'class'));
 
-        $style = $xpath->query('/html/head/style')->item(0)->textContent;
+        $style = self::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[.]indented[^\\r\\n]*/m', $style, $matches));
         self::assertEquals('.indented {margin-left: 0.5in; margin-right: 0.6in;}', $matches[0]);
     }
@@ -86,16 +86,16 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/div/p[1]/span')->length);
-        self::assertEmpty($xpath->query('/html/body/div/p[1]')->item(0)->attributes->getNamedItem('class'));
-        self::assertEquals('margin-top: 0pt; margin-bottom: 0pt; line-height: 1.08;', $xpath->query('/html/body/div/p[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('style1', $xpath->query('/html/body/div/p[1]/span')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals(1, $xpath->query('/html/body/div/p[2]/span')->length);
-        self::assertEmpty($xpath->query('/html/body/div/p[2]')->item(0)->attributes->getNamedItem('style'));
-        self::assertEquals('indented', $xpath->query('/html/body/div/p[2]')->item(0)->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('font-family: \'Verdana\'; font-size: 12pt;', $xpath->query('/html/body/div/p[2]/span')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals(1, self::getLength($xpath, '/html/body/div/p[1]/span'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[1]', 0, 'class'));
+        self::assertEquals('margin-top: 0pt; margin-bottom: 0pt; line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[1]', 0, 'style'));
+        self::assertEquals('style1', self::getTextContent($xpath, '/html/body/div/p[1]/span', 0, 'class'));
+        self::assertEquals(1, self::getLength($xpath, '/html/body/div/p[2]/span'));
+        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[2]', 0, 'style'));
+        self::assertEquals('indented', self::getTextContent($xpath, '/html/body/div/p[2]', 0, 'class'));
+        self::assertEquals('font-family: \'Verdana\'; font-size: 12pt;', self::getTextContent($xpath, '/html/body/div/p[2]/span', 0, 'style'));
 
-        $style = $xpath->query('/html/head/style')->item(0)->textContent;
+        $style = self::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[.]indented[^\\r\\n]*/m', $style, $matches));
         self::assertEquals('.indented {margin-left: 0.5in; margin-right: 0.6in;}', $matches[0]);
         self::assertNotFalse(preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches));
@@ -119,10 +119,10 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
         $dom = $this->getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
-        self::assertEquals('line-height: 1.08;', $xpath->query('/html/body/div/p[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('line-height: 1.08;', $xpath->query('/html/body/div/p[2]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('line-height: 1.08; page-break-before: always;', $xpath->query('/html/body/div/p[3]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('line-height: 1.08;', $xpath->query('/html/body/div/p[4]')->item(0)->attributes->getNamedItem('style')->textContent);
+        self::assertEquals('line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[1]', 0, 'style'));
+        self::assertEquals('line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[2]', 0, 'style'));
+        self::assertEquals('line-height: 1.08; page-break-before: always;', self::getTextContent($xpath, '/html/body/div/p[3]', 0, 'style'));
+        self::assertEquals('line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[4]', 0, 'style'));
     }
 
     /**
@@ -143,5 +143,47 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('<p>Text before blank text</p>', $bodylines[2]);
         self::assertEquals('<p>&nbsp;</p>', $bodylines[3]);
         self::assertEquals('<p>Text after blank text</p>', $bodylines[4]);
+    }
+
+    private static function getTextContent(DOMXPath $xpath, string $query, int $itemNumber = 0, string $namedItem = ''): string
+    {
+        $returnVal = '';
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } elseif ($namedItem !== '') {
+            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem)->textContent;
+        } else {
+            $returnVal = $item->item($itemNumber)->textContent;
+        }
+
+        return $returnVal;
+    }
+
+    /** @return mixed */
+    private static function getNamedItem(DOMXPath $xpath, string $query, int $itemNumber, string $namedItem)
+    {
+        $returnVal = '';
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } else {
+            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem);
+        }
+
+        return $returnVal;
+    }
+
+    private static function getLength(DOMXPath $xpath, string $query): int
+    {
+        $returnVal = 0;
+        $item = $xpath->query($query);
+        if ($item === false) {
+            self::fail('Unexpected false return from xpath query');
+        } else {
+            $returnVal = $item->length;
+        }
+
+        return $returnVal;
     }
 }
