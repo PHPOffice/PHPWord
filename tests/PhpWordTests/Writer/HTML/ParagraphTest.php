@@ -15,9 +15,8 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\HTML;
+namespace PhpOffice\PhpWordTests\Writer\HTML;
 
-use DOMDocument;
 use DOMXPath;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
@@ -28,15 +27,6 @@ use PhpOffice\PhpWord\Writer\HTML;
  */
 class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
-    private function getAsHTML(PhpWord $phpWord): DOMDocument
-    {
-        $htmlWriter = new HTML($phpWord);
-        $dom = new DOMDocument();
-        $dom->loadHTML($htmlWriter->getContent());
-
-        return $dom;
-    }
-
     /**
      * Tests indentation, line-height, spaceBefore, spaceAfter, both inline and named.
      */
@@ -52,17 +42,17 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $section1->addText($text, null, $pstyle1);
         $section1->addText($text, null, 'indented');
 
-        $dom = $this->getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(0, self::getLength($xpath, '/html/body/div/p[1]/span'));
-        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[1]', 0, 'class'));
-        self::assertEquals('margin-top: 0pt; margin-bottom: 0pt; line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[1]', 0, 'style'));
-        self::assertEquals(0, self::getLength($xpath, '/html/body/div/p[2]/span'));
-        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[2]', 0, 'style'));
-        self::assertEquals('indented', self::getTextContent($xpath, '/html/body/div/p[2]', 0, 'class'));
+        self::assertEquals(0, Helper::getLength($xpath, '/html/body/div/p[1]/span'));
+        self::assertEmpty(Helper::getNamedItem($xpath, '/html/body/div/p[1]', 'class'));
+        self::assertEquals('margin-top: 0pt; margin-bottom: 0pt; line-height: 1.08;', Helper::getTextContent($xpath, '/html/body/div/p[1]', 'style'));
+        self::assertEquals(0, Helper::getLength($xpath, '/html/body/div/p[2]/span'));
+        self::assertEmpty(Helper::getNamedItem($xpath, '/html/body/div/p[2]', 'style'));
+        self::assertEquals('indented', Helper::getTextContent($xpath, '/html/body/div/p[2]', 'class'));
 
-        $style = self::getTextContent($xpath, '/html/head/style');
+        $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[.]indented[^\\r\\n]*/m', $style, $matches));
         self::assertEquals('.indented {margin-left: 0.5in; margin-right: 0.6in;}', $matches[0]);
     }
@@ -83,19 +73,19 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $section1->addText($text, 'style1', $pstyle1);
         $section1->addText($text, ['name' => 'Verdana', 'size' => '12'], 'indented');
 
-        $dom = $this->getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, self::getLength($xpath, '/html/body/div/p[1]/span'));
-        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[1]', 0, 'class'));
-        self::assertEquals('margin-top: 0pt; margin-bottom: 0pt; line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[1]', 0, 'style'));
-        self::assertEquals('style1', self::getTextContent($xpath, '/html/body/div/p[1]/span', 0, 'class'));
-        self::assertEquals(1, self::getLength($xpath, '/html/body/div/p[2]/span'));
-        self::assertEmpty(self::getNamedItem($xpath, '/html/body/div/p[2]', 0, 'style'));
-        self::assertEquals('indented', self::getTextContent($xpath, '/html/body/div/p[2]', 0, 'class'));
-        self::assertEquals('font-family: \'Verdana\'; font-size: 12pt;', self::getTextContent($xpath, '/html/body/div/p[2]/span', 0, 'style'));
+        self::assertEquals(1, Helper::getLength($xpath, '/html/body/div/p[1]/span'));
+        self::assertEmpty(Helper::getNamedItem($xpath, '/html/body/div/p[1]', 'class'));
+        self::assertEquals('margin-top: 0pt; margin-bottom: 0pt; line-height: 1.08;', Helper::getTextContent($xpath, '/html/body/div/p[1]', 'style'));
+        self::assertEquals('style1', Helper::getTextContent($xpath, '/html/body/div/p[1]/span', 'class'));
+        self::assertEquals(1, Helper::getLength($xpath, '/html/body/div/p[2]/span'));
+        self::assertEmpty(Helper::getNamedItem($xpath, '/html/body/div/p[2]', 'style'));
+        self::assertEquals('indented', Helper::getTextContent($xpath, '/html/body/div/p[2]', 'class'));
+        self::assertEquals('font-family: \'Verdana\'; font-size: 12pt;', Helper::getTextContent($xpath, '/html/body/div/p[2]/span', 'style'));
 
-        $style = self::getTextContent($xpath, '/html/head/style');
+        $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[.]indented[^\\r\\n]*/m', $style, $matches));
         self::assertEquals('.indented {margin-left: 0.5in; margin-right: 0.6in;}', $matches[0]);
         self::assertNotFalse(preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches));
@@ -117,12 +107,12 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $section1->addText('1st paragraph 2nd page', null, $pstyle2);
         $section1->addText('2nd paragraph 2nd page', null, $pstyle1);
 
-        $dom = $this->getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
-        self::assertEquals('line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[1]', 0, 'style'));
-        self::assertEquals('line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[2]', 0, 'style'));
-        self::assertEquals('line-height: 1.08; page-break-before: always;', self::getTextContent($xpath, '/html/body/div/p[3]', 0, 'style'));
-        self::assertEquals('line-height: 1.08;', self::getTextContent($xpath, '/html/body/div/p[4]', 0, 'style'));
+        self::assertEquals('line-height: 1.08;', Helper::getTextContent($xpath, '/html/body/div/p[1]', 'style'));
+        self::assertEquals('line-height: 1.08;', Helper::getTextContent($xpath, '/html/body/div/p[2]', 'style'));
+        self::assertEquals('line-height: 1.08; page-break-before: always;', Helper::getTextContent($xpath, '/html/body/div/p[3]', 'style'));
+        self::assertEquals('line-height: 1.08;', Helper::getTextContent($xpath, '/html/body/div/p[4]', 'style'));
     }
 
     /**
@@ -143,47 +133,5 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('<p>Text before blank text</p>', $bodylines[2]);
         self::assertEquals('<p>&nbsp;</p>', $bodylines[3]);
         self::assertEquals('<p>Text after blank text</p>', $bodylines[4]);
-    }
-
-    private static function getTextContent(DOMXPath $xpath, string $query, int $itemNumber = 0, string $namedItem = ''): string
-    {
-        $returnVal = '';
-        $item = $xpath->query($query);
-        if ($item === false) {
-            self::fail('Unexpected false return from xpath query');
-        } elseif ($namedItem !== '') {
-            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem)->textContent;
-        } else {
-            $returnVal = $item->item($itemNumber)->textContent;
-        }
-
-        return $returnVal;
-    }
-
-    /** @return mixed */
-    private static function getNamedItem(DOMXPath $xpath, string $query, int $itemNumber, string $namedItem)
-    {
-        $returnVal = '';
-        $item = $xpath->query($query);
-        if ($item === false) {
-            self::fail('Unexpected false return from xpath query');
-        } else {
-            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem);
-        }
-
-        return $returnVal;
-    }
-
-    private static function getLength(DOMXPath $xpath, string $query): int
-    {
-        $returnVal = 0;
-        $item = $xpath->query($query);
-        if ($item === false) {
-            self::fail('Unexpected false return from xpath query');
-        } else {
-            $returnVal = $item->length;
-        }
-
-        return $returnVal;
     }
 }

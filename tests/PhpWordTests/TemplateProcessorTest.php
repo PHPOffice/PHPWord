@@ -26,6 +26,7 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TemplateProcessor;
+use TypeError;
 use ZipArchive;
 
 /**
@@ -140,11 +141,13 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
-        $this->expectExceptionMessage('Could not set values for the given XSL style sheet parameters.');
-        // Test is not needed for PHP 8.0, because internally validation throws TypeError exception.
         if (\PHP_VERSION_ID >= 80000) {
-            self::markTestSkipped('not needed for PHP 8.0');
+            // PHP 8+ internal validation throws TypeError.
+            $this->expectException(TypeError::class);
+            $this->expectExceptionMessage('must contain only string keys');
+        } else {
+            $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+            $this->expectExceptionMessage('Could not set values for the given XSL style sheet parameters.');
         }
 
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
@@ -221,7 +224,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
 
         $docName = 'clone-test-result.docx';
-        $templateProcessor->setValue('tableHeader', utf8_decode('ééé'));
+        $templateProcessor->setValue('tableHeader', 'ééé');
         $templateProcessor->cloneRow('userId', 1);
         $templateProcessor->setValue('userId#1', 'Test');
         $templateProcessor->saveAs($docName);
@@ -248,7 +251,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
 
         $docName = 'clone-test-result.docx';
-        $templateProcessor->setValue('tableHeader', utf8_decode('ééé'));
+        $templateProcessor->setValue('tableHeader', 'ééé');
         $templateProcessor->cloneRow('userId', 1);
         $templateProcessor->setValue('userId#1', 'Test');
         $templateProcessor->saveAs($docName);

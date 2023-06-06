@@ -82,6 +82,12 @@ class MsDoc extends AbstractReader implements ReaderInterface
      */
     private $arraySections = [];
 
+    /** @var string */
+    private $summaryInformation;
+
+    /** @var string */
+    private $documentSummaryInformation;
+
     const VERSION_97 = '97';
     const VERSION_2000 = '2000';
     const VERSION_2002 = '2002';
@@ -150,9 +156,9 @@ class MsDoc extends AbstractReader implements ReaderInterface
         // Get Data stream
         $this->dataObjectPool = $ole->getStream($ole->wrkObjectPool);
         // Get Summary Information data
-        $this->_SummaryInformation = $ole->getStream($ole->summaryInformation);
+        $this->summaryInformation = $ole->getStream($ole->summaryInformation);
         // Get Document Summary Information data
-        $this->_DocumentSummaryInformation = $ole->getStream($ole->docSummaryInfos);
+        $this->documentSummaryInformation = $ole->getStream($ole->docSummaryInfos);
     }
 
     private function getNumInLcb($lcb, $iSize)

@@ -1951,11 +1951,6 @@ parameters:
 			path: tests/PhpWordTests/TestableTemplateProcesor.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\HTML\\\\ElementTest\\:\\:getAsHTML\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\ODText\\\\Style\\\\FontTest\\:\\:providerAllNamedColors\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/ODText/Style/FontTest.php

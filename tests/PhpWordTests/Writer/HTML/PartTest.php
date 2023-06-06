@@ -17,11 +17,9 @@
 
 namespace PhpOffice\PhpWordTests\Writer\HTML;
 
-use DOMDocument;
 use DOMXPath;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
-use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Writer\HTML\Part\Body;
 
 /**
@@ -37,15 +35,6 @@ class PartTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $object = new Body();
         $object->getParentWriter();
-    }
-
-    private function getAsHTML(PhpWord $phpWord): DOMDocument
-    {
-        $htmlWriter = new HTML($phpWord);
-        $dom = new DOMDocument();
-        $dom->loadHTML($htmlWriter->getContent());
-
-        return $dom;
     }
 
     /**
@@ -85,15 +74,15 @@ class PartTest extends \PHPUnit\Framework\TestCase
             ->setLandscape();
         $section2->addText('In theory, this will be printed landscape on A4 paper');
 
-        $dom = $this->getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals('en-US', self::getTextContent($xpath, '/html', 0, 'lang'));
-        self::assertEquals(2, self::getLength($xpath, '/html/body/div'));
-        self::assertEquals('page: page1', self::getTextContent($xpath, '/html/body/div[1]', 0, 'style'));
-        self::assertEquals('page: page2', self::getTextContent($xpath, '/html/body/div[2]', 0, 'style'));
+        self::assertEquals('en-US', Helper::getTextContent($xpath, '/html', 'lang'));
+        self::assertEquals(2, Helper::getLength($xpath, '/html/body/div'));
+        self::assertEquals('page: page1', Helper::getTextContent($xpath, '/html/body/div[1]', 'style'));
+        self::assertEquals('page: page2', Helper::getTextContent($xpath, '/html/body/div[2]', 'style'));
 
-        $style = self::getTextContent($xpath, '/html/head/style', 0);
+        $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(strpos($style, 'body > div + div {page-break-before: always;}'));
         self::assertNotFalse(strpos($style, 'div > *:first-child {page-break-before: auto;}'));
         self::assertNotFalse(strpos($style, '@page page1 {size: Letter portrait; margin-right: 0.75in; margin-left: 0.75in; margin-top: 0.5in; margin-bottom: 0.5in; }'));
@@ -110,10 +99,10 @@ class PartTest extends \PHPUnit\Framework\TestCase
         $section1 = $phpWord->addSection();
         $section1->addText('पाठ हिंदी में');
 
-        $dom = $this->getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals('hi-IN', self::getTextContent($xpath, '/html', 0, 'lang'));
+        self::assertEquals('hi-IN', Helper::getTextContent($xpath, '/html', 'lang'));
     }
 
     /**
@@ -126,10 +115,10 @@ class PartTest extends \PHPUnit\Framework\TestCase
         $section1 = $phpWord->addSection();
         $section1->addText('שלום');
 
-        $dom = $this->getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals('he-IL', self::getTextContent($xpath, '/html', 0, 'lang'));
+        self::assertEquals('he-IL', Helper::getTextContent($xpath, '/html', 'lang'));
     }
 
     /**
@@ -144,11 +133,11 @@ class PartTest extends \PHPUnit\Framework\TestCase
         $section1->addText('First paragraph with no space before or after');
         $section1->addText('Second paragraph with no space before or after');
 
-        $dom = $this->getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEmpty(self::getNamedItem($xpath, '/html', 0, 'lang'));
-        $style = self::getTextContent($xpath, '/html/head/style');
+        self::assertEmpty(Helper::getNamedItem($xpath, '/html', 'lang'));
+        $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(strpos($style, 'p, .Normal {margin-top: 0pt; margin-bottom: 0pt;}'));
     }
 
@@ -162,10 +151,10 @@ class PartTest extends \PHPUnit\Framework\TestCase
         $section1->addText('First paragraph with no space before or after');
         $section1->addText('Second paragraph with no space before or after');
 
-        $dom = $this->getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        $style = self::getTextContent($xpath, '/html/head/style');
+        $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertFalse(strpos($style, 'Normal'));
     }
 
@@ -185,57 +174,15 @@ class PartTest extends \PHPUnit\Framework\TestCase
         $section1->addTitle('Header 2 #2', 2);
         $section1->addText('Paragraph under header 2 #2');
 
-        $dom = $this->getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        $style = self::getTextContent($xpath, '/html/head/style');
+        $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(strpos($style, 'h1 {font-family: \'Calibri\'; font-weight: bold;}'));
         self::assertNotFalse(strpos($style, 'h1 {margin-top: 0.5pt; margin-bottom: 0.5pt;}'));
         self::assertNotFalse(strpos($style, 'h2 {font-family: \'Times New Roman\'; font-style: italic;}'));
         self::assertNotFalse(strpos($style, 'h2 {margin-top: 0.25pt; margin-bottom: 0.25pt;}'));
-        self::assertEquals(1, self::getLength($xpath, '/html/body/div/h1'));
-        self::assertEquals(2, self::getLength($xpath, '/html/body/div/h2'));
-    }
-
-    private static function getTextContent(DOMXPath $xpath, string $query, int $itemNumber = 0, string $namedItem = ''): string
-    {
-        $returnVal = '';
-        $item = $xpath->query($query);
-        if ($item === false) {
-            self::fail('Unexpected false return from xpath query');
-        } elseif ($namedItem !== '') {
-            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem)->textContent;
-        } else {
-            $returnVal = $item->item($itemNumber)->textContent;
-        }
-
-        return $returnVal;
-    }
-
-    /** @return mixed */
-    private static function getNamedItem(DOMXPath $xpath, string $query, int $itemNumber, string $namedItem)
-    {
-        $returnVal = '';
-        $item = $xpath->query($query);
-        if ($item === false) {
-            self::fail('Unexpected false return from xpath query');
-        } else {
-            $returnVal = $item->item($itemNumber)->attributes->getNamedItem($namedItem);
-        }
-
-        return $returnVal;
-    }
-
-    private static function getLength(DOMXPath $xpath, string $query): int
-    {
-        $returnVal = 0;
-        $item = $xpath->query($query);
-        if ($item === false) {
-            self::fail('Unexpected false return from xpath query');
-        } else {
-            $returnVal = $item->length;
-        }
-
-        return $returnVal;
+        self::assertEquals(1, Helper::getLength($xpath, '/html/body/div/h1'));
+        self::assertEquals(2, Helper::getLength($xpath, '/html/body/div/h2'));
     }
 }
