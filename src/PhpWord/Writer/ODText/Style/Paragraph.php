@@ -42,7 +42,7 @@ class Paragraph extends AbstractStyle
 
         $xmlWriter->startElement('style:style');
 
-        $styleName = $style->getStyleName();
+        $styleName = (string) $style->getStyleName();
         $styleAuto = false;
         $mpm = '';
         $psm = '';

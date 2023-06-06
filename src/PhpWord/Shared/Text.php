@@ -138,9 +138,9 @@ class Text
     /**
      * Return UTF8 encoded value.
      *
-     * @param string $value
+     * @param ?string $value
      *
-     * @return string
+     * @return ?string
      */
     public static function toUTF8($value = '')
     {
@@ -149,7 +149,13 @@ class Text
             $value = (function_exists('mb_convert_encoding')) ? mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1') : utf8_encode($value);
         }
 
-        return $value;
+        return self::ensureStringOrNull($value);
+    }
+
+    /** @param null|array|string $value */
+    private static function ensureStringOrNull($value): ?string
+    {
+        return is_array($value) ? '' : $value;
     }
 
     /**
