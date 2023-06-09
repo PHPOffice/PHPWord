@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        experimental:
+          - false
         php-version:
           - "7.1.3"
           - "7.2"
@@ -14,6 +16,11 @@ jobs:
           - "7.4"
           - "8.0"
           - "8.1"
+          - "8.2"
+
+        include:
+          - php-version: 'nightly'
+            experimental: true
 
     name: PHP ${{ matrix.php-version }}
 
@@ -55,7 +62,9 @@ jobs:
       - name: Configure matchers
         uses: mheap/phpunit-matcher-action@v1
 
-      - name: Test with PHPUnit
+      - name: "Test with PHPUnit (Experimental: ${{ matrix.experimental }})"
+        env:
+          FAILURE_ACTION: "${{ matrix.experimental == true }}"
         run: ./vendor/bin/phpunit --no-coverage
 
   php-cs-fixer:
