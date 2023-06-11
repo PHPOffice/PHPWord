@@ -110,11 +110,9 @@ class XMLReader
             $this->xpath = new DOMXpath($this->dom);
         }
 
-        if (null === $contextNode) {
-            return $this->xpath->query($path);
-        }
+        $result = @$this->xpath->query($path, $contextNode);
 
-        return $this->xpath->query($path, $contextNode);
+        return empty($result) ? new DOMNodeList() : $result;
     }
 
     /**

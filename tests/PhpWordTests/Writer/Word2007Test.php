@@ -175,16 +175,17 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
      */
     public function testSetGetUseDiskCaching(): void
     {
-        $this->setOutputCallback(function (): void {
-        });
         $phpWord = new PhpWord();
         $phpWord->addSection();
         $object = new Word2007($phpWord);
         $object->setUseDiskCaching(true, PHPWORD_TESTS_BASE_DIR);
         $writer = new Word2007($phpWord);
+        ob_start();
         $writer->save('php://output');
-
+        $contents = ob_get_contents();
+        self::assertTrue(ob_end_clean());
         self::assertTrue($object->isUseDiskCaching());
+        self::assertNotEmpty($contents);
     }
 
     /**

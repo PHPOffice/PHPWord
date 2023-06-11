@@ -542,11 +542,6 @@ parameters:
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLReader\\:\\:getElements\\(\\) should return DOMNodeList\\<DOMElement\\> but returns DOMNodeList\\<DOMNode\\>\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/XMLReader.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLReader\\:\\:getElements\\(\\) should return DOMNodeList\\<DOMElement\\> but returns DOMNodeList\\<DOMNode\\>\\|false\\.$#"
 			count: 2
 			path: src/PhpWord/Shared/XMLReader.php
 
@@ -1898,16 +1893,6 @@ parameters:
 		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\TemplateProcessorTest\\:\\:xtestTemplateCanBeSavedInTemporaryLocation\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: tests/PhpWordTests/TemplateProcessorTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$expectedXml of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertXmlStringEqualsXmlString\\(\\) expects DOMDocument\\|string, string\\|false given\\.$#"
-			count: 3
-			path: tests/PhpWordTests/TemplateProcessorTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$actualXml of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertXmlStringEqualsXmlString\\(\\) expects DOMDocument\\|string, string\\|false given\\.$#"
-			count: 3
 			path: tests/PhpWordTests/TemplateProcessorTest.php
 
 		-

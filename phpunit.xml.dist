@@ -11,6 +11,7 @@
   <testsuites>
     <testsuite name="PhpWord Test Suite">
       <directory>./tests/PhpWordTests</directory>
+      <exclude>./tests/PhpWordTests/AbstractWebServerEmbeddedTest.php</exclude>
     </testsuite>
   </testsuites>
 </phpunit>

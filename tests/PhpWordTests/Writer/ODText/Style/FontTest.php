@@ -74,7 +74,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('This should be dark green (FGCOLOR_DARKGREEN)', $doc->getElement($span)->nodeValue);
     }
 
-    public function providerAllNamedColors()
+    public static function providerAllNamedColors()
     {
         return [
             [Font::FGCOLOR_YELLOW, 'FFFF00'],

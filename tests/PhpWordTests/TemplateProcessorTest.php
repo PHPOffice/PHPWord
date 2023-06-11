@@ -129,9 +129,9 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             throw new Exception("Could not close zip file \"{$expectedDocumentFqfn}\".");
         }
 
-        self::assertXmlStringEqualsXmlString($expectedHeaderXml, $actualHeaderXml);
-        self::assertXmlStringEqualsXmlString($expectedMainPartXml, $actualMainPartXml);
-        self::assertXmlStringEqualsXmlString($expectedFooterXml, $actualFooterXml);
+        self::assertSame($expectedHeaderXml, $actualHeaderXml);
+        self::assertSame($expectedMainPartXml, $actualMainPartXml);
+        self::assertSame($expectedFooterXml, $actualFooterXml);
     }
 
     /**
