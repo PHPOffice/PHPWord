@@ -8,6 +8,9 @@
       <directory suffix=".php">./src/PhpWordTests/Shared/PCLZip</directory>
     </exclude>
   </coverage>
+  <php>
+    <ini name="error_reporting" value="E_ALL"/>
+  </php>
   <testsuites>
     <testsuite name="PhpWord Test Suite">
       <directory>./tests/PhpWordTests</directory>
