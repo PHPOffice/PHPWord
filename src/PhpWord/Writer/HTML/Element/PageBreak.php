@@ -35,6 +35,9 @@ class PageBreak extends TextBreak
     {
         /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
         $parentWriter = $this->parentWriter;
+        if ($parentWriter->isTcpdf()) {
+            return '<br pagebreak="true"/>';
+        }
         if ($parentWriter->isPdf()) {
             return '<pagebreak style="page-break-before: always;" pagebreak="true"></pagebreak>';
         }

@@ -36,6 +36,13 @@ class HTML extends AbstractWriter implements WriterInterface
     protected $isPdf = false;
 
     /**
+     * Is the current writer creating TCPDF?
+     *
+     * @var bool
+     */
+    protected $isTcpdf = false;
+
+    /**
      * Footnotes and endnotes collection.
      *
      * @var array
@@ -115,6 +122,16 @@ class HTML extends AbstractWriter implements WriterInterface
     public function isPdf()
     {
         return $this->isPdf;
+    }
+
+    /**
+     * Get is TCPDF.
+     *
+     * @return bool
+     */
+    public function isTcpdf()
+    {
+        return $this->isTcpdf;
     }
 
     /**

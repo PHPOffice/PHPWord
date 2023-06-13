@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
@@ -49,6 +50,11 @@ class TCPDF extends AbstractRenderer implements WriterInterface
         return new \TCPDF($orientation, $unit, $paperSize);
     }
 
+    protected function prepareToWrite(\TCPDF $pdf): void
+    {
+        $pdf->AddPage();
+    }
+
     /**
      * Save PhpWord to file.
      *
@@ -59,16 +65,17 @@ class TCPDF extends AbstractRenderer implements WriterInterface
         $fileHandle = parent::prepareForSave($filename);
 
         //  PDF settings
-        $paperSize = 'A4';
+        $paperSize = strtoupper(Settings::getDefaultPaper());
         $orientation = 'P';
 
         // Create PDF
+        $this->isTcpdf = true;
         $pdf = $this->createExternalWriterInstance($orientation, 'pt', $paperSize);
         $pdf->setFontSubsetting(false);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
-        $pdf->AddPage();
         $pdf->SetFont($this->getFont());
+        $this->prepareToWrite($pdf);
         $pdf->writeHTML($this->getContent());
 
         // Write document properties
