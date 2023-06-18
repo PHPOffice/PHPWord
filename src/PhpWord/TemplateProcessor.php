@@ -359,7 +359,7 @@ class TemplateProcessor
         $blockType = 'w:sdt';
 
         $where = $this->findContainingXmlBlockForMacro($search, $blockType);
-        if (false === $where) {
+        if (!is_array($where)) {
             return;
         }
 
