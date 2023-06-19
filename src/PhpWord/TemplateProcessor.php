@@ -357,10 +357,10 @@ class TemplateProcessor
     /**
      * @param $search
      * @param $replace
-     * @param $limit
      * @return void
+     * @throws Exception
      */
-    public function setHtml($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT): void
+    public function setHtml($search, $replace): void
     {
         if (Settings::isOutputEscapingEnabled()) {
             $xmlEscaper = new Xml();
@@ -370,7 +370,12 @@ class TemplateProcessor
         $phpWord = new PhpWord();
         $wordFileName = tempnam(Settings::getTempDir(), 'PhpWord');
         $section = $phpWord->addSection();
-        Html::addHtml($section, static::closeTags($replace), false, false);
+        Html::addHtml(
+            $section,
+            static::closeTags($replace),
+            false,
+            false
+        );
         $phpWord->save($wordFileName);
 
         $zip = new ZipArchive();
@@ -379,7 +384,7 @@ class TemplateProcessor
         $zip->close();
         unlink($wordFileName);
 
-        preg_match("/<w:body>(.*?)<\/w:body>/s", $docXml, $body);
+        preg_match('/<w:body>(.*?)<\/w:body>/s', $docXml, $body);
         $result = substr($body[1],0, strrpos($body[1],"<w:sectPr>"));
 
         if (is_array($search)) {
@@ -393,7 +398,7 @@ class TemplateProcessor
 
         $xml = simplexml_load_string($this->tempDocumentMainPart);
         $data  = $xml->xpath("//w:p[contains(.,'\$')]");
-        foreach ($data as $value){
+        foreach ($data as $value) {
             if (strpos($value->asXml(), $search) !== false) {
                 $this->tempDocumentMainPart = str_replace($value->asXml(), $result, $this->tempDocumentMainPart);
                 break;
