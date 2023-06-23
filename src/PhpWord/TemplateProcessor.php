@@ -437,7 +437,7 @@ class TemplateProcessor
         if (null === $value && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
+        if (!preg_match('/^([0-9.]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
             $value = null;
         }
         if (null === $value) {
