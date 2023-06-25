@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
@@ -50,9 +51,29 @@ class TCPDF extends AbstractRenderer implements WriterInterface
         return new \TCPDF($orientation, $unit, $paperSize);
     }
 
+    /**
+     * Overwriteable function to allow user to extend TCPDF.
+     * There should always be an AddPage call, preceded or followed
+     *   by code to customize TCPDF configuration.
+     * The customization below sets no vertical spacing
+     *   between paragaraphs when the user has
+     *   explicitly set those values to 0 in default style.
+     */
     protected function prepareToWrite(\TCPDF $pdf): void
     {
         $pdf->AddPage();
+        $customStyles = Style::getStyles();
+        $normal = $customStyles['Normal'] ?? null;
+        if ($normal instanceof Style\Paragraph) {
+            $before = $normal->getSpaceBefore();
+            $after = $normal->getSpaceAfter();
+            if (($before === 0 || $before === 0.0) && ($after === 0 || $after === 0.0)) {
+                $tagvs = [
+                    'p' => [['n' => 0, 'h' => ''], ['n' => 0, 'h' => '']],
+                ];
+                $pdf->setHtmlVSpace($tagvs);
+            }
+        }
     }
 
     /**

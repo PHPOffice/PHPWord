@@ -419,7 +419,7 @@ class Paragraph extends Border
     /**
      * Get space before paragraph.
      *
-     * @return int
+     * @return null|float|int
      */
     public function getSpaceBefore()
     {
@@ -429,7 +429,7 @@ class Paragraph extends Border
     /**
      * Set space before paragraph.
      *
-     * @param int $value
+     * @param null|float|int $value
      *
      * @return self
      */
@@ -441,7 +441,7 @@ class Paragraph extends Border
     /**
      * Get space after paragraph.
      *
-     * @return int
+     * @return null|float|int
      */
     public function getSpaceAfter()
     {
@@ -451,7 +451,7 @@ class Paragraph extends Border
     /**
      * Set space after paragraph.
      *
-     * @param int $value
+     * @param null|float|int $value
      *
      * @return self
      */
@@ -463,7 +463,7 @@ class Paragraph extends Border
     /**
      * Get spacing between lines.
      *
-     * @return float|int
+     * @return null|float|int
      */
     public function getSpacing()
     {
@@ -473,7 +473,7 @@ class Paragraph extends Border
     /**
      * Set spacing between lines.
      *
-     * @param float|int $value
+     * @param null|float|int $value
      *
      * @return self
      */

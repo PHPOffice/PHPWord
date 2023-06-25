@@ -1401,16 +1401,6 @@ parameters:
 			path: src/PhpWord/Writer/RTF/Style/Border.php
 
 		-
-			message: "#^Variable \\$spaceAfter on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Style/Paragraph.php
-
-		-
-			message: "#^Variable \\$spaceBefore on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Style/Paragraph.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Style\\\\Tab\\:\\:write\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/RTF/Style/Tab.php
