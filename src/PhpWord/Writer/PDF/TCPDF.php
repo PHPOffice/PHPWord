@@ -55,9 +55,9 @@ class TCPDF extends AbstractRenderer implements WriterInterface
      * Overwriteable function to allow user to extend TCPDF.
      * There should always be an AddPage call, preceded or followed
      *   by code to customize TCPDF configuration.
-     * The customization below sets no vertical spacing
+     * The customization below sets vertical spacing
      *   between paragaraphs when the user has
-     *   explicitly set those values to 0 in default style.
+     *   explicitly set those values to numeric in default style.
      */
     protected function prepareToWrite(\TCPDF $pdf): void
     {
@@ -67,9 +67,10 @@ class TCPDF extends AbstractRenderer implements WriterInterface
         if ($normal instanceof Style\Paragraph) {
             $before = $normal->getSpaceBefore();
             $after = $normal->getSpaceAfter();
-            if (($before === 0 || $before === 0.0) && ($after === 0 || $after === 0.0)) {
+            $height = $normal->getLineHeight() ?? '';
+            if (is_numeric($before) && is_numeric($after)) {
                 $tagvs = [
-                    'p' => [['n' => 0, 'h' => ''], ['n' => 0, 'h' => '']],
+                    'p' => [['n' => $before, 'h' => $height], ['n' => $after, 'h' => $height]],
                 ];
                 $pdf->setHtmlVSpace($tagvs);
             }
