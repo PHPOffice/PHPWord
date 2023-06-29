@@ -52,14 +52,15 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $this->setPhpWord($phpWord);
 
         // Create parts
+        // The first four files need to be in this order for Mimetype detection to work
         $this->parts = [
             'ContentTypes' => '[Content_Types].xml',
             'Rels' => '_rels/.rels',
+            'RelsDocument' => 'word/_rels/document.xml.rels',
+            'Document' => 'word/document.xml',
             'DocPropsApp' => 'docProps/app.xml',
             'DocPropsCore' => 'docProps/core.xml',
             'DocPropsCustom' => 'docProps/custom.xml',
-            'RelsDocument' => 'word/_rels/document.xml.rels',
-            'Document' => 'word/document.xml',
             'Comments' => 'word/comments.xml',
             'Styles' => 'word/styles.xml',
             'Numbering' => 'word/numbering.xml',

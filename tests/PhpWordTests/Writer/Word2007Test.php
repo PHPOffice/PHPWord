@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer;
 
+use finfo;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Writer\Word2007;
@@ -191,5 +192,26 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
 
         $object = new Word2007();
         $object->setUseDiskCaching(true, $dir);
+    }
+
+    /**
+     * File is detected as Word 2007.
+     */
+    public function testMime(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('Test 1');
+
+        $writer = new Word2007($phpWord);
+        $file = __DIR__ . '/../_files/temp.docx';
+        $writer->save($file);
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($file);
+
+        self::assertEquals('application/vnd.openxmlformats-officedocument.wordprocessingml.document', $mime);
+
+        unlink($file);
     }
 }
