@@ -102,7 +102,8 @@ class Paragraph extends AbstractStyle
         return $this->assembleCss($css);
     }
 
-    private bool $isTcpdf = false;
+    /** @var bool */
+    private $isTcpdf = false;
 
     public function setIsTcpdf(bool $isTcpdf): void
     {
