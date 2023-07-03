@@ -140,6 +140,7 @@ class Head extends AbstractPart
                 }
                 if ($style instanceof Paragraph) {
                     $styleWriter = new ParagraphStyleWriter($style);
+                    $styleWriter->setParentWriter($this->getParentWriter());
                     if (!$stylep) {
                         $name = '.' . $name;
                     }

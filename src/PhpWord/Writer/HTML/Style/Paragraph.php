@@ -87,9 +87,10 @@ class Paragraph extends AbstractStyle
         }
         $ind = $style->getIndentation();
         if ($ind != null) {
+            $tcpdf = $this->getParentWriter()->isTcpdf();
             $left = $ind->getLeft();
             $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
-            $css['margin-left'] = ((string) $inches) . 'in';
+            $css[$tcpdf ? 'text-indent' : 'margin-left'] = ((string) $inches) . 'in';
             $left = $ind->getRight();
             $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
             $css['margin-right'] = ((string) $inches) . 'in';
