@@ -181,6 +181,27 @@ class Section extends Border
     private $vAlign;
 
     /**
+     * Section doc Grid type.
+     *
+     * @var int
+     */
+    private $gridType;
+
+    /**
+     * Section doc Grid linePitch.
+     *
+     * @var int
+     */
+    private $linePitch;
+
+    /**
+     * Section doc Grid linePitch.
+     *
+     * @var int
+     */
+    private $charSpace;
+
+    /**
      * Create new instance.
      */
     public function __construct()
@@ -604,6 +625,78 @@ class Section extends Border
     public function setBreakType($value = null)
     {
         $this->breakType = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get Doc Grid Type.
+     *
+     * @return ?string
+     */
+    public function getGridType()
+    {
+        return $this->gridType;
+    }
+
+    /**
+     * Set Doc Grid Type.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setGridType($value = null)
+    {
+        $this->gridType = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get Doc Grid line Pitch.
+     *
+     * @return ?string
+     */
+    public function getLinePitch()
+    {
+        return $this->linePitch;
+    }
+
+    /**
+     * Set Doc Grid line Pitch.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setLinePitch($value = null)
+    {
+        $this->linePitch = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get Doc Grid line Pitch.
+     *
+     * @return ?string
+     */
+    public function getCharSpace()
+    {
+        return $this->charSpace;
+    }
+
+    /**
+     * Set Doc Grid line Pitch.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setCharSpace($value = null)
+    {
+        $this->charSpace = $value;
 
         return $this;
     }

@@ -120,6 +120,7 @@ class TextBreak extends AbstractElement
         return $this->paragraphStyle;
     }
 
+
     /**
      * Has font/paragraph style defined.
      *

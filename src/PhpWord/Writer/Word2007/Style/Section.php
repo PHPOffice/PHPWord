@@ -82,7 +82,7 @@ class Section extends AbstractStyle
 
             $xmlWriter->endElement();
         }
-
+        
         // Columns
         $colsSpace = $style->getColsSpace();
         $xmlWriter->startElement('w:cols');
@@ -96,6 +96,21 @@ class Section extends AbstractStyle
 
         // Line numbering
         $styleWriter = new LineNumbering($xmlWriter, $style->getLineNumbering());
+
+        $docGrid = $style->getGridType();
+
+        if ($docGrid !== NULL) {
+            $linePitch = $style->getLinePitch();
+            $charSpace = $style->getCharSpace();
+            $attributes = [];
+            $attributes['w:type'] = $docGrid;
+            if ($linePitch !== NULL) $attributes['w:linePitch'] = $linePitch;
+            if ($charSpace !== NULL) $attributes['w:charSpace'] = $charSpace;
+            $xmlWriter->writeElementBlock('w:docGrid', $attributes);
+        }
+        $xmlWriter->writeElementIf(null !== $breakType, 'w:docGrid', 'w:val', $breakType);
+
         $styleWriter->write();
+
     }
 }

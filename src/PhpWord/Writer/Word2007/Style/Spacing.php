@@ -46,7 +46,7 @@ class Spacing extends AbstractStyle
         $line = $style->getLine();
         //if linerule is auto, the spacing is supposed to include the height of the line itself, which is 240 twips
         if (null !== $line && 'auto' === $style->getLineRule()) {
-            $line += \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
+            //$line += \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
         }
         $xmlWriter->writeAttributeIf(null !== $line, 'w:line', $line);
 

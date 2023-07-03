@@ -63,6 +63,7 @@ class Settings
      * use, and the conversion will be conducted during XML writing.
      */
     public const DEFAULT_FONT_NAME = 'Arial';
+    public const DEFAULT_FONT_ASCII = 'Times New Roman';
     public const DEFAULT_FONT_SIZE = 10;
     public const DEFAULT_FONT_COLOR = '000000';
     public const DEFAULT_FONT_CONTENT_TYPE = 'default'; // default|eastAsia|cs
@@ -109,6 +110,27 @@ class Settings
      * @var string
      */
     private static $defaultFontName = self::DEFAULT_FONT_NAME;
+
+    /**
+     * Default font ascii.
+     *
+     * @var string
+     */
+    private static $defaultFontAscii = self::DEFAULT_FONT_ASCII;
+
+    /**
+     * Default font hAnsi.
+     *
+     * @var string
+     */
+    private static $defaultFontHAnsi = self::DEFAULT_FONT_ASCII;
+
+    /**
+     * Default font cs.
+     *
+     * @var string
+     */
+    private static $defaultFontCs = self::DEFAULT_FONT_ASCII;
 
     /**
      * Default font size.
@@ -325,6 +347,30 @@ class Settings
     }
 
     /**
+     * Get default font ascii.
+     */
+    public static function getDefaultFontAscii(): string
+    {
+        return self::$defaultFontAscii;
+    }
+
+    /**
+     * Get default font hAnsi.
+     */
+    public static function getDefaultFontHAnsi(): string
+    {
+        return self::$defaultFontAscii;
+    }
+
+    /**
+     * Get default font cs.
+     */
+    public static function getDefaultFontCs(): string
+    {
+        return self::$defaultFontCs;
+    }
+
+    /**
      * Set default font name.
      */
     public static function setDefaultFontName(string $value): bool
@@ -337,6 +383,49 @@ class Settings
 
         return false;
     }
+
+    /**
+     * Set default font ascii.
+     */
+    public static function setDefaultFontAscii(string $value): bool
+    {
+        if (trim($value) !== '') {
+            self::$defaultFontAscii = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Set default font hAnsi.
+     */
+    public static function setDefaultFontHAnsi(string $value): bool
+    {
+        if (trim($value) !== '') {
+            self::$defaultFontHAnsi = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Set default font cs.
+     */
+    public static function setDefaultFontCs(string $value): bool
+    {
+        if (trim($value) !== '') {
+            self::$defaultFontCs = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
 
     /**
      * Get default font size.

@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Style\Font;
+
 /**
  * TextBreak element writer.
  *
@@ -38,7 +40,6 @@ class TextBreak extends Text
         if (!$this->withoutP) {
             $hasStyle = $element->hasStyle();
             $this->startElementP();
-
             if ($hasStyle) {
                 $xmlWriter->startElement('w:pPr');
                 $this->writeFontStyle();
@@ -47,7 +48,21 @@ class TextBreak extends Text
 
             $this->endElementP(); // w:p
         } else {
-            $xmlWriter->writeElement('w:br');
+
+            $type = '';
+            $style = $element->getParagraphStyle();
+            if ($style instanceof \PhpOffice\PhpWord\Style\Paragraph) $type = $style->getBrType();
+            $xmlWriter->startElement('w:r');
+            $fontStyle = $element->getFontStyle();
+            if ($fontStyle) {
+                $this->writeFontStyle();
+            }
+            if ($type) {
+                $xmlWriter->writeElementBlock('w:br', ['w:type' => $type]);
+            } else {
+                $xmlWriter->writeElement('w:br');
+            }
+            $xmlWriter->endElement(); // w:r
         }
     }
 }

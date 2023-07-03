@@ -179,7 +179,6 @@ class XMLReader
                 $return = $contextNode->getAttribute($attribute);
             }
         }
-
         return ($return == '') ? null : $return;
     }
 

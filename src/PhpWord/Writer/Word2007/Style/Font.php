@@ -25,7 +25,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 class Font extends AbstractStyle
 {
     /**
-     * Is inline in element.
+     * Is inline in element.(inline 内联)
      *
      * @var bool
      */
@@ -67,7 +67,7 @@ class Font extends AbstractStyle
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('w:rPr');
-
+        
         // Style name
         if ($this->isInline === true) {
             $styleName = $style->getStyleName();
@@ -75,17 +75,27 @@ class Font extends AbstractStyle
         }
 
         // Font name/family
+        /**
+         *             'name' => [self::READ_VALUE, 'w:rFonts', 'w:eastAsia'],
+        'ascii' => [self::READ_VALUE, 'w:rFonts', 'w:ascii'],
+        'hAnsi' => [self::READ_VALUE, 'w:rFonts', 'w:hAnsi'],
+        'cs' => [self::READ_VALUE, 'w:rFonts', 'w:cs'],
+         */
         $font = $style->getName();
+        $ascii = $style->getAscii();
+        $hAnsi = $style->getHAnsi();
+        $cs = $style->getCs();
         $hint = $style->getHint();
-        if ($font !== null) {
+        if ($font !== null || $ascii !== null || $hAnsi !== null || $cs !== null || $hint !== null) {
             $xmlWriter->startElement('w:rFonts');
-            $xmlWriter->writeAttribute('w:ascii', $font);
-            $xmlWriter->writeAttribute('w:hAnsi', $font);
-            $xmlWriter->writeAttribute('w:eastAsia', $font);
-            $xmlWriter->writeAttribute('w:cs', $font);
+            $xmlWriter->writeAttributeIf($ascii !== NULL, 'w:ascii', $ascii);
+            $xmlWriter->writeAttributeIf($hAnsi !== NULL, 'w:hAnsi', $hAnsi);
+            $xmlWriter->writeAttributeIf($font !== NULL, 'w:eastAsia', $font);
+            $xmlWriter->writeAttributeIf($cs !== NULL, 'w:cs', $cs);
             $xmlWriter->writeAttributeIf($hint !== null, 'w:hint', $hint);
             $xmlWriter->endElement();
         }
+        $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning());
 
         //Language
         $language = $style->getLang();
@@ -107,8 +117,9 @@ class Font extends AbstractStyle
 
         // Size
         $size = $style->getSize();
+        $sizeCs = $style->getSizeCs();
         $xmlWriter->writeElementIf($size !== null, 'w:sz', 'w:val', $size * 2);
-        $xmlWriter->writeElementIf($size !== null, 'w:szCs', 'w:val', $size * 2);
+        $xmlWriter->writeElementIf($size !== null, 'w:szCs', 'w:val', $sizeCs * 2);
 
         // Bold, italic
         $xmlWriter->writeElementIf($style->isBold() !== null, 'w:b', 'w:val', $this->writeOnOf($style->isBold()));
@@ -140,8 +151,6 @@ class Font extends AbstractStyle
         // Spacing
         $xmlWriter->writeElementIf($style->getScale() !== null, 'w:w', 'w:val', $style->getScale());
         $xmlWriter->writeElementIf($style->getSpacing() !== null, 'w:spacing', 'w:val', $style->getSpacing());
-        $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning() * 2);
-
         // noProof
         $xmlWriter->writeElementIf($style->isNoProof() !== null, 'w:noProof', 'w:val', $this->writeOnOf($style->isNoProof()));
 
@@ -160,7 +169,6 @@ class Font extends AbstractStyle
 
         // Position
         $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
-
         $xmlWriter->endElement();
     }
 

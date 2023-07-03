@@ -161,6 +161,27 @@ class Settings
     private $doNotHyphenateCaps;
 
     /**
+     * 指定页眉是否被边框所包围的设置
+     *
+     * @var null|bool
+     */
+    private $bordersDoNotSurroundHeader;
+
+    /**
+     * 指定页脚是否被边框所包围的设置
+     *
+     * @var null|bool
+     */
+    private $bordersDoNotSurroundFooter;
+
+    /**
+     * 用于设置默认的制表位大小，w:val 属性的值为制表位的宽度值（以磅为单位）
+     *
+     * @var null|integer
+     */
+    private $defaultTabStop;
+
+    /**
      * @return Protection
      */
     public function getDocumentProtection()
@@ -178,6 +199,70 @@ class Settings
     public function setDocumentProtection($documentProtection): void
     {
         $this->documentProtection = $documentProtection;
+    }
+
+    /**
+     * Sets the default tab stop.
+     */
+    public function setDefaultTabStop($defaultTabStop)
+    {
+        $this->defaultTabStop = $defaultTabStop;
+    }
+
+    /**
+     * @param $drawingGridHorizontalSpacing
+     * @author <presleylee@qq.com>
+     * @since 2023/6/27 1:54 下午
+     */
+    public function setDrawingGridHorizontalSpacing($drawingGridHorizontalSpacing)
+    {
+        $this->drawingGridHorizontalSpacing = $drawingGridHorizontalSpacing;
+    }
+
+    /**
+     * @param $drawingGridVerticalSpacing
+     * @author <presleylee@qq.com>
+     * @since 2023/6/27 1:54 下午
+     */
+    public function setDrawingGridVerticalSpacing($drawingGridVerticalSpacing)
+    {
+        $this->drawingGridVerticalSpacing = $drawingGridVerticalSpacing;
+    }
+
+    /**
+     * @param $displayHorizontalDrawingGridEvery
+     * @author <presleylee@qq.com>
+     * @since 2023/6/27 1:54 下午
+     */
+    public function setDisplayHorizontalDrawingGridEvery($displayHorizontalDrawingGridEvery)
+    {
+        $this->displayHorizontalDrawingGridEvery = $displayHorizontalDrawingGridEvery;
+    }
+
+    /**
+     * @param $displayVerticalDrawingGridEvery
+     * @author <presleylee@qq.com>
+     * @since 2023/6/27 1:54 下午
+     */
+    public function setDisplayVerticalDrawingGridEvery($displayVerticalDrawingGridEvery)
+    {
+        $this->displayVerticalDrawingGridEvery = $displayVerticalDrawingGridEvery;
+    }
+
+    public function setCharacterSpacingControl($characterSpacingControl) {
+        $this->characterSpacingControl = $characterSpacingControl;
+    }
+
+    public function getCharacterSpacingControl() {
+        return $this->characterSpacingControl;
+    }
+
+    public function setPrintTwoOnOne($printTwoOnOne) {
+        $this->printTwoOnOne = $printTwoOnOne;
+    }
+
+    public function getPrintTwoOnOne() {
+        return $this->printTwoOnOne;
     }
 
     /**
@@ -451,6 +536,44 @@ class Settings
     }
 
     /**
+     * @param int $bordersDoNotSurroundHeader
+     */
+    public function setBordersDoNotSurroundHeader($bordersDoNotSurroundHeader): void
+    {
+        $this->bordersDoNotSurroundHeader = (int) $bordersDoNotSurroundHeader;
+    }
+
+    /**
+     * @param int $bordersDoNotSurroundHeader
+     */
+    public function setBordersDoNotSurroundFooter($bordersDoNotSurroundFooter): void
+    {
+        $this->bordersDoNotSurroundFooter = (int) $bordersDoNotSurroundFooter;
+    }
+
+    /**
+     * @param int $bordersDoNotSurroundHeader
+     */
+    public function getBordersDoNotSurroundHeader()
+    {
+        return $this->bordersDoNotSurroundHeader;
+    }
+
+    /**
+     * @param int $bordersDoNotSurroundHeader
+     */
+    public function getBordersDoNotSurroundFooter()
+    {
+        return $this->bordersDoNotSurroundHeader;
+    }
+
+    public function getDefaultTabStop()
+    {
+        return $this->defaultTabStop;
+    }
+
+
+    /**
      * @return null|float|int
      */
     public function getHyphenationZone()
@@ -481,4 +604,75 @@ class Settings
     {
         $this->doNotHyphenateCaps = (bool) $doNotHyphenateCaps;
     }
+
+    /**
+     * @param $drawingGridHorizontalSpacing
+     * @author <presleylee@qq.com>
+     * @since 2023/6/27 1:54 下午
+     */
+    public function getDrawingGridHorizontalSpacing()
+    {
+        return $this->drawingGridHorizontalSpacing;
+    }
+
+    /**
+     * @param $drawingGridVerticalSpacing
+     * @author <presleylee@qq.com>
+     * @since 2023/6/27 1:54 下午
+     */
+    public function getDrawingGridVerticalSpacing()
+    {
+        return $this->drawingGridVerticalSpacing;
+    }
+
+    /**
+     * @param $drawingGridHorizontalSpacing
+     * @author <presleylee@qq.com>
+     * @since 2023/6/27 1:54 下午
+     */
+    public function getDisplayHorizontalDrawingGridEvery()
+    {
+        return $this->displayHorizontalDrawingGridEvery;
+    }
+
+    /**
+     * @param $drawingGridVerticalSpacing
+     * @author <presleylee@qq.com>
+     * @since 2023/6/27 1:54 下午
+     */
+    public function getDisplayVerticalDrawingGridEvery()
+    {
+        return $this->displayVerticalDrawingGridEvery;
+    }
+
+    /**
+     * Hide spelling errors.
+     *
+     * @param ?bool $hideSpellingErrors
+     */
+    public function setDoNotValidateAgainstSchema($doNotValidateAgainstSchema): void
+    {
+        $this->doNotValidateAgainstSchema = $doNotValidateAgainstSchema === null ? true : $doNotValidateAgainstSchema;
+    }
+
+    public function getDoNotValidateAgainstSchema()
+    {
+        return $this->doNotValidateAgainstSchema;
+    }
+
+    /**
+     * Hide spelling errors.
+     *
+     * @param ?bool $hideSpellingErrors
+     */
+    public function setDoNotDemarcateInvalidXml($doNotDemarcateInvalidXml)
+    {
+        $this->doNotDemarcateInvalidXml = $doNotDemarcateInvalidXml === null ? true : $doNotDemarcateInvalidXml;
+    }
+
+    public function getDoNotDemarcateInvalidXml()
+    {
+        return $this->doNotDemarcateInvalidXml;
+    }
+
 }

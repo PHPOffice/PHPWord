@@ -30,21 +30,30 @@ class Indentation extends AbstractStyle
      *
      * @var float|int
      */
-    private $left = 0;
+    private $left;
 
     /**
      * Right indentation (twip).
      *
      * @var float|int
      */
-    private $right = 0;
+    private $right;
 
     /**
      * Additional first line indentation (twip).
+     * 额外的首行缩进（twip）。
      *
      * @var float|int
      */
     private $firstLine;
+
+    /**
+     * Additional first line chars indentation (twip).
+     * 额外的首行缩进（twip）。
+     *
+     * @var float|int
+     */
+    private $firstLineChars;
 
     /**
      * Indentation removed from first line (twip).
@@ -52,6 +61,24 @@ class Indentation extends AbstractStyle
      * @var float|int
      */
     private $hanging;
+
+    /**
+     * Indentation removed from first line (twip).
+     *
+     * @var float|int
+     */
+    private $hangingChars;
+
+
+
+    /**
+     * Indentation removed from first line (twip).
+     *
+     * @var float|int
+     */
+    private $indLeftChar;
+
+
 
     /**
      * Create a new instance.
@@ -136,6 +163,54 @@ class Indentation extends AbstractStyle
     }
 
     /**
+     * Get firstLine.
+     *
+     * @return float|int
+     */
+    public function getFirstLineChars()
+    {
+        return $this->firstLineChars;
+    }
+
+    /**
+     * Set firstline.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setFirstLineChars($value = null)
+    {
+        $this->firstLineChars = $this->setNumericVal($value, $this->firstLineChars);
+
+        return $this;
+    }
+
+    /**
+     * Get leftChar.
+     *
+     * @return float|int
+     */
+    public function getIndLeftChar()
+    {
+        return $this->indLeftChar;
+    }
+
+    /**
+     * Set firstline.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setIndLeftChar($value = null)
+    {
+        $this->indLeftChar = $this->setNumericVal($value, $this->indLeftChar);
+
+        return $this;
+    }
+
+    /**
      * Get hanging.
      *
      * @return float|int
@@ -155,6 +230,30 @@ class Indentation extends AbstractStyle
     public function setHanging($value = null)
     {
         $this->hanging = $this->setNumericVal($value, $this->hanging);
+
+        return $this;
+    }
+
+    /**
+     * Get hanging.
+     *
+     * @return float|int
+     */
+    public function getHangingChars()
+    {
+        return $this->hangingChars;
+    }
+
+    /**
+     * Set hanging.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setHangingChars($value = null)
+    {
+        $this->hangingChars = $this->setNumericVal($value, $this->hangingChars);
 
         return $this;
     }

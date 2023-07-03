@@ -37,14 +37,21 @@ class Indentation extends AbstractStyle
 
         $xmlWriter->startElement('w:ind');
 
-        $xmlWriter->writeAttribute('w:left', $this->convertTwip($style->getLeft()));
-        $xmlWriter->writeAttribute('w:right', $this->convertTwip($style->getRight()));
-
+        $left = $style->getLeft() ;
+        $leftChars = $style->getIndLeftChar();
         $firstLine = $style->getFirstLine();
-        $xmlWriter->writeAttributeIf(null !== $firstLine, 'w:firstLine', $this->convertTwip($firstLine));
-
+        $firstLineChars = $style->getFirstLineChars();
+        $right = $style->getRight();
         $hanging = $style->getHanging();
-        $xmlWriter->writeAttributeIf(null !== $hanging, 'w:hanging', $this->convertTwip($hanging));
+        $hangingChars = $style->getHangingChars();
+
+        $xmlWriter->writeAttributeIf(null !== $left, 'w:left', $this->convertTwip($left)/ 720);
+        $xmlWriter->writeAttributeIf(null !== $firstLine, 'w:firstLine', $firstLine);
+        $xmlWriter->writeAttributeIf(null !== $leftChars, 'w:leftChars', $this->convertTwip($leftChars));
+        $xmlWriter->writeAttributeIf(null !== $firstLineChars, 'w:firstLineChars', $firstLineChars);
+        $xmlWriter->writeAttributeIf(null !== $right, 'w:right', $this->convertTwip($right));
+        $xmlWriter->writeAttributeIf(null !== $hanging, 'w:hanging', $this->convertTwip($hanging) / 720);
+        $xmlWriter->writeAttributeIf(null !== $hangingChars, 'w:hangingChars', $this->convertTwip($hangingChars));
 
         $xmlWriter->endElement();
     }

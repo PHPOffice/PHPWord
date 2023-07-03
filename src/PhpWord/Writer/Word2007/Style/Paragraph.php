@@ -117,6 +117,9 @@ class Paragraph extends AbstractStyle
 
         // Child style: alignment, indentation, spacing, and shading
         $this->writeChildStyle($xmlWriter, 'Indentation', $styles['indentation']);
+        if (isset($styles['font']) && $styles['font']->checkIsParagraphStyle()) {
+            $this->writeChildStyle($xmlWriter, 'Font', $styles['font']);
+        }
         $this->writeChildStyle($xmlWriter, 'Spacing', $styles['spacing']);
         $this->writeChildStyle($xmlWriter, 'Shading', $styles['shading']);
 
@@ -142,6 +145,22 @@ class Paragraph extends AbstractStyle
         if (!$this->withoutPPR) {
             $xmlWriter->endElement(); // w:pPr
         }
+
+        if (isset($styles['bookmarkStart']) || isset($styles['bookmarkEnd'])) {
+            if (strlen($styles['bookmarkStart']['id']) != 0 || strlen($styles['bookmarkStart']['name']) != 0 ) {
+                $xmlWriter->startElement('w:bookmarkStart');
+                $xmlWriter->writeAttributeIf($styles['bookmarkStart']['id'] !== null, 'w:id', $styles['bookmarkStart']['id']);
+                $xmlWriter->writeAttributeIf($styles['bookmarkStart']['name'] !== null, 'w:name', $styles['bookmarkStart']['name']);
+                $xmlWriter->endElement();
+            }
+        }
+
+        if (strlen($styles['bookmarkEnd']['id'])!= 0) {
+            $xmlWriter->startElement('w:bookmarkEnd');
+            $xmlWriter->writeAttributeIf($styles['bookmarkEnd']['id']!== null, 'w:id', $styles['bookmarkEnd']['id']);
+            $xmlWriter->endElement();
+        }
+
     }
 
     /**

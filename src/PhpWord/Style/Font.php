@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\SimpleType\Jc;
+
 /**
  * Font style.
  */
@@ -89,6 +91,27 @@ class Font extends AbstractStyle
     private $name;
 
     /**
+     * Font ascii.
+     *
+     * @var string
+     */
+    private $ascii;
+
+    /**
+     * Font hAnsi.
+     *
+     * @var string
+     */
+    private $hAnsi;
+
+    /**
+     * Font cs.
+     *
+     * @var string
+     */
+    private $cs;
+
+    /**
      * Font Content Type.
      *
      * @var string
@@ -101,6 +124,13 @@ class Font extends AbstractStyle
      * @var float|int
      */
     private $size;
+
+    /**
+     * 字体复合.
+     *
+     * @var float|int
+     */
+    private $sizeCs;
 
     /**
      * Font color.
@@ -267,6 +297,15 @@ class Font extends AbstractStyle
      */
     private $position;
 
+    private $styleId = null;
+
+    /**
+     * 段落内的主样式
+     *
+     * @var bool
+     */
+    private $isParagraphStyle = false;
+
     /**
      * Create new font style.
      *
@@ -290,9 +329,15 @@ class Font extends AbstractStyle
     {
         $styles = [
             'name' => $this->getStyleName(),
+            'kern' => $this->getKerning(),
+            'styleId' => $this->getStyleId(),
             'basic' => [
                 'name' => $this->getName(),
+                'ascii' => $this->getAscii(),
+                'hAnsi' => $this->getHAnsi(),
+                'cs' => $this->getCs(),
                 'size' => $this->getSize(),
+                'sizeCs' => $this->getSizeCs(),
                 'color' => $this->getColor(),
                 'hint' => $this->getHint(),
             ],
@@ -319,9 +364,36 @@ class Font extends AbstractStyle
             'rtl' => $this->isRTL(),
             'shading' => $this->getShading(),
             'lang' => $this->getLang(),
+            'isParagraphStyle' => $this->checkIsParagraphStyle()
         ];
 
         return $styles;
+    }
+
+    /**
+     * @since 0.13.0
+     *
+     * @return string
+     */
+    public function getStyleId()
+    {
+        return $this->styleId;
+    }
+
+    /**
+     * @since 0.13.0
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setStyleId($value)
+    {
+        if (Jc::isValid($value)) {
+            $this->styleId = $value;
+        }
+
+        return $this;
     }
 
     /**
@@ -354,6 +426,78 @@ class Font extends AbstractStyle
     public function setName($value = null)
     {
         $this->name = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get font name.
+     *
+     * @return string
+     */
+    public function getAscii()
+    {
+        return $this->ascii;
+    }
+
+    /**
+     * Set font name.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setAscii($value = null)
+    {
+        $this->ascii = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get font name.
+     *
+     * @return string
+     */
+    public function getHAnsi()
+    {
+        return $this->hAnsi;
+    }
+
+    /**
+     * Set font name.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setHAnsi($value = null)
+    {
+        $this->hAnsi = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get font name.
+     *
+     * @return string
+     */
+    public function getCs()
+    {
+        return $this->cs;
+    }
+
+    /**
+     * Set font name.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setCs($value = null)
+    {
+        $this->cs = $value;
 
         return $this;
     }
@@ -402,6 +546,30 @@ class Font extends AbstractStyle
     public function setSize($value = null)
     {
         $this->size = $this->setNumericVal($value, $this->size);
+
+        return $this;
+    }
+
+    /**
+     * Get font sizeCs.
+     *
+     * @return float|int
+     */
+    public function getSizeCs()
+    {
+        return $this->sizeCs;
+    }
+
+    /**
+     * Set font sizeCs.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setSizeCs($value = null)
+    {
+        $this->sizeCs = $this->setNumericVal($value, $this->size);
 
         return $this;
     }
@@ -945,5 +1113,15 @@ class Font extends AbstractStyle
         $this->position = $this->setIntVal($value, null);
 
         return $this;
+    }
+
+    public function setIsParagraphStyle($value = false)
+    {
+        $this->isParagraphStyle = $value;
+    }
+
+    public function checkIsParagraphStyle()
+    {
+        return $this->isParagraphStyle;
     }
 }

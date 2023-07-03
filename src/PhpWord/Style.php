@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Style\AbstractStyle;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Latent;
 use PhpOffice\PhpWord\Style\Numbering;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
@@ -46,6 +47,19 @@ class Style
     public static function addParagraphStyle($styleName, $styles)
     {
         return self::setStyleValues($styleName, new Paragraph(), $styles);
+    }
+
+    /**
+     * Add Latent style.
+     *
+     * @param string $styleName
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles
+     *
+     * @return \PhpOffice\PhpWord\Style\Paragraph
+     */
+    public static function addLatentStyle($styleName, $styles)
+    {
+        return self::setStyleValues($styleName, new Latent(), $styles);
     }
 
     /**
@@ -156,6 +170,18 @@ class Style
     public static function setDefaultParagraphStyle($styles)
     {
         return self::addParagraphStyle('Normal', $styles);
+    }
+
+    /**
+     * Set latent styles.
+     *
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles Paragraph style definition
+     *
+     * @return \PhpOffice\PhpWord\Style\Paragraph
+     */
+    public static function setLatentStyles($styles)
+    {
+        return self::addLatentStyle('Latent', $styles);
     }
 
     /**

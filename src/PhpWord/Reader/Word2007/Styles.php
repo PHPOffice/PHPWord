@@ -42,6 +42,15 @@ class Styles extends AbstractPart
             if (array_key_exists('name', $fontDefaultStyle)) {
                 $phpWord->setDefaultFontName($fontDefaultStyle['name']);
             }
+            if (array_key_exists('ascii', $fontDefaultStyle)) {
+                $phpWord->setDefaultFontAscii($fontDefaultStyle['ascii']);
+            }
+            if (array_key_exists('hAnsi', $fontDefaultStyle)) {
+                $phpWord->setDefaultFontHAnsi($fontDefaultStyle['hAnsi']);
+            }
+            if (array_key_exists('cs', $fontDefaultStyle)) {
+                $phpWord->setDefaultFontCs($fontDefaultStyle['cs']);
+            }
             if (array_key_exists('size', $fontDefaultStyle)) {
                 $phpWord->setDefaultFontSize($fontDefaultStyle['size']);
             }
@@ -58,13 +67,36 @@ class Styles extends AbstractPart
             }
         }
 
+        //潜在样式的定义。
+        $latentLsdExceptions = $xmlReader->getElements('w:latentStyles/w:lsdException');
+        if ($latentLsdExceptions->length > 0) {
+            $latentNode = $xmlReader->getElement('w:latentStyles');
+            $latentStyles = $this->readLatentStyle($xmlReader, $latentNode);
+            foreach ($latentLsdExceptions as $node) {
+                $lsdException = [];
+                $lsdException['qFormat'] = $xmlReader->getAttribute('w:qFormat', $node);
+                $lsdException['unhideWhenUsed'] = $xmlReader->getAttribute('w:unhideWhenUsed', $node);
+                $lsdException['uiPriority'] = $xmlReader->getAttribute('w:uiPriority', $node);
+                $lsdException['defSemiHidden'] = $xmlReader->getAttribute('w:defSemiHidden', $node);
+                $lsdException['defUIPriority'] = $xmlReader->getAttribute('w:defUIPriority', $node);
+                $lsdException['defLockedState'] = $xmlReader->getAttribute('w:defLockedState', $node);
+                $lsdException['semiHidden'] = $xmlReader->getAttribute('w:semiHidden', $node);
+                $lsdException['name'] = $xmlReader->getAttribute('w:name', $node);
+                $latentStyles['lsdExceptions'][] = $lsdException;
+            }
+            if ($latentStyles != null) {
+                $phpWord->setLatentStyle($latentStyles);
+            }
+        }
+
         $nodes = $xmlReader->getElements('w:style');
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
                 $type = $xmlReader->getAttribute('w:type', $node);
                 $name = $xmlReader->getAttribute('w:val', $node, 'w:name');
+                $styleId = $xmlReader->getAttribute('w:styleId', $node);
                 if (null === $name) {
-                    $name = $xmlReader->getAttribute('w:styleId', $node);
+                    $name = $styleId;
                 }
                 $headingMatches = [];
                 preg_match('/Heading\s*(\d)/i', $name, $headingMatches);
@@ -73,6 +105,10 @@ class Styles extends AbstractPart
                     case 'paragraph':
                         $paragraphStyle = $this->readParagraphStyle($xmlReader, $node);
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
+
+                        if ($fontStyle) $fontStyle['styleId'] = $fontStyle;
+                        else $paragraphStyle['styleId'] = $fontStyle;
+
                         if (!empty($headingMatches)) {
                             $phpWord->addTitleStyle($headingMatches[1], $fontStyle, $paragraphStyle);
                         } else {

@@ -247,6 +247,36 @@ class PhpWord
     }
 
     /**
+     * Get default font ascii.
+     *
+     * @return string
+     */
+    public function getDefaultFontAscii()
+    {
+        return Settings::getDefaultFontAscii();
+    }
+
+    /**
+     * Get default font hAnsi.
+     *
+     * @return string
+     */
+    public function getDefaultFontHAnsi()
+    {
+        return Settings::getDefaultFontHAnsi();
+    }
+
+    /**
+     * Get default font cs.
+     *
+     * @return string
+     */
+    public function getDefaultFontCs()
+    {
+        return Settings::getDefaultFontCs();
+    }
+
+    /**
      * Set default font name.
      *
      * @param string $fontName
@@ -254,6 +284,36 @@ class PhpWord
     public function setDefaultFontName($fontName): void
     {
         Settings::setDefaultFontName($fontName);
+    }
+
+    /**
+     * Set default font ascii.
+     *
+     * @param string $fontAscii
+     */
+    public function setDefaultFontAscii($fontAscii): void
+    {
+        Settings::setDefaultFontAscii($fontAscii);
+    }
+
+    /**
+     * Set default font hAnsi.
+     *
+     * @param string $fontHAnsi
+     */
+    public function setDefaultFontHAnsi($fontHAnsi): void
+    {
+        Settings::setDefaultFontHAnsi($fontHAnsi);
+    }
+
+    /**
+     * Set default font cs.
+     *
+     * @param string $fontCs
+     */
+    public function setDefaultFontCs(string $fontCs): void
+    {
+        Settings::setDefaultFontCs($fontCs);
     }
 
     /**
@@ -286,6 +346,18 @@ class PhpWord
     public function setDefaultParagraphStyle($styles)
     {
         return Style::setDefaultParagraphStyle($styles);
+    }
+
+    /**
+     * Set default paragraph style definition to styles.xml.
+     *
+     * @param array $styles Paragraph style definition
+     *
+     * @return \PhpOffice\PhpWord\Style\Paragraph
+     */
+    public function setLatentStyle($styles)
+    {
+        return Style::setLatentStyles($styles);
     }
 
     /**

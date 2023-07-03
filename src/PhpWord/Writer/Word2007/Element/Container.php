@@ -48,7 +48,7 @@ class Container extends AbstractElement
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
         $withoutP = in_array($containerClass, ['TextRun', 'Footnote', 'Endnote', 'ListItemRun']);
         $xmlWriter = $this->getXmlWriter();
-
+        
         // Loop through elements
         $elements = $container->getElements();
         $elementClass = '';

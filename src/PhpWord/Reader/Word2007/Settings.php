@@ -41,6 +41,8 @@ class Settings extends AbstractPart
         'updateFields',
         'autoHyphenation',
         'doNotHyphenateCaps',
+        'doNotValidateAgainstSchema',
+        'doNotDemarcateInvalidXml',
     ];
 
     /**

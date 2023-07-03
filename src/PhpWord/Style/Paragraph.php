@@ -83,11 +83,32 @@ class Paragraph extends Border
     private $alignment = '';
 
     /**
+     * StyleId
+     *
+     * @var string
+     */
+    private $styleId = null;
+
+    /**
      * Indentation.
      *
      * @var null|\PhpOffice\PhpWord\Style\Indentation
      */
     private $indentation;
+
+    /**
+     * Font
+     *
+     * @var null|\PhpOffice\PhpWord\Style\Font
+     */
+    private $font;
+
+    /**
+     * Font
+     *
+     * @var array
+     */
+    private $bookmark;
 
     /**
      * Spacing.
@@ -187,6 +208,8 @@ class Paragraph extends Border
      */
     private $suppressAutoHyphens = false;
 
+    private $br_type = null;
+
     /**
      * Set Style value.
      *
@@ -198,10 +221,13 @@ class Paragraph extends Border
     public function setStyleValue($key, $value)
     {
         $key = Text::removeUnderscorePrefix($key);
-        if ('indent' == $key || 'hanging' == $key) {
-            $value = $value * 720;  // 720 twips is 0.5 inch
-        }
 
+        switch ($key) {
+            case 'left':
+            case 'hanging':
+                $value = $value * 720;  // 720 twips is 0.5 inch　twips是一种衡量屏幕或打印设备上的相对物理尺寸
+            break;
+        }
         return parent::setStyleValue($key, $value);
     }
 
@@ -223,8 +249,17 @@ class Paragraph extends Border
             'basedOn' => $this->getBasedOn(),
             'next' => $this->getNext(),
             'alignment' => $this->getAlignment(),
+            'styleId' => $this->getStyleId(),
             'indentation' => $this->getIndentation(),
+            'font' => $this->getFont(),
             'spacing' => $this->getSpace(),
+            'bookmarkStart' => [
+                'id' => $this->getBookmark('start', 'id'),
+                'name' => $this->getBookmark('start', 'name'),
+            ],
+            'bookmarkEnd' => [
+                'id' => $this->getBookmark('end', 'id'),
+            ],
             'pagination' => [
                 'widowControl' => $this->hasWidowControl(),
                 'keepNext' => $this->isKeepNext(),
@@ -241,6 +276,7 @@ class Paragraph extends Border
             'bidi' => $this->isBidi(),
             'textAlignment' => $this->getTextAlignment(),
             'suppressAutoHyphens' => $this->hasSuppressAutoHyphens(),
+            'br_type' => $this->getBrType(),
         ];
 
         return $styles;
@@ -267,6 +303,32 @@ class Paragraph extends Border
     {
         if (Jc::isValid($value)) {
             $this->alignment = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @since 0.13.0
+     *
+     * @return string
+     */
+    public function getStyleId()
+    {
+        return $this->styleId;
+    }
+
+    /**
+     * @since 0.13.0
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setStyleId($value)
+    {
+        if (Jc::isValid($value)) {
+            $this->styleId = $value;
         }
 
         return $this;
@@ -331,6 +393,15 @@ class Paragraph extends Border
     }
 
     /**
+     * Get shading.
+     *
+     * @return \PhpOffice\PhpWord\Style\Indentation
+     */
+    public function getFont(){
+        return $this->font;
+    }
+
+    /**
      * Set shading.
      *
      * @param mixed $value
@@ -361,9 +432,149 @@ class Paragraph extends Border
      *
      * @return self
      */
-    public function setIndent($value = null)
+    public function setLeft($value = null)
     {
         return $this->setIndentation(['left' => $value]);
+    }
+
+    /**
+     * Set indentation.
+     *
+     * @param int $value
+     *
+     * @return self
+     */
+    public function setFont($value = null)
+    {
+        $value['isParagraphStyle'] = true;
+        $this->setObjectVal($value, 'Font', $this->font);
+        return $this;
+    }
+
+    /**
+     * Set indentation.
+     *
+     * @param int $value
+     *
+     * @return self
+     */
+    public function setFirstLine($value = null)
+    {
+        return $this->setIndentation(['firstLine' => $value]);
+    }
+
+    /**
+     * Get firstLine.
+     *
+     * @return \PhpOffice\PhpWord\Style\FirstLine
+     *
+     * @todo Rename to getSpacing in 1.0
+     */
+    public function getFirstLine()
+    {
+        return $this->getChildStyleValue($this->indentation, 'firstLine');
+    }
+
+    /**
+     * Set indLeftChar.
+     *
+     * @param int $value
+     *
+     * @return self
+     */
+    public function setIndLeftChar($value = null)
+    {
+        return $this->setIndentation(['indLeftChar' => $value]);
+    }
+
+    /**
+     * Get indLeftChar.
+     *
+     * @return \PhpOffice\PhpWord\Style\FirstLine
+     *
+     * @todo Rename to getSpacing in 1.0
+     */
+    public function getIndLeftChar()
+    {
+        return $this->getChildStyleValue($this->indentation, 'indLeftChar');
+    }
+
+    /**
+     * Get spacing.
+     *
+     * @return \PhpOffice\PhpWord\Style\Spacing
+     *
+     * @todo Rename to getSpacing in 1.0
+     */
+    public function getSpace()
+    {
+        return $this->spacing;
+    }
+
+    public function setbookmarkStartID($value = NULL){
+        $this->setBookmark('start', 'id', $value);
+    }
+
+    public function setBookmarkStartName($value = NULL){
+        $this->setBookmark('start', 'name', $value);
+    }
+
+    public function setBookmarkEnd($value = NULL){
+        $this->setBookmark('end', 'id', $value);
+    }
+
+    public function setBookmark($pre, $key, $val){
+        $this->bookmark[$pre][$key] = $val;
+    }
+
+    /**
+     * Get spacing.
+     *
+     * @return \PhpOffice\PhpWord\Style\Spacing
+     *
+     * @todo Rename to getSpacing in 1.0
+     */
+    public function getBookmarkStartID()
+    {
+        return $this->getBookmark('start', 'id');
+    }
+
+    public function getBookmarkStartName()
+    {
+        return $this->getBookmark('start', 'name');
+    }
+
+    public function getBookmarkEndID()
+    {
+        return $this->getBookmark('end', 'id');
+    }
+
+    public function getBookmark($pre, $key)
+    {
+        return $this->bookmark[$pre][$key]??'';
+    }
+
+    /**
+     * Set firstLineChars.
+     *
+     * @param int $value
+     *
+     * @return self
+     */
+    public function setFirstLineChars($value = null)
+    {
+        return $this->setIndentation(['firstLineChars' => $value]);
+    }
+    /**
+     * Get firstLineChars.
+     *
+     * @return \PhpOffice\PhpWord\Style\FirstLine
+     *
+     * @todo Rename to getSpacing in 1.0
+     */
+    public function getFirstLineChars()
+    {
+        return $this->getChildStyleValue($this->indentation, 'firstLineChars');
     }
 
     /**
@@ -389,16 +600,27 @@ class Paragraph extends Border
     }
 
     /**
-     * Get spacing.
+     * Get hanging.
      *
-     * @return \PhpOffice\PhpWord\Style\Spacing
-     *
-     * @todo Rename to getSpacing in 1.0
+     * @return int
      */
-    public function getSpace()
+    public function getHangingChars()
     {
-        return $this->spacing;
+        return $this->getChildStyleValue($this->indentation, 'hangingChars');
     }
+
+    /**
+     * Set hanging.
+     *
+     * @param int $value
+     *
+     * @return self
+     */
+    public function setHangingChars($value = null)
+    {
+        return $this->setIndentation(['hangingChars' => $value]);
+    }
+
 
     /**
      * Set spacing.
@@ -458,6 +680,50 @@ class Paragraph extends Border
     public function setSpaceAfter($value = null)
     {
         return $this->setSpace(['after' => $value]);
+    }
+
+    /**
+     * Set space after paragraph.
+     *
+     * @param int $value
+     *
+     * @return self
+     */
+    public function setSpaceLine($value = null)
+    {
+        return $this->setSpace(['line' => $value]);
+    }
+
+    /**
+     * Get space after paragraph.
+     *
+     * @return int
+     */
+    public function getSpaceLine()
+    {
+        return $this->getChildStyleValue($this->spacing, 'line');
+    }
+
+    /**
+     * Set space after paragraph.
+     *
+     * @param int $value
+     *
+     * @return self
+     */
+    public function setSpaceLineRule($value = null)
+    {
+        return $this->setSpace(['lineRule' => $value]);
+    }
+
+    /**
+     * Get space after paragraph.
+     *
+     * @return int
+     */
+    public function getSpaceLineRule()
+    {
+        return $this->getChildStyleValue($this->spacing, 'lineRule');
     }
 
     /**
@@ -820,5 +1086,15 @@ class Paragraph extends Border
     public function setSuppressAutoHyphens($suppressAutoHyphens): void
     {
         $this->suppressAutoHyphens = (bool) $suppressAutoHyphens;
+    }
+
+
+    public function setBrType($style = NULL) {
+        $this->br_type = $style;
+    }
+
+    public function getBrType()
+    {
+        return $this->br_type;
     }
 }

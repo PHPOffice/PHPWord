@@ -132,8 +132,8 @@ class Spacing extends AbstractStyle
      */
     public function setLine($value = null)
     {
-        $this->line = $this->setNumericVal($value, $this->line);
 
+        $this->line = $this->setNumericVal($value, $this->line);
         return $this;
     }
 

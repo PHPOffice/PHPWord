@@ -43,11 +43,18 @@ class Styles extends AbstractPart
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:styles');
+        $xmlWriter->writeAttribute('xmlns:mc', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
+        $xmlWriter->writeAttribute('xmlns:0', 'hurn:schemas-microsoft-com:office:office');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
+        $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+        $xmlWriter->writeAttribute('xmlns:w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
+        $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
+        $xmlWriter->writeAttribute('xmlns:s', 'http://schemas.openxmlformats.org/schemaLibrary/2006/main');
+        $xmlWriter->writeAttribute('mc:Ignorable', 'w14');
 
         // Write default styles
         $styles = Style::getStyles();
@@ -82,7 +89,11 @@ class Styles extends AbstractPart
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles): void
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
+
         $fontName = $phpWord->getDefaultFontName();
+        $fontAscii = $phpWord->getDefaultFontAscii();
+        $fontHAnsi = $phpWord->getDefaultFontHAnsi();
+        $fontCs = $phpWord->getDefaultFontCs();
         $fontSize = $phpWord->getDefaultFontSize();
         $language = $phpWord->getSettings()->getThemeFontLang();
         $latinLanguage = ($language == null || $language->getLatin() === null) ? 'en-US' : $language->getLatin();
@@ -93,9 +104,9 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('w:rPr');
         $xmlWriter->startElement('w:rFonts');
         $xmlWriter->writeAttribute('w:ascii', $fontName);
-        $xmlWriter->writeAttribute('w:hAnsi', $fontName);
-        $xmlWriter->writeAttribute('w:eastAsia', $fontName);
-        $xmlWriter->writeAttribute('w:cs', $fontName);
+        $xmlWriter->writeAttribute('w:hAnsi', $fontAscii);
+        $xmlWriter->writeAttribute('w:eastAsia', $fontHAnsi);
+        $xmlWriter->writeAttribute('w:cs', $fontCs);
         $xmlWriter->endElement(); // w:rFonts
         $xmlWriter->startElement('w:sz');
         $xmlWriter->writeAttribute('w:val', $fontSize * 2);
@@ -114,11 +125,16 @@ class Styles extends AbstractPart
         $xmlWriter->endElement(); // w:rPrDefault
         $xmlWriter->endElement(); // w:docDefaults
 
+        // Write latent styles
+        $this->writeLatentStyles($xmlWriter, $styles);
+        unset($styles['Latent']);
+
         // Normal style
         $xmlWriter->startElement('w:style');
         $xmlWriter->writeAttribute('w:type', 'paragraph');
         $xmlWriter->writeAttribute('w:default', '1');
-        $xmlWriter->writeAttribute('w:styleId', 'Normal');
+        $styleId = isset($styles['Normal']) ? $styles['Normal']->getStyleId() : 'Normal';
+        $xmlWriter->writeAttribute('w:styleId', $styleId);
         $xmlWriter->startElement('w:name');
         $xmlWriter->writeAttribute('w:val', 'Normal');
         $xmlWriter->endElement(); // w:name
@@ -156,6 +172,46 @@ class Styles extends AbstractPart
             $xmlWriter->endElement(); // w:rPr
             $xmlWriter->endElement(); // w:style
         }
+    }
+
+    /**
+     * Write default font and other default styles.
+     *
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle[] $styles
+     */
+    private function writeLatentStyles(XMLWriter $xmlWriter, $styles): void
+    {
+        if (isset($styles['Latent']) == false) {
+            return;
+        }
+
+        $latentStyles = $styles['Latent'];
+        $xmlWriter->startElement('w:latentStyles');
+
+        $attrs = ['count', 'defQFormat', 'defUnhideWhenUsed', 'defSemiHidden', 'defUIPriority', 'defLockedState'];
+        foreach ($attrs as $attr) {
+            $method = 'get'.ucfirst($attr);
+            if (method_exists($latentStyles, $method)) {
+                $value = $latentStyles->$method();
+                $xmlWriter->writeAttributeIf($value != NULL, 'w:'.$attr, $value);
+            }
+        }
+
+        $lsdExceptions = $latentStyles->getLsdExceptions();
+        if ($lsdExceptions) {
+            $attrs = ['qFormat', 'unhideWhenUsed', 'uiPriority', 'defSemiHidden', 'defUIPriority', 'defLockedState', 'semiHidden', 'name'];
+            foreach ($lsdExceptions as $lsd) {
+                $attributes = [];
+                foreach ($attrs as $a) {
+                    if (isset($lsd[$a])) {
+                        $attributes['w:'.$a] = $lsd[$a];
+                    }
+                }
+                $xmlWriter->writeElementBlock('w:lsdException', $attributes);
+            }
+        }
+
+        $xmlWriter->endElement(); // w:latentStyles
     }
 
     /**

@@ -117,6 +117,9 @@ class Document extends AbstractPart
             'headerHeight' => [self::READ_VALUE, 'w:pgMar', 'w:header'],
             'footerHeight' => [self::READ_VALUE, 'w:pgMar', 'w:footer'],
             'gutter' => [self::READ_VALUE, 'w:pgMar', 'w:gutter'],
+            'gridType' => [self::READ_VALUE, 'w:docGrid', 'w:type'],
+            'linePitch' => [self::READ_VALUE, 'w:docGrid', 'w:linePitch'],
+            'charSpace' => [self::READ_VALUE, 'w:docGrid', 'w:charSpace'],
         ];
         $styles = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
 
@@ -143,15 +146,15 @@ class Document extends AbstractPart
      */
     private function readWPNode(XMLReader $xmlReader, DOMElement $node, Section &$section): void
     {
-        // Page break
+        // 分页
         if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
             $section->addPageBreak(); // PageBreak
         }
-
-        // Paragraph
+        
+        // 段落
         $this->readParagraph($xmlReader, $node, $section);
 
-        // Section properties
+        // Section 属性
         if ($xmlReader->elementExists('w:pPr/w:sectPr', $node)) {
             $sectPrNode = $xmlReader->getElement('w:pPr/w:sectPr', $node);
             if ($sectPrNode !== null) {

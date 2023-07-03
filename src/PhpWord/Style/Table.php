@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\ComplexType\TblIndent;
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\JcTable;
@@ -109,6 +110,11 @@ class Table extends Border
     private $borderInsideVColor;
 
     /**
+     * @var float|int Width value
+     */
+    private $tblStyle = 0;
+
+    /**
      * Shading.
      *
      * @var \PhpOffice\PhpWord\Style\Shading
@@ -147,7 +153,11 @@ class Table extends Border
      */
     private $position;
 
+
     /** @var null|TblWidthComplexType */
+    private $tblWidth;
+
+    /** @var null|TblIndent */
     private $indent;
 
     /**
@@ -588,6 +598,30 @@ class Table extends Border
      *
      * @return float|int
      */
+    public function getTblStyle()
+    {
+        return $this->tblStyle;
+    }
+
+    /**
+     * Set width.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setTblStyle($value = null)
+    {
+        $this->tblStyle = $this->setNumericVal($value, $this->tblStyle);
+
+        return $this;
+    }
+
+    /**
+     * Get width.
+     *
+     * @return float|int
+     */
     public function getWidth()
     {
         return $this->width;
@@ -728,6 +762,27 @@ class Table extends Border
     /**
      * @return ?TblWidthComplexType
      */
+    public function getTblWdith()
+    {
+        return $this->tblWidth;
+    }
+
+    /**
+     * @return self
+     *
+     * @see http://www.datypic.com/sc/ooxml/e-w_tblW-1.html
+     */
+    public function setTblWidth(TblWidthComplexType $tblWidth)
+    {
+        $this->tblWidth = $tblWidth;
+
+        return $this;
+    }
+
+
+    /**
+     * @return ?TblIndent
+     */
     public function getIndent()
     {
         return $this->indent;
@@ -738,12 +793,13 @@ class Table extends Border
      *
      * @see http://www.datypic.com/sc/ooxml/e-w_tblInd-1.html
      */
-    public function setIndent(TblWidthComplexType $indent)
+    public function setIndent(TblIndent $indent)
     {
         $this->indent = $indent;
 
         return $this;
     }
+
 
     /**
      * Get the columnWidths.

@@ -101,6 +101,19 @@ class Settings extends AbstractPart
     {
         /** @var \PhpOffice\PhpWord\Metadata\Settings $documentSettings */
         $documentSettings = $this->getParentWriter()->getPhpWord()->getSettings();
+        $this->setZoom($documentSettings->getZoom());
+
+        $this->setBordersDoNotSurroundHeader($documentSettings->getBordersDoNotSurroundHeader());
+        $this->setBordersDoNotSurroundFooter($documentSettings->getBordersDoNotSurroundFooter());
+
+        $this->setDrawingGridHorizontalSpacing($documentSettings->getDrawingGridHorizontalSpacing());
+        $this->setDrawingGridVerticalSpacing($documentSettings->getDrawingGridVerticalSpacing());
+
+        $this->setDisplayHorizontalDrawingGridEvery($documentSettings->getDisplayHorizontalDrawingGridEvery());
+        $this->setDisplayVerticalDrawingGridEvery($documentSettings->getDisplayVerticalDrawingGridEvery());
+
+        $this->setDocumentProtection($documentSettings->getDocumentProtection());
+        $this->setDefaultTabStop($documentSettings->getDefaultTabStop());
 
         // Default settings
         $this->settings = [
@@ -154,9 +167,8 @@ class Settings extends AbstractPart
 
         $this->setThemeFontLang($documentSettings->getThemeFontLang());
         $this->setRevisionView($documentSettings->getRevisionView());
-        $this->setDocumentProtection($documentSettings->getDocumentProtection());
+
         $this->setProofState($documentSettings->getProofState());
-        $this->setZoom($documentSettings->getZoom());
         $this->setConsecutiveHyphenLimit($documentSettings->getConsecutiveHyphenLimit());
         $this->setHyphenationZone($documentSettings->getHyphenationZone());
         $this->setCompatibility();
@@ -176,6 +188,114 @@ class Settings extends AbstractPart
 
         $value = $booleanValue ? 'true' : 'false';
         $this->settings[$settingName] = ['@attributes' => ['w:val' => $value]];
+    }
+
+    /**
+     *　
+     *
+     * @param \PhpOffice\PhpWord\Metadata\Protection $documentProtection
+     */
+    private function setDefaultTabStop($defaultTabStop): void
+    {
+        if ($defaultTabStop !== null) {
+            $this->settings['w:defaultTabStop'] = ['@attributes' => ['w:val' => $defaultTabStop]];
+        }
+    }
+
+    /**
+     *　页眉边框
+     *
+     * @param $bordersDoNotSurroundHeader
+     */
+    private function setBordersDoNotSurroundHeader($bordersDoNotSurroundHeader): void
+    {
+        if ($bordersDoNotSurroundHeader !== null) {
+            $this->settings['w:bordersDoNotSurroundHeader'] = ['@attributes' => ['w:val' => $bordersDoNotSurroundHeader]];
+        }
+    }
+
+    /**
+     *　页脚边框
+     *
+     * @param $bordersDoNotSurroundFooter
+     */
+    private function setBordersDoNotSurroundFooter($bordersDoNotSurroundFooter): void
+    {
+        if ($bordersDoNotSurroundFooter !== null) {
+            $this->settings['w:bordersDoNotSurroundFooter'] = ['@attributes' => ['w:val' => $bordersDoNotSurroundFooter]];
+        }
+    }
+
+    /**
+     *　网格
+     *
+     * @param $drawingGridHorizontalSpacing
+     */
+    private function setDrawingGridHorizontalSpacing($drawingGridHorizontalSpacing): void
+    {
+        if ($drawingGridHorizontalSpacing !== null) {
+            $this->settings['w:drawingGridHorizontalSpacing'] = ['@attributes' => ['w:val' => $drawingGridHorizontalSpacing]];
+        }
+    }
+
+    /**
+     *　网格
+     *
+     * @param $drawingGridVerticalSpacing
+     */
+    private function setDrawingGridVerticalSpacing($drawingGridVerticalSpacing): void
+    {
+        if ($drawingGridVerticalSpacing !== null) {
+            $this->settings['w:drawingGridVerticalSpacing'] = ['@attributes' => ['w:val' => $drawingGridVerticalSpacing]];
+        }
+    }
+
+    /**
+     *　网格
+     *
+     * @param $drawingGridHorizontalSpacing
+     */
+    private function setDisplayHorizontalDrawingGridEvery($displayHorizontalDrawingGridEvery): void
+    {
+        if ($displayHorizontalDrawingGridEvery !== null) {
+            $this->settings['w:displayHorizontalDrawingGridEvery'] = ['@attributes' => ['w:val' => $displayHorizontalDrawingGridEvery]];
+        }
+    }
+
+    /**
+     *　网格
+     *
+     * @param $drawingGridVerticalSpacing
+     */
+    private function setDisplayVerticalDrawingGridEvery($displayVerticalDrawingGridEvery): void
+    {
+        if ($displayVerticalDrawingGridEvery !== null) {
+            $this->settings['w:displayVerticalDrawingGridEvery'] = ['@attributes' => ['w:val' => $displayVerticalDrawingGridEvery]];
+        }
+    }
+
+    /**
+     *　网格
+     *
+     * @param $drawingGridVerticalSpacing
+     */
+    private function setDoNotValidateAgainstSchema($doNotValidateAgainstSchema): void
+    {
+        if ($doNotValidateAgainstSchema !== null) {
+            $this->settings['w:doNotValidateAgainstSchema'];
+        }
+    }
+
+    /**
+     *　网格
+     *
+     * @param $drawingGridVerticalSpacing
+     */
+    private function setDoNotDemarcateInvalidXml($doNotDemarcateInvalidXml): void
+    {
+        if ($doNotDemarcateInvalidXml !== null) {
+            $this->settings['w:doNotDemarcateInvalidXml'] = [];
+        }
     }
 
     /**
@@ -276,6 +396,13 @@ class Settings extends AbstractPart
     private function setZoom($zoom = null): void
     {
         if ($zoom !== null) {
+            if (is_numeric($zoom)) {
+                if (strpos($zoom, '.') !== false) {
+                    $zoom = (float)$zoom;
+                } else {
+                    $zoom = (int)$zoom;
+                }
+            }
             $attr = is_int($zoom) ? 'w:percent' : 'w:val';
             $this->settings['w:zoom'] = ['@attributes' => [$attr => $zoom]];
         }
@@ -316,6 +443,13 @@ class Settings extends AbstractPart
     {
         $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
         if ($compatibility->getOoxmlVersion() !== null) {
+            $this->settings['w:compat']['w:spaceForUL'] = '';
+            $this->settings['w:compat']['w:balanceSingleByteDoubleByteWidth'] = '';
+            $this->settings['w:compat']['w:doNotLeaveBackslashAlone'] = '';
+            $this->settings['w:compat']['w:ulTrailSpace'] = '';
+            $this->settings['w:compat']['w:doNotExpandShiftReturn'] = '';
+            $this->settings['w:compat']['w:adjustLineHeightInTable'] = '';
+            $this->settings['w:compat']['w:useFELayout'] = '';
             $this->settings['w:compat']['w:compatSetting'] = [
                 '@attributes' => [
                     'w:name' => 'compatibilityMode',
