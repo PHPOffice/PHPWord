@@ -140,7 +140,7 @@ class Head extends AbstractPart
                 }
                 if ($style instanceof Paragraph) {
                     $styleWriter = new ParagraphStyleWriter($style);
-                    $styleWriter->setParentWriter($this->getParentWriter());
+                    $styleWriter->setIsTcpdf($this->getParentWriter()->IsTcpdf());
                     if (!$stylep) {
                         $name = '.' . $name;
                     }
