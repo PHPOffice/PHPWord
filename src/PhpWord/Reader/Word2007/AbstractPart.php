@@ -474,7 +474,7 @@ abstract class AbstractPart
      *
      * @return null|array
      */
-    protected function readFontStyle(XMLReader $xmlReader, DOMElement $domNode, $is_debug = 0)
+    protected function readFontStyle(XMLReader $xmlReader, DOMElement $domNode)
     {
         if (null === $domNode) {
             return null;
@@ -517,7 +517,7 @@ abstract class AbstractPart
             'hidden' => [self::READ_TRUE,  'w:vanish'],
         ];
 
-        $fontStyles = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs, $is_debug);
+        $fontStyles = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
         if (isset($fontStyle['langEA']) || isset($fontStyle['langBidi'])) {
             $lang = [];
             $lang['latin'] = $fontStyle['lang'];
@@ -711,7 +711,7 @@ abstract class AbstractPart
      *
      * @return array
      */
-    protected function readStyleDefs(XMLReader $xmlReader, ?DOMElement $parentNode = null, $styleDefs = [], $is_debug = 0)
+    protected function readStyleDefs(XMLReader $xmlReader, ?DOMElement $parentNode = null, $styleDefs = [])
     {
         $styles = [];
 

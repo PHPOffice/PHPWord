@@ -232,6 +232,7 @@ class Text extends AbstractElement
         } elseif (is_string($paragraphStyle)) {
             $style = $paragraphStyle;
         }
+
         if ($style) {
             $attribute = $pStyleIsObject ? 'style' : 'class';
             $style = " {$attribute}=\"{$style}\"";

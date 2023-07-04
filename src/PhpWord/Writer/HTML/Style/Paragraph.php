@@ -72,11 +72,51 @@ class Paragraph extends AbstractStyle
             $css['text-align'] = $textAlign;
         }
 
+        //　Indentation
+        $indentation = $style->getIndentation();
+        if (null !== $indentation) {
+            $firstLine = $indentation->getFirstLine();
+            $hanging = $indentation->getHanging();
+            $left = $indentation->getLeft();
+            $right = $indentation->getRight();
+            if ($firstLine !== null) {
+                $css['text-indent'] = ($firstLine / 20) . 'pt';
+            }
+            if ($hanging !== null) {
+                $css['text-indent'] = '-'.($hanging / 20) . 'pt';
+            }
+            if ($left !== null) {
+                $css['margin-left'] = ($left / 20) . 'pt';
+            }
+            if ($right !== null) {
+                $css['margin-right'] = ($right / 20) . 'pt';
+            }
+        }
+
         // Spacing
         $spacing = $style->getSpace();
+
         if (null !== $spacing) {
+            $line = $spacing->getLine();
             $before = $spacing->getBefore();
             $after = $spacing->getAfter();
+
+            if ($line !== null) {
+                $lineRule = $spacing->getLineRule();
+                switch ($lineRule) {
+                    case 'auto' :
+                        $css['line-height'] = number_format(($line / 20), 2) . 'pt';
+                        break;
+                    case 'atLeast' :
+                        $css['line-height'] = 'calc(100%+' . ($line / 20) . 'pt)';
+                        break;
+                    case 'auto' :
+                        $css['line-height'] = $css["min-height"]  = ($line / 20). 'pt';
+                        break;
+
+                }
+            }
+
             $css['margin-top'] = $this->getValueIf(null !== $before, ($before / 20) . 'pt');
             $css['margin-bottom'] = $this->getValueIf(null !== $after, ($after / 20) . 'pt');
         } else {

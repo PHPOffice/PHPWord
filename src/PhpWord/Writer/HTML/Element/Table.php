@@ -35,11 +35,12 @@ class Table extends AbstractElement
             return '';
         }
 
+        $style = $this->element->getStyle();
         $content = '';
         $rows = $this->element->getRows();
         $rowCount = count($rows);
         if ($rowCount > 0) {
-            $content .= '<table' . self::getTableStyle($this->element->getStyle()) . '>' . PHP_EOL;
+            $content .= '<table' . self::getTableStyle($style) . '>' . PHP_EOL;
 
             for ($i = 0; $i < $rowCount; ++$i) {
                 /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
@@ -85,7 +86,17 @@ class Table extends AbstractElement
                         $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
                         $cellBgColorAttr = (null === $cellBgColor ? '' : " bgcolor=\"#{$cellBgColor}\"");
                         $cellFgColorAttr = (null === $cellFgColor ? '' : " color=\"#{$cellFgColor}\"");
-                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
+                        $_style = '';
+                        if (!$tblHeader) {
+                            $cellMar = $style->getCellMargin();
+                            $_cellMar = array_filter($cellMar);
+                            if ($_cellMar) {
+                                $_style = ' style="padding:'. (($cellMar[0]??0)/20) .'pt '.
+                                    (($cellMar[2]??0)/20) .'pt '. (($cellMar[3]??0)/20) .'pt '
+                                    . (($cellMar[1]??0)/20) .'pt;"';
+                            }
+                        }
+                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}{$_style}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);
                         $content .= $writer->write();
                         if ($cellRowSpan > 1) {
