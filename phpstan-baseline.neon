@@ -1206,11 +1206,6 @@ parameters:
 			path: src/PhpWord/Writer/HTML/Element/Table.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\HTML\\\\Style\\\\AbstractStyle\\:\\:write\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/HTML/Style/AbstractStyle.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Field\\:\\:writeDefault\\(\\) has parameter \\$type with no type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/ODText/Element/Field.php
@@ -1399,11 +1394,6 @@ parameters:
 			message: "#^Binary operation \"\\+\" between int\\|string and 1 results in an error\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/RTF/Style/Border.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Style\\\\Tab\\:\\:write\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Style/Tab.php
 
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\\\PhpOffice\\\\PhpWord\\\\PhpWord\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 86$#"

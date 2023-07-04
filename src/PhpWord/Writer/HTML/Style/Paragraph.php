@@ -87,7 +87,7 @@ class Paragraph extends AbstractStyle
         }
         $ind = $style->getIndentation();
         if ($ind != null) {
-            $tcpdf = $this->isTcpdf;
+            $tcpdf = $this->getParentWriter()->isTcpdf();
             $left = $ind->getLeft();
             $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
             $css[$tcpdf ? 'text-indent' : 'margin-left'] = ((string) $inches) . 'in';
@@ -100,13 +100,5 @@ class Paragraph extends AbstractStyle
         }
 
         return $this->assembleCss($css);
-    }
-
-    /** @var bool */
-    private $isTcpdf = false;
-
-    public function setIsTcpdf(bool $isTcpdf): void
-    {
-        $this->isTcpdf = $isTcpdf;
     }
 }
