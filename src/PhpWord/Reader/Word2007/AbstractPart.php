@@ -105,6 +105,8 @@ abstract class AbstractPart
      */
     protected function readParagraph(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart = 'document'): void
     {
+        if (isset($num) == false) static $num = 0;
+
         // 段落样式
         $paragraphStyle = null;  //段落基本样式
         $headingDepth = null; //头部深度
@@ -114,6 +116,8 @@ abstract class AbstractPart
         }
 
         // 保留文本
+        $num++;
+        $paragraphStyle['num'] = $num;
         if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) { //校验x:r元素下是否有w:instrText
             $ignoreText = false;
             $textContent = '';
@@ -175,17 +179,29 @@ abstract class AbstractPart
         } else {
             // Text and TextRun
             $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag', $domNode);
+
+            //修复分页标签重复记录问题
+            $is_pagebreak = false;
+            if ($textRunContainers) {
+                $br = $xmlReader->getElement('w:r/w:br', $domNode);
+                if ($br !== null) {
+                    $type = $xmlReader->getAttribute('w:type', $br);
+                    if ($type == 'page') {
+                        $is_pagebreak = true;
+                    }
+                }
+            }
+
             if (0 === $textRunContainers) {
-                $font = $paragraphStyle['font']??NULL;
-                //unset($paragraphStyle['font']);
                 $parent->addTextBreak(NULL, NULL, $paragraphStyle);
             } else {
-                $nodes = $xmlReader->getElements('*', $domNode);
-                $paragraph = $parent->addTextRun($paragraphStyle);
-                foreach ($nodes as $node) {
-                    $this->readRun($xmlReader, $node, $paragraph, $docPart, $paragraphStyle);
+                if (!$is_pagebreak) {
+                    $nodes = $xmlReader->getElements('*', $domNode);
+                    $paragraph = $parent->addTextRun($paragraphStyle);
+                    foreach ($nodes as $node) {
+                        $this->readRun($xmlReader, $node, $paragraph, $docPart, $paragraphStyle);
+                    }
                 }
-
             }
         }
     }

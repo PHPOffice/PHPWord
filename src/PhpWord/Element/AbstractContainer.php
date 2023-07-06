@@ -24,6 +24,7 @@ use ReflectionClass;
  * Container abstract class.
  *
  * @method Text addText(string $text, mixed $fStyle = null, mixed $pStyle = null)
+ * @method Text createText(string $text, mixed $fStyle = null, mixed $pStyle = null)
  * @method TextRun addTextRun(mixed $pStyle = null)
  * @method Bookmark addBookmark(string $name)
  * @method Link addLink(string $target, string $text = null, mixed $fStyle = null, mixed $pStyle = null, boolean $internal = false)
@@ -89,9 +90,10 @@ abstract class AbstractContainer extends AbstractElement
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
             'Chart', 'FormField', 'SDT', 'Comment',
         ];
-        $functions = [];
+        $createFuncs = $functions = [];
         foreach ($elements as $element) {
             $functions['add' . strtolower($element)] = $element == 'Object' ? 'OLEObject' : $element;
+            $createFuncs['create' . strtolower($element)] = $element == 'Object' ? 'OLEObject' : $element;
         }
 
         // Run valid `add` command
@@ -101,11 +103,13 @@ abstract class AbstractContainer extends AbstractElement
 
             // Special case for TextBreak
             // @todo Remove the `$count` parameter in 1.0.0 to make this element similiar to other elements?
+
             if ($element == 'TextBreak') {
                 [$count, $fontStyle, $paragraphStyle] = array_pad($args, 3, null);
                 if ($count === null) {
                     $count = 1;
                 }
+
                 for ($i = 1; $i <= $count; ++$i) {
                     $this->addElement($element, $fontStyle, $paragraphStyle);
                 }
@@ -114,6 +118,25 @@ abstract class AbstractContainer extends AbstractElement
                 array_unshift($args, $element); // Prepend element name to the beginning of args array
 
                 return call_user_func_array([$this, 'addElement'], $args);
+            }
+        } elseif (isset($createFuncs[$function])) {
+            $element = $createFuncs[$function];
+
+            // Special case for TextBreak
+            // @todo Remove the `$count` parameter in 1.0.0 to make this element similiar to other elements?
+            if ($element == 'TextBreak') {
+                [$count, $fontStyle, $paragraphStyle] = array_pad($args, 3, null);
+                if ($count === null) {
+                    $count = 1;
+                }
+                for ($i = 1; $i <= $count; ++$i) {
+                    $this->createElement($element, $fontStyle, $paragraphStyle);
+                }
+            } else {
+                // All other elements
+                array_unshift($args, $element); // Prepend element name to the beginning of args array
+
+                return call_user_func_array([$this, 'createElement'], $args);
             }
         }
 
@@ -148,13 +171,23 @@ abstract class AbstractContainer extends AbstractElement
 
         /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
         $element = $reflection->newInstanceArgs($elementArgs);
-
+        //if (!isset($elementArgs[1]['num'])) {x($elementClass, 1);}
+//x($elementArgs, 1);
+        if (isset($elementArgs[1]['num']) && $elementArgs[1]['num'] == 19) {
+            echo 'aaaa';
+            x($this->countElements(), 1);
+        }
         // Set parent container
         $element->setParentContainer($this);
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
 
         $this->elements[] = $element;
+
+        if (isset($elementArgs[1]['num']) && $elementArgs[1]['num'] == 18) {
+            echo '<br />bbbb';
+            x($this->countElements(), 1);
+        }
 
         return $element;
     }
@@ -203,6 +236,52 @@ abstract class AbstractContainer extends AbstractElement
                 }
             }
         }
+    }
+
+    /**
+     * 替换某个指定的
+     *
+     * @param int $sectionIdx
+     * @param AbstractElement $newElement
+     */
+    public function replaceElement($sectionIdx, $newElement): void
+    {
+        if (is_int($sectionIdx) && array_key_exists($sectionIdx, $this->elements)) {
+            $this->elements[$sectionIdx] = $newElement;
+            return;
+        }
+    }
+
+    /**
+     * create element.
+     *
+     * 创建一个指定元素
+     *
+     * @param string $elementName
+     *
+     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     */
+    protected function createElement($elementName)
+    {
+        $elementClass = __NAMESPACE__ . '\\' . $elementName;
+        $this->checkValidity($elementName);
+
+        // Get arguments
+        $args = func_get_args();
+        $withoutP = in_array($this->container, ['TextRun', 'Footnote', 'Endnote', 'ListItemRun', 'Field']);
+        if ($withoutP && ($elementName == 'Text' || $elementName == 'PreserveText')) {
+            $args[3] = null; // Remove paragraph style for texts in textrun
+        }
+
+        // Create element using reflection
+        $reflection = new ReflectionClass($elementClass);
+        $elementArgs = $args;
+        array_shift($elementArgs); // Shift the $elementName off the beginning of array
+
+        /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
+        $element = $reflection->newInstanceArgs($elementArgs);
+
+        return $element;
     }
 
     /**

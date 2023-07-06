@@ -36,7 +36,7 @@ class Document extends AbstractPart
      *
      * @var \PhpOffice\PhpWord\PhpWord
      */
-    private $phpWord;
+    public $phpWord;
 
     /**
      * Read document.xml.
