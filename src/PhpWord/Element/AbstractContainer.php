@@ -171,23 +171,13 @@ abstract class AbstractContainer extends AbstractElement
 
         /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
         $element = $reflection->newInstanceArgs($elementArgs);
-        //if (!isset($elementArgs[1]['num'])) {x($elementClass, 1);}
-//x($elementArgs, 1);
-        if (isset($elementArgs[1]['num']) && $elementArgs[1]['num'] == 19) {
-            echo 'aaaa';
-            x($this->countElements(), 1);
-        }
+
         // Set parent container
         $element->setParentContainer($this);
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
 
         $this->elements[] = $element;
-
-        if (isset($elementArgs[1]['num']) && $elementArgs[1]['num'] == 18) {
-            echo '<br />bbbb';
-            x($this->countElements(), 1);
-        }
 
         return $element;
     }
