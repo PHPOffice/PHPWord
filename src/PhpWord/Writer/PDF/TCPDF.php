@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\WriterInterface;
@@ -36,6 +37,17 @@ class TCPDF extends AbstractRenderer implements WriterInterface
      * @var string
      */
     protected $includeFile = 'tcpdf.php';
+
+    /**
+     * Overridden to set isTcpdf.
+     *
+     * @codeCoverageIgnore
+     */
+    public function __construct(PhpWord $phpWord)
+    {
+        parent::__construct($phpWord);
+        $this->isTcpdf = true;
+    }
 
     /**
      * Gets the implementation of external PDF library that should be used.
@@ -91,7 +103,6 @@ class TCPDF extends AbstractRenderer implements WriterInterface
         $orientation = 'P';
 
         // Create PDF
-        $this->isTcpdf = true;
         $pdf = $this->createExternalWriterInstance($orientation, 'pt', $paperSize);
         $pdf->setFontSubsetting(false);
         $pdf->setPrintHeader(false);
