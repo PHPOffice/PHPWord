@@ -50,6 +50,13 @@ class HTML extends AbstractWriter implements WriterInterface
     protected $notes = [];
 
     /**
+     * Callback for editing generated html.
+     *
+     * @var null|callable
+     */
+    private $editHtmlCallback;
+
+    /**
      * Create new instance.
      */
     public function __construct(?PhpWord $phpWord = null)
@@ -110,8 +117,23 @@ class HTML extends AbstractWriter implements WriterInterface
         $content .= $this->getWriterPart('Head')->write();
         $content .= $this->getWriterPart('Body')->write();
         $content .= '</html>' . PHP_EOL;
+        $callback = $this->editHtmlCallback;
+        if ($callback !== null) {
+            $content = $callback($content);
+        }
 
         return $content;
+    }
+
+    /**
+     * Set a callback to edit the entire HTML.
+     *
+     * The callback must accept the HTML as string as first parameter,
+     * and it must return the edited HTML as string.
+     */
+    public function setEditHtmlCallback(?callable $callback): void
+    {
+        $this->editHtmlCallback = $callback;
     }
 
     /**

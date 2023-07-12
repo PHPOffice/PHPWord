@@ -1973,16 +1973,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:save\\(\\)\\.$#"
 			count: 1
-			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:save\\(\\)\\.$#"
-			count: 1
 			path: tests/PhpWordTests/Writer/PDF/TCPDFTest.php
 
 		-
