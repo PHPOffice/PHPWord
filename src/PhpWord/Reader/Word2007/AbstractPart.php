@@ -26,6 +26,7 @@ use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
+use PhpOffice\PhpWord\Style\Tab;
 
 /**
  * Abstract part reader.
@@ -317,7 +318,7 @@ abstract class AbstractPart
         } elseif ($node->nodeName == 'w:br') {
             $parent->addTextBreak();
         } elseif ($node->nodeName == 'w:tab') {
-            $parent->addText("\t");
+            $parent->addText("\t", $fontStyle);
         } elseif ($node->nodeName == 'mc:AlternateContent') {
             if ($node->hasChildNodes()) {
                 // Get fallback instead of mc:Choice to make sure it is compatible
@@ -435,6 +436,7 @@ abstract class AbstractPart
             'next' => [self::READ_VALUE, 'w:next'],
             'firstLine' => [self::READ_VALUE, 'w:ind', 'w:firstLine'],
             'left' => [self::READ_VALUE, 'w:ind', 'w:left'],
+            'right' => [self::READ_VALUE, 'w:ind', 'w:right'],
             'firstLineChars' => [self::READ_VALUE, 'w:ind', 'w:firstLineChars'],
             'indLeftChar' => [self::READ_VALUE, 'w:ind', 'w:leftChars'],
             'hanging' => [self::READ_VALUE, 'w:ind', 'w:hanging'],
@@ -463,6 +465,23 @@ abstract class AbstractPart
             $paragraphStyle = array_merge($paragraphStyle, $result??[]);
         }
         $paragraphStyle['font'] = $this->readFontStyle($xmlReader, $styleNode);
+        if ( $xmlReader->elementExists('w:tabs', $styleNode)) {
+            $tabNodes = $xmlReader->getElements('w:tabs/w:tab', $styleNode);
+            $tabs = [];
+            foreach ($tabNodes as $node) {
+                $_tab = [];
+                $val = $xmlReader->getAttribute('w:val', $node) ;
+                $pos = $xmlReader->getAttribute('w:pos', $node) ;
+                $leader = $xmlReader->getAttribute('w:leader', $node) ;
+                if ($val !== null) $_tab['type'] = $val;
+                if ($pos !== null) $_tab['position'] = $pos;
+                if ($leader !== null) $_tab['leader'] = $leader;
+                if ($_tab) {
+                    $tabs[] = new Tab($_tab['type']??null, $_tab['position']??0, $_tab['leader']??null);
+                }
+             }
+             if ($tabs) $paragraphStyle['tabs'] = $tabs;
+        }
         return $paragraphStyle;
     }
 
@@ -534,14 +553,21 @@ abstract class AbstractPart
         ];
 
         $fontStyles = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
-        if (isset($fontStyle['langEA']) || isset($fontStyle['langBidi'])) {
+        if (isset($fontStyles['langEA']) || isset($fontStyles['langBidi'])) {
             $lang = [];
-            $lang['latin'] = $fontStyle['lang'];
-            isset($fontStyle['langEA']) && $lang['eastAsia'] = $fontStyle['langEA'];
-            isset($fontStyle['langBidi']) && $lang['bidirectional'] = $fontStyle['langBidi'];
-            $fontStyle['lang'] = $lang;
+            $lang['latin'] = $fontStyles['lang'];
+            isset($fontStyles['langEA']) && $lang['eastAsia'] = $fontStyles['langEA'];
+            isset($fontStyles['langBidi']) && $lang['bidirectional'] = $fontStyles['langBidi'];
+            $fontStyles['lang'] = $lang;
         }
 
+        if ($domNode->tagName == 'w:r') {
+            $tabNode = $xmlReader->elementExists('w:tab', $domNode);
+            if ($tabNode != null) {
+                $fontStyles['tab'] = 1;
+            }
+
+        }
         return $fontStyles;
     }
 
@@ -733,7 +759,6 @@ abstract class AbstractPart
 
         foreach ($styleDefs as $styleProp => $styleVal) {
             [$method, $element, $attribute, $expected, $default] = array_pad($styleVal, 5, null);
-
             $element = $this->findPossibleElement($xmlReader, $parentNode, $element);
             if ($element === null) {
                 continue;

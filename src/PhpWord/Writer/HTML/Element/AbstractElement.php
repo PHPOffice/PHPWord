@@ -43,6 +43,13 @@ abstract class AbstractElement
     protected $element;
 
     /**
+     * Parent
+     *
+     * @var AbstractElement
+     */
+    protected $parent = null;
+
+    /**
      * Without paragraph.
      *
      * @var bool
@@ -64,12 +71,13 @@ abstract class AbstractElement
      *
      * @param bool $withoutP
      */
-    public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false)
+    public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false, AbstractElement $parent = null)
     {
         $this->parentWriter = $parentWriter;
         $this->element = $element;
         $this->withoutP = $withoutP;
         $this->escaper = new Escaper();
+        $this->parent = $parent;
     }
 
     /**

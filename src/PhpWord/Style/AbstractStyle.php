@@ -174,7 +174,7 @@ abstract class AbstractStyle
         if ($key === 'align') {
             $key = 'alignment';
         }
-
+        
         $method = 'set' . Text::removeUnderscorePrefix($key);
         if (method_exists($this, $method)) {
             $this->$method($value);

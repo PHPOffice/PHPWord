@@ -34,19 +34,31 @@ class Font extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
+
         if (!$style instanceof FontStyle) {
             return '';
         }
         $css = [];
 
         $font = $style->getName();
+        $ascii = $style->getAscii();
+        $hAnsi = $style->getHAnsi();
+
+
+        $font_family = [];
+        if ($font !== null) $font_family[] = "'{$font}'";
+        if ($ascii !== null && $ascii != $font) $font_family[] = "'{$ascii}'";
+        if ($hAnsi !== null && $hAnsi != $font && $hAnsi != $ascii) $font_family[] = "'{$hAnsi}'";
+        if ($font_family) $font_family = join(',', $font_family);
+        else $font_family = '';
+
         $size = $style->getSize();
         $color = $style->getColor();
         $fgColor = $style->getFgColor();
         $underline = $style->getUnderline() != FontStyle::UNDERLINE_NONE;
         $lineThrough = $style->isStrikethrough() || $style->isDoubleStrikethrough();
 
-        $css['font-family'] = $this->getValueIf($font !== null, "'{$font}'");
+        $css['font-family'] = $this->getValueIf($font_family, "{$font_family}");
         $css['font-size'] = $this->getValueIf($size !== null, "{$size}pt");
         $css['color'] = $this->getValueIf($color !== null, "#{$color}");
         $css['background'] = $this->getValueIf($fgColor != '', $fgColor);
@@ -64,7 +76,7 @@ class Font extends AbstractStyle
 
         $spacing = $style->getSpacing();
         $css['letter-spacing'] = $this->getValueIf(null !== $spacing, ($spacing / 20) . 'pt');
-
+        
         return $this->assembleCss($css);
     }
 }

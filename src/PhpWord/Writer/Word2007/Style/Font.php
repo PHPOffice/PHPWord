@@ -170,6 +170,10 @@ class Font extends AbstractStyle
         // Position
         $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
         $xmlWriter->endElement();
+
+        //tab
+        $tab = $style->getTab();
+        if ($tab !== null) $xmlWriter->writeElement('w:tab');
     }
 
     /**

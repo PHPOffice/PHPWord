@@ -49,7 +49,7 @@ class Indentation extends AbstractStyle
         $xmlWriter->writeAttributeIf(null !== $firstLine, 'w:firstLine', $firstLine);
         $xmlWriter->writeAttributeIf(null !== $leftChars, 'w:leftChars', $this->convertTwip($leftChars));
         $xmlWriter->writeAttributeIf(null !== $firstLineChars, 'w:firstLineChars', $firstLineChars);
-        $xmlWriter->writeAttributeIf(null !== $right, 'w:right', $this->convertTwip($right));
+        $xmlWriter->writeAttributeIf(null !== $right, 'w:right', $this->convertTwip($right) / 720);
         $xmlWriter->writeAttributeIf(null !== $hanging, 'w:hanging', $this->convertTwip($hanging) / 720);
         $xmlWriter->writeAttributeIf(null !== $hangingChars, 'w:hangingChars', $this->convertTwip($hangingChars));
 

@@ -288,6 +288,8 @@ class Font extends AbstractStyle
      */
     private $hidden;
 
+    private $tab;
+
     /**
      * Vertically Raised or Lowered Text.
      *
@@ -364,6 +366,7 @@ class Font extends AbstractStyle
             'rtl' => $this->isRTL(),
             'shading' => $this->getShading(),
             'lang' => $this->getLang(),
+            'tab' => $this->getTab(),
             'isParagraphStyle' => $this->checkIsParagraphStyle()
         ];
 
@@ -1038,6 +1041,21 @@ class Font extends AbstractStyle
         $this->setObjectVal($value, 'Shading', $this->shading);
 
         return $this;
+    }
+
+    /**
+     * Get tab
+     * @param $value
+     * @author <presleylee@qq.com>
+     * @since 2023/7/11 3:50 下午
+     */
+    public function setTab($value) {
+        $this->tab = $value;
+    }
+
+    public function getTab()
+    {
+        return $this->tab;
     }
 
     /**

@@ -24,6 +24,28 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  */
 class TextRun extends Text
 {
+
+    /**
+     * 是否包含 $tabs
+     *
+     * @var bool
+     */
+    protected $tabs = false;
+
+    /**
+     * 文本宽度
+     *
+     * @var int
+     */
+    protected $textWidth = 0;
+
+    /**
+     * 是否遇到空w:text
+     *
+     * @var int
+     */
+    protected $isEmptyText = 0;
+
     /**
      * Write text run.
      *
@@ -34,10 +56,51 @@ class TextRun extends Text
         $content = '';
 
         $content .= $this->writeOpening();
-        $writer = new Container($this->parentWriter, $this->element);
+        $writer = new Container($this->parentWriter, $this->element, false, $this);
         $content .= $writer->write();
         $content .= $this->writeClosing();
 
         return $content;
+    }
+
+    /**
+     *
+     * @param boolean $value
+     * @author <presleylee@qq.com>
+     * @since 2023/7/13 10:33 上午
+     */
+    public function setTabs($value) {
+        $this->tabs = $value;
+    }
+
+    /**
+     * 获取text是否包含　tabs
+     *
+     * @return bool
+     * @author <presleylee@qq.com>
+     * @since 2023/7/13 10:53 上午
+     */
+    public function getTabs() {
+        return $this->tabs;
+    }
+
+    public function getTextWidth()
+    {
+        return $this->textWidth;
+    }
+
+    public function setTextWidth($value)
+    {
+        $this->textWidth = $value;
+    }
+
+    public function getIsEmptyText()
+    {
+        return $this->isEmptyText;
+    }
+
+    public function setIsEmptyText($value)
+    {
+        $this->isEmptyText = $value;
     }
 }

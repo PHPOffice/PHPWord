@@ -48,13 +48,22 @@ class Container extends AbstractElement
         $withoutP = in_array($containerClass, ['TextRun', 'Footnote', 'Endnote']) ? true : false;
         $content = '';
 
+
         $elements = $container->getElements();
         foreach ($elements as $element) {
             $elementClass = get_class($element);
+            $is_tabs = 0;
+            //校验当前textRun元素是否包含制表符
+            if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                $style = $element->getParagraphStyle();
+                if ($style->getTabs() != null) $is_tabs = 1;
+            }
+
             $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, $elementClass);
             if (class_exists($writerClass)) {
                 /** @var \PhpOffice\PhpWord\Writer\HTML\Element\AbstractElement $writer Type hint */
-                $writer = new $writerClass($this->parentWriter, $element, $withoutP);
+                $writer = new $writerClass($this->parentWriter, $element, $withoutP, $this->parent);
+                if ($is_tabs) $writer->setTabs($is_tabs);
                 $content .= $writer->write();
             }
         }

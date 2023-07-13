@@ -224,6 +224,7 @@ class Paragraph extends Border
 
         switch ($key) {
             case 'left':
+            case 'right':
             case 'hanging':
                 $value = $value * 720;  // 720 twips is 0.5 inch　twips是一种衡量屏幕或打印设备上的相对物理尺寸
             break;
@@ -444,12 +445,25 @@ class Paragraph extends Border
      *
      * @return self
      */
+    public function setRight($value = null)
+    {
+        return $this->setIndentation(['right' => $value]);
+    }
+
+    /**
+     * Set font.
+     *
+     * @param int $value
+     *
+     * @return self
+     */
     public function setFont($value = null)
     {
         $value['isParagraphStyle'] = true;
         $this->setObjectVal($value, 'Font', $this->font);
         return $this;
     }
+
 
     /**
      * Set indentation.

@@ -86,10 +86,10 @@ class Paragraph extends AbstractStyle
                 $css['text-indent'] = '-'.($hanging / 20) . 'pt';
             }
             if ($left !== null) {
-                $css['margin-left'] = ($left / 20) . 'pt';
+                $css['margin-left'] = ($left / 720 / 20) . 'pt';
             }
             if ($right !== null) {
-                $css['margin-right'] = ($right / 20) . 'pt';
+                $css['margin-right'] = ($right / 720 / 20) . 'pt';
             }
         }
 
@@ -122,6 +122,22 @@ class Paragraph extends AbstractStyle
         } else {
             $css['margin-top'] = '0';
             $css['margin-bottom'] = '0';
+        }
+
+        $tabs  = $style->getTabs();
+        if ($tabs) {
+            foreach ($tabs as $tab) {
+                $type = $tab->getType();
+                switch ($type) {
+                    case 'left':
+                        $pos = $tab->getPosition();
+                        $css['column-count'] = '2';
+                        break;
+                }
+
+
+            }
+            //x($css);
         }
 
         return $this->assembleCss($css);

@@ -167,6 +167,8 @@ class Settings
      */
     private $bordersDoNotSurroundHeader;
 
+    private $drawingGridHorizontalSpacing;
+
     /**
      * 指定页脚是否被边框所包围的设置
      *

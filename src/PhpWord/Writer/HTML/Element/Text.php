@@ -77,7 +77,7 @@ class Text extends AbstractElement
         if (Settings::isOutputEscapingEnabled()) {
             $content .= $this->escaper->escapeHtml($element->getText());
         } else {
-            $content .= $element->getText();
+            $content .= str_replace('  ', '&nbsp;', $element->getText());
         }
         $content .= $this->closingTags;
         $content .= $this->closingText;
@@ -248,12 +248,63 @@ class Text extends AbstractElement
     {
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
+        $parent = $element->getParent();
+
+        $textW = 0;
+        $is_tabs = false;
+        if ($this->parent instanceof TextRun && $parent !== null) {
+            $is_tabs = $this->parent->getTabs();
+
+        }
+
+        $text_len = 0;
+        if ($is_tabs) {
+            $textW = $this->parent->getTextWidth();
+            $text = $element->getText();
+            if ($textW>=0 && !$this->parent->getIsEmptyText()) {
+                $text_len = mb_strlen($text);
+                if ($text_len == 1 && (strpos(' ', $text) !== false || strpos('	', $text) !== false)) {
+                    $this->parent->setIsEmptyText(1);
+                }
+            }
+        }
+
         $style = '';
         $fontStyle = $element->getFontStyle();
         $fStyleIsObject = ($fontStyle instanceof Font);
         if ($fStyleIsObject) {
+
+
             $styleWriter = new FontStyleWriter($fontStyle);
             $style = $styleWriter->write();
+            if ($is_tabs && $textW >= 0 && !$this->parent->getIsEmptyText()) {
+                $textW += $fontStyle->getSize()*$text_len;
+                $this->parent->setTextWidth($textW);
+            }
+
+            if ($is_tabs && $textW >= 0 && $this->parent->getIsEmptyText()) {
+                $paragraphStyle = $parent->getParagraphStyle();
+                $tabs = $paragraphStyle->getTabs();
+                if ($tabs) {
+                    $css = [];
+                    foreach ($tabs as $tab) {
+                        $type = $tab->getType();
+                        switch ($type) {
+                            case 'left':
+                                $pos = $tab->getPosition();
+                                $w = $pos / 20;
+                                $spanW = $w - $textW;
+                                $css['padding-left'] = $spanW . 'pt';
+                                break;
+                        }
+                    }
+                    if ($css) {
+                        $style .= $this->assembleCss($css);
+                    }
+                }
+                $this->parent->setTextWidth(-1);
+            }
+
         } elseif (is_string($fontStyle)) {
             $style = $fontStyle;
         }
@@ -262,5 +313,28 @@ class Text extends AbstractElement
             $this->openingTags = "<span {$attribute}=\"{$style}\">";
             $this->closingTags = '</span>';
         }
+    }
+
+    /**
+     * Takes array where of CSS properties / values and converts to CSS string.
+     *
+     * @param array $css
+     *
+     * @return string
+     */
+    protected function assembleCss($css)
+    {
+        $pairs = [];
+        $string = '';
+        foreach ($css as $key => $value) {
+            if ($value != '') {
+                $pairs[] = $key . ': ' . $value;
+            }
+        }
+        if (!empty($pairs)) {
+            $string = implode('; ', $pairs) . ';';
+        }
+
+        return $string;
     }
 }

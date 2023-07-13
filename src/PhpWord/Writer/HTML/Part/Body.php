@@ -37,14 +37,15 @@ class Body extends AbstractPart
         $phpWord = $this->getParentWriter()->getPhpWord();
 
         $content = '';
-
-        $content .= '<body>' . PHP_EOL;
         $sections = $phpWord->getSections();
+        $style= $sections[0]->getStyle();
+
+        $docGrid = $style->getGridType();
+        $content .= '<body>' . PHP_EOL;
         foreach ($sections as $section) {
             $writer = new Container($this->getParentWriter(), $section);
             $content .= $writer->write();
         }
-
         $content .= $this->writeNotes();
         $content .= '</body>' . PHP_EOL;
 
