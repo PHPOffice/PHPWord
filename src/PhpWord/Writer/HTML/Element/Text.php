@@ -278,7 +278,16 @@ class Text extends AbstractElement
             $styleWriter = new FontStyleWriter($fontStyle);
             $style = $styleWriter->write();
             if ($is_tabs && $textW >= 0 && !$this->parent->getIsEmptyText()) {
-                $textW += $fontStyle->getSize()*$text_len;
+                $path = dirname(__DIR__, 4).'/tools'; //字体目录
+                if (is_dir($path) == false) {
+                    $textW += $fontStyle->getSize() * $text_len;
+                } else {
+                    $font = $fontStyle->getName();
+                    $fontSize = $fontStyle->getSize();
+                    $font = $font ? $font : $fontStyle->getAscii();
+                    $charWidth = $this->getCharacterWidth($text, $fontSize, $font);
+                    $textW += $charWidth;
+                }
                 $this->parent->setTextWidth($textW);
             }
 
@@ -314,6 +323,35 @@ class Text extends AbstractElement
             $this->closingTags = '</span>';
         }
     }
+
+    /**
+     * 获取文档宽度
+     *
+     * @param $character
+     * @param $fontsize
+     * @param string $fontfamily
+     * @return mixed
+     * @author <presleylee@qq.com>
+     * @since 2023/7/14 9:38 上午
+     */
+    function getCharacterWidth($character, $fontsize, $fontfamily = 'Arial') {
+        $path = dirname(__DIR__, 4).'/';
+        $fontfamily = 'tools/simsunb.ttf';
+        switch ($fontfamily) {
+            case '微软雅黑':
+                $fontfamily = 'tools/微软雅黑.ttf';
+                break;
+            case '宋体':
+                $fontfamily = 'tools/simsun.ttf';
+                break;
+        }
+
+        $bbox = imagettfbbox($fontsize, 0, $path.$fontfamily, $character);
+        $width = $bbox[2] - $bbox[0];
+
+        return $width;
+    }
+
 
     /**
      * Takes array where of CSS properties / values and converts to CSS string.

@@ -110,7 +110,7 @@ class Paragraph extends AbstractStyle
                     case 'atLeast' :
                         $css['line-height'] = 'calc(100%+' . ($line / 20) . 'pt)';
                         break;
-                    case 'auto' :
+                    case 'exact' :
                         $css['line-height'] = $css["min-height"]  = ($line / 20). 'pt';
                         break;
 
@@ -122,22 +122,6 @@ class Paragraph extends AbstractStyle
         } else {
             $css['margin-top'] = '0';
             $css['margin-bottom'] = '0';
-        }
-
-        $tabs  = $style->getTabs();
-        if ($tabs) {
-            foreach ($tabs as $tab) {
-                $type = $tab->getType();
-                switch ($type) {
-                    case 'left':
-                        $pos = $tab->getPosition();
-                        $css['column-count'] = '2';
-                        break;
-                }
-
-
-            }
-            //x($css);
         }
 
         return $this->assembleCss($css);
