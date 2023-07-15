@@ -58,7 +58,7 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
     // add a footer
     public static function editContent(string $html): string
     {
-        $afterBody = '<htmlpagefooter name="myFooter1"><div style=\'text-align: right; font-family: "Poor Richard", serif; font-size: 18pt;\'>{PAGENO}</div></htmlpagefooter>';
+        $afterBody = '<htmlpagefooter name="myFooter1"><div style=\'text-align: right;\'>{PAGENO}</div></htmlpagefooter>' . MPDF::SIMULATED_BODY_START;
         $beforeBody = '<style>@page page1 {odd-footer-name: html_myFooter1;}</style>';
         $needle = '</head>';
         $pos = strpos($html, $needle);
