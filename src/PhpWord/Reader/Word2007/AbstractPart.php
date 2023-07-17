@@ -28,6 +28,7 @@ use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Abstract part reader.
@@ -290,14 +291,20 @@ abstract class AbstractPart
     private function getHeadingDepth(?array $paragraphStyle = null)
     {
         if (is_array($paragraphStyle) && isset($paragraphStyle['styleName'])) {
-            if ('Title' === $paragraphStyle['styleName']) {
+            // Title styles have a special handling in the styles.xms loading and registration, therefore we need to
+            // use the alias for it here to properly check for the correct systeling.
+            /** @see Style::addTitleStyle() */
+            /** @see Styles::read() */
+            $checkStyleName = Style::findAliasForStyleName($paragraphStyle['styleName']);
+            // Title does not have a depth, early return.
+            if ('Title' === $checkStyleName) {
                 return 0;
             }
-
             $headingMatches = [];
-            preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
+            // We need to support here multiple variants: 'Heading 1' , 'Heading_1', 'Heading1'
+            preg_match('/Heading([_\s]*)(\d)/', $checkStyleName, $headingMatches);
             if (!empty($headingMatches)) {
-                return $headingMatches[1];
+                return $headingMatches[2];
             }
         }
 
