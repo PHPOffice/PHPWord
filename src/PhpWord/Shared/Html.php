@@ -965,7 +965,10 @@ class Html
                 $tmpDir = Settings::getTempDir() . '/';
                 $match = [];
                 preg_match('/.+\.(\w+)$/', $src, $match);
-                $src = $tmpDir . uniqid() . '.' . $match[1];
+                $src = $tmpDir . uniqid();
+                if (isset($match[1])) {
+                    $src .= '.' . $match[1];
+                }
 
                 $ifp = fopen($src, 'wb');
 

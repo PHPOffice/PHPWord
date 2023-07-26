@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - PclZip : strtr using empty string by @spl1nes in #2432
 - Fixed PHP 8.2 deprecated about Allow access to an undefined property by @DAdq26 in #2440
 - Template Processor : Fixed choose dimention for Float Value by @gdevilbat in #2449
+- HTML Parser : Fix image parsing from url without extension by @JokubasR in #2459
 
 ### Miscellaneous
 
