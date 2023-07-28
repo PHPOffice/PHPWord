@@ -68,6 +68,9 @@ class Font extends AbstractStyle
 
         $spacing = $style->getSpacing();
         $css['letter-spacing'] = $this->getValueIf(null !== $spacing, ($spacing / 20) . 'pt');
+        if ($style->isRTL()) {
+            $css['direction'] = 'rtl';
+        }
 
         return $this->assembleCss($css);
     }

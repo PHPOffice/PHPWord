@@ -98,6 +98,9 @@ class Paragraph extends AbstractStyle
         if ($style->hasPageBreakBefore()) {
             $css['page-break-before'] = 'always';
         }
+        if ($style->isBidi()) {
+            $css['direction'] = 'rtl';
+        }
 
         return $this->assembleCss($css);
     }
