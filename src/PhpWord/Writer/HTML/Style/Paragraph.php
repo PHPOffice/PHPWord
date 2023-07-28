@@ -55,18 +55,18 @@ class Paragraph extends AbstractStyle
                 case Jc::MEDIUM_KASHIDA:
                 case Jc::HIGH_KASHIDA:
                 case Jc::LOW_KASHIDA:
-                case Jc::RIGHT:
+                case /** @scrutinizer ignore-deprecated */ Jc::RIGHT:
                     $textAlign = 'right';
 
                     break;
                 case Jc::BOTH:
                 case Jc::DISTRIBUTE:
                 case Jc::THAI_DISTRIBUTE:
-                case Jc::JUSTIFY:
+                case /** @scrutinizer ignore-deprecated */ Jc::JUSTIFY:
                     $textAlign = 'justify';
 
                     break;
-                case Jc::LEFT:
+                case /** @scrutinizer ignore-deprecated */ Jc::LEFT:
                     $textAlign = 'left';
 
                     break;

@@ -35,6 +35,10 @@ class Paragraph extends AbstractStyle
      */
     private $nestedLevel = 0;
 
+    private const LEFT = /** @scrutinizer ignore-deprecated */ Jc::LEFT;
+    private const RIGHT = /** @scrutinizer ignore-deprecated */ Jc::RIGHT;
+    private const JUSTIFY = /** @scrutinizer ignore-deprecated */ Jc::JUSTIFY;
+
     /**
      * Write style.
      *
@@ -52,18 +56,18 @@ class Paragraph extends AbstractStyle
             Jc::END => '\qr',
             Jc::CENTER => '\qc',
             Jc::BOTH => '\qj',
-            Jc::LEFT => '\ql',
-            Jc::RIGHT => '\qr',
-            Jc::JUSTIFY => '\qj',
+            self::LEFT => '\ql',
+            self::RIGHT => '\qr',
+            self::JUSTIFY => '\qj',
         ];
         $bidiAlignments = [
             Jc::START => '\qr',
             Jc::END => '\ql',
             Jc::CENTER => '\qc',
             Jc::BOTH => '\qj',
-            Jc::LEFT => '\ql',
-            Jc::RIGHT => '\qr',
-            Jc::JUSTIFY => '\qj',
+            self::LEFT => '\ql',
+            self::RIGHT => '\qr',
+            self::JUSTIFY => '\qj',
         ];
 
         $spaceAfter = $style->getSpaceAfter();
