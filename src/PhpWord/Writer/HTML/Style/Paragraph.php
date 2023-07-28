@@ -49,6 +49,9 @@ class Paragraph extends AbstractStyle
 
                     break;
                 case Jc::END:
+                    $textAlign = ($style->isBidi()) ? 'left' : 'right';
+
+                    break;
                 case Jc::MEDIUM_KASHIDA:
                 case Jc::HIGH_KASHIDA:
                 case Jc::LOW_KASHIDA:
@@ -63,8 +66,13 @@ class Paragraph extends AbstractStyle
                     $textAlign = 'justify';
 
                     break;
-                default: //all others, align left
+                case Jc::LEFT:
                     $textAlign = 'left';
+
+                    break;
+
+                default: //all others, including Jc::START
+                    $textAlign = ($style->isBidi()) ? 'right' : 'left';
 
                     break;
             }

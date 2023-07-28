@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * Font style writer.
@@ -26,6 +27,11 @@ use PhpOffice\PhpWord\Shared\Converter;
  */
 class Paragraph extends AbstractStyle
 {
+    private const BIDI_MAP = [
+        Jc::END => Jc::LEFT,
+        Jc::START => Jc::RIGHT,
+    ];
+
     /**
      * Write style.
      */
@@ -112,6 +118,7 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttributeIf($marginBottom !== null, 'fo:margin-bottom', ($marginBottom / $twipToPoint) . 'pt');
         }
         $temp = $style->getAlignment();
+        $temp = $style->isBidi() ? (self::BIDI_MAP[$temp] ?? $temp) : $temp;
         $xmlWriter->writeAttributeIf($temp !== '', 'fo:text-align', $temp);
         $temp = $style->getLineHeight();
         $xmlWriter->writeAttributeIf($temp !== null, 'fo:line-height', ((string) ($temp * 100) . '%'));

@@ -52,6 +52,18 @@ class Paragraph extends AbstractStyle
             Jc::END => '\qr',
             Jc::CENTER => '\qc',
             Jc::BOTH => '\qj',
+            Jc::LEFT => '\ql',
+            Jc::RIGHT => '\qr',
+            Jc::JUSTIFY => '\qj',
+        ];
+        $bidiAlignments = [
+            Jc::START => '\qr',
+            Jc::END => '\ql',
+            Jc::CENTER => '\qc',
+            Jc::BOTH => '\qj',
+            Jc::LEFT => '\ql',
+            Jc::RIGHT => '\qr',
+            Jc::JUSTIFY => '\qj',
         ];
 
         $spaceAfter = $style->getSpaceAfter();
@@ -62,7 +74,7 @@ class Paragraph extends AbstractStyle
             $content .= '\pard\nowidctlpar ';
         }
         if (isset($alignments[$style->getAlignment()])) {
-            $content .= $alignments[$style->getAlignment()];
+            $content .= $style->isBidi() ? $bidiAlignments[$style->getAlignment()] : $alignments[$style->getAlignment()];
         }
         $content .= $this->writeIndentation($style->getIndentation());
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore ?? 0));
