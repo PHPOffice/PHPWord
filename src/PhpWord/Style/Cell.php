@@ -166,7 +166,14 @@ class Cell extends Border
      */
     public function setTextDirection($value = null)
     {
-        $enum = [self::TEXT_DIR_BTLR, self::TEXT_DIR_TBRL];
+        $enum = [
+          self::TEXT_DIR_BTLR,
+          self::TEXT_DIR_TBRL,
+          self::TEXT_DIR_LRTB,
+          self::TEXT_DIR_LRTBV,
+          self::TEXT_DIR_TBRLV,
+          self::TEXT_DIR_TBLRV,
+        ];
         $this->textDirection = $this->setEnumVal($value, $enum, $this->textDirection);
 
         return $this;
