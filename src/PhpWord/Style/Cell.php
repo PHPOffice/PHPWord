@@ -35,6 +35,10 @@ class Cell extends Border
      */
     const TEXT_DIR_TBRL = 'tbRl';
     /**
+     * Top to Bottom, Right to Left, Vertical
+     */
+    const TEXT_DIR_TBRLV = 'tbRlV';
+    /**
      * Bottom to Top, Left to Right.
      */
     const TEXT_DIR_BTLR = 'btLr';
