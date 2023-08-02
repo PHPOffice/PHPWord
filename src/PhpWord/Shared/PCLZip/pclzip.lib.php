@@ -1597,7 +1597,7 @@ class PclZip
                     if (is_string($p_options_list[$i + 1])) {
 
                         // ----- Remove spaces
-                        $p_options_list[$i + 1] = strtr($p_options_list[$i + 1], ' ', '');
+                        $p_options_list[$i + 1] = str_replace(' ', '', $p_options_list[$i + 1]);
 
                         // ----- Parse items
                         $v_work_list = explode(",", $p_options_list[$i + 1]);
