@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Font style writer.
@@ -30,6 +31,11 @@ class Paragraph extends AbstractStyle
     private const BIDI_MAP = [
         Jc::END => Jc::LEFT,
         Jc::START => Jc::RIGHT,
+    ];
+
+    private const NON_BIDI_MAP = [
+        Jc::START => Jc::LEFT,
+        Jc::END => Jc::RIGHT,
     ];
 
     /**
@@ -117,9 +123,18 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttributeIf($marginTop !== null, 'fo:margin-top', ($marginTop / $twipToPoint) . 'pt');
             $xmlWriter->writeAttributeIf($marginBottom !== null, 'fo:margin-bottom', ($marginBottom / $twipToPoint) . 'pt');
         }
-        $temp = $style->getAlignment();
-        $temp = $style->isBidi() ? (self::BIDI_MAP[$temp] ?? $temp) : $temp;
-        $xmlWriter->writeAttributeIf($temp !== '', 'fo:text-align', $temp);
+        $alignment = $style->getAlignment();
+        $bidi = $style->isBidi();
+        $defaultRtl = Style::getDefaultRtl();
+        if ($alignment === '' && $bidi !== null) {
+            $alignment = Jc::START;
+        }
+        if ($bidi) {
+            $alignment = self::BIDI_MAP[$alignment] ?? $alignment;
+        } elseif ($defaultRtl !== null) {
+            $alignment = self::NON_BIDI_MAP[$alignment] ?? $alignment;
+        }
+        $xmlWriter->writeAttributeIf($alignment !== '', 'fo:text-align', $alignment);
         $temp = $style->getLineHeight();
         $xmlWriter->writeAttributeIf($temp !== null, 'fo:line-height', ((string) ($temp * 100) . '%'));
         $xmlWriter->writeAttributeIf($style->hasPageBreakBefore() === true, 'fo:break-before', 'page');

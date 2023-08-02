@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style;
+
 /**
  * Font style.
  */
@@ -230,7 +232,7 @@ class Font extends AbstractStyle
     /**
      * Right to left languages.
      *
-     * @var bool
+     * @var ?bool
      */
     private $rtl;
 
@@ -831,17 +833,17 @@ class Font extends AbstractStyle
     /**
      * Get rtl.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isRTL()
     {
-        return $this->rtl;
+        return $this->rtl ?? Style::getDefaultRtl();
     }
 
     /**
      * Set rtl.
      *
-     * @param bool $value
+     * @param ?bool $value
      *
      * @return self
      */

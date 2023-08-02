@@ -77,8 +77,13 @@ class Paragraph extends AbstractStyle
         if ($this->nestedLevel == 0) {
             $content .= '\pard\nowidctlpar ';
         }
-        if (isset($alignments[$style->getAlignment()])) {
-            $content .= $style->isBidi() ? $bidiAlignments[$style->getAlignment()] : $alignments[$style->getAlignment()];
+        $alignment = $style->getAlignment();
+        $bidi = $style->isBidi();
+        if ($alignment === '' && $bidi !== null) {
+            $alignment = Jc::START;
+        }
+        if (isset($alignments[$alignment])) {
+            $content .= $bidi ? $bidiAlignments[$alignment] : $alignments[$alignment];
         }
         $content .= $this->writeIndentation($style->getIndentation());
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore ?? 0));

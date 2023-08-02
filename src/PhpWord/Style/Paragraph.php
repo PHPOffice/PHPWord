@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Paragraph style.
@@ -169,9 +170,9 @@ class Paragraph extends Border
     /**
      * Right to Left Paragraph Layout.
      *
-     * @var bool
+     * @var ?bool
      */
-    private $bidi = false;
+    private $bidi;
 
     /**
      * Vertical Character Alignment on Line.
@@ -759,17 +760,17 @@ class Paragraph extends Border
     /**
      * Get bidirectional.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isBidi()
     {
-        return $this->bidi;
+        return $this->bidi ?? Style::getDefaultRtl();
     }
 
     /**
      * Set bidi.
      *
-     * @param bool $bidi
+     * @param ?bool $bidi
      *            Set to true to write from right to left
      *
      * @return self

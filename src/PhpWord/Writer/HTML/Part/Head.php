@@ -92,11 +92,14 @@ class Head extends AbstractPart
             'font-family' => FontStyleWriter::getFontFamily(Settings::getDefaultFontName(), $this->getParentWriter()->getPhpWord()->getDefaultHtmlGenericFont()),
             'font-size' => Settings::getDefaultFontSize() . 'pt',
         ];
+        // Mpdf sometimes needs separate tag for body; doesn't harm others.
+        $bodyarray = $astarray;
         $hws = $this->getParentWriter()->getPhpWord()->getDefaultHtmlWhiteSpace();
         if ($hws) {
             $astarray['white-space'] = $hws;
         }
         $defaultStyles = [
+            'body' => $bodyarray,
             '*' => $astarray,
             'a.NoteRef' => [
                 'text-decoration' => 'none',

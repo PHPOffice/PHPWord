@@ -150,6 +150,11 @@ class Table extends AbstractElement
                 $style .= 'table-layout: auto;';
             }
         }
+        if (is_object($tableStyle) && method_exists($tableStyle, 'isBidiVisual')) {
+            if ($tableStyle->isBidiVisual()) {
+                $style .= ' direction: rtl;';
+            }
+        }
 
         $dirs = ['Top', 'Left', 'Bottom', 'Right'];
         $testmethprefix = 'getBorder';
