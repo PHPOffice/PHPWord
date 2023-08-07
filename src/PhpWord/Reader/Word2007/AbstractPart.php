@@ -493,6 +493,13 @@ abstract class AbstractPart
                                 $this->readParagraph($xmlReader, $cellNode, $cell, $docPart);
                             } elseif ($cellNode->nodeName == 'w:tbl') { // Table
                                 $this->readTable($xmlReader, $cellNode, $cell, $docPart);
+                            } elseif ('w:sdt' == $cellNode->nodeName) {
+                                if ($xmlReader->elementExists('w:sdtContent/w:p', $cellNode)) {
+                                    $cellParagraphNode = $xmlReader->getElement('w:sdtContent/w:p', $cellNode);
+                                    if ($cellParagraphNode instanceof DOMElement) {
+                                        $this->readParagraph($xmlReader, $cellParagraphNode, $cell, $docPart);
+                                    }
+                                }
                             }
                         }
                     }
