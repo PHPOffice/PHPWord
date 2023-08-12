@@ -151,10 +151,6 @@ abstract class AbstractPart
         } elseif ($headingDepth !== null) {
             // Heading or Title
             $textContent = null;
-            // 2023-08-02 hannes@dorn.cc
-            // $nodes = $xmlReader->getElements('w:r', $domNode);
-            // delivers only text paragraphs, but no hyperlinks
-            // I extended xpath with w:hyperlink
             $nodes = $xmlReader->getElements('w:r|w:hyperlink', $domNode);
             if ($nodes->length === 1) {
                 $textContent = htmlspecialchars($xmlReader->getValue('w:t', $nodes->item(0)), ENT_QUOTES, 'UTF-8');
