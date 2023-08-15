@@ -56,7 +56,7 @@ abstract class AbstractWriter implements WriterInterface
      *
      * @var array
      */
-    protected $mediaPaths = ['image' => '', 'object' => ''];
+    protected $mediaPaths = ['image' => '', 'drawing' => '', 'object' => ''];
 
     /**
      * Use disk caching.
@@ -337,8 +337,7 @@ abstract class AbstractWriter implements WriterInterface
     protected function addFilesToPackage(ZipArchive $zip, $elements): void
     {
         foreach ($elements as $element) {
-            $type = $element['type']; // image|object|link
-
+            $type = $element['type']; // image|object|link|drawing
             // Skip nonregistered types and set target
             if (!isset($this->mediaPaths[$type])) {
                 continue;

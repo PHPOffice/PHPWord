@@ -36,7 +36,7 @@ class Compatibility
      *
      * @see  http://msdn.microsoft.com/en-us/library/dd909048%28v=office.12%29.aspx
      */
-    private $ooxmlVersion = 12;
+    private $ooxmlVersion = 15;
 
     /**
      * Get OOXML version.

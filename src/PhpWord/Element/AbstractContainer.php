@@ -40,6 +40,7 @@ use ReflectionClass;
  * @method PageBreak addPageBreak()
  * @method Table addTable(mixed $style = null)
  * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false, $name = null)
+ * @method Drawing AddDrawing(mixed $style = null)
  * @method OLEObject addOLEObject(string $source, mixed $style = null)
  * @method TextBox addTextBox(mixed $style = null)
  * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
@@ -85,7 +86,7 @@ abstract class AbstractContainer extends AbstractElement
     {
         $elements = [
             'Text', 'TextRun', 'Bookmark', 'Link', 'PreserveText', 'TextBreak',
-            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'OLEObject',
+            'ListItem', 'ListItemRun', 'Table', 'Image', 'Drawing', 'Object', 'OLEObject',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
             'Chart', 'FormField', 'SDT', 'Comment',
@@ -193,6 +194,16 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
+     * Set all elements.
+     *
+     * @return \PhpOffice\PhpWord\Element\AbstractElement[]
+     */
+    public function setElements($elements)
+    {
+        $this->elements = $elements;
+    }
+
+    /**
      * Returns the element at the requested position.
      *
      * @param int $index
@@ -240,6 +251,12 @@ abstract class AbstractContainer extends AbstractElement
             $this->elements[$sectionIdx] = $newElement;
             return;
         }
+    }
+
+    public function createFreeTextRun($style)
+    {
+        $textContent = new TextRun($style);
+        return $textContent;
     }
 
     /**
@@ -303,6 +320,7 @@ abstract class AbstractContainer extends AbstractElement
             'Link' => $generalContainers,
             'TextBreak' => $generalContainers,
             'Image' => $generalContainers,
+            'Drawing' => $generalContainers,
             'OLEObject' => $generalContainers,
             'Field' => $generalContainers,
             'Line' => $generalContainers,

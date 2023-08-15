@@ -58,6 +58,12 @@ class Font extends AbstractStyle
         $underline = $style->getUnderline() != FontStyle::UNDERLINE_NONE;
         $lineThrough = $style->isStrikethrough() || $style->isDoubleStrikethrough();
 
+        $uValue = $style->getUValue();
+        if ($uValue !== null && in_array($uValue, ['single', 'wave'])) {
+            $color = $style->getUColor();
+        } else {
+        }
+
         $css['font-family'] = $this->getValueIf($font_family, "{$font_family}");
         $css['font-size'] = $this->getValueIf($size !== null, "{$size}pt");
         $css['color'] = $this->getValueIf($color !== null, "#{$color}");

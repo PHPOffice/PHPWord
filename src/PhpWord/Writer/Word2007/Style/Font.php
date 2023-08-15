@@ -113,8 +113,18 @@ class Font extends AbstractStyle
 
         // Color
         $color = $style->getColor();
-        $xmlWriter->writeElementIf($color !== null, 'w:color', 'w:val', $color);
-
+        $themeColor = $style->getThemeColor();
+        $themeShade = $style->getThemeShade();
+        if ($themeColor !== null || $themeShade !== null) {
+            $xmlWriter->startElement('w:color');
+            $xmlWriter->writeAttribute('w:val', $color);
+            $xmlWriter->writeAttributeIf($themeColor !== NULL, 'w:background2', $themeColor);
+            $xmlWriter->writeAttributeIf($themeShade !== NULL, 'w:themeShade', $themeShade);
+            $xmlWriter->endElement();
+        } else {
+            $xmlWriter->writeElementIf($color !== null, 'w:color', 'w:val', $color);
+        }
+        
         // Size
         $size = $style->getSize();
         $sizeCs = $style->getSizeCs();
@@ -139,7 +149,17 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->isHidden(), 'w:vanish', 'w:val', $this->writeOnOf($style->isHidden()));
 
         // Underline
-        $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
+        $uValue = $style->getUValue();
+        if ($uValue !== null && in_array($uValue, ['single', 'wave']) && $style->getUnderline() != 'none') {
+            $color = $style->getUColor();
+            $xmlWriter->startElement('w:u');
+            $xmlWriter->writeAttribute('w:val', $uValue);
+            $xmlWriter->writeAttributeIf($color !== NULL, 'w:color', $color);
+            $xmlWriter->endElement();
+        } else {
+            $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
+        }
+
 
         // Foreground-Color
         $xmlWriter->writeElementIf($style->getFgColor() !== null, 'w:highlight', 'w:val', $style->getFgColor());

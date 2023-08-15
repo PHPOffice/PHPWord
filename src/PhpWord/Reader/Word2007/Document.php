@@ -84,7 +84,7 @@ class Document extends AbstractPart
                         foreach ($nodes as $node) {
                             if (isset($readMethods[$node->nodeName])) {
                                 $readMethod = $readMethods[$node->nodeName];
-                                $this->$readMethod($xmlReader, $node, $hfObject, $docPart);
+                                $this->$readMethod($xmlReader, $node, $hfObject, $docPart, 1);
                             }
                         }
                     }

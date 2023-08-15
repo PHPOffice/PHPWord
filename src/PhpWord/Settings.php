@@ -137,7 +137,7 @@ class Settings
      *
      * @var float|int
      */
-    private static $defaultFontSize = self::DEFAULT_FONT_SIZE;
+    private static $defaultFontSize;
 
     /**
      * Default paper.

@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord;
 
 use BadMethodCallException;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Exception\Exception;
 
 /**
@@ -222,6 +223,19 @@ class PhpWord
         $this->sections[] = $section;
 
         return $section;
+    }
+
+    /**
+     * @param integer $i
+     * @param TextRun $section
+     * @author <presleylee@qq.com>
+     * @since 2023/7/21 3:15 下午
+     */
+    public function insertSection($i, $section) {
+        $sections = $this->getSections();
+        $elements = $sections[0]->getElements();
+        array_splice($elements, $i, 0, [$section]);
+        $this->sections[0]->setElements($elements);
     }
 
     /**

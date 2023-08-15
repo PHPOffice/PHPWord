@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use DateTime;
 use DOMElement;
+use PhpOffice\PhpWord\ComplexType\TblGrid;
 use PhpOffice\PhpWord\ComplexType\TblIndent;
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\Element\AbstractContainer;
@@ -112,13 +113,11 @@ abstract class AbstractPart
         $paragraphStyle = null;  //段落基本样式
         $headingDepth = null; //头部深度
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
-            $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
+            $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode, $docPart);
             $headingDepth = $this->getHeadingDepth($paragraphStyle);
         }
 
         // 保留文本
-        $num++;
-        $paragraphStyle['num'] = $num;
         if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) { //校验x:r元素下是否有w:instrText
             $ignoreText = false;
             $textContent = '';
@@ -138,7 +137,7 @@ abstract class AbstractPart
                     }
                 }
                 $fontStyle = $this->readFontStyle($xmlReader, $node);
-                //恢得丢失的br标签
+                //恢复丢失的br标签
                 if ($xmlReader->elementExists('w:br', $node)) {
                     $br = $xmlReader->getElement('w:br', $node);
                     $type = $xmlReader->getAttribute('w:type', $br);
@@ -192,7 +191,6 @@ abstract class AbstractPart
                     }
                 }
             }
-
             if (0 === $textRunContainers) {
                 $parent->addTextBreak(NULL, NULL, $paragraphStyle);
             } else {
@@ -242,6 +240,7 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart, $paragraphStyle = null): void
     {
+
         if (in_array($domNode->nodeName, ['w:ins', 'w:del', 'w:smartTag', 'w:hyperlink'])) {
             $nodes = $xmlReader->getElements('*', $domNode);
             foreach ($nodes as $node) {
@@ -289,22 +288,30 @@ abstract class AbstractPart
                 $parent->addImage($imageSource);
             }
         } elseif ($node->nodeName == 'w:drawing') {
-            // Office 2011 Image
-            $xmlReader->registerNamespace('wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
-            $xmlReader->registerNamespace('r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-            $xmlReader->registerNamespace('pic', 'http://schemas.openxmlformats.org/drawingml/2006/picture');
-            $xmlReader->registerNamespace('a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
 
-            $name = $xmlReader->getAttribute('name', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
-            $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
-            if ($name === null && $embedId === null) { // some Converters puts images on a different path
-                $name = $xmlReader->getAttribute('name', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
-                $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
-            }
-            $target = $this->getMediaTarget($docPart, $embedId);
-            if (null !== $target) {
-                $imageSource = "zip://{$this->docFile}#{$target}";
-                $parent->addImage($imageSource, null, false, $name);
+            if (in_array($docPart, ['header1', 'footer1'])) {
+                $_fontStyle = $this->readFontStyle($xmlReader, $node->parentNode);
+                $this->readDrawing($xmlReader, $node, $parent, $docPart, $_fontStyle);
+            } else {
+
+                // Office 2011 Image
+                $xmlReader->registerNamespace('wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+                $xmlReader->registerNamespace('r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+                $xmlReader->registerNamespace('pic', 'http://schemas.openxmlformats.org/drawingml/2006/picture');
+                $xmlReader->registerNamespace('a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
+
+                $name = $xmlReader->getAttribute('name', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
+
+                $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
+                if ($name === null && $embedId === null) { // some Converters puts images on a different path
+                    $name = $xmlReader->getAttribute('name', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
+                    $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
+                }
+                $target = $this->getMediaTarget($docPart, $embedId);
+                if (null !== $target) {
+                    $imageSource = "zip://{$this->docFile}#{$target}";
+                    $parent->addImage($imageSource, null, false, $name);
+                }
             }
         } elseif ($node->nodeName == 'w:object') {
             // Object
@@ -360,6 +367,143 @@ abstract class AbstractPart
     }
 
     /**
+     * Read image
+     */
+    public function readImage(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart)
+    {
+        // Office 2011 Image
+        $xmlReader->registerNamespace('wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+        $xmlReader->registerNamespace('r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $xmlReader->registerNamespace('pic', 'http://schemas.openxmlformats.org/drawingml/2006/picture');
+        $xmlReader->registerNamespace('a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
+
+        $name = $xmlReader->getAttribute('name', $domNode, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
+
+        $embedId = $xmlReader->getAttribute('r:embed', $domNode, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
+        if ($name === null && $embedId === null) { // some Converters puts images on a different path
+            $name = $xmlReader->getAttribute('name', $domNode, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
+            $embedId = $xmlReader->getAttribute('r:embed', $domNode, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
+        }
+        $target = $this->getMediaTarget($docPart, $embedId);
+        $imageStyle = [];
+        if (null !== $target) {
+            $imageSource = "zip://{$this->docFile}#{$target}";
+            $imageStyle['source'] = $imageSource;
+            $imageStyle['name'] = $name;
+        }
+        return $imageStyle;
+    }
+
+    /**
+     * Read w:drawing
+     *
+     * @param mixed $parent
+     * @param string $docPart
+     * @author <presleylee@qq.com>
+     * @since 2023/8/11 2:06 下午
+     */
+    protected function readDrawing(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart, $fontStyle = null) :void
+    {
+        // Drawing style
+        $drawingStyle = null;
+        $inlineNode = $xmlReader->getElement('wp:inline', $domNode);
+        if ($inlineNode !== null) {
+            $drawingStyle['inline'] = [];
+            //图片与容器四边界的距离
+            $drawingStyle['inline']['distT'] = (int)$xmlReader->getAttribute('distT', $inlineNode);
+            $drawingStyle['inline']['distB'] = (int)$xmlReader->getAttribute('distB', $inlineNode);
+            $drawingStyle['inline']['distL'] = (int)$xmlReader->getAttribute('distL', $inlineNode);
+            $drawingStyle['inline']['distR'] = (int)$xmlReader->getAttribute('distR', $inlineNode);
+
+            //对象的大小。
+            $extentNode = $xmlReader->getElement('wp:extent', $inlineNode);
+            if ($extentNode !== null) {
+                $drawingStyle['extent'] = [
+                    'cx' => (int)$xmlReader->getAttribute('cx', $extentNode),
+                    'cy' => (int)$xmlReader->getAttribute('cy', $extentNode)
+                ];
+            }
+
+            //对象的效果范围。
+            $effctExtentNode = $xmlReader->getElement('wp:effectExtent', $inlineNode);
+            if ($effctExtentNode !== null) {
+                $drawingStyle['effectExtent'] = [
+                    'l' => (int)$xmlReader->getAttribute('l', $effctExtentNode),
+                    't' => (int)$xmlReader->getAttribute('t', $effctExtentNode),
+                    'r' => (int)$xmlReader->getAttribute('r', $effctExtentNode),
+                    'b' => (int)$xmlReader->getAttribute('b', $effctExtentNode),
+                ];
+            }
+
+            //绘图对象的文档属性，包括编号、名称和描述。
+            $docPrNode = $xmlReader->getElement('wp:docPr', $inlineNode);
+            if ($docPrNode !== null) {
+                $drawingStyle['docPr'] = [
+                    'id' => (int)$xmlReader->getAttribute('id', $docPrNode),
+                    'name' => $xmlReader->getAttribute('name', $docPrNode),
+                    'descr' => $xmlReader->getAttribute('descr', $docPrNode)
+                ];
+            }
+
+            //图形帧的非视觉属性
+            $xmlReader->registerNamespace('pic', 'http://schemas.openxmlformats.org/drawingml/2006/picture');
+            $xmlReader->registerNamespace('a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
+            $nvGraphicFPrNode = $xmlReader->getElement('wp:cNvGraphicFramePr', $inlineNode);
+            if ($nvGraphicFPrNode !== null) {
+                $graphicFChildNode = $xmlReader->getElement('a:graphicFrameLocks', $nvGraphicFPrNode);
+                if ($graphicFChildNode !== null) {
+                    $drawingStyle['nvGraphicFPr'] = [
+                        'xmlns:a' => $xmlReader->getAttribute('xmlns:a', $graphicFChildNode),
+                        'noChangeAspect' => (int)$xmlReader->getAttribute('noChangeAspect', $graphicFChildNode)
+                    ];
+                }
+            }
+
+
+            $picNode = $xmlReader->getElement('a:graphic/a:graphicData/pic:pic', $inlineNode);
+            if ($picNode !== null) {
+                $drawingStyle['graphic']['val'] = $xmlReader->getAttribute('xmlns:a', $inlineNode, 'a:graphic');
+                $drawingStyle['graphic']['graphicUri'] = $xmlReader->getAttribute('uri', $inlineNode, 'a:graphic/a:graphicData');
+                $drawingStyle['graphic']['pic'] = $xmlReader->getAttribute('xmlns:pic', $picNode);
+                $nvPicPrNode = $xmlReader->getElement('pic:nvPicPr', $picNode);
+                if ($nvPicPrNode !== null) {
+                    $drawingStyle['graphic']['nvPicPr'] = [
+                        'id' => (int)$xmlReader->getAttribute('id', $nvPicPrNode, 'pic:cNvPr'),
+                        'name' => $xmlReader->getAttribute('name', $nvPicPrNode, 'pic:cNvPr'),
+                        'descr' => $xmlReader->getAttribute('descr', $nvPicPrNode, 'pic:cNvPr'),
+                        'cNvPicPr' => $xmlReader->getAttribute('noChangeAspect', $nvPicPrNode, 'pic:cNvPicPr/a:picLocks'),
+                    ];
+                }
+
+                $blipFillNode = $xmlReader->getElement('pic:blipFill', $picNode);
+                if ($blipFillNode !== null) {
+                    $drawingStyle['graphic']['blipFill'] = [
+                        'blip' => $xmlReader->getAttribute('r:embed', $blipFillNode, 'a:blip'),
+                        'fillRect' => $xmlReader->elementExists('a:fillRect', $blipFillNode),
+                    ];
+                }
+
+                $spPrNode = $xmlReader->getElement('pic:spPr', $picNode);
+                if ($spPrNode !== null) {
+                    $drawingStyle['graphic']['spPr'] = [
+                        'xfrm_off_x' => $xmlReader->getAttribute('x', $spPrNode, 'a:xfrm/a:off'),
+                        'xfrm_off_y' => $xmlReader->getAttribute('x', $spPrNode, 'a:xfrm/a:off'),
+                        'xfrm_ext_cx' => $xmlReader->getAttribute('cx', $spPrNode, 'a:xfrm/a:ext'),
+                        'xfrm_ext_cy' => $xmlReader->getAttribute('cy', $spPrNode, 'a:xfrm/a:ext'),
+                        'prstGeom_prst' => $xmlReader->getAttribute('prst', $spPrNode, 'a:prstGeom'),
+                    ];
+                }
+            }
+
+            $drawingStyle['image'] = $this->readImage($xmlReader, $domNode, $parent, $docPart);
+        }
+
+        if($drawingStyle){
+            $parent->addDrawing($drawingStyle, $fontStyle);
+        }
+    }
+
+    /**
      * Read w:tbl.
      *
      * @param mixed $parent
@@ -375,7 +519,7 @@ abstract class AbstractPart
 
         /** @var \PhpOffice\PhpWord\Element\Table $table Type hint */
         $table = $parent->addTable($tblStyle);
-        $tblNodes = $xmlReader->getElements('*', $domNode);
+        $tblNodes = $xmlReader->getElements('*', $domNode); //gridSpan
         foreach ($tblNodes as $tblNode) {
             if ('w:tblGrid' == $tblNode->nodeName) { // Column
                 // @todo Do something with table columns
@@ -401,7 +545,6 @@ abstract class AbstractPart
                         if (null !== $cellStyleNode) {
                             $cellStyle = $this->readCellStyle($xmlReader, $cellStyleNode);
                         }
-
                         $cell = $row->addCell($cellWidth, $cellStyle);
                         $cellNodes = $xmlReader->getElements('*', $rowNode);
                         foreach ($cellNodes as $cellNode) {
@@ -422,7 +565,7 @@ abstract class AbstractPart
      *
      * @return null|array
      */
-    protected function readParagraphStyle(XMLReader $xmlReader, DOMElement $domNode)
+    protected function readParagraphStyle(XMLReader $xmlReader, DOMElement $domNode, $docPart = 'document')
     {
         if (!$xmlReader->elementExists('w:pPr', $domNode)) {
             return null;
@@ -479,9 +622,24 @@ abstract class AbstractPart
                 if ($_tab) {
                     $tabs[] = new Tab($_tab['type']??null, $_tab['position']??0, $_tab['leader']??null);
                 }
-             }
-             if ($tabs) $paragraphStyle['tabs'] = $tabs;
+            }
+            if ($tabs) $paragraphStyle['tabs'] = $tabs;
         }
+
+        if (in_array($docPart, ['header1', 'footer1'])){
+            $pBdr = $xmlReader->getElement('w:pBdr', $styleNode);
+            $styleDefs = [
+                'bottom_bStyle' => [self::READ_VALUE, 'w:bottom', 'w:val'],
+                'bottom_bColor' => [self::READ_VALUE, 'w:bottom', 'w:color'],
+                'bottom_bSz' => [self::READ_VALUE, 'w:bottom', 'w:sz'],
+                'bottom_bspace' => [self::READ_VALUE, 'w:bottom', 'w:space'],
+                'top_bStyle' => [self::READ_VALUE, 'w:top', 'w:val'],
+                'top_bColor' => [self::READ_VALUE, 'w:bottom', 'w:color'],
+                'top_bSz' => [self::READ_VALUE, 'w:bottom', 'w:sz'],
+                'top_bspace' => [self::READ_VALUE, 'w:bottom', 'w:space'],
+            ];
+        }
+
         return $paragraphStyle;
     }
 
@@ -533,8 +691,12 @@ abstract class AbstractPart
             'hint' => [self::READ_VALUE, 'w:rFonts', 'w:hint'],
             'size' => [self::READ_SIZE,  'w:sz'],
             'sizeCs' => [self::READ_SIZE,  'w:szCs'],
-            'color' => [self::READ_VALUE, 'w:color'],
+            'color' => [self::READ_VALUE, 'w:color', 'w:val'],
+            'themeColor' => [self::READ_VALUE,  'w:color', 'w:themeColor'],
+            'themeShade' => [self::READ_VALUE,  'w:color', 'w:themeShade'],
             'underline' => [self::READ_VALUE, 'w:u'],
+            'uValue' => [self::READ_VALUE, 'w:u', 'w:val'],
+            'uColor' => [self::READ_VALUE, 'w:u', 'w:color'],
             'bold' => [self::READ_TRUE,  'w:b'],
             'italic' => [self::READ_TRUE,  'w:i'],
             'strikethrough' => [self::READ_TRUE,  'w:strike'],
@@ -555,7 +717,7 @@ abstract class AbstractPart
         $fontStyles = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
         if (isset($fontStyles['langEA']) || isset($fontStyles['langBidi'])) {
             $lang = [];
-            $lang['latin'] = $fontStyles['lang'];
+            $lang['latin'] = $fontStyles['lang']??null;
             isset($fontStyles['langEA']) && $lang['eastAsia'] = $fontStyles['langEA'];
             isset($fontStyles['langBidi']) && $lang['bidirectional'] = $fontStyles['langBidi'];
             $fontStyles['lang'] = $lang;
@@ -566,7 +728,6 @@ abstract class AbstractPart
             if ($tabNode != null) {
                 $fontStyles['tab'] = 1;
             }
-
         }
         return $fontStyles;
     }
@@ -621,6 +782,10 @@ abstract class AbstractPart
                 $style['indent'] = $this->readTableIndent($xmlReader, $indentNode);
             }
         }
+        if ($xmlReader->elementExists('w:tblGrid', $domNode)) {
+            $tblGridNode = $xmlReader->getElement('w:tblGrid', $domNode);
+            $style['tblGrid'] = $this->readTableGrid($xmlReader, $tblGridNode);
+        }
         return $style;
     }
 
@@ -658,7 +823,7 @@ abstract class AbstractPart
             'value' => [self::READ_VALUE, '.', 'w:w'],
             'type' => [self::READ_VALUE, '.', 'w:type'],
         ];
-        $styleDefs = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);;
+        $styleDefs = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
 
         return new TblWidthComplexType((int) $styleDefs['value']??0, $styleDefs['type']??'');
     }
@@ -677,6 +842,19 @@ abstract class AbstractPart
         $styleDefs = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
 
         return new TblIndent((int) $styleDefs['value']??0, $styleDefs['type']??'');
+    }
+
+    public function readTableGrid(XMLReader $xmlReader, DOMElement $domNode)
+    {
+        $gridCols = $xmlReader->getElements('w:gridCol', $domNode);
+        $tblGrids = [];
+        foreach ($gridCols as $col) {
+            $value = $xmlReader->getAttribute('w:w', $col);
+            if ($value !== null && $value) {
+                $tblGrids[] = new TblGrid((int) $value??0);
+            }
+        }
+        return $tblGrids;
     }
 
     /**

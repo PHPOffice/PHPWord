@@ -169,6 +169,10 @@ class Settings
 
     private $drawingGridHorizontalSpacing;
 
+    private $displayVerticalDrawingGridEvery;
+
+    private $displayHorizontalDrawingGridEvery;
+
     /**
      * 指定页脚是否被边框所包围的设置
      *

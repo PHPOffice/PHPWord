@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\ComplexType\TblGrid;
 use PhpOffice\PhpWord\ComplexType\TblIndent;
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -159,6 +160,9 @@ class Table extends Border
 
     /** @var null|TblIndent */
     private $indent;
+
+    /** @var null|TblGrid */
+    private $tblGrid;
 
     /**
      * The width of each column, computed based on the max cell width of each column.
@@ -796,6 +800,26 @@ class Table extends Border
     public function setIndent(TblIndent $indent)
     {
         $this->indent = $indent;
+
+        return $this;
+    }
+
+    /**
+     * @return ?TblGrid
+     */
+    public function getTblGrid()
+    {
+        return $this->tblGrid;
+    }
+
+    /**
+     * @return self
+     *
+     * @see http://www.datypic.com/sc/ooxml/e-w_tblInd-1.html
+     */
+    public function setTblGrid($values)
+    {
+        $this->tblGrid = $values;
 
         return $this;
     }

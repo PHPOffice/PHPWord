@@ -76,6 +76,7 @@ class Font extends AbstractStyle
      */
     protected $aliases = ['line-height' => 'lineHeight', 'letter-spacing' => 'spacing'];
 
+
     /**
      * Font style type.
      *
@@ -140,6 +141,20 @@ class Font extends AbstractStyle
     private $color;
 
     /**
+     * Font themeColor.
+     *
+     * @var string
+     */
+    private $themeColor;
+
+    /**
+     * Font themeShade.
+     *
+     * @var string
+     */
+    private $themeShade;
+
+    /**
      * Bold.
      *
      * @var bool
@@ -159,6 +174,21 @@ class Font extends AbstractStyle
      * @var string
      */
     private $underline = self::UNDERLINE_NONE;
+
+    /**
+     * u_value.
+     *
+     * @var string
+     */
+    private $u_value = null;
+
+    /**
+     * u_value.
+     *
+     * @var string
+     */
+    private $u_color;
+
 
     /**
      * Superscript.
@@ -347,6 +377,8 @@ class Font extends AbstractStyle
                 'bold' => $this->isBold(),
                 'italic' => $this->isItalic(),
                 'underline' => $this->getUnderline(),
+                'u_value' => $this->getUValue(),
+                'u_color' => $this->getUColor(),
                 'strike' => $this->isStrikethrough(),
                 'dStrike' => $this->isDoubleStrikethrough(),
                 'super' => $this->isSuperScript(),
@@ -390,11 +422,9 @@ class Font extends AbstractStyle
      *
      * @return self
      */
-    public function setStyleId($value)
+    public function setStyleId($value = null)
     {
-        if (Jc::isValid($value)) {
-            $this->styleId = $value;
-        }
+        if ($value) $this->styleId = $value;
 
         return $this;
     }
@@ -602,6 +632,53 @@ class Font extends AbstractStyle
     }
 
     /**
+     * Get font themeColor.
+     *
+     * @return string
+     */
+    public function getThemeColor()
+    {
+        return $this->themeColor;
+    }
+
+    /**
+     * Set font themeColor.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setThemeColor($value = null)
+    {
+        $this->themeColor = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get font themeColor.
+     *
+     * @return string
+     */
+    public function getThemeShade()
+    {
+        return $this->themeShade;
+    }
+
+    /**
+     * Set font themeColor.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setThemeShade($value = null)
+    {
+        $this->themeShade = $value;
+        return $this;
+    }
+
+    /**
      * Get bold.
      *
      * @return bool
@@ -669,6 +746,54 @@ class Font extends AbstractStyle
     public function setUnderline($value = self::UNDERLINE_NONE)
     {
         $this->underline = $this->setNonEmptyVal($value, self::UNDERLINE_NONE);
+
+        return $this;
+    }
+
+    /**
+     * Get underline value.
+     *
+     * @return string
+     */
+    public function getUValue()
+    {
+        return $this->u_value;
+    }
+
+    /**
+     * Set underline color.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setUValue($value)
+    {
+        $this->u_value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get underline color.
+     *
+     * @return string
+     */
+    public function getUColor()
+    {
+        return $this->u_color;
+    }
+
+    /**
+     * Set underline color.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setUColor($value)
+    {
+        $this->u_color = $value;
 
         return $this;
     }

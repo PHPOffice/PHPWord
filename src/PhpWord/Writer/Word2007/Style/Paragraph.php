@@ -49,14 +49,14 @@ class Paragraph extends AbstractStyle
     public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
-
-        $isStyleName = $this->isInline && null !== $this->style && is_string($this->style);
+        $styleId = $this->style->getStyleId();
+        $isStyleName = $this->isInline && null !== $styleId && is_string($styleId);
         if ($isStyleName) {
             if (!$this->withoutPPR) {
                 $xmlWriter->startElement('w:pPr');
             }
             $xmlWriter->startElement('w:pStyle');
-            $xmlWriter->writeAttribute('w:val', $this->style);
+            $xmlWriter->writeAttribute('w:val', $styleId);
             $xmlWriter->endElement();
             if (!$this->withoutPPR) {
                 $xmlWriter->endElement();

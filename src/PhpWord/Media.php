@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Element\AbstractElement;
+use PhpOffice\PhpWord\Element\Drawing;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Exception\Exception;
 
@@ -41,11 +43,10 @@ class Media
      * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $mediaType image|object|link
      * @param string $source
-     * @param \PhpOffice\PhpWord\Element\Image $image
-     *
+     * @param \PhpOffice\PhpWord\Element\Image|Drawing $image
      * @return int
      */
-    public static function addElement($container, $mediaType, $source, ?Image $image = null)
+    public static function addElement($container, $mediaType, $source, ?AbstractElement $image = null)
     {
         // Assign unique media Id and initiate media container if none exists
         $mediaId = md5($container . $source);
@@ -64,6 +65,7 @@ class Media
 
             switch ($mediaType) {
                 // Images
+                case 'drawing':
                 case 'image':
                     if (null === $image) {
                         throw new Exception('Image object not assigned.');
@@ -76,7 +78,8 @@ class Media
                         $mediaData['isMemImage'] = true;
                         $mediaData['imageString'] = $image->getImageString();
                     }
-                    $target = "{$container}_image{$mediaTypeCount}.{$extension}";
+                    $fileInfo = pathinfo($source);
+                    $target = $fileInfo ? ($fileInfo['filename'].'.'.$extension) : "{$container}_image{$mediaTypeCount}.{$extension}";
                     $image->setTarget($target);
                     $image->setMediaIndex($mediaTypeCount);
 

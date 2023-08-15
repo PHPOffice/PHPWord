@@ -55,7 +55,12 @@ class Styles extends AbstractPart
                 $phpWord->setDefaultFontSize($fontDefaultStyle['size']);
             }
             if (array_key_exists('lang', $fontDefaultStyle)) {
-                $phpWord->getSettings()->setThemeFontLang(new Language($fontDefaultStyle['lang']));
+                if (is_array($fontDefaultStyle['lang'])) {
+                    $lanage = new Language($fontDefaultStyle['lang']['latin']??'en-US',$fontDefaultStyle['lang']['eastAsia']??'zh-CN');
+                } else {
+                    $lanage = new Language($fontDefaultStyle['lang']);
+                }
+                $phpWord->getSettings()->setThemeFontLang($lanage);
             }
         }
 
@@ -106,8 +111,8 @@ class Styles extends AbstractPart
                         $paragraphStyle = $this->readParagraphStyle($xmlReader, $node);
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
 
-                        if ($fontStyle) $fontStyle['styleId'] = $fontStyle;
-                        else $paragraphStyle['styleId'] = $fontStyle;
+                        if ($fontStyle) $fontStyle['styleId'] = $styleId;
+                        else $paragraphStyle['styleId'] = $styleId;
 
                         if (!empty($headingMatches)) {
                             $phpWord->addTitleStyle($headingMatches[1], $fontStyle, $paragraphStyle);

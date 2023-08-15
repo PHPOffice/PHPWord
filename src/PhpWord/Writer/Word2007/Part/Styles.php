@@ -46,7 +46,7 @@ class Styles extends AbstractPart
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:styles');
         $xmlWriter->writeAttribute('xmlns:mc', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
-        $xmlWriter->writeAttribute('xmlns:0', 'hurn:schemas-microsoft-com:office:office');
+        $xmlWriter->writeAttribute('xmlns:o', 'hurn:schemas-microsoft-com:office:office');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
@@ -108,12 +108,14 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('w:eastAsia', $fontHAnsi);
         $xmlWriter->writeAttribute('w:cs', $fontCs);
         $xmlWriter->endElement(); // w:rFonts
-        $xmlWriter->startElement('w:sz');
-        $xmlWriter->writeAttribute('w:val', $fontSize * 2);
-        $xmlWriter->endElement(); // w:sz
-        $xmlWriter->startElement('w:szCs');
-        $xmlWriter->writeAttribute('w:val', $fontSize * 2);
-        $xmlWriter->endElement(); // w:szCs
+        if ($fontSize !== null) {
+            $xmlWriter->startElement('w:sz');
+            $xmlWriter->writeAttribute('w:val', $fontSize * 2);
+            $xmlWriter->endElement(); // w:sz
+            $xmlWriter->startElement('w:szCs');
+            $xmlWriter->writeAttribute('w:val', $fontSize * 2);
+            $xmlWriter->endElement(); // w:szCs
+        }
         $xmlWriter->startElement('w:lang');
         $xmlWriter->writeAttribute('w:val', $latinLanguage);
         if ($language != null) {
@@ -232,14 +234,14 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('w:type', $type);
 
         // Heading style
+
         if ($styleType == 'title') {
+            $styleId = $style->getStyleId() ? : $paragraphStyle->getStyleId();
             $arrStyle = explode('_', $styleName);
             if (count($arrStyle) > 1) {
-                $styleId = 'Heading' . $arrStyle[1];
                 $styleName = 'heading ' . $arrStyle[1];
                 $styleLink = 'Heading' . $arrStyle[1] . 'Char';
             } else {
-                $styleId = $styleName;
                 $styleName = strtolower($styleName);
                 $styleLink = $styleName . 'Char';
             }
@@ -249,8 +251,9 @@ class Styles extends AbstractPart
             $xmlWriter->writeAttribute('w:val', $styleLink);
             $xmlWriter->endElement();
         } elseif (null !== $paragraphStyle) {
+            $styleId = $style->getStyleId() ? : $paragraphStyle->getStyleId();
             // if type is 'paragraph' it should have a styleId
-            $xmlWriter->writeAttribute('w:styleId', $styleName);
+            $xmlWriter->writeAttribute('w:styleId', $styleId);
         }
 
         // Style name

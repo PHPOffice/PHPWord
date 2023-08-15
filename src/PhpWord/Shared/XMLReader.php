@@ -113,7 +113,8 @@ class XMLReader
         if (null === $contextNode) {
             return $this->xpath->query($path);
         }
-
+        if ($path == 'a:graphic') {
+        }
         return $this->xpath->query($path, $contextNode);
     }
 

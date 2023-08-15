@@ -326,11 +326,9 @@ class Paragraph extends Border
      *
      * @return self
      */
-    public function setStyleId($value)
+    public function setStyleId($value = null)
     {
-        if (Jc::isValid($value)) {
-            $this->styleId = $value;
-        }
+        if ($value) $this->styleId = $value;
 
         return $this;
     }

@@ -170,7 +170,6 @@ class Table extends AbstractElement
                 $cellWidths[] = $cell->getWidth();
             }
         }
-
         return $cellWidths;
     }
 }

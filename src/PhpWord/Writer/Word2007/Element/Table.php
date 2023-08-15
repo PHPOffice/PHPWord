@@ -75,14 +75,30 @@ class Table extends AbstractElement
     {
         $cellWidths = $element->findFirstDefinedCellWidths();
 
+        $style = $element->getStyle();
+        $tblGrids = $style->getTblGrid();
+
         $xmlWriter->startElement('w:tblGrid');
-        foreach ($cellWidths as $width) {
-            $xmlWriter->startElement('w:gridCol');
-            if ($width !== null) {
-                $xmlWriter->writeAttribute('w:w', $width);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
+        if ($tblGrids) {
+            foreach ($tblGrids as $col) {
+                $xmlWriter->startElement('w:gridCol');
+                $width = $col->getValue();
+                if ($width !== null) {
+                    $xmlWriter->writeAttribute('w:w', $width);
+                    $xmlWriter->writeAttribute('w:type', 'dxa');
+                }
+                $xmlWriter->endElement();
             }
-            $xmlWriter->endElement();
+        } else {
+
+            foreach ($cellWidths as $width) {
+                $xmlWriter->startElement('w:gridCol');
+                if ($width !== null) {
+                    $xmlWriter->writeAttribute('w:w', $width);
+                    $xmlWriter->writeAttribute('w:type', 'dxa');
+                }
+                $xmlWriter->endElement();
+            }
         }
         $xmlWriter->endElement(); // w:tblGrid
     }

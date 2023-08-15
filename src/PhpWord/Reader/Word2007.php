@@ -42,7 +42,6 @@ class Word2007 extends AbstractReader implements ReaderInterface
     {
         $phpWord = new PhpWord();
         $relationships = $this->readRelationships($docFile);
-
         $steps = [
             ['stepPart' => 'document', 'stepItems' => [
                 'styles' => 'Styles',
