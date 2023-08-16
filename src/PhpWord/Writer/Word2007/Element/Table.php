@@ -51,13 +51,13 @@ class Table extends AbstractElement
         if ($rowCount > 0) {
             $xmlWriter->startElement('w:tbl');
 
-            // Write columns
-            $this->writeColumns($xmlWriter, $element);
-
             // Write style
             $styleWriter = new TableStyleWriter($xmlWriter, $element->getStyle());
             $styleWriter->setWidth($element->getWidth());
             $styleWriter->write();
+
+            // Write columns
+            $this->writeColumns($xmlWriter, $element);
 
             // Write rows
             for ($i = 0; $i < $rowCount; ++$i) {
@@ -85,12 +85,10 @@ class Table extends AbstractElement
                 $width = $col->getValue();
                 if ($width !== null) {
                     $xmlWriter->writeAttribute('w:w', $width);
-                    $xmlWriter->writeAttribute('w:type', 'dxa');
                 }
                 $xmlWriter->endElement();
             }
         } else {
-
             foreach ($cellWidths as $width) {
                 $xmlWriter->startElement('w:gridCol');
                 if ($width !== null) {

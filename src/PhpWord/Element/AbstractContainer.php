@@ -85,7 +85,7 @@ abstract class AbstractContainer extends AbstractElement
     public function __call($function, $args)
     {
         $elements = [
-            'Text', 'TextRun', 'Bookmark', 'Link', 'PreserveText', 'TextBreak',
+            'Text', 'TextRun', 'Bookmark', 'Link', 'PreserveText', 'TextBreak', 'AlternateContent',
             'ListItem', 'ListItemRun', 'Table', 'Image', 'Drawing', 'Object', 'OLEObject',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
@@ -328,7 +328,7 @@ abstract class AbstractContainer extends AbstractElement
             'FormField' => $generalContainers,
             'SDT' => $generalContainers,
             'TrackChange' => $generalContainers,
-            'TextRun' => ['Section', 'Header', 'Footer', 'Cell', 'TextBox', 'TrackChange', 'ListItemRun'],
+            'TextRun' => ['Section', 'Header', 'Footer', 'Cell', 'TextBox', 'TrackChange', 'ListItemRun', 'AlternateContent'],
             'ListItem' => ['Section', 'Header', 'Footer', 'Cell', 'TextBox'],
             'ListItemRun' => ['Section', 'Header', 'Footer', 'Cell', 'TextBox'],
             'Table' => ['Section', 'Header', 'Footer', 'Cell', 'TextBox'],
@@ -336,7 +336,7 @@ abstract class AbstractContainer extends AbstractElement
             'TextBox' => ['Section', 'Header', 'Footer', 'Cell'],
             'Footnote' => ['Section', 'TextRun', 'Cell', 'ListItemRun'],
             'Endnote' => ['Section', 'TextRun', 'Cell'],
-            'PreserveText' => ['Section', 'Header', 'Footer', 'Cell'],
+            'PreserveText' => ['Section', 'Header', 'Footer', 'Cell', 'AlternateContent', 'TextRun'],
             'Title' => ['Section', 'Cell'],
             'TOC' => ['Section'],
             'PageBreak' => ['Section'],
@@ -346,7 +346,7 @@ abstract class AbstractContainer extends AbstractElement
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer
         $validSubcontainers = [
-            'PreserveText' => [['Cell'], ['Header', 'Footer', 'Section']],
+            'PreserveText' => [['Cell', 'AlternateContent', 'TextRun'], ['Header', 'Footer', 'Section']],
             'Footnote' => [['Cell', 'TextRun'], ['Section']],
             'Endnote' => [['Cell', 'TextRun'], ['Section']],
         ];

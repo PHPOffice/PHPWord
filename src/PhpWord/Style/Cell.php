@@ -169,11 +169,11 @@ class Cell extends Border
     }
 
     /**
-     * Get background.
+     * Get background fill.
      *
      * @return string
      */
-    public function getBgColor()
+    public function getBgFill()
     {
         if ($this->shading !== null) {
             return $this->shading->getFill();
@@ -183,7 +183,33 @@ class Cell extends Border
     }
 
     /**
-     * Set background.
+     * Set background fill.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setBgFill($value = null)
+    {
+        return $this->setShading(['fill' => $value]);
+    }
+
+    /**
+     * Get background color.
+     *
+     * @return string
+     */
+    public function getBgColor()
+    {
+        if ($this->shading !== null) {
+            return $this->shading->getColor();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set background color.
      *
      * @param string $value
      *
@@ -191,8 +217,35 @@ class Cell extends Border
      */
     public function setBgColor($value = null)
     {
-        return $this->setShading(['fill' => $value]);
+        return $this->setShading(['color' => $value]);
     }
+
+    /**
+     * Get background pattern.
+     *
+     * @return string
+     */
+    public function getBgPattern()
+    {
+        if ($this->shading !== null) {
+            return $this->shading->getPattern();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set background pattern.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setBgPattern($value = null)
+    {
+        return $this->setShading(['pattern' => $value]);
+    }
+
 
     /**
      * Get grid span (colspan).

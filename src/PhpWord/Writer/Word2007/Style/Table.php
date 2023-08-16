@@ -64,6 +64,9 @@ class Table extends AbstractStyle
         // w:tblPr
         $xmlWriter->startElement('w:tblPr');
 
+        $xmlWriter->writeElementIf($style->getTblStyle() !== null, 'w:tblStyle', 'w:val', $style->getTblStyle());
+        $xmlWriter->writeElementIf($style->getTblOverlap() !== null, 'w:tblOverlap', 'w:val', $style->getTblOverlap());
+
         // Table alignment
         if ('' !== $style->getAlignment()) {
             $tableAlignment = new TableAlignment($style->getAlignment());

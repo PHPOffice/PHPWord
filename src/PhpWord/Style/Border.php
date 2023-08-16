@@ -107,6 +107,13 @@ class Border extends AbstractStyle
     protected $borderBottomStyle;
 
     /**
+     * Border Bottom Space.
+     *
+     * @var string
+     */
+    protected $borderBottomSpace;
+
+    /**
      * Get border size.
      *
      * @return int[]
@@ -488,6 +495,40 @@ class Border extends AbstractStyle
         $this->borderBottomStyle = $value;
 
         return $this;
+    }
+    /*
+    *
+     * Get border bottom space.
+     *
+     * @return string
+     */
+    public function getBorderBottomSpace()
+    {
+        return $this->borderBottomSpace;
+    }
+
+    /**
+     * Set border bottom style.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setBorderBottomSpace($value = null)
+    {
+        $this->borderBottomSpace = $value;
+
+        return $this;
+    }
+
+    public function getBorderBottom()
+    {
+        return [
+            'style' => $this->getBorderBottomStyle(),
+            'color' => $this->getBorderBottomColor(),
+            'size' => $this->getBorderBottomSize(),
+            'space' => $this->getBorderBottomSpace(),
+        ];
     }
 
     /**

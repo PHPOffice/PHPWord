@@ -140,6 +140,22 @@ class Paragraph extends AbstractStyle
             $styleWriter->write();
 
             $xmlWriter->endElement();
+        } else {
+            //页眉
+            $border = $style->getBorder();
+            if ($border !== null) {
+                $xmlWriter->startElement('w:pBdr');
+
+                $borderBottom = $border->getBorderBottom();
+                $xmlWriter->startElement('w:bottom');
+                $xmlWriter->writeAttributeIf($borderBottom['style'] !== null, 'w:val', $borderBottom['style']);
+                $xmlWriter->writeAttributeIf($borderBottom['color'] !== null, 'w:color', $borderBottom['color']);
+                $xmlWriter->writeAttributeIf($borderBottom['size'] !== null, 'w:sz', $borderBottom['size']);
+                $xmlWriter->writeAttributeIf($borderBottom['space'] !== null, 'w:space', $borderBottom['space']);
+                $xmlWriter->endElement();
+
+                $xmlWriter->endElement();
+            }
         }
 
         if (!$this->withoutPPR) {

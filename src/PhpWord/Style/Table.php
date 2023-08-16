@@ -113,7 +113,12 @@ class Table extends Border
     /**
      * @var float|int Width value
      */
-    private $tblStyle = 0;
+    private $tblStyle;
+
+    /**
+     * @var string
+     */
+    private $tblOverlap;
 
     /**
      * Shading.
@@ -617,6 +622,30 @@ class Table extends Border
     public function setTblStyle($value = null)
     {
         $this->tblStyle = $this->setNumericVal($value, $this->tblStyle);
+
+        return $this;
+    }
+
+    /**
+     * Get tblOverlap.
+     *
+     * @return string
+     */
+    public function getTblOverlap()
+    {
+        return $this->tblOverlap;
+    }
+
+    /**
+     * Set tblOverlap.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setTblOverlap($value = null)
+    {
+        $this->tblOverlap = $value;
 
         return $this;
     }

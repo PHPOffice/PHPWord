@@ -41,12 +41,60 @@ class PreserveText extends Text
         }
 
         $this->startElementP();
+        $text = substr($texts[0]??'', 1, -1);
+        if ($texts && $text) {
 
+            $xmlWriter->startElement('w:r');
+            $this->writeFontStyle();
+            $xmlWriter->startElement('w:fldChar');
+            $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+
+            $xmlWriter->startElement('w:r');
+
+            $this->writeFontStyle();
+
+            $xmlWriter->startElement('w:instrText');
+            $xmlWriter->writeAttribute('xml:space', 'preserve');
+            $this->writeText($text);
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+
+            $xmlWriter->startElement('w:r');
+            $this->writeFontStyle();
+            $xmlWriter->startElement('w:fldChar');
+            $xmlWriter->writeAttribute('w:fldCharType', 'separate');
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+
+            $text = $texts[1]??'';
+            if ($text) {
+                $xmlWriter->startElement('w:r');
+
+                $this->writeFontStyle();
+                $xmlWriter->startElement('w:t');
+                $xmlWriter->writeAttribute('xml:space', 'preserve');
+                $this->writeText($this->getText($text));
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
+            }
+
+            $xmlWriter->startElement('w:r');
+            $this->writeFontStyle();
+            $xmlWriter->startElement('w:fldChar');
+            $xmlWriter->writeAttribute('w:fldCharType', 'end');
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+        }
+
+        /*
         foreach ($texts as $text) {
             if (substr($text, 0, 1) == '{') {
                 $text = substr($text, 1, -1);
 
                 $xmlWriter->startElement('w:r');
+                $this->writeFontStyle();
                 $xmlWriter->startElement('w:fldChar');
                 $xmlWriter->writeAttribute('w:fldCharType', 'begin');
                 $xmlWriter->endElement();
@@ -63,28 +111,23 @@ class PreserveText extends Text
                 $xmlWriter->endElement();
 
                 $xmlWriter->startElement('w:r');
+                $this->writeFontStyle();
                 $xmlWriter->startElement('w:fldChar');
                 $xmlWriter->writeAttribute('w:fldCharType', 'separate');
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
 
                 $xmlWriter->startElement('w:r');
+                $this->writeFontStyle();
                 $xmlWriter->startElement('w:fldChar');
                 $xmlWriter->writeAttribute('w:fldCharType', 'end');
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
             } else {
-                $xmlWriter->startElement('w:r');
 
-                $this->writeFontStyle();
-
-                $xmlWriter->startElement('w:t');
-                $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $this->writeText($this->getText($text));
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
             }
         }
+        */
 
         $this->endElementP(); // w:p
     }

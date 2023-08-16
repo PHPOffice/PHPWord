@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use DateTime;
 use DOMElement;
+use PhpOffice\PhpWord\ComplexType\AltLine;
+use PhpOffice\PhpWord\ComplexType\AltShape;
 use PhpOffice\PhpWord\ComplexType\TblGrid;
 use PhpOffice\PhpWord\ComplexType\TblIndent;
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
@@ -105,10 +107,8 @@ abstract class AbstractPart
      *
      * @todo Get font style for preserve text 获取保留文本的字体样式
      */
-    protected function readParagraph(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart = 'document'): void
+    protected function readParagraph(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart = 'document', $is_debug = 0): void
     {
-        if (isset($num) == false) static $num = 0;
-
         // 段落样式
         $paragraphStyle = null;  //段落基本样式
         $headingDepth = null; //头部深度
@@ -123,35 +123,55 @@ abstract class AbstractPart
             $textContent = '';
             $fontStyle = $this->readFontStyle($xmlReader, $domNode);
             $nodes = $xmlReader->getElements('w:r', $domNode);
+
+            $instrEnd = $fldCharType = '';
+            $instrEnd = '';
             $paragraph = $parent->addTextRun($paragraphStyle);
-            $nextText = '';
             foreach ($nodes as $node) {
-                $textContent = '';
                 $instrText = $xmlReader->getValue('w:instrText', $node);
                 if ($xmlReader->elementExists('w:fldChar', $node)) {
                     $fldCharType = $xmlReader->getAttribute('w:fldCharType', $node, 'w:fldChar');
                     if ('begin' == $fldCharType) {
+                        $instrEnd = 'begin';
                         $ignoreText = true;
                     } elseif ('end' == $fldCharType) {
                         $ignoreText = false;
                     }
                 }
-                $fontStyle = $this->readFontStyle($xmlReader, $node);
+
+                $_fontStyle = $this->readFontStyle($xmlReader, $node);
+                $_fontStyle = $_fontStyle ? : $fontStyle;
+
                 //恢复丢失的br标签
                 if ($xmlReader->elementExists('w:br', $node)) {
                     $br = $xmlReader->getElement('w:br', $node);
                     $type = $xmlReader->getAttribute('w:type', $br);
-                    $paragraph->addTextBreak(NULL, $fontStyle, ['brType' => $type]);
+                    $paragraph->addTextBreak(NULL, $_fontStyle, ['brType' => $type]);
                 }
-                if (null !== $instrText) {
+
+                if ($fldCharType == '' || $instrEnd == 'end') {
+                    $text = $xmlReader->getValue('w:t', $node);
+                    $paragraph->addText($text, $_fontStyle);
                 } else {
-                    if (false === $ignoreText) {
-                        $textContent = $xmlReader->getValue('w:t', $node);
+                    if (null !== $instrText) {
+                        $textContent .= '{' . $instrText . '}';
+                    } else {
+
+                        if ($fldCharType == 'end') {
+                            if ($instrEnd = 'begin') {
+                                $paragraph->addPreserveText(htmlspecialchars($textContent, ENT_QUOTES, 'UTF-8'), $_fontStyle, $paragraphStyle);
+                                $instrEnd = 'end';
+                                $textContent = '';
+                            }
+                        } elseif ($fldCharType != '') {
+                            if ($instrEnd != 'end' && $instrEnd != '') {
+                                $textContent .= $xmlReader->getValue('w:t', $node) ;
+                            }
+                        }
                     }
                 }
-                if ($textContent) $paragraph->addText($textContent, $fontStyle);
             }
-            //$parent->addPreserveText(htmlspecialchars($textContent, ENT_QUOTES, 'UTF-8'), $fontStyle, $paragraphStyle);
+
         } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
             // List item
             $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
@@ -293,24 +313,9 @@ abstract class AbstractPart
                 $_fontStyle = $this->readFontStyle($xmlReader, $node->parentNode);
                 $this->readDrawing($xmlReader, $node, $parent, $docPart, $_fontStyle);
             } else {
-
-                // Office 2011 Image
-                $xmlReader->registerNamespace('wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
-                $xmlReader->registerNamespace('r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-                $xmlReader->registerNamespace('pic', 'http://schemas.openxmlformats.org/drawingml/2006/picture');
-                $xmlReader->registerNamespace('a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
-
-                $name = $xmlReader->getAttribute('name', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
-
-                $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
-                if ($name === null && $embedId === null) { // some Converters puts images on a different path
-                    $name = $xmlReader->getAttribute('name', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
-                    $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
-                }
-                $target = $this->getMediaTarget($docPart, $embedId);
-                if (null !== $target) {
-                    $imageSource = "zip://{$this->docFile}#{$target}";
-                    $parent->addImage($imageSource, null, false, $name);
+                $imageInfo = $this->readImage($xmlReader, $domNode, $parent, $docPart);
+                if (isset($imageInfo['source'])) {
+                    $parent->addImage($imageInfo['source'], null, false, $imageInfo['source']);
                 }
             }
         } elseif ($node->nodeName == 'w:object') {
@@ -328,16 +333,8 @@ abstract class AbstractPart
             $parent->addText("\t", $fontStyle);
         } elseif ($node->nodeName == 'mc:AlternateContent') {
             if ($node->hasChildNodes()) {
-                // Get fallback instead of mc:Choice to make sure it is compatible
-                $fallbackElements = $node->getElementsByTagName('Fallback');
-
-                if ($fallbackElements->length) {
-                    $fallback = $fallbackElements->item(0);
-                    // TextRun
-                    $textContent = htmlspecialchars($fallback->nodeValue, ENT_QUOTES, 'UTF-8');
-
-                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
-                }
+                $_fontStyle = $this->readFontStyle($xmlReader, $node->parentNode);
+                $this->readAlternateContent($xmlReader, $node, $parent, $docPart, $_fontStyle);
             }
         } elseif ($node->nodeName == 'w:t' || $node->nodeName == 'w:delText') {
             // TextRun
@@ -368,6 +365,11 @@ abstract class AbstractPart
 
     /**
      * Read image
+     *
+     * @param mixed $parent
+     * @param string $docPart
+     * @author <presleylee@qq.com>
+     * @since 2023/8/11 2:06 下午
      */
     public function readImage(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart)
     {
@@ -504,6 +506,113 @@ abstract class AbstractPart
     }
 
     /**
+     * Read m:AlternateContent
+     *
+     * @param mixed $parent
+     * @param string $docPart
+     * @author <presleylee@qq.com>
+     * @since 2023/8/11 2:06 下午
+     */
+    protected function readAlternateContent(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart, $fontStyle = null) :void
+    {
+        // AlternateContent Tags
+        $alterNateChilds = null;
+        $fallbackNode = $xmlReader->getElement('mc:Fallback', $domNode);
+        if ($fallbackNode !== null) {
+            $alterNateChilds = [];
+
+            //图形对象的标签
+            $pictNode = $xmlReader->getElement('w:pict', $fallbackNode);
+            if ($pictNode !== null) {
+
+                //图形对象的形状（shape）标签，用于定义图形的外观和位置
+                $shapeNode = $xmlReader->getElement('v:shape|v:line', $pictNode);
+                if ($shapeNode !== null) {
+                    $id = $xmlReader->getAttribute('id', $shapeNode);
+                    $shape = [
+                        'spid' => $xmlReader->getAttribute('o:spid', $shapeNode),
+                        'spt' => $xmlReader->getAttribute('o:spt', $shapeNode),
+                        'type' => $xmlReader->getAttribute('type', $shapeNode),
+                        'style' => $xmlReader->getAttribute('style', $shapeNode),
+                        'filled' => $xmlReader->getAttribute('filled', $shapeNode),
+                        'stroked' => $xmlReader->getAttribute('stroked', $shapeNode),
+                        'coordsize' => $xmlReader->getAttribute('coordsize', $shapeNode),
+                        'gfxdata' => $xmlReader->getAttribute('o:gfxdata', $shapeNode),
+                    ];
+
+                    $shape['gfxdata'] = str_replace('&#10;', ' ', $shape['gfxdata']);
+
+                    if ($shapeNode->localName == 'shage') {
+                        $altshape = new AltShape($id);
+                        $altshape->setAttrByArray($shape);
+                        $alterNateChilds['shape'] = $altshape;
+                    } else {
+                        $altline = new AltLine($id);
+                        $altline->setAttrByArray($shape);
+                        $alterNateChilds['line'] = $altline;
+                    }
+
+
+                    //图形的填充属性
+                    $fillNode = $xmlReader->getElement('v:fill', $shapeNode);
+                    if ($fillNode !== null) {
+                        $alterNateChilds['fill'] = [
+                            'on' => $xmlReader->getAttribute('on', $fillNode),
+                            'focussize' => $xmlReader->getAttribute('focussize', $fillNode)
+                        ];
+                    }
+
+                    //图形的轮廓属性
+                    $strokeNode = $xmlReader->getElement('v:stroke', $shapeNode);
+                    if ($strokeNode !== null) {
+                        $alterNateChilds['stroke'] = [
+                            'on' => $xmlReader->getAttribute('on', $strokeNode),
+                            'weight' => $xmlReader->getAttribute('weight', $strokeNode),
+                            'color' => $xmlReader->getAttribute('color', $strokeNode),
+                            'miterlimit' => $xmlReader->getAttribute('miterlimit', $strokeNode),
+                            'joinstyle' => $xmlReader->getAttribute('miterlimit', $strokeNode),
+                        ];
+                    }
+
+                    //图像数据信息，这里的 o:title 是图像的标题
+                    $imagedataNode = $xmlReader->getElement('v:imagedata', $shapeNode);
+                    if ($imagedataNode !== null) {
+                        $alterNateChilds['imagedata'] = [
+                            'title' => $xmlReader->getAttribute('o:title', $imagedataNode)
+                        ];
+                    }
+
+                    //锁定图形对象的编辑属性
+                    $lockNode = $xmlReader->getElement('o:lock', $shapeNode);
+                    if ($lockNode !== null) {
+                        $alterNateChilds['lock'] = [
+                            'ext' => $xmlReader->getAttribute('v:ext', $lockNode),
+                            'aspectratio' => $xmlReader->getAttribute('aspectratio', $lockNode)
+                        ];
+                    }
+
+                    //定义文本框，将文本与图形关联起来。
+                    $textboxNode = $xmlReader->getElement('v:textbox', $shapeNode);
+                    if ($textboxNode !== null) {
+                        $alterNateChilds['textbox'] = [
+                            'inset' => $xmlReader->getAttribute('inset', $textboxNode),
+                            'style' => $xmlReader->getAttribute('style', $textboxNode)
+                        ];
+                    }
+
+                    $alternate = $parent->addAlternateContent($alterNateChilds);
+
+                    if ($textboxNode !== null) {
+                        $txtbxContNode = $xmlReader->getElement('w:txbxContent', $textboxNode);
+                        $textRunNode = $xmlReader->getElement('w:p', $txtbxContNode);
+                        $this->readParagraph($xmlReader, $textRunNode, $alternate, $docPart, 1);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Read w:tbl.
      *
      * @param mixed $parent
@@ -516,7 +625,6 @@ abstract class AbstractPart
         if ($xmlReader->elementExists('w:tblPr', $domNode)) {
             $tblStyle = $this->readTableStyle($xmlReader, $domNode);
         }
-
         /** @var \PhpOffice\PhpWord\Element\Table $table Type hint */
         $table = $parent->addTable($tblStyle);
         $tblNodes = $xmlReader->getElements('*', $domNode); //gridSpan
@@ -627,17 +735,18 @@ abstract class AbstractPart
         }
 
         if (in_array($docPart, ['header1', 'footer1'])){
-            $pBdr = $xmlReader->getElement('w:pBdr', $styleNode);
+            $borderNode = $xmlReader->getElement('w:pBdr', $styleNode);
             $styleDefs = [
-                'bottom_bStyle' => [self::READ_VALUE, 'w:bottom', 'w:val'],
-                'bottom_bColor' => [self::READ_VALUE, 'w:bottom', 'w:color'],
-                'bottom_bSz' => [self::READ_VALUE, 'w:bottom', 'w:sz'],
-                'bottom_bspace' => [self::READ_VALUE, 'w:bottom', 'w:space'],
-                'top_bStyle' => [self::READ_VALUE, 'w:top', 'w:val'],
-                'top_bColor' => [self::READ_VALUE, 'w:bottom', 'w:color'],
-                'top_bSz' => [self::READ_VALUE, 'w:bottom', 'w:sz'],
-                'top_bspace' => [self::READ_VALUE, 'w:bottom', 'w:space'],
+                'borderBottomStyle' => [self::READ_VALUE, 'w:bottom', 'w:val'],
+                'borderBottomColor' => [self::READ_VALUE, 'w:bottom', 'w:color'],
+                'borderBottomSize' => [self::READ_VALUE, 'w:bottom', 'w:sz'],
+                'borderBottomSpace' => [self::READ_VALUE, 'w:bottom', 'w:space'],
+                'borderTopStyle' => [self::READ_VALUE, 'w:top', 'w:val'],
+                'borderTopColor' => [self::READ_VALUE, 'w:top', 'w:color'],
+                'borderTopSize' => [self::READ_VALUE, 'w:top', 'w:sz'],
+                'borderTopSpace' => [self::READ_VALUE, 'w:top', 'w:space'],
             ];
+            $paragraphStyle['border'] = $this->readStyleDefs($xmlReader, $borderNode, $styleDefs);
         }
 
         return $paragraphStyle;
@@ -749,8 +858,13 @@ abstract class AbstractPart
             $styleNode = $xmlReader->getElement('w:tblPr', $domNode);
             $styleDefs = [];
             if ($xmlReader->elementExists('w:tblStyle', $styleNode)) {
-                $styleDefs['tblStyle'] = [self::READ_VALUE, 'w:tblStyle', 'w:value'];
+                $styleDefs['tblStyle'] = [self::READ_VALUE, 'w:tblStyle', 'w:val'];
             }
+
+            if ($xmlReader->elementExists('w:tblOverlap', $styleNode)) {
+                $styleDefs['tblOverlap'] = [self::READ_VALUE, 'w:tblOverlap', 'w:val'];
+            }
+
             foreach ($margins as $side) {
                 $ucfSide = ucfirst($side);
                 $styleDefs["cellMargin$ucfSide"] = [self::READ_VALUE, "w:tblCellMar/w:$side", 'w:w'];
@@ -869,8 +983,19 @@ abstract class AbstractPart
             'textDirection' => [self::READ_VALUE, 'w:textDirection'],
             'gridSpan' => [self::READ_VALUE, 'w:gridSpan'],
             'vMerge' => [self::READ_VALUE, 'w:vMerge', null, null, 'continue'],
-            'bgColor' => [self::READ_VALUE, 'w:shd', 'w:fill'],
+            'bgPattern' => [self::READ_VALUE, 'w:shd', 'w:val'],
+            'bgColor' => [self::READ_VALUE, 'w:shd', 'w:color'],
+            'bgFill' => [self::READ_VALUE, 'w:shd', 'w:fill'],
         ];
+
+        $borders = ['top', 'left', 'bottom', 'right'];
+        foreach ($borders as $side) {
+            $ucfSide = ucfirst($side);
+            $styleDefs["border{$ucfSide}Space"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:space'];
+            $styleDefs["border{$ucfSide}Size"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:sz'];
+            $styleDefs["border{$ucfSide}Color"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:color'];
+            $styleDefs["border{$ucfSide}Style"] = [self::READ_VALUE, "w:tcBorders/w:$side", 'w:val'];
+        }
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
     }
@@ -942,6 +1067,7 @@ abstract class AbstractPart
                 continue;
             }
             if ($xmlReader->elementExists($element, $parentNode)) {
+
                 $node = $xmlReader->getElement($element, $parentNode);
                 $attribute = $this->findPossibleAttribute($xmlReader, $node, $attribute);
                 // Use w:val as default if no attribute assigned

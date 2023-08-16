@@ -202,6 +202,13 @@ class Paragraph extends Border
     private $textAlignment;
 
     /**
+     * Paragraph border
+     *
+     * @var mixed
+     */
+    private $border;
+
+    /**
      * Suppress hyphenation for paragraph.
      *
      * @var bool
@@ -422,6 +429,32 @@ class Paragraph extends Border
     public function getIndent()
     {
         return $this->getChildStyleValue($this->indentation, 'left');
+    }
+
+    /**
+     * Set border.
+     *
+     * @param mixed $value
+     *
+     * @return self
+     */
+    public function setBorder($value = null)
+    {
+        if ($value !== null) {
+            $this->setObjectVal($value, 'border', $this->border);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get border.
+     *
+     * @return int
+     */
+    public function getBorder()
+    {
+        return $this->border;
     }
 
     /**
