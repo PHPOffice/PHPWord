@@ -58,6 +58,16 @@ class MsDoc extends AbstractReader implements ReaderInterface
     private $dataObjectPool;
 
     /**
+     * Object Stream.
+     */
+    private $_SummaryInformation;
+
+    /**
+     * Object Stream.
+     */
+    private $_DocumentSummaryInformation;
+
+    /**
      * @var stdClass[]
      */
     private $arrayCharacters = [];

@@ -61,6 +61,17 @@ class OLERead
     public $wrkObjectPool = null;
     public $summaryInformation = null;
     public $docSummaryInfos = null;
+    public $numBigBlockDepotBlocks = null;
+    public $rootStartBlock = null;
+    public $sbdStartBlock = null;
+    public $extensionBlock = null;
+    public $numExtensionBlocks = null;
+    public $bigBlockChain = null;
+    public $smallBlockChain = null;	
+    public $entry = null;	
+    public $rootentry = null;
+    public $wrkObjectPoolelseif = null;
+    public $props = array();	
 
     /**
      * Read the file
