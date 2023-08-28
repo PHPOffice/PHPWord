@@ -64,7 +64,7 @@ class Text
             self::buildControlCharacters();
         }
 
-        return str_replace(array_values(self::$controlCharacters), array_keys(self::$controlCharacters), $value);
+        return ($value==null) ? '' : str_replace(array_values(self::$controlCharacters), array_keys(self::$controlCharacters), $value);
     }
 
     /**
@@ -145,7 +145,7 @@ class Text
     public static function toUTF8($value = '')
     {
         if (null !== $value && !self::isUTF8($value)) {
-            $value = utf8_encode($value);
+            $value = mb_convert_encoding($value,'UTF-8',mb_detect_encoding($value,'UTF-8'));
         }
 
         return $value;
