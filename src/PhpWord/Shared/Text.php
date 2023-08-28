@@ -145,7 +145,8 @@ class Text
     public static function toUTF8($value = '')
     {
         if (null !== $value && !self::isUTF8($value)) {
-            $value = utf8_encode($value);
+            $encoding = mb_detect_encoding($value,'UTF-8');
+            $value = mb_convert_encoding($value,'UTF-8',($encoding===false) ? null : (string)$encoding);
         }
 
         return $value;
