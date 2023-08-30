@@ -68,6 +68,13 @@ abstract class AbstractPart
     protected $rels = [];
 
     /**
+     * Image Loading.
+     *
+     * @var bool
+     */
+    protected $imageLoading = true;
+
+    /**
      * Read part.
      */
     abstract public function read(PhpWord $phpWord);
@@ -92,6 +99,18 @@ abstract class AbstractPart
     public function setRels($value): void
     {
         $this->rels = $value;
+    }
+
+    public function setImageLoading(bool $value): self
+    {
+        $this->imageLoading = $value;
+
+        return $this;
+    }
+
+    public function hasImageLoading(): bool
+    {
+        return $this->imageLoading;
     }
 
     /**
@@ -249,7 +268,7 @@ abstract class AbstractPart
             // Image
             $rId = $xmlReader->getAttribute('r:id', $node, 'v:shape/v:imagedata');
             $target = $this->getMediaTarget($docPart, $rId);
-            if (null !== $target) {
+            if ($this->hasImageLoading() && null !== $target) {
                 if ('External' == $this->getTargetMode($docPart, $rId)) {
                     $imageSource = $target;
                 } else {
@@ -271,7 +290,7 @@ abstract class AbstractPart
                 $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
             }
             $target = $this->getMediaTarget($docPart, $embedId);
-            if (null !== $target) {
+            if ($this->hasImageLoading() && null !== $target) {
                 $imageSource = "zip://{$this->docFile}#{$target}";
                 $parent->addImage($imageSource, null, false, $name);
             }
