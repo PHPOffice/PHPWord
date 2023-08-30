@@ -27,6 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added PHPStan by @PowerKiKi in #2405
 - Bump symfony/process from 4.4.44 to 5.4.26 by @dependabot in #2431
 - Bump phpunit/phpunit from 9.6.8 to 9.6.10 by @dependabot in #2430
+- Added Changelog by @Progi1984 in #2452
 
 ## [1.1.0](https://github.com/PHPOffice/PHPWord/tree/1.1.0) (2023-05-30)
 
