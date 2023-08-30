@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Word2007 Reader : Read hyperlingks in headings by @hannesdorn in #2433
 - PclZip : strtr using empty string by @spl1nes in #2432
 - Fixed PHP 8.2 deprecated about Allow access to an undefined property by @DAdq26 in #2440
+- Template Processor : Fixed choose dimention for Float Value by @gdevilbat in #2449
 
 ### Miscellaneous
 
