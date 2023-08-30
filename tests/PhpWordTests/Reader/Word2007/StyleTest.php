@@ -190,6 +190,27 @@ class StyleTest extends AbstractTestReader
         self::assertTrue($fontStyle->isHidden());
     }
 
+    public function testReadTableCellNoWrap(): void
+    {
+        $documentXml = '<w:tbl>
+          <w:tr>
+            <w:tc>
+              <w:tcPr>
+                <w:noWrap />
+              </w:tcPr>
+            </w:tc>
+          </w:tr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        $rows = $elements[0]->getRows();
+        $cells = $rows[0]->getCells();
+        self::assertTrue($cells[0]->getStyle()->getNoWrap());
+    }
+
     public function testReadHeading(): void
     {
         Style::resetStyles();
