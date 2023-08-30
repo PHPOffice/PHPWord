@@ -123,7 +123,7 @@ class Cell extends Border
      *
      * @var bool
      */
-    private $noWrap;
+    private $noWrap = true;
 
     /**
      * Get vertical align.
@@ -323,9 +323,10 @@ class Cell extends Border
     /**
      * Set noWrap.
      *
-     * @param $value
+     * @param bool $value
+     * @return self
      */
-    public function setNoWrap($value)
+    public function setNoWrap(bool $value): self
     {
         $this->noWrap = $this->setBoolVal($value, true);
 
@@ -337,7 +338,7 @@ class Cell extends Border
      *
      * @return bool
      */
-    public function getNoWrap()
+    public function getNoWrap(): bool
     {
         return $this->noWrap;
     }

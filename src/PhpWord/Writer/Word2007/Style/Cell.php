@@ -88,10 +88,7 @@ class Cell extends AbstractStyle
         $vMerge = $style->getVMerge();
         $xmlWriter->writeElementIf(null !== $gridSpan, 'w:gridSpan', 'w:val', $gridSpan);
         $xmlWriter->writeElementIf(null !== $vMerge, 'w:vMerge', 'w:val', $vMerge);
-
-        // noWrap
-        $noWrap = $style->getNoWrap();
-        $xmlWriter->writeElementIf(true === $noWrap, 'w:noWrap');
+        $xmlWriter->writeElementIf($style->getNoWrap(), 'w:noWrap');
 
         $xmlWriter->endElement(); // w:tcPr
     }
