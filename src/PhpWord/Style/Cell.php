@@ -322,9 +322,6 @@ class Cell extends Border
 
     /**
      * Set noWrap.
-     *
-     * @param bool $value
-     * @return self
      */
     public function setNoWrap(bool $value): self
     {
@@ -335,8 +332,6 @@ class Cell extends Border
 
     /**
      * Get noWrap.
-     *
-     * @return bool
      */
     public function getNoWrap(): bool
     {
