@@ -2,6 +2,28 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0](https://github.com/PHPOffice/PHPWord/tree/1.2.0) (WIP)
+
+[Full Changelog](https://github.com/PHPOffice/PHPWord/compare/1.1.0...1.2.0)
+
+## Enhancements
+
+- Word2007 Reader/Writer : Added noWrap table cell property by @kernusr in #2359
+- HTML Reader : Support for `font-variant: small-caps` by @cambraca in #2117
+- Improved TextDirection for styling a cell by @terryzwt in #2429
+### Bug fixes
+
+- Fixed wrong mimetype for docx files by @gamerlv in #2416
+- Word2007 Reader : Read hyperlingks in headings by @hannesdorn in #2433
+- PclZip : strtr using empty string by @spl1nes in #2432
+- Fixed PHP 8.2 deprecated about Allow access to an undefined property by @DAdq26 in #2440
+
+### Miscellaneous
+
+- Added PHPStan by @PowerKiKi in #2405
+- Bump symfony/process from 4.4.44 to 5.4.26 by @dependabot in #2431
+- Bump phpunit/phpunit from 9.6.8 to 9.6.10 by @dependabot in #2430
+
 ## [1.1.0](https://github.com/PHPOffice/PHPWord/tree/1.1.0) (2023-05-30)
 
 [Full Changelog](https://github.com/PHPOffice/PHPWord/compare/1.0.0...1.1.0)
