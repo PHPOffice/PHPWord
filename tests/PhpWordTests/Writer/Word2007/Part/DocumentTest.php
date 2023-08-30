@@ -646,6 +646,44 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * covers ::_writeCellStyle.
+     */
+    public function testWriteCellStyleCellNoWrapEnabled(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable();
+        $table->addRow();
+
+        $cell = $table->addCell(200);
+        $cell->getStyle()->setNoWrap(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:noWrap'));
+    }
+
+    /**
+     * covers ::_writeCellStyle.
+     */
+    public function testWriteCellStyleCellNoWrapDisabled(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable();
+        $table->addRow();
+
+        $cell = $table->addCell(200);
+        $cell->getStyle()->setNoWrap(false);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:noWrap'));
+    }
+
+    /**
      * Test write gutter and line numbering.
      */
     public function testWriteGutterAndLineNumbering(): void
