@@ -305,7 +305,11 @@ class TemplateProcessor
         $elementWriter = new $objectClass($xmlWriter, $complexType, false);
         $elementWriter->write();
 
-        $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:p');
+        $data = $xmlWriter->getData();
+
+        $this->replaceXmlBlock($search, $data, 'w:p');
+        $this->replaceXmlBlockHeader($search, $data, 'w:p');
+        $this->replaceXmlBlockFooter($search, $data, 'w:p');
     }
 
     /**
@@ -1244,6 +1248,45 @@ class TemplateProcessor
     }
 
     /**
+     * Get a slice of a string.
+     *
+     * @param int $startPosition
+     * @param int $endPosition
+     * @param int|string $key index of tempDocumentHeaders
+     *
+     * @return string
+     */
+    protected function getSliceHeader($startPosition, $endPosition = 0, $key)
+    {
+        $document = $this->tempDocumentHeaders[$key];
+        if (!$endPosition) {
+            $endPosition = strlen($document);
+        }
+
+        return substr($document, $startPosition, ($endPosition - $startPosition));
+    }
+
+    /**
+     * Get a slice of a string.
+     *
+     * @param int $startPosition
+     * @param int $endPosition
+     * @param int|string $key index of tempDocumentFooters
+     *
+     * @return string
+     */
+    protected function getSliceFooter($startPosition, $endPosition = 0, $key)
+    {
+        $document = $this->tempDocumentFooters[$key];
+        if (!$endPosition) {
+            $endPosition = strlen($document);
+        }
+
+        return substr($document, $startPosition, ($endPosition - $startPosition));
+    }
+
+
+    /**
      * Replaces variable names in cloned
      * rows/blocks with indexed names.
      *
@@ -1389,6 +1432,255 @@ class TemplateProcessor
     protected function findXmlBlockEnd($offset, $blockType)
     {
         $blockEndStart = strpos($this->tempDocumentMainPart, '</' . $blockType . '>', $offset);
+        // return position of end of tag if found, otherwise -1
+
+        return ($blockEndStart === false) ? -1 : $blockEndStart + 3 + strlen($blockType);
+    }
+
+
+
+    
+    /**
+     * Replace an XML block surrounding a macro with a new block
+     *
+     * @param string $macro Name of macro
+     * @param string $block New block content
+     * @param string $blockType XML tag type of block
+     * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
+     */
+    protected function replaceXmlBlockHeader($macro, $block, $blockType = 'w:p')
+    {
+        $whereHeader = $this->findContainingXmlBlockForMacroHeader($macro, $blockType);
+        
+        foreach ($whereHeader as $key => $where) {
+            $this->tempDocumentHeaders[$key] = $this->getSliceHeader(0, $where['start'], $key) . $block . $this->getSliceHeader($where['end'], 0,$key);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Find start and end of XML block containing the given macro
+     * e.g. <w:p>...${macro}...</w:p>
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $macro Name of macro
+     * @param string $blockType XML tag for block
+     * @return array[] empty ARRAY if not found, otherwise array of array with start and end
+     */
+    protected function findContainingXmlBlockForMacroHeader($macro, $blockType = 'w:p')
+    {
+        $macrosPos = $this->findMacroHeader($macro);
+
+        $return = array();
+
+        foreach ($macrosPos as $key => $macroPos) {
+            if (0 > $macroPos) {
+                continue;
+            }
+
+            $start = $this->findXmlBlockStartHeader($macroPos, $blockType, $key);
+            if (0 > $start) {
+                continue;
+            }
+
+            $end = $this->findXmlBlockEndHeader($start, $blockType, $key);
+            //if not found or if resulting string does not contain the macro we are searching for
+            if (0 > $end || strstr($this->getSliceHeader($start, $end, $key), $macro) === false) {
+                continue;
+            }
+    
+            $return[$key] = array('start' => $start, 'end' => $end);
+        }
+
+        return $return;
+    }
+
+    /**
+     * Find the position of (the start of) a macro
+     *
+     * Returns empty array if not found, otherwise position of opening $
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $search Macro name
+     * @param int $offset Offset from which to start searching
+     * @return int[] empty array if macro not found
+     */
+    protected function findMacroHeader($search, $offset = 0)
+    {
+        $search = static::ensureMacroCompleted($search);
+        $pos = array();
+
+        foreach ($this->tempDocumentHeaders as $key => $value) {
+            $temp_pos = strpos($value, $search, $offset);
+            if ($temp_pos !== false) { 
+                $pos[$key] = $temp_pos;
+            }
+        }
+
+        return $pos;
+    }
+
+    /**
+     * Find the start position of the nearest XML block start before $offset
+     *
+     * @param int $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @param int|string $key  index of tempDocumentHeaders
+     * @return int -1 if block start not found
+     */
+    protected function findXmlBlockStartHeader($offset, $blockType, $key)
+    {
+        $document = $this->tempDocumentHeaders[$key];
+        $reverseOffset = (strlen($document) - $offset) * -1;
+        // first try XML tag with attributes
+        $blockStart = strrpos($document, '<' . $blockType . ' ', $reverseOffset);
+        // if not found, or if found but contains the XML tag without attribute
+        if (false === $blockStart || strrpos($this->getSliceHeader($blockStart, $offset, $key), '<' . $blockType . '>')) {
+            // also try XML tag without attributes
+            $blockStart = strrpos($document, '<' . $blockType . '>', $reverseOffset);
+        }
+
+        return ($blockStart === false) ? -1 : $blockStart;
+    }
+
+    /**
+     * Find the nearest block end position after $offset
+     *
+     * @param int $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @param int|string $key  index of tempDocumentHeaders
+     * @return int -1 if block end not found
+     */
+    protected function findXmlBlockEndHeader($offset, $blockType, $key)
+    {
+        $document = $this->tempDocumentHeaders[$key];
+        $blockEndStart = strpos($document, '</' . $blockType . '>', $offset);
+        // return position of end of tag if found, otherwise -1
+
+        return ($blockEndStart === false) ? -1 : $blockEndStart + 3 + strlen($blockType);
+    }
+
+    /**
+     * Replace an XML block surrounding a macro with a new block
+     *
+     * @param string $macro Name of macro
+     * @param string $block New block content
+     * @param string $blockType XML tag type of block
+     * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
+     */
+    protected function replaceXmlBlockFooter($macro, $block, $blockType = 'w:p')
+    {
+        $whereFooter = $this->findContainingXmlBlockForMacroFooter($macro, $blockType);
+        
+        foreach ($whereFooter as $key => $where) {
+            $this->tempDocumentFooters[$key] = $this->getSliceFooter(0, $where['start'], $key) . $block . $this->getSliceFooter($where['end'], 0,$key);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Find start and end of XML block containing the given macro
+     * e.g. <w:p>...${macro}...</w:p>
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $macro Name of macro
+     * @param string $blockType XML tag for block
+     * @return array[] empty ARRAY if not found, otherwise array of array with start and end
+     */
+    protected function findContainingXmlBlockForMacroFooter($macro, $blockType = 'w:p')
+    {
+        $macrosPos = $this->findMacroFooter($macro);
+
+        $return = array();
+
+        foreach ($macrosPos as $key => $macroPos) {
+            if (0 > $macroPos) {
+                continue;
+            }
+
+            $start = $this->findXmlBlockStartFooter($macroPos, $blockType, $key);
+            if (0 > $start) {
+                continue;
+            }
+
+            $end = $this->findXmlBlockEndFooter($start, $blockType, $key);
+            //if not found or if resulting string does not contain the macro we are searching for
+            if (0 > $end || strstr($this->getSliceFooter($start, $end, $key), $macro) === false) {
+                continue;
+            }
+    
+            $return[$key] = array('start' => $start, 'end' => $end);
+        }
+
+        return $return;
+    }
+
+    /**
+     * Find the position of (the start of) a macro
+     *
+     * Returns empty array if not found, otherwise position of opening $
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $search Macro name
+     * @param int $offset Offset from which to start searching
+     * @return int[] empty array if macro not found
+     */
+    protected function findMacroFooter($search, $offset = 0)
+    {
+        $search = static::ensureMacroCompleted($search);
+        $pos = array();
+
+        foreach ($this->tempDocumentFooters as $key => $value) {
+            $temp_pos = strpos($value, $search, $offset);
+            if ($temp_pos !== false) { 
+                $pos[$key] = $temp_pos;
+            }
+        }
+
+        return $pos;
+    }
+
+    /**
+     * Find the start position of the nearest XML block start before $offset
+     *
+     * @param int $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @param int|string $key  index of tempDocumentFooters
+     * @return int -1 if block start not found
+     */
+    protected function findXmlBlockStartFooter($offset, $blockType, $key)
+    {
+        $document = $this->tempDocumentFooters[$key];
+        $reverseOffset = (strlen($document) - $offset) * -1;
+        // first try XML tag with attributes
+        $blockStart = strrpos($document, '<' . $blockType . ' ', $reverseOffset);
+        // if not found, or if found but contains the XML tag without attribute
+        if (false === $blockStart || strrpos($this->getSliceFooter($blockStart, $offset, $key), '<' . $blockType . '>')) {
+            // also try XML tag without attributes
+            $blockStart = strrpos($document, '<' . $blockType . '>', $reverseOffset);
+        }
+
+        return ($blockStart === false) ? -1 : $blockStart;
+    }
+
+    /**
+     * Find the nearest block end position after $offset
+     *
+     * @param int $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @param int|string $key  index of tempDocumentFooters
+     * @return int -1 if block end not found
+     */
+    protected function findXmlBlockEndFooter($offset, $blockType, $key)
+    {
+        $document = $this->tempDocumentFooters[$key];
+        $blockEndStart = strpos($document, '</' . $blockType . '>', $offset);
         // return position of end of tag if found, otherwise -1
 
         return ($blockEndStart === false) ? -1 : $blockEndStart + 3 + strlen($blockType);
