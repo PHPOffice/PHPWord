@@ -53,6 +53,15 @@ abstract class AbstractWebServerEmbeddedTest extends \PHPUnit\Framework\TestCase
         return 'http://php.net/images/logos/new-php-logo.png';
     }
 
+    protected static function getRemoteImageUrlWithoutExtension(): string
+    {
+        if (self::$httpServer) {
+            return self::getBaseUrl() . '/images/new-php-logo';
+        }
+
+        return 'http://placekitten.com/200/300';
+    }
+
     protected static function getRemoteGifImageUrl()
     {
         if (self::$httpServer) {

@@ -817,6 +817,24 @@ HTML;
     }
 
     /**
+     * Test parsing of remote img without extension.
+     */
+    public function testParseRemoteImageWithoutExtension(): void
+    {
+        $src = self::getRemoteImageUrlWithoutExtension();
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/><img src="' . $src . '" style="float: left;"/></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+    }
+
+    /**
      * Test parsing embedded image.
      */
     public function testParseEmbeddedImage(): void
