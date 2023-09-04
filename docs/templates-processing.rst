@@ -35,6 +35,20 @@ You can also set multiple values by passing all of them in an array.
 
     $templateProcessor->setValues(array('firstname' => 'John', 'lastname' => 'Doe'));
 
+setHtml
+"""""""""
+In template documents, only paragraph insertion is currently supported, such as:
+
+.. code-block:: clean
+
+    ${content}
+
+The HTML content of ``${content}`` will simply replace the paragraph in which ``${content}`` is located.
+
+.. code-block:: php
+
+    $templateProcessor->setHtml('content', '<p>This is the test.</p>');
+
 setMacroOpeningChars
 """"""""
 You can define a custom opening macro. The following will set ``{#`` as the opening search pattern.

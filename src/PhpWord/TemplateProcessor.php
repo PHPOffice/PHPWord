@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
@@ -351,6 +352,79 @@ class TemplateProcessor
         foreach ($values as $macro => $replace) {
             $this->setValue($macro, $replace);
         }
+    }
+
+    /**
+     * @param $search
+     * @param $replace
+     * @param $limit
+     * @return void
+     */
+    public function setHtml($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT): void
+    {
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlEscaper = new Xml();
+            $replace = $xmlEscaper->escape($replace);
+        }
+
+        $phpWord = new PhpWord();
+        $wordFileName = tempnam(Settings::getTempDir(), 'PhpWord');
+        $section = $phpWord->addSection();
+        Html::addHtml($section, static::closeTags($replace), false, false);
+        $phpWord->save($wordFileName);
+
+        $zip = new ZipArchive();
+        $zip->open($wordFileName);
+        $docXml = $zip->getFromName('word/document.xml');
+        $zip->close();
+        unlink($wordFileName);
+
+        preg_match("/<w:body>(.*?)<\/w:body>/s", $docXml, $body);
+        $result = substr($body[1],0, strrpos($body[1],"<w:sectPr>"));
+
+        if (is_array($search)) {
+            foreach ($search as &$item) {
+                $item = static::ensureMacroCompleted($item);
+            }
+            unset($item);
+        } else {
+            $search = static::ensureMacroCompleted($search);
+        }
+
+        $xml = simplexml_load_string($this->tempDocumentMainPart);
+        $data  = $xml->xpath("//w:p[contains(.,'\$')]");
+        foreach ($data as $value) {
+            if (strpos($value->asXml(), $search) !== false) {
+                $this->tempDocumentMainPart = str_replace($value->asXml(), $result, $this->tempDocumentMainPart);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Used to handle html content closures that are not closed
+     * @param $html
+     * @return mixed|string
+     */
+    protected static function closeTags($html)
+    {
+        preg_match_all('#<(?!meta|img|br|hr|input\b)\b([a-z]+)(?: .*)?(?<![/|/ ])>#iU', $html, $result);
+        $openedTags = $result[1];
+        preg_match_all('#</([a-z]+)>#iU', $html, $result);
+        $closedTags = $result[1];
+        $lenOpened = count($openedTags);
+        if (count($closedTags) == $lenOpened) {
+            return $html;
+        }
+        $openedTags = array_reverse($openedTags);
+        foreach ($openedTags as $iValue) {
+            if (!in_array($iValue, $closedTags, true)) {
+                $html .= '</'. $iValue .'>';
+            }else {
+                unset($closedTags[array_search($iValue, $closedTags, true)]);
+            }
+        }
+        return $html;
     }
 
     /**
