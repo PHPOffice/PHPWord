@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -45,7 +46,7 @@ class Document extends AbstractPart
     {
         $this->phpWord = $phpWord;
         $xmlReader = new XMLReader();
-        $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
+        $xmlReader->getDomFromZip($this->docFile, ltrim($this->xmlFile, '/'));
         $readMethods = ['w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode'];
 
         $nodes = $xmlReader->getElements('w:body/*');
