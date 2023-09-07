@@ -385,9 +385,8 @@ abstract class AbstractPart
                     } elseif ('w:tc' == $rowNode->nodeName) { // Cell
                         $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
                         $cellStyle = null;
-                        $cellStyleNode = $xmlReader->getElement('w:tcPr', $rowNode);
-                        if (null !== $cellStyleNode) {
-                            $cellStyle = $this->readCellStyle($xmlReader, $cellStyleNode);
+                        if ($xmlReader->elementExists('w:tcPr', $rowNode)) {
+                            $cellStyle = $this->readCellStyle($xmlReader, $rowNode);
                         }
 
                         $cell = $row->addCell($cellWidth, $cellStyle);
@@ -573,7 +572,7 @@ abstract class AbstractPart
     /**
      * Read w:tcPr.
      *
-     * @return array
+     * @return null|array
      */
     private function readCellStyle(XMLReader $xmlReader, DOMElement $domNode)
     {
@@ -585,8 +584,24 @@ abstract class AbstractPart
             'bgColor' => [self::READ_VALUE, 'w:shd', 'w:fill'],
             'noWrap' => [self::READ_VALUE, 'w:noWrap', null, null, true],
         ];
+        $style = null;
 
-        return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+        if ($xmlReader->elementExists('w:tcPr', $domNode)) {
+            $styleNode = $xmlReader->getElement('w:tcPr', $domNode);
+
+            $borders = ['top', 'left', 'bottom', 'right'];
+            foreach ($borders as $side) {
+                $ucfSide = ucfirst($side);
+
+                $styleDefs['border' . $ucfSide . 'Size'] = [self::READ_VALUE, 'w:tcBorders/w:' . $side, 'w:sz'];
+                $styleDefs['border' . $ucfSide . 'Color'] = [self::READ_VALUE, 'w:tcBorders/w:' . $side, 'w:color'];
+                $styleDefs['border' . $ucfSide . 'Style'] = [self::READ_VALUE, 'w:tcBorders/w:' . $side, 'w:val'];
+            }
+
+            $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
+        }
+
+        return $style;
     }
 
     /**
