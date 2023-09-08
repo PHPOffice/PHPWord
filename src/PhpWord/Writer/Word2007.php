@@ -121,7 +121,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $this->addHeaderFooterMedia($zip, 'footer');
 
         // Add header/footer contents
-        $rId = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
+        $rId = Media::countElements('section') + 6; //@see Rels::writeDocRels for 6 first elements
         $sections = $phpWord->getSections();
         foreach ($sections as $section) {
             $this->addHeaderFooterContent($section, $zip, 'header', $rId);
