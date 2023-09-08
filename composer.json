@@ -6,7 +6,7 @@
         "docx", "OOXML", "OpenXML", "Office Open XML", "ISO IEC 29500", "WordprocessingML",
         "RTF", "Rich Text Format", "doc", "odt", "ODF", "OpenDocument", "PDF", "HTML"
     ],
-    "homepage": "https://phpword.readthedocs.io/",
+    "homepage": "https://phpoffice.github.io/PHPWord/",
     "type": "library",
     "license": "LGPL-3.0",
     "authors": [

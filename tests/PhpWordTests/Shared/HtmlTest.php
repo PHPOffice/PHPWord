@@ -891,7 +891,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $html = '<p><a href="http://phpword.readthedocs.io/" style="text-decoration: underline">link text</a></p>';
+        $html = '<p><a href="https://phpoffice.github.io/PHPWord/" style="text-decoration: underline">link text</a></p>';
         Html::addHtml($section, $html);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
