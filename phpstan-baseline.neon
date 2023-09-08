@@ -46,7 +46,7 @@ parameters:
 			path: src/PhpWord/Element/Footnote.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Image\\:\\:getArchiveImageSize\\(\\) should return array\\|null but returns array\\|false\\|null\\.$#"
+			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Image\\:\\:getArchiveImageSize\\(\\) should return array\\|null but returns array<int\\|string, int\\|string>\\|false\\|null\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Image.php
 
@@ -322,11 +322,6 @@ parameters:
 
 		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Reader\\\\Word2007\\\\Settings\\:\\:\\$booleanProperties has no type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/Word2007/Settings.php
-
-		-
-			message: "#^Static property PhpOffice\\\\PhpWord\\\\Reader\\\\Word2007\\\\Settings\\:\\:\\$booleanProperties is never read, only written\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/Word2007/Settings.php
 
@@ -871,11 +866,6 @@ parameters:
 			path: src/PhpWord/Style/ListItem.php
 
 		-
-			message: "#^Parameter \\#2 \\$string of function explode expects string, array\\<string, int\\|string\\>\\|string given\\.$#"
-			count: 1
-			path: src/PhpWord/Style/ListItem.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\:\\:setStyleValue\\(\\) should return PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph but returns PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\.$#"
 			count: 1
 			path: src/PhpWord/Style/Paragraph.php
@@ -1262,11 +1252,6 @@ parameters:
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Text\\:\\:replacetabs\\(\\) has parameter \\$xmlWriter with no type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/ODText/Element/Text.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Text\\:\\:replacetabs\\(\\) is unused\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/ODText/Element/Text.php
 
