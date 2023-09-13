@@ -4131,6 +4131,16 @@ Search.appendIndex(
             "summary": "Return\u0020the\u0020directory\u0020path\u0020to\u0020the\u0020PDF\u0020Rendering\u0020Library.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_getPdfRendererPath"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetPdfRendererOptions\u0028\u0029",
+            "name": "setPdfRendererOptions",
+            "summary": "Set\u0020options\u0020of\u0020the\u0020external\u0020library\u0020for\u0020rendering\u0020PDF\u0020files.",
+            "url": "classes/PhpOffice-PhpWord-Settings.html#method_setPdfRendererOptions"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetPdfRendererOptions\u0028\u0029",
+            "name": "getPdfRendererOptions",
+            "summary": "Return\u0020the\u0020PDF\u0020Rendering\u0020Options.",
+            "url": "classes/PhpOffice-PhpWord-Settings.html#method_getPdfRendererOptions"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetPdfRendererPath\u0028\u0029",
             "name": "setPdfRendererPath",
             "summary": "Location\u0020of\u0020external\u0020library\u0020to\u0020use\u0020for\u0020rendering\u0020PDF\u0020files.",
@@ -4300,6 +4310,11 @@ Search.appendIndex(
             "name": "pdfRendererName",
             "summary": "Name\u0020of\u0020the\u0020external\u0020Library\u0020used\u0020for\u0020rendering\u0020PDF\u0020files.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_pdfRendererName"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024pdfRendererOptions",
+            "name": "pdfRendererOptions",
+            "summary": "Options\u0020used\u0020for\u0020rendering\u0020PDF\u0020files.",
+            "url": "classes/PhpOffice-PhpWord-Settings.html#property_pdfRendererOptions"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024pdfRendererPath",
             "name": "pdfRendererPath",
