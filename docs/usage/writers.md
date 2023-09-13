@@ -30,6 +30,24 @@ $writer = IOFactory::createWriter($oPhpWord, 'PDF');
 $writer->save(__DIR__ . '/sample.pdf');
 ```
 
+### Options
+
+You can define options like :
+* `font`: default font
+
+Options must be defined before creating the writer.
+
+``` php
+use PhpOffice\PhpWord\Settings;
+
+Settings::setPdfRendererOptions([
+    'font' => 'Arial'
+]);
+
+$writer = IOFactory::createWriter($oPhpWord, 'PDF');
+$writer->save(__DIR__ . '/sample.pdf');
+```
+
 ## RTF
 The name of the writer is `RTF`.
 
