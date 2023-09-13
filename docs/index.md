@@ -95,7 +95,7 @@ Below are the supported features for each file formats.
 |                           | Footer               | :material-check: |       |       |       |       |
 |                           | Footnote             | :material-check: |       |       |       |       |
 |                           | Endnote              | :material-check: |       |       |       |       |
-|                           | Comments             |        |       |       |       |       |
+|                           | Comments             | :material-check: |       |       |       |       |
 | **Graphs**                | 2D basic graphs      |        |       |       |       |       |
 |                           | 2D advanced graphs   |        |       |       |       |       |
 |                           | 3D graphs            |        |       |       |       |       |

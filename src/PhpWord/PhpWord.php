@@ -18,8 +18,6 @@
 namespace PhpOffice\PhpWord;
 
 use BadMethodCallException;
-use InvalidArgumentException;
-use PhpOffice\PhpWord\Element\AbstractElement;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
 
@@ -70,14 +68,7 @@ class PhpWord
     private $metadata = [];
 
     /**
-     * Comment reference cache
-     *
-     * @var array
-     */
-    private $commentReferenceCache = [];
-
-    /**
-     * Create new instance
+     * Create new instance.
      *
      * Collections are created dynamically
      */
@@ -336,7 +327,7 @@ class PhpWord
     }
 
     /**
-     * Create new section
+     * Create new section.
      *
      * @deprecated 0.10.0
      *
@@ -352,7 +343,7 @@ class PhpWord
     }
 
     /**
-     * Get document properties object
+     * Get document properties object.
      *
      * @deprecated 0.12.0
      *
@@ -366,7 +357,7 @@ class PhpWord
     }
 
     /**
-     * Set document properties object
+     * Set document properties object.
      *
      * @deprecated 0.12.0
      *
@@ -381,41 +372,5 @@ class PhpWord
         $this->metadata['Document'] = $documentProperties;
 
         return $this;
-    }
-
-    /**
-     * Cache commentReference (as well as commentRangeStart and commentRangeEnd) for later use
-     * 
-     * @param 'start'|'end' $type
-     * @param string $id,
-     * @param $element
-     *
-     * @return self
-     */
-    public function cacheCommentReference(string $type, string $id, AbstractElement $element)
-    {
-        //dump('cacheCommentReference', func_get_args(), array_key_exists($id, $this->commentReferenceCache));
-        if (!in_array($type, [ 'start', 'end' ])) {
-            throw new InvalidArgumentException('Type must be "start" or "end"');
-        }
-
-        if (!array_key_exists($id, $this->commentReferenceCache)) {
-            $this->commentReferenceCache[$id] = (object)[
-                "start" => null,
-                "end" => null
-            ];
-        }
-        $this->commentReferenceCache[$id]->{$type} = $element;
-
-        return $this;
-    }
-
-    public function getCommentReference(string $id)
-    {
-        if (!array_key_exists($id, $this->commentReferenceCache)) {
-            //dd($this->commentReferenceCache);
-            throw new InvalidArgumentException('Comment with id '.$id.' isn\'t referenced in document');
-        }
-        return $this->commentReferenceCache[$id];
     }
 }

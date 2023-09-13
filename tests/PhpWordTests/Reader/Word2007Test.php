@@ -17,11 +17,15 @@
 
 namespace PhpOffice\PhpWordTests\Reader;
 
+use DateTime;
+use PhpOffice\PhpWord\Element\Comment;
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Reader\Word2007;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -117,5 +121,42 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
             [true],
             [false],
         ];
+    }
+
+    public function testLoadComments(): void
+    {
+        $phpWord = IOFactory::load(dirname(__DIR__, 1) . '/_files/documents/reader-comments.docx');
+
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        self::assertEquals(2, $phpWord->getComments()->countItems());
+
+        /** @var Comment $comment */
+        $comment = $phpWord->getComments()->getItem(0);
+        self::assertInstanceOf(Comment::class, $comment);
+        self::assertEquals('shaedrich', $comment->getAuthor());
+        self::assertEquals(new DateTime('2021-10-28T13:56:55Z'), $comment->getDate());
+        self::assertEquals('SH', $comment->getInitials());
+        self::assertCount(1, $comment->getElements());
+        self::assertInstanceOf(Text::class, $comment->getElement(0));
+        self::assertEquals('This this be lowercase', $comment->getElement(0)->getText());
+        /** @var Font $fontStyle */
+        $fontStyle = $comment->getElement(0)->getFontStyle();
+        self::assertInstanceOf(Font::class, $fontStyle);
+        self::assertEquals('de-DE', $fontStyle->getLang()->getLatin());
+
+        /** @var Comment $comment */
+        $comment = $phpWord->getComments()->getItem(1);
+        self::assertInstanceOf(Comment::class, $comment);
+        self::assertEquals('shaedrich', $comment->getAuthor());
+        self::assertEquals(new DateTime('2021-11-02T19:10:00Z'), $comment->getDate());
+        self::assertEquals('SH', $comment->getInitials());
+        self::assertCount(1, $comment->getElements());
+        self::assertInstanceOf(Text::class, $comment->getElement(0));
+        self::assertEquals('But this should be uppercase', $comment->getElement(0)->getText());
+        /** @var Font $fontStyle */
+        $fontStyle = $comment->getElement(0)->getFontStyle();
+        self::assertInstanceOf(Font::class, $fontStyle);
+        self::assertEquals('de-DE', $fontStyle->getLang()->getLatin());
     }
 }

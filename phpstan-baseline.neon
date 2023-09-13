@@ -231,11 +231,6 @@ parameters:
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php
 
 		-
-			message: "#^Call to method setChangeInfo\\(\\) on an unknown class PhpOffice\\\\PhpWord\\\\Reader\\\\Word2007\\\\AbstractElement\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/Word2007/AbstractPart.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Reader\\\\Word2007\\\\AbstractPart\\:\\:getHeadingDepth\\(\\) never returns float so it can be removed from the return type\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php
@@ -247,11 +242,6 @@ parameters:
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Reader\\\\Word2007\\\\AbstractPart\\:\\:read\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/Word2007/AbstractPart.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$element contains unknown class PhpOffice\\\\PhpWord\\\\Reader\\\\Word2007\\\\AbstractElement\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php
 
