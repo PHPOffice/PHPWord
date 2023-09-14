@@ -2076,6 +2076,11 @@ Search.appendIndex(
             "summary": "Get\u0020Title\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#method_getStyle"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003AgetPageNumber\u0028\u0029",
+            "name": "getPageNumber",
+            "summary": "Get\u0020page\u0020number.",
+            "url": "classes/PhpOffice-PhpWord-Element-Title.html#method_getPageNumber"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003A\u0024text",
             "name": "text",
             "summary": "Title\u0020Text\u0020content.",
@@ -2095,6 +2100,11 @@ Search.appendIndex(
             "name": "collectionRelation",
             "summary": "Is\u0020part\u0020of\u0020collection.",
             "url": "classes/PhpOffice-PhpWord-Element-Title.html#property_collectionRelation"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Title\u003A\u003A\u0024pageNumber",
+            "name": "pageNumber",
+            "summary": "Page\u0020number.",
+            "url": "classes/PhpOffice-PhpWord-Element-Title.html#property_pageNumber"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TOC",
             "name": "TOC",

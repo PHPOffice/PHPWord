@@ -245,6 +245,13 @@
 <dd>Depth of table container nested level; Primarily used for RTF writer/reader.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/PhpOffice-PhpWord-Element-Title.html#property_pageNumber">$pageNumber</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+<dd>Page number.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_parent">$parent</a>
     <span>
                         &nbsp;: null|<a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>            </span>
@@ -349,6 +356,13 @@
                                 &nbsp;: int    </span>
 </dt>
 <dd>Get nested level.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Element-Title.html#method_getPageNumber">getPageNumber()</a>
+    <span>
+                                &nbsp;: int|null    </span>
+</dt>
+<dd>Get page number.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getParent">getParent()</a>
@@ -984,6 +998,40 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="property_pageNumber">
+        $pageNumber
+        <a href="classes/PhpOffice-PhpWord-Element-Title.html#property_pageNumber" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Title.php"><a href="files/src-phpword-element-title.html"><abbr title="src/PhpWord/Element/Title.php">Title.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">62</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Page number.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">$pageNumber</span>
+    </code>
+
+    
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="property_parent">
         $parent
         <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_parent" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1169,7 +1217,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Title.php"><a href="files/src-phpword-element-title.html"><abbr title="src/PhpWord/Element/Title.php">Title.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">63</span>
+    <span class="phpdocumentor-element-found-in__line">70</span>
 
     </aside>
 
@@ -1177,7 +1225,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/PhpOffice-PhpWord-Element-TextRun.html"><abbr title="\PhpOffice\PhpWord\Element\TextRun">TextRun</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$text</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$depth</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/PhpOffice-PhpWord-Element-TextRun.html"><abbr title="\PhpOffice\PhpWord\Element\TextRun">TextRun</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$text</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$depth</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pageNumber</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1195,6 +1243,13 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
                 <span class="phpdocumentor-signature__argument__name">$depth</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                  = <span class="phpdocumentor-signature__argument__default-value">1</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$pageNumber</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1290,7 +1345,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Title.php"><a href="files/src-phpword-element-title.html"><abbr title="src/PhpWord/Element/Title.php">Title.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">95</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 
     </aside>
 
@@ -1498,6 +1553,42 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getPageNumber">
+        getPageNumber()
+        <a href="classes/PhpOffice-PhpWord-Element-Title.html#method_getPageNumber" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Title.php"><a href="files/src-phpword-element-title.html"><abbr title="src/PhpWord/Element/Title.php">Title.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">124</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get page number.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getPageNumber</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getParent">
         getParent()
         <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getParent" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1650,7 +1741,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Title.php"><a href="files/src-phpword-element-title.html"><abbr title="src/PhpWord/Element/Title.php">Title.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">105</span>
+    <span class="phpdocumentor-element-found-in__line">116</span>
 
     </aside>
 
@@ -1686,7 +1777,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Element/Title.php"><a href="files/src-phpword-element-title.html"><abbr title="src/PhpWord/Element/Title.php">Title.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">85</span>
+    <span class="phpdocumentor-element-found-in__line">96</span>
 
     </aside>
 
@@ -2590,6 +2681,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
                                                     <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_sectionId">$sectionId<a href="classes/PhpOffice-PhpWord-Element-Title.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Element-Title.html#property_depth">$depth<a href="classes/PhpOffice-PhpWord-Element-Title.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_nestedLevel">$nestedLevel<a href="classes/PhpOffice-PhpWord-Element-Title.html"></li>
+                                                    <li><a href="classes/PhpOffice-PhpWord-Element-Title.html#property_pageNumber">$pageNumber<a href="classes/PhpOffice-PhpWord-Element-Title.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_parent">$parent<a href="classes/PhpOffice-PhpWord-Element-Title.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_parentContainer">$parentContainer<a href="classes/PhpOffice-PhpWord-Element-Title.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Element-Title.html#property_style">$style<a href="classes/PhpOffice-PhpWord-Element-Title.html"></li>
@@ -2610,6 +2702,7 @@ AUTO, FIRST, and EVEN (AUTO = ODD)</p>
                                             <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getElementId">getElementId()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getElementIndex">getElementIndex()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getNestedLevel">getNestedLevel()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Element-Title.html#method_getPageNumber">getPageNumber()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getParent">getParent()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getPhpWord">getPhpWord()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getRelationId">getRelationId()</a></li>

@@ -1843,14 +1843,16 @@ If <code>depth</code> is 0, a Title will be inserted, otherwise a Heading1, Head
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addTitleStyle</span><span class="p">(</span><span class="nv">$depth</span><span class="p">,</span> <span class="p">[</span><span class="nv">$fontStyle</span><span class="p">],</span> <span class="p">[</span><span class="nv">$paragraphStyle</span><span class="p">]);</span>
-<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addTitle</span><span class="p">(</span><span class="nv">$text</span><span class="p">,</span> <span class="p">[</span><span class="nv">$depth</span><span class="p">]);</span>
+<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addTitle</span><span class="p">(</span><span class="nv">$text</span><span class="p">,</span> <span class="nv">$depth</span><span class="p">,</span> <span class="nv">$pageNumber</span><span class="p">);</span>
 </code></pre></div>
-<ul>
-<li><code>depth</code>.</li>
-<li><code>$fontStyle</code>. See <a href="../styles/font.html"><code>Styles &gt; Font</code></a>.</li>
-<li><code>$paragraphStyle</code>. See <a href="../styles/paragraph.html"><code>Styles &gt; Paragraph</code></a>.</li>
-<li><code>$text</code>. Text to be displayed in the document. This can be <code>string</code> or a <code>\PhpOffice\PhpWord\Element\TextRun</code></li>
-</ul>
+<p><code>addTitleStyle</code> :
+- <code>$depth</code>
+- <code>$fontStyle</code>: See <a href="../styles/font.html"><code>Styles &gt; Font</code></a>.
+- <code>$paragraphStyle</code>: See <a href="../styles/paragraph.html"><code>Styles &gt; Paragraph</code></a>.</p>
+<p><code>addTitle</code> :
+- <code>$text</code>. Text to be displayed in the document. This can be <code>string</code> or a <code>\PhpOffice\PhpWord\Element\TextRun</code>
+- <code>$depth</code>
+- <code>$pageNumber</code> : Number of the page</p>
 <p>It's necessary to add a title style to your document because otherwise the title won't be detected as a real title.</p>
 
 
