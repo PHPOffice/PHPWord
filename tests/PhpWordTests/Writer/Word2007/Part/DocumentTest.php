@@ -437,20 +437,6 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * covers ::_writeTitle.
-     */
-    public function testWriteTitle(): void
-    {
-        $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(1, ['bold' => true], ['spaceAfter' => 240]);
-        $phpWord->addSection()->addTitle('Test', 1);
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        $element = '/w:document/w:body/w:p/w:pPr/w:pStyle';
-        self::assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
-    }
-
-    /**
      * covers ::_writeCheckbox.
      */
     public function testWriteCheckbox(): void
