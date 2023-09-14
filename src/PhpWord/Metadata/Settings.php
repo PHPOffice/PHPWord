@@ -161,6 +161,13 @@ class Settings
     private $doNotHyphenateCaps;
 
     /**
+     * Enable or disable book-folded printing.
+     *
+     * @var bool
+     */
+    private $bookFoldPrinting = false;
+
+    /**
      * @return Protection
      */
     public function getDocumentProtection()
@@ -480,5 +487,17 @@ class Settings
     public function setDoNotHyphenateCaps($doNotHyphenateCaps): void
     {
         $this->doNotHyphenateCaps = (bool) $doNotHyphenateCaps;
+    }
+
+    public function hasBookFoldPrinting(): bool
+    {
+        return $this->bookFoldPrinting;
+    }
+
+    public function setBookFoldPrinting(bool $bookFoldPrinting): self
+    {
+        $this->bookFoldPrinting = $bookFoldPrinting;
+
+        return $this;
     }
 }

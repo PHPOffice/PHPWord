@@ -38,6 +38,8 @@ You can define options like :
 Options must be defined before creating the writer.
 
 ``` php
+<?php
+
 use PhpOffice\PhpWord\Settings;
 
 Settings::setPdfRendererOptions([
