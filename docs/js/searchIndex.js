@@ -2941,6 +2941,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_setDoNotHyphenateCaps"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AhasBookFoldPrinting\u0028\u0029",
+            "name": "hasBookFoldPrinting",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_hasBookFoldPrinting"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003AsetBookFoldPrinting\u0028\u0029",
+            "name": "setBookFoldPrinting",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#method_setBookFoldPrinting"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024zoom",
             "name": "zoom",
             "summary": "Magnification\u0020Setting.",
@@ -3030,6 +3040,11 @@ Search.appendIndex(
             "name": "doNotHyphenateCaps",
             "summary": "Do\u0020not\u0020hyphenate\u0020words\u0020in\u0020all\u0020capital\u0020letters.",
             "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_doNotHyphenateCaps"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Metadata\\Settings\u003A\u003A\u0024bookFoldPrinting",
+            "name": "bookFoldPrinting",
+            "summary": "Enable\u0020or\u0020disable\u0020book\u002Dfolded\u0020printing.",
+            "url": "classes/PhpOffice-PhpWord-Metadata-Settings.html#property_bookFoldPrinting"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord",
             "name": "PhpWord",

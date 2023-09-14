@@ -2020,14 +2020,16 @@
 <p>You can define options like :
 * <code>font</code>: default font</p>
 <p>Options must be defined before creating the writer.</p>
-<div class="highlight"><pre><span></span><code><span class="x">use PhpOffice\PhpWord\Settings;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">Settings::setPdfRendererOptions([</span>
-<span class="x">    &#39;font&#39; =&gt; &#39;Arial&#39;</span>
-<span class="x">]);</span>
+<span class="k">use</span> <span class="nx">PhpOffice\PhpWord\Settings</span><span class="p">;</span>
 
-<span class="x">$writer = IOFactory::createWriter($oPhpWord, &#39;PDF&#39;);</span>
-<span class="x">$writer-&gt;save(__DIR__ . &#39;/sample.pdf&#39;);</span>
+<span class="nx">Settings</span><span class="o">::</span><span class="na">setPdfRendererOptions</span><span class="p">([</span>
+    <span class="s1">&#39;font&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Arial&#39;</span>
+<span class="p">]);</span>
+
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;PDF&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.pdf&#39;</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="rtf">RTF</h2>
 <p>The name of the writer is <code>RTF</code>.</p>

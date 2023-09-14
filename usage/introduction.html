@@ -423,6 +423,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#printing-as-folded-booklet" class="md-nav__link">
+    Printing as folded booklet
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#spelling-and-grammatical-checks" class="md-nav__link">
     Spelling and grammatical checks
   </a>
@@ -2111,6 +2118,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#printing-as-folded-booklet" class="md-nav__link">
+    Printing as folded booklet
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#spelling-and-grammatical-checks" class="md-nav__link">
     Spelling and grammatical checks
   </a>
@@ -2360,6 +2374,28 @@ default font by using the following two functions:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">getSettings</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setMirrorMargins</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+</code></pre></div>
+<div class="admonition note annotate">
+<p class="admonition-title">Don't forget to set both paper size and page size</p>
+<p>For example, to print a document on A4 paper (landscape) and fold it into A5 pages (portrait), use this section style:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">use</span> <span class="nx">PhpOffice\PhpWord\Shared\Converter</span><span class="p">;</span>
+
+<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">getSettings</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setMirrorMargins</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">([</span>
+    <span class="s1">&#39;paperSize&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;A4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;orientation&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;landscape&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;pageSizeW&#39;</span> <span class="o">=&gt;</span> <span class="nx">Converter</span><span class="o">::</span><span class="na">cmToTwip</span><span class="p">(</span><span class="mf">14.85</span><span class="p">),</span>
+    <span class="s1">&#39;pageSizeH&#39;</span> <span class="o">=&gt;</span> <span class="nx">Converter</span><span class="o">::</span><span class="na">cmToTwip</span><span class="p">(</span><span class="mi">21</span><span class="p">),</span>
+<span class="p">]);</span>
+</code></pre></div>
+</div>
+<h3 id="printing-as-folded-booklet">Printing as folded booklet</h3>
+<p>Use book-fold printing to set up documents to be printed as foldable pages.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">getSettings</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setBookFoldPrinting</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="spelling-and-grammatical-checks">Spelling and grammatical checks</h3>
 <p>By default spelling and grammatical errors are shown as soon as you open a word document.
