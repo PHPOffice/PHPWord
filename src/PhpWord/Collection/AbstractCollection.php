@@ -79,7 +79,7 @@ abstract class AbstractCollection
      */
     public function addItem($item)
     {
-        $index = $this->countItems() + 1;
+        $index = $this->countItems();
         $this->items[$index] = $item;
 
         return $index;

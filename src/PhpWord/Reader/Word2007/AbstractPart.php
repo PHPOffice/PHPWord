@@ -19,8 +19,10 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use DateTime;
 use DOMElement;
+use InvalidArgumentException;
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\AbstractElement;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
@@ -66,6 +68,13 @@ abstract class AbstractPart
      * @var array
      */
     protected $rels = [];
+
+    /**
+     * Comment references.
+     *
+     * @var array<string, array<string, AbstractElement>>
+     */
+    protected $commentRefs = [];
 
     /**
      * Image Loading.
@@ -114,6 +123,62 @@ abstract class AbstractPart
     }
 
     /**
+     * Get comment references.
+     *
+     * @return array<string, array<string, null|AbstractElement>>
+     */
+    public function getCommentReferences(): array
+    {
+        return $this->commentRefs;
+    }
+
+    /**
+     * Set comment references.
+     *
+     * @param array<string, array<string, null|AbstractElement>> $commentRefs
+     */
+    public function setCommentReferences(array $commentRefs): self
+    {
+        $this->commentRefs = $commentRefs;
+
+        return $this;
+    }
+
+    /**
+     * Set comment reference.
+     */
+    private function setCommentReference(string $type, string $id, AbstractElement $element): self
+    {
+        if (!in_array($type, ['start', 'end'])) {
+            throw new InvalidArgumentException('Type must be "start" or "end"');
+        }
+
+        if (!array_key_exists($id, $this->commentRefs)) {
+            $this->commentRefs[$id] = [
+                'start' => null,
+                'end' => null,
+            ];
+        }
+        $this->commentRefs[$id][$type] = $element;
+
+        return $this;
+    }
+
+    /**
+     * Get comment reference.
+     *
+     * @return array<string, null|AbstractElement>
+     */
+    protected function getCommentReference(string $id): array
+    {
+        if (!array_key_exists($id, $this->commentRefs)) {
+            throw new InvalidArgumentException(sprintf('Comment with id %s isn\'t referenced in document', $id));
+        }
+
+        return $this->commentRefs[$id];
+    }
+
+    /**
      * Read w:p.
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
@@ -126,6 +191,19 @@ abstract class AbstractPart
         // Paragraph style
         $paragraphStyle = null;
         $headingDepth = null;
+        if ($xmlReader->elementExists('w:commentReference', $domNode)
+            || $xmlReader->elementExists('w:commentRangeStart', $domNode)
+            || $xmlReader->elementExists('w:commentRangeEnd', $domNode)
+        ) {
+            $nodes = $xmlReader->getElements('w:commentReference|w:commentRangeStart|w:commentRangeEnd', $domNode);
+            $node = current(iterator_to_array($nodes));
+            if ($node) {
+                $attributeIdentifier = $node->attributes->getNamedItem('id');
+                if ($attributeIdentifier) {
+                    $id = $attributeIdentifier->nodeValue;
+                }
+            }
+        }
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
             $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
             $headingDepth = $this->getHeadingDepth($paragraphStyle);
@@ -182,7 +260,7 @@ abstract class AbstractPart
             $parent->addTitle($textContent, $headingDepth);
         } else {
             // Text and TextRun
-            $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag', $domNode);
+            $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag|w:commentReference|w:commentRangeStart|w:commentRangeEnd', $domNode);
             if (0 === $textRunContainers) {
                 $parent->addTextBreak(null, $paragraphStyle);
             } else {
@@ -230,7 +308,7 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart, $paragraphStyle = null): void
     {
-        if (in_array($domNode->nodeName, ['w:ins', 'w:del', 'w:smartTag', 'w:hyperlink'])) {
+        if (in_array($domNode->nodeName, ['w:ins', 'w:del', 'w:smartTag', 'w:hyperlink', 'w:commentReference'])) {
             $nodes = $xmlReader->getElements('*', $domNode);
             foreach ($nodes as $node) {
                 $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
@@ -240,6 +318,17 @@ abstract class AbstractPart
             $nodes = $xmlReader->getElements('*', $domNode);
             foreach ($nodes as $node) {
                 $this->readRunChild($xmlReader, $node, $parent, $docPart, $paragraphStyle, $fontStyle);
+            }
+        }
+
+        if ($xmlReader->elementExists('.//*["commentReference"=local-name()]', $domNode)) {
+            $node = iterator_to_array($xmlReader->getElements('.//*["commentReference"=local-name()]', $domNode))[0];
+            $attributeIdentifier = $node->attributes->getNamedItem('id');
+            if ($attributeIdentifier) {
+                $id = $attributeIdentifier->nodeValue;
+
+                $this->setCommentReference('start', $id, $parent->getElement($parent->countElements() - 1));
+                $this->setCommentReference('end', $id, $parent->getElement($parent->countElements() - 1));
             }
         }
     }
@@ -339,6 +428,7 @@ abstract class AbstractPart
                     $type = ($runParent->nodeName == 'w:del') ? TrackChange::DELETED : TrackChange::INSERTED;
                     $author = $runParent->getAttribute('w:author');
                     $date = DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $runParent->getAttribute('w:date'));
+                    $date = $date instanceof DateTime ? $date : null;
                     $element->setChangeInfo($type, $author, $date);
                 }
             }
