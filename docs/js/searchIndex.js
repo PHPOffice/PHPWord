@@ -3111,6 +3111,21 @@ Search.appendIndex(
             "summary": "Save\u0020to\u0020file\u0020or\u0020download.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_save"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AcreateSection\u0028\u0029",
+            "name": "createSection",
+            "summary": "Create\u0020new\u0020section.",
+            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_createSection"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetDocumentProperties\u0028\u0029",
+            "name": "getDocumentProperties",
+            "summary": "Get\u0020document\u0020properties\u0020object.",
+            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getDocumentProperties"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AsetDocumentProperties\u0028\u0029",
+            "name": "setDocumentProperties",
+            "summary": "Set\u0020document\u0020properties\u0020object.",
+            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_setDocumentProperties"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003A\u0024sections",
             "name": "sections",
             "summary": "Collection\u0020of\u0020sections.",
@@ -3731,6 +3746,26 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_hasImageLoading"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AgetCommentReferences\u0028\u0029",
+            "name": "getCommentReferences",
+            "summary": "Get\u0020comment\u0020references.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getCommentReferences"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AsetCommentReferences\u0028\u0029",
+            "name": "setCommentReferences",
+            "summary": "Set\u0020comment\u0020references.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_setCommentReferences"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AsetCommentReference\u0028\u0029",
+            "name": "setCommentReference",
+            "summary": "Set\u0020comment\u0020reference.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_setCommentReference"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AgetCommentReference\u0028\u0029",
+            "name": "getCommentReference",
+            "summary": "Get\u0020comment\u0020reference.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getCommentReference"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadParagraph\u0028\u0029",
             "name": "readParagraph",
             "summary": "Read\u0020w\u003Ap.",
@@ -3861,10 +3896,30 @@ Search.appendIndex(
             "summary": "Part\u0020relationships.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#property_rels"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003A\u0024commentRefs",
+            "name": "commentRefs",
+            "summary": "Comment\u0020references.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#property_commentRefs"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003A\u0024imageLoading",
             "name": "imageLoading",
             "summary": "Image\u0020Loading.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#property_imageLoading"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Comments",
+            "name": "Comments",
+            "summary": "Abstract\u0020part\u0020reader.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Comments.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Comments\u003A\u003Aread\u0028\u0029",
+            "name": "read",
+            "summary": "Read\u0020settings.xml.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Comments.html#method_read"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Comments\u003A\u003A\u0024collection",
+            "name": "collection",
+            "summary": "Collection\u0020name\u0020comments.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Comments.html#property_collection"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\DocPropsApp",
             "name": "DocPropsApp",
