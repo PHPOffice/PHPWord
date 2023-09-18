@@ -91,10 +91,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
     /**
      * Save document by name.
-     *
-     * @param string $filename
      */
-    public function save($filename = null): void
+    public function save(string $filename): void
     {
         $filename = $this->getTempFile($filename);
         $zip = $this->getZipArchive($filename);

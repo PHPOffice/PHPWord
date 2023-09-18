@@ -56,10 +56,8 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Save content to file.
-     *
-     * @param string $filename
      */
-    public function save($filename = null): void
+    public function save(string $filename): void
     {
         $this->writeFile($this->openFile($filename), $this->getContent());
     }
