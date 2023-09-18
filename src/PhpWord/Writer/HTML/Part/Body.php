@@ -40,9 +40,18 @@ class Body extends AbstractPart
 
         $content .= '<body>' . PHP_EOL;
         $sections = $phpWord->getSections();
+        $secno = 0;
+        $tcpdf = $this->getParentWriter()->isTcpdf();
         foreach ($sections as $section) {
+            ++$secno;
+            if ($tcpdf && $secno > 1) {
+                $content .= "<div style=\"page: page$secno; page-break-before:always;\">" . PHP_EOL;
+            } else {
+                $content .= "<div style='page: page$secno'>" . PHP_EOL;
+            }
             $writer = new Container($this->getParentWriter(), $section);
             $content .= $writer->write();
+            $content .= '</div>' . PHP_EOL;
         }
 
         $content .= $this->writeNotes();

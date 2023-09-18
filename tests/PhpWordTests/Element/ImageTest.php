@@ -88,7 +88,7 @@ class ImageTest extends AbstractWebServerEmbeddedTest
         self::assertNotNull($image->getImageStringData());
     }
 
-    public function providerImages(): array
+    public static function providerImages(): array
     {
         return [
             ['mars.jpg', 'image/jpeg', 'jpg', 'imagecreatefromjpeg', true, 100],

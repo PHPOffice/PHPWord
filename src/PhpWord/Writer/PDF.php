@@ -73,4 +73,9 @@ class PDF
 
         return call_user_func_array([$this->renderer, $name], $arguments);
     }
+
+    public function save(string $filename): void
+    {
+        $this->renderer->save($filename);
+    }
 }

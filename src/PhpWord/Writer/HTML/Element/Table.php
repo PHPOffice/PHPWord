@@ -51,10 +51,10 @@ class Table extends AbstractElement
                 $rowCellCount = count($rowCells);
                 for ($j = 0; $j < $rowCellCount; ++$j) {
                     $cellStyle = $rowCells[$j]->getStyle();
+                    $cellStyleCss = self::getTableStyle($cellStyle);
                     $cellBgColor = $cellStyle->getBgColor();
-                    $cellBgColor === 'auto' && $cellBgColor = null; // auto cannot be parsed to hexadecimal number
                     $cellFgColor = null;
-                    if ($cellBgColor) {
+                    if ($cellBgColor && $cellBgColor !== 'auto') {
                         $red = hexdec(substr($cellBgColor, 0, 2));
                         $green = hexdec(substr($cellBgColor, 2, 2));
                         $blue = hexdec(substr($cellBgColor, 4, 2));
@@ -67,12 +67,8 @@ class Table extends AbstractElement
                     if ($cellVMerge === 'restart') {
                         for ($k = $i + 1; $k < $rowCount; ++$k) {
                             $kRowCells = $rows[$k]->getCells();
-                            if (isset($kRowCells[$j])) {
-                                if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
-                                    ++$cellRowSpan;
-                                } else {
-                                    break;
-                                }
+                            if (isset($kRowCells[$j]) && $kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
+                                ++$cellRowSpan;
                             } else {
                                 break;
                             }
@@ -83,22 +79,18 @@ class Table extends AbstractElement
                         $cellTag = $tblHeader ? 'th' : 'td';
                         $cellColSpanAttr = (is_numeric($cellColSpan) && ($cellColSpan > 1) ? " colspan=\"{$cellColSpan}\"" : '');
                         $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
-                        $cellBgColorAttr = (null === $cellBgColor ? '' : " bgcolor=\"#{$cellBgColor}\"");
-                        $cellFgColorAttr = (null === $cellFgColor ? '' : " color=\"#{$cellFgColor}\"");
-                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
+                        $cellBgColorAttr = (empty($cellBgColor) ? '' : " bgcolor=\"#{$cellBgColor}\"");
+                        $cellFgColorAttr = (empty($cellFgColor) ? '' : " color=\"#{$cellFgColor}\"");
+                        $content .= "<{$cellTag}{$cellStyleCss}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);
                         $content .= $writer->write();
                         if ($cellRowSpan > 1) {
                             // There shouldn't be any content in the subsequent merged cells, but lets check anyway
                             for ($k = $i + 1; $k < $rowCount; ++$k) {
                                 $kRowCells = $rows[$k]->getCells();
-                                if (isset($kRowCells[$j])) {
-                                    if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
-                                        $writer = new Container($this->parentWriter, $kRowCells[$j]);
-                                        $content .= $writer->write();
-                                    } else {
-                                        break;
-                                    }
+                                if (isset($kRowCells[$j]) && $kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
+                                    $writer = new Container($this->parentWriter, $kRowCells[$j]);
+                                    $content .= $writer->write();
                                 } else {
                                     break;
                                 }
@@ -118,26 +110,82 @@ class Table extends AbstractElement
     /**
      * Translates Table style in CSS equivalent.
      *
-     * @param null|\PhpOffice\PhpWord\Style\Table|string $tableStyle
+     * @param null|\PhpOffice\PhpWord\Style\Cell|\PhpOffice\PhpWord\Style\Table|string $tableStyle
      *
      * @return string
      */
-    private function getTableStyle($tableStyle = null)
+    private static function getTableStyle($tableStyle = null)
     {
         if ($tableStyle == null) {
             return '';
         }
         if (is_string($tableStyle)) {
             $style = ' class="' . $tableStyle;
-        } else {
-            $style = ' style="';
+
+            return $style . '"';
+        }
+
+        $style = self::getTableStyleString($tableStyle);
+        if ($style === '') {
+            return '';
+        }
+
+        return ' style="' . $style . '"';
+    }
+
+    /**
+     * Translates Table style in CSS equivalent.
+     *
+     * @param \PhpOffice\PhpWord\Style\Cell|\PhpOffice\PhpWord\Style\Table|string $tableStyle
+     *
+     * @return string
+     */
+    public static function getTableStyleString($tableStyle)
+    {
+        $style = '';
+        if (is_object($tableStyle) && method_exists($tableStyle, 'getLayout')) {
             if ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED) {
                 $style .= 'table-layout: fixed;';
             } elseif ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO) {
                 $style .= 'table-layout: auto;';
             }
         }
+        if (is_object($tableStyle) && method_exists($tableStyle, 'isBidiVisual')) {
+            if ($tableStyle->isBidiVisual()) {
+                $style .= ' direction: rtl;';
+            }
+        }
 
-        return $style . '"';
+        $dirs = ['Top', 'Left', 'Bottom', 'Right'];
+        $testmethprefix = 'getBorder';
+        foreach ($dirs as $dir) {
+            $testmeth = $testmethprefix . $dir . 'Style';
+            if (method_exists($tableStyle, $testmeth)) {
+                $outval = $tableStyle->{$testmeth}();
+                if ($outval === 'single') {
+                    $outval = 'solid';
+                }
+                if (is_string($outval) && 1 == preg_match('/^[a-z]+$/', $outval)) {
+                    $style .= ' border-' . lcfirst($dir) . '-style: ' . $outval . ';';
+                }
+            }
+            $testmeth = $testmethprefix . $dir . 'Color';
+            if (method_exists($tableStyle, $testmeth)) {
+                $outval = $tableStyle->{$testmeth}();
+                if (is_string($outval) && 1 == preg_match('/^[a-z]+$/', $outval)) {
+                    $style .= ' border-' . lcfirst($dir) . '-color: ' . $outval . ';';
+                }
+            }
+            $testmeth = $testmethprefix . $dir . 'Size';
+            if (method_exists($tableStyle, $testmeth)) {
+                $outval = $tableStyle->{$testmeth}();
+                if (is_numeric($outval)) {
+                    // size is in twips - divide by 20 to get points
+                    $style .= ' border-' . lcfirst($dir) . '-width: ' . ((string) ($outval / 20)) . 'pt;';
+                }
+            }
+        }
+
+        return $style;
     }
 }

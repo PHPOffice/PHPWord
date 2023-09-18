@@ -104,17 +104,15 @@ class XMLReader
     public function getElements($path, ?DOMElement $contextNode = null)
     {
         if ($this->dom === null) {
-            return new DOMNodeList();
+            return new DOMNodeList(); // @phpstan-ignore-line
         }
         if ($this->xpath === null) {
             $this->xpath = new DOMXpath($this->dom);
         }
 
-        if (null === $contextNode) {
-            return $this->xpath->query($path);
-        }
+        $result = @$this->xpath->query($path, $contextNode);
 
-        return $this->xpath->query($path, $contextNode);
+        return empty($result) ? new DOMNodeList() : $result; // @phpstan-ignore-line
     }
 
     /**

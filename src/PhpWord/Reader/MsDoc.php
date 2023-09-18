@@ -58,16 +58,6 @@ class MsDoc extends AbstractReader implements ReaderInterface
     private $dataObjectPool;
 
     /**
-     * Object Stream.
-     */
-    private $_SummaryInformation;
-
-    /**
-     * Object Stream.
-     */
-    private $_DocumentSummaryInformation;
-
-    /**
      * @var stdClass[]
      */
     private $arrayCharacters = [];
@@ -91,6 +81,12 @@ class MsDoc extends AbstractReader implements ReaderInterface
      * @var stdClass[]
      */
     private $arraySections = [];
+
+    /** @var string */
+    private $summaryInformation;
+
+    /** @var string */
+    private $documentSummaryInformation;
 
     const VERSION_97 = '97';
     const VERSION_2000 = '2000';
@@ -160,9 +156,9 @@ class MsDoc extends AbstractReader implements ReaderInterface
         // Get Data stream
         $this->dataObjectPool = $ole->getStream($ole->wrkObjectPool);
         // Get Summary Information data
-        $this->_SummaryInformation = $ole->getStream($ole->summaryInformation);
+        $this->summaryInformation = $ole->getStream($ole->summaryInformation);
         // Get Document Summary Information data
-        $this->_DocumentSummaryInformation = $ole->getStream($ole->docSummaryInfos);
+        $this->documentSummaryInformation = $ole->getStream($ole->docSummaryInfos);
     }
 
     private function getNumInLcb($lcb, $iSize)
@@ -1141,7 +1137,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
     /**
      * Section and information about them.
      *
-     * @see http://msdn.microsoft.com/en-us/library/dd924458%28v=office.12%29.aspx
+     * @see  : http://msdn.microsoft.com/en-us/library/dd924458%28v=office.12%29.aspx
      */
     private function readRecordPlcfSed(): void
     {
@@ -1187,7 +1183,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
     /**
      * Specifies the fonts that are used in the document.
      *
-     * @see http://msdn.microsoft.com/en-us/library/dd943880%28v=office.12%29.aspx
+     * @see  : http://msdn.microsoft.com/en-us/library/dd943880%28v=office.12%29.aspx
      */
     private function readRecordSttbfFfn(): void
     {
@@ -1271,7 +1267,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
             }
             $arrayRGB = [];
             for ($inc = 1; $inc <= $numRun; ++$inc) {
-                //@see  http://msdn.microsoft.com/en-us/library/dd925804(v=office.12).aspx
+                // @see  http://msdn.microsoft.com/en-us/library/dd925804(v=office.12).aspx
                 $arrayRGB[$inc] = self::getInt1d($this->dataWorkDocument, $offset);
                 ++$offset;
                 // reserved
@@ -1478,7 +1474,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
         $offset = $offsetBase;
 
         // ChpxFkp
-        //@see  : http://msdn.microsoft.com/en-us/library/dd910989%28v=office.12%29.aspx
+        // @see  : http://msdn.microsoft.com/en-us/library/dd910989%28v=office.12%29.aspx
         $numRGFC = self::getInt1d($this->dataWorkDocument, $offset + 511);
         $arrayRGFC = [];
         for ($inc = 0; $inc <= $numRGFC; ++$inc) {
@@ -1501,7 +1497,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
 
             if ($rgb > 0) {
                 // Chp Structure
-                //@see  : http://msdn.microsoft.com/en-us/library/dd772849%28v=office.12%29.aspx
+                // @see  : http://msdn.microsoft.com/en-us/library/dd772849%28v=office.12%29.aspx
                 $posRGB = $offsetBase + $rgb * 2;
 
                 $cb = self::getInt1d($this->dataWorkDocument, $posRGB);

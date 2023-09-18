@@ -93,7 +93,8 @@ class TOC extends AbstractElement
             $styleWriter->write();
         }
         $xmlWriter->startElement('w:t');
-        $this->writeText($title->getText());
+        $titleText = $title->getText();
+        $this->writeText(is_string($titleText) ? $titleText : '');
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
@@ -141,8 +142,10 @@ class TOC extends AbstractElement
 
     /**
      * Write style.
+     *
+     * @param float|int $indent
      */
-    private function writeStyle(XMLWriter $xmlWriter, TOCElement $element, int $indent): void
+    private function writeStyle(XMLWriter $xmlWriter, TOCElement $element, $indent): void
     {
         $tocStyle = $element->getStyleTOC();
         $fontStyle = $element->getStyleFont();

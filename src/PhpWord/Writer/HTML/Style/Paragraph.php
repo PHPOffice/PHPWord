@@ -49,22 +49,30 @@ class Paragraph extends AbstractStyle
 
                     break;
                 case Jc::END:
+                    $textAlign = ($style->isBidi()) ? 'left' : 'right';
+
+                    break;
                 case Jc::MEDIUM_KASHIDA:
                 case Jc::HIGH_KASHIDA:
                 case Jc::LOW_KASHIDA:
-                case Jc::RIGHT:
+                case /** @scrutinizer ignore-deprecated */ Jc::RIGHT:
                     $textAlign = 'right';
 
                     break;
                 case Jc::BOTH:
                 case Jc::DISTRIBUTE:
                 case Jc::THAI_DISTRIBUTE:
-                case Jc::JUSTIFY:
+                case /** @scrutinizer ignore-deprecated */ Jc::JUSTIFY:
                     $textAlign = 'justify';
 
                     break;
-                default: //all others, align left
+                case /** @scrutinizer ignore-deprecated */ Jc::LEFT:
                     $textAlign = 'left';
+
+                    break;
+
+                default: //all others, including Jc::START
+                    $textAlign = ($style->isBidi()) ? 'right' : 'left';
 
                     break;
             }
@@ -79,9 +87,27 @@ class Paragraph extends AbstractStyle
             $after = $spacing->getAfter();
             $css['margin-top'] = $this->getValueIf(null !== $before, ($before / 20) . 'pt');
             $css['margin-bottom'] = $this->getValueIf(null !== $after, ($after / 20) . 'pt');
-        } else {
-            $css['margin-top'] = '0';
-            $css['margin-bottom'] = '0';
+        }
+
+        $lht = $style->getLineHeight();
+        if (!empty($lht)) {
+            $css['line-height'] = $lht;
+        }
+        $ind = $style->getIndentation();
+        if ($ind != null) {
+            $tcpdf = $this->getParentWriter()->isTcpdf();
+            $left = $ind->getLeft();
+            $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
+            $css[$tcpdf ? 'text-indent' : 'margin-left'] = ((string) $inches) . 'in';
+            $left = $ind->getRight();
+            $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
+            $css['margin-right'] = ((string) $inches) . 'in';
+        }
+        if ($style->hasPageBreakBefore()) {
+            $css['page-break-before'] = 'always';
+        }
+        if ($style->isBidi()) {
+            $css['direction'] = 'rtl';
         }
 
         return $this->assembleCss($css);

@@ -54,7 +54,7 @@ class IOFactoryTest extends TestCase
         self::assertInstanceOf($expected, $actual);
     }
 
-    public function providerCreateWriter(): iterable
+    public static function providerCreateWriter(): iterable
     {
         return [
             ['ODText', ODText::class],

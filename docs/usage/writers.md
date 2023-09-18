@@ -10,6 +10,15 @@ $writer = IOFactory::createWriter($oPhpWord, 'HTML');
 $writer->save(__DIR__ . '/sample.html');
 ```
 
+
+When generating html/pdf, you can alter the default handling of white space (normal),
+and/or supply a fallback generic font as follows:
+
+```php
+    $phpWord->setDefaultHtmlGenericFont('serif');
+    $phpWord->setDefaultHtmlWhiteSpace('pre-wrap');
+```
+
 ## ODText
 The name of the writer is `ODText`.
 

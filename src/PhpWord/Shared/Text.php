@@ -138,21 +138,24 @@ class Text
     /**
      * Return UTF8 encoded value.
      *
-     * @param string $value
+     * @param ?string $value
      *
-     * @return string
+     * @return ?string
      */
     public static function toUTF8($value = '')
     {
         if (null !== $value && !self::isUTF8($value)) {
-            if (PHP_VERSION_ID < 80200) {
-                $value = utf8_encode($value);
-            } else {
-                $value = mb_convert_encoding($value, 'UTF-8', mb_list_encodings());
-            }
+            // utf8_encode deprecated in php8.2, but mb_convert_encoding always usable
+            $value = (function_exists('mb_convert_encoding')) ? mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1') : utf8_encode($value);
         }
 
-        return $value;
+        return self::ensureStringOrNull($value);
+    }
+
+    /** @param null|array|string $value */
+    private static function ensureStringOrNull($value): ?string
+    {
+        return is_array($value) ? '' : $value;
     }
 
     /**

@@ -24,3 +24,5 @@ Available Font style options:
    See ``\PhpOffice\PhpWord\Style\Language`` class for some language codes.
 - ``position``. The text position, raised or lowered, in half points
 - ``hidden``. Hidden text, *true* or *false*.
+`htmlWhiteSpace``. How white space is handled when generating html/pdf. Possible values are *pre-wrap* and *normal* (other css values for white space are accepted, but are not expected to be useful).
+- ``htmlGenericFont``. Fallback generic font for html/pdf. Possible values are *sans-serif*, *serif*, and *monospace* (other css values for generic fonts are accepted).

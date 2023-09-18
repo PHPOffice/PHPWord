@@ -35,6 +35,9 @@ class Style
      */
     private static $styles = [];
 
+    /** @var ?bool */
+    private static $defaultRtl;
+
     /**
      * Add paragraph style.
      *
@@ -144,6 +147,7 @@ class Style
     public static function resetStyles(): void
     {
         self::$styles = [];
+        self::$defaultRtl = null;
     }
 
     /**
@@ -213,5 +217,17 @@ class Style
         }
 
         return self::getStyle($name);
+    }
+
+    /** @param ?bool $defaultRtl */
+    public static function setDefaultRtl($defaultRtl): void
+    {
+        self::$defaultRtl = $defaultRtl;
+    }
+
+    /** @return ?bool */
+    public static function getDefaultRtl()
+    {
+        return self::$defaultRtl;
     }
 }

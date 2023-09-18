@@ -157,6 +157,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
         // Test setter
         $text->getParagraphStyle()->setLineHeight(3.0);
+        TestHelperDOCX::clear();
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');
 

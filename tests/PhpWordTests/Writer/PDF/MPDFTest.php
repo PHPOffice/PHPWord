@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\PDF;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\PDF;
+use PhpOffice\PhpWord\Writer\PDF\MPDF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF\MPDF.
@@ -39,11 +40,16 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addText('Test 1');
         $section->addPageBreak();
+        $section->addText('Test 2');
+        $oSettings = new \PhpOffice\PhpWord\Style\Section();
+        $oSettings->setSettingValue('orientation', 'landscape');
+        $section = $phpWord->addSection($oSettings); // @phpstan-ignore-line
+        $section->addText('Section 2 - landscape');
 
-        $rendererName = Settings::PDF_RENDERER_MPDF;
-        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
-        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
-        $writer = new PDF($phpWord);
+        $writer = new MPDF($phpWord);
+        /** @var callable */
+        $callback = [self::class, 'editContent'];
+        $writer->setEditHtmlCallback($callback);
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -58,11 +64,30 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
     {
         $rendererName = Settings::PDF_RENDERER_MPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
-        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+        Settings::setPdfRenderer($rendererName, (string) $rendererLibraryPath);
         Settings::setPdfRendererOptions([
             'font' => 'Arial',
         ]);
         $writer = new PDF(new PhpWord());
         self::assertEquals('Arial', $writer->getFont());
+    }
+
+    // add a footer
+    public static function editContent(string $html): string
+    {
+        $afterBody = '<htmlpagefooter name="myFooter1"><div style=\'text-align: right;\'>{PAGENO}</div></htmlpagefooter>' . MPDF::SIMULATED_BODY_START;
+        $beforeBody = '<style>@page page1 {odd-footer-name: html_myFooter1;}</style>';
+        $needle = '</head>';
+        $pos = strpos($html, $needle);
+        if ($pos !== false) {
+            $html = (string) substr_replace($html, "$beforeBody\n$needle", $pos, strlen($needle));
+        }
+        $needle = '<body>';
+        $pos = strpos($html, $needle);
+        if ($pos !== false) {
+            $html = (string) substr_replace($html, "$needle\n$afterBody", $pos, strlen($needle));
+        }
+
+        return $html;
     }
 }

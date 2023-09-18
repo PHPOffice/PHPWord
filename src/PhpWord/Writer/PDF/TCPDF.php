@@ -17,6 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
@@ -34,6 +37,17 @@ class TCPDF extends AbstractRenderer implements WriterInterface
      * @var string
      */
     protected $includeFile = 'tcpdf.php';
+
+    /**
+     * Overridden to set isTcpdf.
+     *
+     * @codeCoverageIgnore
+     */
+    public function __construct(PhpWord $phpWord)
+    {
+        parent::__construct($phpWord);
+        $this->isTcpdf = true;
+    }
 
     /**
      * Gets the implementation of external PDF library that should be used.
@@ -56,16 +70,40 @@ class TCPDF extends AbstractRenderer implements WriterInterface
     }
 
     /**
-     * Save PhpWord to file.
-     *
-     * @param string $filename Name of the file to save as
+     * Overwriteable function to allow user to extend TCPDF.
+     * There should always be an AddPage call, preceded or followed
+     *   by code to customize TCPDF configuration.
+     * The customization below sets vertical spacing
+     *   between paragaraphs when the user has
+     *   explicitly set those values to numeric in default style.
      */
-    public function save($filename = null): void
+    protected function prepareToWrite(\TCPDF $pdf): void
+    {
+        $pdf->AddPage();
+        $customStyles = Style::getStyles();
+        $normal = $customStyles['Normal'] ?? null;
+        if ($normal instanceof Style\Paragraph) {
+            $before = $normal->getSpaceBefore();
+            $after = $normal->getSpaceAfter();
+            $height = $normal->getLineHeight() ?? '';
+            if (is_numeric($before) && is_numeric($after)) {
+                $tagvs = [
+                    'p' => [['n' => $before, 'h' => $height], ['n' => $after, 'h' => $height]],
+                ];
+                $pdf->setHtmlVSpace($tagvs);
+            }
+        }
+    }
+
+    /**
+     * Save PhpWord to file.
+     */
+    public function save(string $filename): void
     {
         $fileHandle = parent::prepareForSave($filename);
 
         //  PDF settings
-        $paperSize = 'A4';
+        $paperSize = strtoupper(Settings::getDefaultPaper());
         $orientation = 'P';
 
         // Create PDF
@@ -73,8 +111,8 @@ class TCPDF extends AbstractRenderer implements WriterInterface
         $pdf->setFontSubsetting(false);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
-        $pdf->AddPage();
         $pdf->SetFont($this->getFont());
+        $this->prepareToWrite($pdf);
         $pdf->writeHTML($this->getContent());
 
         // Write document properties

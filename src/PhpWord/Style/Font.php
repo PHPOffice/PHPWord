@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style;
+
 /**
  * Font style.
  */
@@ -230,7 +232,7 @@ class Font extends AbstractStyle
     /**
      * Right to left languages.
      *
-     * @var bool
+     * @var ?bool
      */
     private $rtl;
 
@@ -245,7 +247,7 @@ class Font extends AbstractStyle
     /**
      * Languages.
      *
-     * @var \PhpOffice\PhpWord\Style\Language
+     * @var null|\PhpOffice\PhpWord\Style\Language
      */
     private $lang;
 
@@ -288,6 +290,8 @@ class Font extends AbstractStyle
      */
     public function getStyleValues()
     {
+        $hws = 'htmlWhiteSpace';
+        $hgf = 'htmlGenericFont';
         $styles = [
             'name' => $this->getStyleName(),
             'basic' => [
@@ -319,6 +323,8 @@ class Font extends AbstractStyle
             'rtl' => $this->isRTL(),
             'shading' => $this->getShading(),
             'lang' => $this->getLang(),
+            $hws => $this->getHtmlWhiteSpace(),
+            $hgf => $this->getHtmlGenericFont(),
         ];
 
         return $styles;
@@ -827,17 +833,17 @@ class Font extends AbstractStyle
     /**
      * Get rtl.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isRTL()
     {
-        return $this->rtl;
+        return $this->rtl ?? Style::getDefaultRtl();
     }
 
     /**
      * Set rtl.
      *
-     * @param bool $value
+     * @param ?bool $value
      *
      * @return self
      */
@@ -875,7 +881,7 @@ class Font extends AbstractStyle
     /**
      * Get language.
      *
-     * @return \PhpOffice\PhpWord\Style\Language
+     * @return null|\PhpOffice\PhpWord\Style\Language
      */
     public function getLang()
     {
@@ -945,5 +951,115 @@ class Font extends AbstractStyle
         $this->position = $this->setIntVal($value, null);
 
         return $this;
+    }
+
+    /**
+     * Preservation of white space in html.
+     *
+     * @var string Value used for css white-space
+     */
+    private $htmlWhiteSpace = '';
+
+    /**
+     * Validate html css white-space value. It is expected that only pre-wrap and normal (default) are useful.
+     *
+     * @param string $value Should be one of pre-wrap, normal, nowrap, pre, pre-line, initial, inherit
+     *
+     * @return string value if valid, null string if not
+     */
+    public static function validateWhiteSpace($value)
+    {
+        switch ($value) {
+            case 'pre-wrap':
+            case 'normal':
+            case 'nowrap':
+            case 'pre':
+            case 'pre-line':
+            case 'initial':
+            case 'inherit':
+                return $value;
+            default:
+                return '';
+        }
+    }
+
+    /**
+     * Set html css white-space value. It is expected that only pre-wrap and normal (default) are useful.
+     *
+     * @param string $value Should be one of pre-wrap, normal, nowrap, pre, pre-line, initial, inherit
+     *
+     * @return self
+     */
+    public function setHtmlWhiteSpace($value)
+    {
+        $this->htmlWhiteSpace = self::validateWhiteSpace($value);
+
+        return $this;
+    }
+
+    /**
+     * Get html css white-space value.
+     *
+     * @return string
+     */
+    public function getHtmlWhiteSpace()
+    {
+        return $this->htmlWhiteSpace;
+    }
+
+    /**
+     * Generic font as fallback for html.
+     *
+     * @var string generic font name
+     */
+    private $htmlGenericFont = '';
+
+    /**
+     * Validate generic font for fallback for html.
+     *
+     * @param string $value generic font name
+     *
+     * @return string value if legitimate, null string if not
+     */
+    public static function validateGenericFont($value)
+    {
+        switch ($value) {
+            case 'serif':
+            case 'sans-serif':
+            case 'monospace':
+            case 'cursive':
+            case 'fantasy':
+            case 'system-ui':
+            case 'math':
+            case 'emoji':
+            case 'fangsong':
+                return $value;
+            default:
+                return '';
+        }
+    }
+
+    /**
+     * Set generic font for fallback for html.
+     *
+     * @param string $value generic font name
+     *
+     * @return self
+     */
+    public function setHtmlGenericFont($value)
+    {
+        $this->htmlGenericFont = self::validateGenericFont($value);
+
+        return $this;
+    }
+
+    /**
+     * Get html fallback generic font.
+     *
+     * @return string
+     */
+    public function getHtmlGenericFont()
+    {
+        return $this->htmlGenericFont;
     }
 }
