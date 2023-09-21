@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 use DateTime;
 use DOMElement;
 use InvalidArgumentException;
+use PhpOffice\Math\Reader\OfficeMathML;
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\AbstractElement;
@@ -189,25 +190,7 @@ abstract class AbstractPart
     protected function readParagraph(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart = 'document'): void
     {
         // Paragraph style
-        $paragraphStyle = null;
-        $headingDepth = null;
-        if ($xmlReader->elementExists('w:commentReference', $domNode)
-            || $xmlReader->elementExists('w:commentRangeStart', $domNode)
-            || $xmlReader->elementExists('w:commentRangeEnd', $domNode)
-        ) {
-            $nodes = $xmlReader->getElements('w:commentReference|w:commentRangeStart|w:commentRangeEnd', $domNode);
-            $node = current(iterator_to_array($nodes));
-            if ($node) {
-                $attributeIdentifier = $node->attributes->getNamedItem('id');
-                if ($attributeIdentifier) {
-                    $id = $attributeIdentifier->nodeValue;
-                }
-            }
-        }
-        if ($xmlReader->elementExists('w:pPr', $domNode)) {
-            $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
-            $headingDepth = $this->getHeadingDepth($paragraphStyle);
-        }
+        $paragraphStyle = $xmlReader->elementExists('w:pPr', $domNode) ? $this->readParagraphStyle($xmlReader, $domNode) : null;
 
         // PreserveText
         if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
@@ -234,8 +217,27 @@ abstract class AbstractPart
                 }
             }
             $parent->addPreserveText(htmlspecialchars($textContent, ENT_QUOTES, 'UTF-8'), $fontStyle, $paragraphStyle);
-        } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
-            // List item
+
+            return;
+        }
+
+        // Formula
+        $xmlReader->registerNamespace('m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
+        if ($xmlReader->elementExists('m:oMath', $domNode)) {
+            $mathElement = $xmlReader->getElement('m:oMath', $domNode);
+            $mathXML = $mathElement->ownerDocument->saveXML($mathElement);
+            if (is_string($mathXML)) {
+                $reader = new OfficeMathML();
+                $math = $reader->read($mathXML);
+
+                $parent->addFormula($math);
+            }
+
+            return;
+        }
+
+        // List item
+        if ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
             $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
             $levelId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:ilvl');
             $nodes = $xmlReader->getElements('*', $domNode);
@@ -245,8 +247,13 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $this->readRun($xmlReader, $node, $listItemRun, $docPart, $paragraphStyle);
             }
-        } elseif ($headingDepth !== null) {
-            // Heading or Title
+
+            return;
+        }
+
+        // Heading or Title
+        $headingDepth = $xmlReader->elementExists('w:pPr', $domNode) ? $this->getHeadingDepth($paragraphStyle) : null;
+        if ($headingDepth !== null) {
             $textContent = null;
             $nodes = $xmlReader->getElements('w:r|w:hyperlink', $domNode);
             if ($nodes->length === 1) {
@@ -258,17 +265,19 @@ abstract class AbstractPart
                 }
             }
             $parent->addTitle($textContent, $headingDepth);
+
+            return;
+        }
+
+        // Text and TextRun
+        $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag|w:commentReference|w:commentRangeStart|w:commentRangeEnd', $domNode);
+        if (0 === $textRunContainers) {
+            $parent->addTextBreak(null, $paragraphStyle);
         } else {
-            // Text and TextRun
-            $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag|w:commentReference|w:commentRangeStart|w:commentRangeEnd', $domNode);
-            if (0 === $textRunContainers) {
-                $parent->addTextBreak(null, $paragraphStyle);
-            } else {
-                $nodes = $xmlReader->getElements('*', $domNode);
-                $paragraph = $parent->addTextRun($paragraphStyle);
-                foreach ($nodes as $node) {
-                    $this->readRun($xmlReader, $node, $paragraph, $docPart, $paragraphStyle);
-                }
+            $nodes = $xmlReader->getElements('*', $domNode);
+            $paragraph = $parent->addTextRun($paragraphStyle);
+            foreach ($nodes as $node) {
+                $this->readRun($xmlReader, $node, $paragraph, $docPart, $paragraphStyle);
             }
         }
     }

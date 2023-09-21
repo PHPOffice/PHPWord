@@ -66,8 +66,8 @@ Below are the supported features for each file formats.
 | **Graphs**                | 2D basic graphs      | :material-check: |       |       |        |       |
 |                           | 2D advanced graphs   |        |       |       |        |       |
 |                           | 3D graphs            | :material-check: |       |       |        |       |
-| **Math**                  | OMML support         |        |       |       |        |       |
-|                           | MathML support       |        |       |       |        |       |
+| **Math**                  | OMML support         | :material-check: |       |       |        |       |
+|                           | MathML support       |        | :material-check: |       |        |       |
 | **Bonus**                 | Encryption           |        |       |       |        |       |
 |                           | Protection           |        |       |       |        |       |
 
@@ -99,8 +99,8 @@ Below are the supported features for each file formats.
 | **Graphs**                | 2D basic graphs      |        |       |       |       |       |
 |                           | 2D advanced graphs   |        |       |       |       |       |
 |                           | 3D graphs            |        |       |       |       |       |
-| **Math**                  | OMML support         |        |       |       |       |       |
-|                           | MathML support       |        |       |       |       |       |
+| **Math**                  | OMML support         | :material-check: |       |       |       |       |
+|                           | MathML support       |        | :material-check: |       |       |       |
 | **Bonus**                 | Encryption           |        |       |       |       |       |
 |                           | Protection           |        |       |       |       |       |
 

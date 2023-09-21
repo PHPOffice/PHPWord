@@ -18,8 +18,11 @@
 namespace PhpOffice\PhpWordTests\Reader;
 
 use DateTime;
+use PhpOffice\Math\Element;
 use PhpOffice\PhpWord\Element\Comment;
+use PhpOffice\PhpWord\Element\Formula;
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\IOFactory;
@@ -158,5 +161,59 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $fontStyle = $comment->getElement(0)->getFontStyle();
         self::assertInstanceOf(Font::class, $fontStyle);
         self::assertEquals('de-DE', $fontStyle->getLang()->getLatin());
+    }
+
+    public function testLoadFormula(): void
+    {
+        $phpWord = IOFactory::load(dirname(__DIR__, 1) . '/_files/documents/reader-formula.docx');
+
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $sections = $phpWord->getSections();
+        self::assertCount(1, $sections);
+
+        $section = $sections[0];
+        self::assertInstanceOf(Section::class, $section);
+
+        $elements = $section->getElements();
+        self::assertCount(1, $elements);
+
+        $element = $elements[0];
+        self::assertInstanceOf(Formula::class, $element);
+
+        $elements = $element->getMath()->getElements();
+        self::assertCount(5, $elements);
+
+        /** @var Element\Fraction $element */
+        $element = $elements[0];
+        self::assertInstanceOf(Element\Fraction::class, $element);
+        /** @var Element\Identifier $numerator */
+        $numerator = $element->getNumerator();
+        self::assertInstanceOf(Element\Identifier::class, $numerator);
+        self::assertEquals('π', $numerator->getValue());
+        /** @var Element\Numeric $denominator */
+        $denominator = $element->getDenominator();
+        self::assertInstanceOf(Element\Numeric::class, $denominator);
+        self::assertEquals(2, $denominator->getValue());
+
+        /** @var Element\Operator $element */
+        $element = $elements[1];
+        self::assertInstanceOf(Element\Operator::class, $element);
+        self::assertEquals('+', $element->getValue());
+
+        /** @var Element\Identifier $element */
+        $element = $elements[2];
+        self::assertInstanceOf(Element\Identifier::class, $element);
+        self::assertEquals('a', $element->getValue());
+
+        /** @var Element\Operator $element */
+        $element = $elements[3];
+        self::assertInstanceOf(Element\Operator::class, $element);
+        self::assertEquals('∗', $element->getValue());
+
+        /** @var Element\Numeric $element */
+        $element = $elements[4];
+        self::assertInstanceOf(Element\Numeric::class, $element);
+        self::assertEquals(2, $element->getValue());
     }
 }

@@ -68,7 +68,8 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-xml": "*",
-        "laminas/laminas-escaper": ">=2.6"
+        "laminas/laminas-escaper": ">=2.6",
+        "phpoffice/math": "^0.1"
     },
     "require-dev": {
         "ext-zip": "*",
