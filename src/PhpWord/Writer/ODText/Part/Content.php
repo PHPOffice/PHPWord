@@ -135,8 +135,11 @@ class Content extends AbstractPart
             $xmlWriter->startElement('text:p');
             $xmlWriter->writeAttribute('text:style-name', 'SB' . $section->getSectionId());
             $xmlWriter->endElement();
+
             $containerWriter = new Container($xmlWriter, $section);
+            $containerWriter->setPart($this);
             $containerWriter->write();
+
             $xmlWriter->endElement(); // text:section
         }
 

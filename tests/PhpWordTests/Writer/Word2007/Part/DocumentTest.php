@@ -408,10 +408,10 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $style = $element->getAttribute('style');
 
         // Try to address CI coverage issue for PHP 7.1 and 7.2 when using regex match assertions
-        if (method_exists(static::class, 'assertRegExp')) {
-            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
-        } else {
+        if (method_exists(static::class, 'assertMatchesRegularExpression')) {
             self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
+        } else {
+            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
         }
 
         // square

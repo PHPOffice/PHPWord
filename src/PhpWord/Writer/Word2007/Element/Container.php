@@ -83,6 +83,7 @@ class Container extends AbstractElement
         if (class_exists($writerClass)) {
             /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
             $writer = new $writerClass($xmlWriter, $element, $withoutP);
+            $writer->setPart($this->getPart());
             $writer->write();
         }
 
