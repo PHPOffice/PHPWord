@@ -162,6 +162,12 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#property_objects">$objects</a>
+    <span>
+                        &nbsp;: array&lt;string|int, <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>&gt;            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#property_parentWriter">$parentWriter</a>
     <span>
                         &nbsp;: <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a>            </span>
@@ -177,11 +183,29 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_addObject">addObject()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_getObjects">getObjects()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>&gt;    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_getParentWriter">getParentWriter()</a>
     <span>
                                 &nbsp;: <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a>    </span>
 </dt>
 <dd>Get parent writer.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_setObjects">setObjects()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_setParentWriter">setParentWriter()</a>
@@ -323,6 +347,39 @@
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="property_objects">
+        $objects
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#property_objects" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/AbstractPart.php"><a href="files/src-phpword-writer-odtext-part-abstractpart.html"><abbr title="src/PhpWord/Writer/ODText/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">35</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>&gt;</span>
+    <span class="phpdocumentor-signature__name">$objects</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+    
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="property_parentWriter">
         $parentWriter
         <a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#property_parentWriter" class="headerlink"><i class="fas fa-link"></i></a>
@@ -364,6 +421,86 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_addObject">
+        addObject()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_addObject" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/AbstractPart.php"><a href="files/src-phpword-writer-odtext-part-abstractpart.html"><abbr title="src/PhpWord/Writer/ODText/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">112</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">addObject</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$object</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$object</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getObjects">
+        getObjects()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_getObjects" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/AbstractPart.php"><a href="files/src-phpword-writer-odtext-part-abstractpart.html"><abbr title="src/PhpWord/Writer/ODText/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">132</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getObjects</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getParentWriter">
         getParentWriter()
         <a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_getParentWriter" class="headerlink"><i class="fas fa-link"></i></a>
@@ -391,6 +528,51 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setObjects">
+        setObjects()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_setObjects" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/AbstractPart.php"><a href="files/src-phpword-writer-odtext-part-abstractpart.html"><abbr title="src/PhpWord/Writer/ODText/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">122</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setObjects</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$objects</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$objects</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
             </section>
 
 </article>
@@ -522,7 +704,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/AbstractPart.php"><a href="files/src-phpword-writer-odtext-part-abstractpart.html"><abbr title="src/PhpWord/Writer/ODText/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -564,7 +746,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/AbstractPart.php"><a href="files/src-phpword-writer-odtext-part-abstractpart.html"><abbr title="src/PhpWord/Writer/ODText/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">73</span>
+    <span class="phpdocumentor-element-found-in__line">79</span>
 
     </aside>
 
@@ -1033,6 +1215,7 @@
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#property_dateFormat">$dateFormat<a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html"></li>
+                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#property_objects">$objects<a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#property_parentWriter">$parentWriter<a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html"></li>
                                             </ul>
                 </li>
@@ -1040,7 +1223,10 @@
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_addObject">addObject()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_getObjects">getObjects()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_getParentWriter">getParentWriter()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_setObjects">setObjects()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_setParentWriter">setParentWriter()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html#method_write">write()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_getXmlWriter">getXmlWriter()</a></li>

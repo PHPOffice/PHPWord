@@ -1066,6 +1066,31 @@ Search.appendIndex(
             "summary": "Dropdown\u0020entries.",
             "url": "classes/PhpOffice-PhpWord-Element-FormField.html#property_entries"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Formula",
+            "name": "Formula",
+            "summary": "Formula\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Element-Formula.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Formula\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Create\u0020a\u0020new\u0020Formula\u0020Element.",
+            "url": "classes/PhpOffice-PhpWord-Element-Formula.html#method___construct"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Formula\u003A\u003AsetMath\u0028\u0029",
+            "name": "setMath",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Element-Formula.html#method_setMath"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Formula\u003A\u003AgetMath\u0028\u0029",
+            "name": "getMath",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Element-Formula.html#method_getMath"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Formula\u003A\u003A\u0024math",
+            "name": "math",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Element-Formula.html#property_math"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Header",
             "name": "Header",
             "summary": "Header\u0020element.",
@@ -13051,6 +13076,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeDefault"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Formula",
+            "name": "Formula",
+            "summary": "Formula\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Formula.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Formula\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Formula.html#method_write"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Image",
             "name": "Image",
             "summary": "Image\u0020element\u0020writer.",
@@ -13170,6 +13205,26 @@ Search.appendIndex(
             "name": "writeFontFaces",
             "summary": "Write\u0020font\u0020faces\u0020declaration.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_writeFontFaces"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart\u003A\u003AaddObject\u0028\u0029",
+            "name": "addObject",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_addObject"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart\u003A\u003AsetObjects\u0028\u0029",
+            "name": "setObjects",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_setObjects"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart\u003A\u003AgetObjects\u0028\u0029",
+            "name": "getObjects",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_getObjects"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart\u003A\u003A\u0024objects",
+            "name": "objects",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#property_objects"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\AbstractPart\u003A\u003A\u0024dateFormat",
             "name": "dateFormat",
@@ -13380,6 +13435,11 @@ Search.appendIndex(
             "name": "save",
             "summary": "Save\u0020PhpWord\u0020to\u0020file.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText.html#method_save"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\u003A\u003A\u0024objects",
+            "name": "objects",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText.html#property_objects"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer",
             "name": "AbstractRenderer",
@@ -14126,6 +14186,16 @@ Search.appendIndex(
             "summary": "Write\u0020an\u0020XML\u0020text,\u0020this\u0020will\u0020call\u0020text\u0028\u0029\u0020or\u0020writeRaw\u0028\u0029\u0020depending\u0020on\u0020the\u0020value\u0020of\u0020Settings\u003A\u003AisOutputEscapingEnabled\u0028\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_writeText"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AsetPart\u0028\u0029",
+            "name": "setPart",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_setPart"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003AgetPart\u0028\u0029",
+            "name": "getPart",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_getPart"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003A\u0024xmlWriter",
             "name": "xmlWriter",
             "summary": "XML\u0020writer.",
@@ -14140,6 +14210,11 @@ Search.appendIndex(
             "name": "withoutP",
             "summary": "Without\u0020paragraph.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#property_withoutP"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\AbstractElement\u003A\u003A\u0024part",
+            "name": "part",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#property_part"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Bookmark",
             "name": "Bookmark",
@@ -14270,6 +14345,16 @@ Search.appendIndex(
             "name": "FILLER_LENGTH",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-FormField.html#constant_FILLER_LENGTH"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Formula",
+            "name": "Formula",
+            "summary": "Formula\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Formula.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Formula\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Formula.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Image",
             "name": "Image",
