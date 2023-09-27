@@ -59,6 +59,13 @@ class Image extends AbstractElement
     private $style;
 
     /**
+     * Image alt text.
+     *
+     * @var string
+     */
+    private $altText;
+    
+    /**
      * Is watermark.
      *
      * @var bool
@@ -146,10 +153,11 @@ class Image extends AbstractElement
      * @param bool $watermark
      * @param string $name
      */
-    public function __construct($source, $style = null, $watermark = false, $name = null)
+    public function __construct($source, $style = null, $altText = null, $watermark = false, $name = null)
     {
         $this->source = $source;
         $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
+        $this->altText = $altText;
         $this->setIsWatermark($watermark);
         $this->setName($name);
 
@@ -186,6 +194,16 @@ class Image extends AbstractElement
         return $this->sourceType;
     }
 
+    /**
+     * Get Image alt text.
+     *
+     * @return string
+     */
+    public function getAltText()
+    {
+        return $this->altText;
+    }
+    
     /**
      * Sets the image name.
      *
