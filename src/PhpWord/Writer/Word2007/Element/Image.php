@@ -78,6 +78,7 @@ class Image extends AbstractElement
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t75');
+        $xmlWriter->writeAttribute('alt', $element->getAltText());
         $xmlWriter->writeAttribute('stroked', 'f');
 
         $styleWriter->write();
