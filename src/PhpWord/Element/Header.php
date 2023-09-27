@@ -37,6 +37,7 @@ class Header extends Footer
      */
     public function addWatermark($src, $style = null)
     {
-        return $this->addImage($src, $style, true);
+        // null (third parameter) was added above to accommodate alt text for regular images
+        return $this->addImage($src, $style, null, true);
     }
 }
