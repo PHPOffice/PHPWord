@@ -11,11 +11,11 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
 $section = $phpWord->addSection();
-$section->addText('Local image without any styles:');
-$section->addImage('resources/_mars.jpg');
+$section->addText('Local image with alt text but no styles:');
+$section->addImage('resources/_mars.jpg', null, 'Image of Mars');
 
 printSeparator($section);
-$section->addText('Local image with styles:');
+$section->addText('Local image with styles but not alt text:');
 $section->addImage('resources/_earth.jpg', ['width' => 210, 'height' => 210, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
 
 // Remote image
