@@ -29,7 +29,7 @@ class Text extends AbstractElement
     /**
      * Text content.
      *
-     * @var string
+     * @var ?string
      */
     protected $text;
 
@@ -147,7 +147,7 @@ class Text extends AbstractElement
     /**
      * Get Text content.
      *
-     * @return string
+     * @return ?string
      */
     public function getText()
     {

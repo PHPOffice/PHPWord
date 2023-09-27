@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
+use PhpOffice\PhpWord\SimpleType\Border;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 use PhpOffice\PhpWord\Style;
@@ -49,28 +50,6 @@ class StyleTest extends AbstractTestReader
     }
 
     /**
-     * Test reading of cell spacing.
-     */
-    public function testReadCellSpacing(): void
-    {
-        $documentXml = '<w:tbl>
-            <w:tblPr>
-                <w:tblCellSpacing w:w="10.5" w:type="dxa"/>
-            </w:tblPr>
-        </w:tbl>';
-
-        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
-
-        $elements = $phpWord->getSection(0)->getElements();
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
-        self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
-        /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
-        $tableStyle = $elements[0]->getStyle();
-        self::assertEquals(TblWidth::AUTO, $tableStyle->getUnit());
-        self::assertEquals(10.5, $tableStyle->getCellSpacing());
-    }
-
-    /**
      * Test reading of table position.
      */
     public function testReadTablePosition(): void
@@ -100,6 +79,90 @@ class StyleTest extends AbstractTestReader
         self::assertEquals(50, $tableStyle->getTblpX());
         self::assertEquals(TablePosition::YALIGN_TOP, $tableStyle->getTblpYSpec());
         self::assertEquals(60, $tableStyle->getTblpY());
+    }
+
+    public function testReadTableCellNoWrap(): void
+    {
+        $documentXml = '<w:tbl>
+          <w:tr>
+            <w:tc>
+              <w:tcPr>
+                <w:noWrap />
+              </w:tcPr>
+            </w:tc>
+          </w:tr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        $rows = $elements[0]->getRows();
+        $cells = $rows[0]->getCells();
+        self::assertTrue($cells[0]->getStyle()->getNoWrap());
+    }
+
+    /**
+     * Test reading of cell spacing.
+     */
+    public function testReadTableCellSpacing(): void
+    {
+        $documentXml = '<w:tbl>
+            <w:tblPr>
+                <w:tblCellSpacing w:w="10.5" w:type="dxa"/>
+            </w:tblPr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
+        $tableStyle = $elements[0]->getStyle();
+        self::assertEquals(TblWidth::AUTO, $tableStyle->getUnit());
+        self::assertEquals(10.5, $tableStyle->getCellSpacing());
+    }
+
+    public function testReadTableCellStyle(): void
+    {
+        $documentXml = '<w:tbl>
+          <w:tr>
+            <w:tc>
+              <w:tcPr>
+                <w:tcBorders>
+                  <w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                  <w:bottom w:val="double" w:sz="4" w:space="0" w:color="auto"/>
+                </w:tcBorders>
+                <w:tcMar>
+                  <w:top w:w="720" w:type="dxa"/>
+                  <w:start w:w="720" w:type="dxa"/>
+                  <w:bottom w:w="0" w:type="dxa"/>
+                  <w:end w:w="720" w:type="dxa"/>
+                </w:tcMar>
+              </w:tcPr>
+            </w:tc>
+          </w:tr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        $rows = $elements[0]->getRows();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Row', $rows[0]);
+        $cells = $rows[0]->getCells();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Cell', $cells[0]);
+        $styleCell = $cells[0]->getStyle();
+        self::assertInstanceOf('PhpOffice\PhpWord\Style\Cell', $styleCell);
+
+        self::assertEquals(4, $styleCell->getBorderTopSize());
+        self::assertEquals(Border::SINGLE, $styleCell->getBorderTopStyle());
+        self::assertEquals('auto', $styleCell->getBorderTopColor());
+
+        self::assertEquals(4, $styleCell->getBorderBottomSize());
+        self::assertEquals(Border::DOUBLE, $styleCell->getBorderBottomStyle());
+        self::assertEquals('auto', $styleCell->getBorderBottomColor());
     }
 
     /**

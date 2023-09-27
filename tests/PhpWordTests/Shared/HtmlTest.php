@@ -177,6 +177,21 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
+     * Test font-variant style.
+     */
+    public function testParseFontVariant(): void
+    {
+        $html = '<span style="font-variant: small-caps;">test</span>';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:smallCaps'));
+        self::assertEquals('1', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:smallCaps', 'w:val'));
+    }
+
+    /**
      * Test font.
      */
     public function testParseFont(): void
@@ -802,6 +817,24 @@ HTML;
     }
 
     /**
+     * Test parsing of remote img without extension.
+     */
+    public function testParseRemoteImageWithoutExtension(): void
+    {
+        $src = self::getRemoteImageUrlWithoutExtension();
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/><img src="' . $src . '" style="float: left;"/></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+    }
+
+    /**
      * Test parsing embedded image.
      */
     public function testParseEmbeddedImage(): void
@@ -858,7 +891,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $html = '<p><a href="http://phpword.readthedocs.io/" style="text-decoration: underline">link text</a></p>';
+        $html = '<p><a href="https://phpoffice.github.io/PHPWord/" style="text-decoration: underline">link text</a></p>';
         Html::addHtml($section, $html);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');

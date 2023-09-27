@@ -27,7 +27,7 @@ class Line extends AbstractElement
     /**
      * Line style.
      *
-     * @var \PhpOffice\PhpWord\Style\Line
+     * @var ?\PhpOffice\PhpWord\Style\Line
      */
     private $style;
 
@@ -44,7 +44,7 @@ class Line extends AbstractElement
     /**
      * Get line style.
      *
-     * @return \PhpOffice\PhpWord\Style\Line
+     * @return ?\PhpOffice\PhpWord\Style\Line
      */
     public function getStyle()
     {

@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
+use PhpOffice\PhpWord\Element\AbstractElement;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
@@ -28,6 +29,11 @@ use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart as Word2007AbstractPart;
  */
 abstract class AbstractPart extends Word2007AbstractPart
 {
+    /**
+     * @var AbstractElement[]
+     */
+    protected $objects = [];
+
     /**
      * @var string Date format
      */
@@ -101,5 +107,30 @@ abstract class AbstractPart extends Word2007AbstractPart
             $xmlWriter->endElement();
         }
         $xmlWriter->endElement();
+    }
+
+    public function addObject(AbstractElement $object): int
+    {
+        $this->objects[] = $object;
+
+        return count($this->objects) - 1;
+    }
+
+    /**
+     * @param AbstractElement[] $objects
+     */
+    public function setObjects(array $objects): self
+    {
+        $this->objects = $objects;
+
+        return $this;
+    }
+
+    /**
+     * @return AbstractElement[]
+     */
+    public function getObjects(): array
+    {
+        return $this->objects;
     }
 }

@@ -270,11 +270,11 @@ class ElementTest extends AbstractTestReader
         self::assertEquals('Title', $title->getStyle());
         self::assertEquals('This is a non formatted title', $title->getText());
 
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[1]);
+        self::assertInstanceOf(\PhpOffice\PhpWord\Element\Title::class, $elements[1]);
         /** @var \PhpOffice\PhpWord\Element\Title $formattedTitle */
         $formattedTitle = $elements[1];
         self::assertEquals('Title', $formattedTitle->getStyle());
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $formattedTitle->getText());
+        self::assertInstanceOf(\PhpOffice\PhpWord\Element\TextRun::class, $formattedTitle->getText());
     }
 
     /**

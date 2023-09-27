@@ -107,7 +107,7 @@ class Cell extends Border
     /**
      * Width.
      *
-     * @var int
+     * @var ?int
      */
     private $width;
 
@@ -117,6 +117,13 @@ class Cell extends Border
      * @var string
      */
     private $unit = TblWidth::TWIP;
+
+    /**
+     * Prevent text from wrapping in the cell.
+     *
+     * @var bool
+     */
+    private $noWrap = true;
 
     /**
      * Get vertical align.
@@ -162,7 +169,14 @@ class Cell extends Border
      */
     public function setTextDirection($value = null)
     {
-        $enum = [self::TEXT_DIR_BTLR, self::TEXT_DIR_TBRL];
+        $enum = [
+            self::TEXT_DIR_BTLR,
+            self::TEXT_DIR_TBRL,
+            self::TEXT_DIR_LRTB,
+            self::TEXT_DIR_LRTBV,
+            self::TEXT_DIR_TBRLV,
+            self::TEXT_DIR_TBLRV,
+        ];
         $this->textDirection = $this->setEnumVal($value, $enum, $this->textDirection);
 
         return $this;
@@ -270,7 +284,7 @@ class Cell extends Border
     /**
      * Get cell width.
      *
-     * @return int
+     * @return ?int
      */
     public function getWidth()
     {
@@ -311,5 +325,23 @@ class Cell extends Border
         $this->unit = $this->setEnumVal($value, [TblWidth::AUTO, TblWidth::PERCENT, TblWidth::TWIP], TblWidth::TWIP);
 
         return $this;
+    }
+
+    /**
+     * Set noWrap.
+     */
+    public function setNoWrap(bool $value): self
+    {
+        $this->noWrap = $this->setBoolVal($value, true);
+
+        return $this;
+    }
+
+    /**
+     * Get noWrap.
+     */
+    public function getNoWrap(): bool
+    {
+        return $this->noWrap;
     }
 }

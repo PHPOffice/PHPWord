@@ -12,7 +12,7 @@ $html = '<h1>Adding element via HTML</h1>';
 $html .= '<p>Some well-formed HTML snippet needs to be used</p>';
 $html .= '<p>With for example <strong>some<sup>1</sup> <em>inline</em> formatting</strong><sub>1</sub></p>';
 
-$html .= '<p>A link to <a href="http://phpword.readthedocs.io/" style="text-decoration: underline">Read the docs</a></p>';
+$html .= '<p>A link to <a href="https://phpoffice.github.io/PHPWord/" style="text-decoration: underline">Read the docs</a></p>';
 
 $html .= '<p lang="he-IL" style="text-align: right; direction: rtl">היי, זה פסקה מימין לשמאל</p>';
 

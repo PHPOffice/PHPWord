@@ -149,7 +149,7 @@ class Settings
     /**
      * The allowed amount of whitespace before hyphenation is applied.
      *
-     * @var null|float
+     * @var null|float|int
      */
     private $hyphenationZone;
 
@@ -159,6 +159,13 @@ class Settings
      * @var null|bool
      */
     private $doNotHyphenateCaps;
+
+    /**
+     * Enable or disable book-folded printing.
+     *
+     * @var bool
+     */
+    private $bookFoldPrinting = false;
 
     /**
      * @return Protection
@@ -213,7 +220,7 @@ class Settings
     /**
      * Hide spelling errors.
      *
-     * @param bool $hideSpellingErrors
+     * @param ?bool $hideSpellingErrors
      */
     public function setHideSpellingErrors($hideSpellingErrors): void
     {
@@ -233,7 +240,7 @@ class Settings
     /**
      * Hide grammatical errors.
      *
-     * @param bool $hideGrammaticalErrors
+     * @param ?bool $hideGrammaticalErrors
      */
     public function setHideGrammaticalErrors($hideGrammaticalErrors): void
     {
@@ -249,7 +256,7 @@ class Settings
     }
 
     /**
-     * @param bool $evenAndOddHeaders
+     * @param ?bool $evenAndOddHeaders
      */
     public function setEvenAndOddHeaders($evenAndOddHeaders): void
     {
@@ -285,7 +292,7 @@ class Settings
     }
 
     /**
-     * @param bool $trackRevisions
+     * @param ?bool $trackRevisions
      */
     public function setTrackRevisions($trackRevisions): void
     {
@@ -301,7 +308,7 @@ class Settings
     }
 
     /**
-     * @param bool $doNotTrackMoves
+     * @param ?bool $doNotTrackMoves
      */
     public function setDoNotTrackMoves($doNotTrackMoves): void
     {
@@ -317,7 +324,7 @@ class Settings
     }
 
     /**
-     * @param bool $doNotTrackFormatting
+     * @param ?bool $doNotTrackFormatting
      */
     public function setDoNotTrackFormatting($doNotTrackFormatting): void
     {
@@ -391,7 +398,7 @@ class Settings
     }
 
     /**
-     * @param bool $updateFields
+     * @param ?bool $updateFields
      */
     public function setUpdateFields($updateFields): void
     {
@@ -451,7 +458,7 @@ class Settings
     }
 
     /**
-     * @return null|float
+     * @return null|float|int
      */
     public function getHyphenationZone()
     {
@@ -459,7 +466,7 @@ class Settings
     }
 
     /**
-     * @param float $hyphenationZone Measurement unit is twip
+     * @param null|float|int $hyphenationZone Measurement unit is twip
      */
     public function setHyphenationZone($hyphenationZone): void
     {
@@ -480,5 +487,17 @@ class Settings
     public function setDoNotHyphenateCaps($doNotHyphenateCaps): void
     {
         $this->doNotHyphenateCaps = (bool) $doNotHyphenateCaps;
+    }
+
+    public function hasBookFoldPrinting(): bool
+    {
+        return $this->bookFoldPrinting;
+    }
+
+    public function setBookFoldPrinting(bool $bookFoldPrinting): self
+    {
+        $this->bookFoldPrinting = $bookFoldPrinting;
+
+        return $this;
     }
 }

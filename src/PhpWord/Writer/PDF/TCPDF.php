@@ -46,7 +46,13 @@ class TCPDF extends AbstractRenderer implements WriterInterface
      */
     protected function createExternalWriterInstance($orientation, $unit, $paperSize)
     {
-        return new \TCPDF($orientation, $unit, $paperSize);
+        $instance = new \TCPDF($orientation, $unit, $paperSize);
+
+        if ($this->getFont()) {
+            $instance->setFont($this->getFont(), $instance->getFontStyle(), $instance->getFontSizePt());
+        }
+
+        return $instance;
     }
 
     /**

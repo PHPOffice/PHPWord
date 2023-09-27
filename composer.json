@@ -6,7 +6,7 @@
         "docx", "OOXML", "OpenXML", "Office Open XML", "ISO IEC 29500", "WordprocessingML",
         "RTF", "Rich Text Format", "doc", "odt", "ODF", "OpenDocument", "PDF", "HTML"
     ],
-    "homepage": "https://phpword.readthedocs.io/",
+    "homepage": "https://phpoffice.github.io/PHPWord/",
     "type": "library",
     "license": "LGPL-3.0",
     "authors": [
@@ -45,7 +45,8 @@
             "php-cs-fixer fix --ansi --dry-run --diff",
             "phpcs --report-width=200 --report-summary --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
             "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
-            "@test-no-coverage"
+            "@test-no-coverage",
+            "phpstan analyse --ansi"
         ],
         "fix": [
             "php-cs-fixer fix --ansi"
@@ -67,7 +68,8 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-xml": "*",
-        "laminas/laminas-escaper": ">=2.6"
+        "laminas/laminas-escaper": ">=2.6",
+        "phpoffice/math": "^0.1"
     },
     "require-dev": {
         "ext-zip": "*",
@@ -78,8 +80,9 @@
         "phpmd/phpmd": "^2.13",
         "phpunit/phpunit": ">=7.0",
         "tecnickcom/tcpdf": "^6.5",
-        "symfony/process": "^4.4",
-        "friendsofphp/php-cs-fixer": "^3.3"
+        "symfony/process": "^4.4 || ^5.0",
+        "friendsofphp/php-cs-fixer": "^3.3",
+        "phpstan/phpstan-phpunit": "@stable"
     },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",

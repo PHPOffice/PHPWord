@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Text as SharedText;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart;
 
 /**
  * Abstract element writer.
@@ -49,6 +50,11 @@ abstract class AbstractElement
      * @var bool
      */
     protected $withoutP = false;
+
+    /**
+     * @var null|AbstractPart
+     */
+    protected $part;
 
     /**
      * Write element.
@@ -223,5 +229,17 @@ abstract class AbstractElement
         }
 
         return $this->getXmlWriter()->writeRaw($content);
+    }
+
+    public function setPart(?AbstractPart $part): self
+    {
+        $this->part = $part;
+
+        return $this;
+    }
+
+    public function getPart(): ?AbstractPart
+    {
+        return $this->part;
     }
 }

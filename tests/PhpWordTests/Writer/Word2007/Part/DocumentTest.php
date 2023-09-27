@@ -408,10 +408,10 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $style = $element->getAttribute('style');
 
         // Try to address CI coverage issue for PHP 7.1 and 7.2 when using regex match assertions
-        if (method_exists(static::class, 'assertRegExp')) {
-            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
-        } else {
+        if (method_exists(static::class, 'assertMatchesRegularExpression')) {
             self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
+        } else {
+            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
         }
 
         // square
@@ -434,20 +434,6 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:headerReference');
         self::assertStringStartsWith('rId', $element->getAttribute('r:id'));
-    }
-
-    /**
-     * covers ::_writeTitle.
-     */
-    public function testWriteTitle(): void
-    {
-        $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(1, ['bold' => true], ['spaceAfter' => 240]);
-        $phpWord->addSection()->addTitle('Test', 1);
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        $element = '/w:document/w:body/w:p/w:pPr/w:pStyle';
-        self::assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
     }
 
     /**
@@ -653,6 +639,44 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');
 
         self::assertEquals(5, $element->getAttribute('w:val'));
+    }
+
+    /**
+     * covers ::_writeCellStyle.
+     */
+    public function testWriteCellStyleCellNoWrapEnabled(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable();
+        $table->addRow();
+
+        $cell = $table->addCell(200);
+        $cell->getStyle()->setNoWrap(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:noWrap'));
+    }
+
+    /**
+     * covers ::_writeCellStyle.
+     */
+    public function testWriteCellStyleCellNoWrapDisabled(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable();
+        $table->addRow();
+
+        $cell = $table->addCell(200);
+        $cell->getStyle()->setNoWrap(false);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:noWrap'));
     }
 
     /**

@@ -90,6 +90,13 @@ class Settings
     private static $pdfRendererName;
 
     /**
+     * Options used for rendering PDF files.
+     *
+     * @var array
+     */
+    private static $pdfRendererOptions = [];
+
+    /**
      * Directory Path to the external Library used for rendering PDF files.
      *
      * @var null|string
@@ -224,6 +231,22 @@ class Settings
     public static function getPdfRendererPath(): ?string
     {
         return self::$pdfRendererPath;
+    }
+
+    /**
+     * Set options of the external library for rendering PDF files.
+     */
+    public static function setPdfRendererOptions(array $options): void
+    {
+        self::$pdfRendererOptions = $options;
+    }
+
+    /**
+     * Return the PDF Rendering Options.
+     */
+    public static function getPdfRendererOptions(): array
+    {
+        return self::$pdfRendererOptions;
     }
 
     /**
