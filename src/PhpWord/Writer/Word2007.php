@@ -267,7 +267,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
             // Write content file, e.g. word/comments.xml
             $writerPart = $this->getWriterPart($partName)->setElements($collection->getItems());
-            $zip->addFromString("word/{$partName}.xml", $writerPart->write());
+//            $zip->addFromString("word/{$partName}.xml", $writerPart->write());
         }
     }
 
