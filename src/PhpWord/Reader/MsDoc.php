@@ -1932,6 +1932,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                             // $operand = self::getInt2d($data, $pos);
                             $pos += 2;
                             $cbNum -= 2;
+
                             // $ipat = ($operand >> 0) && bindec('111111');
                             // $icoBack = ($operand >> 6) && bindec('11111');
                             // $icoFore = ($operand >> 11) && bindec('11111');

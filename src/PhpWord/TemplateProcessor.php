@@ -284,7 +284,6 @@ class TemplateProcessor
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexValue($search, Element\AbstractElement $complexType): void
     {
@@ -312,7 +311,6 @@ class TemplateProcessor
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexBlock($search, Element\AbstractElement $complexType): void
     {

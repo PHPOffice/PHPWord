@@ -97,7 +97,6 @@ class XMLReader
      * Get elements.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
      * @return DOMNodeList<DOMElement>
      */
@@ -139,7 +138,6 @@ class XMLReader
      * Get element.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
      * @return null|DOMElement
      */
@@ -157,7 +155,6 @@ class XMLReader
      * Get element attribute.
      *
      * @param string $attribute
-     * @param DOMElement $contextNode
      * @param string $path
      *
      * @return null|string
@@ -185,7 +182,6 @@ class XMLReader
      * Get element value.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
      * @return null|string
      */
@@ -203,7 +199,6 @@ class XMLReader
      * Count elements.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
      * @return int
      */
@@ -218,7 +213,6 @@ class XMLReader
      * Element exists.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
      * @return bool
      */

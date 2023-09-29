@@ -275,8 +275,6 @@ class Settings
 
     /**
      * Set the Visibility of Annotation Types.
-     *
-     * @param TrackChangesView $trackChangesView
      */
     public function setRevisionView(?TrackChangesView $trackChangesView = null): void
     {

@@ -23,6 +23,7 @@ use PHPUnit\Framework\TestCase;
  * Test class for PhpOffice\PhpWord\Settings.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Settings
+ *
  * @runTestsInSeparateProcesses
  */
 class SettingsTest extends TestCase
@@ -173,6 +174,7 @@ class SettingsTest extends TestCase
     /**
      * @covers ::getTempDir
      * @covers ::setTempDir
+     *
      * @depends testPhpTempDirIsUsedByDefault
      */
     public function testTempDirCanBeSet(): void

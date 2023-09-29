@@ -79,8 +79,6 @@ class Comment extends TrackChange
 
     /**
      * Sets the element where this comment starts.
-     *
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $value
      */
     public function setStartElement(AbstractElement $value): void
     {
@@ -102,8 +100,6 @@ class Comment extends TrackChange
 
     /**
      * Sets the element where this comment ends.
-     *
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $value
      */
     public function setEndElement(AbstractElement $value): void
     {
