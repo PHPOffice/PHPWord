@@ -221,6 +221,9 @@ class Text extends AbstractElement
         $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
         if ($pStyleIsObject) {
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
+            /** @var HTML */
+            $temp = $this->parentWriter;
+            $styleWriter->setParentWriter($temp);
             $style = $styleWriter->write();
         } elseif (is_string($paragraphStyle)) {
             $style = $paragraphStyle;
