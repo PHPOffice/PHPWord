@@ -1761,32 +1761,7 @@ parameters:
 			path: tests/PhpWordTests/Style/FontTest.php
 
 		-
-			message: "#^Binary operation \"\\*\" between 1\\|120\\|240\\|'atLeast'\\|'auto'\\|'Normal'\\|'numStyle'\\|bool and 720 results in an error\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
 			message: "#^Cannot call method setLineHeight\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\|string\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\ParagraphTest\\:\\:findGetter\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\ParagraphTest\\:\\:findGetter\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\ParagraphTest\\:\\:findGetter\\(\\) has parameter \\$object with no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\ParagraphTest\\:\\:findGetter\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Style/ParagraphTest.php
 

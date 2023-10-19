@@ -91,13 +91,20 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         foreach ($attributes as $key => $value) {
             $get = $this->findGetter($key, $value, $object);
             $object->setStyleValue("$key", $value);
-            if ('indent' == $key || 'hanging' == $key) {
-                $value = $value * 720;
-            }
+            //if ('indent' == $key || 'hanging' == $key) {
+            //    $value = $value * 720;
+            //}
             self::assertEquals($value, $object->$get());
         }
     }
 
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @param object $object
+     *
+     * @return string
+     */
     private function findGetter($key, $value, $object)
     {
         if (is_bool($value)) {
