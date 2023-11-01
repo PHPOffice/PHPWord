@@ -1691,11 +1691,6 @@ parameters:
 			path: tests/PhpWordTests/PhpWordTest.php
 
 		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:getElements\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Reader/Word2007/ElementTest.php
-
-		-
 			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:getRows\\(\\)\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Reader/Word2007/ElementTest.php

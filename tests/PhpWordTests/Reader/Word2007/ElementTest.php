@@ -17,7 +17,9 @@
 
 namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
+use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TrackChange;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWordTests\AbstractTestReader;
 
 /**
@@ -60,7 +62,7 @@ class ElementTest extends AbstractTestReader
 
         $elements = $phpWord->getSection(0)->getElements();
         self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]->getElement(0));
+        self::assertInstanceOf(Text::class, $elements[0]->getElement(0));
         $text = $elements[0];
         self::assertEquals('Test node value', trim($text->getElement(0)->getText()));
     }
@@ -84,7 +86,7 @@ class ElementTest extends AbstractTestReader
         /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
         $textRun = $elements[0];
         self::assertInstanceOf('PhpOffice\PhpWord\Element\TextBreak', $textRun->getElement(0));
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(1));
+        self::assertInstanceOf(Text::class, $textRun->getElement(1));
         self::assertEquals('test string', $textRun->getElement(1)->getText());
     }
 
@@ -107,7 +109,7 @@ class ElementTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
         /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
         $textRun = $elements[0];
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
+        self::assertInstanceOf(Text::class, $textRun->getElement(0));
         self::assertEquals('test string', $textRun->getElement(0)->getText());
     }
 
@@ -145,11 +147,20 @@ class ElementTest extends AbstractTestReader
         self::assertEquals(0, $sections->getElement(0)->getDepth());
 
         $listElements = $sections->getElement(0)->getElements();
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $listElements[0]);
-        self::assertEquals('Two', $listElements[0]->getText());
-        self::assertEquals(' with ', $listElements[1]->getText());
-        self::assertEquals('bold', $listElements[2]->getText());
-        self::assertTrue($listElements[2]->getFontStyle()->isBold());
+        /** @var Text $listElement0 */
+        $listElement0 = $listElements[0];
+        self::assertInstanceOf(Text::class, $listElement0);
+        self::assertEquals('Two', $listElement0->getText());
+        /** @var Text $listElement1 */
+        $listElement1 = $listElements[1];
+        self::assertEquals(' with ', $listElement1->getText());
+        /** @var Text $listElement2 */
+        $listElement2 = $listElements[2];
+        self::assertEquals('bold', $listElement2->getText());
+        /** @var Font $listElement2FontStyle */
+        $listElement2FontStyle = $listElement2->getFontStyle();
+        self::assertInstanceOf(Font::class, $listElement2FontStyle);
+        self::assertTrue($listElement2FontStyle->isBold());
     }
 
     /**
@@ -214,11 +225,11 @@ class ElementTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
         /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
         $textRun = $elements[0];
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
+        self::assertInstanceOf(Text::class, $textRun->getElement(0));
         self::assertEquals('One', $textRun->getElement(0)->getText());
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(1));
+        self::assertInstanceOf(Text::class, $textRun->getElement(1));
         self::assertEquals("\t", $textRun->getElement(1)->getText());
-        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(2));
+        self::assertInstanceOf(Text::class, $textRun->getElement(2));
         self::assertEquals('Two', $textRun->getElement(2)->getText());
     }
 
