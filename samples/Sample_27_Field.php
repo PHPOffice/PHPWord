@@ -27,7 +27,7 @@ $section->addField('PAGE', ['format' => 'Arabic']);
 $section->addText('Number of pages field:');
 $section->addField('NUMPAGES', ['numformat' => '0,00', 'format' => 'Arabic'], ['PreserveFormat']);
 
-$section->addText('Filename:');
+$section->addText('Filename field:');
 $section->addField('FILENAME', ['format' => 'Upper'], ['Path', 'PreserveFormat']);
 $section->addTextBreak();
 
