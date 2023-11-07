@@ -85,6 +85,10 @@ class Field extends AbstractElement
             'properties' => ['StyleIdentifier' => ''],
             'options' => ['PreserveFormat'],
         ],
+        'FILENAME' => [
+            'properties' => [],
+            'options' => ['Path', 'PreserveFormat'],
+        ],
     ];
 
     /**
