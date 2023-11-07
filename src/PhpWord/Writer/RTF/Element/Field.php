@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
 /**
  * Field element writer.
  *
- * Note: for now, only date, page and numpages fields are implemented for RTF.
+ * Note: for now, only date, page, numpages and filenane fields are implemented for RTF.
  */
 class Field extends Text
 {
@@ -64,6 +64,16 @@ class Field extends Text
     protected function writeNumpages()
     {
         return 'NUMPAGES';
+    }
+
+    protected function writeFilename(\PhpOffice\PhpWord\Element\Field $element)
+    {
+        $content = 'FILENAME';
+        $options = $element->getOptions();
+        if ($options != null && in_array('Path', $options)) {
+            $content .= ' \\\\p';
+        }
+        return $content;
     }
 
     protected function writeDate(\PhpOffice\PhpWord\Element\Field $element)
