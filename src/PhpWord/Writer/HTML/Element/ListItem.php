@@ -37,7 +37,7 @@ class ListItem extends AbstractElement
             return '';
         }
 
-        $content = '<p>' . HTML::escapeOrNot($this->element->getTextObject()->getText()) . '</p>' . PHP_EOL;
+        $content = '<p>' . $this->parentWriter->escapeHTML($this->element->getTextObject()->getText()) . '</p>' . PHP_EOL;
 
         return $content;
     }

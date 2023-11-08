@@ -18,6 +18,9 @@
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\Validate;
+use PhpOffice\PhpWord\Style\Font;
 
 /**
  * HTML writer.
@@ -36,13 +39,6 @@ class HTML extends AbstractWriter implements WriterInterface
     protected $isPdf = false;
 
     /**
-     * Is the current writer creating TCPDF?
-     *
-     * @var bool
-     */
-    protected $isTcpdf = false;
-
-    /**
      * Footnotes and endnotes collection.
      *
      * @var array
@@ -54,7 +50,21 @@ class HTML extends AbstractWriter implements WriterInterface
      *
      * @var null|callable
      */
-    private $editHtmlCallback;
+    private $editCallback;
+
+    /**
+     * Default generic name for default font for html.
+     *
+     * @var string
+     */
+    private $defaultGenericFont = '';
+
+    /**
+     * Default white space style for html.
+     *
+     * @var string
+     */
+    private $defaultWhiteSpace = '';
 
     /**
      * Create new instance.
@@ -99,7 +109,7 @@ class HTML extends AbstractWriter implements WriterInterface
         $langtext = '';
         $phpWord = $this->getPhpWord();
         $lang = $phpWord->getSettings()->getThemeFontLang();
-        if (!empty($lang)) { // @phpstan-ignore-line
+        if (!empty($lang)) {
             $lang2 = $lang->getLatin();
             if (!$lang2) {
                 $lang2 = $lang->getEastAsia();
@@ -115,7 +125,9 @@ class HTML extends AbstractWriter implements WriterInterface
         $content .= $this->getWriterPart('Head')->write();
         $content .= $this->getWriterPart('Body')->write();
         $content .= '</html>' . PHP_EOL;
-        $callback = $this->editHtmlCallback;
+
+        // Trigger a callback for editing the entire HTML
+        $callback = $this->editCallback;
         if ($callback !== null) {
             $content = $callback($content);
         }
@@ -124,14 +136,24 @@ class HTML extends AbstractWriter implements WriterInterface
     }
 
     /**
+     * Return the callback to edit the entire HTML.
+     */
+    public function getEditCallback(): ?callable
+    {
+        return $this->editCallback;
+    }
+
+    /**
      * Set a callback to edit the entire HTML.
      *
      * The callback must accept the HTML as string as first parameter,
      * and it must return the edited HTML as string.
      */
-    public function setEditHtmlCallback(?callable $callback): void
+    public function setEditCallback(?callable $callback): self
     {
-        $this->editHtmlCallback = $callback;
+        $this->editCallback = $callback;
+
+        return $this;
     }
 
     /**
@@ -142,16 +164,6 @@ class HTML extends AbstractWriter implements WriterInterface
     public function isPdf()
     {
         return $this->isPdf;
-    }
-
-    /**
-     * Get is TCPDF.
-     *
-     * @return bool
-     */
-    public function isTcpdf()
-    {
-        return $this->isTcpdf;
     }
 
     /**
@@ -176,13 +188,47 @@ class HTML extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Escape string or not depending on setting.
-     *
-     * @param string $txt
+     * Get generic name for default font for html.
      */
-    public static function escapeOrNot($txt): string
+    public function getDefaultGenericFont(): string
     {
-        if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
+        return $this->defaultGenericFont;
+    }
+
+    /**
+     * Set generic name for default font for html.
+     */
+    public function setDefaultGenericFont(string $value): self
+    {
+        $this->defaultGenericFont = Validate::validateCSSGenericFont($value);
+
+        return $this;
+    }
+
+    /**
+     * Get default white space style for html.
+     */
+    public function getDefaultWhiteSpace(): string
+    {
+        return $this->defaultWhiteSpace;
+    }
+
+    /**
+     * Set default white space style for html.
+     */
+    public function setDefaultWhiteSpace(string $value): self
+    {
+        $this->defaultWhiteSpace = Validate::validateCSSWhiteSpace($value);
+
+        return $this;
+    }
+
+    /**
+     * Escape string or not depending on setting.
+     */
+    public function escapeHTML(string $txt): string
+    {
+        if (Settings::isOutputEscapingEnabled()) {
             return htmlspecialchars($txt, ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0), 'UTF-8');
         }
 

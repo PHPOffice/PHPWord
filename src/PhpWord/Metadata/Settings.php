@@ -114,7 +114,7 @@ class Settings
     /**
      * Theme Font Languages.
      *
-     * @var Language
+     * @var ?Language
      */
     private $themeFontLang;
 
@@ -369,22 +369,20 @@ class Settings
 
     /**
      * Returns the Language.
-     *
-     * @return Language
      */
-    public function getThemeFontLang()
+    public function getThemeFontLang(): ?Language
     {
         return $this->themeFontLang;
     }
 
     /**
-     * sets the Language for this document.
-     *
-     * @param Language $themeFontLang
+     * Sets the Language for this document.
      */
-    public function setThemeFontLang($themeFontLang): void
+    public function setThemeFontLang(Language $themeFontLang): self
     {
         $this->themeFontLang = $themeFontLang;
+
+        return $this;
     }
 
     /**

@@ -67,19 +67,21 @@ class Text extends AbstractElement
      */
     public function write()
     {
+        $this->processFontStyle();
+
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
-        $this->getFontStyle();
+
+        $text = $this->parentWriter->escapeHTML($element->getText());
+        if (!$this->withoutP && !trim($text)) {
+            $text = '&nbsp;';
+        }
 
         $content = '';
         $content .= $this->writeOpening();
         $content .= $this->openingText;
         $content .= $this->openingTags;
-        $contenx = HTML::escapeOrNot($element->getText());
-        if (!$this->withoutP && !trim(/** @scrutinizer ignore-type */ $contenx)) {
-            $contenx = '&nbsp;';
-        }
-        $content .= $contenx;
+        $content .= $text;
         $content .= $this->closingTags;
         $content .= $this->closingText;
         $content .= $this->writeClosing();
@@ -139,7 +141,7 @@ class Text extends AbstractElement
         $content .= $this->writeTrackChangeClosing();
 
         if (!$this->withoutP) {
-            $content .= HTML::escapeOrNot($this->closingText);
+            $content .= $this->parentWriter->escapeHTML($this->closingText);
             $content .= '</p>' . PHP_EOL;
         }
 
@@ -221,9 +223,7 @@ class Text extends AbstractElement
         $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
         if ($pStyleIsObject) {
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
-            /** @var HTML */
-            $temp = $this->parentWriter;
-            $styleWriter->setParentWriter($temp);
+            $styleWriter->setParentWriter($this->parentWriter);
             $style = $styleWriter->write();
         } elseif (is_string($paragraphStyle)) {
             $style = $paragraphStyle;
@@ -239,44 +239,50 @@ class Text extends AbstractElement
     /**
      * Get font style.
      */
-    private function getFontStyle(): void
+    private function processFontStyle(): void
     {
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
-        $style = '';
-        $langtext = '';
+
+        $attributeStyle = $attributeLang = '';
         $lang = null;
+
         $fontStyle = $element->getFontStyle();
-        $fStyleIsObject = ($fontStyle instanceof Font);
-        if ($fStyleIsObject) {
+        if ($fontStyle instanceof Font) {
+            // Attribute style
             $styleWriter = new FontStyleWriter($fontStyle);
-            $styl2 = $styleWriter->write();
-            if ($styl2) {
-                $style = " style=\"$styl2\"";
+            $fontCSS = $styleWriter->write();
+            if ($fontCSS) {
+                $attributeStyle = ' style="' . $fontCSS . '"';
             }
+            // Attribute Lang
             $lang = $fontStyle->getLang();
         } elseif (!empty($fontStyle)) {
-            $style = " class=\"$fontStyle\"";
-            /** @var \PhpOffice\PhpWord\Style\Font $styl3 Type hint */
-            $styl3 = Style::getStyle($fontStyle);
-            if (!empty($styl3) && method_exists($styl3, 'getLang')) { // @phpstan-ignore-line
-                $lang = $styl3->getLang();
+            // Attribute class
+            $attributeStyle = ' class="' . $fontStyle . '"';
+            // Attribute Lang
+            /** @var Font $cssClassStyle */
+            $cssClassStyle = Style::getStyle($fontStyle);
+            if ($cssClassStyle !== null && method_exists($cssClassStyle, 'getLang')) {
+                $lang = $cssClassStyle->getLang();
             }
         }
+
         if ($lang) {
-            $langtext = $lang->getLatin();
-            if (!$langtext) {
-                $langtext = $lang->getEastAsia();
+            $attributeLang = $lang->getLatin();
+            if (!$attributeLang) {
+                $attributeLang = $lang->getEastAsia();
             }
-            if (!$langtext) {
-                $langtext = $lang->getBidirectional();
+            if (!$attributeLang) {
+                $attributeLang = $lang->getBidirectional();
             }
-            if ($langtext) {
-                $langtext = " lang='$langtext'";
+            if ($attributeLang) {
+                $attributeLang = " lang='$attributeLang'";
             }
         }
-        if ($style || $langtext) {
-            $this->openingTags = "<span$langtext$style>";
+
+        if ($attributeStyle || $attributeLang) {
+            $this->openingTags = "<span$attributeLang$attributeStyle>";
             $this->closingTags = '</span>';
         }
     }

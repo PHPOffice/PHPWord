@@ -71,7 +71,7 @@ class TOC extends AbstractElement
         $fontStyle = $element->getStyleFont();
         $isObject = ($fontStyle instanceof Font) ? true : false;
         $rId = $title->getRelationId();
-        $indent = ($title->getDepth() - 1) * $tocStyle->getIndent();
+        $indent = (int) (($title->getDepth() - 1) * $tocStyle->getIndent());
 
         $xmlWriter->startElement('w:p');
 
@@ -93,8 +93,10 @@ class TOC extends AbstractElement
             $styleWriter->write();
         }
         $xmlWriter->startElement('w:t');
+
         $titleText = $title->getText();
         $this->writeText(is_string($titleText) ? $titleText : '');
+
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
@@ -142,10 +144,8 @@ class TOC extends AbstractElement
 
     /**
      * Write style.
-     *
-     * @param float|int $indent
      */
-    private function writeStyle(XMLWriter $xmlWriter, TOCElement $element, $indent): void
+    private function writeStyle(XMLWriter $xmlWriter, TOCElement $element, int $indent): void
     {
         $tocStyle = $element->getStyleTOC();
         $fontStyle = $element->getStyleFont();

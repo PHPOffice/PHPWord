@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\RTF;
 
-use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\RTF;
 use PhpOffice\PhpWord\Writer\RTF\Style\Border;
 use PHPUnit\Framework\Assert;
@@ -29,7 +29,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
 {
     protected function tearDown(): void
     {
-        Style::setDefaultRtl(null);
+        Settings::setDefaultRtl(null);
     }
 
     public function removeCr($field)
@@ -131,7 +131,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
 
     public function testRTL2(): void
     {
-        Style::setDefaultRtl(true);
+        Settings::setDefaultRtl(true);
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('אב גד');
         $text = new \PhpOffice\PhpWord\Writer\RTF\Element\Text($parentWriter, $element);
@@ -150,7 +150,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
 
     public function testPageBreakLineHeight2(): void
     {
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new \PhpOffice\PhpWord\Writer\RTF\Element\Text($parentWriter, $element);

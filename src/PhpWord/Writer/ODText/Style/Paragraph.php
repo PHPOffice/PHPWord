@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style;
@@ -125,7 +126,7 @@ class Paragraph extends AbstractStyle
         }
         $alignment = $style->getAlignment();
         $bidi = $style->isBidi();
-        $defaultRtl = Style::getDefaultRtl();
+        $defaultRtl = Settings::isDefaultRtl();
         if ($alignment === '' && $bidi !== null) {
             $alignment = Jc::START;
         }

@@ -47,9 +47,6 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section->addText('Section 2 - landscape');
 
         $writer = new MPDF($phpWord);
-        /** @var callable */
-        $callback = [self::class, 'editContent'];
-        $writer->setEditHtmlCallback($callback);
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -57,23 +54,33 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         unlink($file);
     }
 
-    /**
-     * Test set/get abstract renderer options.
-     */
-    public function testSetGetAbstractRendererOptions(): void
+    public function testEditCallback(): void
     {
-        $rendererName = Settings::PDF_RENDERER_MPDF;
-        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
-        Settings::setPdfRenderer($rendererName, (string) $rendererLibraryPath);
-        Settings::setPdfRendererOptions([
-            'font' => 'Arial',
-        ]);
-        $writer = new PDF(new PhpWord());
-        self::assertEquals('Arial', $writer->getFont());
+        $file = __DIR__ . '/../../_files/mpdf.pdf';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('Test 1');
+        $section->addPageBreak();
+        $section->addText('Test 2');
+        $oSettings = new \PhpOffice\PhpWord\Style\Section();
+        $oSettings->setSettingValue('orientation', 'landscape');
+        $section = $phpWord->addSection($oSettings); // @phpstan-ignore-line
+        $section->addText('Section 2 - landscape');
+
+        $writer = new MPDF($phpWord);
+        /** @var callable */
+        $callback = [self::class, 'cbEditContent'];
+        $writer->setEditCallback($callback);
+        $writer->save($file);
+
+        self::assertFileExists($file);
+
+        unlink($file);
     }
 
     // add a footer
-    public static function editContent(string $html): string
+    public static function cbEditContent(string $html): string
     {
         $afterBody = '<htmlpagefooter name="myFooter1"><div style=\'text-align: right;\'>{PAGENO}</div></htmlpagefooter>' . MPDF::SIMULATED_BODY_START;
         $beforeBody = '<style>@page page1 {odd-footer-name: html_myFooter1;}</style>';
@@ -89,5 +96,20 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         }
 
         return $html;
+    }
+
+    /**
+     * Test set/get abstract renderer options.
+     */
+    public function testSetGetAbstractRendererOptions(): void
+    {
+        $rendererName = Settings::PDF_RENDERER_MPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+        Settings::setPdfRendererOptions([
+            'font' => 'Arial',
+        ]);
+        $writer = new PDF(new PhpWord());
+        self::assertEquals('Arial', $writer->getFont());
     }
 }

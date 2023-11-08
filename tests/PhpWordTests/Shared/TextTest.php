@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWordTests\Shared;
 
 use PhpOffice\PhpWord\Shared\Text;
-use PhpOffice\PhpWordTests\Element\Utf8Decode;
 
 /**
  * Test class for Text.
@@ -67,7 +66,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     {
         self::assertTrue(Text::isUTF8(''));
         self::assertTrue(Text::isUTF8('éééé'));
-        self::assertFalse(Text::isUTF8(Utf8Decode::decode('éééé')));
+        self::assertFalse(Text::isUTF8(utf8decode('éééé')));
     }
 
     /**

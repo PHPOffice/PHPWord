@@ -1851,6 +1851,11 @@ parameters:
 			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
 
 		-
+			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
+			count: 3
+			path: tests/PhpWordTests/Writer/HTML/Element/PageBreakTest.php
+
+		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\ODText\\\\Style\\\\FontTest\\:\\:providerAllNamedColors\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/ODText/Style/FontTest.php
@@ -1907,6 +1912,11 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
 			count: 2
 			path: tests/PhpWordTests/Writer/PDF/TCPDFTest.php
 
@@ -1914,6 +1924,11 @@ parameters:
 			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getFont\\(\\)\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/PDF/TCPDFTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: tests/PhpWordTests/Writer/PDFTest.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\ElementTest\\:\\:removeCr\\(\\) has no return type specified\\.$#"

@@ -77,6 +77,7 @@ class PhpWord
         // Reset Media and styles
         Media::resetElements();
         Style::resetStyles();
+        Settings::setDefaultRtl(null);
 
         // Collection
         $collections = ['Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts', 'Comments'];
@@ -257,68 +258,6 @@ class PhpWord
     }
 
     /**
-     * Default generic name for default font for html.
-     *
-     * @var string
-     */
-    private $defaultHtmlGenericFont = '';
-
-    /**
-     * Get generic name for default font for html.
-     *
-     * @return string
-     */
-    public function getDefaultHtmlGenericFont()
-    {
-        return $this->defaultHtmlGenericFont;
-    }
-
-    /**
-     * Set generic name for default font for html.
-     *
-     * @param string $value
-     *
-     * @return bool
-     */
-    public function setDefaultHtmlGenericFont($value)
-    {
-        $this->defaultHtmlGenericFont = \PhpOffice\PhpWord\Style\Font::validateGenericFont($value);
-
-        return '' !== $this->defaultHtmlGenericFont;
-    }
-
-    /**
-     * Default white space style for html.
-     *
-     * @var string
-     */
-    private $defaultHtmlWhiteSpace = '';
-
-    /**
-     * Get default white space style for html.
-     *
-     * @return string
-     */
-    public function getDefaultHtmlWhiteSpace()
-    {
-        return $this->defaultHtmlWhiteSpace;
-    }
-
-    /**
-     * Set default white space style for html.
-     *
-     * @param string $value
-     *
-     * @return bool
-     */
-    public function setDefaultHtmlWhiteSpace($value)
-    {
-        $this->defaultHtmlWhiteSpace = \PhpOffice\PhpWord\Style\Font::validateWhiteSpace($value);
-
-        return '' !== $this->defaultHtmlWhiteSpace;
-    }
-
-    /**
      * Get default font size.
      *
      * @return int
@@ -386,5 +325,53 @@ class PhpWord
         $writer->save($filename);
 
         return true;
+    }
+
+    /**
+     * Create new section.
+     *
+     * @deprecated 0.10.0
+     *
+     * @param array $settings
+     *
+     * @return \PhpOffice\PhpWord\Element\Section
+     *
+     * @codeCoverageIgnore
+     */
+    public function createSection($settings = null)
+    {
+        return $this->addSection($settings);
+    }
+
+    /**
+     * Get document properties object.
+     *
+     * @deprecated 0.12.0
+     *
+     * @return \PhpOffice\PhpWord\Metadata\DocInfo
+     *
+     * @codeCoverageIgnore
+     */
+    public function getDocumentProperties()
+    {
+        return $this->getDocInfo();
+    }
+
+    /**
+     * Set document properties object.
+     *
+     * @deprecated 0.12.0
+     *
+     * @param \PhpOffice\PhpWord\Metadata\DocInfo $documentProperties
+     *
+     * @return self
+     *
+     * @codeCoverageIgnore
+     */
+    public function setDocumentProperties($documentProperties)
+    {
+        $this->metadata['Document'] = $documentProperties;
+
+        return $this;
     }
 }

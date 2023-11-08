@@ -18,8 +18,8 @@
 namespace PhpOffice\PhpWordTests\Writer\HTML;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Html as SharedHtml;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML;
 
 /**
@@ -29,7 +29,7 @@ class DirectionTest extends \PHPUnit\Framework\TestCase
 {
     protected function tearDown(): void
     {
-        Style::setDefaultRtl(null);
+        Settings::setDefaultRtl(null);
     }
 
     /**
@@ -38,7 +38,7 @@ class DirectionTest extends \PHPUnit\Framework\TestCase
     public function testDirection(): void
     {
         $doc = new PhpWord();
-        Style::setDefaultRtl(true);
+        Settings::setDefaultRtl(true);
         $section = $doc->addSection();
         $html = '<p>  الألم الذي ربما تنجم عنه بعض ا.</p>';
         SharedHtml::addHtml($section, $html, false, false);

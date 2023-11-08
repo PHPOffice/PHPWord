@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Writer\HTML\Element\Container;
 use PhpOffice\PhpWord\Writer\HTML\Element\TextRun as TextRunWriter;
+use PhpOffice\PhpWord\Writer\PDF\TCPDF;
 
 /**
  * RTF body part writer.
@@ -41,10 +42,10 @@ class Body extends AbstractPart
         $content .= '<body>' . PHP_EOL;
         $sections = $phpWord->getSections();
         $secno = 0;
-        $tcpdf = $this->getParentWriter()->isTcpdf();
+        $isTCPDFWriter = $this->getParentWriter() instanceof TCPDF;
         foreach ($sections as $section) {
             ++$secno;
-            if ($tcpdf && $secno > 1) {
+            if ($isTCPDFWriter && $secno > 1) {
                 $content .= "<div style=\"page: page$secno; page-break-before:always;\">" . PHP_EOL;
             } else {
                 $content .= "<div style='page: page$secno'>" . PHP_EOL;

@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWordTests\Writer\ODText\Style;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -29,7 +30,7 @@ class Paragraph2Test extends \PHPUnit\Framework\TestCase
     public function testTextAlign(): void
     {
         $phpWord = new PhpWord();
-        Style::setDefaultRtl(true);
+        Settings::setDefaultRtl(true);
         $align1 = ['alignment' => 'end'];
         $align2 = ['alignment' => 'start'];
         $phpWord->setDefaultParagraphStyle($align1);
@@ -72,7 +73,7 @@ class Paragraph2Test extends \PHPUnit\Framework\TestCase
     public function testTextRun(): void
     {
         $phpWord = new PhpWord();
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $phpWord->addParagraphStyle('parstyle1', ['align' => 'start']);
         $phpWord->addParagraphStyle('parstyle2', ['align' => 'end']);
         $section = $phpWord->addSection();
@@ -113,7 +114,7 @@ class Paragraph2Test extends \PHPUnit\Framework\TestCase
     public function testTextRunUnnamed(): void
     {
         $phpWord = new PhpWord();
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $parstyle1 = ['align' => 'start'];
         $parstyle2 = ['align' => 'end'];
         $section = $phpWord->addSection();
@@ -144,10 +145,10 @@ class Paragraph2Test extends \PHPUnit\Framework\TestCase
 
     public function testWhenNullifed(): void
     {
-        $dflt1 = Style::getDefaultRtl();
+        $dflt1 = Settings::isDefaultRtl();
         self::assertFalse($dflt1);
         $phpWord = new PhpWord();
-        $dflt2 = Style::getDefaultRtl();
+        $dflt2 = Settings::isDefaultRtl();
         self::assertNull($dflt2);
     }
 }

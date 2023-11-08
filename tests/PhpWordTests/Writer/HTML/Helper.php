@@ -84,9 +84,11 @@ class Helper extends \PHPUnit\Framework\TestCase
         return $returnVal;
     }
 
-    public static function getAsHTML(PhpWord $phpWord): DOMDocument
+    public static function getAsHTML(PhpWord $phpWord, string $defaultWhiteSpace = '', string $defaultGenericFont = ''): DOMDocument
     {
         $htmlWriter = new HTML($phpWord);
+        $htmlWriter->setDefaultWhiteSpace($defaultWhiteSpace);
+        $htmlWriter->setDefaultGenericFont($defaultGenericFont);
         $dom = new DOMDocument();
         $dom->loadHTML($htmlWriter->getContent());
 

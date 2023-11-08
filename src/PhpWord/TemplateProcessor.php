@@ -138,13 +138,15 @@ class TemplateProcessor
 
     public function __destruct()
     {
-        if ($this->zipClass !== null) {
+        // ZipClass
+        if ($this->zipClass) {
             try {
                 $this->zipClass->close();
             } catch (Throwable $e) {
                 // Nothing to do here.
             }
         }
+        // Temporary file
         if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
             unlink($this->tempDocumentFilename);
         }
@@ -279,7 +281,7 @@ class TemplateProcessor
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        return (null !== $subject) ? Text::toUTF8($subject) : '';
+        return $subject ? Text::toUTF8($subject) : '';
     }
 
     /**
@@ -454,7 +456,7 @@ class TemplateProcessor
         if (null === $value && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
+        if (!preg_match('/^([0-9\.]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
             $value = null;
         }
         if (null === $value) {

@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\ODText\Style;
 
-use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Image;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -33,7 +33,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
-        Style::setDefaultRtl(null);
+        Settings::setDefaultRtl(null);
         TestHelperDOCX::clear();
     }
 
@@ -71,7 +71,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
     public function testImage2(): void
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $section = $phpWord->addSection();
         $section->addImage(__DIR__ . '/../../../_files/images/earth.jpg');
         $section->addImage(__DIR__ . '/../../../_files/images/mario.gif', ['align' => 'end']);

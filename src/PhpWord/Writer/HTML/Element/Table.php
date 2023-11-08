@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Writer\HTML\Style\Table as TableStyleWriter;
+
 /**
  * Table element HTML writer.
  *
@@ -39,7 +41,7 @@ class Table extends AbstractElement
         $rows = $this->element->getRows();
         $rowCount = count($rows);
         if ($rowCount > 0) {
-            $content .= '<table' . self::getTableStyle($this->element->getStyle()) . '>' . PHP_EOL;
+            $content .= '<table' . $this->getTableStyle($this->element->getStyle()) . '>' . PHP_EOL;
 
             for ($i = 0; $i < $rowCount; ++$i) {
                 /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
@@ -51,7 +53,7 @@ class Table extends AbstractElement
                 $rowCellCount = count($rowCells);
                 for ($j = 0; $j < $rowCellCount; ++$j) {
                     $cellStyle = $rowCells[$j]->getStyle();
-                    $cellStyleCss = self::getTableStyle($cellStyle);
+                    $cellStyleCss = $this->getTableStyle($cellStyle);
                     $cellBgColor = $cellStyle->getBgColor();
                     $cellFgColor = null;
                     if ($cellBgColor && $cellBgColor !== 'auto') {
@@ -111,10 +113,8 @@ class Table extends AbstractElement
      * Translates Table style in CSS equivalent.
      *
      * @param null|\PhpOffice\PhpWord\Style\Cell|\PhpOffice\PhpWord\Style\Table|string $tableStyle
-     *
-     * @return string
      */
-    private static function getTableStyle($tableStyle = null)
+    private function getTableStyle($tableStyle = null): string
     {
         if ($tableStyle == null) {
             return '';
@@ -125,67 +125,12 @@ class Table extends AbstractElement
             return $style . '"';
         }
 
-        $style = self::getTableStyleString($tableStyle);
+        $styleWriter = new TableStyleWriter($tableStyle);
+        $style = $styleWriter->write();
         if ($style === '') {
             return '';
         }
 
         return ' style="' . $style . '"';
-    }
-
-    /**
-     * Translates Table style in CSS equivalent.
-     *
-     * @param \PhpOffice\PhpWord\Style\Cell|\PhpOffice\PhpWord\Style\Table|string $tableStyle
-     *
-     * @return string
-     */
-    public static function getTableStyleString($tableStyle)
-    {
-        $style = '';
-        if (is_object($tableStyle) && method_exists($tableStyle, 'getLayout')) {
-            if ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED) {
-                $style .= 'table-layout: fixed;';
-            } elseif ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO) {
-                $style .= 'table-layout: auto;';
-            }
-        }
-        if (is_object($tableStyle) && method_exists($tableStyle, 'isBidiVisual')) {
-            if ($tableStyle->isBidiVisual()) {
-                $style .= ' direction: rtl;';
-            }
-        }
-
-        $dirs = ['Top', 'Left', 'Bottom', 'Right'];
-        $testmethprefix = 'getBorder';
-        foreach ($dirs as $dir) {
-            $testmeth = $testmethprefix . $dir . 'Style';
-            if (method_exists($tableStyle, $testmeth)) {
-                $outval = $tableStyle->{$testmeth}();
-                if ($outval === 'single') {
-                    $outval = 'solid';
-                }
-                if (is_string($outval) && 1 == preg_match('/^[a-z]+$/', $outval)) {
-                    $style .= ' border-' . lcfirst($dir) . '-style: ' . $outval . ';';
-                }
-            }
-            $testmeth = $testmethprefix . $dir . 'Color';
-            if (method_exists($tableStyle, $testmeth)) {
-                $outval = $tableStyle->{$testmeth}();
-                if (is_string($outval) && 1 == preg_match('/^[a-z]+$/', $outval)) {
-                    $style .= ' border-' . lcfirst($dir) . '-color: ' . $outval . ';';
-                }
-            }
-            $testmeth = $testmethprefix . $dir . 'Size';
-            if (method_exists($tableStyle, $testmeth)) {
-                $outval = $tableStyle->{$testmeth}();
-                if (is_numeric($outval)) {
-                    // size is in twips - divide by 20 to get points
-                    $style .= ' border-' . lcfirst($dir) . '-width: ' . ((string) ($outval / 20)) . 'pt;';
-                }
-            }
-        }
-
-        return $style;
     }
 }

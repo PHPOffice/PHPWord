@@ -67,7 +67,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $phpWord->addParagraphStyle('indented', [
             'indentation' => ['left' => 0.50 * Converter::INCH_TO_TWIP, 'right' => 0.60 * Converter::INCH_TO_TWIP],
         ]);
-        $phpWord->addFontStyle('style1', ['name' => 'Courier New', 'size' => 10, 'htmlWhiteSpace' => 'pre-wrap', 'htmlGenericFont' => 'monospace']);
+        $phpWord->addFontStyle('style1', ['name' => 'Courier New', 'size' => 10, 'whiteSpace' => 'pre-wrap', 'fallbackFont' => 'monospace']);
         $text = 'This is a paragraph. It should be long enough to show the effects of indentation on both the right and left sides.';
         $section1 = $phpWord->addSection();
         $section1->addText($text, 'style1', $pstyle1);

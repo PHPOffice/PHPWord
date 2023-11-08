@@ -38,7 +38,7 @@ class Title extends Text
                 $sect = $element->getParent();
                 if ($sect instanceof \PhpOffice\PhpWord\Element\Section) {
                     $elems = $sect->getElements();
-                    if (self::isEqual($elems[0], $element)) {
+                    if ($elems[0] === $element) {
                         $pstyle = clone $pstyle;
                         $pstyle->setPageBreakBefore(false);
                     }
@@ -46,15 +46,6 @@ class Title extends Text
             }
             $this->paragraphStyle = $pstyle;
         }
-    }
-
-    /**
-     * @param mixed $comparand1
-     * @param mixed $comparand2
-     */
-    private static function isEqual($comparand1, $comparand2): bool
-    {
-        return $comparand1 === $comparand2;
     }
 
     /**

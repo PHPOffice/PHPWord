@@ -41,7 +41,7 @@ class Title extends AbstractElement
 
         $text = $this->element->getText();
         if (is_string($text)) {
-            $text = HTML::escapeOrNot($text);
+            $text = $this->parentWriter->escapeHTML($text);
         } else {
             $writer = new Container($this->parentWriter, $text);
             $text = $writer->write();

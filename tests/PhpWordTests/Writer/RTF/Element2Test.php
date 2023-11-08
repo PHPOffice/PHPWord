@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\RTF;
 
-use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\RTF;
 use PhpOffice\PhpWord\Writer\RTF\Element\Table as WriterTable;
 use PhpOffice\PhpWord\Writer\RTF\Element\TextRun as WriterTextRun;
@@ -30,7 +30,7 @@ class Element2Test extends \PHPUnit\Framework\TestCase
 {
     protected function tearDown(): void
     {
-        Style::setDefaultRtl(null);
+        Settings::setDefaultRtl(null);
     }
 
     /** @param WriterTable|WriterTextRun|WriterTitle $field */
@@ -41,7 +41,7 @@ class Element2Test extends \PHPUnit\Framework\TestCase
 
     public function testTable(): void
     {
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Table();
         $width = 100;
@@ -84,7 +84,7 @@ class Element2Test extends \PHPUnit\Framework\TestCase
 
     public function testTextRun(): void
     {
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\TextRun();
         $element->addText('Hello ');
@@ -96,7 +96,7 @@ class Element2Test extends \PHPUnit\Framework\TestCase
 
     public function testTextRunParagraphStyle(): void
     {
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\TextRun(['spaceBefore' => 0, 'spaceAfter' => 0]);
         $element->addText('Hello ');
@@ -110,13 +110,13 @@ class Element2Test extends \PHPUnit\Framework\TestCase
     {
         $parentWriter = new RTF();
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $phpWord->addTitleStyle(1, [], ['spaceBefore' => 0, 'spaceAfter' => 0]);
         $section = $phpWord->addSection();
         $element = $section->addTitle('First Heading', 1);
         $elwrite = new WriterTitle($parentWriter, $element);
         $expect = "\\pard\\nowidctlpar \\ql\\sb0\\sa0{\\outlinelevel0{\\cf0\\f0 First Heading}\\par\n}";
         self::assertEquals($expect, $this->removeCr($elwrite));
-        Style::setDefaultRtl(null);
+        Settings::setDefaultRtl(null);
     }
 }

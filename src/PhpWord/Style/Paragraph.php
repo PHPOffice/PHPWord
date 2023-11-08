@@ -18,10 +18,10 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
-use PhpOffice\PhpWord\Style;
 
 /**
  * Paragraph style.
@@ -199,9 +199,9 @@ class Paragraph extends Border
     public function setStyleValue($key, $value)
     {
         $key = Text::removeUnderscorePrefix($key);
-        //if ('indent' == $key || 'hanging' == $key) {
-        //    $value = $value * 720;  // 720 twips is 0.5 inch
-        //}
+        if ('indent' == $key || 'hanging' == $key) {
+            $value = $value * 720;  // 720 twips is 0.5 inch
+        }
 
         return parent::setStyleValue($key, $value);
     }
@@ -764,7 +764,7 @@ class Paragraph extends Border
      */
     public function isBidi()
     {
-        return $this->bidi ?? Style::getDefaultRtl();
+        return $this->bidi ?? Settings::isDefaultRtl();
     }
 
     /**

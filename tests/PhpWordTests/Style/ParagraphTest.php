@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWordTests\Style;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Tab;
@@ -91,9 +92,9 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         foreach ($attributes as $key => $value) {
             $get = $this->findGetter($key, $value, $object);
             $object->setStyleValue("$key", $value);
-            //if ('indent' == $key || 'hanging' == $key) {
-            //    $value = $value * 720;
-            //}
+            if (('indent' == $key || 'hanging' == $key) && is_numeric($value)) {
+                $value = $value * 720;
+            }
             self::assertEquals($value, $object->$get());
         }
     }
@@ -193,5 +194,34 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\PhpOffice\PhpWord\Exception\InvalidStyleException::class);
         $object = new Paragraph();
         $object->setLineHeight('a');
+    }
+
+    public function testBidiVisual(): void
+    {
+        $object = new Paragraph();
+        self::assertNull($object->isBidi());
+        self::assertInstanceOf(Paragraph::class, $object->setBidi(true));
+        self::assertTrue($object->isBidi());
+        self::assertInstanceOf(Paragraph::class, $object->setBidi(false));
+        self::assertFalse($object->isBidi());
+        self::assertInstanceOf(Paragraph::class, $object->setBidi(null));
+        self::assertNull($object->isBidi());
+    }
+
+    public function testBidiVisualSettings(): void
+    {
+        Settings::setDefaultRtl(null);
+        $object = new Paragraph();
+        self::assertNull($object->isBidi());
+
+        Settings::setDefaultRtl(true);
+        $object = new Paragraph();
+        self::assertTrue($object->isBidi());
+
+        Settings::setDefaultRtl(false);
+        $object = new Paragraph();
+        self::assertFalse($object->isBidi());
+
+        Settings::setDefaultRtl(null);
     }
 }

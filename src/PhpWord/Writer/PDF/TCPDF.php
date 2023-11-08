@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\WriterInterface;
+use TCPDF as TCPDFBase;
 
 /**
  * TCPDF writer.
@@ -39,28 +40,17 @@ class TCPDF extends AbstractRenderer implements WriterInterface
     protected $includeFile = 'tcpdf.php';
 
     /**
-     * Overridden to set isTcpdf.
-     *
-     * @codeCoverageIgnore
-     */
-    public function __construct(PhpWord $phpWord)
-    {
-        parent::__construct($phpWord);
-        $this->isTcpdf = true;
-    }
-
-    /**
      * Gets the implementation of external PDF library that should be used.
      *
      * @param string $orientation Page orientation
      * @param string $unit Unit measure
      * @param string $paperSize Paper size
      *
-     * @return \TCPDF implementation
+     * @return TCPDFBase implementation
      */
     protected function createExternalWriterInstance($orientation, $unit, $paperSize)
     {
-        $instance = new \TCPDF($orientation, $unit, $paperSize);
+        $instance = new TCPDFBase($orientation, $unit, $paperSize);
 
         if ($this->getFont()) {
             $instance->setFont($this->getFont(), $instance->getFontStyle(), $instance->getFontSizePt());
@@ -77,7 +67,7 @@ class TCPDF extends AbstractRenderer implements WriterInterface
      *   between paragaraphs when the user has
      *   explicitly set those values to numeric in default style.
      */
-    protected function prepareToWrite(\TCPDF $pdf): void
+    protected function prepareToWrite(TCPDFBase $pdf): void
     {
         $pdf->AddPage();
         $customStyles = Style::getStyles();
@@ -85,12 +75,14 @@ class TCPDF extends AbstractRenderer implements WriterInterface
         if ($normal instanceof Style\Paragraph) {
             $before = $normal->getSpaceBefore();
             $after = $normal->getSpaceAfter();
-            $height = $normal->getLineHeight() ?? '';
             if (is_numeric($before) && is_numeric($after)) {
-                $tagvs = [
-                    'p' => [['n' => $before, 'h' => $height], ['n' => $after, 'h' => $height]],
-                ];
-                $pdf->setHtmlVSpace($tagvs);
+                $height = $normal->getLineHeight() ?? '';
+                $pdf->setHtmlVSpace([
+                    'p' => [
+                        ['n' => $before, 'h' => $height],
+                        ['n' => $after, 'h' => $height],
+                    ],
+                ]);
             }
         }
     }

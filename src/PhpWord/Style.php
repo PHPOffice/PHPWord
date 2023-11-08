@@ -35,14 +35,11 @@ class Style
      */
     private static $styles = [];
 
-    /** @var ?bool */
-    private static $defaultRtl;
-
     /**
      * Add paragraph style.
      *
      * @param string $styleName
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles
+     * @param AbstractStyle|array $styles
      *
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
@@ -55,8 +52,8 @@ class Style
      * Add font style.
      *
      * @param string $styleName
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
+     * @param AbstractStyle|array $fontStyle
+     * @param AbstractStyle|array $paragraphStyle
      *
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -69,7 +66,7 @@ class Style
      * Add link style.
      *
      * @param string $styleName
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles
+     * @param AbstractStyle|array $styles
      *
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -82,7 +79,7 @@ class Style
      * Add numbering style.
      *
      * @param string $styleName
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styleValues
+     * @param AbstractStyle|array $styleValues
      *
      * @return \PhpOffice\PhpWord\Style\Numbering
      *
@@ -97,8 +94,8 @@ class Style
      * Add title style.
      *
      * @param null|int $depth Provide null to set title font
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
+     * @param AbstractStyle|array $fontStyle
+     * @param AbstractStyle|array $paragraphStyle
      *
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -147,13 +144,12 @@ class Style
     public static function resetStyles(): void
     {
         self::$styles = [];
-        self::$defaultRtl = null;
     }
 
     /**
      * Set default paragraph style.
      *
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles Paragraph style definition
+     * @param AbstractStyle|array $styles Paragraph style definition
      *
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
@@ -165,7 +161,7 @@ class Style
     /**
      * Get all styles.
      *
-     * @return \PhpOffice\PhpWord\Style\AbstractStyle[]
+     * @return AbstractStyle[]
      */
     public static function getStyles()
     {
@@ -177,7 +173,7 @@ class Style
      *
      * @param string $styleName
      *
-     * @return ?\PhpOffice\PhpWord\Style\AbstractStyle Paragraph|Font|Table|Numbering
+     * @return ?AbstractStyle Paragraph|Font|Table|Numbering
      */
     public static function getStyle($styleName)
     {
@@ -194,10 +190,10 @@ class Style
      * The $styleValues could be an array or object
      *
      * @param string $name
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle $style
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $value
+     * @param AbstractStyle $style
+     * @param AbstractStyle|array $value
      *
-     * @return \PhpOffice\PhpWord\Style\AbstractStyle
+     * @return AbstractStyle
      */
     private static function setStyleValues($name, $style, $value = null)
     {
@@ -217,17 +213,5 @@ class Style
         }
 
         return self::getStyle($name);
-    }
-
-    /** @param ?bool $defaultRtl */
-    public static function setDefaultRtl($defaultRtl): void
-    {
-        self::$defaultRtl = $defaultRtl;
-    }
-
-    /** @return ?bool */
-    public static function getDefaultRtl()
-    {
-        return self::$defaultRtl;
     }
 }

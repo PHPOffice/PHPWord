@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWordTests\Style;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Language;
@@ -79,8 +80,8 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'kerning' => null,
             'lang' => null,
             'hidden' => false,
-            'htmlWhiteSpace' => '',
-            'htmlGenericFont' => '',
+            'whiteSpace' => '',
+            'fallbackFont' => '',
         ];
         foreach ($attributes as $key => $default) {
             $get = is_bool($default) ? "is{$key}" : "get{$key}";
@@ -123,8 +124,8 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'noProof' => true,
             'lang' => new Language(Language::EN_US),
             'hidden' => true,
-            'htmlWhiteSpace' => 'pre-wrap',
-            'htmlGenericFont' => 'serif',
+            'whiteSpace' => 'pre-wrap',
+            'fallbackFont' => 'serif',
         ];
         $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {
@@ -195,5 +196,32 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $object->setLang(Language::FR_BE);
         self::assertInstanceOf('PhpOffice\PhpWord\Style\Language', $object->getLang());
         self::assertEquals(Language::FR_BE, $object->getLang()->getLatin());
+    }
+
+    public function testRTL(): void
+    {
+        $object = new Font();
+        self::assertNull($object->isRTL());
+        self::assertInstanceOf(Font::class, $object->setRTL(true));
+        self::assertTrue($object->isRTL());
+        self::assertInstanceOf(Font::class, $object->setRTL(false));
+        self::assertFalse($object->isRTL());
+    }
+
+    public function testRTLSettings(): void
+    {
+        Settings::setDefaultRtl(null);
+        $object = new Font();
+        self::assertNull($object->isRTL());
+
+        Settings::setDefaultRtl(true);
+        $object = new Font();
+        self::assertTrue($object->isRTL());
+
+        Settings::setDefaultRtl(false);
+        $object = new Font();
+        self::assertFalse($object->isRTL());
+
+        Settings::setDefaultRtl(null);
     }
 }

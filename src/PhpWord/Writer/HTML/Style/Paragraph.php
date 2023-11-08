@@ -17,7 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Writer\PDF\TCPDF;
 
 /**
  * Paragraph style HTML writer.
@@ -49,30 +51,29 @@ class Paragraph extends AbstractStyle
 
                     break;
                 case Jc::END:
-                    $textAlign = ($style->isBidi()) ? 'left' : 'right';
+                    $textAlign = $style->isBidi() ? 'left' : 'right';
 
                     break;
                 case Jc::MEDIUM_KASHIDA:
                 case Jc::HIGH_KASHIDA:
                 case Jc::LOW_KASHIDA:
-                case /** @scrutinizer ignore-deprecated */ Jc::RIGHT:
+                case Jc::RIGHT:
                     $textAlign = 'right';
 
                     break;
                 case Jc::BOTH:
                 case Jc::DISTRIBUTE:
                 case Jc::THAI_DISTRIBUTE:
-                case /** @scrutinizer ignore-deprecated */ Jc::JUSTIFY:
+                case Jc::JUSTIFY:
                     $textAlign = 'justify';
 
                     break;
-                case /** @scrutinizer ignore-deprecated */ Jc::LEFT:
+                case Jc::LEFT:
                     $textAlign = 'left';
 
                     break;
-
                 default: //all others, including Jc::START
-                    $textAlign = ($style->isBidi()) ? 'right' : 'left';
+                    $textAlign = $style->isBidi() ? 'right' : 'left';
 
                     break;
             }
@@ -89,23 +90,28 @@ class Paragraph extends AbstractStyle
             $css['margin-bottom'] = $this->getValueIf(null !== $after, ($after / 20) . 'pt');
         }
 
-        $lht = $style->getLineHeight();
-        if (!empty($lht)) {
-            $css['line-height'] = $lht;
+        // Line Height
+        $lineHeight = $style->getLineHeight();
+        if (!empty($lineHeight)) {
+            $css['line-height'] = $lineHeight;
         }
-        $ind = $style->getIndentation();
-        if ($ind != null) {
-            $tcpdf = $this->getParentWriter()->isTcpdf();
-            $left = $ind->getLeft();
-            $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
-            $css[$tcpdf ? 'text-indent' : 'margin-left'] = ((string) $inches) . 'in';
-            $left = $ind->getRight();
-            $inches = $left * 1.0 / \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
+
+        // Indentation (Margin)
+        $indentation = $style->getIndentation();
+        if ($indentation) {
+            $inches = $indentation->getLeft() * 1.0 / Converter::INCH_TO_TWIP;
+            $css[$this->getParentWriter() instanceof TCPDF ? 'text-indent' : 'margin-left'] = ((string) $inches) . 'in';
+
+            $inches = $indentation->getRight() * 1.0 / Converter::INCH_TO_TWIP;
             $css['margin-right'] = ((string) $inches) . 'in';
         }
+
+        // Page Break Before
         if ($style->hasPageBreakBefore()) {
             $css['page-break-before'] = 'always';
         }
+
+        // Bidirectional
         if ($style->isBidi()) {
             $css['direction'] = 'rtl';
         }

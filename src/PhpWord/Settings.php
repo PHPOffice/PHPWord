@@ -132,6 +132,13 @@ class Settings
     private static $defaultPaper = self::DEFAULT_PAPER;
 
     /**
+     * Is RTL by default ?
+     *
+     * @var ?bool
+     */
+    private static $defaultRtl;
+
+    /**
      * The user defined temporary directory.
      *
      * @var string
@@ -385,6 +392,16 @@ class Settings
         }
 
         return false;
+    }
+
+    public static function setDefaultRtl(?bool $defaultRtl): void
+    {
+        self::$defaultRtl = $defaultRtl;
+    }
+
+    public static function isDefaultRtl(): ?bool
+    {
+        return self::$defaultRtl;
     }
 
     /**

@@ -203,8 +203,6 @@ class Document extends AbstractPart
 
             $elementWriter = new Container($this->getParentWriter(), $section);
             $content .= $elementWriter->write();
-
-            //$content .= '\sect' . PHP_EOL;
         }
 
         return $content;

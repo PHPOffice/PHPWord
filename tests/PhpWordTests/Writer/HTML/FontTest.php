@@ -113,9 +113,9 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $phpWord->setDefaultFontName('Courier New');
         $phpWord->setDefaultFontSize(12);
         $phpWord->addFontStyle('style1', ['name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true]);
-        $phpWord->addFontStyle('style2', ['name' => 'Arial', 'size' => 10, 'htmlGenericFont' => 'sans-serif']);
-        $phpWord->addFontStyle('style3', ['name' => 'DejaVu Sans Monospace', 'size' => 10, 'htmlGenericFont' => 'monospace']);
-        $phpWord->addFontStyle('style4', ['name' => 'Arial', 'size' => 10, 'htmlGenericFont' => 'invalid']);
+        $phpWord->addFontStyle('style2', ['name' => 'Arial', 'size' => 10, 'fallbackFont' => 'sans-serif']);
+        $phpWord->addFontStyle('style3', ['name' => 'DejaVu Sans Monospace', 'size' => 10, 'fallbackFont' => 'monospace']);
+        $phpWord->addFontStyle('style4', ['name' => 'Arial', 'size' => 10, 'fallbackFont' => 'invalid']);
         $section1 = $phpWord->addSection();
         $section1->addText('Default font');
         $section1->addText('Tahoma', 'style1');
@@ -159,11 +159,10 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $phpWord = new PhpWord();
         $phpWord->setDefaultFontName('Courier New');
         $phpWord->setDefaultFontSize(12);
-        $phpWord->setDefaultHtmlGenericFont('monospace');
         $phpWord->addFontStyle('style1', ['name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true]);
-        $phpWord->addFontStyle('style2', ['name' => 'Arial', 'size' => 10, 'htmlGenericFont' => 'sans-serif']);
-        $phpWord->addFontStyle('style3', ['name' => 'DejaVu Sans Monospace', 'size' => 10, 'htmlGenericFont' => 'monospace']);
-        $phpWord->addFontStyle('style4', ['name' => 'Arial', 'size' => 10, 'htmlGenericFont' => 'invalid']);
+        $phpWord->addFontStyle('style2', ['name' => 'Arial', 'size' => 10, 'fallbackFont' => 'sans-serif']);
+        $phpWord->addFontStyle('style3', ['name' => 'DejaVu Sans Monospace', 'size' => 10, 'fallbackFont' => 'monospace']);
+        $phpWord->addFontStyle('style4', ['name' => 'Arial', 'size' => 10, 'fallbackFont' => 'invalid']);
         $section1 = $phpWord->addSection();
         $section1->addText('Default font');
         $section1->addText('Tahoma', 'style1');
@@ -171,7 +170,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $section1->addText('DejaVu Sans Monospace', 'style3');
         $section1->addText('Arial with invalid fallback', 'style4');
 
-        $dom = Helper::getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord, '', 'monospace');
         $xpath = new DOMXPath($dom);
 
         self::assertEmpty(Helper::getNamedItem($xpath, '/html/body/div/p[1]', 'class'));
@@ -205,12 +204,11 @@ class FontTest extends \PHPUnit\Framework\TestCase
     public function testWhiteSpace(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->setDefaultHtmlWhiteSpace('pre-wrap');
         $phpWord->setDefaultFontSize(12);
-        $phpWord->addFontStyle('style1', ['name' => 'Courier New', 'size' => 10, 'htmlWhiteSpace' => 'pre-wrap']);
-        $phpWord->addFontStyle('style2', ['name' => 'Courier New', 'size' => 10, 'htmlWhiteSpace' => 'invalid']);
-        $phpWord->addFontStyle('style3', ['name' => 'Courier New', 'size' => 10, 'htmlWhiteSpace' => 'normal']);
-        $phpWord->addFontStyle('style4', ['name' => 'Courier New', 'size' => 10, 'htmlWhiteSpace' => 'invalid']);
+        $phpWord->addFontStyle('style1', ['name' => 'Courier New', 'size' => 10, 'whiteSpace' => 'pre-wrap']);
+        $phpWord->addFontStyle('style2', ['name' => 'Courier New', 'size' => 10, 'whiteSpace' => 'invalid']);
+        $phpWord->addFontStyle('style3', ['name' => 'Courier New', 'size' => 10, 'whiteSpace' => 'normal']);
+        $phpWord->addFontStyle('style4', ['name' => 'Courier New', 'size' => 10, 'whiteSpace' => 'invalid']);
         $text = 'This                  is                 a               long                      line                                              which                     will                      be              split over 2 lines with pre-wrap';
         $section1 = $phpWord->addSection();
         $section1->addText($text);
@@ -219,7 +217,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $section1->addText($text, 'style3');
         $section1->addText($text, 'style4');
 
-        $dom = Helper::getAsHTML($phpWord);
+        $dom = Helper::getAsHTML($phpWord, 'pre-wrap');
         $xpath = new DOMXPath($dom);
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
@@ -245,7 +243,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
     public function testInline(): void
     {
         $phpWord = new PhpWord();
-        $style1 = ['name' => 'Courier New', 'size' => 10, 'htmlWhiteSpace' => 'pre-wrap'];
+        $style1 = ['name' => 'Courier New', 'size' => 10, 'whiteSpace' => 'pre-wrap'];
         $style2 = ['name' => 'Verdana', 'size' => 8.5];
         $text = 'This is a paragraph.';
         $section1 = $phpWord->addSection();

@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
@@ -773,7 +774,7 @@ class Table extends Border
      */
     public function isBidiVisual()
     {
-        return $this->bidiVisual ?? Style::getDefaultRtl();
+        return $this->bidiVisual ?? Settings::isDefaultRtl();
     }
 
     /**

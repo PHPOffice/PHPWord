@@ -53,6 +53,9 @@ class SettingsTest extends TestCase
 
     private $zipClass;
 
+    /** @var bool */
+    private $defaultRtl;
+
     protected function setUp(): void
     {
         $this->compatibility = Settings::hasCompatibility();
@@ -66,6 +69,7 @@ class SettingsTest extends TestCase
         $this->pdfRendererPath = Settings::getPdfRendererPath();
         $this->tempDir = Settings::getTempDir();
         $this->zipClass = Settings::getZipClass();
+        $this->defaultRtl = Settings::isDefaultRtl();
     }
 
     protected function tearDown(): void
@@ -81,6 +85,7 @@ class SettingsTest extends TestCase
         Settings::setPdfRendererPath($this->pdfRendererPath);
         Settings::setTempDir($this->tempDir);
         Settings::setZipClass($this->zipClass);
+        Settings::setDefaultRtl($this->defaultRtl);
     }
 
     /**
@@ -101,6 +106,17 @@ class SettingsTest extends TestCase
         self::assertFalse(Settings::isOutputEscapingEnabled());
         Settings::setOutputEscapingEnabled(true);
         self::assertTrue(Settings::isOutputEscapingEnabled());
+    }
+
+    public function testSetGetDefaultRtl(): void
+    {
+        self::assertNull(Settings::isDefaultRtl());
+        Settings::setDefaultRtl(true);
+        self::assertTrue(Settings::isDefaultRtl());
+        Settings::setDefaultRtl(false);
+        self::assertFalse(Settings::isDefaultRtl());
+        Settings::setDefaultRtl(null);
+        self::assertNull(Settings::isDefaultRtl());
     }
 
     /**

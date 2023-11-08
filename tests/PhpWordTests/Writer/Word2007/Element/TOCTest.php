@@ -31,7 +31,7 @@ class TOCTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
-        //TestHelperDOCX::clear();
+        TestHelperDOCX::clear();
     }
 
     public function testWriteTitlePageNumber(): void

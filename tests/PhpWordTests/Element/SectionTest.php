@@ -75,18 +75,18 @@ class SectionTest extends \PHPUnit\Framework\TestCase
 
         $section = new Section(0);
         $section->setPhpWord(new PhpWord());
-        $section->addText(Utf8Decode::decode('ä'));
-        $section->addLink(Utf8Decode::decode('http://äää.com'), Utf8Decode::decode('ä'));
+        $section->addText(utf8decode('ä'));
+        $section->addLink(utf8decode('http://äää.com'), utf8decode('ä'));
         $section->addTextBreak();
         $section->addPageBreak();
         $section->addTable();
-        $section->addListItem(Utf8Decode::decode('ä'));
+        $section->addListItem(utf8decode('ä'));
         $section->addObject($objectSource);
         $section->addImage($imageSource);
-        $section->addTitle(Utf8Decode::decode('ä'), 1);
+        $section->addTitle(utf8decode('ä'), 1);
         $section->addTextRun();
         $section->addFootnote();
-        $section->addCheckBox(Utf8Decode::decode('chkä'), Utf8Decode::decode('Contentä'));
+        $section->addCheckBox(utf8decode('chkä'), utf8decode('Contentä'));
         $section->addTOC();
 
         $elementCollection = $section->getElements();

@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWordTests\Escaper;
 
-use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Test class for PhpOffice\PhpWord\Escaper\RTF.
@@ -30,7 +30,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
 
     protected function tearDown(): void
     {
-        Style::setDefaultRtl(null);
+        Settings::setDefaultRtl(null);
     }
 
     public function escapestring(string $str): string
@@ -54,7 +54,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
      */
     public function testSpecial(): void
     {
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $str = 'Special characters { open brace } close brace \\ backslash';
         $expect = $this->expect('Special characters \\{ open brace \\} close brace \\\\ backslash');
         self::assertEquals($expect, $this->escapestring($str));
@@ -65,7 +65,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
      */
     public function testAccent(): void
     {
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $str = 'Voilà - string with accented char';
         $expect = $this->expect('Voil\\uc0{\\u224} - string with accented char');
         self::assertEquals($expect, $this->escapestring($str));
@@ -76,7 +76,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
      */
     public function testHebrew(): void
     {
-        Style::setDefaultRtl(true);
+        Settings::setDefaultRtl(true);
         $str = 'Hebrew - שלום';
         $expect = $this->expect('Hebrew - \\uc0{\\u1513}\\uc0{\\u1500}\\uc0{\\u1493}\\uc0{\\u1501}', true);
         self::assertEquals($expect, $this->escapestring($str));
@@ -87,7 +87,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
      */
     public function testTab(): void
     {
-        Style::setDefaultRtl(false);
+        Settings::setDefaultRtl(false);
         $str = "Here's a tab\tfollowed by more characters.";
         $expect = $this->expect("Here's a tab{\\tab}followed by more characters.");
         self::assertEquals($expect, $this->escapestring($str));
