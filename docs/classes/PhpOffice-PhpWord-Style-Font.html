@@ -122,7 +122,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
@@ -410,6 +410,13 @@
 <dd>Double strikethrough.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/PhpOffice-PhpWord-Style-Font.html#property_fallbackFont">$fallbackFont</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+<dd>Generic font as fallback for html.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/PhpOffice-PhpWord-Style-Font.html#property_fgColor">$fgColor</a>
     <span>
                         &nbsp;: string            </span>
@@ -454,7 +461,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/PhpOffice-PhpWord-Style-Font.html#property_lang">$lang</a>
     <span>
-                        &nbsp;: <a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a>            </span>
+                        &nbsp;: null|<a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a>            </span>
 </dt>
 <dd>Languages.</dd>
 
@@ -489,7 +496,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/PhpOffice-PhpWord-Style-Font.html#property_rtl">$rtl</a>
     <span>
-                        &nbsp;: bool            </span>
+                        &nbsp;: bool|null            </span>
 </dt>
 <dd>Right to left languages.</dd>
 
@@ -563,6 +570,13 @@
 </dt>
 <dd>Undeline.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/PhpOffice-PhpWord-Style-Font.html#property_whiteSpace">$whiteSpace</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+<dd>Preservation of white space in html.</dd>
+
     </dl>
 
 <h4 id="toc-methods">
@@ -600,6 +614,13 @@
 <dd>Get font color.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getFallbackFont">getFallbackFont()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get html fallback generic font.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getFgColor">getFgColor()</a>
     <span>
                                 &nbsp;: string    </span>
@@ -630,7 +651,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getLang">getLang()</a>
     <span>
-                                &nbsp;: <a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a>    </span>
+                                &nbsp;: null|<a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a>    </span>
 </dt>
 <dd>Get language.</dd>
 
@@ -719,6 +740,13 @@
 <dd>Get underline.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getWhiteSpace">getWhiteSpace()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get html css white-space value.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_isAllCaps">isAllCaps()</a>
     <span>
                                 &nbsp;: bool    </span>
@@ -770,7 +798,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_isRTL">isRTL()</a>
     <span>
-                                &nbsp;: bool    </span>
+                                &nbsp;: bool|null    </span>
 </dt>
 <dd>Get rtl.</dd>
 
@@ -843,6 +871,13 @@
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set double strikethrough.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setFallbackFont">setFallbackFont()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Set generic font for fallback for html.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setFgColor">setFgColor()</a>
@@ -1019,6 +1054,13 @@
 </dt>
 <dd>Set underline.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setWhiteSpace">setWhiteSpace()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Set html css white-space value. It is expected that only pre-wrap and normal (default) are useful.</dd>
+
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setBoolVal">setBoolVal()</a>
     <span>
@@ -1097,7 +1139,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">71</span>
 
     </aside>
 
@@ -1125,7 +1167,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -1153,7 +1195,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">59</span>
 
     </aside>
 
@@ -1181,7 +1223,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">60</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
@@ -1209,7 +1251,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">61</span>
+    <span class="phpdocumentor-element-found-in__line">64</span>
 
     </aside>
 
@@ -1237,7 +1279,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">69</span>
 
     </aside>
 
@@ -1265,7 +1307,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">62</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 
     </aside>
 
@@ -1293,7 +1335,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">63</span>
+    <span class="phpdocumentor-element-found-in__line">66</span>
 
     </aside>
 
@@ -1321,7 +1363,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
@@ -1349,7 +1391,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">65</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 
     </aside>
 
@@ -1377,7 +1419,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">67</span>
+    <span class="phpdocumentor-element-found-in__line">70</span>
 
     </aside>
 
@@ -1405,7 +1447,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">58</span>
 
     </aside>
 
@@ -1433,7 +1475,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">57</span>
+    <span class="phpdocumentor-element-found-in__line">60</span>
 
     </aside>
 
@@ -1461,7 +1503,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">62</span>
 
     </aside>
 
@@ -1489,7 +1531,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
@@ -1534,7 +1576,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -1562,7 +1604,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -1590,7 +1632,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
@@ -1618,7 +1660,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -1646,7 +1688,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -1674,7 +1716,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
@@ -1702,7 +1744,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
@@ -1730,7 +1772,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -1758,7 +1800,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -1786,7 +1828,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
@@ -1814,7 +1856,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -1842,7 +1884,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -1870,7 +1912,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -1915,7 +1957,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
@@ -1943,7 +1985,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -1971,7 +2013,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -1999,7 +2041,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">49</span>
 
     </aside>
 
@@ -2027,7 +2069,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
@@ -2071,7 +2113,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">78</span>
 
     </aside>
 
@@ -2175,7 +2217,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">177</span>
+    <span class="phpdocumentor-element-found-in__line">180</span>
 
     </aside>
 
@@ -2224,7 +2266,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">117</span>
+    <span class="phpdocumentor-element-found-in__line">120</span>
 
     </aside>
 
@@ -2258,7 +2300,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">110</span>
+    <span class="phpdocumentor-element-found-in__line">113</span>
 
     </aside>
 
@@ -2292,7 +2334,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">159</span>
+    <span class="phpdocumentor-element-found-in__line">162</span>
 
     </aside>
 
@@ -2316,6 +2358,42 @@
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="property_fallbackFont">
+        $fallbackFont
+        <a href="classes/PhpOffice-PhpWord-Style-Font.html#property_fallbackFont" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">285</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Generic font as fallback for html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$fallbackFont</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span></code>
+
+    
+        <section class="phpdocumentor-description"><p>generic font name</p>
+</section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="property_fgColor">
         $fgColor
         <a href="classes/PhpOffice-PhpWord-Style-Font.html#property_fgColor" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2326,7 +2404,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">184</span>
+    <span class="phpdocumentor-element-found-in__line">187</span>
 
     </aside>
 
@@ -2360,7 +2438,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">259</span>
+    <span class="phpdocumentor-element-found-in__line">262</span>
 
     </aside>
 
@@ -2409,7 +2487,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">96</span>
+    <span class="phpdocumentor-element-found-in__line">99</span>
 
     </aside>
 
@@ -2492,7 +2570,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">124</span>
+    <span class="phpdocumentor-element-found-in__line">127</span>
 
     </aside>
 
@@ -2526,7 +2604,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">214</span>
+    <span class="phpdocumentor-element-found-in__line">217</span>
 
     </aside>
 
@@ -2583,7 +2661,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">250</span>
+    <span class="phpdocumentor-element-found-in__line">253</span>
 
     </aside>
 
@@ -2591,7 +2669,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a></span>
+        <span class="phpdocumentor-signature__type">null|<a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a></span>
     <span class="phpdocumentor-signature__name">$lang</span>
     </code>
 
@@ -2617,7 +2695,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">89</span>
+    <span class="phpdocumentor-element-found-in__line">92</span>
 
     </aside>
 
@@ -2651,7 +2729,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">243</span>
+    <span class="phpdocumentor-element-found-in__line">246</span>
 
     </aside>
 
@@ -2687,7 +2765,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">221</span>
+    <span class="phpdocumentor-element-found-in__line">224</span>
 
     </aside>
 
@@ -2721,7 +2799,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">268</span>
+    <span class="phpdocumentor-element-found-in__line">271</span>
 
     </aside>
 
@@ -2772,7 +2850,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">235</span>
+    <span class="phpdocumentor-element-found-in__line">238</span>
 
     </aside>
 
@@ -2780,7 +2858,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">bool</span>
+        <span class="phpdocumentor-signature__type">bool|null</span>
     <span class="phpdocumentor-signature__name">$rtl</span>
     </code>
 
@@ -2806,7 +2884,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">194</span>
+    <span class="phpdocumentor-element-found-in__line">197</span>
 
     </aside>
 
@@ -2863,7 +2941,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">228</span>
+    <span class="phpdocumentor-element-found-in__line">231</span>
 
     </aside>
 
@@ -2897,7 +2975,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">103</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 
     </aside>
 
@@ -2931,7 +3009,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">168</span>
+    <span class="phpdocumentor-element-found-in__line">171</span>
 
     </aside>
 
@@ -2980,7 +3058,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">204</span>
+    <span class="phpdocumentor-element-found-in__line">207</span>
 
     </aside>
 
@@ -3037,7 +3115,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">152</span>
+    <span class="phpdocumentor-element-found-in__line">155</span>
 
     </aside>
 
@@ -3071,7 +3149,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">145</span>
+    <span class="phpdocumentor-element-found-in__line">148</span>
 
     </aside>
 
@@ -3105,7 +3183,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">138</span>
+    <span class="phpdocumentor-element-found-in__line">141</span>
 
     </aside>
 
@@ -3139,7 +3217,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">82</span>
+    <span class="phpdocumentor-element-found-in__line">85</span>
 
     </aside>
 
@@ -3173,7 +3251,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">131</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 
     </aside>
 
@@ -3187,6 +3265,42 @@
 
     
     
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_whiteSpace">
+        $whiteSpace
+        <a href="classes/PhpOffice-PhpWord-Style-Font.html#property_whiteSpace" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">278</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Preservation of white space in html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$whiteSpace</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span></code>
+
+    
+        <section class="phpdocumentor-description"><p>Value used for css white-space</p>
+</section>
+
     
 
 </article>
@@ -3212,7 +3326,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">276</span>
+    <span class="phpdocumentor-element-found-in__line">293</span>
 
     </aside>
 
@@ -3265,7 +3379,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">666</span>
+    <span class="phpdocumentor-element-found-in__line">683</span>
 
     </aside>
 
@@ -3365,7 +3479,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">414</span>
+    <span class="phpdocumentor-element-found-in__line">431</span>
 
     </aside>
 
@@ -3393,6 +3507,42 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getFallbackFont">
+        getFallbackFont()
+        <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getFallbackFont" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1002</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get html fallback generic font.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getFallbackFont</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getFgColor">
         getFgColor()
         <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getFgColor" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3401,7 +3551,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">642</span>
+    <span class="phpdocumentor-element-found-in__line">659</span>
 
     </aside>
 
@@ -3437,7 +3587,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">366</span>
+    <span class="phpdocumentor-element-found-in__line">383</span>
 
     </aside>
 
@@ -3509,7 +3659,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">736</span>
+    <span class="phpdocumentor-element-found-in__line">753</span>
 
     </aside>
 
@@ -3545,7 +3695,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">880</span>
+    <span class="phpdocumentor-element-found-in__line">897</span>
 
     </aside>
 
@@ -3553,7 +3703,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getLang</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">getLang</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">null|<a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3563,7 +3713,7 @@
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type">null|<a href="classes/PhpOffice-PhpWord-Style-Language.html"><abbr title="\PhpOffice\PhpWord\Style\Language">Language</abbr></a></span>
             </section>
 
 </article>
@@ -3581,7 +3731,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">784</span>
+    <span class="phpdocumentor-element-found-in__line">801</span>
 
     </aside>
 
@@ -3617,7 +3767,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">342</span>
+    <span class="phpdocumentor-element-found-in__line">359</span>
 
     </aside>
 
@@ -3653,7 +3803,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">808</span>
+    <span class="phpdocumentor-element-found-in__line">825</span>
 
     </aside>
 
@@ -3689,7 +3839,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">931</span>
+    <span class="phpdocumentor-element-found-in__line">948</span>
 
     </aside>
 
@@ -3725,7 +3875,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">688</span>
+    <span class="phpdocumentor-element-found-in__line">705</span>
 
     </aside>
 
@@ -3761,7 +3911,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">856</span>
+    <span class="phpdocumentor-element-found-in__line">873</span>
 
     </aside>
 
@@ -3797,7 +3947,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">390</span>
+    <span class="phpdocumentor-element-found-in__line">407</span>
 
     </aside>
 
@@ -3833,7 +3983,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">712</span>
+    <span class="phpdocumentor-element-found-in__line">729</span>
 
     </aside>
 
@@ -3905,7 +4055,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">332</span>
+    <span class="phpdocumentor-element-found-in__line">349</span>
 
     </aside>
 
@@ -3941,7 +4091,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">289</span>
+    <span class="phpdocumentor-element-found-in__line">306</span>
 
     </aside>
 
@@ -3992,7 +4142,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">486</span>
+    <span class="phpdocumentor-element-found-in__line">503</span>
 
     </aside>
 
@@ -4020,6 +4170,42 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getWhiteSpace">
+        getWhiteSpace()
+        <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getWhiteSpace" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">982</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get html css white-space value.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getWhiteSpace</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_isAllCaps">
         isAllCaps()
         <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_isAllCaps" class="headerlink"><i class="fas fa-link"></i></a>
@@ -4028,7 +4214,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">620</span>
+    <span class="phpdocumentor-element-found-in__line">637</span>
 
     </aside>
 
@@ -4100,7 +4286,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">438</span>
+    <span class="phpdocumentor-element-found-in__line">455</span>
 
     </aside>
 
@@ -4136,7 +4322,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">576</span>
+    <span class="phpdocumentor-element-found-in__line">593</span>
 
     </aside>
 
@@ -4172,7 +4358,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">907</span>
+    <span class="phpdocumentor-element-found-in__line">924</span>
 
     </aside>
 
@@ -4208,7 +4394,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">462</span>
+    <span class="phpdocumentor-element-found-in__line">479</span>
 
     </aside>
 
@@ -4244,7 +4430,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">760</span>
+    <span class="phpdocumentor-element-found-in__line">777</span>
 
     </aside>
 
@@ -4280,7 +4466,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">832</span>
+    <span class="phpdocumentor-element-found-in__line">849</span>
 
     </aside>
 
@@ -4288,7 +4474,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">isRTL</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">isRTL</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -4298,7 +4484,7 @@
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
+        <span class="phpdocumentor-signature__response_type">bool|null</span>
             </section>
 
 </article>
@@ -4316,7 +4502,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">598</span>
+    <span class="phpdocumentor-element-found-in__line">615</span>
 
     </aside>
 
@@ -4352,7 +4538,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">554</span>
+    <span class="phpdocumentor-element-found-in__line">571</span>
 
     </aside>
 
@@ -4388,7 +4574,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">532</span>
+    <span class="phpdocumentor-element-found-in__line">549</span>
 
     </aside>
 
@@ -4424,7 +4610,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">510</span>
+    <span class="phpdocumentor-element-found-in__line">527</span>
 
     </aside>
 
@@ -4460,7 +4646,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">632</span>
+    <span class="phpdocumentor-element-found-in__line">649</span>
 
     </aside>
 
@@ -4552,7 +4738,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">678</span>
+    <span class="phpdocumentor-element-found-in__line">695</span>
 
     </aside>
 
@@ -4598,7 +4784,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">450</span>
+    <span class="phpdocumentor-element-found-in__line">467</span>
 
     </aside>
 
@@ -4644,7 +4830,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">426</span>
+    <span class="phpdocumentor-element-found-in__line">443</span>
 
     </aside>
 
@@ -4690,7 +4876,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">588</span>
+    <span class="phpdocumentor-element-found-in__line">605</span>
 
     </aside>
 
@@ -4728,6 +4914,54 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_setFallbackFont">
+        setFallbackFont()
+        <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setFallbackFont" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">992</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set generic font for fallback for html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setFallbackFont</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>generic font name</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_setFgColor">
         setFgColor()
         <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setFgColor" class="headerlink"><i class="fas fa-link"></i></a>
@@ -4736,7 +4970,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">654</span>
+    <span class="phpdocumentor-element-found-in__line">671</span>
 
     </aside>
 
@@ -4782,7 +5016,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">919</span>
+    <span class="phpdocumentor-element-found-in__line">936</span>
 
     </aside>
 
@@ -4828,7 +5062,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">378</span>
+    <span class="phpdocumentor-element-found-in__line">395</span>
 
     </aside>
 
@@ -4920,7 +5154,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">474</span>
+    <span class="phpdocumentor-element-found-in__line">491</span>
 
     </aside>
 
@@ -4966,7 +5200,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">748</span>
+    <span class="phpdocumentor-element-found-in__line">765</span>
 
     </aside>
 
@@ -5012,7 +5246,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">892</span>
+    <span class="phpdocumentor-element-found-in__line">909</span>
 
     </aside>
 
@@ -5058,7 +5292,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">796</span>
+    <span class="phpdocumentor-element-found-in__line">813</span>
 
     </aside>
 
@@ -5104,7 +5338,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">354</span>
+    <span class="phpdocumentor-element-found-in__line">371</span>
 
     </aside>
 
@@ -5150,7 +5384,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">772</span>
+    <span class="phpdocumentor-element-found-in__line">789</span>
 
     </aside>
 
@@ -5196,7 +5430,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">820</span>
+    <span class="phpdocumentor-element-found-in__line">837</span>
 
     </aside>
 
@@ -5242,7 +5476,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">943</span>
+    <span class="phpdocumentor-element-found-in__line">960</span>
 
     </aside>
 
@@ -5288,7 +5522,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">844</span>
+    <span class="phpdocumentor-element-found-in__line">861</span>
 
     </aside>
 
@@ -5296,7 +5530,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setRTL</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">setRTL</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">bool|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -5305,7 +5539,7 @@
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$value</span>
-                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
+                : <span class="phpdocumentor-signature__argument__return-type">bool|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">true</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -5334,7 +5568,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">700</span>
+    <span class="phpdocumentor-element-found-in__line">717</span>
 
     </aside>
 
@@ -5380,7 +5614,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">868</span>
+    <span class="phpdocumentor-element-found-in__line">885</span>
 
     </aside>
 
@@ -5426,7 +5660,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">402</span>
+    <span class="phpdocumentor-element-found-in__line">419</span>
 
     </aside>
 
@@ -5472,7 +5706,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">610</span>
+    <span class="phpdocumentor-element-found-in__line">627</span>
 
     </aside>
 
@@ -5518,7 +5752,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">724</span>
+    <span class="phpdocumentor-element-found-in__line">741</span>
 
     </aside>
 
@@ -5564,7 +5798,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">566</span>
+    <span class="phpdocumentor-element-found-in__line">583</span>
 
     </aside>
 
@@ -5760,7 +5994,7 @@ Check if the set method is exists. Throws an exception?</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">544</span>
+    <span class="phpdocumentor-element-found-in__line">561</span>
 
     </aside>
 
@@ -5806,7 +6040,7 @@ Check if the set method is exists. Throws an exception?</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">522</span>
+    <span class="phpdocumentor-element-found-in__line">539</span>
 
     </aside>
 
@@ -5852,7 +6086,7 @@ Check if the set method is exists. Throws an exception?</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">498</span>
+    <span class="phpdocumentor-element-found-in__line">515</span>
 
     </aside>
 
@@ -5873,6 +6107,54 @@ Check if the set method is exists. Throws an exception?</p>
                  = <span class="phpdocumentor-signature__argument__default-value">self::UNDERLINE_NONE</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setWhiteSpace">
+        setWhiteSpace()
+        <a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setWhiteSpace" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Font.php"><a href="files/src-phpword-style-font.html"><abbr title="src/PhpWord/Style/Font.php">Font.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">972</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set html css white-space value. It is expected that only pre-wrap and normal (default) are useful.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setWhiteSpace</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">null|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">null|string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Should be one of pre-wrap, normal, nowrap, pre, pre-line, initial, inherit</p>
+</section>
+
             </dd>
             </dl>
 
@@ -6480,6 +6762,7 @@ Check if the set method is exists. Throws an exception?</p>
                                                     <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_bold">$bold<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_color">$color<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_doubleStrikethrough">$doubleStrikethrough<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
+                                                    <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_fallbackFont">$fallbackFont<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_fgColor">$fgColor<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_hidden">$hidden<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_hint">$hint<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
@@ -6502,6 +6785,7 @@ Check if the set method is exists. Throws an exception?</p>
                                                     <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_superScript">$superScript<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_type">$type<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_underline">$underline<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
+                                                    <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#property_whiteSpace">$whiteSpace<a href="classes/PhpOffice-PhpWord-Style-Font.html"></li>
                                             </ul>
                 </li>
             
@@ -6512,6 +6796,7 @@ Check if the set method is exists. Throws an exception?</p>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getBgColor">getBgColor()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_getChildStyleValue">getChildStyleValue()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getColor">getColor()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getFallbackFont">getFallbackFont()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getFgColor">getFgColor()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getHint">getHint()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_getIndex">getIndex()</a></li>
@@ -6529,6 +6814,7 @@ Check if the set method is exists. Throws an exception?</p>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getStyleType">getStyleType()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getStyleValues">getStyleValues()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getUnderline">getUnderline()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_getWhiteSpace">getWhiteSpace()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_isAllCaps">isAllCaps()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_isAuto">isAuto()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_isBold">isBold()</a></li>
@@ -6547,6 +6833,7 @@ Check if the set method is exists. Throws an exception?</p>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setBold">setBold()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setColor">setColor()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setDoubleStrikethrough">setDoubleStrikethrough()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setFallbackFont">setFallbackFont()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setFgColor">setFgColor()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setHidden">setHidden()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setHint">setHint()</a></li>
@@ -6572,6 +6859,7 @@ Check if the set method is exists. Throws an exception?</p>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setSubScript">setSubScript()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setSuperScript">setSuperScript()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setUnderline">setUnderline()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Style-Font.html#method_setWhiteSpace">setWhiteSpace()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setBoolVal">setBoolVal()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setEnumVal">setEnumVal()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setFloatVal">setFloatVal()</a></li>

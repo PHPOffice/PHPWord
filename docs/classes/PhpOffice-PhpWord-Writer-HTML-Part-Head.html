@@ -124,7 +124,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Part/Head.php"><a href="files/src-phpword-writer-html-part-head.html"><abbr title="src/PhpWord/Writer/HTML/Part/Head.php">Head.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
@@ -170,16 +170,10 @@
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#property_escaper">$escaper</a>
-    <span>
-                        &nbsp;: <abbr title="\Laminas\Escaper\Escaper">Escaper</abbr>            </span>
-</dt>
-
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#property_parentWriter">$parentWriter</a>
     <span>
-                        &nbsp;: <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a>            </span>
+                        &nbsp;: <a href="classes/PhpOffice-PhpWord-Writer-HTML.html"><abbr title="\PhpOffice\PhpWord\Writer\HTML">HTML</abbr></a>|null            </span>
 </dt>
 
     </dl>
@@ -191,15 +185,9 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#method___construct">__construct()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#method_getParentWriter">getParentWriter()</a>
     <span>
-                                &nbsp;: <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a>    </span>
+                                &nbsp;: <a href="classes/PhpOffice-PhpWord-Writer-HTML.html"><abbr title="\PhpOffice\PhpWord\Writer\HTML">HTML</abbr></a>    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
@@ -214,6 +202,13 @@
                                 &nbsp;: string    </span>
 </dt>
 <dd>Write part.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html#method_getFontFamily">getFontFamily()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Set font and alternates for css font-family.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html#method_writeStyles">writeStyles()</a>
@@ -240,39 +235,6 @@
         class="
             phpdocumentor-element
             -property
-            -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_escaper">
-        $escaper
-        <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#property_escaper" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Part/AbstractPart.php"><a href="files/src-phpword-writer-html-part-abstractpart.html"><abbr title="src/PhpWord/Writer/HTML/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">37</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type"><abbr title="\Laminas\Escaper\Escaper">Escaper</abbr></span>
-    <span class="phpdocumentor-signature__name">$escaper</span>
-    </code>
-
-    
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
             -private
                                                         "
 >
@@ -286,14 +248,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Part/AbstractPart.php"><a href="files/src-phpword-writer-html-part-abstractpart.html"><abbr title="src/PhpWord/Writer/HTML/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a></span>
+        <span class="phpdocumentor-signature__type"><a href="classes/PhpOffice-PhpWord-Writer-HTML.html"><abbr title="\PhpOffice\PhpWord\Writer\HTML">HTML</abbr></a>|null</span>
     <span class="phpdocumentor-signature__name">$parentWriter</span>
     </code>
 
@@ -316,37 +278,6 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method___construct">
-        __construct()
-        <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Part/AbstractPart.php"><a href="files/src-phpword-writer-html-part-abstractpart.html"><abbr title="src/PhpWord/Writer/HTML/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">39</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_getParentWriter">
         getParentWriter()
         <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#method_getParentWriter" class="headerlink"><i class="fas fa-link"></i></a>
@@ -355,14 +286,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Part/AbstractPart.php"><a href="files/src-phpword-writer-html-part-abstractpart.html"><abbr title="src/PhpWord/Writer/HTML/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">60</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getParentWriter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">getParentWriter</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Writer-HTML.html"><abbr title="\PhpOffice\PhpWord\Writer\HTML">HTML</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -372,7 +303,7 @@
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Writer-HTML.html"><abbr title="\PhpOffice\PhpWord\Writer\HTML">HTML</abbr></a></span>
             </section>
 
 </article>
@@ -390,14 +321,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Part/AbstractPart.php"><a href="files/src-phpword-writer-html-part-abstractpart.html"><abbr title="src/PhpWord/Writer/HTML/Part/AbstractPart.php">AbstractPart.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setParentWriter</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$writer</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setParentWriter</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Writer-HTML.html"><abbr title="\PhpOffice\PhpWord\Writer\HTML">HTML</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$writer</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -406,7 +337,7 @@
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$writer</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html"><abbr title="\PhpOffice\PhpWord\Writer\AbstractWriter">AbstractWriter</abbr></a></span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Writer-HTML.html"><abbr title="\PhpOffice\PhpWord\Writer\HTML">HTML</abbr></a>|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -431,7 +362,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Part/Head.php"><a href="files/src-phpword-writer-html-part-head.html"><abbr title="src/PhpWord/Writer/HTML/Part/Head.php">Head.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -459,6 +390,59 @@
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getFontFamily">
+        getFontFamily()
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html#method_getFontFamily" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Part/Head.php"><a href="files/src-phpword-writer-html-part-head.html"><abbr title="src/PhpWord/Writer/HTML/Part/Head.php">Head.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">196</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set font and alternates for css font-family.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getFontFamily</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$font</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$genericFont</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$font</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$genericFont</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_writeStyles">
         writeStyles()
         <a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html#method_writeStyles" class="headerlink"><i class="fas fa-link"></i></a>
@@ -467,7 +451,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Part/Head.php"><a href="files/src-phpword-writer-html-part-head.html"><abbr title="src/PhpWord/Writer/HTML/Part/Head.php">Head.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">84</span>
 
     </aside>
 
@@ -602,7 +586,6 @@
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#property_escaper">$escaper<a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#property_parentWriter">$parentWriter<a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html"></li>
                                             </ul>
                 </li>
@@ -610,10 +593,10 @@
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#method___construct">__construct()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#method_getParentWriter">getParentWriter()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-AbstractPart.html#method_setParentWriter">setParentWriter()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html#method_write">write()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html#method_getFontFamily">getFontFamily()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html#method_writeStyles">writeStyles()</a></li>
                                     </ul>
             </li>

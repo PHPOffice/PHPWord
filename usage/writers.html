@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.7">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.4b4a2bd9.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
@@ -1077,21 +1077,27 @@
       
         <li class="md-nav__item">
   <a href="#html" class="md-nav__link">
-    HTML
+    <span class="md-ellipsis">
+      HTML
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#odtext" class="md-nav__link">
-    ODText
+    <span class="md-ellipsis">
+      ODText
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#pdf" class="md-nav__link">
-    PDF
+    <span class="md-ellipsis">
+      PDF
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="PDF">
@@ -1099,7 +1105,9 @@
         
           <li class="md-nav__item">
   <a href="#options" class="md-nav__link">
-    Options
+    <span class="md-ellipsis">
+      Options
+    </span>
   </a>
   
 </li>
@@ -1111,14 +1119,18 @@
       
         <li class="md-nav__item">
   <a href="#rtf" class="md-nav__link">
-    RTF
+    <span class="md-ellipsis">
+      RTF
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#word2007" class="md-nav__link">
-    Word2007
+    <span class="md-ellipsis">
+      Word2007
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Word2007">
@@ -1126,7 +1138,9 @@
         
           <li class="md-nav__item">
   <a href="#zip-adapter" class="md-nav__link">
-    ZIP Adapter
+    <span class="md-ellipsis">
+      ZIP Adapter
+    </span>
   </a>
   
 </li>
@@ -1931,21 +1945,27 @@
       
         <li class="md-nav__item">
   <a href="#html" class="md-nav__link">
-    HTML
+    <span class="md-ellipsis">
+      HTML
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#odtext" class="md-nav__link">
-    ODText
+    <span class="md-ellipsis">
+      ODText
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#pdf" class="md-nav__link">
-    PDF
+    <span class="md-ellipsis">
+      PDF
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="PDF">
@@ -1953,7 +1973,9 @@
         
           <li class="md-nav__item">
   <a href="#options" class="md-nav__link">
-    Options
+    <span class="md-ellipsis">
+      Options
+    </span>
   </a>
   
 </li>
@@ -1965,14 +1987,18 @@
       
         <li class="md-nav__item">
   <a href="#rtf" class="md-nav__link">
-    RTF
+    <span class="md-ellipsis">
+      RTF
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#word2007" class="md-nav__link">
-    Word2007
+    <span class="md-ellipsis">
+      Word2007
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Word2007">
@@ -1980,7 +2006,9 @@
         
           <li class="md-nav__item">
   <a href="#zip-adapter" class="md-nav__link">
-    ZIP Adapter
+    <span class="md-ellipsis">
+      ZIP Adapter
+    </span>
   </a>
   
 </li>
@@ -2016,6 +2044,12 @@
 <span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;HTML&#39;</span><span class="p">);</span>
 <span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.html&#39;</span><span class="p">);</span>
 </code></pre></div>
+<p>When generating html/pdf, you can alter the default handling of white space (normal), and/or supply a fallback generic font as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="x">$writer = IOFactory::createWriter($oPhpWord, &#39;HTML&#39;);</span>
+<span class="x">$writer-&gt;setDefaultGenericFont(&#39;serif&#39;);</span>
+<span class="x">$writer-&gt;setDefaultWhiteSpace(&#39;pre-wrap&#39;);</span>
+<span class="x">$writer-&gt;save(__DIR__ . &#39;/sample.html&#39;);</span>
+</code></pre></div>
 <h2 id="odtext">ODText</h2>
 <p>The name of the writer is <code>ODText</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
@@ -2029,6 +2063,30 @@
 
 <span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;PDF&#39;</span><span class="p">);</span>
 <span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.pdf&#39;</span><span class="p">);</span>
+</code></pre></div>
+<p>To generate a PDF, the PhpWord object passes through HTML before generating the PDF.
+This HTML can be modified using a callback.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;PDF&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">setEditCallback</span><span class="p">(</span><span class="s1">&#39;cbEditHTML&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.pdf&#39;</span><span class="p">);</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Add a meta tag generator</span>
+<span class="sd"> */</span>
+<span class="k">function</span> <span class="nf">cbEditHTML</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$inputHTML</span><span class="p">)</span><span class="o">:</span> <span class="nx">string</span>
+<span class="p">{</span>
+    <span class="nv">$beforeBody</span> <span class="o">=</span> <span class="s1">&#39;&lt;meta name=&quot;generator&quot; content=&quot;PHPWord&quot; /&gt;&#39;</span><span class="p">;</span>
+    <span class="nv">$needle</span> <span class="o">=</span> <span class="s1">&#39;&lt;/head&gt;&#39;</span><span class="p">;</span>
+
+    <span class="nv">$pos</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$inputHTML</span><span class="p">,</span> <span class="nv">$needle</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$pos</span> <span class="o">!==</span> <span class="k">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$inputHTML</span> <span class="o">=</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="nb">substr_replace</span><span class="p">(</span><span class="nv">$inputHTML</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">$beforeBody</span><span class="se">\n</span><span class="si">$needle</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$pos</span><span class="p">,</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$needle</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$inputHTML</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="options">Options</h3>
 <p>You can define options like :
@@ -2106,7 +2164,7 @@
     <script id="__config" type="application/json">{"base": "..", "features": ["search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.aecac24b.min.js"></script>
+      <script src="../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
     
   </body>

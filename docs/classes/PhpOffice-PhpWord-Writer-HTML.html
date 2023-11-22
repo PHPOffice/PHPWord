@@ -125,7 +125,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
@@ -223,11 +223,32 @@
 <dd>Individual writers.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultGenericFont">$defaultGenericFont</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+<dd>Default generic name for default font for html.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultWhiteSpace">$defaultWhiteSpace</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+<dd>Default white space style for html.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_diskCachingDirectory">$diskCachingDirectory</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Disk caching directory.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_editCallback">$editCallback</a>
+    <span>
+                        &nbsp;: null|callable            </span>
+</dt>
+<dd>Callback for editing generated html.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_originalFilename">$originalFilename</a>
@@ -280,6 +301,13 @@
 <dd>Add note.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_escapeHTML">escapeHTML()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Escape string or not depending on setting.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getContent">getContent()</a>
     <span>
                                 &nbsp;: string    </span>
@@ -287,11 +315,32 @@
 <dd>Get content.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultGenericFont">getDefaultGenericFont()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get generic name for default font for html.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultWhiteSpace">getDefaultWhiteSpace()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get default white space style for html.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getDiskCachingDirectory">getDiskCachingDirectory()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get disk caching directory.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getEditCallback">getEditCallback()</a>
+    <span>
+                                &nbsp;: callable|null    </span>
+</dt>
+<dd>Return the callback to edit the entire HTML.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getNotes">getNotes()</a>
@@ -341,6 +390,27 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Save PhpWord to file.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultGenericFont">setDefaultGenericFont()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Set generic name for default font for html.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultWhiteSpace">setDefaultWhiteSpace()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Set default white space style for html.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setEditCallback">setEditCallback()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Set a callback to edit the entire HTML.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setPhpWord">setPhpWord()</a>
@@ -457,7 +527,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -525,7 +595,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
@@ -651,6 +721,74 @@
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="property_defaultGenericFont">
+        $defaultGenericFont
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultGenericFont" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">60</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Default generic name for default font for html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$defaultGenericFont</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span></code>
+
+    
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_defaultWhiteSpace">
+        $defaultWhiteSpace
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultWhiteSpace" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">67</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Default white space style for html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$defaultWhiteSpace</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span></code>
+
+    
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="property_diskCachingDirectory">
         $diskCachingDirectory
         <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_diskCachingDirectory" class="headerlink"><i class="fas fa-link"></i></a>
@@ -672,6 +810,40 @@
         <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">$diskCachingDirectory</span>
      = <span class="phpdocumentor-signature__default-value">&#039;./&#039;</span></code>
+
+    
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_editCallback">
+        $editCallback
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_editCallback" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">53</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Callback for editing generated html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">null|callable</span>
+    <span class="phpdocumentor-signature__name">$editCallback</span>
+    </code>
 
     
     
@@ -836,7 +1008,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 
     </aside>
 
@@ -878,7 +1050,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">121</span>
+    <span class="phpdocumentor-element-found-in__line">185</span>
 
     </aside>
 
@@ -919,6 +1091,52 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_escapeHTML">
+        escapeHTML()
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_escapeHTML" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">229</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Escape string or not depending on setting.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">escapeHTML</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$txt</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$txt</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getContent">
         getContent()
         <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getContent" class="headerlink"><i class="fas fa-link"></i></a>
@@ -927,7 +1145,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">103</span>
 
     </aside>
 
@@ -957,6 +1175,78 @@
                                              
                                     </dd>
                                             </dl>
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getDefaultGenericFont">
+        getDefaultGenericFont()
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultGenericFont" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">193</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get generic name for default font for html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getDefaultGenericFont</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getDefaultWhiteSpace">
+        getDefaultWhiteSpace()
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultWhiteSpace" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">211</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get default white space style for html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getDefaultWhiteSpace</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1006,6 +1296,42 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getEditCallback">
+        getEditCallback()
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getEditCallback" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">141</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Return the callback to edit the entire HTML.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getEditCallback</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">callable|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">callable|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getNotes">
         getNotes()
         <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getNotes" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1014,7 +1340,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">110</span>
+    <span class="phpdocumentor-element-found-in__line">174</span>
 
     </aside>
 
@@ -1166,7 +1492,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">100</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 
     </aside>
 
@@ -1238,7 +1564,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">69</span>
+    <span class="phpdocumentor-element-found-in__line">91</span>
 
     </aside>
 
@@ -1246,7 +1572,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">save</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filename</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">save</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filename</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1256,7 +1582,7 @@
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$filename</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+                            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1265,6 +1591,147 @@
     
 
     
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setDefaultGenericFont">
+        setDefaultGenericFont()
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultGenericFont" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">201</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set generic name for default font for html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setDefaultGenericFont</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setDefaultWhiteSpace">
+        setDefaultWhiteSpace()
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultWhiteSpace" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">219</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set default white space style for html.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setDefaultWhiteSpace</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setEditCallback">
+        setEditCallback()
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setEditCallback" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">152</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set a callback to edit the entire HTML.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setEditCallback</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">callable|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$callback</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+        <section class="phpdocumentor-description"><p>The callback must accept the HTML as string as first parameter,
+and it must return the edited HTML as string.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$callback</span>
+                : <span class="phpdocumentor-signature__argument__return-type">callable|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1962,7 +2429,10 @@
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_parts">$parts<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_phpWord">$phpWord<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_writerParts">$writerParts<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
+                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultGenericFont">$defaultGenericFont<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
+                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultWhiteSpace">$defaultWhiteSpace<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_diskCachingDirectory">$diskCachingDirectory<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
+                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_editCallback">$editCallback<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_originalFilename">$originalFilename<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempDir">$tempDir<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempFilename">$tempFilename<a href="classes/PhpOffice-PhpWord-Writer-HTML.html"></li>
@@ -1975,8 +2445,12 @@
                 <ul class="phpdocumentor-list -clean">
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method___construct">__construct()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_addNote">addNote()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_escapeHTML">escapeHTML()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getContent">getContent()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultGenericFont">getDefaultGenericFont()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultWhiteSpace">getDefaultWhiteSpace()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getDiskCachingDirectory">getDiskCachingDirectory()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getEditCallback">getEditCallback()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getNotes">getNotes()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getPhpWord">getPhpWord()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempDir">getTempDir()</a></li>
@@ -1984,6 +2458,9 @@
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_isPdf">isPdf()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_isUseDiskCaching">isUseDiskCaching()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_save">save()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultGenericFont">setDefaultGenericFont()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultWhiteSpace">setDefaultWhiteSpace()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setEditCallback">setEditCallback()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setPhpWord">setPhpWord()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setTempDir">setTempDir()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setUseDiskCaching">setUseDiskCaching()</a></li>
