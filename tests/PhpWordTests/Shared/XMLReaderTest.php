@@ -59,6 +59,21 @@ class XMLReaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Office 365 add some slash before the path of XML file.
+     */
+    public function testDomFromZipOffice365(): void
+    {
+        $archiveFile = __DIR__ . '/../_files/xml/reader.zip';
+
+        $reader = new XMLReader();
+        $reader->getDomFromZip($archiveFile, '/test.xml');
+
+        self::assertTrue($reader->elementExists('/element/child'));
+
+        self::assertFalse($reader->getDomFromZip($archiveFile, 'non_existing_xml_file.xml'));
+    }
+
+    /**
      * Test that read from non existing archive throws exception.
      */
     public function testThrowsExceptionOnNonExistingArchive(): void

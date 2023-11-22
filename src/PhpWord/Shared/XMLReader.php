@@ -62,7 +62,7 @@ class XMLReader
 
         $zip = new ZipArchive();
         $zip->open($zipFile);
-        $content = $zip->getFromName($xmlFile);
+        $content = $zip->getFromName(ltrim($xmlFile, '/'));
         $zip->close();
 
         if ($content === false) {
