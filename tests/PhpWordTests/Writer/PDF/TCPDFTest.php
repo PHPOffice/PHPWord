@@ -36,6 +36,7 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
         $file = __DIR__ . '/../../_files/tcpdf.pdf';
 
         $phpWord = new PhpWord();
+        $phpWord->setDefaultParagraphStyle(['spaceBefore' => 0, 'spaceAfter' => 0]);
         $section = $phpWord->addSection();
         $section->addText('Test 1');
 

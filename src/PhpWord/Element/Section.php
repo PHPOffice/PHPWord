@@ -154,8 +154,6 @@ class Section extends AbstractContainer
 
     /**
      * Set the footnote properties.
-     *
-     * @param FootnoteProperties $footnoteProperties
      */
     public function setFootnoteProperties(?FootnoteProperties $footnoteProperties = null): void
     {

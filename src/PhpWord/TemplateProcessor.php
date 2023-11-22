@@ -27,6 +27,7 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use Throwable;
 use XSLTProcessor;
 
 class TemplateProcessor
@@ -133,6 +134,30 @@ class TemplateProcessor
         $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
         $this->tempDocumentSettingsPart = $this->readPartWithRels($this->getSettingsPartName());
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
+    }
+
+    public function __destruct()
+    {
+        // ZipClass
+        if ($this->zipClass) {
+            try {
+                $this->zipClass->close();
+            } catch (Throwable $e) {
+                // Nothing to do here.
+            }
+        }
+        // Temporary file
+        if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
+            unlink($this->tempDocumentFilename);
+        }
+    }
+
+    public function __wakeup(): void
+    {
+        $this->tempDocumentFilename = '';
+        $this->zipClass = null;
+
+        throw new Exception('unserialize not permitted for this class');
     }
 
     /**
@@ -256,20 +281,11 @@ class TemplateProcessor
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        if (!Text::isUTF8($subject) && null !== $subject) {
-            if (PHP_VERSION_ID < 80200) {
-                $subject = utf8_encode($subject);
-            } else {
-                $subject = mb_convert_encoding($subject, 'UTF-8', mb_list_encodings());
-            }
-        }
-
-        return (null !== $subject) ? $subject : '';
+        return $subject ? Text::toUTF8($subject) : '';
     }
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexValue($search, Element\AbstractElement $complexType): void
     {
@@ -297,7 +313,6 @@ class TemplateProcessor
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexBlock($search, Element\AbstractElement $complexType): void
     {
@@ -441,7 +456,7 @@ class TemplateProcessor
         if (null === $value && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9.]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
+        if (!preg_match('/^([0-9\.]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
             $value = null;
         }
         if (null === $value) {

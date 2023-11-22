@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Writer\PDF\AbstractRenderer;
 
 /**
  * PDF Writer.
@@ -71,6 +72,16 @@ class PDF
         //     throw new Exception("PDF Rendering library has not been defined.");
         // }
 
-        return call_user_func_array([$this->renderer, $name], $arguments);
+        return call_user_func_array([$this->getRenderer(), $name], $arguments);
+    }
+
+    public function save(string $filename): void
+    {
+        $this->getRenderer()->save($filename);
+    }
+
+    public function getRenderer(): AbstractRenderer
+    {
+        return $this->renderer;
     }
 }

@@ -18,9 +18,11 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\Style;
 
 class Table extends Border
 {
@@ -162,9 +164,9 @@ class Table extends Border
      *
      * @see  http://www.datypic.com/sc/ooxml/e-w_bidiVisual-1.html
      *
-     * @var bool
+     * @var ?bool
      */
-    private $bidiVisual = false;
+    private $bidiVisual;
 
     /**
      * Create new table style.
@@ -768,17 +770,17 @@ class Table extends Border
     /**
      * Get bidiVisual.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isBidiVisual()
     {
-        return $this->bidiVisual;
+        return $this->bidiVisual ?? Settings::isDefaultRtl();
     }
 
     /**
      * Set bidiVisual.
      *
-     * @param bool $bidi
+     * @param ?bool $bidi
      *            Set to true to visually present table as Right to Left
      *
      * @return self

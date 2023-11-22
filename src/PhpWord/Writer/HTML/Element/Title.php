@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Writer\HTML;
 
 /**
  * TextRun element HTML writer.
@@ -41,10 +41,8 @@ class Title extends AbstractElement
 
         $text = $this->element->getText();
         if (is_string($text)) {
-            if (Settings::isOutputEscapingEnabled()) {
-                $text = $this->escaper->escapeHtml($text);
-            }
-        } elseif ($text instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+            $text = $this->parentWriter->escapeHTML($text);
+        } else {
             $writer = new Container($this->parentWriter, $text);
             $text = $writer->write();
         }

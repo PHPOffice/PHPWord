@@ -10,6 +10,16 @@ $writer = IOFactory::createWriter($oPhpWord, 'HTML');
 $writer->save(__DIR__ . '/sample.html');
 ```
 
+
+When generating html/pdf, you can alter the default handling of white space (normal), and/or supply a fallback generic font as follows:
+
+```php
+$writer = IOFactory::createWriter($oPhpWord, 'HTML');
+$writer->setDefaultGenericFont('serif');
+$writer->setDefaultWhiteSpace('pre-wrap');
+$writer->save(__DIR__ . '/sample.html');
+```
+
 ## ODText
 The name of the writer is `ODText`.
 
@@ -28,6 +38,33 @@ The name of the writer is `PDF`.
 
 $writer = IOFactory::createWriter($oPhpWord, 'PDF');
 $writer->save(__DIR__ . '/sample.pdf');
+```
+
+To generate a PDF, the PhpWord object passes through HTML before generating the PDF.
+This HTML can be modified using a callback.
+
+``` php
+<?php
+
+$writer = IOFactory::createWriter($oPhpWord, 'PDF');
+$writer->setEditCallback('cbEditHTML');
+$writer->save(__DIR__ . '/sample.pdf');
+
+/**
+ * Add a meta tag generator
+ */
+function cbEditHTML(string $inputHTML): string
+{
+    $beforeBody = '<meta name="generator" content="PHPWord" />';
+    $needle = '</head>';
+
+    $pos = strpos($inputHTML, $needle);
+    if ($pos !== false) {
+        $inputHTML = (string) substr_replace($inputHTML, "$beforeBody\n$needle", $pos, strlen($needle));
+    }
+
+    return $inputHTML;
+}
 ```
 
 ### Options

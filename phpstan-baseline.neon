@@ -521,16 +521,6 @@ parameters:
 			path: src/PhpWord/Shared/Microsoft/PasswordEncoder.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLReader\\:\\:getElements\\(\\) should return DOMNodeList\\<DOMElement\\> but returns DOMNodeList\\<DOMNode\\>\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/XMLReader.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLReader\\:\\:getElements\\(\\) should return DOMNodeList\\<DOMElement\\> but returns DOMNodeList\\<DOMNode\\>\\|false\\.$#"
-			count: 2
-			path: src/PhpWord/Shared/XMLReader.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLWriter\\:\\:getData\\(\\) should return string but returns string\\|false\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/XMLWriter.php
@@ -1181,44 +1171,9 @@ parameters:
 			path: src/PhpWord/Writer/HTML/Element/AbstractElement.php
 
 		-
-			message: "#^Call to an undefined method Laminas\\\\Escaper\\\\Escaper\\|PhpOffice\\\\PhpWord\\\\Escaper\\\\AbstractEscaper\\:\\:escapeHtml\\(\\)\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/HTML/Element/Link.php
-
-		-
-			message: "#^Call to an undefined method Laminas\\\\Escaper\\\\Escaper\\|PhpOffice\\\\PhpWord\\\\Escaper\\\\AbstractEscaper\\:\\:escapeHtmlAttr\\(\\)\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/HTML/Element/Link.php
-
-		-
-			message: "#^Call to an undefined method Laminas\\\\Escaper\\\\Escaper\\|PhpOffice\\\\PhpWord\\\\Escaper\\\\AbstractEscaper\\:\\:escapeHtml\\(\\)\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/HTML/Element/ListItem.php
-
-		-
 			message: "#^Variable \\$row in PHPDoc tag @var does not match assigned variable \\$rowStyle\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/HTML/Element/Table.php
-
-		-
-			message: "#^Call to an undefined method Laminas\\\\Escaper\\\\Escaper\\|PhpOffice\\\\PhpWord\\\\Escaper\\\\AbstractEscaper\\:\\:escapeHtml\\(\\)\\.$#"
-			count: 2
-			path: src/PhpWord/Writer/HTML/Element/Text.php
-
-		-
-			message: "#^Call to an undefined method Laminas\\\\Escaper\\\\Escaper\\|PhpOffice\\\\PhpWord\\\\Escaper\\\\AbstractEscaper\\:\\:escapeHtml\\(\\)\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/HTML/Element/Title.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\HTML\\\\Style\\\\AbstractStyle\\:\\:write\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/HTML/Style/AbstractStyle.php
-
-		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/HTML/Style/Paragraph.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Field\\:\\:writeDefault\\(\\) has parameter \\$type with no type specified\\.$#"
@@ -1276,11 +1231,6 @@ parameters:
 			path: src/PhpWord/Writer/ODText/Part/Styles.php
 
 		-
-			message: "#^Variable \\$indent in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/ODText/Style/Paragraph.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\\\AbstractRenderer, string\\} given\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/PDF.php
@@ -1327,11 +1277,6 @@ parameters:
 
 		-
 			message: "#^Binary operation \"\\+\" between int\\|string and 1 results in an error\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Call to an undefined method Laminas\\\\Escaper\\\\Escaper\\|PhpOffice\\\\PhpWord\\\\Escaper\\\\AbstractEscaper\\:\\:escape\\(\\)\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
 
@@ -1416,21 +1361,6 @@ parameters:
 			path: src/PhpWord/Writer/RTF/Style/Border.php
 
 		-
-			message: "#^Variable \\$spaceAfter on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Style/Paragraph.php
-
-		-
-			message: "#^Variable \\$spaceBefore on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Style/Paragraph.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Style\\\\Tab\\:\\:write\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Style/Tab.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\\\PhpOffice\\\\PhpWord\\\\PhpWord\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 86$#"
 			count: 1
 			path: src/PhpWord/Writer/Word2007.php
@@ -1481,16 +1411,6 @@ parameters:
 			path: src/PhpWord/Writer/Word2007/Element/SDT.php
 
 		-
-			message: "#^Parameter \\#1 \\$content of method PhpOffice\\\\PhpWord\\\\Writer\\\\Word2007\\\\Element\\\\AbstractElement\\:\\:writeText\\(\\) expects string, PhpOffice\\\\PhpWord\\\\Element\\\\TextRun\\|string given\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/Word2007/Element/TOC.php
-
-		-
-			message: "#^Parameter \\#3 \\$indent of method PhpOffice\\\\PhpWord\\\\Writer\\\\Word2007\\\\Element\\\\TOC\\:\\:writeStyle\\(\\) expects int, float\\|int given\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/Word2007/Element/TOC.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\Word2007\\\\Element\\\\TableAlignment\\:\\:\\$attributes has no type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/Word2007/Element/TableAlignment.php
@@ -1539,11 +1459,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$styleName of static method PhpOffice\\\\PhpWord\\\\Style\\:\\:getStyle\\(\\) expects string, PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\|string given\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/Word2007/Style/Font.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\WriterInterface\\:\\:save\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/WriterInterface.php
 
 		-
 			message: "#^Call to an undefined method object\\:\\:read\\(\\)\\.$#"
@@ -1846,32 +1761,7 @@ parameters:
 			path: tests/PhpWordTests/Style/FontTest.php
 
 		-
-			message: "#^Binary operation \"\\*\" between 1\\|120\\|240\\|'atLeast'\\|'auto'\\|'Normal'\\|'numStyle'\\|bool and 720 results in an error\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
 			message: "#^Cannot call method setLineHeight\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\|string\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\ParagraphTest\\:\\:findGetter\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\ParagraphTest\\:\\:findGetter\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\ParagraphTest\\:\\:findGetter\\(\\) has parameter \\$object with no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/ParagraphTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\ParagraphTest\\:\\:findGetter\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Style/ParagraphTest.php
 
@@ -1903,21 +1793,6 @@ parameters:
 		-
 			message: "#^Cannot access offset 'start' on array\\<int\\>\\|bool\\.$#"
 			count: 2
-			path: tests/PhpWordTests/TemplateProcessorTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\TemplateProcessorTest\\:\\:testTemplateCanBeSavedInTemporaryLocation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/TemplateProcessorTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$expectedXml of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertXmlStringEqualsXmlString\\(\\) expects DOMDocument\\|string, string\\|false given\\.$#"
-			count: 3
-			path: tests/PhpWordTests/TemplateProcessorTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$actualXml of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertXmlStringEqualsXmlString\\(\\) expects DOMDocument\\|string, string\\|false given\\.$#"
-			count: 3
 			path: tests/PhpWordTests/TemplateProcessorTest.php
 
 		-
@@ -1976,6 +1851,11 @@ parameters:
 			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
 
 		-
+			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
+			count: 3
+			path: tests/PhpWordTests/Writer/HTML/Element/PageBreakTest.php
+
+		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\ODText\\\\Style\\\\FontTest\\:\\:providerAllNamedColors\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/ODText/Style/FontTest.php
@@ -1997,11 +1877,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getTempDir\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:save\\(\\)\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
 
@@ -2031,24 +1906,14 @@ parameters:
 			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
 
 		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:save\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
-
-		-
 			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getFont\\(\\)\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
 
 		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:save\\(\\)\\.$#"
+			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
 			count: 1
-			path: tests/PhpWordTests/Writer/PDF/TCPDFTest.php
+			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
 
 		-
 			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
@@ -2059,11 +1924,6 @@ parameters:
 			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getFont\\(\\)\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/PDF/TCPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:save\\(\\)\\.$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/PDFTest.php
 
 		-
 			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"

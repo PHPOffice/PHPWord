@@ -285,8 +285,6 @@ abstract class AbstractPart
     /**
      * Returns the depth of the Heading, returns 0 for a Title.
      *
-     * @param array $paragraphStyle
-     *
      * @return null|number
      */
     private function getHeadingDepth(?array $paragraphStyle = null)
@@ -752,7 +750,6 @@ abstract class AbstractPart
     /**
      * Read style definition.
      *
-     * @param DOMElement $parentNode
      * @param array $styleDefs
      *
      * @ignoreScrutinizerPatch

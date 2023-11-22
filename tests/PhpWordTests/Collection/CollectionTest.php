@@ -45,9 +45,6 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
         self::assertNull($object->getItem(2)); // Check if it's null
     }
 
-    /**
-     * @covers ::setItem
-     */
     public function testCollectionSetItem(): void
     {
         $object = new Footnotes();

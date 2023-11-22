@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWordTests\Style;
 
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Table;
@@ -99,6 +100,35 @@ class TableTest extends \PHPUnit\Framework\TestCase
             $object->$set($value);
             self::assertEquals($value, $object->$get());
         }
+    }
+
+    public function testBidiVisual(): void
+    {
+        $object = new Table();
+        self::assertNull($object->isBidiVisual());
+        self::assertInstanceOf(Table::class, $object->setBidiVisual(true));
+        self::assertTrue($object->isBidiVisual());
+        self::assertInstanceOf(Table::class, $object->setBidiVisual(false));
+        self::assertFalse($object->isBidiVisual());
+        self::assertInstanceOf(Table::class, $object->setBidiVisual(null));
+        self::assertNull($object->isBidiVisual());
+    }
+
+    public function testBidiVisualSettings(): void
+    {
+        Settings::setDefaultRtl(null);
+        $object = new Table();
+        self::assertNull($object->isBidiVisual());
+
+        Settings::setDefaultRtl(true);
+        $object = new Table();
+        self::assertTrue($object->isBidiVisual());
+
+        Settings::setDefaultRtl(false);
+        $object = new Table();
+        self::assertFalse($object->isBidiVisual());
+
+        Settings::setDefaultRtl(null);
     }
 
     /**

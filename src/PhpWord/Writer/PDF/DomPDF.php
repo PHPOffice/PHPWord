@@ -53,10 +53,8 @@ class DomPDF extends AbstractRenderer implements WriterInterface
 
     /**
      * Save PhpWord to file.
-     *
-     * @param string $filename Name of the file to save as
      */
-    public function save($filename = null): void
+    public function save(string $filename): void
     {
         $fileHandle = parent::prepareForSave($filename);
 

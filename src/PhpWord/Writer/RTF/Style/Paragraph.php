@@ -35,6 +35,10 @@ class Paragraph extends AbstractStyle
      */
     private $nestedLevel = 0;
 
+    private const LEFT = Jc::LEFT;
+    private const RIGHT = Jc::RIGHT;
+    private const JUSTIFY = Jc::JUSTIFY;
+
     /**
      * Write style.
      *
@@ -52,6 +56,18 @@ class Paragraph extends AbstractStyle
             Jc::END => '\qr',
             Jc::CENTER => '\qc',
             Jc::BOTH => '\qj',
+            self::LEFT => '\ql',
+            self::RIGHT => '\qr',
+            self::JUSTIFY => '\qj',
+        ];
+        $bidiAlignments = [
+            Jc::START => '\qr',
+            Jc::END => '\ql',
+            Jc::CENTER => '\qc',
+            Jc::BOTH => '\qj',
+            self::LEFT => '\ql',
+            self::RIGHT => '\qr',
+            self::JUSTIFY => '\qj',
         ];
 
         $spaceAfter = $style->getSpaceAfter();
@@ -61,8 +77,13 @@ class Paragraph extends AbstractStyle
         if ($this->nestedLevel == 0) {
             $content .= '\pard\nowidctlpar ';
         }
-        if (isset($alignments[$style->getAlignment()])) {
-            $content .= $alignments[$style->getAlignment()];
+        $alignment = $style->getAlignment();
+        $bidi = $style->isBidi();
+        if ($alignment === '' && $bidi !== null) {
+            $alignment = Jc::START;
+        }
+        if (isset($alignments[$alignment])) {
+            $content .= $bidi ? $bidiAlignments[$alignment] : $alignments[$alignment];
         }
         $content .= $this->writeIndentation($style->getIndentation());
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore ?? 0));

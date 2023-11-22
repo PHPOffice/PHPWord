@@ -345,8 +345,6 @@ abstract class AbstractElement
      * Set parent container.
      *
      * Passed parameter should be a container, except for Table (contain Row) and Row (contain Cell)
-     *
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $container
      */
     public function setParentContainer(self $container): void
     {

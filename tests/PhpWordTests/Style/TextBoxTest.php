@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
  * Test class for PhpOffice\PhpWord\Style\Image.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Image
+ *
  * @runTestsInSeparateProcesses
  */
 class TextBoxTest extends TestCase

@@ -77,6 +77,7 @@ class PhpWord
         // Reset Media and styles
         Media::resetElements();
         Style::resetStyles();
+        Settings::setDefaultRtl(null);
 
         // Collection
         $collections = ['Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts', 'Comments'];

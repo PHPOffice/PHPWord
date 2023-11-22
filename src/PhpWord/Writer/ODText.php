@@ -38,8 +38,6 @@ class ODText extends AbstractWriter implements WriterInterface
 
     /**
      * Create new ODText writer.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(?PhpWord $phpWord = null)
     {
@@ -70,10 +68,8 @@ class ODText extends AbstractWriter implements WriterInterface
 
     /**
      * Save PhpWord to file.
-     *
-     * @param string $filename
      */
-    public function save($filename = null): void
+    public function save(string $filename): void
     {
         $filename = $this->getTempFile($filename);
         $zip = $this->getZipArchive($filename);

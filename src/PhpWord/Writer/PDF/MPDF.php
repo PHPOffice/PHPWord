@@ -29,6 +29,9 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class MPDF extends AbstractRenderer implements WriterInterface
 {
+    public const SIMULATED_BODY_START = '<!-- simulated body start -->';
+    private const BODY_TAG = '<body>';
+
     /**
      * Overridden to set the correct includefile, only needed for MPDF 5.
      *
@@ -46,7 +49,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
     /**
      * Gets the implementation of external PDF library that should be used.
      *
-     * @return Mpdf implementation
+     * @return \Mpdf\Mpdf implementation
      */
     protected function createExternalWriterInstance()
     {
@@ -62,10 +65,8 @@ class MPDF extends AbstractRenderer implements WriterInterface
 
     /**
      * Save PhpWord to file.
-     *
-     * @param string $filename Name of the file to save as
      */
-    public function save($filename = null): void
+    public function save(string $filename): void
     {
         $fileHandle = parent::prepareForSave($filename);
 
@@ -87,7 +88,24 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $pdf->setKeywords($docProps->getKeywords());
         $pdf->setCreator($docProps->getCreator());
 
-        $pdf->writeHTML($this->getContent());
+        $html = $this->getContent();
+        $bodyLocation = strpos($html, self::SIMULATED_BODY_START);
+        if ($bodyLocation === false) {
+            $bodyLocation = strpos($html, self::BODY_TAG);
+            if ($bodyLocation !== false) {
+                $bodyLocation += strlen(self::BODY_TAG);
+            }
+        }
+        // Make sure first data presented to Mpdf includes body tag
+        //   (and any htmlpageheader/htmlpagefooter tags)
+        //   so that Mpdf doesn't parse it as content. Issue 2432.
+        if ($bodyLocation !== false) {
+            $pdf->WriteHTML(substr($html, 0, $bodyLocation));
+            $html = substr($html, $bodyLocation);
+        }
+        foreach (explode("\n", $html) as $line) {
+            $pdf->WriteHTML("$line\n");
+        }
 
         //  Write to file
         fwrite($fileHandle, $pdf->output($filename, 'S'));

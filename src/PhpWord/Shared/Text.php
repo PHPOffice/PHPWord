@@ -138,18 +138,15 @@ class Text
     /**
      * Return UTF8 encoded value.
      *
-     * @param string $value
+     * @param null|string $value
      *
-     * @return string
+     * @return ?string
      */
     public static function toUTF8($value = '')
     {
         if (null !== $value && !self::isUTF8($value)) {
-            if (PHP_VERSION_ID < 80200) {
-                $value = utf8_encode($value);
-            } else {
-                $value = mb_convert_encoding($value, 'UTF-8', mb_list_encodings());
-            }
+            // PHP8.2 : utf8_encode is deprecated, but mb_convert_encoding always usable
+            $value = (function_exists('mb_convert_encoding')) ? mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1') : utf8_encode($value);
         }
 
         return $value;

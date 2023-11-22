@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Image;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -32,6 +33,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
+        Settings::setDefaultRtl(null);
         TestHelperDOCX::clear();
     }
 
@@ -54,6 +56,35 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('IM2', $doc->getElementAttribute($element, 'style:name'));
         $element .= '/style:paragraph-properties';
         self::assertEquals('end', $doc->getElementAttribute($element, 'fo:text-align'));
+
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[2]';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('IM1', $doc->getElementAttribute($path, 'text:style-name'));
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[3]';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('IM2', $doc->getElementAttribute($path, 'text:style-name'));
+    }
+
+    /**
+     * Test writing image, with non-default bidi.
+     */
+    public function testImage2(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        Settings::setDefaultRtl(false);
+        $section = $phpWord->addSection();
+        $section->addImage(__DIR__ . '/../../../_files/images/earth.jpg');
+        $section->addImage(__DIR__ . '/../../../_files/images/mario.gif', ['align' => 'end']);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $s2a = '/office:document-content/office:automatic-styles';
+        $element = "$s2a/style:style[3]";
+        self::assertEquals('IM1', $doc->getElementAttribute($element, 'style:name'));
+        $element .= '/style:paragraph-properties';
+        self::assertEquals('left', $doc->getElementAttribute($element, 'fo:text-align'));
+        $element = "$s2a/style:style[4]";
+        self::assertEquals('IM2', $doc->getElementAttribute($element, 'style:name'));
+        $element .= '/style:paragraph-properties';
+        self::assertEquals('right', $doc->getElementAttribute($element, 'fo:text-align'));
 
         $path = '/office:document-content/office:body/office:text/text:section/text:p[2]';
         self::assertTrue($doc->elementExists($path));
