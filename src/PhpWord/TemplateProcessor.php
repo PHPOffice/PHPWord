@@ -372,6 +372,27 @@ class TemplateProcessor
         }
     }
 
+    public function setCheckbox(string $search, bool $checked): void
+    {
+        $search = static::ensureMacroCompleted($search);
+        $blockType = 'w:sdt';
+
+        $where = $this->findContainingXmlBlockForMacro($search, $blockType);
+        if (!is_array($where)) {
+            return;
+        }
+
+        $block = $this->getSlice($where['start'], $where['end']);
+
+        $val = $checked ? '1' : '0';
+        $block = preg_replace('/(<w14:checked w14:val=)".*?"(\/>)/', '$1"' . $val . '"$2', $block);
+
+        $text = $checked ? '☒' : '☐';
+        $block = preg_replace('/(<w:t>).*?(<\/w:t>)/', '$1' . $text . '$2', $block);
+
+        $this->replaceXmlBlock($search, $block, $blockType);
+    }
+
     /**
      * @param string $search
      */
