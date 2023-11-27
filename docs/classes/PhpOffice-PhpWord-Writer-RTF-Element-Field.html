@@ -124,13 +124,13 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/RTF/Element/Field.php"><a href="files/src-phpword-writer-rtf-element-field.html"><abbr title="src/PhpWord/Writer/RTF/Element/Field.php">Field.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Field element writer.</p>
 
-    <section class="phpdocumentor-description"><p>Note: for now, only date, page and numpages fields are implemented for RTF.</p>
+    <section class="phpdocumentor-description"><p>Note: for now, only date, page, numpages and filename fields are implemented for RTF.</p>
 </section>
 
 
@@ -237,6 +237,12 @@
     <a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-Field.html#method_writeDate">writeDate()</a>
     <span>
                                 &nbsp;: mixed    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-Field.html#method_writeFilename">writeFilename()</a>
+    <span>
+                                &nbsp;: string    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
@@ -566,7 +572,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/RTF/Element/Field.php"><a href="files/src-phpword-writer-rtf-element-field.html"><abbr title="src/PhpWord/Writer/RTF/Element/Field.php">Field.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
@@ -670,7 +676,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/RTF/Element/Field.php"><a href="files/src-phpword-writer-rtf-element-field.html"><abbr title="src/PhpWord/Writer/RTF/Element/Field.php">Field.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">69</span>
+    <span class="phpdocumentor-element-found-in__line">82</span>
 
     </aside>
 
@@ -696,6 +702,51 @@
     
 
     
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_writeFilename">
+        writeFilename()
+        <a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-Field.html#method_writeFilename" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/RTF/Element/Field.php"><a href="files/src-phpword-writer-rtf-element-field.html"><abbr title="src/PhpWord/Writer/RTF/Element/Field.php">Field.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">71</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">writeFilename</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$element</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$element</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -747,7 +798,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/RTF/Element/Field.php"><a href="files/src-phpword-writer-rtf-element-field.html"><abbr title="src/PhpWord/Writer/RTF/Element/Field.php">Field.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">66</span>
 
     </aside>
 
@@ -814,7 +865,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/RTF/Element/Field.php"><a href="files/src-phpword-writer-rtf-element-field.html"><abbr title="src/PhpWord/Writer/RTF/Element/Field.php">Field.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -1007,6 +1058,7 @@
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#method_getStyles">getStyles()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#method_writeClosing">writeClosing()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-Field.html#method_writeDate">writeDate()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-Field.html#method_writeFilename">writeFilename()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#method_writeFontStyle">writeFontStyle()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-Field.html#method_writeNumpages">writeNumpages()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Writer-RTF-Element-AbstractElement.html#method_writeOpening">writeOpening()</a></li>
