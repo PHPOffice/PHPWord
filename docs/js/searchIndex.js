@@ -12251,6 +12251,11 @@ Search.appendIndex(
             "summary": "Set\u0020values\u0020from\u0020a\u0020one\u002Ddimensional\u0020array\u0020of\u0020\u0022variable\u0020\u003D\u003E\u0020value\u0022\u002Dpairs.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setValues"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AsetCheckbox\u0028\u0029",
+            "name": "setCheckbox",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setCheckbox"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AsetChart\u0028\u0029",
             "name": "setChart",
             "summary": "",
