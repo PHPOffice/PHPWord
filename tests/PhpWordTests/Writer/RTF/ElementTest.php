@@ -45,6 +45,24 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    public function testFilenameField(): void
+    {
+        $parentWriter = new RTF();
+        $element = new \PhpOffice\PhpWord\Element\Field('FILENAME');
+        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+
+        self::assertEquals("{\\field{\\*\\fldinst FILENAME}{\\fldrslt}}\\par\n", $this->removeCr($field));
+    }
+
+    public function testFilenameFieldOptionsPath(): void
+    {
+        $parentWriter = new RTF();
+        $element = new \PhpOffice\PhpWord\Element\Field('FILENAME', [], ['Path']);
+        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+
+        self::assertEquals("{\\field{\\*\\fldinst FILENAME \\\\p}{\\fldrslt}}\\par\n", $this->removeCr($field));
+    }
+
     public function testPageField(): void
     {
         $parentWriter = new RTF();

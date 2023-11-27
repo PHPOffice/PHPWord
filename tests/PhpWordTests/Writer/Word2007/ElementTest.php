@@ -306,6 +306,44 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
     }
 
+    public function testFieldElementFilename(): void
+    {
+        $phpWord = new PhpWord();
+        $stnam = 'h1';
+        $phpWord->addFontStyle($stnam, ['name' => 'Courier New', 'size' => 8]);
+        $section = $phpWord->addSection();
+
+        $fld = $section->addField('FILENAME');
+        $fld->setFontStyle($stnam);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' FILENAME ', $doc->getElement($element)->textContent);
+        $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
+        self::assertTrue($doc->elementExists($sty));
+        self::assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
+    }
+
+    public function testFieldElementFilenameOptionsPath(): void
+    {
+        $phpWord = new PhpWord();
+        $stnam = 'h1';
+        $phpWord->addFontStyle($stnam, ['name' => 'Courier New', 'size' => 8]);
+        $section = $phpWord->addSection();
+
+        $fld = $section->addField('FILENAME', [], ['Path']);
+        $fld->setFontStyle($stnam);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' FILENAME \p ', $doc->getElement($element)->textContent);
+        $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
+        self::assertTrue($doc->elementExists($sty));
+        self::assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
+    }
+
     public function testFieldElementWithComplexText(): void
     {
         $phpWord = new PhpWord();

@@ -7,6 +7,7 @@ Currently the following fields are supported:
 - DATE
 - XE
 - INDEX
+- FILENAME
 
 ``` php
 <?php
