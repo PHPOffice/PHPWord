@@ -1,0 +1,12 @@
+parameters:
+    ignoreErrors:
+      # 1.2.0
+        - '#\[BC\] CHANGED\: The return type of PhpOffice\\PhpWord\\Metadata\\Settings\#getThemeFontLang\(\) changed from no type to PhpOffice\\PhpWord\\Style\\Language|null#'
+        - '#\[BC\] CHANGED\: The return type of PhpOffice\\PhpWord\\Metadata\\Settings\#setThemeFontLang\(\) changed from void to self#'
+        - '#\[BC\] CHANGED\: The return type of PhpOffice\\PhpWord\\Metadata\\Settings\#setThemeFontLang\(\) changed from void to the non-covariant self#'
+        - '#\[BC\] CHANGED\: The parameter \$themeFontLang of PhpOffice\\PhpWord\\Metadata\\Settings\#setThemeFontLang\(\) changed from no type to a non-contravariant PhpOffice\\PhpWord\\Style\\Language#'
+        - '#\[BC\] CHANGED\: The parameter \$themeFontLang of PhpOffice\\PhpWord\\Metadata\\Settings\#setThemeFontLang\(\) changed from no type to PhpOffice\\PhpWord\\Style\\Language#'
+        - '#\[BC\] CHANGED\: The number of required arguments for PhpOffice\\PhpWord\\Style\\Indentation\#setLeft\(\) increased from 0 to 1#'
+        - '#\[BC\] CHANGED\: The number of required arguments for PhpOffice\\PhpWord\\Style\\Indentation\#setRight\(\) increased from 0 to 1#'
+        - '#\[BC\] CHANGED\: The number of required arguments for PhpOffice\\PhpWord\\Style\\Indentation\#setFirstLine\(\) increased from 0 to 1#'
+        - '#\[BC\] CHANGED\: The number of required arguments for PhpOffice\\PhpWord\\Shared\\Html\:\:mapAlign\(\) increased from 1 to 2#'
