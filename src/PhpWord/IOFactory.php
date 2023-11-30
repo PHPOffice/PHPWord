@@ -12,8 +12,7 @@
  *
  * @see         https://github.com/PHPOffice/PHPWord
  *
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
- */
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3 */
 
 namespace PhpOffice\PhpWord;
 
