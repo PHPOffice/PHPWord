@@ -9,5 +9,3 @@ $source = __DIR__ . "/resources/{$name}.docx";
 
 echo date('H:i:s'), " Reading contents from `{$source}`", EOL;
 $phpWord = \PhpOffice\PhpWord\IOFactory::extractVariables($source);
-
-
