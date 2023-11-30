@@ -17,12 +17,13 @@
 
 namespace PhpOffice\PhpWord;
 
+
+use ReflectionClass;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Reader\ReaderInterface;
 use PhpOffice\PhpWord\Writer\WriterInterface;
-/* TextRun Element */
-use PhpOffice\PhpWord\Element\TextRun;
-use ReflectionClass;
 
 abstract class IOFactory
 {
@@ -96,57 +97,38 @@ abstract class IOFactory
      *
      * @param string $filename The name of the file
      * @param string $readerName
+     * @return array The extracted variables
      *
-     * @return \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public static function extractVariables($filename, $readerName = 'Word2007')
+    public static function extractVariables(string $filename, $readerName = 'Word2007')
     {
         /** @var \PhpOffice\PhpWord\Reader\ReaderInterface $reader */
         $reader = self::createReader($readerName);
         $document = $reader->load($filename);
         $extractedVariables = [];
         foreach ($document->getSections() as $section) {
-            // Concatenate text from all elements
             $concatenatedText = '';
-
+        
             foreach ($section->getElements() as $element) {
                 if ($element instanceof TextRun) {
                     foreach ($element->getElements() as $textElement) {
-                        if (method_exists($textElement, 'getText')) {
+                        if ($textElement instanceof Text) {
                             $text = $textElement->getText();
-                            // Check if $text is a string before concatenation
-                            if (is_string($text)) {
-                                $concatenatedText .= $text;
-                            } else {
-                                error_log("Expected a string, but got a different type: " . print_r($text, true));
-                            }
+                            $concatenatedText .= $text;
                         }
                     }
-                } elseif (method_exists($element, 'getText')) {
+                } elseif ($element instanceof Text) {
                     $text = $element->getText();
-                    // Check if $text is a string before concatenation
-                    if (is_string($text)) {
-                        $concatenatedText .= $text;
-                    } else {
-                        // Handle the case where $text is not a string
-                        error_log("Expected a string, but got a different type: " . print_r($text, true));
-                    }
+                    $concatenatedText .= $text;
                 }
             }
-
-            // Regex to find all occurrences of text that starts with ${
+        
             preg_match_all('/\$\{([^}]+)\}/', $concatenatedText, $matches);
-
+        
             if (!empty($matches[1])) {
                 foreach ($matches[1] as $match) {
-                    // Ensure $match is a string before adding to the array
                     $trimmedMatch = trim($match);
-                    if (is_string($trimmedMatch)) {
-                        $extractedVariables[] = $trimmedMatch;
-                    } else {
-                        // Log non-string matches for debugging
-                        error_log("Non-string match found: " . print_r($match, true));
-                    }
+                    $extractedVariables[] = $trimmedMatch;
                 }
             }
         }
