@@ -106,7 +106,6 @@ abstract class IOFactory
         $extractedVariables = [];
         foreach ($document->getSections() as $section) {
             $concatenatedText = '';
-        
             foreach ($section->getElements() as $element) {
                 if ($element instanceof TextRun) {
                     foreach ($element->getElements() as $textElement) {
@@ -120,9 +119,7 @@ abstract class IOFactory
                     $concatenatedText .= $text;
                 }
             }
-        
             preg_match_all('/\$\{([^}]+)\}/', $concatenatedText, $matches);
-        
             if (!empty($matches[1])) {
                 foreach ($matches[1] as $match) {
                     $trimmedMatch = trim($match);
@@ -130,7 +127,6 @@ abstract class IOFactory
                 }
             }
         }
-
         return $extractedVariables;
     }
 
