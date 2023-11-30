@@ -116,4 +116,18 @@ class IOFactoryTest extends TestCase
             IOFactory::load($file)
         );
     }
+
+    /**
+     * Test for extractVariables method.
+     */
+    public function testExtractVariables(): void
+    {
+        $file = __DIR__ . '/_files/templates/extract-variable.docx';
+
+        $extractedVariables = IOFactory::extractVariables($file, 'Word2007');
+
+        $expectedVariables = ['date', 'A1', 'B1']; 
+
+        $this->assertEquals($expectedVariables, $extractedVariables, "Extracted variables do not match expected variables.");
+    }
 }

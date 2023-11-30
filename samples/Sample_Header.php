@@ -47,6 +47,7 @@ if ($handle = opendir('.')) {
     while (false !== ($sampleFile = readdir($handle))) {
         $sampleFiles[] = $sampleFile;
     }
+    var_dump($sampleFiles);
     sort($sampleFiles);
     closedir($handle);
 
