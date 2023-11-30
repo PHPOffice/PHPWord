@@ -116,6 +116,7 @@ abstract class IOFactory
                     }
                 } elseif ($element instanceof Text) {
                     $text = $element->getText();
+
                     $concatenatedText .= $text;
                 }
             }
