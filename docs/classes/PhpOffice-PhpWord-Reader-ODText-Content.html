@@ -123,7 +123,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Reader/ODText/Content.php"><a href="files/src-phpword-reader-odtext-content.html"><abbr title="src/PhpWord/Reader/ODText/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -242,6 +242,12 @@
 </dt>
 <dd>XML file.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#property_section">$section</a>
+    <span>
+                        &nbsp;: <a href="classes/PhpOffice-PhpWord-Element-Section.html"><abbr title="\PhpOffice\PhpWord\Element\Section">Section</abbr></a>|null            </span>
+</dt>
+
     </dl>
 
 <h4 id="toc-methods">
@@ -268,6 +274,12 @@
     <a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_hasImageLoading">hasImageLoading()</a>
     <span>
                                 &nbsp;: bool    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_processNodes">processNodes()</a>
+    <span>
+                                &nbsp;: void    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
@@ -387,6 +399,12 @@
                                 &nbsp;: null|string    </span>
 </dt>
 <dd>Returns the target of image, object, or link as stored in ::readMainRels.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_getSection">getSection()</a>
+    <span>
+                                &nbsp;: <a href="classes/PhpOffice-PhpWord-Element-Section.html"><abbr title="\PhpOffice\PhpWord\Element\Section">Section</abbr></a>    </span>
+</dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getTargetMode">getTargetMode()</a>
@@ -785,6 +803,39 @@
     
 
 </article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_section">
+        $section
+        <a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#property_section" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Reader/ODText/Content.php"><a href="files/src-phpword-reader-odtext-content.html"><abbr title="src/PhpWord/Reader/ODText/Content.php">Content.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">37</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type"><a href="classes/PhpOffice-PhpWord-Element-Section.html"><abbr title="\PhpOffice\PhpWord\Element\Section">Section</abbr></a>|null</span>
+    <span class="phpdocumentor-signature__name">$section</span>
+    </code>
+
+    
+    
+    
+
+</article>
             </section>
 
             <section class="phpdocumentor-methods">
@@ -919,6 +970,61 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_processNodes">
+        processNodes()
+        <a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_processNodes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Reader/ODText/Content.php"><a href="files/src-phpword-reader-odtext-content.html"><abbr title="src/PhpWord/Reader/ODText/Content.php">Content.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">56</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">processNodes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\DOMNodeList">DOMNodeList</abbr>&lt;string|int, <abbr title="\DOMElement">DOMElement</abbr>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$nodes</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Shared-XMLReader.html"><abbr title="\PhpOffice\PhpWord\Shared\XMLReader">XMLReader</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$xmlReader</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$phpWord</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$nodes</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\DOMNodeList">DOMNodeList</abbr>&lt;string|int, <abbr title="\DOMElement">DOMElement</abbr>&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$xmlReader</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-Shared-XMLReader.html"><abbr title="\PhpOffice\PhpWord\Shared\XMLReader">XMLReader</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$phpWord</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_read">
         read()
         <a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_read" class="headerlink"><i class="fas fa-link"></i></a>
@@ -927,7 +1033,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Reader/ODText/Content.php"><a href="files/src-phpword-reader-odtext-content.html"><abbr title="src/PhpWord/Reader/ODText/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -1913,6 +2019,51 @@
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getSection">
+        getSection()
+        <a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_getSection" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Reader/ODText/Content.php"><a href="files/src-phpword-reader-odtext-content.html"><abbr title="src/PhpWord/Reader/ODText/Content.php">Content.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">197</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getSection</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$phpWord</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Element-Section.html"><abbr title="\PhpOffice\PhpWord\Element\Section">Section</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$phpWord</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Element-Section.html"><abbr title="\PhpOffice\PhpWord\Element\Section">Section</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getTargetMode">
         getTargetMode()
         <a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getTargetMode" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2439,6 +2590,7 @@
                                                     <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#property_imageLoading">$imageLoading<a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#property_rels">$rels<a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html"></li>
                                                     <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#property_xmlFile">$xmlFile<a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html"></li>
+                                                    <li><a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#property_section">$section<a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html"></li>
                                             </ul>
                 </li>
             
@@ -2448,6 +2600,7 @@
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method___construct">__construct()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getCommentReferences">getCommentReferences()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_hasImageLoading">hasImageLoading()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_processNodes">processNodes()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_read">read()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_setCommentReferences">setCommentReferences()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_setImageLoading">setImageLoading()</a></li>
@@ -2465,6 +2618,7 @@
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_findPossibleElement">findPossibleElement()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getHeadingDepth">getHeadingDepth()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getMediaTarget">getMediaTarget()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_getSection">getSection()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_getTargetMode">getTargetMode()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_isOn">isOn()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readCellStyle">readCellStyle()</a></li>

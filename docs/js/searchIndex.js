@@ -2066,6 +2066,11 @@ Search.appendIndex(
             "summary": "Set\u0020Paragraph\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Element-TextRun.html#method_setParagraphStyle"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextRun\u003A\u003AgetText\u0028\u0029",
+            "name": "getText",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Element-TextRun.html#method_getText"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\TextRun\u003A\u003A\u0024container",
             "name": "container",
             "summary": "Container\u0020type\u0020Section\u007CHeader\u007CFooter\u007CFootnote\u007CEndnote\u007CCell\u007CTextRun\u007CTextBox\u007CListItemRun\u007CTrackChange.",
@@ -3555,6 +3560,21 @@ Search.appendIndex(
             "name": "read",
             "summary": "Read\u0020content.xml.",
             "url": "classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_read"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\\Content\u003A\u003AprocessNodes\u0028\u0029",
+            "name": "processNodes",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_processNodes"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\\Content\u003A\u003AgetSection\u0028\u0029",
+            "name": "getSection",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Reader-ODText-Content.html#method_getSection"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\\Content\u003A\u003A\u0024section",
+            "name": "section",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Reader-ODText-Content.html#property_section"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\ODText\\Meta",
             "name": "Meta",
