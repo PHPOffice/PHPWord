@@ -114,10 +114,6 @@ abstract class IOFactory
                             $concatenatedText .= $text;
                         }
                     }
-                } elseif ($element instanceof Text) {
-                    $text = $element->getText();
-
-                    $concatenatedText .= $text;
                 }
             }
             preg_match_all('/\$\{([^}]+)\}/', $concatenatedText, $matches);
