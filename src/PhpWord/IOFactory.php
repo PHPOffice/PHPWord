@@ -90,14 +90,14 @@ abstract class IOFactory
 
         return $reader->load($filename);
     }
-    
+
     /**
      * Loads PhpWord ${variable} from file.
      *
      * @param string $filename The name of the file
      * @param string $readerName
-     * @return array The extracted variables
      *
+     * @return array The extracted variables
      */
     public static function extractVariables(string $filename, $readerName = 'Word2007')
     {
@@ -128,6 +128,7 @@ abstract class IOFactory
                 }
             }
         }
+
         return $extractedVariables;
     }
 
@@ -144,5 +145,4 @@ abstract class IOFactory
 
         return !$reflection->isAbstract() && !$reflection->isInterface();
     }
-    
 }
