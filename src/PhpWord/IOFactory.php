@@ -16,13 +16,12 @@
 
 namespace PhpOffice\PhpWord;
 
-
-use ReflectionClass;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Reader\ReaderInterface;
 use PhpOffice\PhpWord\Writer\WriterInterface;
+use ReflectionClass;
 
 abstract class IOFactory
 {

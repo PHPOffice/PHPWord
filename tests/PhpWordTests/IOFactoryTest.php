@@ -128,6 +128,6 @@ class IOFactoryTest extends TestCase
 
         $expectedVariables = ['date', 'A1', 'B1']; 
 
-        $this->assertEquals($expectedVariables, $extractedVariables, "Extracted variables do not match expected variables.");
+        self::assertEquals($expectedVariables, $extractedVariables, 'Extracted variables do not match expected variables.');
     }
 }
