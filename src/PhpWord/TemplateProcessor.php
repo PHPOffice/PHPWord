@@ -1063,14 +1063,24 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
-        $brokenMacroOpeningChars = substr(self::$macroOpeningChars, 0, 1);
-        $endMacroOpeningChars = substr(self::$macroOpeningChars, 1);
-        $macroClosingChars = self::$macroClosingChars;
-
         return preg_replace_callback(
-            '/\\' . $brokenMacroOpeningChars . '(?:\\' . $endMacroOpeningChars . '|[^{$]*\>\{)[^' . $macroClosingChars . '$]*\}/U',
+            sprintf(
+                '/%s.+%s/U',
+                implode('', array_map(
+                    function (string $char) {
+                        return preg_quote($char) . '(?:<[^>]+>)*';
+                    },
+                    str_split(self::$macroOpeningChars)
+                )),
+                implode('', array_map(
+                    function (string $char) {
+                        return '(?:<[^>]+>)*' . preg_quote($char);
+                    },
+                    str_split(self::$macroClosingChars)
+                ))
+            ),
             function ($match) {
-                preg_match_all('/<.+?\s*\/?\s*>/si', $match[0], $tags);
+                preg_match_all('/<[^>]+>/s', $match[0], $tags);
                 $tags = implode('', $tags[0]);
                 $tags = str_replace('<w:t>', '<w:t xml:space="preserve">', $tags);
 
