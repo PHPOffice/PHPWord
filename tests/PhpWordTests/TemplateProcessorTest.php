@@ -594,6 +594,24 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers ::setValues
      */
+    public function testSetValuesMultiLine(): void
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Address: ${address}</w:t>
+            </w:r>
+        </w:p>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(['address' => "Peter Pan\nNeverland"]);
+
+        self::assertStringContainsString('Address: Peter Pan</w:t><w:br/><w:t>Neverland', $templateProcessor->getMainPart());
+    }
+
+    /**
+     * @covers ::setValues
+     */
     public function testSetValuesWithCustomMacro(): void
     {
         $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
