@@ -62,7 +62,7 @@ class MsDocTest extends \PHPUnit\Framework\TestCase
 
     public function testLoadHalfPointFont(): void
     {
-        $filename = __DIR__ . '/../_files/documents/reader.font-halfpoint.doc ';
+        $filename = __DIR__ . '/../_files/documents/reader.font-halfpoint.doc';
         $phpWord = IOFactory::load($filename, 'MsDoc');
         $sections = $phpWord->getSections();
         self::assertCount(1, $sections);
