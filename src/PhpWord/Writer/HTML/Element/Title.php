@@ -46,8 +46,14 @@ class Title extends AbstractElement
             $writer = new Container($this->parentWriter, $text);
             $text = $writer->write();
         }
+        $css = '';
+        $style = \PhpOffice\PhpWord\Style::getStyle('Heading_' . $this->element->getDepth());
+        if ($style !== null) {
+            $styleWriter = new \PhpOffice\PhpWord\Writer\HTML\Style\Font($style);
+            $css = ' style="' . $styleWriter->write() . '"';
+        }
 
-        $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
+        $content = "<{$tag}{$css}>{$text}</{$tag}>" . PHP_EOL;
 
         return $content;
     }
