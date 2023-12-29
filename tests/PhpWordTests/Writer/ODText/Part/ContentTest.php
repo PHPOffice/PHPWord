@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWordTests\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -28,11 +29,20 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  */
 class ContentTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var string */
+    private $defaultFontName;
+
     /**
      * Executed before each method of the class.
      */
+    protected function setUp(): void
+    {
+        $this->defaultFontName = Settings::getDefaultFontName();
+    }
+
     protected function tearDown(): void
     {
+        Settings::setDefaultFontName($this->defaultFontName);
         TestHelperDOCX::clear();
     }
 

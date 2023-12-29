@@ -26,6 +26,7 @@ use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Border;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -37,6 +38,8 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class Html
 {
+    private const SPECIAL_BORDER_WIDTHS = ['thin' => '0.5pt', 'thick' => '3.5pt', 'medium' => '2.0pt'];
+
     protected static $listIndex = 0;
 
     protected static $xpath;
@@ -142,7 +145,7 @@ class Html
                         break;
                     case 'bgcolor':
                         // tables, rows, cells e.g. <tr bgColor="#FF0000">
-                        $styles['bgColor'] = trim($val, '# ');
+                        HtmlColours::setArrayColour($styles, 'bgColor', $val);
 
                         break;
                     case 'valign':
@@ -421,9 +424,10 @@ class Html
         }
 
         $attributes = $node->attributes;
-        if ($attributes->getNamedItem('border') !== null) {
+        if ($attributes->getNamedItem('border') !== null && is_object($newElement->getStyle())) {
             $border = (int) $attributes->getNamedItem('border')->value;
-            $newElement->getStyle()->setBorderSize(Converter::pixelToTwip($border));
+            $newElement->getStyle()->setBorderSize((int) Converter::pixelToTwip($border));
+            $newElement->getStyle()->setBorderStyle(($border === 0) ? 'none' : 'single');
         }
 
         return $newElement;
@@ -720,11 +724,11 @@ class Html
 
                     break;
                 case 'color':
-                    $styles['color'] = trim($value, '#');
+                    HtmlColours::setArrayColour($styles, 'color', $value);
 
                     break;
                 case 'background-color':
-                    $styles['bgColor'] = trim($value, '#');
+                    HtmlColours::setArrayColour($styles, 'bgColor', $value);
 
                     break;
                 case 'line-height':
@@ -804,7 +808,7 @@ class Html
 
                     break;
                 case 'border-width':
-                    $styles['borderSize'] = Converter::cssToPoint($value);
+                    $styles['borderSize'] = Converter::cssToPoint(self::SPECIAL_BORDER_WIDTHS[$value] ?? $value);
 
                     break;
                 case 'border-style':
@@ -834,29 +838,46 @@ class Html
                 case 'border-bottom':
                 case 'border-right':
                 case 'border-left':
-                    // must have exact order [width color style], e.g. "1px #0011CC solid" or "2pt green solid"
-                    // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
-                    if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+|[a-zA-Z]+)\s+([a-z]+)/', $value, $matches)) {
-                        if (false !== strpos($property, '-')) {
-                            $tmp = explode('-', $property);
-                            $which = $tmp[1];
-                            $which = ucfirst($which); // e.g. bottom -> Bottom
-                        } else {
-                            $which = '';
-                        }
-                        // Note - border width normalization:
-                        // Width of border in Word is calculated differently than HTML borders, usually showing up too bold.
-                        // Smallest 1px (or 1pt) appears in Word like 2-3px/pt in HTML once converted to twips.
-                        // Therefore we need to normalize converted twip value to cca 1/2 of value.
-                        // This may be adjusted, if better ratio or formula found.
-                        // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
-                        $size = Converter::cssToTwip($matches[1]);
+                    $stylePattern = '/(^|\\s)(none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset)(\\s|$)/';
+                    if (!preg_match($stylePattern, $value, $matches)) {
+                        break;
+                    }
+                    $borderStyle = $matches[2];
+                    $value = preg_replace($stylePattern, ' ', $value) ?? '';
+                    $borderSize = $borderColor = null;
+                    $sizePattern = '/(^|\\s)([0-9]+([.][0-9]+)?+(%|[a-z]*)|thick|thin|medium)(\\s|$)/';
+                    if (preg_match($sizePattern, $value, $matches)) {
+                        $borderSize = $matches[2];
+                        $borderSize = self::SPECIAL_BORDER_WIDTHS[$borderSize] ?? $borderSize;
+                        $value = preg_replace($sizePattern, ' ', $value) ?? '';
+                    }
+                    $colorPattern = '/(^|\\s)([#][a-fA-F0-9]{6}|[#][a-fA-F0-9]{3}|[a-z][a-z0-9]+)(\\s|$)/';
+                    if (preg_match($colorPattern, $value, $matches)) {
+                        $borderColor = HtmlColours::convertColour($matches[2]);
+                    }
+                    if (false !== strpos($property, '-')) {
+                        $tmp = explode('-', $property);
+                        $which = $tmp[1];
+                        $which = ucfirst($which); // e.g. bottom -> Bottom
+                    } else {
+                        $which = '';
+                    }
+                    // Note - border width normalization:
+                    // Width of border in Word is calculated differently than HTML borders, usually showing up too bold.
+                    // Smallest 1px (or 1pt) appears in Word like 2-3px/pt in HTML once converted to twips.
+                    // Therefore we need to normalize converted twip value to cca 1/2 of value.
+                    // This may be adjusted, if better ratio or formula found.
+                    // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
+                    if ($borderSize !== null) {
+                        $size = Converter::cssToTwip($borderSize);
                         $size = (int) ($size / 2);
                         // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
                         $styles["border{$which}Size"] = $size; // twips
-                        $styles["border{$which}Color"] = trim($matches[2], '#');
-                        $styles["border{$which}Style"] = self::mapBorderStyle($matches[3]);
                     }
+                    if (!empty($borderColor)) {
+                        $styles["border{$which}Color"] = $borderColor;
+                    }
+                    $styles["border{$which}Style"] = self::mapBorderStyle($borderStyle);
 
                     break;
                 case 'vertical-align':
@@ -1006,6 +1027,8 @@ class Html
             case 'dotted':
             case 'double':
                 return $cssBorderStyle;
+            case 'hidden':
+                return 'none';
             default:
                 return 'single';
         }
@@ -1013,14 +1036,14 @@ class Html
 
     protected static function mapBorderColor(&$styles, $cssBorderColor): void
     {
-        $numColors = substr_count($cssBorderColor, '#');
+        $colors = explode(' ', $cssBorderColor);
+        $numColors = count($colors);
         if ($numColors === 1) {
-            $styles['borderColor'] = trim($cssBorderColor, '#');
-        } elseif ($numColors > 1) {
-            $colors = explode(' ', $cssBorderColor);
+            HtmlColours::setArrayColour($styles, 'borderColor', $cssBorderColor);
+        } else {
             $borders = ['borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor'];
             for ($i = 0; $i < min(4, $numColors, count($colors)); ++$i) {
-                $styles[$borders[$i]] = trim($colors[$i], '#');
+                HtmlColours::setArrayColour($styles, $borders[$i], $colors[$i]);
             }
         }
     }

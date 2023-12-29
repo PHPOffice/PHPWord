@@ -592,35 +592,46 @@ abstract class AbstractPart
         $borders = array_merge($margins, ['insideH', 'insideV']);
 
         if ($xmlReader->elementExists('w:tblPr', $domNode)) {
+            $tblStyleName = '';
             if ($xmlReader->elementExists('w:tblPr/w:tblStyle', $domNode)) {
-                $style = $xmlReader->getAttribute('w:val', $domNode, 'w:tblPr/w:tblStyle');
-            } else {
-                $styleNode = $xmlReader->getElement('w:tblPr', $domNode);
-                $styleDefs = [];
-                foreach ($margins as $side) {
-                    $ucfSide = ucfirst($side);
-                    $styleDefs["cellMargin$ucfSide"] = [self::READ_VALUE, "w:tblCellMar/w:$side", 'w:w'];
-                }
-                foreach ($borders as $side) {
-                    $ucfSide = ucfirst($side);
-                    $styleDefs["border{$ucfSide}Size"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz'];
-                    $styleDefs["border{$ucfSide}Color"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:color'];
-                    $styleDefs["border{$ucfSide}Style"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:val'];
-                }
-                $styleDefs['layout'] = [self::READ_VALUE, 'w:tblLayout', 'w:type'];
-                $styleDefs['bidiVisual'] = [self::READ_TRUE, 'w:bidiVisual'];
-                $styleDefs['cellSpacing'] = [self::READ_VALUE, 'w:tblCellSpacing', 'w:w'];
-                $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
+                $tblStyleName = $xmlReader->getAttribute('w:val', $domNode, 'w:tblPr/w:tblStyle');
+            }
+            $styleNode = $xmlReader->getElement('w:tblPr', $domNode);
+            $styleDefs = [];
 
-                $tablePositionNode = $xmlReader->getElement('w:tblpPr', $styleNode);
-                if ($tablePositionNode !== null) {
-                    $style['position'] = $this->readTablePosition($xmlReader, $tablePositionNode);
-                }
+            foreach ($margins as $side) {
+                $ucfSide = ucfirst($side);
+                $styleDefs["cellMargin$ucfSide"] = [self::READ_VALUE, "w:tblCellMar/w:$side", 'w:w'];
+            }
+            foreach ($borders as $side) {
+                $ucfSide = ucfirst($side);
+                $styleDefs["border{$ucfSide}Size"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz'];
+                $styleDefs["border{$ucfSide}Color"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:color'];
+                $styleDefs["border{$ucfSide}Style"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:val'];
+            }
+            $styleDefs['layout'] = [self::READ_VALUE, 'w:tblLayout', 'w:type'];
+            $styleDefs['bidiVisual'] = [self::READ_TRUE, 'w:bidiVisual'];
+            $styleDefs['cellSpacing'] = [self::READ_VALUE, 'w:tblCellSpacing', 'w:w'];
+            $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
 
-                $indentNode = $xmlReader->getElement('w:tblInd', $styleNode);
-                if ($indentNode !== null) {
-                    $style['indent'] = $this->readTableIndent($xmlReader, $indentNode);
-                }
+            $tablePositionNode = $xmlReader->getElement('w:tblpPr', $styleNode);
+            if ($tablePositionNode !== null) {
+                $style['position'] = $this->readTablePosition($xmlReader, $tablePositionNode);
+            }
+
+            $indentNode = $xmlReader->getElement('w:tblInd', $styleNode);
+            if ($indentNode !== null) {
+                $style['indent'] = $this->readTableIndent($xmlReader, $indentNode);
+            }
+            if ($xmlReader->elementExists('w:basedOn', $domNode)) {
+                $style['basedOn'] = $xmlReader->getAttribute('w:val', $domNode, 'w:basedOn');
+            }
+            if ($tblStyleName !== '') {
+                $style['tblStyle'] = $tblStyleName;
+            }
+            // this may be unneeded
+            if ($xmlReader->elementExists('w:name', $domNode)) {
+                $style['styleName'] = $xmlReader->getAttribute('w:val', $domNode, 'w:name');
             }
         }
 
