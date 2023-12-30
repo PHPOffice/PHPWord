@@ -73,6 +73,13 @@ class Font extends AbstractStyle
         } elseif ($style->isRTL() === false) {
             $css['direction'] = 'ltr';
         }
+        $shading = $style->getShading();
+        if ($shading !== null) {
+            $fill = $shading->getFill();
+            if (!empty($fill)) {
+                $css['background-color'] = preg_match('/^[0-9a-fA-F]{6}$/', $fill) ? "#$fill" : $fill;
+            }
+        }
 
         return $this->assembleCss($css);
     }

@@ -73,6 +73,7 @@ HTML;
         self::assertSame($expected, $count);
         $substring2 = 'border-top-style: dotted; border-top-color: #FF0000; border-left-style: dotted; border-left-color: #FF0000; border-bottom-style: dotted; border-bottom-color: #FF0000; border-right-style: dotted; border-right-color: #FF0000;';
         self::assertSame(1, substr_count($content, $substring2));
+        self::assertStringContainsString('style="background-color: #00FF00;">header c</span>', $content);
     }
 
     public function testParseTableStyleBorderNone(): void
