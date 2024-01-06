@@ -100,12 +100,21 @@ class TemplateProcessor
     protected static $macroClosingChars = '}';
 
     /**
+     * Delete temp file at destruct?
+     *
+     * @var bool
+     */
+    protected $deleteAtDestruct = false;
+
+    /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
      * @param string $documentTemplate The fully qualified template filename
+     * @param bool $deleteAtDestruct Delete temp file at destruct
      */
-    public function __construct($documentTemplate)
+    public function __construct($documentTemplate, $deleteAtDestruct = false)
     {
+        $this->deleteAtDestruct = $deleteAtDestruct;
         // Temporary document filename initialization
         $this->tempDocumentFilename = tempnam(Settings::getTempDir(), 'PhpWord');
         if (false === $this->tempDocumentFilename) {
@@ -147,7 +156,7 @@ class TemplateProcessor
             }
         }
         // Temporary file
-        if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
+        if ($this->deleteAtDestruct && $this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
             unlink($this->tempDocumentFilename);
         }
     }
