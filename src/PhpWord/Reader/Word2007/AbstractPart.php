@@ -264,6 +264,15 @@ abstract class AbstractPart
                     $this->readRun($xmlReader, $node, $textContent, $docPart, $paragraphStyle);
                 }
             }
+
+            // Every heading is generaly associated to a bookmark.
+            // Get the name of the current title bookmark and add a similar bookmark before the title
+            $bookmarkTitleNodes = $xmlReader->getElements('w:bookmarkStart', $domNode);
+            if ($bookmarkTitleNodes->length) {
+                $bookmarkName = $bookmarkTitleNodes->item(0)->getAttribute('w:name');
+                $parent->addBookmark($bookmarkName);
+            }
+            // Add the title
             $parent->addTitle($textContent, $headingDepth);
 
             return;
@@ -425,6 +434,11 @@ abstract class AbstractPart
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (null !== $target) {
                     $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
+                // Internal reference found
+                } elseif ($runParent->hasAttribute('w:anchor')) {
+                    $anchorAttribute = $runParent->getAttribute('w:anchor');
+                    $parent->addLink($anchorAttribute, $textContent, $fontStyle, $paragraphStyle, true);
+                // Otherwise
                 } else {
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
