@@ -100,21 +100,12 @@ class TemplateProcessor
     protected static $macroClosingChars = '}';
 
     /**
-     * Delete temp file at destruct?
-     *
-     * @var bool
-     */
-    protected $deleteAtDestruct = false;
-
-    /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
      * @param string $documentTemplate The fully qualified template filename
-     * @param bool $deleteAtDestruct Delete temp file at destruct
      */
-    public function __construct($documentTemplate, $deleteAtDestruct = false)
+    public function __construct($documentTemplate)
     {
-        $this->deleteAtDestruct = $deleteAtDestruct;
         // Temporary document filename initialization
         $this->tempDocumentFilename = tempnam(Settings::getTempDir(), 'PhpWord');
         if (false === $this->tempDocumentFilename) {
@@ -155,18 +146,6 @@ class TemplateProcessor
                 // Nothing to do here.
             }
         }
-        // Temporary file
-        if ($this->deleteAtDestruct && $this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
-            unlink($this->tempDocumentFilename);
-        }
-    }
-
-    public function __wakeup(): void
-    {
-        $this->tempDocumentFilename = '';
-        $this->zipClass = null;
-
-        throw new Exception('unserialize not permitted for this class');
     }
 
     /**
@@ -1000,6 +979,12 @@ class TemplateProcessor
             throw new Exception('Could not close zip file.'); // @codeCoverageIgnore
         }
 
+        return $this->tempDocumentFilename;
+    }
+
+    /** @return string */
+    public function getTempDocumentFilename()
+    {
         return $this->tempDocumentFilename;
     }
 

@@ -21,7 +21,6 @@ use DOMDocument;
 use Exception;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Exception\Exception as WordException;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
@@ -38,7 +37,26 @@ use ZipArchive;
  */
 final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 {
-    private const DELETE_AT_DESTRUCT = true;
+    /** @var ?TemplateProcessor */
+    private $templateProcessor;
+
+    private function getTemplateProcessor(string $filename): TemplateProcessor
+    {
+        $this->templateProcessor = new TemplateProcessor($filename);
+
+        return $this->templateProcessor;
+    }
+
+    protected function tearDown(): void
+    {
+        if ($this->templateProcessor !== null) {
+            $filename = $this->templateProcessor->getTempDocumentFilename();
+            $this->templateProcessor = null;
+            if (file_exists($filename)) {
+                @unlink($filename);
+            }
+        }
+    }
 
     /**
      * Construct test.
@@ -48,35 +66,11 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testTheConstruct(): void
     {
-        $object = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx', self::DELETE_AT_DESTRUCT);
+        $object = $this->getTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
         self::assertInstanceOf('PhpOffice\\PhpWord\\TemplateProcessor', $object);
         self::assertEquals([], $object->getVariables());
         $filename1 = $object->save();
         self::assertFileExists($filename1);
-        unset($object);
-        gc_collect_cycles();
-        if (method_exists(self::class, 'assertFileDoesNotExist')) {
-            self::assertFileDoesNotExist($filename1);
-        } else {
-            self::assertFileNotExists($filename1);
-        }
-    }
-
-    /**
-     * Do not delete tempfile test.
-     *
-     * @covers ::__construct
-     * @covers ::__destruct
-     */
-    public function testDoNotDeleteTempfile(): void
-    {
-        $object = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
-        $filename1 = $object->save();
-        self::assertFileExists($filename1);
-        unset($object);
-        gc_collect_cycles();
-        self::assertFileExists($filename1);
-        @unlink($filename1);
     }
 
     /**
@@ -135,7 +129,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     public function testXslStyleSheetCanBeApplied(): void
     {
         $templateFqfn = __DIR__ . '/_files/templates/with_table_macros.docx';
-        $templateProcessor = new TemplateProcessor($templateFqfn, self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor($templateFqfn);
 
         $actualDocumentFqfn = $this->xtestTemplateCanBeSavedInTemporaryLocation($templateFqfn, $templateProcessor);
         $expectedDocumentFqfn = __DIR__ . '/_files/documents/without_table_macros.docx';
@@ -179,7 +173,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $this->expectExceptionMessage('Could not set values for the given XSL style sheet parameters.');
         }
 
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
 
         $xslDomDocument = new DOMDocument();
         $xslDomDocument->load(__DIR__ . '/_files/xsl/passthrough.xsl');
@@ -200,7 +194,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $this->expectExceptionMessage('Could not load the given XML document.');
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/corrupted_main_document_part.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/corrupted_main_document_part.docx');
 
         $xslDomDocument = new DOMDocument();
         $xslDomDocument->load(__DIR__ . '/_files/xsl/passthrough.xsl');
@@ -219,7 +213,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testDeleteRow(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/delete-row.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/delete-row.docx');
 
         self::assertEquals(
             ['deleteMe', 'deleteMeToo'],
@@ -245,7 +239,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testCloneRow(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
 
         self::assertEquals(
             ['tableHeader', 'userId', 'userName', 'userLocation'],
@@ -269,7 +263,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testCloneRowWithCustomMacro(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge-with-custom-macro.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/clone-merge-with-custom-macro.docx');
 
         $templateProcessor->setMacroOpeningChars('{#');
         $templateProcessor->setMacroClosingChars('#}');
@@ -426,7 +420,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testMacrosCanBeReplacedInHeaderAndFooter(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
 
         self::assertEquals(['documentContent', 'headerValue:100:100', 'footerValue'], $templateProcessor->getVariables());
 
@@ -447,7 +441,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testCustomMacrosCanBeReplacedInHeaderAndFooter(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/header-footer-with-custom-macro.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/header-footer-with-custom-macro.docx');
         $templateProcessor->setMacroOpeningChars('{{');
         $templateProcessor->setMacroClosingChars('}}');
 
@@ -469,7 +463,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValue(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
         Settings::setOutputEscapingEnabled(true);
         $helloworld = "hello\nworld";
         $templateProcessor->setValue('userName', $helloworld);
@@ -484,7 +478,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValueWithCustomMacro(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge-with-custom-macro.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/clone-merge-with-custom-macro.docx');
         $templateProcessor->setMacroChars('{#', '#}');
         Settings::setOutputEscapingEnabled(true);
         $helloworld = "hello\nworld";
@@ -644,7 +638,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetImageValue(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
         $imagePath = __DIR__ . '/_files/images/earth.jpg';
 
         $variablesReplace = [
@@ -724,7 +718,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testCloneDeleteBlock(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-delete-block.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/clone-delete-block.docx');
 
         self::assertEquals(
             ['DELETEME', '/DELETEME', 'CLONEME', 'blockVariable', '/CLONEME'],
@@ -764,7 +758,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templatePath = 'test.docx';
         $objWriter->save($templatePath);
 
-        $templateProcessor = new TemplateProcessor($templatePath, self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor($templatePath);
         $variableCount = $templateProcessor->getVariableCount();
         unlink($templatePath);
 
@@ -801,7 +795,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templatePath = 'test.docx';
         $objWriter->save($templatePath);
 
-        $templateProcessor = new TemplateProcessor($templatePath, self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor($templatePath);
         $templateProcessor->setMacroChars('{{', '}}');
         $variableCount = $templateProcessor->getVariableCount();
         unlink($templatePath);
@@ -839,7 +833,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $objWriter->save($templatePath);
 
         // replace placeholders and save the file
-        $templateProcessor = new TemplateProcessor($templatePath, self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor($templatePath);
         $templateProcessor->setValue('title', 'Some title');
         $templateProcessor->cloneBlock('subreport', 2);
         $templateProcessor->setValue('subreport.id', '123', 1);
@@ -892,7 +886,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $objWriter->save($templatePath);
 
         // replace placeholders and save the file
-        $templateProcessor = new TemplateProcessor($templatePath, self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor($templatePath);
         $templateProcessor->setMacroChars('{{', '}}');
         $templateProcessor->setValue('title', 'Some title');
         $templateProcessor->cloneBlock('subreport', 2);
@@ -1181,7 +1175,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testMainPartNameDetection(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/document22-xml.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/document22-xml.docx');
 
         $variables = ['test'];
 
@@ -1193,7 +1187,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testMainPartNameDetectionWithCustomMacro(): void
     {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/document22-with-custom-macro-xml.docx', self::DELETE_AT_DESTRUCT);
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/document22-with-custom-macro-xml.docx');
         $templateProcessor->setMacroOpeningChars('{#');
         $templateProcessor->setMacroClosingChars('#}');
         $variables = ['test'];
@@ -1451,18 +1445,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $templateProcessor->setUpdateFields(false);
         self::assertStringContainsString('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
-    }
-
-    /**
-     * Should not allow unserialize to avoid malware.
-     */
-    public function testUnserialize(): void
-    {
-        $this->expectException(WordException::class);
-        $this->expectExceptionMessage('unserialize not permitted');
-        $object = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx', self::DELETE_AT_DESTRUCT);
-        $serialized = serialize($object);
-        $object2 = unserialize($serialized);
     }
 
     public function testShouldMakeFieldsUpdateOnOpenWithCustomMacro(): void
