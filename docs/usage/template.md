@@ -38,6 +38,31 @@ You can also set multiple values by passing all of them in an array.
 $templateProcessor->setValues(array('firstname' => 'John', 'lastname' => 'Doe'));
 ```
 
+## setCheckbox
+
+Given a template containing a checkbox control with the title or tag named:
+
+``` clean
+${checkbox}
+```
+The following will check the checkbox:
+
+``` php
+<?php
+
+$templateProcessor->setCheckbox('checkbox', true);
+```
+
+!!! note annotate "To add a checkbox and set its title or tag in a template"
+
+    1. Go to **Developer** tab > **Controls** group
+    2. Select the **Check Box Content Control**
+    3. Right-click on your checkbox
+    4. Click on **Properties**
+    5. Set the title or the tag
+
+    These steps may change regarding the version of Microsoft Word used.
+
 ## setMacroOpeningChars
 
 You can define a custom opening macro. The following will set ``{#`` as the opening search pattern.
