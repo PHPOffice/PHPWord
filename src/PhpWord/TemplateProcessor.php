@@ -982,8 +982,7 @@ class TemplateProcessor
         return $this->tempDocumentFilename;
     }
 
-    /** @return string */
-    public function getTempDocumentFilename()
+    public function getTempDocumentFilename(): string
     {
         return $this->tempDocumentFilename;
     }
