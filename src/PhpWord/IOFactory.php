@@ -12,7 +12,8 @@
  *
  * @see         https://github.com/PHPOffice/PHPWord
  *
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3 */
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3 
+ */
 
 namespace PhpOffice\PhpWord;
 
@@ -98,7 +99,7 @@ abstract class IOFactory
      *
      * @return array The extracted variables
      */
-    public static function extractVariables(string $filename, $readerName = 'Word2007'): array
+    public static function extractVariables(string $filename, string $readerName = 'Word2007'): array
     {
         /** @var \PhpOffice\PhpWord\Reader\ReaderInterface $reader */
         $reader = self::createReader($readerName);
