@@ -1871,7 +1871,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                             break;
                             // sprmCHps
                         case 0x43:
-                            $oStylePrl->styleFont['size'] = dechex($operand / 2);
+                            $oStylePrl->styleFont['size'] = $operand / 2;
 
                             break;
                             // sprmCIss

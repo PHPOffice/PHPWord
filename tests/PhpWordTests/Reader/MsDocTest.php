@@ -60,6 +60,22 @@ class MsDocTest extends \PHPUnit\Framework\TestCase
         self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
     }
 
+    public function testLoadHalfPointFont(): void
+    {
+        $filename = __DIR__ . '/../_files/documents/reader.font-halfpoint.doc';
+        $phpWord = IOFactory::load($filename, 'MsDoc');
+        $sections = $phpWord->getSections();
+        self::assertCount(1, $sections);
+        $elements = $sections[0]->getElements();
+        self::assertArrayHasKey(0, $elements);
+        $element0 = $elements[0];
+        if (method_exists($element0, 'getFontStyle')) {
+            self::assertSame(19.5, $element0->getFontStyle()->getSize());
+        } else {
+            self::fail('Unexpected no font style for first element');
+        }
+    }
+
     /**
      * Test exception on not existing file.
      */
