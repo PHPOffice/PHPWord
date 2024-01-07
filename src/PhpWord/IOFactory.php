@@ -95,6 +95,7 @@ abstract class IOFactory
      * Loads PhpWord ${variable} from file.
      *
      * @param string $filename The name of the file
+     * 
      * @param string $readerName
      *
      * @return array The extracted variables
