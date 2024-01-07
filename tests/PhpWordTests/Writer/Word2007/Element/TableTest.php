@@ -89,12 +89,6 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $tc = $table->addCell();
         $tc->addText('R1C2');
         $row = $table->addRow();
-        /*
-        $tc = $table->addCell();
-        $tc->addText('R2C1');
-        $tc = $table->addCell();
-        $tc->addText('R2C2');
-        */
         $row = $table->addRow();
         $tc = $table->addCell();
         $tc->addText('R3C1');
@@ -113,7 +107,6 @@ class TableTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]'));
         self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]/w:tc'));
         self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]/w:tc[2]'));
-        //self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]/w:tc[3]'));
 
         self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]'));
         self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]/w:tc'));
@@ -128,22 +121,6 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $section->addText('Before table (only 1 row and it has no cells).');
         $table = $section->addTable(['width' => 5000, 'unit' => TblWidth::PERCENT]);
         $row = $table->addRow();
-        /*
-        $tc = $table->addCell();
-        $tc->addText('R1C1');
-        $tc = $table->addCell();
-        $tc->addText('R1C2');
-        $row = $table->addRow();
-        $tc = $table->addCell();
-        $tc->addText('R2C1');
-        $tc = $table->addCell();
-        $tc->addText('R2C2');
-        $row = $table->addRow();
-        $tc = $table->addCell();
-        $tc->addText('R3C1');
-        $tc = $table->addCell();
-        $tc->addText('R3C2');
-        */
         $section->addText('After table.');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -152,20 +129,8 @@ class TableTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]'));
         self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc'));
         self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]'));
-        //self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]'));
 
         self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]'));
-        /*
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]/w:tc'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]/w:tc[2]'));
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]/w:tc[3]'));
-
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]/w:tc'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]/w:tc[2]'));
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]/w:tc[3]'));
-        */
     }
 
     public static function testNoRows(): void
@@ -174,45 +139,9 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addText('Before table (no rows therefore omitted).');
         $table = $section->addTable(['width' => 5000, 'unit' => TblWidth::PERCENT]);
-        /*
-        $row = $table->addRow();
-        $tc = $table->addCell();
-        $tc->addText('R1C1');
-        $tc = $table->addCell();
-        $tc->addText('R1C2');
-        $row = $table->addRow();
-        $tc = $table->addCell();
-        $tc->addText('R2C1');
-        $tc = $table->addCell();
-        $tc->addText('R2C2');
-        $row = $table->addRow();
-        $tc = $table->addCell();
-        $tc->addText('R3C1');
-        $tc = $table->addCell();
-        $tc->addText('R3C2');
-        */
         $section->addText('After table.');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl[1]'), 'no table should be written');
-        /*
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]'));
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]'));
-        */
-
-        /*
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]/w:tc'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]/w:tc[2]'));
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[2]/w:tc[3]'));
-
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]/w:tc'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]/w:tc[2]'));
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[3]/w:tc[3]'));
-        */
     }
 }
