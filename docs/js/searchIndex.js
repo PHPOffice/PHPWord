@@ -12451,6 +12451,11 @@ Search.appendIndex(
             "summary": "Replaces\u0020variable\u0020names\u0020in\u0020cloned\nrows\/blocks\u0020with\u0020indexed\u0020names.",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_indexClonedVariables"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AreplaceCarriageReturns\u0028\u0029",
+            "name": "replaceCarriageReturns",
+            "summary": "Replace\u0020carriage\u0020returns\u0020with\u0020xml.",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_replaceCarriageReturns"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AreplaceClonedVariables\u0028\u0029",
             "name": "replaceClonedVariables",
             "summary": "Replaces\u0020variables\u0020with\u0020values\u0020from\u0020array,\u0020array\u0020keys\u0020are\u0020the\u0020variable\u0020names.",
