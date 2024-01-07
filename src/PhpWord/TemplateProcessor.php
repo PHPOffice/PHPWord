@@ -357,6 +357,15 @@ class TemplateProcessor
             $replace = $xmlEscaper->escape($replace);
         }
 
+        // convert carriage returns
+        if (is_array($replace)) {
+            foreach ($replace as &$item) {
+                $item = $this->replaceCarriageReturns($item);
+            }
+        } else {
+            $replace = $this->replaceCarriageReturns($replace);
+        }
+
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
         $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
@@ -1303,6 +1312,14 @@ class TemplateProcessor
         }
 
         return $results;
+    }
+
+    /**
+     * Replace carriage returns with xml.
+     */
+    public function replaceCarriageReturns(string $string): string
+    {
+        return str_replace(["\r\n", "\r", "\n"], '</w:t><w:br/><w:t>', $string);
     }
 
     /**
