@@ -12,7 +12,7 @@
  *
  * @see         https://github.com/PHPOffice/PHPWord
  *
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3 
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
@@ -95,8 +95,6 @@ abstract class IOFactory
      * Loads PhpWord ${variable} from file.
      *
      * @param string $filename The name of the file
-     * 
-     * @param string $readerName
      *
      * @return array The extracted variables
      */
