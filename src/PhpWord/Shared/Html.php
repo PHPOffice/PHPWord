@@ -37,6 +37,8 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class Html
 {
+    private const RGB_REGEXP = '/^\s*rgb\s*[(]\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*[)]\s*$/';
+
     protected static $listIndex = 0;
 
     protected static $xpath;
@@ -142,7 +144,7 @@ class Html
                         break;
                     case 'bgcolor':
                         // tables, rows, cells e.g. <tr bgColor="#FF0000">
-                        $styles['bgColor'] = trim($val, '# ');
+                        $styles['bgColor'] = self::convertRgb($val);
 
                         break;
                     case 'valign':
@@ -720,11 +722,11 @@ class Html
 
                     break;
                 case 'color':
-                    $styles['color'] = trim($value, '#');
+                    $styles['color'] = self::convertRgb($value);
 
                     break;
                 case 'background-color':
-                    $styles['bgColor'] = trim($value, '#');
+                    $styles['bgColor'] = self::convertRgb($value);
 
                     break;
                 case 'line-height':
@@ -1169,5 +1171,14 @@ class Html
         // - table - throws error "cannot be inside textruns", e.g. lists
         // - line - that is a shape, has different behaviour
         // - repeated text, e.g. underline "_", because of unpredictable line wrapping
+    }
+
+    private static function convertRgb(string $rgb): string
+    {
+        if (preg_match(self::RGB_REGEXP, $rgb, $matches) === 1) {
+            return sprintf('%02X%02X%02X', $matches[1], $matches[2], $matches[3]);
+        }
+
+        return trim($rgb, '# ');
     }
 }
