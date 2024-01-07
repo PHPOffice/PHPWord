@@ -85,6 +85,12 @@ class Field extends AbstractElement
             'properties' => ['StyleIdentifier' => ''],
             'options' => ['PreserveFormat'],
         ],
+        'FILENAME' => [
+            'properties' => [
+                'format' => ['Upper', 'Lower', 'FirstCap', 'Caps'],
+            ],
+            'options' => ['Path', 'PreserveFormat'],
+        ],
     ];
 
     /**
