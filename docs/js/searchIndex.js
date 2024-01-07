@@ -4986,6 +4986,16 @@ Search.appendIndex(
             "summary": "Render\u0020horizontal\u0020rule\nNote\u003A\u0020Word\u0020rule\u0020is\u0020not\u0020the\u0020same\u0020as\u0020HTML\u0027s\u0020\u003Chr\u003E\u0020since\u0020it\u0020does\u0020not\u0020support\u0020width\u0020and\u0020thus\u0020neither\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseHorizRule"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AconvertRgb\u0028\u0029",
+            "name": "convertRgb",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_convertRgb"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003ARGB_REGEXP",
+            "name": "RGB_REGEXP",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Html.html#constant_RGB_REGEXP"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003A\u0024listIndex",
             "name": "listIndex",
             "summary": "",
