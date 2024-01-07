@@ -17,7 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Element\Title as PhpWordTitle;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML;
+use PhpOffice\PhpWord\Writer\HTML\Style\Font;
 
 /**
  * TextRun element HTML writer.
@@ -33,7 +36,7 @@ class Title extends AbstractElement
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
+        if (!$this->element instanceof PhpWordTitle) {
             return '';
         }
 
@@ -47,9 +50,9 @@ class Title extends AbstractElement
             $text = $writer->write();
         }
         $css = '';
-        $style = \PhpOffice\PhpWord\Style::getStyle('Heading_' . $this->element->getDepth());
+        $style = Style::getStyle('Heading_' . $this->element->getDepth());
         if ($style !== null) {
-            $styleWriter = new \PhpOffice\PhpWord\Writer\HTML\Style\Font($style);
+            $styleWriter = new Font($style);
             $css = ' style="' . $styleWriter->write() . '"';
         }
 
