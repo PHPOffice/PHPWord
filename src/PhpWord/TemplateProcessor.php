@@ -1499,5 +1499,4 @@ class TemplateProcessor
     {
         return $this->tempDocumentFilename;
     }
-
 }
