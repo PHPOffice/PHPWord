@@ -2396,6 +2396,11 @@ Search.appendIndex(
             "summary": "Loads\u0020PhpWord\u0020from\u0020file.",
             "url": "classes/PhpOffice-PhpWord-IOFactory.html#method_load"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\IOFactory\u003A\u003AextractVariables\u0028\u0029",
+            "name": "extractVariables",
+            "summary": "Loads\u0020PhpWord\u0020\u0024\u007Bvariable\u007D\u0020from\u0020file.",
+            "url": "classes/PhpOffice-PhpWord-IOFactory.html#method_extractVariables"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\IOFactory\u003A\u003AisConcreteClass\u0028\u0029",
             "name": "isConcreteClass",
             "summary": "Check\u0020if\u0020it\u0027s\u0020a\u0020concrete\u0020class\u0020\u0028not\u0020abstract\u0020nor\u0020interface\u0029.",

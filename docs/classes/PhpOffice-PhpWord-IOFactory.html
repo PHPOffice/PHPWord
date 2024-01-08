@@ -120,7 +120,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/IOFactory.php"><a href="files/src-phpword-iofactory.html"><abbr title="src/PhpWord/IOFactory.php">IOFactory.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 
     </aside>
 
@@ -164,6 +164,13 @@
                                 &nbsp;: <a href="classes/PhpOffice-PhpWord-Writer-WriterInterface.html"><abbr title="\PhpOffice\PhpWord\Writer\WriterInterface">WriterInterface</abbr></a>    </span>
 </dt>
 <dd>Create new writer.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/PhpOffice-PhpWord-IOFactory.html#method_extractVariables">extractVariables()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Loads PhpWord ${variable} from file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/PhpOffice-PhpWord-IOFactory.html#method_load">load()</a>
@@ -215,7 +222,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/IOFactory.php"><a href="files/src-phpword-iofactory.html"><abbr title="src/PhpWord/IOFactory.php">IOFactory.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
@@ -261,7 +268,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/IOFactory.php"><a href="files/src-phpword-iofactory.html"><abbr title="src/PhpWord/IOFactory.php">IOFactory.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
@@ -306,6 +313,65 @@
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_extractVariables">
+        extractVariables()
+        <a href="classes/PhpOffice-PhpWord-IOFactory.html#method_extractVariables" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/IOFactory.php"><a href="files/src-phpword-iofactory.html"><abbr title="src/PhpWord/IOFactory.php">IOFactory.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">101</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Loads PhpWord ${variable} from file.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">extractVariables</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filename</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$readerName</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;Word2007&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$filename</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The name of the file</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$readerName</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;Word2007&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The extracted variables</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_load">
         load()
         <a href="classes/PhpOffice-PhpWord-IOFactory.html#method_load" class="headerlink"><i class="fas fa-link"></i></a>
@@ -314,7 +380,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/IOFactory.php"><a href="files/src-phpword-iofactory.html"><abbr title="src/PhpWord/IOFactory.php">IOFactory.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">84</span>
+    <span class="phpdocumentor-element-found-in__line">86</span>
 
     </aside>
 
@@ -373,7 +439,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/IOFactory.php"><a href="files/src-phpword-iofactory.html"><abbr title="src/PhpWord/IOFactory.php">IOFactory.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 
     </aside>
 
@@ -433,7 +499,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/IOFactory.php"><a href="files/src-phpword-iofactory.html"><abbr title="src/PhpWord/IOFactory.php">IOFactory.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">99</span>
+    <span class="phpdocumentor-element-found-in__line">138</span>
 
     </aside>
 
@@ -580,6 +646,7 @@
                 <ul class="phpdocumentor-list -clean">
                                             <li><a href="classes/PhpOffice-PhpWord-IOFactory.html#method_createReader">createReader()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-IOFactory.html#method_createWriter">createWriter()</a></li>
+                                            <li><a href="classes/PhpOffice-PhpWord-IOFactory.html#method_extractVariables">extractVariables()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-IOFactory.html#method_load">load()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-IOFactory.html#method_createObject">createObject()</a></li>
                                             <li><a href="classes/PhpOffice-PhpWord-IOFactory.html#method_isConcreteClass">isConcreteClass()</a></li>
