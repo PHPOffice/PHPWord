@@ -12226,11 +12226,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method___destruct"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003A__wakeup\u0028\u0029",
-            "name": "__wakeup",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method___wakeup"
-        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003Azip\u0028\u0029",
             "name": "zip",
             "summary": "Expose\u0020zip\u0020class.",
@@ -12525,6 +12520,11 @@ Search.appendIndex(
             "name": "setMacroChars",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_setMacroChars"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AgetTempDocumentFilename\u0028\u0029",
+            "name": "getTempDocumentFilename",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-TemplateProcessor.html#method_getTempDocumentFilename"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\TemplateProcessor\u003A\u003AMAXIMUM_REPLACEMENTS_DEFAULT",
             "name": "MAXIMUM_REPLACEMENTS_DEFAULT",
