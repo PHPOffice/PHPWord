@@ -146,18 +146,6 @@ class TemplateProcessor
                 // Nothing to do here.
             }
         }
-        // Temporary file
-        if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
-            unlink($this->tempDocumentFilename);
-        }
-    }
-
-    public function __wakeup(): void
-    {
-        $this->tempDocumentFilename = '';
-        $this->zipClass = null;
-
-        throw new Exception('unserialize not permitted for this class');
     }
 
     /**
@@ -1506,4 +1494,10 @@ class TemplateProcessor
         self::$macroOpeningChars = $macroOpeningChars;
         self::$macroClosingChars = $macroClosingChars;
     }
+
+    public function getTempDocumentFilename(): string
+    {
+        return $this->tempDocumentFilename;
+    }
+
 }
