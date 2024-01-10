@@ -29,6 +29,7 @@ use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Writer\Word2007;
+use ReflectionClass;
 use Throwable;
 use XSLTProcessor;
 
@@ -321,24 +322,24 @@ class TemplateProcessor
      * @param string $search
      * @param string $htmlContent
      */
-    public  function setHtmlBlock($search,$htmlContent,$fullHtml=false): void
+    public function setHtmlBlock($search, $htmlContent, $fullHtml = false): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        Html::addHtml($section,$htmlContent,$fullHtml);
+        Html::addHtml($section, $htmlContent, $fullHtml);
         $zip = $this->zip();
         $obj = new Word2007($phpWord);
-        $refClass = new \ReflectionClass(Word2007::class);
+        $refClass = new ReflectionClass(Word2007::class);
         $addFilesToPackage = $refClass->getMethod('addFilesToPackage');
         $addFilesToPackage->setAccessible(true);
         $sectionMedia = Media::getElements('section');
         //add image to zip
         if (!empty($sectionMedia)) {
             //insert image to zip
-            $res = $addFilesToPackage->invoke($obj,$zip, $sectionMedia);
+            $res = $addFilesToPackage->invoke($obj, $zip, $sectionMedia);
             $registerContentTypes = $refClass->getMethod('registerContentTypes');
             $registerContentTypes->setAccessible(true);
-            $registerContentTypes->invoke($obj,$sectionMedia);
+            $registerContentTypes->invoke($obj, $sectionMedia);
 
             $relationships = $refClass->getProperty('relationships');
             $relationships->setAccessible(true);
@@ -346,10 +347,10 @@ class TemplateProcessor
             foreach ($sectionMedia as $element) {
                 $tmpRelationships[] = $element;
             }
-            $relationships->setValue($obj,$tmpRelationships);
+            $relationships->setValue($obj, $tmpRelationships);
         }
-        $documentWriterPart = $obj->getWriterPart("Document");
-        $relsDocumentWriterPart = $obj->getWriterPart("RelsDocument");
+        $documentWriterPart = $obj->getWriterPart('Document');
+        $relsDocumentWriterPart = $obj->getWriterPart('RelsDocument');
         $documentXml = $documentWriterPart->write();
         $relsDocumentXml = $relsDocumentWriterPart->write();
         // Load the XML string into a SimpleXMLElement
@@ -357,24 +358,24 @@ class TemplateProcessor
         // Extract content between <w:body> tags
         $bodyContent = $xml->xpath('//w:body/*');
         // Output the extracted content
-        $documentBodyStr = "";
+        $documentBodyStr = '';
         foreach ($bodyContent as $element) {
             $documentBodyStr .= $element->asXML();
         }
         //replace html content r:id vaule avoid rid  conflict
-        $rIdsElement =  $xml->xpath('//*[@r:id]');
+        $rIdsElement = $xml->xpath('//*[@r:id]');
         $rIdValuesMap = [];
-        if ($rIdsElement){
-            foreach ($rIdsElement as $idEle){
-                $rid = (string)$idEle->attributes('r', true)->id;
+        if ($rIdsElement) {
+            foreach ($rIdsElement as $idEle) {
+                $rid = (string) $idEle->attributes('r', true)->id;
                 $rIdValuesMap[$rid] = $rid;
             }
         }
-        if (!empty($rIdValuesMap )){
-            foreach ($rIdValuesMap as $rid => $value){
-                $replactVulue = $rid."-1";
+        if (!empty($rIdValuesMap)) {
+            foreach ($rIdValuesMap as $rid => $value) {
+                $replactVulue = $rid . '-1';
                 $rIdValuesMap[$rid] = $replactVulue;
-                $documentBodyStr = str_replace($rid,$replactVulue,$documentBodyStr);
+                $documentBodyStr = str_replace($rid, $replactVulue, $documentBodyStr);
             }
         }
         //replace document.xml
@@ -385,27 +386,25 @@ class TemplateProcessor
         $xml->registerXPathNamespace('ns', 'http://schemas.openxmlformats.org/package/2006/relationships');
         // Use XPath to find all Relationship nodes
         $RelationshipXmls = $xml->xpath('//ns:Relationship');
-        $RelationshipStr = "";
-        foreach ($RelationshipXmls as $relationshipXml){
-            $rid = (string)$relationshipXml->attributes();
-            if (isset($rIdValuesMap[$rid])){
+        $RelationshipStr = '';
+        foreach ($RelationshipXmls as $relationshipXml) {
+            $rid = (string) $relationshipXml->attributes();
+            if (isset($rIdValuesMap[$rid])) {
                 $tmpStr = $relationshipXml->asXML();
-                $tmpStr = str_replace($rid,$rIdValuesMap[$rid],$tmpStr);
+                $tmpStr = str_replace($rid, $rIdValuesMap[$rid], $tmpStr);
                 $RelationshipStr .= $tmpStr;
             }
         }
         //add relation to document.xml.rels
-        if ($RelationshipStr){
+        if ($RelationshipStr) {
             $relsFileName = $this->getRelationsName($this->getMainPartName());
             $content = $this->tempDocumentRelations[$this->getMainPartName()];
-            $endStr = "</Relationships>";
-            $replaceValue = $RelationshipStr.$endStr;
-            $content = str_replace($endStr,$replaceValue,$content);
-            $this->tempDocumentRelations[$this->getMainPartName()] = $content ;
+            $endStr = '</Relationships>';
+            $replaceValue = $RelationshipStr . $endStr;
+            $content = str_replace($endStr, $replaceValue, $content);
+            $this->tempDocumentRelations[$this->getMainPartName()] = $content;
         }
-
     }
-
 
     /**
      * @param mixed $search
