@@ -357,18 +357,17 @@ class TemplateProcessor
         // Load the XML string into a SimpleXMLElement
         $xml = simplexml_load_string($documentXml);
         // Extract content between <w:body> tags
-        if ($xml === false){
+        if ($xml === false) {
             return;
         }
         $bodyContent = $xml->xpath('//w:body/*');
         // Output the extracted content
         $documentBodyStr = '';
         if ($bodyContent) {
-           foreach ($bodyContent as $element) {
-               $documentBodyStr .= $element->asXML();
-           }
+            foreach ($bodyContent as $element) {
+                $documentBodyStr .= $element->asXML();
+            }
         }
-
 
         //replace html content r:id vaule avoid rid  conflict
         $rIdsElement = $xml->xpath('//*[@r:id]');
@@ -390,7 +389,7 @@ class TemplateProcessor
         $this->replaceXmlBlock($search, $documentBodyStr, 'w:p');
 
         $xml = simplexml_load_string($relsDocumentXml);
-        if ($xml === false){
+        if ($xml === false) {
             return;
         }
         // Register the namespace
@@ -398,12 +397,12 @@ class TemplateProcessor
         // Use XPath to find all Relationship nodes
         $RelationshipXmls = $xml->xpath('//ns:Relationship');
         $RelationshipStr = '';
-        if ($RelationshipXmls){
+        if ($RelationshipXmls) {
             foreach ($RelationshipXmls as $relationshipXml) {
                 $rid = (string) $relationshipXml->attributes();
                 if (isset($rIdValuesMap[$rid])) {
                     $tmpStr = $relationshipXml->asXML();
-                    if ($tmpStr!=false){
+                    if ($tmpStr != false) {
                         $tmpStr = str_replace($rid, $rIdValuesMap[$rid], $tmpStr);
                         $RelationshipStr .= $tmpStr;
                     }
