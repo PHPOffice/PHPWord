@@ -321,6 +321,7 @@ class TemplateProcessor
     /**
      * @param string $search
      * @param string $htmlContent
+     * @param bool $fullHtml
      */
     public function setHtmlBlock($search, $htmlContent, $fullHtml = false): void
     {
@@ -356,12 +357,19 @@ class TemplateProcessor
         // Load the XML string into a SimpleXMLElement
         $xml = simplexml_load_string($documentXml);
         // Extract content between <w:body> tags
+        if ($xml === false){
+            return;
+        }
         $bodyContent = $xml->xpath('//w:body/*');
         // Output the extracted content
         $documentBodyStr = '';
-        foreach ($bodyContent as $element) {
-            $documentBodyStr .= $element->asXML();
+        if ($bodyContent) {
+           foreach ($bodyContent as $element) {
+               $documentBodyStr .= $element->asXML();
+           }
         }
+
+
         //replace html content r:id vaule avoid rid  conflict
         $rIdsElement = $xml->xpath('//*[@r:id]');
         $rIdValuesMap = [];
@@ -382,19 +390,27 @@ class TemplateProcessor
         $this->replaceXmlBlock($search, $documentBodyStr, 'w:p');
 
         $xml = simplexml_load_string($relsDocumentXml);
+        if ($xml === false){
+            return;
+        }
         // Register the namespace
         $xml->registerXPathNamespace('ns', 'http://schemas.openxmlformats.org/package/2006/relationships');
         // Use XPath to find all Relationship nodes
         $RelationshipXmls = $xml->xpath('//ns:Relationship');
         $RelationshipStr = '';
-        foreach ($RelationshipXmls as $relationshipXml) {
-            $rid = (string) $relationshipXml->attributes();
-            if (isset($rIdValuesMap[$rid])) {
-                $tmpStr = $relationshipXml->asXML();
-                $tmpStr = str_replace($rid, $rIdValuesMap[$rid], $tmpStr);
-                $RelationshipStr .= $tmpStr;
+        if ($RelationshipXmls){
+            foreach ($RelationshipXmls as $relationshipXml) {
+                $rid = (string) $relationshipXml->attributes();
+                if (isset($rIdValuesMap[$rid])) {
+                    $tmpStr = $relationshipXml->asXML();
+                    if ($tmpStr!=false){
+                        $tmpStr = str_replace($rid, $rIdValuesMap[$rid], $tmpStr);
+                        $RelationshipStr .= $tmpStr;
+                    }
+                }
             }
         }
+
         //add relation to document.xml.rels
         if ($RelationshipStr) {
             $relsFileName = $this->getRelationsName($this->getMainPartName());
