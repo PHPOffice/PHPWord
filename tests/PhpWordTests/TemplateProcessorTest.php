@@ -1634,8 +1634,10 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSetHtml(): void
     {
         Settings::setOutputEscapingEnabled(true);
-        $content = '<p><img src="https://t7.baidu.com/it/u=4198287529,2774471735&fm=193&f=GIF" /></p>
-<p><img src="https://t7.baidu.com/it/u=4069854689,43753836&fm=193&f=GIF" /></p>
+        $image1 = __DIR__.'/_files/images/earth.jpg';
+        $image2 = __DIR__.'/_files/images/mars.jpg';
+        $content = '<p><img src="'.$image1.'" /></p>
+<p><img src="'.$image2.'" /></p>
 <p>HPJ LDAP(Lightweight Directory Access Protocol)，轻量级目录访问协议，是一种在线目录访问协议，主要用于目录中资源的搜索和查询。如果在用户可控制的输入中没有对 LDAP 语法进行除去或引用，那么生成的 LDAP 查询可能会导致</p>';
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/template_to_html.docx');
         $templateProcessor->setHtmlBlock('html_content', $content);

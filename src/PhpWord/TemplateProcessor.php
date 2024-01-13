@@ -327,6 +327,20 @@ class TemplateProcessor
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
+        //deal remote load Image
+        $pattern = '/<img[^>]+src\s*=\s*["\']([^"\']+)["\'][^>]*>/i';
+        preg_match_all($pattern, $htmlContent, $matches);
+        $imageSrcList = $matches[1];
+        if (!empty($imageSrcList)) {
+            foreach ($imageSrcList as $imageSrc) {
+                try {
+                    file_get_contents($imageSrc);
+                }catch (\Exception $e) {
+                    $localImg = __DIR__.'/resources/doc.png';
+                    $htmlContent = str_replace($imageSrc, $localImg, $htmlContent);
+                }
+            }
+        }
         Html::addHtml($section, $htmlContent, $fullHtml);
         $zip = $this->zip();
         $obj = new Word2007($phpWord);
