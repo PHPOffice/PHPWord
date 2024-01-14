@@ -334,7 +334,7 @@ class TemplateProcessor
         if (!empty($imageSrcList)) {
             foreach ($imageSrcList as $imageSrc) {
                 try {
-                    $content= file_get_contents($imageSrc);
+                    $content = file_get_contents($imageSrc);
                 } catch (\Exception $e) {
                     $localImg = __DIR__ . '/resources/doc.png';
                     $htmlContent = str_replace($imageSrc, $localImg, $htmlContent);
