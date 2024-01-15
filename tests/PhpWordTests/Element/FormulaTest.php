@@ -30,7 +30,7 @@ use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 class FormulaTest extends AbstractWebServerEmbeddedTest
 {
     /**
-     * @covers \Formula::__construct
+     * @covers \PhpOffice\PhpWord\Element\Formula::__construct
      */
     public function testConstruct(): void
     {
@@ -40,8 +40,8 @@ class FormulaTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
-     * @covers \Formula::getMath
-     * @covers \Formula::setMath
+     * @covers \PhpOffice\PhpWord\Element\Formula::getMath
+     * @covers \PhpOffice\PhpWord\Element\Formula::setMath
      */
     public function testMath(): void
     {
