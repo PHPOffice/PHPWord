@@ -5106,6 +5106,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html#constant_ALGORITHM_HMAC"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003AALL_ONE_BITS",
+            "name": "ALL_ONE_BITS",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html#constant_ALL_ONE_BITS"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003AHIGH_ORDER_BIT",
+            "name": "HIGH_ORDER_BIT",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Microsoft-PasswordEncoder.html#constant_HIGH_ORDER_BIT"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder\u003A\u003A\u0024algorithmMapping",
             "name": "algorithmMapping",
             "summary": "Mapping\u0020between\u0020algorithm\u0020name\u0020and\u0020algorithm\u0020ID.",
