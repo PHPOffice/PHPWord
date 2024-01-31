@@ -59,6 +59,7 @@ final class TemplateProcessorSectionTest extends \PHPUnit\Framework\TestCase
             <p>&nbsp;Bug Report:</p>
             <p><span style="background-color: #ff0000;">BugTracker X</span> is ${facing1} an issue.</p>
             <p><span style="background-color: #00ff00;">BugTracker X</span> is ${facing2} an issue.</p>
+            <p><span style="background-color: #0000ff;">BugTracker X</span> is ${facing1} an issue.</p>
             ';
         $section = new Section(0);
         Html::addHtml($section, $html, false, false);
@@ -69,7 +70,7 @@ final class TemplateProcessorSectionTest extends \PHPUnit\Framework\TestCase
         $facing2->addText('facing', ['italic' => true]);
 
         $templateProcessor->setComplexBlock('test', $section);
-        $templateProcessor->setComplexValue('facing1', $facing1);
+        $templateProcessor->setComplexValue('facing1', $facing1, true);
         $templateProcessor->setComplexValue('facing2', $facing2);
 
         $docName = $templateProcessor->save();
@@ -80,8 +81,10 @@ final class TemplateProcessorSectionTest extends \PHPUnit\Framework\TestCase
         self::assertNotFalse($contents);
         $contents = preg_replace('/>\s+</', '><', $contents) ?? '';
         self::assertStringContainsString('<w:t>Test</w:t>', $contents);
-        self::assertStringContainsString('<w:r><w:rPr><w:b w:val="1"/><w:bCs w:val="1"/></w:rPr><w:t xml:space="preserve">facing</w:t></w:r>', $contents, 'bold string found');
-        self::assertStringContainsString('<w:r><w:rPr><w:i w:val="1"/><w:iCs w:val="1"/></w:rPr><w:t xml:space="preserve">facing</w:t></w:r>', $contents, 'italic string found');
+        $count = substr_count($contents, '<w:r><w:rPr><w:b w:val="1"/><w:bCs w:val="1"/></w:rPr><w:t xml:space="preserve">facing</w:t></w:r>');
+        self::assertSame(2, $count, 'should be 2 bold strings');
+        $count = substr_count($contents, '<w:r><w:rPr><w:i w:val="1"/><w:iCs w:val="1"/></w:rPr><w:t xml:space="preserve">facing</w:t></w:r>');
+        self::assertSame(1, $count, 'should be 1 italic string');
         self::assertStringNotContainsString('$', $contents, 'no leftover macros');
         self::assertStringNotContainsString('facing1', $contents, 'no leftover replaced string1');
         self::assertStringNotContainsString('facing2', $contents, 'no leftover replaced string2');
