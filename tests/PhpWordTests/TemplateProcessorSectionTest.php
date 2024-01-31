@@ -54,7 +54,7 @@ final class TemplateProcessorSectionTest extends \PHPUnit\Framework\TestCase
 
     public function testSetComplexSection(): void
     {
-        $templateProcessor = $this->getTemplateProcessor('C:/git/sectiontemplate/tests/PhpWordTests/_files/templates/document22-xml.docx');
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/document22-xml.docx');
         $html = '
             <p>&nbsp;Bug Report:</p>
             <p><span style="background-color: #ff0000;">BugTracker X</span> is ${facing1} an issue.</p>
