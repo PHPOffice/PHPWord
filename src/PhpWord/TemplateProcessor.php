@@ -278,6 +278,9 @@ class TemplateProcessor
     public function setComplexValue($search, Element\AbstractElement $complexType): void
     {
         $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
+        if ($elementName === 'Section') {
+            $elementName = 'Container';
+        }
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
@@ -305,6 +308,9 @@ class TemplateProcessor
     public function setComplexBlock($search, Element\AbstractElement $complexType): void
     {
         $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
+        if ($elementName === 'Section') {
+            $elementName = 'Container';
+        }
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
