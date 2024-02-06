@@ -25,9 +25,14 @@ use Exception;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Metadata\DocInfo;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Border;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\SimpleType\TextDirection;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
@@ -37,6 +42,8 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class Html
 {
+    private const SPECIAL_BORDER_WIDTHS = ['thin' => '0.5pt', 'thick' => '3.5pt', 'medium' => '2.0pt'];
+
     private const RGB_REGEXP = '/^\s*rgb\s*[(]\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*[)]\s*$/';
 
     protected static $listIndex = 0;
@@ -44,6 +51,9 @@ class Html
     protected static $xpath;
 
     protected static $options;
+
+    /** @var ?DocInfo */
+    protected static $docInfo;
 
     /**
      * @var Css
@@ -69,6 +79,14 @@ class Html
          * which could be applied when such an element occurs in the parseNode function.
          */
         static::$options = $options;
+        static::$docInfo = null;
+        if (method_exists($element, 'getPhpWord')) {
+            /** @var ?PhpWord */
+            $phpWord = $element->getPhpWord();
+            if ($phpWord !== null) {
+                static::$docInfo = $phpWord->getDocInfo();
+            }
+        }
 
         // Preprocess: remove all line ends, decode HTML entity,
         // fix ampersand and angle brackets and add body tag for HTML fragments
@@ -84,17 +102,20 @@ class Html
 
         // Load DOM
         if (\PHP_VERSION_ID < 80000) {
-            $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+            $orignalLibEntityLoader = libxml_disable_entity_loader(true); // @codeCoverageIgnore
         }
         $dom = new DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
         static::$xpath = new DOMXPath($dom);
-        $node = $dom->getElementsByTagName('body');
+        $node = $dom->getElementsByTagName('html');
+        if (count($node) === 0) {
+            $node = $dom->getElementsByTagName('body');
+        }
 
         static::parseNode($node->item(0), $element);
         if (\PHP_VERSION_ID < 80000) {
-            libxml_disable_entity_loader($orignalLibEntityLoader);
+            libxml_disable_entity_loader($orignalLibEntityLoader); // @codeCoverageIgnore
         }
     }
 
@@ -106,12 +127,20 @@ class Html
      *
      * @return array
      */
-    protected static function parseInlineStyle($node, $styles = [])
+    protected static function parseInlineStyle($node, &$styles)
     {
         if (XML_ELEMENT_NODE == $node->nodeType) {
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
 
-            $bidi = ($attributes['dir'] ?? '') === 'rtl';
+            $bidi = false;
+            $direction = isset($attributes['dir']) ? $attributes['dir']->value : '';
+            if ($direction === 'rtl') {
+                $bidi = $styles['bidi'] = $styles['rtl'] = true;
+                $styles['textDirection'] = TextDirection::RLTB;
+            } elseif ($direction === 'ltr') {
+                $bidi = $styles['bidi'] = $styles['rtl'] = false;
+                $styles['textDirection'] = TextDirection::LRTB;
+            }
             foreach ($attributes as $attribute) {
                 $val = $attribute->value;
                 switch (strtolower($attribute->name)) {
@@ -144,7 +173,7 @@ class Html
                         break;
                     case 'bgcolor':
                         // tables, rows, cells e.g. <tr bgColor="#FF0000">
-                        $styles['bgColor'] = self::convertRgb($val);
+                        HtmlColours::setArrayColour($styles, 'bgColor', self::convertRgb($val));
 
                         break;
                     case 'valign':
@@ -195,6 +224,46 @@ class Html
 
             return;
         }
+        if ($node->nodeName === 'title') {
+            if (self::$docInfo !== null) {
+                $docTitle = $node->nodeValue;
+                if ($docTitle !== 'PHPWord' && trim($docTitle) !== '') { // default
+                    self::$docInfo->setTitle($node->nodeValue);
+                }
+            }
+
+            return;
+        }
+        if ($node->nodeName === 'meta') {
+            if (self::$docInfo !== null) {
+                $attributes = $node->attributes;
+                $name = $attributes->getNamedItem('name');
+                $content = $attributes->getNamedItem('content');
+                if ($name !== null && $content !== null) {
+                    $mapArray = ['author' => 'creator'];
+                    $others = [
+                        'title',
+                        'description',
+                        'subject',
+                        'keywords',
+                        'category',
+                        'company',
+                        'manager',
+                    ];
+                    $nameValue = $name->nodeValue;
+                    $propertyName = $mapArray[$nameValue] ?? (in_array($nameValue, $others, true) ? $nameValue : '');
+                    $method = 'set' . ucfirst($propertyName);
+                    if (method_exists(self::$docInfo, $method)) {
+                        self::$docInfo->$method($content->nodeValue);
+                    }
+                }
+            }
+
+            return;
+        }
+        if ($node->nodeName === 'script') {
+            return;
+        }
 
         // Populate styles array
         $styleTypes = ['font', 'paragraph', 'list', 'table', 'row', 'cell'];
@@ -208,12 +277,12 @@ class Html
         $nodes = [
             // $method        $node   $element    $styles     $data   $argument1      $argument2
             'p' => ['Paragraph',   $node,  $element,   $styles,    null,   null,           null],
-            'h1' => ['Heading',     null,   $element,   $styles,    null,   'Heading1',     null],
-            'h2' => ['Heading',     null,   $element,   $styles,    null,   'Heading2',     null],
-            'h3' => ['Heading',     null,   $element,   $styles,    null,   'Heading3',     null],
-            'h4' => ['Heading',     null,   $element,   $styles,    null,   'Heading4',     null],
-            'h5' => ['Heading',     null,   $element,   $styles,    null,   'Heading5',     null],
-            'h6' => ['Heading',     null,   $element,   $styles,    null,   'Heading6',     null],
+            'h1' => ['Heading',    $node,   $element,   $styles,    null,   'Heading1',     null],
+            'h2' => ['Heading',    $node,   $element,   $styles,    null,   'Heading2',     null],
+            'h3' => ['Heading',    $node,   $element,   $styles,    null,   'Heading3',     null],
+            'h4' => ['Heading',    $node,   $element,   $styles,    null,   'Heading4',     null],
+            'h5' => ['Heading',    $node,   $element,   $styles,    null,   'Heading5',     null],
+            'h6' => ['Heading',    $node,   $element,   $styles,    null,   'Heading6',     null],
             '#text' => ['Text',        $node,  $element,   $styles,    null,   null,           null],
             'strong' => ['Property',    null,   null,       $styles,    null,   'bold',         true],
             'b' => ['Property',    null,   null,       $styles,    null,   'bold',         true],
@@ -308,7 +377,12 @@ class Html
             return $element->addPageBreak();
         }
 
-        return $element->addTextRun($styles['paragraph']);
+        $newElement = $element->addTextRun($styles['paragraph']);
+        if (isset($styles['paragraph']['className']) && $newElement->getParagraphStyle() instanceof Paragraph) {
+            $newElement->getParagraphStyle()->setStyleName($styles['paragraph']['className']);
+        }
+
+        return $newElement;
     }
 
     /**
@@ -339,21 +413,22 @@ class Html
     /**
      * Parse heading node.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array &$styles
-     * @param string $argument1 Name of heading style
-     *
-     * @return \PhpOffice\PhpWord\Element\TextRun
-     *
      * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
      * Heading1 - Heading6 are already defined somewhere
      */
-    protected static function parseHeading($element, &$styles, $argument1)
+    protected static function parseHeading(DOMNode $node, AbstractContainer $element, array &$styles, string $headingStyle): TextRun
     {
-        $styles['paragraph'] = $argument1;
-        $newElement = $element->addTextRun($styles['paragraph']);
+        self::parseInlineStyle($node, $styles['font']);
+        // Create a TextRun to hold styles and text
+        $styles['paragraph'] = $headingStyle;
+        $textRun = new TextRun($styles['paragraph']);
 
-        return $newElement;
+        // Create a title with level corresponding to number in heading style
+        // (Eg, Heading1 = 1)
+        $element->addTitle($textRun, (int) ltrim($headingStyle, 'Heading'));
+
+        // Return TextRun so children are parsed
+        return $textRun;
     }
 
     /**
@@ -373,7 +448,11 @@ class Html
         }
 
         if (is_callable([$element, 'addText'])) {
-            $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
+            $font = $styles['font'];
+            if (isset($font['className']) && count($font) === 1) {
+                $font = $styles['font']['className'];
+            }
+            $element->addText($node->nodeValue, $font, $styles['paragraph']);
         }
     }
 
@@ -423,9 +502,10 @@ class Html
         }
 
         $attributes = $node->attributes;
-        if ($attributes->getNamedItem('border') !== null) {
+        if ($attributes->getNamedItem('border') !== null && is_object($newElement->getStyle())) {
             $border = (int) $attributes->getNamedItem('border')->value;
-            $newElement->getStyle()->setBorderSize(Converter::pixelToTwip($border));
+            $newElement->getStyle()->setBorderSize((int) Converter::pixelToTwip($border));
+            $newElement->getStyle()->setBorderStyle(($border === 0) ? 'none' : 'single');
         }
 
         return $newElement;
@@ -710,6 +790,7 @@ class Html
                 case 'direction':
                     $styles['rtl'] = $value === 'rtl';
                     $styles['bidi'] = $value === 'rtl';
+                    $styles['textDirection'] = ($value === 'rtl') ? TextDirection::RLTB : TextDirection::LRTB;
 
                     break;
                 case 'font-size':
@@ -722,11 +803,11 @@ class Html
 
                     break;
                 case 'color':
-                    $styles['color'] = self::convertRgb($value);
+                    HtmlColours::setArrayColour($styles, 'color', self::convertRgb($value));
 
                     break;
                 case 'background-color':
-                    $styles['bgColor'] = self::convertRgb($value);
+                    HtmlColours::setArrayColour($styles, 'bgColor', self::convertRgb($value));
 
                     break;
                 case 'line-height':
@@ -806,7 +887,7 @@ class Html
 
                     break;
                 case 'border-width':
-                    $styles['borderSize'] = Converter::cssToPoint($value);
+                    $styles['borderSize'] = Converter::cssToPoint(self::SPECIAL_BORDER_WIDTHS[$value] ?? $value);
 
                     break;
                 case 'border-style':
@@ -836,29 +917,46 @@ class Html
                 case 'border-bottom':
                 case 'border-right':
                 case 'border-left':
-                    // must have exact order [width color style], e.g. "1px #0011CC solid" or "2pt green solid"
-                    // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
-                    if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+|[a-zA-Z]+)\s+([a-z]+)/', $value, $matches)) {
-                        if (false !== strpos($property, '-')) {
-                            $tmp = explode('-', $property);
-                            $which = $tmp[1];
-                            $which = ucfirst($which); // e.g. bottom -> Bottom
-                        } else {
-                            $which = '';
-                        }
-                        // Note - border width normalization:
-                        // Width of border in Word is calculated differently than HTML borders, usually showing up too bold.
-                        // Smallest 1px (or 1pt) appears in Word like 2-3px/pt in HTML once converted to twips.
-                        // Therefore we need to normalize converted twip value to cca 1/2 of value.
-                        // This may be adjusted, if better ratio or formula found.
-                        // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
-                        $size = Converter::cssToTwip($matches[1]);
+                    $stylePattern = '/(^|\\s)(none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset)(\\s|$)/';
+                    if (!preg_match($stylePattern, $value, $matches)) {
+                        break;
+                    }
+                    $borderStyle = $matches[2];
+                    $value = preg_replace($stylePattern, ' ', $value) ?? '';
+                    $borderSize = $borderColor = null;
+                    $sizePattern = '/(^|\\s)([0-9]+([.][0-9]+)?+(%|[a-z]*)|thick|thin|medium)(\\s|$)/';
+                    if (preg_match($sizePattern, $value, $matches)) {
+                        $borderSize = $matches[2];
+                        $borderSize = self::SPECIAL_BORDER_WIDTHS[$borderSize] ?? $borderSize;
+                        $value = preg_replace($sizePattern, ' ', $value) ?? '';
+                    }
+                    $colorPattern = '/(^|\\s)([#][a-fA-F0-9]{6}|[#][a-fA-F0-9]{3}|[a-z][a-z0-9]+)(\\s|$)/';
+                    if (preg_match($colorPattern, $value, $matches)) {
+                        $borderColor = HtmlColours::convertColour($matches[2]);
+                    }
+                    if (false !== strpos($property, '-')) {
+                        $tmp = explode('-', $property);
+                        $which = $tmp[1];
+                        $which = ucfirst($which); // e.g. bottom -> Bottom
+                    } else {
+                        $which = '';
+                    }
+                    // Note - border width normalization:
+                    // Width of border in Word is calculated differently than HTML borders, usually showing up too bold.
+                    // Smallest 1px (or 1pt) appears in Word like 2-3px/pt in HTML once converted to twips.
+                    // Therefore we need to normalize converted twip value to cca 1/2 of value.
+                    // This may be adjusted, if better ratio or formula found.
+                    // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
+                    if ($borderSize !== null) {
+                        $size = Converter::cssToTwip($borderSize);
                         $size = (int) ($size / 2);
                         // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
                         $styles["border{$which}Size"] = $size; // twips
-                        $styles["border{$which}Color"] = trim($matches[2], '#');
-                        $styles["border{$which}Style"] = self::mapBorderStyle($matches[3]);
                     }
+                    if (!empty($borderColor)) {
+                        $styles["border{$which}Color"] = $borderColor;
+                    }
+                    $styles["border{$which}Style"] = self::mapBorderStyle($borderStyle);
 
                     break;
                 case 'vertical-align':
@@ -1008,6 +1106,8 @@ class Html
             case 'dotted':
             case 'double':
                 return $cssBorderStyle;
+            case 'hidden':
+                return 'none';
             default:
                 return 'single';
         }
@@ -1015,14 +1115,14 @@ class Html
 
     protected static function mapBorderColor(&$styles, $cssBorderColor): void
     {
-        $numColors = substr_count($cssBorderColor, '#');
+        $colors = explode(' ', $cssBorderColor);
+        $numColors = count($colors);
         if ($numColors === 1) {
-            $styles['borderColor'] = trim($cssBorderColor, '#');
-        } elseif ($numColors > 1) {
-            $colors = explode(' ', $cssBorderColor);
+            HtmlColours::setArrayColour($styles, 'borderColor', $cssBorderColor);
+        } else {
             $borders = ['borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor'];
             for ($i = 0; $i < min(4, $numColors, count($colors)); ++$i) {
-                $styles[$borders[$i]] = trim($colors[$i], '#');
+                HtmlColours::setArrayColour($styles, $borders[$i], $colors[$i]);
             }
         }
     }
@@ -1148,7 +1248,8 @@ class Html
      */
     protected static function parseHorizRule($node, $element): void
     {
-        $styles = self::parseInlineStyle($node);
+        $unusedStyle = [];
+        $styles = self::parseInlineStyle($node, $unusedStyle);
 
         // <hr> is implemented as an empty paragraph - extending 100% inside the section
         // Some properties may be controlled, e.g. <hr style="border-bottom: 3px #DDDDDD solid; margin-bottom: 0;">

@@ -50,6 +50,9 @@ abstract class AbstractStyle
      */
     protected $aliases = [];
 
+    /** @var string */
+    protected $basedOn = '';
+
     /**
      * Is this an automatic style? (Used primarily in OpenDocument driver).
      *
@@ -79,6 +82,18 @@ abstract class AbstractStyle
     public function setStyleName($value)
     {
         $this->styleName = $value;
+
+        return $this;
+    }
+
+    public function getBasedOn(): string
+    {
+        return $this->basedOn;
+    }
+
+    public function setBasedOn(string $value): self
+    {
+        $this->basedOn = $value;
 
         return $this;
     }

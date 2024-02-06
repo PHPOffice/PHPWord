@@ -65,8 +65,9 @@ class Styles extends AbstractPart
             foreach ($nodes as $node) {
                 $type = $xmlReader->getAttribute('w:type', $node);
                 $name = $xmlReader->getAttribute('w:val', $node, 'w:name');
+                $styleId = $xmlReader->getAttribute('w:styleId', $node);
                 if (null === $name) {
-                    $name = $xmlReader->getAttribute('w:styleId', $node);
+                    $name = $styleId;
                 }
                 $headingMatches = [];
                 preg_match('/Heading\s*(\d)/i', $name, $headingMatches);
@@ -98,7 +99,8 @@ class Styles extends AbstractPart
                     case 'table':
                         $tStyle = $this->readTableStyle($xmlReader, $node);
                         if (!empty($tStyle)) {
-                            $phpWord->addTableStyle($name, $tStyle);
+                            $newTable = $phpWord->addTableStyle($styleId, $tStyle);
+                            $newTable->setStyleName($name);
                         }
 
                         break;

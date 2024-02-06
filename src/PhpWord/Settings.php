@@ -15,6 +15,8 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\SimpleType\TextDirection;
+
 /**
  * PHPWord settings class.
  *
@@ -397,6 +399,9 @@ class Settings
     public static function setDefaultRtl(?bool $defaultRtl): void
     {
         self::$defaultRtl = $defaultRtl;
+        if ($defaultRtl === true && Style::getStyle('Normal') === null) {
+            Style::setDefaultParagraphStyle(['bidi' => true, 'textDirection' => TextDirection::RLTB], ['rtl' => true]);
+        }
     }
 
     public static function isDefaultRtl(): ?bool

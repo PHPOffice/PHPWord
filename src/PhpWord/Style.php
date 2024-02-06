@@ -150,12 +150,18 @@ class Style
      * Set default paragraph style.
      *
      * @param AbstractStyle|array $styles Paragraph style definition
+     * @param null|AbstractStyle|array $fontStyles Font style definition
      *
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
-    public static function setDefaultParagraphStyle($styles)
+    public static function setDefaultParagraphStyle($styles, $fontStyles = null)
     {
-        return self::addParagraphStyle('Normal', $styles);
+        if ($fontStyles === null) {
+            return self::addParagraphStyle('Normal', $styles);
+        }
+        $fontStyle = self::addFontStyle('Normal', $fontStyles, $styles);
+
+        return $fontStyle->getParagraph();
     }
 
     /**

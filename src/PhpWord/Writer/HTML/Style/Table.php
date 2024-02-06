@@ -54,7 +54,7 @@ class Table extends AbstractStyle
                 if ($outval === 'single') {
                     $outval = 'solid';
                 }
-                if (is_string($outval) && 1 == preg_match('/^[a-z]+$/', $outval)) {
+                if (is_string($outval) && 1 === preg_match('/^[a-z]+$/', $outval)) {
                     $css['border-' . lcfirst($direction) . '-style'] = $outval;
                 }
             }
@@ -62,7 +62,9 @@ class Table extends AbstractStyle
             $method = 'getBorder' . $direction . 'Color';
             if (method_exists($style, $method)) {
                 $outval = $style->{$method}();
-                if (is_string($outval) && 1 == preg_match('/^[a-z]+$/', $outval)) {
+                if (is_string($outval) && 1 === preg_match('/^[a-fA-F0-9]{6}$/', $outval)) {
+                    $css['border-' . lcfirst($direction) . '-color'] = "#$outval";
+                } elseif (is_string($outval) && 1 === preg_match('/^[a-z][a-z0-9]+$/', $outval)) {
                     $css['border-' . lcfirst($direction) . '-color'] = $outval;
                 }
             }

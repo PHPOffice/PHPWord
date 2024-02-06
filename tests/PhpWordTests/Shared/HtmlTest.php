@@ -20,10 +20,14 @@ namespace PhpOffice\PhpWordTests\Shared;
 use Exception;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
@@ -152,6 +156,37 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
 
         self::assertInstanceOf(Table::class, $section->getElement(0));
         self::assertEquals('pStyle', $section->getElement(0)->getStyle()->getStyleName());
+    }
+
+    public function testSpanClassName(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle('boldtext', ['bold' => true]);
+        $html = '<p>This is <span class="boldtext">bold</span> text.</p>';
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+        self::assertTrue(true);
+        $element = $section->getElements()[0];
+        self::assertInstanceOf(TextRun::class, $element);
+        $textElements = $element->getElements();
+        self::assertCount(3, $textElements);
+
+        $text = $textElements[0];
+        self::assertInstanceOf(Text::class, $text);
+        self::assertInstanceOf(Font::class, $text->getFontStyle());
+        self::assertNotTrue($text->getFontStyle()->isBold());
+
+        $text = $textElements[1];
+        self::assertInstanceOf(Text::class, $text);
+        self::assertSame('boldtext', $text->getFontStyle());
+        $style = Style::getStyle('boldtext');
+        self::assertInstanceOf(Font::class, $style);
+        self::assertTrue($style->isBold());
+
+        $text = $textElements[2];
+        self::assertInstanceOf(Text::class, $text);
+        self::assertInstanceOf(Font::class, $text->getFontStyle());
+        self::assertNotTrue($text->getFontStyle()->isBold());
     }
 
     /**
@@ -635,7 +670,7 @@ HTML;
 
         $xpath = '/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:tcPr/w:shd';
         self::assertTrue($doc->elementExists($xpath));
-        self::assertEquals('red', $doc->getElement($xpath)->getAttribute('w:fill'));
+        self::assertEquals('ff0000', $doc->getElement($xpath)->getAttribute('w:fill'));
     }
 
     /**
@@ -1016,7 +1051,7 @@ HTML;
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
         self::assertEquals((int) (5 * 15 / 2), $doc->getElement($xpath)->getAttribute('w:sz'));
-        self::assertEquals('lightblue', $doc->getElement($xpath)->getAttribute('w:color'));
+        self::assertEquals('add8e6', $doc->getElement($xpath)->getAttribute('w:color'));
 
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';
         self::assertTrue($doc->elementExists($xpath));

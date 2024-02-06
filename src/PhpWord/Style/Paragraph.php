@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
+use PhpOffice\PhpWord\SimpleType\TextDirection;
 
 /**
  * Paragraph style.
@@ -69,7 +70,7 @@ class Paragraph extends Border
      *
      * @var string
      */
-    private $basedOn = 'Normal';
+    protected $basedOn = 'Normal';
 
     /**
      * Style for next paragraph.
@@ -182,6 +183,13 @@ class Paragraph extends Border
     private $textAlignment;
 
     /**
+     * Text direction right or left, top or bottom.
+     *
+     * @var string
+     */
+    private $textDirection = '';
+
+    /**
      * Suppress hyphenation for paragraph.
      *
      * @var bool
@@ -241,6 +249,7 @@ class Paragraph extends Border
             'contextualSpacing' => $this->hasContextualSpacing(),
             'bidi' => $this->isBidi(),
             'textAlignment' => $this->getTextAlignment(),
+            'textDirection' => $this->getTextDirection(),
             'suppressAutoHyphens' => $this->hasSuppressAutoHyphens(),
         ];
 
@@ -269,30 +278,6 @@ class Paragraph extends Border
         if (Jc::isValid($value)) {
             $this->alignment = $value;
         }
-
-        return $this;
-    }
-
-    /**
-     * Get parent style ID.
-     *
-     * @return string
-     */
-    public function getBasedOn()
-    {
-        return $this->basedOn;
-    }
-
-    /**
-     * Set parent style ID.
-     *
-     * @param string $value
-     *
-     * @return self
-     */
-    public function setBasedOn($value = 'Normal')
-    {
-        $this->basedOn = $value;
 
         return $this;
     }
@@ -803,6 +788,19 @@ class Paragraph extends Border
     {
         TextAlignment::validate($textAlignment);
         $this->textAlignment = $textAlignment;
+
+        return $this;
+    }
+
+    public function getTextDirection(): string
+    {
+        return ($this->textDirection === '' && $this->isBidi()) ? TextDirection::TBRL : $this->textDirection;
+    }
+
+    public function setTextDirection(string $textDirection): self
+    {
+        TextDirection::validate($textDirection);
+        $this->textDirection = $textDirection;
 
         return $this;
     }

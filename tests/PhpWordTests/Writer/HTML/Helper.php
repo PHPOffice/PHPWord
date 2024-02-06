@@ -64,7 +64,7 @@ class Helper extends \PHPUnit\Framework\TestCase
             if ($item2 === null) {
                 self::fail('Unexpected null return requesting item');
             } else {
-                $returnValue = $item2->attributes->getNamedItem($namedItem);
+                $returnVal = $item2->attributes->getNamedItem($namedItem);
             }
         }
 
@@ -93,5 +93,14 @@ class Helper extends \PHPUnit\Framework\TestCase
         $dom->loadHTML($htmlWriter->getContent());
 
         return $dom;
+    }
+
+    public static function getHtmlString(PhpWord $phpWord, string $defaultWhiteSpace = '', string $defaultGenericFont = ''): string
+    {
+        $htmlWriter = new HTML($phpWord);
+        $htmlWriter->setDefaultWhiteSpace($defaultWhiteSpace);
+        $htmlWriter->setDefaultGenericFont($defaultGenericFont);
+
+        return $htmlWriter->getContent();
     }
 }

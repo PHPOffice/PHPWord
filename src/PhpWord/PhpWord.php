@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord;
 use BadMethodCallException;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Style\Font;
 
 /**
  * PHPWord main class.
@@ -284,9 +285,9 @@ class PhpWord
      *
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
-    public function setDefaultParagraphStyle($styles)
+    public function setDefaultParagraphStyle($styles, ?Font $fontStyles = null)
     {
-        return Style::setDefaultParagraphStyle($styles);
+        return Style::setDefaultParagraphStyle($styles, $fontStyles);
     }
 
     /**
