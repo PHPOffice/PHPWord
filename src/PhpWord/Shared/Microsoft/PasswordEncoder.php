@@ -235,7 +235,7 @@ class PasswordEncoder
      */
     private static function int32($value)
     {
-        $value = ($value & self::ALL_ONE_BITS);
+        $value = $value & self::ALL_ONE_BITS;
 
         if ($value & self::HIGH_ORDER_BIT) {
             $value = -((~$value & self::ALL_ONE_BITS) + 1);
