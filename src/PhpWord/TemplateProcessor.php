@@ -269,7 +269,7 @@ class TemplateProcessor
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        return $subject ? Text::toUTF8($subject) : '';
+        return !is_null($subject) ? Text::toUTF8($subject) : '';
     }
 
     /**
