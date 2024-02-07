@@ -109,7 +109,7 @@ class Html
         $dom->loadXML($html);
         static::$xpath = new DOMXPath($dom);
         $node = $dom->getElementsByTagName('html');
-        if (count($node) === 0) {
+        if (count($node) === 0 || $node->item(0) === null) {
             $node = $dom->getElementsByTagName('body');
         }
 
