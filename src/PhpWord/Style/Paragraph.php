@@ -17,6 +17,9 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use function array_map;
+use function is_numeric;
+use function is_string;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Text;
@@ -332,14 +335,26 @@ class Paragraph extends Border
     }
 
     /**
-     * Set shading.
+     * Set indentation.
      *
-     * @param mixed $value
+     * @param array{
+     *     left?:null|float|int|numeric-string,
+     *     right?:null|float|int|numeric-string,
+     *     hanging?:null|float|int|numeric-string,
+     *     firstLine?:null|float|int|numeric-string
+     * } $value
      *
      * @return self
      */
     public function setIndentation($value = null)
     {
+        $value = array_map(function ($indent) {
+            if (is_string($indent) && is_numeric($indent)) {
+                $indent = $this->setFloatVal($indent);
+            }
+
+            return $indent;
+        }, $value);
         $this->setObjectVal($value, 'Indentation', $this->indentation);
 
         return $this;
@@ -368,6 +383,54 @@ class Paragraph extends Border
     }
 
     /**
+     * Set left indentation.
+     *
+     * @param float|int|numeric-string $value
+     *
+     * @return self
+     */
+    public function setIndentLeft($value = null)
+    {
+        return $this->setIndentation(['left' => $value]);
+    }
+
+    /**
+     * Set right indentation.
+     *
+     * @param float|int|numeric-string $value
+     *
+     * @return self
+     */
+    public function setIndentRight($value = null)
+    {
+        return $this->setIndentation(['right' => $value]);
+    }
+
+    /**
+     * Set right indentation.
+     *
+     * @param float|int|numeric-string $value
+     *
+     * @return self
+     */
+    public function setIndentHanging($value = null)
+    {
+        return $this->setIndentation(['hanging' => $value]);
+    }
+
+    /**
+     * Set right indentation.
+     *
+     * @param float|int|numeric-string $value
+     *
+     * @return self
+     */
+    public function setIndentFirstLine($value = null)
+    {
+        return $this->setIndentation(['firstLine' => $value]);
+    }
+
+    /**
      * Get hanging.
      *
      * @return int
@@ -375,6 +438,16 @@ class Paragraph extends Border
     public function getHanging()
     {
         return $this->getChildStyleValue($this->indentation, 'hanging');
+    }
+
+    /**
+     * Get firstLine.
+     *
+     * @return int
+     */
+    public function getFirstLine()
+    {
+        return $this->getChildStyleValue($this->indentation, 'firstLine');
     }
 
     /**
