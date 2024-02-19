@@ -199,7 +199,7 @@ abstract class AbstractPart
             $fontStyle = $this->readFontStyle($xmlReader, $domNode);
             $nodes = $xmlReader->getElements('w:r', $domNode);
             foreach ($nodes as $node) {
-                if ($xmlReader->elementExists('w:lastRenderedPageBreak',$node)) {
+                if ($xmlReader->elementExists('w:lastRenderedPageBreak', $node)) {
                     $parent->addPageBreak();
                 }
                 $instrText = $xmlReader->getValue('w:instrText', $node);
