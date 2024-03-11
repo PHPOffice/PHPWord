@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Reader\ReaderInterface;
 use PhpOffice\PhpWord\Writer\WriterInterface;
@@ -87,6 +89,43 @@ abstract class IOFactory
         $reader = self::createReader($readerName);
 
         return $reader->load($filename);
+    }
+
+    /**
+     * Loads PhpWord ${variable} from file.
+     *
+     * @param string $filename The name of the file
+     *
+     * @return array The extracted variables
+     */
+    public static function extractVariables(string $filename, string $readerName = 'Word2007'): array
+    {
+        /** @var \PhpOffice\PhpWord\Reader\ReaderInterface $reader */
+        $reader = self::createReader($readerName);
+        $document = $reader->load($filename);
+        $extractedVariables = [];
+        foreach ($document->getSections() as $section) {
+            $concatenatedText = '';
+            foreach ($section->getElements() as $element) {
+                if ($element instanceof TextRun) {
+                    foreach ($element->getElements() as $textElement) {
+                        if ($textElement instanceof Text) {
+                            $text = $textElement->getText();
+                            $concatenatedText .= $text;
+                        }
+                    }
+                }
+            }
+            preg_match_all('/\$\{([^}]+)\}/', $concatenatedText, $matches);
+            if (!empty($matches[1])) {
+                foreach ($matches[1] as $match) {
+                    $trimmedMatch = trim($match);
+                    $extractedVariables[] = $trimmedMatch;
+                }
+            }
+        }
+
+        return $extractedVariables;
     }
 
     /**

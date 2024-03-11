@@ -36,6 +36,7 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
         $file = __DIR__ . '/../../_files/tcpdf.pdf';
 
         $phpWord = new PhpWord();
+        $phpWord->setDefaultParagraphStyle(['spaceBefore' => 0, 'spaceAfter' => 0]);
         $section = $phpWord->addSection();
         $section->addText('Test 1');
 
@@ -48,5 +49,20 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
         self::assertFileExists($file);
 
         unlink($file);
+    }
+
+    /**
+     * Test set/get abstract renderer options.
+     */
+    public function testSetGetAbstractRendererOptions(): void
+    {
+        $rendererName = Settings::PDF_RENDERER_TCPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+        Settings::setPdfRendererOptions([
+            'font' => 'Arial',
+        ]);
+        $writer = new PDF(new PhpWord());
+        self::assertEquals('Arial', $writer->getFont());
     }
 }

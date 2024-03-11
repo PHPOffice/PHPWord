@@ -62,7 +62,7 @@ class XMLReader
 
         $zip = new ZipArchive();
         $zip->open($zipFile);
-        $content = $zip->getFromName($xmlFile);
+        $content = $zip->getFromName(ltrim($xmlFile, '/'));
         $zip->close();
 
         if ($content === false) {
@@ -97,24 +97,21 @@ class XMLReader
      * Get elements.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
-     * @return DOMNodeList
+     * @return DOMNodeList<DOMElement>
      */
     public function getElements($path, ?DOMElement $contextNode = null)
     {
         if ($this->dom === null) {
-            return [];
+            return new DOMNodeList(); // @phpstan-ignore-line
         }
         if ($this->xpath === null) {
             $this->xpath = new DOMXpath($this->dom);
         }
 
-        if (null === $contextNode) {
-            return $this->xpath->query($path);
-        }
+        $result = @$this->xpath->query($path, $contextNode);
 
-        return $this->xpath->query($path, $contextNode);
+        return empty($result) ? new DOMNodeList() : $result; // @phpstan-ignore-line
     }
 
     /**
@@ -141,7 +138,6 @@ class XMLReader
      * Get element.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
      * @return null|DOMElement
      */
@@ -159,7 +155,6 @@ class XMLReader
      * Get element attribute.
      *
      * @param string $attribute
-     * @param DOMElement $contextNode
      * @param string $path
      *
      * @return null|string
@@ -187,7 +182,6 @@ class XMLReader
      * Get element value.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
      * @return null|string
      */
@@ -205,7 +199,6 @@ class XMLReader
      * Count elements.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
      * @return int
      */
@@ -220,7 +213,6 @@ class XMLReader
      * Element exists.
      *
      * @param string $path
-     * @param DOMElement $contextNode
      *
      * @return bool
      */

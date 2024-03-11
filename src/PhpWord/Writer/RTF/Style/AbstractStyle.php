@@ -17,13 +17,91 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
-use PhpOffice\PhpWord\Writer\HTML\Style\AbstractStyle as HTMLAbstractStyle;
+use PhpOffice\PhpWord\Style\AbstractStyle as StyleAbstract;
+use PhpOffice\PhpWord\Writer\RTF;
 
 /**
  * Abstract RTF style writer.
  *
  * @since 0.11.0
  */
-abstract class AbstractStyle extends HTMLAbstractStyle
+abstract class AbstractStyle
 {
+    /**
+     * Parent writer.
+     *
+     * @var RTF
+     */
+    private $parentWriter;
+
+    /**
+     * Style.
+     *
+     * @var null|array|StyleAbstract
+     */
+    private $style;
+
+    /**
+     * Write style.
+     *
+     * @return mixed
+     */
+    abstract public function write();
+
+    /**
+     * Create new instance.
+     *
+     * @param array|StyleAbstract $style
+     */
+    public function __construct($style = null)
+    {
+        $this->style = $style;
+    }
+
+    /**
+     * Set parent writer.
+     *
+     * @param RTF $writer
+     */
+    public function setParentWriter($writer): void
+    {
+        $this->parentWriter = $writer;
+    }
+
+    /**
+     * Get parent writer.
+     *
+     * @return RTF
+     */
+    public function getParentWriter()
+    {
+        return $this->parentWriter;
+    }
+
+    /**
+     * Get style.
+     *
+     * @return null|array|string|StyleAbstract
+     */
+    public function getStyle()
+    {
+        if (!$this->style instanceof StyleAbstract && !is_array($this->style)) {
+            return '';
+        }
+
+        return $this->style;
+    }
+
+    /**
+     * Get value if ...
+     *
+     * @param null|bool $condition
+     * @param string $value
+     *
+     * @return string
+     */
+    protected function getValueIf($condition, $value)
+    {
+        return $condition == true ? $value : '';
+    }
 }

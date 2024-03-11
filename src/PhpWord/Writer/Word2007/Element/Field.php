@@ -166,15 +166,15 @@ class Field extends Text
         foreach ($properties as $propkey => $propval) {
             switch ($propkey) {
                 case 'format':
-                    $propertiesAndOptions .= '\* ' . $propval . ' ';
+                    $propertiesAndOptions .= '\\* ' . $propval . ' ';
 
                     break;
                 case 'numformat':
-                    $propertiesAndOptions .= '\# ' . $propval . ' ';
+                    $propertiesAndOptions .= '\\# ' . $propval . ' ';
 
                     break;
                 case 'dateformat':
-                    $propertiesAndOptions .= '\@ "' . $propval . '" ';
+                    $propertiesAndOptions .= '\\@ "' . $propval . '" ';
 
                     break;
                 case 'macroname':
@@ -192,27 +192,31 @@ class Field extends Text
         foreach ($options as $option) {
             switch ($option) {
                 case 'PreserveFormat':
-                    $propertiesAndOptions .= '\* MERGEFORMAT ';
+                    $propertiesAndOptions .= '\\* MERGEFORMAT ';
 
                     break;
                 case 'LunarCalendar':
-                    $propertiesAndOptions .= '\h ';
+                    $propertiesAndOptions .= '\\h ';
 
                     break;
                 case 'SakaEraCalendar':
-                    $propertiesAndOptions .= '\s ';
+                    $propertiesAndOptions .= '\\s ';
 
                     break;
                 case 'LastUsedFormat':
-                    $propertiesAndOptions .= '\l ';
+                    $propertiesAndOptions .= '\\l ';
 
                     break;
                 case 'Bold':
-                    $propertiesAndOptions .= '\b ';
+                    $propertiesAndOptions .= '\\b ';
 
                     break;
                 case 'Italic':
-                    $propertiesAndOptions .= '\i ';
+                    $propertiesAndOptions .= '\\i ';
+
+                    break;
+                case 'Path':
+                    $propertiesAndOptions .= '\\p ';
 
                     break;
                 default:

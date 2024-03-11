@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Writer\PDF\TCPDF;
+
 /**
  * PageBreak element HTML writer.
  *
@@ -35,10 +37,13 @@ class PageBreak extends TextBreak
     {
         /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
         $parentWriter = $this->parentWriter;
+        if ($parentWriter instanceof TCPDF) {
+            return '<br pagebreak="true"/>';
+        }
         if ($parentWriter->isPdf()) {
             return '<pagebreak style="page-break-before: always;" pagebreak="true"></pagebreak>';
         }
 
-        return '';
+        return '<div style="page-break-before: always; height: 0; margin: 0; padding: 0; overflow: hidden;">&#160;</div>' . PHP_EOL;
     }
 }

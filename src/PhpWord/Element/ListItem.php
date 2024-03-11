@@ -28,7 +28,7 @@ class ListItem extends AbstractElement
     /**
      * Element style.
      *
-     * @var \PhpOffice\PhpWord\Style\ListItem
+     * @var ?\PhpOffice\PhpWord\Style\ListItem
      */
     private $style;
 
@@ -71,7 +71,7 @@ class ListItem extends AbstractElement
     /**
      * Get style.
      *
-     * @return \PhpOffice\PhpWord\Style\ListItem
+     * @return ?\PhpOffice\PhpWord\Style\ListItem
      */
     public function getStyle()
     {

@@ -47,7 +47,7 @@ class Rtf extends AbstractEscaper
     /**
      * @see http://www.randomchaos.com/documents/?source=php_and_unicode
      *
-     * @param string $input
+     * @param ?string $input
      */
     protected function escapeSingleValue($input)
     {

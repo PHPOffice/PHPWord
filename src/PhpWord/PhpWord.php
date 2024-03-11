@@ -78,6 +78,7 @@ class PhpWord
         // Reset Media and styles
         Media::resetElements();
         Style::resetStyles();
+        Settings::setDefaultRtl(null);
 
         // Collection
         $collections = ['Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts', 'Comments'];
@@ -212,7 +213,7 @@ class PhpWord
     /**
      * Create new section.
      *
-     * @param array $style
+     * @param null|array|string $style
      *
      * @return \PhpOffice\PhpWord\Element\Section
      */
@@ -325,5 +326,53 @@ class PhpWord
         $writer->save($filename);
 
         return true;
+    }
+
+    /**
+     * Create new section.
+     *
+     * @deprecated 0.10.0
+     *
+     * @param array $settings
+     *
+     * @return \PhpOffice\PhpWord\Element\Section
+     *
+     * @codeCoverageIgnore
+     */
+    public function createSection($settings = null)
+    {
+        return $this->addSection($settings);
+    }
+
+    /**
+     * Get document properties object.
+     *
+     * @deprecated 0.12.0
+     *
+     * @return \PhpOffice\PhpWord\Metadata\DocInfo
+     *
+     * @codeCoverageIgnore
+     */
+    public function getDocumentProperties()
+    {
+        return $this->getDocInfo();
+    }
+
+    /**
+     * Set document properties object.
+     *
+     * @deprecated 0.12.0
+     *
+     * @param \PhpOffice\PhpWord\Metadata\DocInfo $documentProperties
+     *
+     * @return self
+     *
+     * @codeCoverageIgnore
+     */
+    public function setDocumentProperties($documentProperties)
+    {
+        $this->metadata['Document'] = $documentProperties;
+
+        return $this;
     }
 }

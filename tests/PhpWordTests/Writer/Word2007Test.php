@@ -17,7 +17,9 @@
 
 namespace PhpOffice\PhpWordTests\Writer;
 
+use finfo;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
@@ -116,13 +118,18 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
         $footnote->addText('Test');
 
         $writer = new Word2007($phpWord);
-        $writer->setUseDiskCaching(true);
+        $dir = Settings::getTempDir() . DIRECTORY_SEPARATOR . 'phpwordcachefooter';
+        if (!is_dir($dir) && !mkdir($dir)) {
+            self::fail('Unable to create temp directory');
+        }
+        $writer->setUseDiskCaching(true, $dir);
         $file = __DIR__ . '/../_files/temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
 
         unlink($file);
+        TestHelperDOCX::deleteDir($dir);
     }
 
     /**
@@ -169,16 +176,17 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
      */
     public function testSetGetUseDiskCaching(): void
     {
-        $this->setOutputCallback(function (): void {
-        });
         $phpWord = new PhpWord();
         $phpWord->addSection();
         $object = new Word2007($phpWord);
         $object->setUseDiskCaching(true, PHPWORD_TESTS_BASE_DIR);
         $writer = new Word2007($phpWord);
+        ob_start();
         $writer->save('php://output');
-
+        $contents = ob_get_contents();
+        self::assertTrue(ob_end_clean());
         self::assertTrue($object->isUseDiskCaching());
+        self::assertNotEmpty($contents);
     }
 
     /**
@@ -191,5 +199,26 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
 
         $object = new Word2007();
         $object->setUseDiskCaching(true, $dir);
+    }
+
+    /**
+     * File is detected as Word 2007.
+     */
+    public function testMime(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('Test 1');
+
+        $writer = new Word2007($phpWord);
+        $file = __DIR__ . '/../_files/temp.docx';
+        $writer->save($file);
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($file);
+
+        self::assertEquals('application/vnd.openxmlformats-officedocument.wordprocessingml.document', $mime);
+
+        unlink($file);
     }
 }

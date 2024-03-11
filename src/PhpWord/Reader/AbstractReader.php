@@ -43,6 +43,13 @@ abstract class AbstractReader implements ReaderInterface
     protected $fileHandle;
 
     /**
+     * Load images.
+     *
+     * @var bool
+     */
+    protected $imageLoading = true;
+
+    /**
      * Read data only?
      *
      * @return bool
@@ -63,6 +70,18 @@ abstract class AbstractReader implements ReaderInterface
     public function setReadDataOnly($value = true)
     {
         $this->readDataOnly = $value;
+
+        return $this;
+    }
+
+    public function hasImageLoading(): bool
+    {
+        return $this->imageLoading;
+    }
+
+    public function setImageLoading(bool $value): self
+    {
+        $this->imageLoading = $value;
 
         return $this;
     }

@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use Dompdf\Dompdf as DompdfLib;
+use Dompdf\Options;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
@@ -42,15 +43,18 @@ class DomPDF extends AbstractRenderer implements WriterInterface
      */
     protected function createExternalWriterInstance()
     {
-        return new DompdfLib();
+        $options = new Options();
+        if ($this->getFont()) {
+            $options->set('defaultFont', $this->getFont());
+        }
+
+        return new DompdfLib($options);
     }
 
     /**
      * Save PhpWord to file.
-     *
-     * @param string $filename Name of the file to save as
      */
-    public function save($filename = null): void
+    public function save(string $filename): void
     {
         $fileHandle = parent::prepareForSave($filename);
 

@@ -130,7 +130,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $p2t = '/office:document-content/office:body/office:text/text:section';
         $tableRootElement = "$p2t/table:table";
         self::assertTrue($doc->elementExists($tableRootElement));
-        self::assertEquals($tableStyleName, $doc->getElementAttribute($tableRootElement, 'table:style'));
+        self::assertEquals($tableStyleName, $doc->getElementAttribute($tableRootElement, 'table:style-name'));
         self::assertTrue($doc->elementExists($tableRootElement . '/table:table-column[4]'));
     }
 

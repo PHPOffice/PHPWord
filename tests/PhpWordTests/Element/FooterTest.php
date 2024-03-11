@@ -57,7 +57,7 @@ class FooterTest extends AbstractWebServerEmbeddedTest
     public function testAddTextNotUTF8(): void
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addText(utf8_decode('ééé'));
+        $element = $oFooter->addText(utf8decode('ééé'));
 
         self::assertCount(1, $oFooter->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
@@ -143,7 +143,7 @@ class FooterTest extends AbstractWebServerEmbeddedTest
     public function testAddPreserveTextNotUTF8(): void
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addPreserveText(utf8_decode('ééé'));
+        $element = $oFooter->addPreserveText(utf8decode('ééé'));
 
         self::assertCount(1, $oFooter->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);

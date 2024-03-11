@@ -71,7 +71,7 @@ class Title extends Text
         $style = $element->getStyle();
         if (is_string($style)) {
             $style = str_replace('Heading', '', $style);
-            if (is_numeric($style)) {
+            if ("$style" !== '') {
                 $style = (int) $style - 1;
                 if ($style >= 0 && $style <= 8) {
                     $content .= '{\\outlinelevel' . $style;

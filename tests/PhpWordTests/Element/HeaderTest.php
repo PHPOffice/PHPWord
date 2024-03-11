@@ -60,7 +60,7 @@ class HeaderTest extends AbstractWebServerEmbeddedTest
     public function testAddTextNotUTF8(): void
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addText(utf8_decode('ééé'));
+        $element = $oHeader->addText(utf8decode('ééé'));
 
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         self::assertCount(1, $oHeader->getElements());
@@ -153,7 +153,7 @@ class HeaderTest extends AbstractWebServerEmbeddedTest
     public function testAddPreserveTextNotUTF8(): void
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addPreserveText(utf8_decode('ééé'));
+        $element = $oHeader->addPreserveText(utf8decode('ééé'));
 
         self::assertCount(1, $oHeader->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);

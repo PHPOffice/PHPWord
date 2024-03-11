@@ -35,8 +35,6 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Create new instance.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(?PhpWord $phpWord = null)
     {
@@ -56,10 +54,8 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Save content to file.
-     *
-     * @param string $filename
      */
-    public function save($filename = null): void
+    public function save(string $filename): void
     {
         $this->writeFile($this->openFile($filename), $this->getContent());
     }

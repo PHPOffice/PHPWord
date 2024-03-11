@@ -66,7 +66,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     {
         self::assertTrue(Text::isUTF8(''));
         self::assertTrue(Text::isUTF8('éééé'));
-        self::assertFalse(Text::isUTF8(utf8_decode('éééé')));
+        self::assertFalse(Text::isUTF8(utf8decode('éééé')));
     }
 
     /**

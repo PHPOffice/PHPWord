@@ -80,6 +80,7 @@ class TestHelperDOCX
     {
         if (self::$file && file_exists(self::$file)) {
             unlink(self::$file);
+            self::$file = '';
         }
         if (is_dir(Settings::getTempDir() . '/PhpWord_Unit_Test/')) {
             self::deleteDir(Settings::getTempDir() . '/PhpWord_Unit_Test/');
@@ -103,7 +104,7 @@ class TestHelperDOCX
             }
         }
 
-        rmdir($dir);
+        @rmdir($dir);
     }
 
     /**

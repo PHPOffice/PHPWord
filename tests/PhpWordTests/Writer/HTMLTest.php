@@ -37,7 +37,7 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
     {
         $object = new HTML(new PhpWord());
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
+        self::assertInstanceOf(PhpWord::class, $object->getPhpWord());
     }
 
     /**
@@ -49,6 +49,41 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
         $this->expectExceptionMessage('No PhpWord assigned.');
         $object = new HTML();
         $object->getPhpWord();
+    }
+
+    public function testEditCallback(): void
+    {
+        $object = new HTML(new PhpWord());
+
+        self::assertNull($object->getEditCallback());
+        self::assertInstanceOf(HTML::class, $object->setEditCallback(function (string $html): string {
+            return $html;
+        }));
+        self::assertIsCallable($object->getEditCallback());
+        self::assertInstanceOf(HTML::class, $object->setEditCallback(null));
+        self::assertNull($object->getEditCallback());
+    }
+
+    public function testDefaultGenericFont(): void
+    {
+        $object = new HTML(new PhpWord());
+
+        self::assertEquals('', $object->getDefaultGenericFont());
+        self::assertInstanceOf(HTML::class, $object->setDefaultGenericFont('test'));
+        self::assertEquals('', $object->getDefaultGenericFont());
+        self::assertInstanceOf(HTML::class, $object->setDefaultGenericFont('cursive'));
+        self::assertEquals('cursive', $object->getDefaultGenericFont());
+    }
+
+    public function testDefaultWhiteSpace(): void
+    {
+        $object = new HTML(new PhpWord());
+
+        self::assertEquals('', $object->getDefaultWhiteSpace());
+        self::assertInstanceOf(HTML::class, $object->setDefaultWhiteSpace('test'));
+        self::assertEquals('', $object->getDefaultWhiteSpace());
+        self::assertInstanceOf(HTML::class, $object->setDefaultWhiteSpace('pre-line'));
+        self::assertEquals('pre-line', $object->getDefaultWhiteSpace());
     }
 
     /**

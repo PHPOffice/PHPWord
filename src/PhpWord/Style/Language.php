@@ -40,17 +40,26 @@ final class Language extends AbstractStyle
     const FR_BE = 'fr-BE';
     const FR_BE_ID = 2060;
 
+    const FR_CH = 'fr-CH';
+    const FR_CH_ID = 4108;
+
     const ES_ES = 'es-ES';
     const ES_ES_ID = 3082;
 
     const DE_DE = 'de-DE';
     const DE_DE_ID = 1031;
 
+    const DE_CH = 'de-CH';
+    const DE_CH_ID = 2055;
+
     const HE_IL = 'he-IL';
     const HE_IL_ID = 1037;
 
     const IT_IT = 'it-IT';
     const IT_IT_ID = 1040;
+
+    const IT_CH = 'it-CH';
+    const IT_CH_ID = 2064;
 
     const JA_JP = 'ja-JP';
     const JA_JP_ID = 1041;
@@ -69,6 +78,9 @@ final class Language extends AbstractStyle
 
     const NL_NL = 'nl-NL';
     const NL_NL_ID = 1043;
+
+    const SV_SE = 'sv-SE';
+    const SV_SE_ID = 1053;
 
     const UK_UA = 'uk-UA';
     const UK_UA_ID = 1058;
@@ -244,7 +256,9 @@ final class Language extends AbstractStyle
         if ($locale !== null && strlen($locale) === 2) {
             return strtolower($locale) . '-' . strtoupper($locale);
         }
-
+        if ($locale === 'und') {
+            return 'en-EN';
+        }
         if ($locale !== null && $locale !== 'zxx' && strstr($locale, '-') === false) {
             throw new InvalidArgumentException($locale . ' is not a valid language code');
         }

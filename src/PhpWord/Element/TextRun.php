@@ -78,4 +78,16 @@ class TextRun extends AbstractContainer
 
         return $this->paragraphStyle;
     }
+
+    public function getText(): string
+    {
+        $outstr = '';
+        foreach ($this->getElements() as $element) {
+            if ($element instanceof Text) {
+                $outstr .= $element->getText();
+            }
+        }
+
+        return $outstr;
+    }
 }

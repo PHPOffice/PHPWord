@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
@@ -99,7 +100,7 @@ class Paragraph extends Border
     /**
      * Text line height.
      *
-     * @var int
+     * @var null|float|int
      */
     private $lineHeight;
 
@@ -169,9 +170,9 @@ class Paragraph extends Border
     /**
      * Right to Left Paragraph Layout.
      *
-     * @var bool
+     * @var ?bool
      */
-    private $bidi = false;
+    private $bidi;
 
     /**
      * Vertical Character Alignment on Line.
@@ -321,9 +322,9 @@ class Paragraph extends Border
     }
 
     /**
-     * Get shading.
+     * Get indentation.
      *
-     * @return \PhpOffice\PhpWord\Style\Indentation
+     * @return null|\PhpOffice\PhpWord\Style\Indentation
      */
     public function getIndentation()
     {
@@ -419,7 +420,7 @@ class Paragraph extends Border
     /**
      * Get space before paragraph.
      *
-     * @return int
+     * @return null|float|int
      */
     public function getSpaceBefore()
     {
@@ -429,7 +430,7 @@ class Paragraph extends Border
     /**
      * Set space before paragraph.
      *
-     * @param int $value
+     * @param null|float|int $value
      *
      * @return self
      */
@@ -441,7 +442,7 @@ class Paragraph extends Border
     /**
      * Get space after paragraph.
      *
-     * @return int
+     * @return null|float|int
      */
     public function getSpaceAfter()
     {
@@ -451,7 +452,7 @@ class Paragraph extends Border
     /**
      * Set space after paragraph.
      *
-     * @param int $value
+     * @param null|float|int $value
      *
      * @return self
      */
@@ -463,7 +464,7 @@ class Paragraph extends Border
     /**
      * Get spacing between lines.
      *
-     * @return float|int
+     * @return null|float|int
      */
     public function getSpacing()
     {
@@ -473,7 +474,7 @@ class Paragraph extends Border
     /**
      * Set spacing between lines.
      *
-     * @param float|int $value
+     * @param null|float|int $value
      *
      * @return self
      */
@@ -507,7 +508,7 @@ class Paragraph extends Border
     /**
      * Get line height.
      *
-     * @return float|int
+     * @return null|float|int
      */
     public function getLineHeight()
     {
@@ -759,17 +760,17 @@ class Paragraph extends Border
     /**
      * Get bidirectional.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isBidi()
     {
-        return $this->bidi;
+        return $this->bidi ?? Settings::isDefaultRtl();
     }
 
     /**
      * Set bidi.
      *
-     * @param bool $bidi
+     * @param ?bool $bidi
      *            Set to true to write from right to left
      *
      * @return self
