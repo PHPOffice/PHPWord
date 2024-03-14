@@ -391,6 +391,41 @@ class TemplateProcessor
     }
 
     /**
+     * @throws \DOMException
+     */
+    public function setLegacyCheckbox(string $search, bool $checked): void
+    {
+        $search = static::ensureMacroCompleted($search);
+        $blockType = 'w:ffData';
+
+        $where = $this->findContainingXmlBlockForMacro($search, $blockType);
+        if (!is_array($where)) {
+            return;
+        }
+
+        $block = $this->getSlice($where['start'], $where['end']);
+
+        $ns = $this->getNamespaceUri('w');
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML('<w:document xmlns:w="' . $ns . '">' . $block . '</w:document>');
+
+        $ffData = $domDocument->getElementsByTagName('ffData')->item(0);
+        $checkBox = $domDocument->getElementsByTagName('checkBox')->item(0);
+
+        if ($checked) {
+            $checked = $domDocument->createElementNS($ns, 'w:checked');
+            $checkBox->appendChild($checked);
+        } else {
+            $checked = $checkBox->getElementsByTagName('checked')->item(0);
+            if ($checked) {
+                $checkBox->removeChild($checked);
+            }
+        }
+
+        $this->replaceXmlBlock($search, $domDocument->saveXML($ffData), $blockType);
+    }
+
+    /**
      * @param string $search
      */
     public function setChart($search, Element\AbstractElement $chart): void
@@ -1498,5 +1533,136 @@ class TemplateProcessor
     public function getTempDocumentFilename(): string
     {
         return $this->tempDocumentFilename;
+    }
+
+    /**
+     * @param mixed $search
+     * @param mixed $replace
+     */
+    public function replaceBookmark($search, $replace)
+    {
+        if (is_array($replace)) {
+            foreach ($replace as &$item) {
+                $item = self::ensureUtf8Encoded($item);
+            }
+        } else {
+            $replace = self::ensureUtf8Encoded($replace);
+        }
+
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlEscaper = new Xml();
+            $replace = $xmlEscaper->escape($replace);
+        }
+
+        foreach ($this->tempDocumentHeaders as $index => $xml) {
+            $xml = $this->setBookmarkForPart($search, $replace, $xml);
+        }
+        $this->tempDocumentMainPart = $this->setBookmarkForPart($search, $replace, $this->tempDocumentMainPart);
+        foreach ($this->tempDocumentFooters as $index => $xml) {
+            $xml = $this->setBookmarkForPart($search, $replace, $xml);
+        }
+    }
+
+
+    /**
+     * Find and replace bookmarks in the given XML section.
+     *
+     * @param mixed $search
+     * @param mixed $replace
+     * @param string $documentPartXML
+     *
+     * @return string
+     */
+    protected function setBookmarkForPart($search, $replace, $documentPartXML)
+    {
+        $regExpEscaper = new RegExp();
+        $pattern = '~<w:bookmarkStart\s+w:id="(\d*)"\s+w:name="' . $search . '"\s*\/>()~mU';
+        $searchStatus = preg_match($pattern, $documentPartXML, $matches, PREG_OFFSET_CAPTURE);
+        if ($searchStatus) {
+            $startbookmark = $matches[2][1];
+            $pattern = '~(<w:bookmarkEnd\s+w:id="' . $matches[1][0] . '"\s*\/>)~mU';
+            $searchStatus = preg_match($pattern, $documentPartXML, $matches, PREG_OFFSET_CAPTURE, $startbookmark);
+            if ($searchStatus) {
+                $endbookmark = $matches[1][1];
+                $count = 0;
+                $startpos = $startbookmark;
+                $pattern = '~(<w:t[\s\S]*>)([\s\S]*)(<\/w:t>)~mU';
+                do {
+                    $searchStatus = preg_match($pattern, $documentPartXML, $matches, PREG_OFFSET_CAPTURE, $startpos);
+                    if ($searchStatus) {
+                        if ($count == 0) {
+                            $startpos = $matches[2][1];
+                            $endpos = $matches[3][1];
+                        } else {
+                            $startpos = $matches[1][1];
+                            $endpos = $matches[3][1] + 6;
+                        }
+                        if ($endpos > $endbookmark) {
+                            break;
+                        }
+
+                        $documentPartXML = substr($documentPartXML, 0,
+                                $startpos) . ($count == 0 ? $replace : '') . substr($documentPartXML, $endpos);
+                        $endbookmark = $endbookmark - ($endpos - $startpos);
+
+                        $count++;
+                    }
+
+                } while ($searchStatus);
+            }
+        }
+
+        return $documentPartXML;
+    }
+
+    /**
+     * Set legacy dropdown value
+     * @throws \DOMException
+     * @throws Exception
+     */
+    public function setLegacyDropDown(string $search, string $value)
+    {
+        $search = static::ensureMacroCompleted($search);
+        $blockType = 'w:ffData';
+
+        $where = $this->findContainingXmlBlockForMacro($search, $blockType);
+        if (!is_array($where)) {
+            return;
+        }
+
+        $block = $this->getSlice($where['start'], $where['end']);
+
+        $ns = $this->getNamespaceUri('w');
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML('<w:document xmlns:w="' . $ns . '">' . $block . '</w:document>');
+
+        $ffData = $domDocument->getElementsByTagName('ffData')->item(0);
+        /** @var \DOMElement $ddList */
+        $ddList = $domDocument->getElementsByTagName('ddList')->item(0);
+        $selected = null;
+        foreach ($ddList->childNodes as $key => $child) {
+            if ($child->getAttribute('w:val') == $value) {
+                $selected = $key;
+                break;
+            }
+        }
+
+        if ($selected === null) {
+            return;
+        }
+
+        $result = $domDocument->createElementNS($ns, 'w:result');
+        $result->setAttribute('w:val', $selected);
+
+        $ddList->prepend($result);
+
+        $this->replaceXmlBlock($search, $domDocument->saveXML($ffData), $blockType);
+    }
+
+    protected function getNamespaceUri(string $prefix): string
+    {
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML($this->tempDocumentMainPart);
+        return $domDocument->lookupNamespaceUri($prefix);
     }
 }
