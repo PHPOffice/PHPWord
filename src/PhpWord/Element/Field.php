@@ -85,6 +85,12 @@ class Field extends AbstractElement
             'properties' => ['StyleIdentifier' => ''],
             'options' => ['PreserveFormat'],
         ],
+        'FILENAME' => [
+            'properties' => [
+                'format' => ['Upper', 'Lower', 'FirstCap', 'Caps'],
+            ],
+            'options' => ['Path', 'PreserveFormat'],
+        ],
     ];
 
     /**
@@ -268,7 +274,7 @@ class Field extends AbstractElement
     /**
      * Set Field text.
      *
-     * @param string|TextRun $text
+     * @param null|string|TextRun $text
      *
      * @return null|string|TextRun
      */

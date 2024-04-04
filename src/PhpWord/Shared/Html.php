@@ -37,6 +37,8 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class Html
 {
+    private const RGB_REGEXP = '/^\s*rgb\s*[(]\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*[)]\s*$/';
+
     protected static $listIndex = 0;
 
     protected static $xpath;
@@ -66,7 +68,7 @@ class Html
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
-        self::$options = $options;
+        static::$options = $options;
 
         // Preprocess: remove all line ends, decode HTML entity,
         // fix ampersand and angle brackets and add body tag for HTML fragments
@@ -87,10 +89,10 @@ class Html
         $dom = new DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
-        self::$xpath = new DOMXPath($dom);
+        static::$xpath = new DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
 
-        self::parseNode($node->item(0), $element);
+        static::parseNode($node->item(0), $element);
         if (\PHP_VERSION_ID < 80000) {
             libxml_disable_entity_loader($orignalLibEntityLoader);
         }
@@ -109,11 +111,12 @@ class Html
         if (XML_ELEMENT_NODE == $node->nodeType) {
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
 
+            $bidi = ($attributes['dir'] ?? '') === 'rtl';
             foreach ($attributes as $attribute) {
                 $val = $attribute->value;
                 switch (strtolower($attribute->name)) {
                     case 'align':
-                        $styles['alignment'] = self::mapAlign(trim($val));
+                        $styles['alignment'] = self::mapAlign(trim($val), $bidi);
 
                         break;
                     case 'lang':
@@ -141,7 +144,7 @@ class Html
                         break;
                     case 'bgcolor':
                         // tables, rows, cells e.g. <tr bgColor="#FF0000">
-                        $styles['bgColor'] = trim($val, '# ');
+                        $styles['bgColor'] = self::convertRgb($val);
 
                         break;
                     case 'valign':
@@ -160,8 +163,11 @@ class Html
             }
 
             $attributeClass = $attributes->getNamedItem('class');
-            if ($attributeClass && self::$css) {
-                $styles = self::parseStyleDeclarations(self::$css->getStyle('.' . $attributeClass->value), $styles);
+            if ($attributeClass) {
+                if (self::$css) {
+                    $styles = self::parseStyleDeclarations(self::$css->getStyle('.' . $attributeClass->value), $styles);
+                }
+                $styles['className'] = $attributeClass->value;
             }
 
             $attributeStyle = $attributes->getNamedItem('style');
@@ -268,7 +274,7 @@ class Html
      * Parse child nodes.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer|Row|Table $element
      * @param array $styles
      * @param array $data
      */
@@ -411,6 +417,11 @@ class Html
 
         $newElement = $element->addTable($elementStyles);
 
+        // Add style name from CSS Class
+        if (isset($elementStyles['className'])) {
+            $newElement->getStyle()->setStyleName($elementStyles['className']);
+        }
+
         $attributes = $node->attributes;
         if ($attributes->getNamedItem('border') !== null) {
             $border = (int) $attributes->getNamedItem('border')->value;
@@ -436,7 +447,11 @@ class Html
             $rowStyles['tblHeader'] = true;
         }
 
-        return $element->addRow(null, $rowStyles);
+        // set cell height to control row heights
+        $height = $rowStyles['height'] ?? null;
+        unset($rowStyles['height']); // would not apply
+
+        return $element->addRow($height, $rowStyles);
     }
 
     /**
@@ -668,6 +683,7 @@ class Html
 
     protected static function parseStyleDeclarations(array $selectors, array $styles)
     {
+        $bidi = ($selectors['direction'] ?? '') === 'rtl';
         foreach ($selectors as $property => $value) {
             switch ($property) {
                 case 'text-decoration':
@@ -684,7 +700,7 @@ class Html
 
                     break;
                 case 'text-align':
-                    $styles['alignment'] = self::mapAlign($value);
+                    $styles['alignment'] = self::mapAlign($value, $bidi);
 
                     break;
                 case 'display':
@@ -693,6 +709,7 @@ class Html
                     break;
                 case 'direction':
                     $styles['rtl'] = $value === 'rtl';
+                    $styles['bidi'] = $value === 'rtl';
 
                     break;
                 case 'font-size':
@@ -705,11 +722,11 @@ class Html
 
                     break;
                 case 'color':
-                    $styles['color'] = trim($value, '#');
+                    $styles['color'] = self::convertRgb($value);
 
                     break;
                 case 'background-color':
-                    $styles['bgColor'] = trim($value, '#');
+                    $styles['bgColor'] = self::convertRgb($value);
 
                     break;
                 case 'line-height':
@@ -760,6 +777,14 @@ class Html
                     $styles['italic'] = $tValue;
 
                     break;
+                case 'font-variant':
+                    $tValue = false;
+                    if (preg_match('#small-caps#', $value)) {
+                        $tValue = true;
+                    }
+                    $styles['smallCaps'] = $tValue;
+
+                    break;
                 case 'margin':
                     $value = Converter::cssToTwip($value);
                     $styles['spaceBefore'] = $value;
@@ -799,6 +824,11 @@ class Html
                         $styles['width'] = $matches[1];
                         $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO;
                     }
+
+                    break;
+                case 'height':
+                    $styles['height'] = Converter::cssToTwip($value);
+                    $styles['exactHeight'] = true;
 
                     break;
                 case 'border':
@@ -940,7 +970,10 @@ class Html
                 $tmpDir = Settings::getTempDir() . '/';
                 $match = [];
                 preg_match('/.+\.(\w+)$/', $src, $match);
-                $src = $tmpDir . uniqid() . '.' . $match[1];
+                $src = $tmpDir . uniqid();
+                if (isset($match[1])) {
+                    $src .= '.' . $match[1];
+                }
 
                 $ifp = fopen($src, 'wb');
 
@@ -998,20 +1031,21 @@ class Html
      * Transforms a HTML/CSS alignment into a \PhpOffice\PhpWord\SimpleType\Jc.
      *
      * @param string $cssAlignment
+     * @param bool $bidi
      *
      * @return null|string
      */
-    protected static function mapAlign($cssAlignment)
+    protected static function mapAlign($cssAlignment, $bidi)
     {
         switch ($cssAlignment) {
             case 'right':
-                return Jc::END;
+                return $bidi ? Jc::START : Jc::END;
             case 'center':
                 return Jc::CENTER;
             case 'justify':
                 return Jc::BOTH;
             default:
-                return Jc::START;
+                return $bidi ? Jc::END : Jc::START;
         }
     }
 
@@ -1137,5 +1171,14 @@ class Html
         // - table - throws error "cannot be inside textruns", e.g. lists
         // - line - that is a shape, has different behaviour
         // - repeated text, e.g. underline "_", because of unpredictable line wrapping
+    }
+
+    private static function convertRgb(string $rgb): string
+    {
+        if (preg_match(self::RGB_REGEXP, $rgb, $matches) === 1) {
+            return sprintf('%02X%02X%02X', $matches[1], $matches[2], $matches[3]);
+        }
+
+        return trim($rgb, '# ');
     }
 }

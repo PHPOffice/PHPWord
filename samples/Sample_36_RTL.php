@@ -2,9 +2,15 @@
 
 include_once 'Sample_Header.php';
 
+use PhpOffice\PhpWord\Settings;
+
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord->setDefaultFontName('DejaVu Sans'); // for good rendition of PDF
+$rendererName = Settings::PDF_RENDERER_MPDF;
+$rendererLibraryPath = $vendorDirPath . '/mpdf/mpdf';
+Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
 
 // New section
 $section = $phpWord->addSection();
@@ -26,15 +32,15 @@ $cellVCentered = ['valign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER];
 
 //Vidually bidirectinal table
 $table->addRow();
-$cell = $table->addCell(500, $cellVCentered);
+$cell = $table->addCell(1500, $cellVCentered);
 $textrun = $cell->addTextRun($cellHCentered);
 $textrun->addText('ردیف', $style);
 
-$cell = $table->addCell(11000);
+$cell = $table->addCell(2000);
 $textrun = $cell->addTextRun($cellHEnd);
 $textrun->addText('سوالات', $style);
 
-$cell = $table->addCell(500, $cellVCentered);
+$cell = $table->addCell(1000, $cellVCentered);
 $textrun = $cell->addTextRun($cellHCentered);
 $textrun->addText('بارم', $style);
 

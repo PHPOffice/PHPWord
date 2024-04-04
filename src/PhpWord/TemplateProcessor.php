@@ -27,6 +27,7 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use Throwable;
 use XSLTProcessor;
 
 class TemplateProcessor
@@ -94,6 +95,10 @@ class TemplateProcessor
      */
     protected $tempDocumentNewImages = [];
 
+    protected static $macroOpeningChars = '${';
+
+    protected static $macroClosingChars = '}';
+
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
@@ -129,6 +134,18 @@ class TemplateProcessor
         $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
         $this->tempDocumentSettingsPart = $this->readPartWithRels($this->getSettingsPartName());
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
+    }
+
+    public function __destruct()
+    {
+        // ZipClass
+        if ($this->zipClass) {
+            try {
+                $this->zipClass->close();
+            } catch (Throwable $e) {
+                // Nothing to do here.
+            }
+        }
     }
 
     /**
@@ -238,30 +255,25 @@ class TemplateProcessor
      */
     protected static function ensureMacroCompleted($macro)
     {
-        if (substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
-            $macro = '${' . $macro . '}';
+        if (substr($macro, 0, 2) !== self::$macroOpeningChars && substr($macro, -1) !== self::$macroClosingChars) {
+            $macro = self::$macroOpeningChars . $macro . self::$macroClosingChars;
         }
 
         return $macro;
     }
 
     /**
-     * @param string $subject
+     * @param ?string $subject
      *
      * @return string
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        if (!Text::isUTF8($subject) && null !== $subject) {
-            $subject = utf8_encode($subject);
-        }
-
-        return (null !== $subject) ? $subject : '';
+        return $subject ? Text::toUTF8($subject) : '';
     }
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexValue($search, Element\AbstractElement $complexType): void
     {
@@ -289,7 +301,6 @@ class TemplateProcessor
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexBlock($search, Element\AbstractElement $complexType): void
     {
@@ -334,6 +345,15 @@ class TemplateProcessor
             $replace = $xmlEscaper->escape($replace);
         }
 
+        // convert carriage returns
+        if (is_array($replace)) {
+            foreach ($replace as &$item) {
+                $item = $this->replaceCarriageReturns($item);
+            }
+        } else {
+            $replace = $this->replaceCarriageReturns($replace);
+        }
+
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
         $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
@@ -347,6 +367,62 @@ class TemplateProcessor
         foreach ($values as $macro => $replace) {
             $this->setValue($macro, $replace);
         }
+    }
+
+    public function setCheckbox(string $search, bool $checked): void
+    {
+        $search = static::ensureMacroCompleted($search);
+        $blockType = 'w:sdt';
+
+        $where = $this->findContainingXmlBlockForMacro($search, $blockType);
+        if (!is_array($where)) {
+            return;
+        }
+
+        $block = $this->getSlice($where['start'], $where['end']);
+
+        $val = $checked ? '1' : '0';
+        $block = preg_replace('/(<w14:checked w14:val=)".*?"(\/>)/', '$1"' . $val . '"$2', $block);
+
+        $text = $checked ? '☒' : '☐';
+        $block = preg_replace('/(<w:t>).*?(<\/w:t>)/', '$1' . $text . '$2', $block);
+
+        $this->replaceXmlBlock($search, $block, $blockType);
+    }
+
+    /**
+     * @throws \DOMException
+     */
+    public function setLegacyCheckbox(string $search, bool $checked): void
+    {
+        $search = static::ensureMacroCompleted($search);
+        $blockType = 'w:ffData';
+
+        $where = $this->findContainingXmlBlockForMacro($search, $blockType);
+        if (!is_array($where)) {
+            return;
+        }
+
+        $block = $this->getSlice($where['start'], $where['end']);
+
+        $ns = $this->getNamespaceUri('w');
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML('<w:document xmlns:w="' . $ns . '">' . $block . '</w:document>');
+
+        $ffData = $domDocument->getElementsByTagName('ffData')->item(0);
+        $checkBox = $domDocument->getElementsByTagName('checkBox')->item(0);
+
+        if ($checked) {
+            $checked = $domDocument->createElementNS($ns, 'w:checked');
+            $checkBox->appendChild($checked);
+        } else {
+            $checked = $checkBox->getElementsByTagName('checked')->item(0);
+            if ($checked) {
+                $checkBox->removeChild($checked);
+            }
+        }
+
+        $this->replaceXmlBlock($search, $domDocument->saveXML($ffData), $blockType);
     }
 
     /**
@@ -433,7 +509,7 @@ class TemplateProcessor
         if (null === $value && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
+        if (!preg_match('/^([0-9\.]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
             $value = null;
         }
         if (null === $value) {
@@ -856,8 +932,12 @@ class TemplateProcessor
     {
         $xmlBlock = null;
         $matches = [];
+        $escapedMacroOpeningChars = self::$macroOpeningChars;
+        $escapedMacroClosingChars = self::$macroClosingChars;
         preg_match(
-            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\${' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            //'/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\{{' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\{{\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\\' . $escapedMacroOpeningChars . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\\' . $escapedMacroOpeningChars . '\/' . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>)/is',
+            //'/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\\'. $escapedMacroOpeningChars . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\\'.$escapedMacroOpeningChars.'\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -896,8 +976,10 @@ class TemplateProcessor
     public function replaceBlock($blockname, $replacement): void
     {
         $matches = [];
+        $escapedMacroOpeningChars = preg_quote(self::$macroOpeningChars);
+        $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p.*>' . $escapedMacroOpeningChars . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>)(.*)(<w:p.*' . $escapedMacroOpeningChars . '\/' . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -1013,8 +1095,12 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
+        $brokenMacroOpeningChars = substr(self::$macroOpeningChars, 0, 1);
+        $endMacroOpeningChars = substr(self::$macroOpeningChars, 1);
+        $macroClosingChars = self::$macroClosingChars;
+
         return preg_replace_callback(
-            '/\$(?:\{|[^{$]*\>\{)[^}$]*\}/U',
+            '/\\' . $brokenMacroOpeningChars . '(?:\\' . $endMacroOpeningChars . '|[^{$]*\>\{)[^' . $macroClosingChars . '$]*\}/U',
             function ($match) {
                 return strip_tags($match[0]);
             },
@@ -1027,7 +1113,7 @@ class TemplateProcessor
      *
      * @param mixed $search
      * @param mixed $replace
-     * @param string $documentPartXML
+     * @param array<int, string>|string $documentPartXML
      * @param int $limit
      *
      * @return string
@@ -1053,7 +1139,10 @@ class TemplateProcessor
     protected function getVariablesForPart($documentPartXML)
     {
         $matches = [];
-        preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
+        $escapedMacroOpeningChars = preg_quote(self::$macroOpeningChars);
+        $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
+
+        preg_match_all("/$escapedMacroOpeningChars(.*?)$escapedMacroClosingChars/i", $documentPartXML, $matches);
 
         return $matches[1];
     }
@@ -1238,15 +1327,26 @@ class TemplateProcessor
     protected function indexClonedVariables($count, $xmlBlock)
     {
         $results = [];
+        $escapedMacroOpeningChars = preg_quote(self::$macroOpeningChars);
+        $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
+
         for ($i = 1; $i <= $count; ++$i) {
-            $results[] = preg_replace('/\$\{([^:]*?)(:.*?)?\}/', '\${\1#' . $i . '\2}', $xmlBlock);
+            $results[] = preg_replace("/$escapedMacroOpeningChars([^:]*?)(:.*?)?$escapedMacroClosingChars/", self::$macroOpeningChars . '\1#' . $i . '\2' . self::$macroClosingChars, $xmlBlock);
         }
 
         return $results;
     }
 
     /**
-     * Raplaces variables with values from array, array keys are the variable names.
+     * Replace carriage returns with xml.
+     */
+    public function replaceCarriageReturns(string $string): string
+    {
+        return str_replace(["\r\n", "\r", "\n"], '</w:t><w:br/><w:t>', $string);
+    }
+
+    /**
+     * Replaces variables with values from array, array keys are the variable names.
      *
      * @param array $variableReplacements
      * @param string $xmlBlock
@@ -1394,7 +1494,7 @@ class TemplateProcessor
         }
 
         $unformattedText = preg_replace('/>\s+</', '><', $text);
-        $result = str_replace(['${', '}'], ['</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">${', '}</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'], $unformattedText);
+        $result = str_replace([self::$macroOpeningChars, self::$macroClosingChars], ['</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">' . self::$macroOpeningChars, self::$macroClosingChars . '</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'], $unformattedText);
 
         return str_replace(['<w:r>' . $extractedStyle . '<w:t xml:space="preserve"></w:t></w:r>', '<w:r><w:t xml:space="preserve"></w:t></w:r>', '<w:t>'], ['', '', '<w:t xml:space="preserve">'], $result);
     }
@@ -1408,6 +1508,161 @@ class TemplateProcessor
      */
     protected function textNeedsSplitting($text)
     {
-        return preg_match('/[^>]\${|}[^<]/i', $text) == 1;
+        $escapedMacroOpeningChars = preg_quote(self::$macroOpeningChars);
+        $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
+
+        return 1 === preg_match('/[^>]' . $escapedMacroOpeningChars . '|' . $escapedMacroClosingChars . '[^<]/i', $text);
+    }
+
+    public function setMacroOpeningChars(string $macroOpeningChars): void
+    {
+        self::$macroOpeningChars = $macroOpeningChars;
+    }
+
+    public function setMacroClosingChars(string $macroClosingChars): void
+    {
+        self::$macroClosingChars = $macroClosingChars;
+    }
+
+    public function setMacroChars(string $macroOpeningChars, string $macroClosingChars): void
+    {
+        self::$macroOpeningChars = $macroOpeningChars;
+        self::$macroClosingChars = $macroClosingChars;
+    }
+
+    public function getTempDocumentFilename(): string
+    {
+        return $this->tempDocumentFilename;
+    }
+
+    /**
+     * @param mixed $search
+     * @param mixed $replace
+     */
+    public function replaceBookmark($search, $replace)
+    {
+        if (is_array($replace)) {
+            foreach ($replace as &$item) {
+                $item = self::ensureUtf8Encoded($item);
+            }
+        } else {
+            $replace = self::ensureUtf8Encoded($replace);
+        }
+
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlEscaper = new Xml();
+            $replace = $xmlEscaper->escape($replace);
+        }
+
+        foreach ($this->tempDocumentHeaders as $index => $xml) {
+            $xml = $this->setBookmarkForPart($search, $replace, $xml);
+        }
+        $this->tempDocumentMainPart = $this->setBookmarkForPart($search, $replace, $this->tempDocumentMainPart);
+        foreach ($this->tempDocumentFooters as $index => $xml) {
+            $xml = $this->setBookmarkForPart($search, $replace, $xml);
+        }
+    }
+
+
+    /**
+     * Find and replace bookmarks in the given XML section.
+     *
+     * @param mixed $search
+     * @param mixed $replace
+     * @param string $documentPartXML
+     *
+     * @return string
+     */
+    protected function setBookmarkForPart($search, $replace, $documentPartXML)
+    {
+        $regExpEscaper = new RegExp();
+        $pattern = '~<w:bookmarkStart\s+w:id="(\d*)"\s+w:name="' . $search . '"\s*\/>()~mU';
+        $searchStatus = preg_match($pattern, $documentPartXML, $matches, PREG_OFFSET_CAPTURE);
+        if ($searchStatus) {
+            $startbookmark = $matches[2][1];
+            $pattern = '~(<w:bookmarkEnd\s+w:id="' . $matches[1][0] . '"\s*\/>)~mU';
+            $searchStatus = preg_match($pattern, $documentPartXML, $matches, PREG_OFFSET_CAPTURE, $startbookmark);
+            if ($searchStatus) {
+                $endbookmark = $matches[1][1];
+                $count = 0;
+                $startpos = $startbookmark;
+                $pattern = '~(<w:t[\s\S]*>)([\s\S]*)(<\/w:t>)~mU';
+                do {
+                    $searchStatus = preg_match($pattern, $documentPartXML, $matches, PREG_OFFSET_CAPTURE, $startpos);
+                    if ($searchStatus) {
+                        if ($count == 0) {
+                            $startpos = $matches[2][1];
+                            $endpos = $matches[3][1];
+                        } else {
+                            $startpos = $matches[1][1];
+                            $endpos = $matches[3][1] + 6;
+                        }
+                        if ($endpos > $endbookmark) {
+                            break;
+                        }
+
+                        $documentPartXML = substr($documentPartXML, 0,
+                                $startpos) . ($count == 0 ? $replace : '') . substr($documentPartXML, $endpos);
+                        $endbookmark = $endbookmark - ($endpos - $startpos);
+
+                        $count++;
+                    }
+
+                } while ($searchStatus);
+            }
+        }
+
+        return $documentPartXML;
+    }
+
+    /**
+     * Set legacy dropdown value
+     * @throws \DOMException
+     * @throws Exception
+     */
+    public function setLegacyDropDown(string $search, string $value)
+    {
+        $search = static::ensureMacroCompleted($search);
+        $blockType = 'w:ffData';
+
+        $where = $this->findContainingXmlBlockForMacro($search, $blockType);
+        if (!is_array($where)) {
+            return;
+        }
+
+        $block = $this->getSlice($where['start'], $where['end']);
+
+        $ns = $this->getNamespaceUri('w');
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML('<w:document xmlns:w="' . $ns . '">' . $block . '</w:document>');
+
+        $ffData = $domDocument->getElementsByTagName('ffData')->item(0);
+        /** @var \DOMElement $ddList */
+        $ddList = $domDocument->getElementsByTagName('ddList')->item(0);
+        $selected = null;
+        foreach ($ddList->childNodes as $key => $child) {
+            if ($child->getAttribute('w:val') == $value) {
+                $selected = $key;
+                break;
+            }
+        }
+
+        if ($selected === null) {
+            return;
+        }
+
+        $result = $domDocument->createElementNS($ns, 'w:result');
+        $result->setAttribute('w:val', $selected);
+
+        $ddList->prepend($result);
+
+        $this->replaceXmlBlock($search, $domDocument->saveXML($ffData), $blockType);
+    }
+
+    protected function getNamespaceUri(string $prefix): string
+    {
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML($this->tempDocumentMainPart);
+        return $domDocument->lookupNamespaceUri($prefix);
     }
 }

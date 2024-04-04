@@ -17,7 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
-use PhpOffice\PhpWord\Style\AbstractStyle as Style;
+use PhpOffice\PhpWord\Style\AbstractStyle as StyleAbstract;
+use PhpOffice\PhpWord\Writer\HTML;
 
 /**
  * Style writer.
@@ -29,26 +30,28 @@ abstract class AbstractStyle
     /**
      * Parent writer.
      *
-     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @var HTML
      */
     private $parentWriter;
 
     /**
      * Style.
      *
-     * @var array|\PhpOffice\PhpWord\Style\AbstractStyle
+     * @var null|array|StyleAbstract
      */
     private $style;
 
     /**
      * Write style.
+     *
+     * @return mixed
      */
     abstract public function write();
 
     /**
      * Create new instance.
      *
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $style
+     * @param array|StyleAbstract $style
      */
     public function __construct($style = null)
     {
@@ -58,7 +61,7 @@ abstract class AbstractStyle
     /**
      * Set parent writer.
      *
-     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
+     * @param HTML $writer
      */
     public function setParentWriter($writer): void
     {
@@ -68,7 +71,7 @@ abstract class AbstractStyle
     /**
      * Get parent writer.
      *
-     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @return HTML
      */
     public function getParentWriter()
     {
@@ -78,11 +81,11 @@ abstract class AbstractStyle
     /**
      * Get style.
      *
-     * @return array|\PhpOffice\PhpWord\Style\AbstractStyle $style
+     * @return null|array|string|StyleAbstract
      */
     public function getStyle()
     {
-        if (!$this->style instanceof Style && !is_array($this->style)) {
+        if (!$this->style instanceof StyleAbstract && !is_array($this->style)) {
             return '';
         }
 

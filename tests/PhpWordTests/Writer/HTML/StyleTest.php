@@ -27,7 +27,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testEmptyStyles(): void
     {
-        $styles = ['Font', 'Paragraph', 'Image'];
+        $styles = ['Font', 'Paragraph', 'Image', 'Table'];
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\HTML\\Style\\' . $style;
             $object = new $objectClass();

@@ -1,13 +1,17 @@
 includes:
-	- vendor/phpstan/phpstan/conf/config.level1.neon
+    - phpstan-baseline.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
 parameters:
-	memory-limit: 20000000
-	autoload_directories:
-		- tests
-	autoload_files:
-		- tests/bootstrap.php
-	excludes_analyse:
-		- */pclzip.lib.php
-		- src/PhpWord/Shared/OLERead.php
-		- src/PhpWord/Reader/MsDoc.php
-		- src/PhpWord/Writer/PDF/MPDF.php
+    level: 7
+    paths:
+        - src/
+        - tests/
+    excludePaths:
+        - */pclzip.lib.php
+        - src/PhpWord/Shared/OLERead.php
+        - src/PhpWord/Reader/MsDoc.php
+        - src/PhpWord/Writer/PDF/MPDF.php
+    bootstrapFiles:
+        - tests/bootstrap.php
+    checkMissingIterableValueType: false

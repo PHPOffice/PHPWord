@@ -306,6 +306,44 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
     }
 
+    public function testFieldElementFilename(): void
+    {
+        $phpWord = new PhpWord();
+        $stnam = 'h1';
+        $phpWord->addFontStyle($stnam, ['name' => 'Courier New', 'size' => 8]);
+        $section = $phpWord->addSection();
+
+        $fld = $section->addField('FILENAME');
+        $fld->setFontStyle($stnam);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' FILENAME ', $doc->getElement($element)->textContent);
+        $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
+        self::assertTrue($doc->elementExists($sty));
+        self::assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
+    }
+
+    public function testFieldElementFilenameOptionsPath(): void
+    {
+        $phpWord = new PhpWord();
+        $stnam = 'h1';
+        $phpWord->addFontStyle($stnam, ['name' => 'Courier New', 'size' => 8]);
+        $section = $phpWord->addSection();
+
+        $fld = $section->addField('FILENAME', [], ['Path']);
+        $fld->setFontStyle($stnam);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals(' FILENAME \p ', $doc->getElement($element)->textContent);
+        $sty = '/w:document/w:body/w:p/w:r[2]/w:rPr';
+        self::assertTrue($doc->elementExists($sty));
+        self::assertEquals($stnam, $doc->getElementAttribute($sty . '/w:rStyle', 'w:val'));
+    }
+
     public function testFieldElementWithComplexText(): void
     {
         $phpWord = new PhpWord();
@@ -458,32 +496,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:ins/w:r'));
         self::assertEquals('author name', $doc->getElementAttribute('/w:document/w:body/w:p/w:ins', 'w:author'));
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:del/w:r/w:delText'));
-    }
-
-    /**
-     * Test Title and Headings.
-     */
-    public function testTitleAndHeading(): void
-    {
-        $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(0, ['size' => 14, 'italic' => true]);
-        $phpWord->addTitleStyle(1, ['size' => 20, 'color' => '333333', 'bold' => true]);
-
-        $section = $phpWord->addSection();
-        $section->addTitle('This is a title', 0);
-        $section->addTitle('Heading 1', 1);
-
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:t'));
-        self::assertEquals('This is a title', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->textContent);
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:pStyle'));
-        self::assertEquals('Title', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:pStyle', 'w:val'));
-
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:t'));
-        self::assertEquals('Heading 1', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->textContent);
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:pStyle'));
-        self::assertEquals('Heading1', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:pStyle', 'w:val'));
     }
 
     /**

@@ -20,6 +20,8 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
 use PhpOffice\PhpWord\Element\Cell as CellElement;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Table as TableElement;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Table element RTF writer.
@@ -45,6 +47,9 @@ class Table extends AbstractElement
         }
 
         $content = '';
+        $style = $this->element->getStyle();
+        $bidiStyle = (is_object($style) && method_exists($style, 'isBidiVisual')) ? $style->isBidiVisual() : Settings::isDefaultRtl();
+        $bidi = $bidiStyle ? '\rtlrow' : '';
         $rows = $element->getRows();
         $rowCount = count($rows);
 
@@ -52,7 +57,7 @@ class Table extends AbstractElement
             $content .= '\pard' . PHP_EOL;
 
             for ($i = 0; $i < $rowCount; ++$i) {
-                $content .= '\trowd ';
+                $content .= "\\trowd$bidi ";
                 $content .= $this->writeRowDef($rows[$i]);
                 $content .= PHP_EOL;
                 $content .= $this->writeRow($rows[$i]);

@@ -17,7 +17,10 @@
 
 namespace PhpOffice\PhpWord\Reader;
 
+use Exception;
+use PhpOffice\PhpWord\Element\AbstractElement;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Reader\Word2007\AbstractPart;
 use PhpOffice\PhpWord\Shared\XMLReader;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
@@ -42,23 +45,34 @@ class Word2007 extends AbstractReader implements ReaderInterface
     {
         $phpWord = new PhpWord();
         $relationships = $this->readRelationships($docFile);
+        $commentRefs = [];
 
         $steps = [
-            ['stepPart' => 'document', 'stepItems' => [
-                'styles' => 'Styles',
-                'numbering' => 'Numbering',
-            ]],
-            ['stepPart' => 'main', 'stepItems' => [
-                'officeDocument' => 'Document',
-                'core-properties' => 'DocPropsCore',
-                'extended-properties' => 'DocPropsApp',
-                'custom-properties' => 'DocPropsCustom',
-            ]],
-            ['stepPart' => 'document', 'stepItems' => [
-                'endnotes' => 'Endnotes',
-                'footnotes' => 'Footnotes',
-                'settings' => 'Settings',
-            ]],
+            [
+                'stepPart' => 'document',
+                'stepItems' => [
+                    'styles' => 'Styles',
+                    'numbering' => 'Numbering',
+                ],
+            ],
+            [
+                'stepPart' => 'main',
+                'stepItems' => [
+                    'officeDocument' => 'Document',
+                    'core-properties' => 'DocPropsCore',
+                    'extended-properties' => 'DocPropsApp',
+                    'custom-properties' => 'DocPropsCustom',
+                ],
+            ],
+            [
+                'stepPart' => 'document',
+                'stepItems' => [
+                    'endnotes' => 'Endnotes',
+                    'footnotes' => 'Footnotes',
+                    'settings' => 'Settings',
+                    'comments' => 'Comments',
+                ],
+            ],
         ];
 
         foreach ($steps as $step) {
@@ -72,7 +86,8 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 if (isset($stepItems[$relType])) {
                     $partName = $stepItems[$relType];
                     $xmlFile = $relItem['target'];
-                    $this->readPart($phpWord, $relationships, $partName, $docFile, $xmlFile);
+                    $part = $this->readPart($phpWord, $relationships, $commentRefs, $partName, $docFile, $xmlFile);
+                    $commentRefs = $part->getCommentReferences();
                 }
             }
         }
@@ -83,20 +98,23 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read document part.
      *
-     * @param array $relationships
-     * @param string $partName
-     * @param string $docFile
-     * @param string $xmlFile
+     * @param array<string, array<string, null|AbstractElement>> $commentRefs
      */
-    private function readPart(PhpWord $phpWord, $relationships, $partName, $docFile, $xmlFile): void
+    private function readPart(PhpWord $phpWord, array $relationships, array $commentRefs, string $partName, string $docFile, string $xmlFile): AbstractPart
     {
         $partClass = "PhpOffice\\PhpWord\\Reader\\Word2007\\{$partName}";
-        if (class_exists($partClass)) {
-            /** @var \PhpOffice\PhpWord\Reader\Word2007\AbstractPart $part Type hint */
-            $part = new $partClass($docFile, $xmlFile);
-            $part->setRels($relationships);
-            $part->read($phpWord);
+        if (!class_exists($partClass)) {
+            throw new Exception(sprintf('The part "%s" doesn\'t exist', $partClass));
         }
+
+        /** @var AbstractPart $part Type hint */
+        $part = new $partClass($docFile, $xmlFile);
+        $part->setImageLoading($this->hasImageLoading());
+        $part->setRels($relationships);
+        $part->setCommentReferences($commentRefs);
+        $part->read($phpWord);
+
+        return $part;
     }
 
     /**

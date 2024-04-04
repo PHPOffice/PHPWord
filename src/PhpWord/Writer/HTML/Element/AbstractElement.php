@@ -17,9 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use Laminas\Escaper\Escaper;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
-use PhpOffice\PhpWord\Writer\AbstractWriter;
+use PhpOffice\PhpWord\Writer\HTML;
 
 /**
  * Abstract HTML element writer.
@@ -31,7 +30,7 @@ abstract class AbstractElement
     /**
      * Parent writer.
      *
-     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @var HTML
      */
     protected $parentWriter;
 
@@ -50,11 +49,6 @@ abstract class AbstractElement
     protected $withoutP = false;
 
     /**
-     * @var \Laminas\Escaper\Escaper|\PhpOffice\PhpWord\Escaper\AbstractEscaper
-     */
-    protected $escaper;
-
-    /**
      * Write element.
      */
     abstract public function write();
@@ -64,12 +58,11 @@ abstract class AbstractElement
      *
      * @param bool $withoutP
      */
-    public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false)
+    public function __construct(HTML $parentWriter, Element $element, $withoutP = false)
     {
         $this->parentWriter = $parentWriter;
         $this->element = $element;
         $this->withoutP = $withoutP;
-        $this->escaper = new Escaper();
     }
 
     /**

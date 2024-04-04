@@ -35,7 +35,7 @@ class OLEObject extends AbstractElement
     /**
      * Image Style.
      *
-     * @var \PhpOffice\PhpWord\Style\Image
+     * @var ?\PhpOffice\PhpWord\Style\Image
      */
     private $style;
 
@@ -100,7 +100,7 @@ class OLEObject extends AbstractElement
     /**
      * Get object style.
      *
-     * @return \PhpOffice\PhpWord\Style\Image
+     * @return ?\PhpOffice\PhpWord\Style\Image
      */
     public function getStyle()
     {
