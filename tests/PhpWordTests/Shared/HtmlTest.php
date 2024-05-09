@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
@@ -52,6 +53,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
      */
     public function testAddHtml(): void
     {
+        Settings::setOutputEscapingEnabled(true);
         $content = '';
 
         // Default
@@ -80,16 +82,31 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         // Other parts
         $section = $phpWord->addSection();
         $content = '';
+        $expectd = '';
         $content .= '<table><tr><th>Header</th><td>Content</td></tr></table>';
         $content .= '<ul><li>Bullet</li><ul><li>Bullet</li></ul></ul>';
         $content .= '<ol><li>Bullet</li></ol>';
         $content .= "'Single Quoted Text'";
+        $expectd .= "'Single Quoted Text'";
         $content .= '"Double Quoted Text"';
-        $content .= '& Ampersand';
+        $expectd .= '"Double Quoted Text"';
+        $content .= '&amp; Ampersand';
+        $expectd .= '& Ampersand';
         $content .= '&lt;&gt;&ldquo;&lsquo;&rsquo;&laquo;&raquo;&lsaquo;&rsaquo;';
+        $expectd .= '<>“‘’«»‹›';
         $content .= '&amp;&bull;&deg;&hellip;&trade;&copy;&reg;&mdash;';
+        $expectd .= '&•°…™©®—';
         $content .= '&ndash;&nbsp;&emsp;&ensp;&sup2;&sup3;&frac14;&frac12;&frac34;';
+        $expectd .= "–\u{a0}  ²³¼½¾";
         Html::addHtml($section, $content);
+        $elements = $section->getElements();
+        foreach ($elements as $element) {
+            if ($element instanceof Text) {
+                self::assertSame($expectd, $element->getText());
+
+                break;
+            }
+        }
     }
 
     /**
@@ -110,7 +127,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
      */
     public function testParseHtmlEntities(): void
     {
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        Settings::setOutputEscapingEnabled(true);
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         Html::addHtml($section, 'text with entities &lt;my text&gt;');
@@ -138,13 +155,14 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         Html::addHtml($section, $html);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:t'));
-        self::assertEquals('Calculator', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz'));
-        self::assertEquals('22.5', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz', 'w:val'));
+        $element = '/w:document/w:body/w:p';
+        self::assertTrue($doc->elementExists($element));
+        self::assertTrue($doc->elementExists("$element/w:r"));
+        self::assertTrue($doc->elementExists("$element/w:r/w:t"));
+        self::assertEquals('Calculator', $doc->getElement("$element/w:r/w:t")->nodeValue);
+        self::assertTrue($doc->elementExists("$element/w:r/w:rPr"));
+        self::assertTrue($doc->elementExists("$element/w:r/w:rPr/w:sz"));
+        self::assertEquals('22.5', $doc->getElementAttribute("$element/w:r/w:rPr/w:sz", 'w:val'));
     }
 
     public function testParseStyleTableClassName(): void
@@ -778,7 +796,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $html = preg_replace('/\s+/', ' ', '<ul>
+        $html = '<ul>
                 <li>Some text before
                     <span style="font-family: arial,helvetica,sans-serif;">
                         <span style="font-size: 12px;">list item1 <b>bold</b> with text after bold</span>
@@ -790,7 +808,7 @@ HTML;
                         <span style="font-size: 12px;">list item2</span>
                     </span>
                 </li>
-            </ul>');
+            </ul>';
         Html::addHtml($section, $html, false, false);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');

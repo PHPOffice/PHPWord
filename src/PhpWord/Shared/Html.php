@@ -46,6 +46,8 @@ class Html
 
     private const RGB_REGEXP = '/^\s*rgb\s*[(]\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*[)]\s*$/';
 
+    private const DECLARES_CHARSET = '/ charset=/i';
+
     protected static $listIndex = 0;
 
     protected static $xpath;
@@ -54,6 +56,9 @@ class Html
 
     /** @var ?DocInfo */
     protected static $docInfo;
+
+    /** @var bool */
+    private static $addbody = false;
 
     /**
      * @var Css
@@ -88,16 +93,14 @@ class Html
             }
         }
 
-        // Preprocess: remove all line ends, decode HTML entity,
-        // fix ampersand and angle brackets and add body tag for HTML fragments
-        $html = str_replace(["\n", "\r"], '', $html);
-        $html = str_replace(['&lt;', '&gt;', '&amp;', '&quot;'], ['_lt_', '_gt_', '_amp_', '_quot_'], $html);
-        $html = html_entity_decode($html, ENT_QUOTES, 'UTF-8');
-        $html = str_replace('&', '&amp;', $html);
-        $html = str_replace(['_lt_', '_gt_', '_amp_', '_quot_'], ['&lt;', '&gt;', '&amp;', '&quot;'], $html);
-
-        if (false === $fullHTML) {
-            $html = '<body>' . $html . '</body>';
+        if (substr($html, 0, 2) === "\xfe\xff" || substr($html, 0, 2) === "\xff\xfe") {
+            $html = mb_convert_encoding($html, 'UTF-8', 'UTF-16');
+        }
+        if (substr($html, 0, 3) === "\xEF\xBB\xBF") {
+            $html = substr($html, 3);
+        }
+        if (self::$addbody && false === $fullHTML) {
+            $html = '<body>' . $html . '</body>'; // @codeCoverageIgnore
         }
 
         // Load DOM
@@ -105,8 +108,20 @@ class Html
             $orignalLibEntityLoader = libxml_disable_entity_loader(true); // @codeCoverageIgnore
         }
         $dom = new DOMDocument();
+        $html = self::replaceNonAsciiIfNeeded($html);
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
-        $dom->loadXML($html);
+
+        try {
+            $result = $dom->loadHTML($html);
+            $exceptionMessage = 'DOM loadHTML failed';
+        } catch (Exception $e) {
+            $result = false;
+            $exceptionMessage = $e->getMessage();
+        }
+        if ($result === false) {
+            throw new Exception($exceptionMessage);
+        }
+        self::removeAnnoyingWhitespaceTextNodes($dom);
         static::$xpath = new DOMXPath($dom);
         $node = $dom->getElementsByTagName('html');
         if (count($node) === 0 || $node->item(0) === null) {
@@ -117,6 +132,38 @@ class Html
         if (\PHP_VERSION_ID < 80000) {
             libxml_disable_entity_loader($orignalLibEntityLoader); // @codeCoverageIgnore
         }
+    }
+
+    // https://www.php.net/manual/en/domdocument.loadhtml.php
+    private static function removeAnnoyingWhitespaceTextNodes(DOMNode $node): void
+    {
+        if ($node->hasChildNodes()) {
+            for ($i = $node->childNodes->length - 1; $i >= 0; --$i) {
+                self::removeAnnoyingWhitespaceTextNodes($node->childNodes->item($i));
+            }
+        }
+        if ($node->nodeType === XML_TEXT_NODE && !$node->hasChildNodes() && !$node->hasAttributes() && empty(trim($node->textContent))) {
+            $node->parentNode->removeChild($node);
+        }
+    }
+
+    private static function replaceNonAscii(array $matches): string
+    {
+        return '&#' . mb_ord($matches[0], 'UTF-8') . ';';
+    }
+
+    private static function replaceNonAsciiIfNeeded(string $convert): ?string
+    {
+        if (preg_match(self::DECLARES_CHARSET, $convert) !== 1) {
+            $lowend = "\u{80}";
+            $highend = "\u{10ffff}";
+            $regexp = "/[$lowend-$highend]/u";
+            /** @var callable $callback */
+            $callback = [self::class, 'replaceNonAscii'];
+            $convert = preg_replace_callback($regexp, $callback, $convert);
+        }
+
+        return $convert;
     }
 
     /**
