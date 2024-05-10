@@ -112,14 +112,14 @@ class Html
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
 
         try {
-            $result = $dom->loadHTML($html);
+            $result = $dom->loadHTML($html, LIBXML_NOWARNING | LIBXML_NOERROR);
             $exceptionMessage = 'DOM loadHTML failed';
         } catch (Exception $e) {
             $result = false;
             $exceptionMessage = $e->getMessage();
         }
         if ($result === false) {
-            throw new Exception($exceptionMessage);
+            throw new Exception($exceptionMessage); // @codeCoverageIgnore
         }
         self::removeAnnoyingWhitespaceTextNodes($dom);
         static::$xpath = new DOMXPath($dom);

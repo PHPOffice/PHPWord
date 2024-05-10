@@ -90,14 +90,14 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $expectd .= "'Single Quoted Text'";
         $content .= '"Double Quoted Text"';
         $expectd .= '"Double Quoted Text"';
-        $content .= '&amp; Ampersand';
+        $content .= '& Ampersand';
         $expectd .= '& Ampersand';
-        $content .= '&lt;&gt;&ldquo;&lsquo;&rsquo;&laquo;&raquo;&lsaquo;&rsaquo;';
-        $expectd .= '<>“‘’«»‹›';
+        $content .= '&lt;&gt;&ldquo;&rdquo;&lsquo;&rsquo;&laquo;&raquo;&lsaquo;&rsaquo;';
+        $expectd .= '<>“”‘’«»‹›';
         $content .= '&amp;&bull;&deg;&hellip;&trade;&copy;&reg;&mdash;';
         $expectd .= '&•°…™©®—';
         $content .= '&ndash;&nbsp;&emsp;&ensp;&sup2;&sup3;&frac14;&frac12;&frac34;';
-        $expectd .= "–\u{a0}  ²³¼½¾";
+        $expectd .= "–\u{a0}\u{2003}\u{2002}²³¼½¾";
         Html::addHtml($section, $content);
         $elements = $section->getElements();
         foreach ($elements as $element) {

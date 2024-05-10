@@ -57,7 +57,7 @@ class CharsetTest extends TestCase
             ['charset.UTF-16.bebom.html', 'À1'],
             ['charset.UTF-16.lebom.html', 'À1'],
             ['charset.gb18030.html', '电视机'],
-            ['charset.unknown.html', 'exception'],
+            'loadhtml gives its best shot' => ['charset.unknown.html', "Ã\u{80}1"],
         ];
     }
 }
