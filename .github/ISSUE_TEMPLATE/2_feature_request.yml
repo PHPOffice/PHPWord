@@ -1,0 +1,35 @@
+name: 💡 Feature request
+description: Suggest an idea for this project
+labels: [ "Change Request" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+         ### ❗️ Read this before submitting your bug report:
+         - **Write in English/French.** Reports in all other languages will be closed.
+         - **Provide as much detail as possible** 
+           - Attachments : Error logs, Screenshots, Document files (generated and expected).
+           - If the issue cannot be reproduced, it cannot be fixed.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Describe the problem
+      description: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Describe the expected behavior
+      description: A clear and concise description of what you expected to happen. If possible, add screenshots, document files (expected).
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Priority
+      description: Funded tickets have a higher priority.
+      options:
+        - label: I want to crowdfund the feature (with [@algora-io](https://docs.algora.io/bounties/overview)) and fund a community developer.
+          required: false
+        - label: I want to pay the feature and fund a maintainer for that. (Contact @Progi1984)
+          required: false
