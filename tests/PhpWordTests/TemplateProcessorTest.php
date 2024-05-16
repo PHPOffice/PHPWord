@@ -1119,6 +1119,42 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers ::cloneBlock
      */
+    public function testCloneBlockWithMultipleOccurrencesOfSameBlock(): void
+    {
+        $block = '<w:p>
+            <w:r>
+                <w:rPr></w:rPr>
+                <w:t>${CLONEME}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">This block will be cloned with ${variable}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r w:rsidRPr="00204FED">
+                <w:t>${/CLONEME}</w:t>
+            </w:r>
+        </w:p>';
+        $blocks = array_fill(0, 2, $block);
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>' . implode("\n", $blocks);
+
+        $replacements = [
+            ['variable' => 'PHPWord'],
+            ['variable' => 'PhpOffice'],
+        ];
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->cloneBlock('CLONEME', 0, true, false, $replacements);
+
+        self::assertEquals(2, substr_count($templateProcessor->getMainPart(), 'This block will be cloned with PHPWord'));
+        self::assertEquals(2, substr_count($templateProcessor->getMainPart(), 'This block will be cloned with PhpOffice'));
+    }
+
+    /**
+     * @covers ::cloneBlock
+     */
     public function testCloneBlockWithCustomMacro(): void
     {
         $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
