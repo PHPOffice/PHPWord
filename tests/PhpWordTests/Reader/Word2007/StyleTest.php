@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
+use Generator;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\SimpleType\Border;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
@@ -288,5 +290,52 @@ class StyleTest extends AbstractTestReader
 
         $sectionStyle = $phpWord->getSection(0)->getStyle();
         self::assertEquals(VerticalJc::CENTER, $sectionStyle->getVAlign());
+    }
+
+    /**
+     * @dataProvider providerIndentation
+     *
+     * @param string $indent
+     * @param float $left
+     * @param float $right
+     * @param null|float $hanging
+     * @param float $firstLine
+     */
+    public function testIndentation($indent, $left, $right, $hanging, $firstLine): void
+    {
+        $documentXml = "<w:p>
+            <w:pPr>
+                $indent
+            </w:pPr>
+            <w:r>
+                <w:t>1.</w:t>
+            </w:r>
+        </w:p>";
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $section = $phpWord->getSection(0);
+        $textRun = $section->getElements()[0];
+        self::assertInstanceOf(TextRun::class, $textRun);
+
+        $paragraphStyle = $textRun->getParagraphStyle();
+        self::assertInstanceOf(Style\Paragraph::class, $paragraphStyle);
+
+        $indentation = $paragraphStyle->getIndentation();
+        self::assertSame($left, $indentation->getLeft());
+        self::assertSame($right, $indentation->getRight());
+        self::assertSame($hanging, $indentation->getHanging());
+        self::assertSame($firstLine, $indentation->getFirstLine());
+    }
+
+    /**
+     * @return Generator<array{0:string, 1:float, 2:float, 3:null|float, 4: float}>
+     */
+    public static function providerIndentation()
+    {
+        yield ['<w:ind w:left="709" w:right="488" w:hanging="10" w:firstLine="490"/>', 709.00, 488.00, 10.0, 490.00];
+        yield ['<w:ind w:hanging="10" w:firstLine="490"/>', 0, 0, 10.0, 490.00];
+        yield ['<w:ind w:left="709"/>', 709.00, 0, null, 0];
+        yield ['<w:ind w:right="488"/>', 0, 488.00, null, 0];
     }
 }
