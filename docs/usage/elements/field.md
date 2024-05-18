@@ -8,6 +8,7 @@ Currently the following fields are supported:
 - XE
 - INDEX
 - FILENAME
+- REF
 
 ``` php
 <?php
@@ -37,4 +38,12 @@ $section->addField('XE', array(), array(), $fieldText);
 
 //this actually adds the index
 $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), 'right click to update index');
+
+//Adding reference to a bookmark
+$fieldText->addField('REF', [
+      'name' => 'bookmark'
+  ], [
+      'InsertParagraphNumberRelativeContext',
+      'CreateHyperLink',
+  ]);
 ```
