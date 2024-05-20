@@ -275,9 +275,14 @@ class TemplateProcessor
     /**
      * @param string $search
      */
-    public function setComplexValue($search, Element\AbstractElement $complexType): void
+    public function setComplexValue($search, Element\AbstractElement $complexType, bool $multiple = false): void
     {
+        $originalSearch = $search;
+
         $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
+        if ($elementName === 'Section') {
+            $elementName = 'Container';
+        }
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
@@ -297,6 +302,9 @@ class TemplateProcessor
 
         $search = static::ensureMacroCompleted($search);
         $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:r');
+        if ($multiple === true) {
+            $this->setComplexValue($originalSearch, $complexType, true);
+        }
     }
 
     /**
@@ -305,6 +313,9 @@ class TemplateProcessor
     public function setComplexBlock($search, Element\AbstractElement $complexType): void
     {
         $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
+        if ($elementName === 'Section') {
+            $elementName = 'Container';
+        }
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
