@@ -97,6 +97,12 @@ class Title extends AbstractElement
     {
         return $this->text;
     }
+    
+	public function setText($text) {
+		$this->text = CommonText::toUTF8($text);
+
+		return $this;
+	}
 
     /**
      * Get depth.
