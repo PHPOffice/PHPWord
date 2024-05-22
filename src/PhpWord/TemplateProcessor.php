@@ -146,18 +146,6 @@ class TemplateProcessor
                 // Nothing to do here.
             }
         }
-        // Temporary file
-        if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
-            unlink($this->tempDocumentFilename);
-        }
-    }
-
-    public function __wakeup(): void
-    {
-        $this->tempDocumentFilename = '';
-        $this->zipClass = null;
-
-        throw new Exception('unserialize not permitted for this class');
     }
 
     /**
@@ -355,6 +343,15 @@ class TemplateProcessor
         if (Settings::isOutputEscapingEnabled()) {
             $xmlEscaper = new Xml();
             $replace = $xmlEscaper->escape($replace);
+        }
+
+        // convert carriage returns
+        if (is_array($replace)) {
+            foreach ($replace as &$item) {
+                $item = $this->replaceCarriageReturns($item);
+            }
+        } else {
+            $replace = $this->replaceCarriageReturns($replace);
         }
 
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
@@ -1306,6 +1303,14 @@ class TemplateProcessor
     }
 
     /**
+     * Replace carriage returns with xml.
+     */
+    public function replaceCarriageReturns(string $string): string
+    {
+        return str_replace(["\r\n", "\r", "\n"], '</w:t><w:br/><w:t>', $string);
+    }
+
+    /**
      * Replaces variables with values from array, array keys are the variable names.
      *
      * @param array $variableReplacements
@@ -1488,5 +1493,10 @@ class TemplateProcessor
     {
         self::$macroOpeningChars = $macroOpeningChars;
         self::$macroClosingChars = $macroClosingChars;
+    }
+
+    public function getTempDocumentFilename(): string
+    {
+        return $this->tempDocumentFilename;
     }
 }
