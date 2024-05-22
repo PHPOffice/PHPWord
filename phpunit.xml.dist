@@ -7,10 +7,10 @@
     <exclude>
       <directory suffix=".php">./src/PhpWord/Shared/PCLZip</directory>
     </exclude>
-    <report>
+    <!--report>
       <clover outputFile="./build/logs/clover.xml"/>
       <html outputDirectory="./build/coverage"/>
-    </report>
+    </report-->
   </coverage>
   <php>
     <ini name="error_reporting" value="E_ALL"/>
