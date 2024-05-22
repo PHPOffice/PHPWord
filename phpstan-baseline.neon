@@ -401,11 +401,6 @@ parameters:
 			path: src/PhpWord/Shared/Html.php
 
 		-
-			message: "#^Cannot call method setBorderSize\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Table\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/Html.php
-
-		-
 			message: "#^Cannot call method setStyleName\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Table\\|string\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/Html.php

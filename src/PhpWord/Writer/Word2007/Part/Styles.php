@@ -59,12 +59,13 @@ class Styles extends AbstractPart
                 if ($styleName == 'Normal') {
                     continue;
                 }
+                $name = $style->getStyleName();
 
                 // Get style class and execute if the private method exists
                 $styleClass = substr(get_class($style), strrpos(get_class($style), '\\') + 1);
                 $method = "write{$styleClass}Style";
                 if (method_exists($this, $method)) {
-                    $this->$method($xmlWriter, $styleName, $style);
+                    $this->$method($xmlWriter, $styleName, $style, $name);
                 }
             }
         }
@@ -163,7 +164,7 @@ class Styles extends AbstractPart
      *
      * @param string $styleName
      */
-    private function writeFontStyle(XMLWriter $xmlWriter, $styleName, FontStyle $style): void
+    private function writeFontStyle(XMLWriter $xmlWriter, $styleName, FontStyle $style, string $name): void
     {
         $paragraphStyle = $style->getParagraph();
         $styleType = $style->getStyleType();
@@ -206,7 +207,7 @@ class Styles extends AbstractPart
         if (null !== $paragraphStyle) {
             if ($paragraphStyle->getStyleName() != null) {
                 $xmlWriter->writeElementBlock('w:basedOn', 'w:val', $paragraphStyle->getStyleName());
-            } elseif ($paragraphStyle->getBasedOn() != null) {
+            } elseif ($paragraphStyle->getBasedOn() !== '') {
                 $xmlWriter->writeElementBlock('w:basedOn', 'w:val', $paragraphStyle->getBasedOn());
             }
         }
@@ -229,7 +230,7 @@ class Styles extends AbstractPart
      *
      * @param string $styleName
      */
-    private function writeParagraphStyle(XMLWriter $xmlWriter, $styleName, ParagraphStyle $style): void
+    private function writeParagraphStyle(XMLWriter $xmlWriter, $styleName, ParagraphStyle $style, string $name): void
     {
         $xmlWriter->startElement('w:style');
         $xmlWriter->writeAttribute('w:type', 'paragraph');
@@ -241,7 +242,7 @@ class Styles extends AbstractPart
 
         // Parent style
         $basedOn = $style->getBasedOn();
-        $xmlWriter->writeElementIf(null !== $basedOn, 'w:basedOn', 'w:val', $basedOn);
+        $xmlWriter->writeElementIf('' !== $basedOn, 'w:basedOn', 'w:val', $basedOn);
 
         // Next paragraph style
         $next = $style->getNext();
@@ -259,15 +260,18 @@ class Styles extends AbstractPart
      *
      * @param string $styleName
      */
-    private function writeTableStyle(XMLWriter $xmlWriter, $styleName, TableStyle $style): void
+    private function writeTableStyle(XMLWriter $xmlWriter, $styleName, TableStyle $style, string $name): void
     {
         $xmlWriter->startElement('w:style');
         $xmlWriter->writeAttribute('w:type', 'table');
         $xmlWriter->writeAttribute('w:customStyle', '1');
         $xmlWriter->writeAttribute('w:styleId', $styleName);
         $xmlWriter->startElement('w:name');
-        $xmlWriter->writeAttribute('w:val', $styleName);
+        $xmlWriter->writeAttribute('w:val', $name ?: $styleName);
         $xmlWriter->endElement();
+        $basedOn = $style->getBasedOn();
+        $xmlWriter->writeElementIf('' !== $basedOn, 'w:basedOn', 'w:val', $basedOn);
+
         $xmlWriter->startElement('w:uiPriority');
         $xmlWriter->writeAttribute('w:val', '99');
         $xmlWriter->endElement();
