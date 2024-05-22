@@ -40,6 +40,8 @@ class Html
 {
     private const SPECIAL_BORDER_WIDTHS = ['thin' => '0.5pt', 'thick' => '3.5pt', 'medium' => '2.0pt'];
 
+    private const RGB_REGEXP = '/^\s*rgb\s*[(]\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*[)]\s*$/';
+
     protected static $listIndex = 0;
 
     protected static $xpath;
@@ -1192,5 +1194,14 @@ class Html
         // - table - throws error "cannot be inside textruns", e.g. lists
         // - line - that is a shape, has different behaviour
         // - repeated text, e.g. underline "_", because of unpredictable line wrapping
+    }
+
+    private static function convertRgb(string $rgb): string
+    {
+        if (preg_match(self::RGB_REGEXP, $rgb, $matches) === 1) {
+            return sprintf('%02X%02X%02X', $matches[1], $matches[2], $matches[3]);
+        }
+
+        return trim($rgb, '# ');
     }
 }

@@ -39,14 +39,16 @@ class Styles extends AbstractPart
         $fontDefaults = $xmlReader->getElement('w:docDefaults/w:rPrDefault');
         if ($fontDefaults !== null) {
             $fontDefaultStyle = $this->readFontStyle($xmlReader, $fontDefaults);
-            if (array_key_exists('name', $fontDefaultStyle)) {
-                $phpWord->setDefaultFontName($fontDefaultStyle['name']);
-            }
-            if (array_key_exists('size', $fontDefaultStyle)) {
-                $phpWord->setDefaultFontSize($fontDefaultStyle['size']);
-            }
-            if (array_key_exists('lang', $fontDefaultStyle)) {
-                $phpWord->getSettings()->setThemeFontLang(new Language($fontDefaultStyle['lang']));
+            if ($fontDefaultStyle) {
+                if (array_key_exists('name', $fontDefaultStyle)) {
+                    $phpWord->setDefaultFontName($fontDefaultStyle['name']);
+                }
+                if (array_key_exists('size', $fontDefaultStyle)) {
+                    $phpWord->setDefaultFontSize($fontDefaultStyle['size']);
+                }
+                if (array_key_exists('lang', $fontDefaultStyle)) {
+                    $phpWord->getSettings()->setThemeFontLang(new Language($fontDefaultStyle['lang']));
+                }
             }
         }
 

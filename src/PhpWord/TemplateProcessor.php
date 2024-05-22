@@ -146,18 +146,6 @@ class TemplateProcessor
                 // Nothing to do here.
             }
         }
-        // Temporary file
-        if ($this->tempDocumentFilename && file_exists($this->tempDocumentFilename)) {
-            unlink($this->tempDocumentFilename);
-        }
-    }
-
-    public function __wakeup(): void
-    {
-        $this->tempDocumentFilename = '';
-        $this->zipClass = null;
-
-        throw new Exception('unserialize not permitted for this class');
     }
 
     /**
@@ -357,6 +345,15 @@ class TemplateProcessor
             $replace = $xmlEscaper->escape($replace);
         }
 
+        // convert carriage returns
+        if (is_array($replace)) {
+            foreach ($replace as &$item) {
+                $item = $this->replaceCarriageReturns($item);
+            }
+        } else {
+            $replace = $this->replaceCarriageReturns($replace);
+        }
+
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
         $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
@@ -370,6 +367,27 @@ class TemplateProcessor
         foreach ($values as $macro => $replace) {
             $this->setValue($macro, $replace);
         }
+    }
+
+    public function setCheckbox(string $search, bool $checked): void
+    {
+        $search = static::ensureMacroCompleted($search);
+        $blockType = 'w:sdt';
+
+        $where = $this->findContainingXmlBlockForMacro($search, $blockType);
+        if (!is_array($where)) {
+            return;
+        }
+
+        $block = $this->getSlice($where['start'], $where['end']);
+
+        $val = $checked ? '1' : '0';
+        $block = preg_replace('/(<w14:checked w14:val=)".*?"(\/>)/', '$1"' . $val . '"$2', $block);
+
+        $text = $checked ? '☒' : '☐';
+        $block = preg_replace('/(<w:t>).*?(<\/w:t>)/', '$1' . $text . '$2', $block);
+
+        $this->replaceXmlBlock($search, $block, $blockType);
     }
 
     /**
@@ -1285,6 +1303,14 @@ class TemplateProcessor
     }
 
     /**
+     * Replace carriage returns with xml.
+     */
+    public function replaceCarriageReturns(string $string): string
+    {
+        return str_replace(["\r\n", "\r", "\n"], '</w:t><w:br/><w:t>', $string);
+    }
+
+    /**
      * Replaces variables with values from array, array keys are the variable names.
      *
      * @param array $variableReplacements
@@ -1467,5 +1493,10 @@ class TemplateProcessor
     {
         self::$macroOpeningChars = $macroOpeningChars;
         self::$macroClosingChars = $macroClosingChars;
+    }
+
+    public function getTempDocumentFilename(): string
+    {
+        return $this->tempDocumentFilename;
     }
 }
