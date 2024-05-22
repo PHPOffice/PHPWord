@@ -147,7 +147,7 @@ class Html
                         break;
                     case 'bgcolor':
                         // tables, rows, cells e.g. <tr bgColor="#FF0000">
-                        HtmlColours::setArrayColour($styles, 'bgColor', $val);
+                        HtmlColours::setArrayColour($styles, 'bgColor', self::convertRgb($val));
 
                         break;
                     case 'valign':
@@ -726,11 +726,11 @@ class Html
 
                     break;
                 case 'color':
-                    HtmlColours::setArrayColour($styles, 'color', $value);
+                    HtmlColours::setArrayColour($styles, 'color', self::convertRgb($value));
 
                     break;
                 case 'background-color':
-                    HtmlColours::setArrayColour($styles, 'bgColor', $value);
+                    HtmlColours::setArrayColour($styles, 'bgColor', self::convertRgb($value));
 
                     break;
                 case 'line-height':
