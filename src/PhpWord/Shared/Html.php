@@ -25,6 +25,7 @@ use Exception;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
@@ -208,12 +209,12 @@ class Html
         $nodes = [
             // $method        $node   $element    $styles     $data   $argument1      $argument2
             'p' => ['Paragraph',   $node,  $element,   $styles,    null,   null,           null],
-            'h1' => ['Heading',     null,   $element,   $styles,    null,   'Heading1',     null],
-            'h2' => ['Heading',     null,   $element,   $styles,    null,   'Heading2',     null],
-            'h3' => ['Heading',     null,   $element,   $styles,    null,   'Heading3',     null],
-            'h4' => ['Heading',     null,   $element,   $styles,    null,   'Heading4',     null],
-            'h5' => ['Heading',     null,   $element,   $styles,    null,   'Heading5',     null],
-            'h6' => ['Heading',     null,   $element,   $styles,    null,   'Heading6',     null],
+            'h1' => ['Heading',     $node,   $element,   $styles,    null,   'Heading1',     null],
+            'h2' => ['Heading',     $node,   $element,   $styles,    null,   'Heading2',     null],
+            'h3' => ['Heading',     $node,   $element,   $styles,    null,   'Heading3',     null],
+            'h4' => ['Heading',     $node,   $element,   $styles,    null,   'Heading4',     null],
+            'h5' => ['Heading',     $node,   $element,   $styles,    null,   'Heading5',     null],
+            'h6' => ['Heading',     $node,   $element,   $styles,    null,   'Heading6',     null],
             '#text' => ['Text',        $node,  $element,   $styles,    null,   null,           null],
             'strong' => ['Property',    null,   null,       $styles,    null,   'bold',         true],
             'b' => ['Property',    null,   null,       $styles,    null,   'bold',         true],
@@ -339,21 +340,22 @@ class Html
     /**
      * Parse heading node.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array &$styles
-     * @param string $argument1 Name of heading style
-     *
-     * @return \PhpOffice\PhpWord\Element\TextRun
-     *
      * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
      * Heading1 - Heading6 are already defined somewhere
      */
-    protected static function parseHeading($element, &$styles, $argument1)
+    protected static function parseHeading(DOMNode $node, AbstractContainer $element, array &$styles, string $headingStyle): TextRun
     {
-        $styles['paragraph'] = $argument1;
-        $newElement = $element->addTextRun($styles['paragraph']);
+        self::parseInlineStyle($node, $styles['font']);
+        // Create a TextRun to hold styles and text
+        $styles['paragraph'] = $headingStyle;
+        $textRun = new TextRun($styles['paragraph']);
 
-        return $newElement;
+        // Create a title with level corresponding to number in heading style
+        // (Eg, Heading1 = 1)
+        $element->addTitle($textRun, (int) ltrim($headingStyle, 'Heading'));
+
+        // Return TextRun so children are parsed
+        return $textRun;
     }
 
     /**
