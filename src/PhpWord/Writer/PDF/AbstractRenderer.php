@@ -74,7 +74,8 @@ abstract class AbstractRenderer extends HTML
     ];
 
     /**
-     * config in MPDF
+     * config in MPDF.
+     * 
      * @var array|mixed
      */
     protected $config;

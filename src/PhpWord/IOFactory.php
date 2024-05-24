@@ -44,6 +44,7 @@ abstract class IOFactory
         if ($name === 'PDF') {
             return new $fqName($phpWord, $config);
         }
+
         return new $fqName($phpWord);
     }
 
