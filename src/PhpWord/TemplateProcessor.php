@@ -316,6 +316,46 @@ class TemplateProcessor
     }
 
     /**
+     * Replaces a search string (macro) with a set of rendered elements, splitting
+     * surrounding texts, text runs or paragraphs before and after the macro,
+     * depending on the types of elements to insert.
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractElement[] $elements
+     */
+    public function setElementsValue(string $search, array $elements): void
+    {
+        $elementsData = '';
+        $hasParagraphs = false;
+        foreach ($elements as $element) {
+            $elementName = substr(
+                get_class($element),
+                (int) strrpos(get_class($element), '\\') + 1
+            );
+            $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
+
+            // For inline elements, do not create a new paragraph.
+            $withParagraph = Writer\Word2007\Element\Text::class !== $objectClass;
+            $hasParagraphs = $hasParagraphs || $withParagraph;
+
+            $xmlWriter = new XMLWriter();
+            /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+            $elementWriter = new $objectClass($xmlWriter, $element, !$withParagraph);
+            $elementWriter->write();
+            $elementsData .= $xmlWriter->getData();
+        }
+        $blockType = $hasParagraphs ? 'w:p' : 'w:r';
+        $where = $this->findContainingXmlBlockForMacro($search, $blockType);
+        if (is_array($where)) {
+            /** @phpstan-var array{start: int, end: int} $where */
+            $block = $this->getSlice($where['start'], $where['end']);
+            $parts = $hasParagraphs ? $this->splitParagraphIntoParagraphs($block) : $this->splitTextIntoTexts($block);
+            $this->replaceXmlBlock($search, $parts, $blockType);
+            $search = static::ensureMacroCompleted($search);
+            $this->replaceXmlBlock($search, $elementsData, $blockType);
+        }
+    }
+
+    /**
      * @param mixed $search
      * @param mixed $replace
      * @param int $limit
@@ -1462,6 +1502,49 @@ class TemplateProcessor
         $result = str_replace([self::$macroOpeningChars, self::$macroClosingChars], ['</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">' . self::$macroOpeningChars, self::$macroClosingChars . '</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'], $unformattedText);
 
         return str_replace(['<w:r>' . $extractedStyle . '<w:t xml:space="preserve"></w:t></w:r>', '<w:r><w:t xml:space="preserve"></w:t></w:r>', '<w:t>'], ['', '', '<w:t xml:space="preserve">'], $result);
+    }
+
+    /**
+     * Splits a w:p into a list of w:p where each ${macro} is in a separate w:p.
+     */
+    public function splitParagraphIntoParagraphs(string $paragraph): string
+    {
+        $matches = [];
+        if (1 === preg_match('/(<w:pPr.*<\/w:pPr>)/i', $paragraph, $matches)) {
+            $extractedStyle = $matches[0];
+        } else {
+            $extractedStyle = '';
+        }
+        if (null === $paragraph = preg_replace('/>\s+</', '><', $paragraph)) {
+            throw new Exception('Error processing PhpWord document.');
+        }
+        $result = str_replace(
+            [
+                '${',
+                '}',
+            ],
+            [
+                '</w:t></w:r></w:p><w:p>' . $extractedStyle . '<w:r><w:t xml:space="preserve">${',
+                '}</w:t></w:r></w:p><w:p>' . $extractedStyle . '<w:r><w:t xml:space="preserve">',
+            ],
+            $paragraph
+        );
+
+        // Remove empty paragraphs that might have been created before/after the
+        // macro.
+        $result = str_replace(
+            [
+                '<w:p>' . $extractedStyle . '<w:r><w:t xml:space="preserve"></w:t></w:r></w:p>',
+                '<w:p><w:r><w:t xml:space="preserve"></w:t></w:r></w:p>',
+            ],
+            [
+                '',
+                '',
+            ],
+            $result
+        );
+
+        return $result;
     }
 
     /**
