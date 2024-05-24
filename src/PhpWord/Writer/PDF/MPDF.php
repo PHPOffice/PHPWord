@@ -37,13 +37,13 @@ class MPDF extends AbstractRenderer implements WriterInterface
      *
      * @codeCoverageIgnore
      */
-    public function __construct(PhpWord $phpWord)
+    public function __construct(PhpWord $phpWord, $config = [])
     {
         if (file_exists(Settings::getPdfRendererPath() . '/mpdf.php')) {
             // MPDF version 5.* needs this file to be included, later versions not
             $this->includeFile = 'mpdf.php';
         }
-        parent::__construct($phpWord);
+        parent::__construct($phpWord, $config);
     }
 
     /**
@@ -55,7 +55,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
     {
         $mPdfClass = $this->getMPdfClassName();
 
-        $options = [];
+        $options = $this->config;
         if ($this->getFont()) {
             $options['default_font'] = $this->getFont();
         }

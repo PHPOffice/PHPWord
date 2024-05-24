@@ -39,7 +39,7 @@ class PDF
     /**
      * Instantiate a new renderer of the configured type within this container class.
      */
-    public function __construct(PhpWord $phpWord)
+    public function __construct(PhpWord $phpWord, $config = [])
     {
         $pdfLibraryName = Settings::getPdfRendererName();
         $pdfLibraryPath = Settings::getPdfRendererPath();
@@ -54,7 +54,7 @@ class PDF
         }
 
         $rendererName = static::class . '\\' . $pdfLibraryName;
-        $this->renderer = new $rendererName($phpWord);
+        $this->renderer = new $rendererName($phpWord, $config);
     }
 
     /**

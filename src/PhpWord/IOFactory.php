@@ -33,15 +33,14 @@ abstract class IOFactory
      *
      * @return WriterInterface
      */
-    public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
+    public static function createWriter(PhpWord $phpWord, $name = 'Word2007', $config = [])
     {
         if ($name !== 'WriterInterface' && !in_array($name, ['ODText', 'RTF', 'Word2007', 'HTML', 'PDF'], true)) {
             throw new Exception("\"{$name}\" is not a valid writer.");
         }
 
         $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
-
-        return new $fqName($phpWord);
+        return new $fqName($phpWord, $config);
     }
 
     /**
