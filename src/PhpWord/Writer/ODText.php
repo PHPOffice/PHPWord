@@ -38,11 +38,13 @@ class ODText extends AbstractWriter implements WriterInterface
 
     /**
      * Create new ODText writer.
+     *
+     * @param array $config
      */
-    public function __construct(?PhpWord $phpWord = null)
+    public function __construct(?PhpWord $phpWord = null, $config = [])
     {
         // Assign PhpWord
-        $this->setPhpWord($phpWord);
+        parent::__construct($phpWord, $config);
 
         // Create parts
         $this->parts = [
