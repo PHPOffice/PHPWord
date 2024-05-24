@@ -103,7 +103,6 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * construct method.
      *
-     * @param PhpWord|null $phpWord
      * @param array $config
      */
     public function __construct(?PhpWord $phpWord = null, $config = [])

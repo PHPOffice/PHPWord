@@ -79,7 +79,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         foreach (array_keys($this->parts) as $partName) {
             $partClass = static::class . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
-                /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $part Type hint */
+                /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $part */
                 $part = new $partClass();
                 $part->setParentWriter($this);
                 $this->writerParts[strtolower($partName)] = $part;

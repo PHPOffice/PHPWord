@@ -76,7 +76,6 @@ abstract class AbstractRenderer extends HTML
     /**
      * Create new instance.
      *
-     * @param PhpWord $phpWord
      * @param array $config
      */
     public function __construct(PhpWord $phpWord, $config = [])
