@@ -94,7 +94,7 @@ abstract class AbstractWriter implements WriterInterface
     private $tempFilename;
 
     /**
-     * some options in config
+     * some options in config.
      *
      * @var array
      */
@@ -105,7 +105,6 @@ abstract class AbstractWriter implements WriterInterface
         $this->setPhpWord($phpWord);
         $this->config = $config;
     }
-
 
     /**
      * Get PhpWord object.

@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Element\Section;
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\ZipArchive;
@@ -254,7 +253,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add comments.
      *
      * @param int &$rId
-     * @throws Exception
      */
     private function addComments(ZipArchive $zip, &$rId): void
     {
