@@ -38,6 +38,8 @@ class PDF
 
     /**
      * Instantiate a new renderer of the configured type within this container class.
+     *
+     * @param array $config
      */
     public function __construct(PhpWord $phpWord, $config = [])
     {

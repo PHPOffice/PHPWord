@@ -73,6 +73,10 @@ abstract class AbstractRenderer extends HTML
         9 => 'A4', // (210 mm by 297 mm)
     ];
 
+    /**
+     * config in MPDF
+     * @var array|mixed
+     */
     protected $config;
 
     /**

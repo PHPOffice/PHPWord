@@ -30,6 +30,7 @@ abstract class IOFactory
      * Create new writer.
      *
      * @param string $name
+     * @param array $config
      *
      * @return WriterInterface
      */
@@ -40,7 +41,7 @@ abstract class IOFactory
         }
 
         $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
-        if ($fqName == 'PDF') {
+        if ($name === 'PDF') {
             return new $fqName($phpWord, $config);
         }
         return new $fqName($phpWord);

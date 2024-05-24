@@ -35,6 +35,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
     /**
      * Overridden to set the correct includefile, only needed for MPDF 5.
      *
+     * @param array $config
      * @codeCoverageIgnore
      */
     public function __construct(PhpWord $phpWord, $config = [])
