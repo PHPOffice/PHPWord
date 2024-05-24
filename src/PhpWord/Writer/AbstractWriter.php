@@ -100,6 +100,12 @@ abstract class AbstractWriter implements WriterInterface
      */
     protected $config;
 
+    /**
+     * construct method.
+     *
+     * @param PhpWord|null $phpWord
+     * @param array $config
+     */
     public function __construct(?PhpWord $phpWord = null, $config = [])
     {
         $this->setPhpWord($phpWord);

@@ -74,22 +74,16 @@ abstract class AbstractRenderer extends HTML
     ];
 
     /**
-     * config in MPDF.
-     *
-     * @var array|mixed
-     */
-    protected $config;
-
-    /**
      * Create new instance.
      *
-     * @param PhpWord $phpWord PhpWord object
+     * @param PhpWord $phpWord
      * @param array $config
      */
     public function __construct(PhpWord $phpWord, $config = [])
     {
-        parent::__construct($phpWord);
-        $this->config = $config;
+        // Assign PhpWord
+        parent::__construct($phpWord, $config);
+
         $this->isPdf = true;
         if ($this->includeFile != null) {
             $includeFile = Settings::getPdfRendererPath() . '/' . $this->includeFile;
