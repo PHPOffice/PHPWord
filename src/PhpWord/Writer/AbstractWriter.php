@@ -94,6 +94,20 @@ abstract class AbstractWriter implements WriterInterface
     private $tempFilename;
 
     /**
+     * some options in config
+     *
+     * @var array
+     */
+    protected $config;
+
+    public function __construct(?PhpWord $phpWord = null, $config = [])
+    {
+        $this->setPhpWord($phpWord);
+        $this->config = $config;
+    }
+
+
+    /**
      * Get PhpWord object.
      *
      * @return \PhpOffice\PhpWord\PhpWord

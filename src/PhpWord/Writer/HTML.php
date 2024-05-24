@@ -73,7 +73,8 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     public function __construct(?PhpWord $phpWord = null, $config = [])
     {
-        $this->setPhpWord($phpWord);
+        // Assign PhpWord
+        parent::__construct($phpWord, $config);
 
         $this->parts = ['Head', 'Body'];
         foreach ($this->parts as $partName) {

@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\Writer\PDF\AbstractRenderer;
  *
  * @since 0.10.0
  */
-class PDF
+class PDF implements WriterInterface
 {
     /**
      * The wrapper for the requested PDF rendering engine.

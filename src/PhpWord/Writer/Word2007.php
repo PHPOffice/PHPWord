@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\ZipArchive;
@@ -44,13 +45,13 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Create new Word2007 writer.
      *
-     * @param \PhpOffice\PhpWord\PhpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param array $config
      */
     public function __construct(?PhpWord $phpWord = null, $config = [])
     {
         // Assign PhpWord
-        $this->setPhpWord($phpWord);
+        parent::__construct($phpWord, $config);
 
         // Create parts
         // The first four files need to be in this order for Mimetype detection to work
@@ -253,6 +254,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add comments.
      *
      * @param int &$rId
+     * @throws Exception
      */
     private function addComments(ZipArchive $zip, &$rId): void
     {
