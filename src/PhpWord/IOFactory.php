@@ -40,7 +40,10 @@ abstract class IOFactory
         }
 
         $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
-        return new $fqName($phpWord, $config);
+        if ($fqName == 'PDF') {
+            return new $fqName($phpWord, $config);
+        }
+        return new $fqName($phpWord);
     }
 
     /**
