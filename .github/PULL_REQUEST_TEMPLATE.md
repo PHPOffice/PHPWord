@@ -6,6 +6,7 @@ Fixes # (issue)
 
 ### Checklist:
 
-- [ ] I have run `composer run-script check --timeout=0` and no errors were reported
-- [ ] The new code is covered by unit tests (check build/coverage for coverage report)
-- [ ] I have updated the documentation to describe the changes
+- [ ] My CI is :green_circle:
+- [ ] I have covered by unit tests my new code (check build/coverage for coverage report)
+- [ ] I have updated the [documentation](https://github.com/PHPOffice/PHPWord/tree/master/docs) to describe the changes
+- [ ] I have updated the [changelog](https://github.com/PHPOffice/PHPWord/blob/master/docs/changes/2.x/2.0.0.md)

@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWordTests;
 
 use BadMethodCallException;
+use DateTimeImmutable;
 use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
@@ -35,8 +36,14 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstruct(): void
     {
-        $phpWord = new PhpWord();
-        self::assertEquals(new DocInfo(), $phpWord->getDocInfo());
+        do {
+            $dtStart = new DateTimeImmutable();
+            $startSecond = $dtStart->format('s');
+            $phpWord = new PhpWord();
+            $docInfo = new DocInfo();
+            $endSecond = (new DateTimeImmutable('now'))->format('s');
+        } while ($startSecond !== $endSecond);
+        self::assertEquals($docInfo, $phpWord->getDocInfo());
         self::assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
         self::assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
     }
