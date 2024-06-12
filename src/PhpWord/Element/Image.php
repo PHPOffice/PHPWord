@@ -354,8 +354,11 @@ class Image extends AbstractElement
             if ($zip->open($zipFilename) !== false) {
                 if ($zip->locateName($imageFilename) !== false) {
                     $isTemp = true;
-                    $zip->extractTo(Settings::getTempDir(), $imageFilename);
-                    $actualSource = Settings::getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
+                    $imageContent = $this->resolveImage($zip->getFromName($imageFilename));
+                    if ($imageContent !== false) {
+                        file_put_contents(Settings::getTempDir() . DIRECTORY_SEPARATOR . $imageFilename, $imageContent);
+                        $actualSource = Settings::getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
+		    		}
                 }
             }
             $zip->close();
@@ -487,6 +490,61 @@ class Image extends AbstractElement
         }
     }
 
+
+	private function imageTypeFromString(&$data)
+	{
+		$type = NULL;
+		if (substr($data, 6, 4) == 'JFIF' || substr($data, 6, 4) == 'Exif' || substr($data, 0, 2) == chr(255) . chr(216)): // 0xFF 0xD8
+			$type = 'image/jpeg';
+		elseif (substr($data, 0, 6) == "GIF87a" || substr($data, 0, 6) == "GIF89a"):
+			$type = 'image/gif';
+		elseif (substr($data, 0, 8) == chr(137) . 'PNG' . chr(13) . chr(10) . chr(26) . chr(10)):
+			$type = 'image/png';
+		elseif (substr($data, 0, 4) == chr(215) . chr(205) . chr(198) . chr(154) || substr($data, 0, 4) == chr(1) . chr(0) . chr(9) . chr(0)):
+			$type = 'image/x-wmf';
+		elseif (substr($data, 0, 4) == chr(1) . chr(0) . chr(0) . chr(0) && substr($data, 40, 4) == " EMF"):
+			$type = 'image/x-emf';
+		elseif (preg_match('/<svg.*<\/svg>/is', $data)):
+			$type = 'image/svg';
+		elseif (substr($data, 0, 2) == "BM"): // BMP images
+			$type = 'image/bmp';
+		endif;
+		return $type;
+	}
+    
+       /**
+     * Resolve image
+     *
+     * @param string $content
+     * @return string
+     */
+    private function resolveImage(string $content)
+    {
+        $file = tmpfile();
+        fwrite($file, $content);
+        $meta = stream_get_meta_data($file);
+        $type = $this->imageTypeFromString($content) ?? mime_content_type($file);
+        switch ($type) {
+            case 'image/tiff':
+            case 'image/svg':
+            case 'image/x-wmf':
+                $imagick = new \Imagick();
+                $imagick->readImage($meta['uri']);
+                $imagick->setImageFormat('png');
+                return $imagick->getImagesBlob();
+            case 'image/x-emf':
+                $svg = tmpfile();
+                $svgmeta = stream_get_meta_data($svg);
+                shell_exec("emf2svg-conv -i $meta[uri] -o $svgmeta[uri]");
+                $imagick = new \Imagick();
+                $imagick->readImage($svgmeta['uri']);
+                $imagick->setImageFormat('png');
+                return $imagick->getImagesBlob();
+            default:
+                return $content;
+        }
+    }
+
     /**
      * Get image size from archive.
      *
@@ -510,7 +568,7 @@ class Image extends AbstractElement
         $zip = new ZipArchive();
         if ($zip->open($zipFilename) !== false) {
             if ($zip->locateName($imageFilename) !== false) {
-                $imageContent = $zip->getFromName($imageFilename);
+                $imageContent = $this->resolveImage($zip->getFromName($imageFilename));
                 if ($imageContent !== false) {
                     file_put_contents($tempFilename, $imageContent);
                     $imageData = getimagesize($tempFilename);
