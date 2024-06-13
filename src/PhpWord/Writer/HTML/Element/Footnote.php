@@ -46,7 +46,7 @@ class Footnote extends AbstractElement
 
         $noteId = count($parentWriter->getNotes()) + 1;
         $noteMark = $this->noteType . '-' . $this->element->getRelationId();
-        $content = "<a name=\"{$noteMark}\"><a href=\"#note-{$noteId}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";
+        $content = "<a name=\"{$noteMark}\"><a href=\"#note-{$noteId}\" class=\"NoteRef\"><sup>{$noteId}</sup></a></a>";
 
         $parentWriter->addNote($noteId, $noteMark);
 
