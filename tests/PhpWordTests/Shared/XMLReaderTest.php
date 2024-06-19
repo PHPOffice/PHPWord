@@ -90,6 +90,9 @@ class XMLReaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testThrowsExceptionOnZipArchiveOpenErrors(): void
     {
+        /**
+         * @var string
+         */
         $tempPath = tempnam(sys_get_temp_dir(), 'PhpWord');
 
         // Simulate a corrupt archive
