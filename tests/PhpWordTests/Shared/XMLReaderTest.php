@@ -93,18 +93,18 @@ class XMLReaderTest extends \PHPUnit\Framework\TestCase
         $tempPath = tempnam(sys_get_temp_dir(), 'PhpWord');
 
         // Simulate a corrupt archive
-        file_put_contents($tempPath, rand());
+        file_put_contents($tempPath, mt_rand());
 
         $exceptionMessage = null;
-        try{
+
+        try {
             $reader = new XMLReader();
             $reader->getDomFromZip($tempPath, 'test.xml');
-        }
-        catch(\Exception $e){
+        } catch (Exception $e) {
             $exceptionMessage = $e->getMessage();
         }
 
-        $this->assertNotNull($exceptionMessage);
+        self::assertNotNull($exceptionMessage);
 
         unlink($tempPath);
     }
