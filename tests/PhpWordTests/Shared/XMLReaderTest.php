@@ -86,6 +86,30 @@ class XMLReaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test that read from invalid archive throws exception.
+     */
+    public function testThrowsExceptionOnZipArchiveOpenErrors(): void
+    {
+        $tempPath = tempnam(sys_get_temp_dir(), 'PhpWord');
+
+        // Simulate a corrupt archive
+        file_put_contents($tempPath, rand());
+
+        $exceptionMessage = null;
+        try{
+            $reader = new XMLReader();
+            $reader->getDomFromZip($tempPath, 'test.xml');
+        }
+        catch(\Exception $e){
+            $exceptionMessage = $e->getMessage();
+        }
+
+        $this->assertNotNull($exceptionMessage);
+
+        unlink($tempPath);
+    }
+
+    /**
      * Test elements count.
      */
     public function testCountElements(): void
