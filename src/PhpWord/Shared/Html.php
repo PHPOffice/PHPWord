@@ -956,7 +956,6 @@ class Html
                 fclose($ifp);
             }
         }
-        $src = urldecode($src);
 
         if (!is_file($src)
             && null !== self::$options
