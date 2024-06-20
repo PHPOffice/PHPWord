@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- *
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -27,6 +27,7 @@ class Converter
     const INCH_TO_PIXEL = 96;
     const INCH_TO_POINT = 72;
     const INCH_TO_PICA = 6;
+    const TWIP_TO_INCH = 0.0006944444;
     const PIXEL_TO_EMU = 9525;
     const DEGREE_TO_ANGLE = 60000;
 
@@ -39,7 +40,7 @@ class Converter
      */
     public static function cmToTwip($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM * self::INCH_TO_TWIP;
+        return (float)bcmul(bcdiv($centimeter, self::INCH_TO_CM, 10), self::INCH_TO_TWIP, 10);
     }
 
     /**
@@ -51,7 +52,7 @@ class Converter
      */
     public static function cmToInch($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM;
+        return (float)bcdiv($centimeter, self::INCH_TO_CM, 10);
     }
 
     /**
@@ -63,7 +64,7 @@ class Converter
      */
     public static function cmToPixel($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM * self::INCH_TO_PIXEL;
+        return (float)bcmul(bcdiv($centimeter, self::INCH_TO_CM, 10), self::INCH_TO_PIXEL, 10);
     }
 
     /**
@@ -75,7 +76,7 @@ class Converter
      */
     public static function cmToPoint($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM * self::INCH_TO_POINT;
+        return (float)bcmul(bcdiv($centimeter, self::INCH_TO_CM, 10), self::INCH_TO_POINT, 10);
     }
 
     /**
@@ -87,7 +88,11 @@ class Converter
      */
     public static function cmToEmu($centimeter = 1)
     {
-        return round($centimeter / self::INCH_TO_CM * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+        return round((float)bcmul(bcmul(
+            bcdiv($centimeter, self::INCH_TO_CM, 10),
+            self::INCH_TO_PIXEL,
+            10
+        ), self::PIXEL_TO_EMU, 10));
     }
 
     /**
@@ -99,7 +104,7 @@ class Converter
      */
     public static function inchToTwip($inch = 1)
     {
-        return $inch * self::INCH_TO_TWIP;
+        return (float)bcmul($inch, self::INCH_TO_TWIP, 10);
     }
 
     /**
@@ -111,7 +116,7 @@ class Converter
      */
     public static function inchToCm($inch = 1)
     {
-        return $inch * self::INCH_TO_CM;
+        return (float)bcmul($inch, self::INCH_TO_CM, 10);
     }
 
     /**
@@ -123,7 +128,7 @@ class Converter
      */
     public static function inchToPixel($inch = 1)
     {
-        return $inch * self::INCH_TO_PIXEL;
+        return (float)bcmul($inch, self::INCH_TO_PIXEL, 10);
     }
 
     /**
@@ -135,7 +140,7 @@ class Converter
      */
     public static function inchToPoint($inch = 1)
     {
-        return $inch * self::INCH_TO_POINT;
+        return (float)bcmul($inch, self::INCH_TO_POINT, 10);
     }
 
     /**
@@ -147,7 +152,7 @@ class Converter
      */
     public static function inchToEmu($inch = 1)
     {
-        return round($inch * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+        return (int)bcmul(bcmul($inch, self::INCH_TO_PIXEL, 10), self::PIXEL_TO_EMU, 10);
     }
 
     /**
@@ -159,7 +164,7 @@ class Converter
      */
     public static function pixelToTwip($pixel = 1)
     {
-        return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_TWIP;
+        return (float)bcmul(bcdiv($pixel, self::INCH_TO_PIXEL, 10), self::INCH_TO_TWIP, 10);
     }
 
     /**
@@ -171,7 +176,7 @@ class Converter
      */
     public static function pixelToCm($pixel = 1)
     {
-        return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_CM;
+        return (float)bcmul(bcdiv($pixel, self::INCH_TO_PIXEL, 10), self::INCH_TO_CM, 10);
     }
 
     /**
@@ -183,7 +188,7 @@ class Converter
      */
     public static function pixelToPoint($pixel = 1)
     {
-        return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_POINT;
+        return (float)bcmul(bcdiv($pixel, self::INCH_TO_PIXEL, 10), self::INCH_TO_POINT, 10);
     }
 
     /**
@@ -195,7 +200,7 @@ class Converter
      */
     public static function pixelToEmu($pixel = 1)
     {
-        return round($pixel * self::PIXEL_TO_EMU);
+        return (int)bcmul($pixel, self::PIXEL_TO_EMU, 10);
     }
 
     /**
@@ -207,7 +212,7 @@ class Converter
      */
     public static function pointToTwip($point = 1)
     {
-        return $point / self::INCH_TO_POINT * self::INCH_TO_TWIP;
+        return (float)bcmul(bcdiv($point, self::INCH_TO_POINT, 10), self::INCH_TO_TWIP, 10);
     }
 
     /**
@@ -219,7 +224,7 @@ class Converter
      */
     public static function pointToPixel($point = 1)
     {
-        return $point / self::INCH_TO_POINT * self::INCH_TO_PIXEL;
+        return (float)bcmul(bcdiv($point, self::INCH_TO_POINT, 10), self::INCH_TO_PIXEL, 10);
     }
 
     /**
@@ -231,7 +236,7 @@ class Converter
      */
     public static function pointToEmu($point = 1)
     {
-        return round($point / self::INCH_TO_POINT * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+        return (float)bcmul(bcdiv($point, self::INCH_TO_POINT, 10), self::PIXEL_TO_EMU, 10);
     }
 
     /**
@@ -243,7 +248,7 @@ class Converter
      */
     public static function pointToCm($point = 1)
     {
-        return $point / self::INCH_TO_POINT * self::INCH_TO_CM;
+        return (float)bcmul(bcdiv($point, self::INCH_TO_POINT, 10), self::INCH_TO_CM, 10);
     }
 
     /**
@@ -255,7 +260,7 @@ class Converter
      */
     public static function emuToPixel($emu = 1)
     {
-        return round($emu / self::PIXEL_TO_EMU);
+        return (float)bcdiv($emu, self::PIXEL_TO_EMU, 10);
     }
 
     /**
@@ -267,7 +272,19 @@ class Converter
      */
     public static function picaToPoint($pica = 1)
     {
-        return $pica / self::INCH_TO_PICA * self::INCH_TO_POINT;
+        return (float)bcmul(bcdiv($pica, self::INCH_TO_PICA, 10), self::INCH_TO_POINT, 10);
+    }
+
+    /**
+     * Convert twip to inch.
+     *
+     * @param float $twip
+     * @return float
+     * @since 0.19.0
+     */
+    public static function twipToInch($twip = 1)
+    {
+        return (float)bcmul($twip, self::TWIP_TO_INCH, 10);
     }
 
     /**
@@ -279,7 +296,7 @@ class Converter
      */
     public static function degreeToAngle($degree = 1)
     {
-        return (int) round($degree * self::DEGREE_TO_ANGLE);
+        return (int)round(bcmul($degree, self::DEGREE_TO_ANGLE, 10));
     }
 
     /**
@@ -291,7 +308,7 @@ class Converter
      */
     public static function angleToDegree($angle = 1)
     {
-        return round($angle / self::DEGREE_TO_ANGLE);
+        return (int)round(bcdiv($angle, self::DEGREE_TO_ANGLE, 10));
     }
 
     /**
@@ -344,7 +361,7 @@ class Converter
      *
      * @param string $value HTML Color in hexadecimal
      *
-     * @return array Value in RGB
+     * @return array|false Value in RGB
      */
     public static function htmlToRgb($value)
     {

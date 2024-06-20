@@ -36,6 +36,7 @@ class TextBox extends Image
         }
         $style = $element->getStyle();
         $styleWriter = new TextBoxStyleWriter($xmlWriter, $style);
+        $fillColor = $style->getFillColor();
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
@@ -47,6 +48,7 @@ class TextBox extends Image
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t0202');
+        $xmlWriter->writeAttributeIf($fillColor, 'fillcolor', $fillColor);
 
         if ($style->getBgColor()) {
             $xmlWriter->writeAttribute('fillcolor', $style->getBgColor());
@@ -55,7 +57,10 @@ class TextBox extends Image
         $styleWriter->write();
         $styleWriter->writeBorder();
 
+        $xmlWriter->writeElementIf($fillColor, 'v:fill', 'color2', $fillColor);
+
         $xmlWriter->startElement('v:textbox');
+        $xmlWriter->writeAttributeIf($style->isFitShapeToText(), 'style', 'mso-fit-shape-to-text:t');
         $styleWriter->writeInnerMargin();
 
         // TextBox content, serving as a container

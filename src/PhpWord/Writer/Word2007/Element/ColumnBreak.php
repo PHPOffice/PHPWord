@@ -11,32 +11,33 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- *
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Element;
+namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
- * Header element.
+ * ColumBreak element writer
+ *
+ * @since 0.19.0
  */
-class Header extends Footer
+class ColumnBreak extends AbstractElement
 {
     /**
-     * @var string Container type
+     * {@inheritdoc}
      */
-    protected $container = 'Header';
+    protected $withoutP = true;
 
     /**
-     * Add a Watermark Element.
+     * Write element.
      *
-     * @param string $src
-     * @param mixed $style
-     *
-     * @return Image
+     * @usedby \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement::startElementP()
      */
-    public function addWatermark(string $src, $style = null): Image
+    public function write()
     {
-        return $this->addImage($src, $style, true);
+        $xmlWriter = $this->getXmlWriter();
+
+        $xmlWriter->writeElementBlock('w:br', 'w:type', 'column');
     }
 }

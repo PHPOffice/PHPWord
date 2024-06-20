@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- *
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -39,6 +39,7 @@ use PhpOffice\PhpWord\Exception\Exception;
  * @method Style\Font addFontStyle(string $styleName, mixed $fontStyle, mixed $paragraphStyle = null)
  * @method Style\Font addLinkStyle(string $styleName, mixed $styles)
  * @method Style\Font addTitleStyle(mixed $depth, mixed $fontStyle, mixed $paragraphStyle = null)
+ * @method Style\Font addTocStyle(mixed $depth, mixed $fontStyle, mixed $paragraphStyle = null)
  * @method Style\Table addTableStyle(string $styleName, mixed $styleTable, mixed $styleFirstRow = null)
  * @method Style\Numbering addNumberingStyle(string $styleName, mixed $styles)
  */
@@ -118,7 +119,7 @@ class PhpWord
             $addCollection[] = strtolower("add{$collection}");
         }
 
-        $styles = ['Paragraph', 'Font', 'Table', 'Numbering', 'Link', 'Title'];
+        $styles = ['Paragraph', 'Font', 'Table', 'Numbering', 'Link', 'Title', 'Toc'];
         foreach ($styles as $style) {
             $addStyle[] = strtolower("add{$style}Style");
         }
