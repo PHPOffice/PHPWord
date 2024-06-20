@@ -82,8 +82,8 @@ class Body extends AbstractPart
                 $method = 'get' . ($noteType == 'endnote' ? 'Endnotes' : 'Footnotes');
                 $collection = $phpWord->$method()->getItems();
 
-                if (isset($collection[$noteTypeId])) {
-                    $element = $collection[$noteTypeId];
+                if (isset($collection[$noteId])) {
+                    $element = $collection[$noteId];
                     $noteAnchor = "<a name=\"note-{$noteId}\" />";
                     $noteAnchor .= "<a href=\"#{$noteMark}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";
 
