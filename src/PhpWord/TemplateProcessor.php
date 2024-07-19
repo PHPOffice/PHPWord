@@ -321,11 +321,16 @@ class TemplateProcessor
      * depending on the types of elements to insert.
      *
      * @param \PhpOffice\PhpWord\Element\AbstractElement[] $elements
+     * @param bool $inheritStyle
+     *   If TRUE the style will be inherited from the paragraph/text run the macro
+     *   is inside. If the element already contains styles, they will be merged.
+     *
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function setElementsValue(string $search, array $elements): void
-    {
-        $elementsData = '';
-        $hasParagraphs = false;
+    public function setElementsValue(string $search, array $elements, bool $inheritStyle = FALSE): void {
+        $search = static::ensureMacroCompleted($search);
+        $elementsDataList = [];
+        $hasParagraphs = FALSE;
         foreach ($elements as $element) {
             $elementName = substr(
                 get_class($element),
@@ -334,24 +339,37 @@ class TemplateProcessor
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
             // For inline elements, do not create a new paragraph.
-            $withParagraph = Writer\Word2007\Element\Text::class !== $objectClass;
+            $withParagraph = \PhpOffice\PhpWord\Writer\Word2007\Element\Text::class !== $objectClass;
             $hasParagraphs = $hasParagraphs || $withParagraph;
 
             $xmlWriter = new XMLWriter();
             /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
             $elementWriter = new $objectClass($xmlWriter, $element, !$withParagraph);
             $elementWriter->write();
-            $elementsData .= $xmlWriter->getData();
+            $elementsDataList[] = preg_replace('/>\s+</', '><', $xmlWriter->getData());
         }
         $blockType = $hasParagraphs ? 'w:p' : 'w:r';
         $where = $this->findContainingXmlBlockForMacro($search, $blockType);
         if (is_array($where)) {
             /** @phpstan-var array{start: int, end: int} $where */
             $block = $this->getSlice($where['start'], $where['end']);
-            $parts = $hasParagraphs ? $this->splitParagraphIntoParagraphs($block) : $this->splitTextIntoTexts($block);
+            $paragraphStyle = '';
+            $textRunStyle = '';
+            $parts = $hasParagraphs
+                ? $this->splitParagraphIntoParagraphs($block, $paragraphStyle, $textRunStyle)
+                : $this->splitTextIntoTexts($block, $textRunStyle);
+            if ($inheritStyle) {
+                $elementsDataList = preg_replace_callback_array([
+                    '#<w:pPr/>#' => fn() => $paragraphStyle,
+                    '#<w:pPr.*</w:pPr>#' => fn (array $matches) => StyleMerger::mergeStyles($matches[0], $paragraphStyle),
+                    // <w:pPr> may contain <w:rPr> itself so we have to match for <w:rPr> inside of <w:r>
+                    '#<w:r><w:rPr/>.*</w:r>#' => fn(array $matches) => str_replace('<w:rPr/>', $textRunStyle, $matches[0]),
+                    '#<w:r>.*(<w:rPr.*</w:rPr>).*</w:r>#' => fn (array $matches) =>
+                    preg_replace('#<w:rPr.*</w:rPr>#', StyleMerger::mergeStyles($matches[1], $textRunStyle), $matches[0]),
+                ], $elementsDataList);
+            }
             $this->replaceXmlBlock($search, $parts, $blockType);
-            $search = static::ensureMacroCompleted($search);
-            $this->replaceXmlBlock($search, $elementsData, $blockType);
+            $this->replaceXmlBlock($search, implode('', $elementsDataList), $blockType);
         }
     }
 
@@ -1480,71 +1498,101 @@ class TemplateProcessor
     }
 
     /**
-     * Splits a w:r/w:t into a list of w:r where each ${macro} is in a separate w:r.
+     * Adds output parameter for extracted style.
      *
      * @param string $text
+     * @param string $extractedStyle
+     *   Is set to the extracted text run style (w:rPr).
      *
      * @return string
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    protected function splitTextIntoTexts($text)
-    {
+    protected function splitTextIntoTexts($text, string &$extractedStyle = '') {
+        if (NULL === $unformattedText = preg_replace('/>\s+</', '><', $text)) {
+            throw new Exception('Error processing PhpWord document.');
+        }
+
+        $matches = [];
+        preg_match('/<w:rPr.*<\/w:rPr>/i', $unformattedText, $matches);
+        $extractedStyle = $matches[0] ?? '';
+
         if (!$this->textNeedsSplitting($text)) {
             return $text;
         }
-        $matches = [];
-        if (preg_match('/(<w:rPr.*<\/w:rPr>)/i', $text, $matches)) {
-            $extractedStyle = $matches[0];
-        } else {
-            $extractedStyle = '';
-        }
 
-        $unformattedText = preg_replace('/>\s+</', '><', $text);
-        $result = str_replace([self::$macroOpeningChars, self::$macroClosingChars], ['</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">' . self::$macroOpeningChars, self::$macroClosingChars . '</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'], $unformattedText);
+        $result = str_replace(
+            ['<w:t>', '${', '}'],
+            [
+                '<w:t xml:space="preserve">',
+                '</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">${',
+                '}</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">',
+            ],
+            $unformattedText
+        );
 
-        return str_replace(['<w:r>' . $extractedStyle . '<w:t xml:space="preserve"></w:t></w:r>', '<w:r><w:t xml:space="preserve"></w:t></w:r>', '<w:t>'], ['', '', '<w:t xml:space="preserve">'], $result);
+        $emptyTextRun = '<w:r>' . $extractedStyle . '<w:t xml:space="preserve"></w:t></w:r>';
+
+        return str_replace($emptyTextRun, '', $result);
     }
 
     /**
      * Splits a w:p into a list of w:p where each ${macro} is in a separate w:p.
+     *
+     * @param string $extractedParagraphStyle
+     *   Is set to the extracted paragraph style (w:pPr).
+     * @param string $extractedTextRunStyle
+     *   Is set to the extracted text run style (w:rPr).
+     *
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function splitParagraphIntoParagraphs(string $paragraph): string
-    {
-        $matches = [];
-        if (1 === preg_match('/(<w:pPr.*<\/w:pPr>)/i', $paragraph, $matches)) {
-            $extractedStyle = $matches[0];
-        } else {
-            $extractedStyle = '';
-        }
-        if (null === $paragraph = preg_replace('/>\s+</', '><', $paragraph)) {
+    public function splitParagraphIntoParagraphs(
+        string $paragraph,
+        string &$extractedParagraphStyle = '',
+        string &$extractedTextRunStyle = ''
+    ): string {
+        if (NULL === $paragraph = preg_replace('/>\s+</', '><', $paragraph)) {
             throw new Exception('Error processing PhpWord document.');
         }
+
+        $matches = [];
+        preg_match('#<w:pPr.*</w:pPr>#i', $paragraph, $matches);
+        $extractedParagraphStyle = $matches[0] ?? '';
+
+        // <w:pPr> may contain <w:rPr> itself so we have to match for <w:rPr> inside of <w:r>
+        preg_match('#<w:r>.*(<w:rPr.*</w:rPr>).*</w:r>#i', $paragraph, $matches);
+        $extractedTextRunStyle = $matches[1] ?? '';
+
         $result = str_replace(
             [
+                '<w:t>',
                 '${',
                 '}',
             ],
             [
-                '</w:t></w:r></w:p><w:p>' . $extractedStyle . '<w:r><w:t xml:space="preserve">${',
-                '}</w:t></w:r></w:p><w:p>' . $extractedStyle . '<w:r><w:t xml:space="preserve">',
+                '<w:t xml:space="preserve">',
+                sprintf(
+                    '</w:t></w:r></w:p><w:p>%s<w:r><w:t xml:space="preserve">%s${',
+                    $extractedParagraphStyle,
+                    $extractedTextRunStyle
+                ),
+                sprintf(
+                    '}</w:t></w:r></w:p><w:p>%s<w:r>%s<w:t xml:space="preserve">',
+                    $extractedParagraphStyle,
+                    $extractedTextRunStyle
+                ),
             ],
             $paragraph
         );
 
         // Remove empty paragraphs that might have been created before/after the
         // macro.
-        $result = str_replace(
-            [
-                '<w:p>' . $extractedStyle . '<w:r><w:t xml:space="preserve"></w:t></w:r></w:p>',
-                '<w:p><w:r><w:t xml:space="preserve"></w:t></w:r></w:p>',
-            ],
-            [
-                '',
-                '',
-            ],
-            $result
+        $emptyParagraph = sprintf(
+            '<w:p>%s<w:r>%s<w:t xml:space="preserve"></w:t></w:r></w:p>',
+            $extractedParagraphStyle,
+            $extractedTextRunStyle
         );
 
-        return $result;
+        return str_replace($emptyParagraph, '', $result);
     }
 
     /**
