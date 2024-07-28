@@ -147,6 +147,7 @@ $objWriter->save('helloWorld.html');
 
 /* Note: we skip RTF, because it's not XML-based and requires a different example. */
 /* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
+?>
 ```
 
 More examples are provided in the [samples folder](samples/). For an easy access to those samples launch `php -S localhost:8000` in the samples directory then browse to [http://localhost:8000](http://localhost:8000) to view the samples.
