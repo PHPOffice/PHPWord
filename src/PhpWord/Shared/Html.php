@@ -472,10 +472,38 @@ class Html
             $cellStyles['gridSpan'] = $colspan - 0;
         }
 
+        $rowspan = $node->getAttribute('rowspan');
+        if (!empty($rowspan)) {
+            $cellStyles['vMerge'] = 'restart';
+        }
+        $beforespan = $node->getAttribute('beforespan');
+        if (!empty($beforespan)) {
+            $cellRowContinue = array('vMerge' => 'continue');
+            $beforecolspan = $node->getAttribute('beforecolspan');
+            if (!empty($beforecolspan)) {
+                $cellRowContinue['gridSpan'] = $beforecolspan;
+            }
+            for ($s = 1; $s <= $beforespan; $s++){
+                $element->addCell(null, $cellRowContinue);
+            }
+        }
+
         // set cell width to control column widths
         $width = $cellStyles['width'] ?? null;
         unset($cellStyles['width']); // would not apply
         $cell = $element->addCell($width, $cellStyles);
+
+        $afterspan = $node->getAttribute('afterspan');
+        if (!empty($afterspan)) {
+            $cellRowContinue = array('vMerge' => 'continue');
+            $aftercolspan = $node->getAttribute('aftercolspan');
+            if( ! empty($aftercolspan) ) {
+                $cellRowContinue['gridSpan'] = $aftercolspan;
+            }
+            for($s = 1; $s <= $afterspan; $s++) {
+                $element->addCell(null,$cellRowContinue);
+            }
+        }
 
         if (self::shouldAddTextRun($node)) {
             return $cell->addTextRun(self::filterOutNonInheritedStyles(self::parseInlineStyle($node, $styles['paragraph'])));
