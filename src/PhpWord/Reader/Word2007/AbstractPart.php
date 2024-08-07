@@ -255,7 +255,8 @@ abstract class AbstractPart
         $headingDepth = $xmlReader->elementExists('w:pPr', $domNode) ? $this->getHeadingDepth($paragraphStyle) : null;
         if ($headingDepth !== null) {
             $textContent = null;
-            $nodes = $xmlReader->getElements('w:r|w:hyperlink', $domNode);
+            // @todo Evaluate if a generic relative './/w:r' would be better fitting here.
+            $nodes = $xmlReader->getElements('w:r|w:sdt/w:sdtContent/w:r|w:hyperlink|w:sdt/w:sdtContent/w:hyperlink', $domNode);
             if ($nodes->length === 1) {
                 $textContent = htmlspecialchars($xmlReader->getValue('w:t', $nodes->item(0)), ENT_QUOTES, 'UTF-8');
             } else {
