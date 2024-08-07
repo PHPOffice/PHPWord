@@ -62,7 +62,7 @@ class Html
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
      * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
      */
-    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null): void
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null, $loadHtml = false): void
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
@@ -88,7 +88,7 @@ class Html
         }
         $dom = new DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
-        $dom->loadXML($html);
+        $loadHtml ? $dom->loadHTML($html) : $dom->loadXML($html);
         static::$xpath = new DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
 
