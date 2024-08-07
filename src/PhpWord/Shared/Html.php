@@ -478,10 +478,10 @@ class Html
         }
         $beforespan = $node->getAttribute('beforespan');
         if (!empty($beforespan)) {
-            $cellRowContinue = array('vMerge' => 'continue');
+            $cellRowContinue = ['vMerge' => 'continue'];
             $beforecolspan = $node->getAttribute('beforecolspan');
 
-            for ($s = 1; $s <= $beforespan; $s++){
+            for ($s = 1; $s <= $beforespan; ++$s) {
                 if (!empty($beforecolspan)) {
                     if (is_numeric($beforecolspan)) {
                         $beforecolspan = (int) $beforecolspan;
@@ -502,10 +502,10 @@ class Html
 
         $afterspan = $node->getAttribute('afterspan');
         if (!empty($afterspan)) {
-            $cellRowContinue = array('vMerge' => 'continue');
+            $cellRowContinue = ['vMerge' => 'continue'];
             $aftercolspan = $node->getAttribute('aftercolspan');
 
-            for($s = 1; $s <= $afterspan; $s++) {
+            for ($s = 1; $s <= $afterspan; ++$s) {
                 if (!empty($aftercolspan)) {
                     if (is_numeric($aftercolspan)) {
                         $aftercolspan = (int) $aftercolspan;
@@ -515,7 +515,7 @@ class Html
                     }
                     $cellRowContinue['gridSpan'] = $aftercolspan;
                 }
-                $element->addCell(null,$cellRowContinue);
+                $element->addCell(null, $cellRowContinue);
             }
         }
 
