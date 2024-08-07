@@ -99,6 +99,7 @@
 /* Base Styles
 -------------------------------------------------- */
 body {
+    background-color: #fff;
     color: var(--text-color);
     font-family: var(--font-primary);
     font-size: var(--text-md);
@@ -494,7 +495,7 @@ div.phpdocumentor-list > ul,
 ol.phpdocumentor-list,
 ul.phpdocumentor-list {
     margin-top: 0;
-    padding-left: var(--spacing-md);
+    padding-left: var(--spacing-lg);
     margin-bottom: var(--spacing-sm);
 }
 
@@ -1214,6 +1215,10 @@ is too big a fix and needs to be done in a new design iteration.
     .phpdocumentor-on-this-page__content li {
         word-break: break-all;
         line-height: normal;
+    }
+
+    .phpdocumentor-on-this-page__content li.-deprecated {
+        text-decoration: line-through;
     }
 }
 

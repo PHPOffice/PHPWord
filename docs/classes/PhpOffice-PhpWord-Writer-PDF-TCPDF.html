@@ -54,7 +54,7 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
             <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="namespaces/phpoffice.html" class="">PhpOffice</a>
@@ -67,7 +67,7 @@
             </ul>
 
                         </section>
-                <section class="phpdocumentor-sidebar__category">
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -75,14 +75,14 @@
 
                         </section>
             
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -reports">
         <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
                 <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
     </section>
 
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -indices">
         <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
     </section>
@@ -132,6 +132,14 @@
 
             <p class="phpdocumentor-summary">TCPDF writer.</p>
 
+            <div class="phpdocumentor-admonition">
+        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <article>
+                <p>Use <code class="prettyprint">DomPDF</code> or <code class="prettyprint">MPDF</code> instead.</p>
+
+            </article>
+        </div>
+    
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -141,16 +149,6 @@
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">deprecated</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">0.13.0</span>
-                                                                                
-                                                 <section class="phpdocumentor-description"><p>Use <code class="prettyprint">DomPDF</code> or <code class="prettyprint">MPDF</code> instead.</p>
-</section>
-
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">see</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -167,6 +165,8 @@
                                              
                                     </dd>
                                             </dl>
+
+
 
 
 
@@ -198,133 +198,133 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_font">$font</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_font">$font</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Font.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#property_includeFile">$includeFile</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#property_includeFile">$includeFile</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Name of renderer include file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_isPdf">$isPdf</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_isPdf">$isPdf</a>
     <span>
                         &nbsp;: bool            </span>
 </dt>
 <dd>Is the current writer creating PDF?</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_mediaPaths">$mediaPaths</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_mediaPaths">$mediaPaths</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>Paths to store media files.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_notes">$notes</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_notes">$notes</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>Footnotes and endnotes collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_orientation">$orientation</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_orientation">$orientation</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Orientation.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSize">$paperSize</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSize">$paperSize</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 <dd>Paper size.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSizes">$paperSizes</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSizes">$paperSizes</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>Paper Sizes xRef List.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_parts">$parts</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_parts">$parts</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>Part name and file name pairs.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_phpWord">$phpWord</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_phpWord">$phpWord</a>
     <span>
                         &nbsp;: <a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a>            </span>
 </dt>
 <dd>PHPWord object.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_writerParts">$writerParts</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_tempDir">$tempDir</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+<dd>Temporary storage directory.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_writerParts">$writerParts</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>Individual writers.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultGenericFont">$defaultGenericFont</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultGenericFont">$defaultGenericFont</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Default generic name for default font for html.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultWhiteSpace">$defaultWhiteSpace</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultWhiteSpace">$defaultWhiteSpace</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Default white space style for html.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_diskCachingDirectory">$diskCachingDirectory</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_diskCachingDirectory">$diskCachingDirectory</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Disk caching directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_editCallback">$editCallback</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_editCallback">$editCallback</a>
     <span>
                         &nbsp;: null|callable            </span>
 </dt>
 <dd>Callback for editing generated html.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_originalFilename">$originalFilename</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_originalFilename">$originalFilename</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Original file name.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempDir">$tempDir</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-<dd>Temporary directory.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempFilename">$tempFilename</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempFilename">$tempFilename</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Temporary file name.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_useDiskCaching">$useDiskCaching</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_useDiskCaching">$useDiskCaching</a>
     <span>
                         &nbsp;: bool            </span>
 </dt>
@@ -339,154 +339,154 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method___construct">__construct()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>Create new instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_addNote">addNote()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_addNote">addNote()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Add note.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_escapeHTML">escapeHTML()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_escapeHTML">escapeHTML()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Escape string or not depending on setting.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getContent">getContent()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getContent">getContent()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get content.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultGenericFont">getDefaultGenericFont()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultGenericFont">getDefaultGenericFont()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get generic name for default font for html.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultWhiteSpace">getDefaultWhiteSpace()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultWhiteSpace">getDefaultWhiteSpace()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get default white space style for html.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getDiskCachingDirectory">getDiskCachingDirectory()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getDiskCachingDirectory">getDiskCachingDirectory()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get disk caching directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getEditCallback">getEditCallback()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getEditCallback">getEditCallback()</a>
     <span>
                                 &nbsp;: callable|null    </span>
 </dt>
 <dd>Return the callback to edit the entire HTML.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getFont">getFont()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getFont">getFont()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get Font.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getNotes">getNotes()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getNotes">getNotes()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Get notes.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getOrientation">getOrientation()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getOrientation">getOrientation()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get Orientation.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getPaperSize">getPaperSize()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getPaperSize">getPaperSize()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
 <dd>Get Paper Size.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getPhpWord">getPhpWord()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getPhpWord">getPhpWord()</a>
     <span>
                                 &nbsp;: <a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a>    </span>
 </dt>
 <dd>Get PhpWord object.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempDir">getTempDir()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempDir">getTempDir()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get temporary directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getWriterPart">getWriterPart()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getWriterPart">getWriterPart()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>Get writer part.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_isPdf">isPdf()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_isPdf">isPdf()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Get is PDF.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_isUseDiskCaching">isUseDiskCaching()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_isUseDiskCaching">isUseDiskCaching()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Get use disk caching status.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_save">save()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_save">save()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Save PhpWord to file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultGenericFont">setDefaultGenericFont()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultGenericFont">setDefaultGenericFont()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set generic name for default font for html.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultWhiteSpace">setDefaultWhiteSpace()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultWhiteSpace">setDefaultWhiteSpace()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set default white space style for html.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setEditCallback">setEditCallback()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setEditCallback">setEditCallback()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set a callback to edit the entire HTML.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setFont">setFont()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setFont">setFont()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
@@ -497,133 +497,132 @@
      &#039;arialunicid0-japanese&#039;.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setOrientation">setOrientation()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setOrientation">setOrientation()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set Orientation.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setPaperSize">setPaperSize()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setPaperSize">setPaperSize()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set Paper Size.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setPhpWord">setPhpWord()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setPhpWord">setPhpWord()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set PhpWord object.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setTempDir">setTempDir()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setTempDir">setTempDir()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set temporary directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setUseDiskCaching">setUseDiskCaching()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setUseDiskCaching">setUseDiskCaching()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set use disk caching status.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_addFilesToPackage">addFilesToPackage()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_addFilesToPackage">addFilesToPackage()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Add files to package.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_addFileToPackage">addFileToPackage()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_addFileToPackage">addFileToPackage()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Add file to package.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_cleanupTempFile">cleanupTempFile()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_cleanupTempFile">cleanupTempFile()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Cleanup temporary file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_clearTempDir">clearTempDir()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_clearTempDir">clearTempDir()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Clear temporary directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_createExternalWriterInstance">createExternalWriterInstance()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_createExternalWriterInstance">createExternalWriterInstance()</a>
     <span>
                                 &nbsp;: <abbr title="\TCPDF">TCPDF</abbr>    </span>
 </dt>
 <dd>Gets the implementation of external PDF library that should be used.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempFile">getTempFile()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempFile">getTempFile()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get temporary file name.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getZipArchive">getZipArchive()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getZipArchive">getZipArchive()</a>
     <span>
                                 &nbsp;: <a href="classes/PhpOffice-PhpWord-Shared-ZipArchive.html"><abbr title="\PhpOffice\PhpWord\Shared\ZipArchive">ZipArchive</abbr></a>    </span>
 </dt>
 <dd>Get ZipArchive object.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_openFile">openFile()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_openFile">openFile()</a>
     <span>
                                 &nbsp;: resource    </span>
 </dt>
 <dd>Open file for writing.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_prepareForSave">prepareForSave()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_prepareForSave">prepareForSave()</a>
     <span>
                                 &nbsp;: resource    </span>
 </dt>
 <dd>Save PhpWord to PDF file, pre-save.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_prepareToWrite">prepareToWrite()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_prepareToWrite">prepareToWrite()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Overwriteable function to allow user to extend TCPDF.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_restoreStateAfterSave">restoreStateAfterSave()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_restoreStateAfterSave">restoreStateAfterSave()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Save PhpWord to PDF file, post-save.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_writeFile">writeFile()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_writeFile">writeFile()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Write content to file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_deleteDir">deleteDir()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_deleteDir">deleteDir()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Delete directory.</dd>
 
     </dl>
-
 
 
 
@@ -659,6 +658,7 @@
 
         <p class="phpdocumentor-summary">Font.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -667,6 +667,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -693,6 +695,7 @@
 
         <p class="phpdocumentor-summary">Name of renderer include file.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -701,6 +704,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -727,6 +732,7 @@
 
         <p class="phpdocumentor-summary">Is the current writer creating PDF?</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">bool</span>
@@ -735,6 +741,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -761,6 +769,7 @@
 
         <p class="phpdocumentor-summary">Paths to store media files.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
@@ -769,6 +778,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -795,6 +806,7 @@
 
         <p class="phpdocumentor-summary">Footnotes and endnotes collection.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
@@ -803,6 +815,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -829,6 +843,7 @@
 
         <p class="phpdocumentor-summary">Orientation.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -837,6 +852,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -863,6 +880,7 @@
 
         <p class="phpdocumentor-summary">Paper size.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">int</span>
@@ -871,6 +889,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -897,6 +917,7 @@
 
         <p class="phpdocumentor-summary">Paper Sizes xRef List.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
     <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
@@ -905,6 +926,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -931,6 +954,7 @@
 
         <p class="phpdocumentor-summary">Part name and file name pairs.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
@@ -939,6 +963,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -965,6 +991,7 @@
 
         <p class="phpdocumentor-summary">PHPWord object.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type"><a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a></span>
@@ -973,6 +1000,45 @@
 
     
     
+    
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_tempDir">
+        $tempDir
+        <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_tempDir" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/PDF/AbstractRenderer.php"><a href="files/src-phpword-writer-pdf-abstractrenderer.html"><abbr title="src/PhpWord/Writer/PDF/AbstractRenderer.php">AbstractRenderer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">44</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Temporary storage directory.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$tempDir</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span></code>
+
+    
+    
+    
+
     
 
 </article>
@@ -999,6 +1065,7 @@
 
         <p class="phpdocumentor-summary">Individual writers.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
@@ -1007,6 +1074,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1033,6 +1102,7 @@
 
         <p class="phpdocumentor-summary">Default generic name for default font for html.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -1041,6 +1111,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1067,6 +1139,7 @@
 
         <p class="phpdocumentor-summary">Default white space style for html.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -1075,6 +1148,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1101,6 +1176,7 @@
 
         <p class="phpdocumentor-summary">Disk caching directory.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -1109,6 +1185,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1135,6 +1213,7 @@
 
         <p class="phpdocumentor-summary">Callback for editing generated html.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">null|callable</span>
@@ -1143,6 +1222,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1169,6 +1250,7 @@
 
         <p class="phpdocumentor-summary">Original file name.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -1179,38 +1261,6 @@
     
     
 
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_tempDir">
-        $tempDir
-        <a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempDir" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/AbstractWriter.php"><a href="files/src-phpword-writer-abstractwriter.html"><abbr title="src/PhpWord/Writer/AbstractWriter.php">AbstractWriter.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">80</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Temporary directory.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$tempDir</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span></code>
-
-    
-    
     
 
 </article>
@@ -1237,6 +1287,7 @@
 
         <p class="phpdocumentor-summary">Temporary file name.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -1245,6 +1296,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1271,6 +1324,7 @@
 
         <p class="phpdocumentor-summary">Use disk caching.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">bool</span>
@@ -1279,6 +1333,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1298,13 +1354,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML.php"><a href="files/src-phpword-writer-html.html"><abbr title="src/PhpWord/Writer/HTML.php">HTML.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/PDF/AbstractRenderer.php"><a href="files/src-phpword-writer-pdf-abstractrenderer.html"><abbr title="src/PhpWord/Writer/PDF/AbstractRenderer.php">AbstractRenderer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">81</span>
 
     </aside>
 
@@ -1312,21 +1368,26 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$phpWord</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$phpWord</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$phpWord</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a>|null</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/PhpOffice-PhpWord-PhpWord.html"><abbr title="\PhpOffice\PhpWord\PhpWord">PhpWord</abbr></a></span>
+                            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>PhpWord object</p>
+</section>
+
             </dd>
             </dl>
+
+    
 
     
 
@@ -1359,6 +1420,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1376,6 +1438,8 @@
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -1408,6 +1472,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1418,6 +1483,8 @@
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -1456,6 +1523,7 @@
     
     
     
+    
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
         <a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getContent#tags" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1471,6 +1539,8 @@
                                              
                                     </dd>
                                             </dl>
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1506,6 +1576,9 @@
         </div>
     
     
+    
+    
+
     
 
             <section>
@@ -1543,6 +1616,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1578,6 +1654,9 @@
         </div>
     
     
+    
+    
+
     
 
             <section>
@@ -1615,6 +1694,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1650,6 +1732,9 @@
         </div>
     
     
+    
+    
+
     
 
             <section>
@@ -1687,6 +1772,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1722,6 +1810,9 @@
         </div>
     
     
+    
+    
+
     
 
             <section>
@@ -1759,6 +1850,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1794,6 +1888,9 @@
         </div>
     
     
+    
+    
+
     
 
             <section>
@@ -1831,6 +1928,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1865,6 +1965,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1877,6 +1978,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -1910,6 +2013,9 @@
         </div>
     
     
+    
+    
+
     
 
             <section>
@@ -1947,6 +2053,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1981,6 +2090,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1991,6 +2101,8 @@
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2023,6 +2135,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2033,6 +2146,8 @@
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2069,6 +2184,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2079,6 +2195,8 @@
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2114,6 +2232,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>The callback must accept the HTML as string as first parameter,
 and it must return the edited HTML as string.</p>
 </section>
@@ -2128,6 +2247,8 @@ and it must return the edited HTML as string.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2168,6 +2289,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2178,6 +2300,8 @@ and it must return the edited HTML as string.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2214,6 +2338,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2226,6 +2351,8 @@ and it must return the edited HTML as string.</p>
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2262,6 +2389,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2274,6 +2402,8 @@ and it must return the edited HTML as string.</p>
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2310,6 +2440,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2320,6 +2451,8 @@ and it must return the edited HTML as string.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2356,6 +2489,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2366,6 +2500,8 @@ and it must return the edited HTML as string.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2402,6 +2538,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2419,6 +2556,8 @@ and it must return the edited HTML as string.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2455,6 +2594,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2472,6 +2612,8 @@ and it must return the edited HTML as string.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2503,6 +2645,7 @@ and it must return the edited HTML as string.</p>
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>Get the actual source from an archive image.</p>
 </section>
 
@@ -2530,6 +2673,8 @@ and it must return the edited HTML as string.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2564,6 +2709,9 @@ and it must return the edited HTML as string.</p>
     
     
     
+    
+
+    
 
     
 </article>
@@ -2596,6 +2744,9 @@ and it must return the edited HTML as string.</p>
     
     
     
+    
+
+    
 
     
 </article>
@@ -2625,6 +2776,7 @@ and it must return the edited HTML as string.</p>
 
     <div class="phpdocumentor-label-line">
         </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -2656,6 +2808,8 @@ and it must return the edited HTML as string.</p>
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2695,6 +2849,7 @@ and it must return the edited HTML as string.</p>
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>If $filename is php://output or php://stdout, make it a temporary file</p>
 </section>
 
@@ -2708,6 +2863,8 @@ and it must return the edited HTML as string.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2744,6 +2901,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2754,6 +2912,8 @@ and it must return the edited HTML as string.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2790,6 +2950,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2817,6 +2978,8 @@ and it must return the edited HTML as string.</p>
                                              
                                     </dd>
                                             </dl>
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -2851,6 +3014,7 @@ and it must return the edited HTML as string.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2863,6 +3027,8 @@ and it must return the edited HTML as string.</p>
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2898,6 +3064,7 @@ and it must return the edited HTML as string.</p>
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>There should always be an AddPage call, preceded or followed
 by code to customize TCPDF configuration.
 The customization below sets vertical spacing
@@ -2915,6 +3082,8 @@ explicitly set those values to numeric in default style.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2947,6 +3116,7 @@ explicitly set those values to numeric in default style.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2957,6 +3127,8 @@ explicitly set those values to numeric in default style.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2988,6 +3160,7 @@ explicitly set those values to numeric in default style.</p>
 
     <div class="phpdocumentor-label-line">
         </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -3025,6 +3198,8 @@ explicitly set those values to numeric in default style.</p>
                                             </dl>
 
     
+
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -3053,6 +3228,7 @@ explicitly set those values to numeric in default style.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -3063,6 +3239,8 @@ explicitly set those values to numeric in default style.</p>
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3181,71 +3359,71 @@ explicitly set those values to numeric in default style.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_font">$font<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#property_includeFile">$includeFile<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_isPdf">$isPdf<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_mediaPaths">$mediaPaths<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_notes">$notes<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_orientation">$orientation<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSize">$paperSize<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSizes">$paperSizes<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_parts">$parts<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_phpWord">$phpWord<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_writerParts">$writerParts<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultGenericFont">$defaultGenericFont<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultWhiteSpace">$defaultWhiteSpace<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_diskCachingDirectory">$diskCachingDirectory<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_editCallback">$editCallback<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_originalFilename">$originalFilename<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempDir">$tempDir<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempFilename">$tempFilename<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_useDiskCaching">$useDiskCaching<a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html"></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_font">$font</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#property_includeFile">$includeFile</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_isPdf">$isPdf</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_mediaPaths">$mediaPaths</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_notes">$notes</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_orientation">$orientation</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSize">$paperSize</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_paperSizes">$paperSizes</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_parts">$parts</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_phpWord">$phpWord</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#property_tempDir">$tempDir</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_writerParts">$writerParts</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultGenericFont">$defaultGenericFont</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_defaultWhiteSpace">$defaultWhiteSpace</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_diskCachingDirectory">$diskCachingDirectory</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#property_editCallback">$editCallback</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_originalFilename">$originalFilename</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_tempFilename">$tempFilename</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#property_useDiskCaching">$useDiskCaching</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method___construct">__construct()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_addNote">addNote()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_escapeHTML">escapeHTML()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getContent">getContent()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultGenericFont">getDefaultGenericFont()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultWhiteSpace">getDefaultWhiteSpace()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getDiskCachingDirectory">getDiskCachingDirectory()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getEditCallback">getEditCallback()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getFont">getFont()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getNotes">getNotes()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getOrientation">getOrientation()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getPaperSize">getPaperSize()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getPhpWord">getPhpWord()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempDir">getTempDir()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getWriterPart">getWriterPart()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_isPdf">isPdf()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_isUseDiskCaching">isUseDiskCaching()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_save">save()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultGenericFont">setDefaultGenericFont()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultWhiteSpace">setDefaultWhiteSpace()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setEditCallback">setEditCallback()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setFont">setFont()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setOrientation">setOrientation()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setPaperSize">setPaperSize()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setPhpWord">setPhpWord()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setTempDir">setTempDir()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setUseDiskCaching">setUseDiskCaching()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_addFilesToPackage">addFilesToPackage()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_addFileToPackage">addFileToPackage()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_cleanupTempFile">cleanupTempFile()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_clearTempDir">clearTempDir()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_createExternalWriterInstance">createExternalWriterInstance()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempFile">getTempFile()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getZipArchive">getZipArchive()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_openFile">openFile()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_prepareForSave">prepareForSave()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_prepareToWrite">prepareToWrite()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_restoreStateAfterSave">restoreStateAfterSave()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_writeFile">writeFile()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_deleteDir">deleteDir()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_addNote">addNote()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_escapeHTML">escapeHTML()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getContent">getContent()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultGenericFont">getDefaultGenericFont()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getDefaultWhiteSpace">getDefaultWhiteSpace()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getDiskCachingDirectory">getDiskCachingDirectory()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getEditCallback">getEditCallback()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getFont">getFont()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_getNotes">getNotes()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getOrientation">getOrientation()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_getPaperSize">getPaperSize()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getPhpWord">getPhpWord()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempDir">getTempDir()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getWriterPart">getWriterPart()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_isPdf">isPdf()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_isUseDiskCaching">isUseDiskCaching()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_save">save()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultGenericFont">setDefaultGenericFont()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setDefaultWhiteSpace">setDefaultWhiteSpace()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML.html#method_setEditCallback">setEditCallback()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setFont">setFont()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setOrientation">setOrientation()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_setPaperSize">setPaperSize()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setPhpWord">setPhpWord()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setTempDir">setTempDir()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_setUseDiskCaching">setUseDiskCaching()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_addFilesToPackage">addFilesToPackage()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_addFileToPackage">addFileToPackage()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_cleanupTempFile">cleanupTempFile()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_clearTempDir">clearTempDir()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_createExternalWriterInstance">createExternalWriterInstance()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getTempFile">getTempFile()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_getZipArchive">getZipArchive()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_openFile">openFile()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_prepareForSave">prepareForSave()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-TCPDF.html#method_prepareToWrite">prepareToWrite()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-PDF-AbstractRenderer.html#method_restoreStateAfterSave">restoreStateAfterSave()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_writeFile">writeFile()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-AbstractWriter.html#method_deleteDir">deleteDir()</a></li>
                                     </ul>
             </li>
                     </ul>

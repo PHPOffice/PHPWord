@@ -54,7 +54,7 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
             <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="namespaces/phpoffice.html" class="">PhpOffice</a>
@@ -67,7 +67,7 @@
             </ul>
 
                         </section>
-                <section class="phpdocumentor-sidebar__category">
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -75,14 +75,14 @@
 
                         </section>
             
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -reports">
         <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
                 <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
     </section>
 
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -indices">
         <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
     </section>
@@ -132,6 +132,7 @@
 
 
 
+
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
         <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
@@ -147,6 +148,8 @@
                                              
                                     </dd>
                                             </dl>
+
+
 
 
 
@@ -171,28 +174,28 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_element">$element</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_element">$element</a>
     <span>
                         &nbsp;: <a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a>            </span>
 </dt>
 <dd>Element.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html#property_noteType">$noteType</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html#property_noteType">$noteType</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Note type.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_parentWriter">$parentWriter</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_parentWriter">$parentWriter</a>
     <span>
                         &nbsp;: <a href="classes/PhpOffice-PhpWord-Writer-HTML.html"><abbr title="\PhpOffice\PhpWord\Writer\HTML">HTML</abbr></a>            </span>
 </dt>
 <dd>Parent writer.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_withoutP">$withoutP</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_withoutP">$withoutP</a>
     <span>
                         &nbsp;: bool            </span>
 </dt>
@@ -207,28 +210,27 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method___construct">__construct()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>Create new instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method_setWithoutP">setWithoutP()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method_setWithoutP">setWithoutP()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Set without paragraph.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method_write">write()</a>
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Footnote.html#method_write">write()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Write element.</dd>
+<dd>Write footnote/endnote marks; The actual content is written in parent writer (HTML).</dd>
 
     </dl>
-
 
 
 
@@ -264,6 +266,7 @@
 
         <p class="phpdocumentor-summary">Element.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type"><a href="classes/PhpOffice-PhpWord-Element-AbstractElement.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractElement">AbstractElement</abbr></a></span>
@@ -272,6 +275,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -298,6 +303,7 @@
 
         <p class="phpdocumentor-summary">Note type.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -306,6 +312,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -332,6 +340,7 @@
 
         <p class="phpdocumentor-summary">Parent writer.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type"><a href="classes/PhpOffice-PhpWord-Writer-HTML.html"><abbr title="\PhpOffice\PhpWord\Writer\HTML">HTML</abbr></a></span>
@@ -340,6 +349,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -366,6 +377,7 @@
 
         <p class="phpdocumentor-summary">Without paragraph.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">bool</span>
@@ -374,6 +386,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -412,6 +426,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -436,6 +451,8 @@
                 
             </dd>
             </dl>
+
+    
 
     
 
@@ -468,6 +485,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -482,38 +500,47 @@
     
 
     
+
+    
 </article>
                     <article
         class="phpdocumentor-element
             -method
             -public
-                        -abstract                                "
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_write">
         write()
-        <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method_write" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Footnote.html#method_write" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Element/AbstractElement.php"><a href="files/src-phpword-writer-html-element-abstractelement.html"><abbr title="src/PhpWord/Writer/HTML/Element/AbstractElement.php">AbstractElement.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/HTML/Element/Footnote.php"><a href="files/src-phpword-writer-html-element-footnote.html"><abbr title="src/PhpWord/Writer/HTML/Element/Footnote.php">Footnote.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Write element.</p>
+        <p class="phpdocumentor-summary">Write footnote/endnote marks; The actual content is written in parent writer (HTML).</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__abstract">abstract</span>                <span class="phpdocumentor-signature__name">write</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">write</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
     
+    
 
     
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
 </article>
             </section>
 
@@ -628,19 +655,19 @@
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_element">$element<a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html#property_noteType">$noteType<a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_parentWriter">$parentWriter<a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html"></li>
-                                                    <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_withoutP">$withoutP<a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html"></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_element">$element</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Endnote.html#property_noteType">$noteType</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_parentWriter">$parentWriter</a></li>
+                                                    <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#property_withoutP">$withoutP</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method___construct">__construct()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method_setWithoutP">setWithoutP()</a></li>
-                                            <li><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method_write">write()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-AbstractElement.html#method_setWithoutP">setWithoutP()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-HTML-Element-Footnote.html#method_write">write()</a></li>
                                     </ul>
             </li>
                     </ul>

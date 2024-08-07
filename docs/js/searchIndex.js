@@ -14048,7 +14048,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Title\u003A\u003AgetStyles\u0028\u0029",
             "name": "getStyles",
-            "summary": "",
+            "summary": "Get\u0020font\u0020and\u0020paragraph\u0020styles.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Title.html#method_getStyles"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Title\u003A\u003Awrite\u0028\u0029",
