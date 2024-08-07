@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\Writer\PDF\AbstractRenderer;
  *
  * @since 0.10.0
  */
-class PDF
+class PDF implements WriterInterface
 {
     /**
      * The wrapper for the requested PDF rendering engine.
@@ -38,8 +38,10 @@ class PDF
 
     /**
      * Instantiate a new renderer of the configured type within this container class.
+     *
+     * @param array $config
      */
-    public function __construct(PhpWord $phpWord)
+    public function __construct(PhpWord $phpWord, $config = [])
     {
         $pdfLibraryName = Settings::getPdfRendererName();
         $pdfLibraryPath = Settings::getPdfRendererPath();
@@ -54,7 +56,7 @@ class PDF
         }
 
         $rendererName = static::class . '\\' . $pdfLibraryName;
-        $this->renderer = new $rendererName($phpWord);
+        $this->renderer = new $rendererName($phpWord, $config);
     }
 
     /**

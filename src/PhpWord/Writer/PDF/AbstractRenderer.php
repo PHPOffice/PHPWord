@@ -76,11 +76,13 @@ abstract class AbstractRenderer extends HTML
     /**
      * Create new instance.
      *
-     * @param PhpWord $phpWord PhpWord object
+     * @param array $config
      */
-    public function __construct(PhpWord $phpWord)
+    public function __construct(PhpWord $phpWord, $config = [])
     {
-        parent::__construct($phpWord);
+        // Assign PhpWord
+        parent::__construct($phpWord, $config);
+
         $this->isPdf = true;
         if ($this->includeFile != null) {
             $includeFile = Settings::getPdfRendererPath() . '/' . $this->includeFile;

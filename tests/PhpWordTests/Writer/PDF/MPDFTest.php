@@ -46,7 +46,7 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection($oSettings); // @phpstan-ignore-line
         $section->addText('Section 2 - landscape');
 
-        $writer = new MPDF($phpWord);
+        $writer = new MPDF($phpWord, ['mode' => 'zh-cn', 'margin_top' => 28]);
         $writer->save($file);
 
         self::assertFileExists($file);
