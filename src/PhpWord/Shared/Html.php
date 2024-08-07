@@ -480,10 +480,17 @@ class Html
         if (!empty($beforespan)) {
             $cellRowContinue = array('vMerge' => 'continue');
             $beforecolspan = $node->getAttribute('beforecolspan');
-            if (!empty($beforecolspan)) {
-                $cellRowContinue['gridSpan'] = $beforecolspan;
-            }
+
             for ($s = 1; $s <= $beforespan; $s++){
+                if (!empty($beforecolspan)) {
+                    if (is_numeric($beforecolspan)) {
+                        $beforecolspan = (int) $beforecolspan;
+                    } else {
+                        $beforecolspans = json_decode($beforecolspan, true);
+                        $beforecolspan = $beforecolspans[$s - 1];
+                    }
+                    $cellRowContinue['gridSpan'] = $beforecolspan;
+                }
                 $element->addCell(null, $cellRowContinue);
             }
         }
@@ -497,10 +504,17 @@ class Html
         if (!empty($afterspan)) {
             $cellRowContinue = array('vMerge' => 'continue');
             $aftercolspan = $node->getAttribute('aftercolspan');
-            if( ! empty($aftercolspan) ) {
-                $cellRowContinue['gridSpan'] = $aftercolspan;
-            }
+
             for($s = 1; $s <= $afterspan; $s++) {
+                if (!empty($aftercolspan)) {
+                    if (is_numeric($aftercolspan)) {
+                        $aftercolspan = (int) $aftercolspan;
+                    } else {
+                        $aftercolspans = json_decode($aftercolspan, true);
+                        $aftercolspan = $aftercolspans[$s - 1];
+                    }
+                    $cellRowContinue['gridSpan'] = $aftercolspan;
+                }
                 $element->addCell(null,$cellRowContinue);
             }
         }
