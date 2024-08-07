@@ -119,6 +119,9 @@ class Head extends AbstractPart
             'td' => [
                 'border' => '1px solid black',
             ],
+            'th' => [
+                'border' => '1px solid black',
+            ],
         ] as $selector => $style) {
             $styleWriter = new GenericStyleWriter($style);
             $css .= $selector . ' {' . $styleWriter->write() . '}' . PHP_EOL;

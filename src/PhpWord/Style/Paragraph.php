@@ -69,7 +69,7 @@ class Paragraph extends Border
      *
      * @var string
      */
-    private $basedOn = 'Normal';
+    protected $basedOn = 'Normal';
 
     /**
      * Style for next paragraph.
@@ -269,30 +269,6 @@ class Paragraph extends Border
         if (Jc::isValid($value)) {
             $this->alignment = $value;
         }
-
-        return $this;
-    }
-
-    /**
-     * Get parent style ID.
-     *
-     * @return string
-     */
-    public function getBasedOn()
-    {
-        return $this->basedOn;
-    }
-
-    /**
-     * Set parent style ID.
-     *
-     * @param string $value
-     *
-     * @return self
-     */
-    public function setBasedOn($value = 'Normal')
-    {
-        $this->basedOn = $value;
 
         return $this;
     }

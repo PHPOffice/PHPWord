@@ -111,6 +111,20 @@ class Table extends Border
     private $borderInsideVColor;
 
     /**
+     * Border style inside horizontal.
+     *
+     * @var string
+     */
+    protected $borderInsideHStyle = '';
+
+    /**
+     * Border style inside vertical.
+     *
+     * @var string
+     */
+    protected $borderInsideVStyle = '';
+
+    /**
      * Shading.
      *
      * @var \PhpOffice\PhpWord\Style\Shading
@@ -167,6 +181,9 @@ class Table extends Border
      * @var ?bool
      */
     private $bidiVisual;
+
+    /** @var string */
+    private $tblStyle = '';
 
     /**
      * Create new table style.
@@ -261,6 +278,42 @@ class Table extends Border
     }
 
     /**
+     * Get border style.
+     *
+     * @return string[]
+     */
+    public function getBorderStyle()
+    {
+        return [
+            $this->getBorderTopStyle(),
+            $this->getBorderLeftStyle(),
+            $this->getBorderRightStyle(),
+            $this->getBorderBottomStyle(),
+            $this->getBorderInsideHStyle(),
+            $this->getBorderInsideVStyle(),
+        ];
+    }
+
+    /**
+     * Set border style.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setBorderStyle($value = null)
+    {
+        $this->setBorderTopStyle($value);
+        $this->setBorderLeftStyle($value);
+        $this->setBorderRightStyle($value);
+        $this->setBorderBottomStyle($value);
+        $this->setBorderInsideHStyle($value);
+        $this->setBorderInsideVStyle($value);
+
+        return $this;
+    }
+
+    /**
      * Set TLRBHV Border Size.
      *
      * @param int $value Border size in eighths of a point (1/8 point)
@@ -316,6 +369,26 @@ class Table extends Border
     }
 
     /**
+     * Get border style inside horizontal.
+     *
+     * @return string
+     */
+    public function getBorderInsideHStyle()
+    {
+        return (string) $this->getTableOnlyProperty('borderInsideHStyle');
+    }
+
+    /**
+     * Get border style inside horizontal.
+     *
+     * @return string
+     */
+    public function getBorderInsideVStyle()
+    {
+        return (string) $this->getTableOnlyProperty('borderInsideVStyle');
+    }
+
+    /**
      * Get border size inside horizontal.
      *
      * @return int
@@ -335,6 +408,34 @@ class Table extends Border
     public function setBorderInsideHSize($value = null)
     {
         return $this->setTableOnlyProperty('borderInsideHSize', $value);
+    }
+
+    /**
+     * Set border style inside horizontal.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setBorderInsideHStyle($value = '')
+    {
+        $this->setTableOnlyProperty('borderInsideHStyle', $value, false);
+
+        return $this;
+    }
+
+    /**
+     * Set border style inside horizontal.
+     *
+     * @param ?string $value
+     *
+     * @return self
+     */
+    public function setBorderInsideVStyle($value = null)
+    {
+        $this->setTableOnlyProperty('borderInsideVStyle', $value, false);
+
+        return $this;
     }
 
     /**
@@ -788,6 +889,18 @@ class Table extends Border
     public function setBidiVisual($bidi)
     {
         $this->bidiVisual = $bidi;
+
+        return $this;
+    }
+
+    public function getTblStyle(): string
+    {
+        return $this->tblStyle;
+    }
+
+    public function setTblStyle(string $tblStyle): self
+    {
+        $this->tblStyle = $tblStyle;
 
         return $this;
     }

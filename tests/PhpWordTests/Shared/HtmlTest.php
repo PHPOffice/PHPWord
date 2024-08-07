@@ -635,7 +635,7 @@ HTML;
 
         $xpath = '/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:tcPr/w:shd';
         self::assertTrue($doc->elementExists($xpath));
-        self::assertEquals('red', $doc->getElement($xpath)->getAttribute('w:fill'));
+        self::assertEquals('ff0000', $doc->getElement($xpath)->getAttribute('w:fill'));
     }
 
     /**
@@ -1016,7 +1016,7 @@ HTML;
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
         self::assertEquals((int) (5 * 15 / 2), $doc->getElement($xpath)->getAttribute('w:sz'));
-        self::assertEquals('lightblue', $doc->getElement($xpath)->getAttribute('w:color'));
+        self::assertEquals('add8e6', $doc->getElement($xpath)->getAttribute('w:color'));
 
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';
         self::assertTrue($doc->elementExists($xpath));
