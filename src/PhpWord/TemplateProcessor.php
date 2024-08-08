@@ -805,8 +805,8 @@ class TemplateProcessor
      */
     public function deleteRow(string $search): void
     {
-        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
-            $search = '${' . $search . '}';
+        if (self::$macroOpeningChars !== substr($search, 0, 2) && self::$macroClosingChars !== substr($search, -1)) {
+            $search = self::$macroOpeningChars . $search . self::$macroClosingChars;
         }
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
