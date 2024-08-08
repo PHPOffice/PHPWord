@@ -49,5 +49,8 @@ class FootnotesTest extends \PHPUnit\Framework\TestCase
 
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:footnoteReference'));
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:endnoteReference'));
+
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:p/w:r/w:footnoteReference[@w:id="0"]'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:footnoteReference[@w:id="1"]'));
     }
 }
