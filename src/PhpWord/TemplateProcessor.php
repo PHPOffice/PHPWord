@@ -890,46 +890,38 @@ class TemplateProcessor
      * @param bool $replace
      * @param bool $indexVariables If true, any variables inside the block will be indexed (postfixed with #1, #2, ...)
      * @param array $variableReplacements Array containing replacements for macros found inside the block to clone
-     *
-     * @return null|string
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null)
+    public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null): void
     {
-        $xmlBlock = null;
-        $matches = [];
-        $escapedMacroOpeningChars = self::$macroOpeningChars;
-        $escapedMacroClosingChars = self::$macroClosingChars;
-        preg_match(
-            //'/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\{{' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\{{\/' . $blockname . '}<\/w:.*?p>)/is',
-            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\\' . $escapedMacroOpeningChars . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\\' . $escapedMacroOpeningChars . '\/' . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>)/is',
-            //'/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\\'. $escapedMacroOpeningChars . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\\'.$escapedMacroOpeningChars.'\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->tempDocumentMainPart,
-            $matches
-        );
+        $open = preg_quote(self::ensureMacroCompleted($blockname));
+        $close = str_replace('/', '\/', preg_quote(self::ensureMacroCompleted("/$blockname")));
 
-        if (isset($matches[3])) {
-            $xmlBlock = $matches[3];
+        $beginRe = '(<w:p\b(?:(?!<w:p\b).)*?' . $open . '.*?<\/w:p>)';
+        $endRe = '(<w:p\b(?:(?!<w:p\b).)*?' . $close . '.*?<\/w:p>)';
+        $betweenRe = '.*?(<w:p\b(?:(?!<w:p\b).)*?.*?<\/w:p>).*?';
+        $re = "/$beginRe$betweenRe$endRe/is";
+
+        $blockMatches = [];
+        preg_match_all($re, $this->tempDocumentMainPart, $blockMatches, \PREG_SET_ORDER);
+
+        foreach ($blockMatches as $matches) {
+            $xmlBlock = $matches[2];
             if ($indexVariables) {
                 $cloned = $this->indexClonedVariables($clones, $xmlBlock);
             } elseif ($variableReplacements !== null && is_array($variableReplacements)) {
                 $cloned = $this->replaceClonedVariables($variableReplacements, $xmlBlock);
             } else {
-                $cloned = [];
-                for ($i = 1; $i <= $clones; ++$i) {
-                    $cloned[] = $xmlBlock;
-                }
+                $cloned = array_fill(0, max(0, $clones), $xmlBlock);
             }
 
             if ($replace) {
                 $this->tempDocumentMainPart = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
+                    $matches[0],
                     implode('', $cloned),
                     $this->tempDocumentMainPart
                 );
             }
         }
-
-        return $xmlBlock;
     }
 
     /**
