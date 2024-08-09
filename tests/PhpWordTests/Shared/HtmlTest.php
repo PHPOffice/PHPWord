@@ -127,7 +127,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
           background-color:red;
         }
         </style>
-        
+
         <p class="pStyle">Calculator</p>';
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -416,6 +416,38 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:p/w:pPr/w:pBdr'));
         self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:p'));
         self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:p/w:pPr/w:pBdr'));
+    }
+
+    public function testParseTableWithRowSpan(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<table style="width: 100%; border: 1px #000000 solid;" cellspacing="0" collpadding="0">
+            <thead>
+                <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
+                    <th style="text-align:center;">A</th>
+                    <th style="text-align:center;">B</th>
+                    <th style="text-align:center;">C</th>
+                    <th style="text-align:center;">D</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td > A1 </td><td colspan="2"> BC1 </td><td> D1 </td></tr>
+                <tr><td rowspan="2" colspan="2"> AB23 </td><td> C2 </td><td> D2 </td></tr>
+                <tr><td beforespan="1" beforecolspan="2" > C3 </td><td> D3 </td></tr>
+                <tr><td rowspan="3" > A456 </td><td> B4 </td><td rowspan="2" colspan="2"> CD45 </td></tr>
+                <tr><td rowspan="2" beforespan="1" afterspan="1" aftercolspan="2">B5</td></tr>
+                <tr><td beforespan="2">C6</td><td> D6 </td></tr>
+                <tr><td> A7 </td><td> B7 </td><td> C7 </td><td> D7 </td></tr>
+                <tr><td > A8 </td><td colspan="2"> BC8 </td><td > D8 </td></tr>
+                <tr><td colspan="3"> ABC9 </td><td rowspan="2"> D9 </td></tr>
+                <tr><td > A9 </td><td > B9 </td><td afterspan="1"> C9 </td></tr>
+            </tbody>
+         </table>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl'));
     }
 
     /**
