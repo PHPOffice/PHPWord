@@ -87,6 +87,29 @@ $writer = IOFactory::createWriter($oPhpWord, 'PDF');
 $writer->save(__DIR__ . '/sample.pdf');
 ```
 
+#### Specify the PDF Renderer
+
+Before PHPWord can write a PDF, you **must** specify the renderer to use and the path to it.
+Currently, three renderers are supported: 
+
+- [DomPDF](https://github.com/dompdf/dompdf)
+- [MPDF](https://mpdf.github.io/)
+- [TCPDF](https://tcpdf.org/)
+
+To specify the renderer you use two static `Settings` functions:
+
+- `setPdfRendererName`: This sets the name of the renderer library to use.
+  Provide one of [`Settings`' three `PDF_` constants](https://github.com/PHPOffice/PHPWord/blob/master/src/PhpWord/Settings.php#L39-L41) to the function call.
+- `setPdfRendererPath`: This sets the path to the renderer library. 
+  This directory is the renderer's package directory within Composer's _vendor_ directory.
+
+In the code below, you can see an example of setting MPDF as the desired PDF renderer.
+
+```php
+Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
+Settings::setPdfRendererPath(__DIR__ . '/../vendor/mpdf/mpdf');
+```
+
 ## RTF
 The name of the writer is `RTF`.
 
