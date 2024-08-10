@@ -1156,7 +1156,7 @@ parameters:
 			path: src/PhpWord/Writer/AbstractWriter.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\PhpOffice\\\\PhpWord\\\\PhpWord\\)\\: Unexpected token \"\\\\n     \\*\", expected variable at offset 78$#"
+			message: "#^PHPDoc tag @param has invalid value \\(PhpWord\\)\\: Unexpected token \"\\\\n     \\*\", expected variable at offset 59$#"
 			count: 1
 			path: src/PhpWord/Writer/AbstractWriter.php
 
@@ -1356,7 +1356,7 @@ parameters:
 			path: src/PhpWord/Writer/RTF/Style/Border.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\PhpOffice\\\\PhpWord\\\\PhpWord\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 86$#"
+			message: "#^PHPDoc tag @param has invalid value \\(PhpWord\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 67$#"
 			count: 1
 			path: src/PhpWord/Writer/Word2007.php
 
