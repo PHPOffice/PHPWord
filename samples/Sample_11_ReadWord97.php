@@ -6,7 +6,7 @@ include_once 'Sample_Header.php';
 $name = basename(__FILE__, '.php');
 $source = "resources/{$name}.doc";
 echo date('H:i:s'), " Reading contents from `{$source}`", EOL;
-$phpWord = \PhpOffice\PhpWord\IOFactory::load($source, 'MsDoc');
+$phpWord = PhpOffice\PhpWord\IOFactory::load($source, 'MsDoc');
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

@@ -134,7 +134,7 @@ abstract class AbstractStyle
     /**
      * Return style value of child style object, e.g. `left` from `Indentation` child style of `Paragraph`.
      *
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle $substyleObject
+     * @param AbstractStyle $substyleObject
      * @param string $substyleProperty
      *
      * @return mixed
@@ -325,7 +325,7 @@ abstract class AbstractStyle
     {
         $styleClass = substr(static::class, 0, strrpos(static::class, '\\')) . '\\' . $styleName;
         if (is_array($value)) {
-            /** @var \PhpOffice\PhpWord\Style\AbstractStyle $style Type hint */
+            /** @var AbstractStyle $style Type hint */
             if (!$style instanceof $styleClass) {
                 $style = new $styleClass();
             }

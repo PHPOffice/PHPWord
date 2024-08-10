@@ -7,7 +7,7 @@ include_once 'Sample_Header.php';
 
 // Template processor instance creation
 echo date('H:i:s'), ' Creating new TemplateProcessor instance...', EOL;
-$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('resources/Sample_41_TemplateSetChart.docx');
+$templateProcessor = new PhpOffice\PhpWord\TemplateProcessor('resources/Sample_41_TemplateSetChart.docx');
 
 $chartTypes = ['pie', 'doughnut', 'bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column'];
 $twoSeries = ['bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column'];

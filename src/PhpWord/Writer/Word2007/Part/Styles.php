@@ -125,7 +125,7 @@ class Styles extends AbstractPart
         if (isset($styles['Normal'])) {
             $normalStyle = $styles['Normal'];
             // w:pPr
-            if ($normalStyle instanceof Fontstyle && $normalStyle->getParagraph() != null) {
+            if ($normalStyle instanceof FontStyle && $normalStyle->getParagraph() != null) {
                 $styleWriter = new ParagraphStyleWriter($xmlWriter, $normalStyle->getParagraph());
                 $styleWriter->write();
             } elseif ($normalStyle instanceof ParagraphStyle) {

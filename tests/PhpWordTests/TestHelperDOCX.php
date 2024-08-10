@@ -42,7 +42,7 @@ class TestHelperDOCX
      *
      * @param string $writerName
      *
-     * @return \PhpOffice\PhpWordTests\XmlDocument
+     * @return XmlDocument
      */
     public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')
     {

@@ -38,14 +38,14 @@ abstract class AbstractElement
     /**
      * Parent writer.
      *
-     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @var AbstractWriter
      */
     protected $parentWriter;
 
     /**
      * Element.
      *
-     * @var \PhpOffice\PhpWord\Element\AbstractElement
+     * @var Element
      */
     protected $element;
 
@@ -66,14 +66,14 @@ abstract class AbstractElement
     /**
      * Font style.
      *
-     * @var \PhpOffice\PhpWord\Style\Font
+     * @var FontStyle
      */
     protected $fontStyle;
 
     /**
      * Paragraph style.
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph
+     * @var ParagraphStyle
      */
     protected $paragraphStyle;
 

@@ -65,7 +65,7 @@ class Row extends AbstractElement
      * @param int $width
      * @param mixed $style
      *
-     * @return \PhpOffice\PhpWord\Element\Cell
+     * @return Cell
      */
     public function addCell($width = null, $style = null)
     {

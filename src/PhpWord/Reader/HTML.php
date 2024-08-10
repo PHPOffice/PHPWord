@@ -33,7 +33,7 @@ class HTML extends AbstractReader implements ReaderInterface
      *
      * @param string $docFile
      *
-     * @return \PhpOffice\PhpWord\PhpWord
+     * @return PhpWord
      */
     public function load($docFile)
     {

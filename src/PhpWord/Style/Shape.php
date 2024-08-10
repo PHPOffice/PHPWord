@@ -51,35 +51,35 @@ class Shape extends AbstractStyle
     /**
      * Frame.
      *
-     * @var \PhpOffice\PhpWord\Style\Frame
+     * @var Frame
      */
     private $frame;
 
     /**
      * Fill.
      *
-     * @var \PhpOffice\PhpWord\Style\Fill
+     * @var Fill
      */
     private $fill;
 
     /**
      * Outline.
      *
-     * @var \PhpOffice\PhpWord\Style\Outline
+     * @var Outline
      */
     private $outline;
 
     /**
      * Shadow.
      *
-     * @var \PhpOffice\PhpWord\Style\Shadow
+     * @var Shadow
      */
     private $shadow;
 
     /**
      * 3D extrusion.
      *
-     * @var \PhpOffice\PhpWord\Style\Extrusion
+     * @var Extrusion
      */
     private $extrusion;
 
@@ -144,7 +144,7 @@ class Shape extends AbstractStyle
     /**
      * Get frame.
      *
-     * @return \PhpOffice\PhpWord\Style\Frame
+     * @return Frame
      */
     public function getFrame()
     {
@@ -168,7 +168,7 @@ class Shape extends AbstractStyle
     /**
      * Get fill.
      *
-     * @return \PhpOffice\PhpWord\Style\Fill
+     * @return Fill
      */
     public function getFill()
     {
@@ -192,7 +192,7 @@ class Shape extends AbstractStyle
     /**
      * Get outline.
      *
-     * @return \PhpOffice\PhpWord\Style\Outline
+     * @return Outline
      */
     public function getOutline()
     {
@@ -216,7 +216,7 @@ class Shape extends AbstractStyle
     /**
      * Get shadow.
      *
-     * @return \PhpOffice\PhpWord\Style\Shadow
+     * @return Shadow
      */
     public function getShadow()
     {
@@ -240,7 +240,7 @@ class Shape extends AbstractStyle
     /**
      * Get 3D extrusion.
      *
-     * @return \PhpOffice\PhpWord\Style\Extrusion
+     * @return Extrusion
      */
     public function getExtrusion()
     {

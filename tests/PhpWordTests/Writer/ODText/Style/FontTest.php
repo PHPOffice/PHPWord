@@ -42,7 +42,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addText('This is red (800) in rtf/html, default in docx/odt', ['color' => '800']);
         $section->addText('This should be cyanish (008787)', ['color' => '008787']);
-        $section->addText('This should be dark green (FGCOLOR_DARKGREEN)', ['color' => \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKGREEN]);
+        $section->addText('This should be dark green (FGCOLOR_DARKGREEN)', ['color' => Font::FGCOLOR_DARKGREEN]);
         $section->addText('This color is default (unknow)', ['color' => 'unknow']);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
@@ -219,7 +219,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $fld->setFontStyle(['color' => '008000']);
         $textrun = $section->addTextRun();
         $fld = $textrun->addField('DATE');
-        $font = new \PhpOffice\PhpWord\Style\Font();
+        $font = new Font();
         $font->setColor('000080');
         $fld->setFontStyle($font);
         $textrun = $section->addTextRun();

@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 
 // Template processor instance creation
 echo date('H:i:s') , ' Creating new TemplateProcessor instance...' , EOL;
-$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('resources/Sample_23_TemplateBlock.docx');
+$templateProcessor = new PhpOffice\PhpWord\TemplateProcessor('resources/Sample_23_TemplateBlock.docx');
 
 // Will clone everything between ${tag} and ${/tag}, the number of times. By default, 1.
 $templateProcessor->cloneBlock('CLONEME', 3);

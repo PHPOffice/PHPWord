@@ -36,7 +36,7 @@ abstract class AbstractTestReader extends \PHPUnit\Framework\TestCase
     /**
      * Builds a PhpWord instance based on the xml passed.
      *
-     * @return \PhpOffice\PhpWord\PhpWord
+     * @return PhpWord
      */
     protected function getDocumentFromString(array $partXmls = [])
     {

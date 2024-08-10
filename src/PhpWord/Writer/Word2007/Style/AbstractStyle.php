@@ -30,7 +30,7 @@ abstract class AbstractStyle
     /**
      * XML writer.
      *
-     * @var \PhpOffice\PhpWord\Shared\XMLWriter
+     * @var XMLWriter
      */
     private $xmlWriter;
 
@@ -60,7 +60,7 @@ abstract class AbstractStyle
     /**
      * Get XML Writer.
      *
-     * @return \PhpOffice\PhpWord\Shared\XMLWriter
+     * @return XMLWriter
      */
     protected function getXmlWriter()
     {
@@ -114,7 +114,7 @@ abstract class AbstractStyle
         if ($value !== null) {
             $class = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $name;
 
-            /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $writer */
+            /** @var AbstractStyle $writer */
             $writer = new $class($xmlWriter, $value);
             $writer->write();
         }

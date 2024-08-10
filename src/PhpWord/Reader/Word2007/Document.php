@@ -34,7 +34,7 @@ class Document extends AbstractPart
     /**
      * PhpWord object.
      *
-     * @var \PhpOffice\PhpWord\PhpWord
+     * @var PhpWord
      */
     private $phpWord;
 

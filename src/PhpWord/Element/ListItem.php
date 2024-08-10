@@ -35,7 +35,7 @@ class ListItem extends AbstractElement
     /**
      * Text object.
      *
-     * @var \PhpOffice\PhpWord\Element\Text
+     * @var Text
      */
     private $textObject;
 
@@ -81,7 +81,7 @@ class ListItem extends AbstractElement
     /**
      * Get Text object.
      *
-     * @return \PhpOffice\PhpWord\Element\Text
+     * @return Text
      */
     public function getTextObject()
     {

@@ -182,7 +182,7 @@ abstract class AbstractPart
     /**
      * Read w:p.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
+     * @param AbstractContainer $parent
      * @param string $docPart
      *
      * @todo Get font style for preserve text
@@ -307,7 +307,7 @@ abstract class AbstractPart
     /**
      * Read w:r.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
+     * @param AbstractContainer $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
      *

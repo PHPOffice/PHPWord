@@ -47,7 +47,7 @@ class Cell extends AbstractContainer
      * Create new instance.
      *
      * @param null|int $width
-     * @param array|\PhpOffice\PhpWord\Style\Cell $style
+     * @param array|CellStyle $style
      */
     public function __construct($width = null, $style = null)
     {

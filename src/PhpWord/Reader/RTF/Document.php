@@ -42,7 +42,7 @@ class Document
     /**
      * PhpWord object.
      *
-     * @var \PhpOffice\PhpWord\PhpWord
+     * @var PhpWord
      */
     private $phpWord;
 

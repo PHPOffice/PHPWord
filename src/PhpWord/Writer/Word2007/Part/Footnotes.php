@@ -136,7 +136,7 @@ class Footnotes extends AbstractPart
     /**
      * Write note item.
      *
-     * @param \PhpOffice\PhpWord\Element\Endnote|\PhpOffice\PhpWord\Element\Footnote $element
+     * @param Footnote|\PhpOffice\PhpWord\Element\Endnote $element
      */
     protected function writeNote(XMLWriter $xmlWriter, $element): void
     {

@@ -44,7 +44,7 @@ function phpunit10ErrorHandler(int $errno, string $errstr, string $filename, int
             return true; // message suppressed - stop error handling
         }
 
-        throw new \Exception("$errstr $filename $lineno");
+        throw new Exception("$errstr $filename $lineno");
     }
 
     return false; // continue error handling
@@ -55,7 +55,7 @@ function utf8decode(string $value, string $toEncoding = 'ISO-8859-1'): string
     return function_exists('mb_convert_encoding') ? mb_convert_encoding($value, $toEncoding, 'UTF-8') : utf8_decode($value);
 }
 
-if (!method_exists(\PHPUnit\Framework\TestCase::class, 'setOutputCallback')) {
+if (!method_exists(PHPUnit\Framework\TestCase::class, 'setOutputCallback')) {
     ini_set('error_reporting', (string) E_ALL);
     set_error_handler('phpunit10ErrorHandler');
 }

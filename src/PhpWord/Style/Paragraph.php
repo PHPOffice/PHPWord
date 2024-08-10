@@ -86,14 +86,14 @@ class Paragraph extends Border
     /**
      * Indentation.
      *
-     * @var null|\PhpOffice\PhpWord\Style\Indentation
+     * @var null|Indentation
      */
     private $indentation;
 
     /**
      * Spacing.
      *
-     * @var \PhpOffice\PhpWord\Style\Spacing
+     * @var Spacing
      */
     private $spacing;
 
@@ -156,7 +156,7 @@ class Paragraph extends Border
     /**
      * Shading.
      *
-     * @var \PhpOffice\PhpWord\Style\Shading
+     * @var Shading
      */
     private $shading;
 
@@ -324,7 +324,7 @@ class Paragraph extends Border
     /**
      * Get indentation.
      *
-     * @return null|\PhpOffice\PhpWord\Style\Indentation
+     * @return null|Indentation
      */
     public function getIndentation()
     {
@@ -392,7 +392,7 @@ class Paragraph extends Border
     /**
      * Get spacing.
      *
-     * @return \PhpOffice\PhpWord\Style\Spacing
+     * @return Spacing
      *
      * @todo Rename to getSpacing in 1.0
      */
@@ -498,7 +498,7 @@ class Paragraph extends Border
      *
      * @param string $value Possible values are defined in LineSpacingRule
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return Paragraph
      */
     public function setSpacingLineRule($value)
     {
@@ -712,7 +712,7 @@ class Paragraph extends Border
     /**
      * Get shading.
      *
-     * @return \PhpOffice\PhpWord\Style\Shading
+     * @return Shading
      */
     public function getShading()
     {

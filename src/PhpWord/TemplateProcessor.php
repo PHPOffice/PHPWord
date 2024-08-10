@@ -154,7 +154,7 @@ class TemplateProcessor
      * To replace an image: $templateProcessor->zip()->AddFromString("word/media/image1.jpg", file_get_contents($file));<br>
      * To read a file: $templateProcessor->zip()->getFromName("word/media/image1.jpg");
      *
-     * @return \PhpOffice\PhpWord\Shared\ZipArchive
+     * @return ZipArchive
      */
     public function zip()
     {
@@ -281,7 +281,7 @@ class TemplateProcessor
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
-        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        /** @var Writer\Word2007\Element\AbstractElement $elementWriter */
         $elementWriter = new $objectClass($xmlWriter, $complexType, true);
         $elementWriter->write();
 
@@ -308,7 +308,7 @@ class TemplateProcessor
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
-        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        /** @var Writer\Word2007\Element\AbstractElement $elementWriter */
         $elementWriter = new $objectClass($xmlWriter, $complexType, false);
         $elementWriter->write();
 
@@ -406,7 +406,7 @@ class TemplateProcessor
         $filename = "charts/chart{$rId}.xml";
 
         // Get the part writer
-        $writerPart = new \PhpOffice\PhpWord\Writer\Word2007\Part\Chart();
+        $writerPart = new Writer\Word2007\Part\Chart();
         $writerPart->setElement($chart);
 
         // ContentTypes.xml
@@ -1339,7 +1339,7 @@ class TemplateProcessor
      * @param string $block New block content
      * @param string $blockType XML tag type of block
      *
-     * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
+     * @return TemplateProcessor Fluent interface
      */
     public function replaceXmlBlock($macro, $block, $blockType = 'w:p')
     {

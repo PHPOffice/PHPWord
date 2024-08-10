@@ -80,7 +80,7 @@ abstract class AbstractContainer extends AbstractElement
      * @param mixed $function
      * @param mixed $args
      *
-     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     * @return AbstractElement
      */
     public function __call($function, $args)
     {
@@ -130,7 +130,7 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @param string $elementName
      *
-     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     * @return AbstractElement
      */
     protected function addElement($elementName)
     {
@@ -149,7 +149,7 @@ abstract class AbstractContainer extends AbstractElement
         $elementArgs = $args;
         array_shift($elementArgs); // Shift the $elementName off the beginning of array
 
-        /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
+        /** @var AbstractElement $element Type hint */
         $element = $reflection->newInstanceArgs($elementArgs);
 
         // Set parent container
@@ -177,7 +177,7 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @param int $index
      *
-     * @return null|\PhpOffice\PhpWord\Element\AbstractElement
+     * @return null|AbstractElement
      */
     public function getElement($index)
     {
@@ -191,13 +191,13 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Removes the element at requested index.
      *
-     * @param int|\PhpOffice\PhpWord\Element\AbstractElement $toRemove
+     * @param AbstractElement|int $toRemove
      */
     public function removeElement($toRemove): void
     {
         if (is_int($toRemove) && array_key_exists($toRemove, $this->elements)) {
             unset($this->elements[$toRemove]);
-        } elseif ($toRemove instanceof \PhpOffice\PhpWord\Element\AbstractElement) {
+        } elseif ($toRemove instanceof AbstractElement) {
             foreach ($this->elements as $key => $element) {
                 if ($element->getElementId() === $toRemove->getElementId()) {
                     unset($this->elements[$key]);

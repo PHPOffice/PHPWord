@@ -38,7 +38,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testHeaderFooterTabs(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $margins = \PhpOffice\PhpWord\Shared\Converter::INCH_TO_TWIP;
         $phpWord->addFontStyle('hdrstyle1', ['name' => 'Courier New', 'size' => 8]);
         $section = $phpWord->addSection(['paperSize' => 'Letter', 'marginTop' => $margins, 'marginBottom' => $margins]);

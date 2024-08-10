@@ -33,14 +33,14 @@ abstract class AbstractElement
     /**
      * XML writer.
      *
-     * @var \PhpOffice\PhpWord\Shared\XMLWriter
+     * @var XMLWriter
      */
     private $xmlWriter;
 
     /**
      * Element.
      *
-     * @var \PhpOffice\PhpWord\Element\AbstractElement
+     * @var Element
      */
     private $element;
 
@@ -76,7 +76,7 @@ abstract class AbstractElement
     /**
      * Get XML Writer.
      *
-     * @return \PhpOffice\PhpWord\Shared\XMLWriter
+     * @return XMLWriter
      */
     protected function getXmlWriter()
     {
@@ -86,7 +86,7 @@ abstract class AbstractElement
     /**
      * Get element.
      *
-     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     * @return Element
      */
     protected function getElement()
     {

@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // Define styles
 $paragraphStyleName = 'pStyle';
@@ -17,7 +17,7 @@ $coloredFontStyleName = 'ColoredText';
 $phpWord->addFontStyle($coloredFontStyleName, ['color' => 'FF8080', 'bgColor' => 'FFFFCC']);
 
 $linkFontStyleName = 'NLink';
-$phpWord->addLinkStyle($linkFontStyleName, ['color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE]);
+$phpWord->addLinkStyle($linkFontStyleName, ['color' => '0000FF', 'underline' => PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE]);
 
 // New portrait section
 $section = $phpWord->addSection();

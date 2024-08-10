@@ -93,14 +93,14 @@ class Settings
     /**
      * Spelling and Grammatical Checking State.
      *
-     * @var \PhpOffice\PhpWord\ComplexType\ProofState
+     * @var ProofState
      */
     private $proofState;
 
     /**
      * Document Editing Restrictions.
      *
-     * @var \PhpOffice\PhpWord\Metadata\Protection
+     * @var Protection
      */
     private $documentProtection;
 
@@ -266,7 +266,7 @@ class Settings
     /**
      * Get the Visibility of Annotation Types.
      *
-     * @return \PhpOffice\PhpWord\ComplexType\TrackChangesView
+     * @return TrackChangesView
      */
     public function getRevisionView()
     {

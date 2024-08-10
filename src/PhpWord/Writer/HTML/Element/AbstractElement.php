@@ -37,7 +37,7 @@ abstract class AbstractElement
     /**
      * Element.
      *
-     * @var \PhpOffice\PhpWord\Element\AbstractElement
+     * @var Element
      */
     protected $element;
 

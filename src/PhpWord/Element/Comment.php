@@ -91,7 +91,7 @@ class Comment extends TrackChange
     /**
      * Get the element where this comment starts.
      *
-     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     * @return AbstractElement
      */
     public function getStartElement()
     {
@@ -112,7 +112,7 @@ class Comment extends TrackChange
     /**
      * Get the element where this comment ends.
      *
-     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     * @return AbstractElement
      */
     public function getEndElement()
     {

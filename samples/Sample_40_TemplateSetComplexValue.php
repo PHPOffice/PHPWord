@@ -9,7 +9,7 @@ include_once 'Sample_Header.php';
 
 // Template processor instance creation
 echo date('H:i:s'), ' Creating new TemplateProcessor instance...', EOL;
-$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('resources/Sample_40_TemplateSetComplexValue.docx');
+$templateProcessor = new PhpOffice\PhpWord\TemplateProcessor('resources/Sample_40_TemplateSetComplexValue.docx');
 
 $title = new TextRun();
 $title->addText('This title has been set ', ['bold' => true, 'italic' => true, 'color' => 'blue']);

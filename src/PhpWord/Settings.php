@@ -29,7 +29,7 @@ class Settings
      */
     public const ZIPARCHIVE = 'ZipArchive';
     public const PCLZIP = 'PclZip';
-    public const OLD_LIB = \PhpOffice\PhpWord\Shared\ZipArchive::class; // @deprecated 0.11
+    public const OLD_LIB = Shared\ZipArchive::class; // @deprecated 0.11
 
     /**
      * PDF rendering libraries.

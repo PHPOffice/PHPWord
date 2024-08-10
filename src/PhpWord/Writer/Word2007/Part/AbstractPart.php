@@ -30,7 +30,7 @@ abstract class AbstractPart
     /**
      * Parent writer.
      *
-     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @var AbstractWriter
      */
     protected $parentWriter;
 
@@ -57,7 +57,7 @@ abstract class AbstractPart
     /**
      * Get parent writer.
      *
-     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @return AbstractWriter
      */
     public function getParentWriter()
     {
@@ -71,7 +71,7 @@ abstract class AbstractPart
     /**
      * Get XML Writer.
      *
-     * @return \PhpOffice\PhpWord\Shared\XMLWriter
+     * @return XMLWriter
      */
     protected function getXmlWriter()
     {

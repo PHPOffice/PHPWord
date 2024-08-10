@@ -195,7 +195,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testTextRunTitle(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $phpWord->addTitleStyle(1, ['name' => 'Times New Roman', 'size' => 18, 'bold' => true]);
         $section = $phpWord->addSection();
         $section->addTitle('Text Title', 1);
@@ -275,7 +275,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testTrackedChanges(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
 
         // New portrait section
         $section = $phpWord->addSection();

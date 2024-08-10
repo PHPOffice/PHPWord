@@ -61,9 +61,9 @@ abstract class IOFactory
      *
      * @param string $type
      * @param string $name
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      *
-     * @return \PhpOffice\PhpWord\Reader\ReaderInterface|\PhpOffice\PhpWord\Writer\WriterInterface
+     * @return ReaderInterface|WriterInterface
      */
     private static function createObject($type, $name, $phpWord = null)
     {
@@ -81,11 +81,11 @@ abstract class IOFactory
      * @param string $filename The name of the file
      * @param string $readerName
      *
-     * @return \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return PhpWord $phpWord
      */
     public static function load($filename, $readerName = 'Word2007')
     {
-        /** @var \PhpOffice\PhpWord\Reader\ReaderInterface $reader */
+        /** @var ReaderInterface $reader */
         $reader = self::createReader($readerName);
 
         return $reader->load($filename);
@@ -100,7 +100,7 @@ abstract class IOFactory
      */
     public static function extractVariables(string $filename, string $readerName = 'Word2007'): array
     {
-        /** @var \PhpOffice\PhpWord\Reader\ReaderInterface $reader */
+        /** @var ReaderInterface $reader */
         $reader = self::createReader($readerName);
         $document = $reader->load($filename);
         $extractedVariables = [];

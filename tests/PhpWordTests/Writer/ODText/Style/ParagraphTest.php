@@ -363,7 +363,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
      */
     public function testTextRun(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $phpWord->addParagraphStyle('parstyle1', ['align' => 'start']);
         $phpWord->addParagraphStyle('parstyle2', ['align' => 'end']);
         $section = $phpWord->addSection();
@@ -403,7 +403,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
      */
     public function testTextRunUnnamed(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $parstyle1 = ['align' => 'start'];
         $parstyle2 = ['align' => 'end'];
         $section = $phpWord->addSection();
@@ -437,7 +437,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
      */
     public function testEmptyFontAndParagraphStyles(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $phpWord->addFontStyle('namedfont', ['name' => 'Courier New', 'size' => 8]);
         $phpWord->addParagraphStyle('namedpar', ['lineHeight' => 1.08]);

@@ -7,7 +7,7 @@ include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // Begin code
 $section = $phpWord->addSection();
@@ -16,7 +16,7 @@ $section->addImage('resources/_mars.jpg');
 
 printSeparator($section);
 $section->addText('Local image with styles:');
-$section->addImage('resources/_earth.jpg', ['width' => 210, 'height' => 210, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
+$section->addImage('resources/_earth.jpg', ['width' => 210, 'height' => 210, 'alignment' => PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
 
 // Remote image
 printSeparator($section);
@@ -59,14 +59,14 @@ $section->addText('Absolute positioning: see top right corner of page');
 $section->addImage(
     'resources/_mars.jpg',
     [
-        'width' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'height' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
-        'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_RIGHT,
-        'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
-        'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
-        'marginLeft' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.5),
-        'marginTop' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(1.55),
+        'width' => Converter::cmToPixel(3),
+        'height' => Converter::cmToPixel(3),
+        'positioning' => PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
+        'posHorizontal' => PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_RIGHT,
+        'posHorizontalRel' => PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
+        'posVerticalRel' => PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
+        'marginLeft' => Converter::cmToPixel(15.5),
+        'marginTop' => Converter::cmToPixel(1.55),
     ]
 );
 
@@ -77,13 +77,13 @@ $section->addText('Vertical position top relative to line');
 $section->addImage(
     'resources/_mars.jpg',
     [
-        'width' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'height' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
-        'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
-        'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
-        'posVertical' => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
-        'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
+        'width' => Converter::cmToPixel(3),
+        'height' => Converter::cmToPixel(3),
+        'positioning' => PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
+        'posHorizontal' => PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
+        'posHorizontalRel' => PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
+        'posVertical' => PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
+        'posVerticalRel' => PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
     ]
 );
 

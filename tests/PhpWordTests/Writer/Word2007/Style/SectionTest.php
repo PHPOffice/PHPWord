@@ -40,7 +40,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
     public function testMarginInInches(): void
     {
         $unit = Settings::getMeasurementUnit();
-        Settings::setMeasurementUnit(\PhpOffice\PhpWord\Settings::UNIT_INCH);
+        Settings::setMeasurementUnit(Settings::UNIT_INCH);
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();

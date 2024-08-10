@@ -80,7 +80,7 @@ class ContentTypes extends AbstractPart
     /**
      * Write content types element.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
+     * @param XMLWriter $xmlWriter XML Writer
      * @param array $parts
      * @param bool $isDefault
      */

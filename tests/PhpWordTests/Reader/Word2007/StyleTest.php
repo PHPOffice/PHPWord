@@ -67,7 +67,7 @@ class StyleTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
         self::assertNotNull($elements[0]->getStyle()->getPosition());
         self::assertInstanceOf('PhpOffice\PhpWord\Style\TablePosition', $elements[0]->getStyle()->getPosition());
-        /** @var \PhpOffice\PhpWord\Style\TablePosition $tableStyle */
+        /** @var TablePosition $tableStyle */
         $tableStyle = $elements[0]->getStyle()->getPosition();
         self::assertEquals(10, $tableStyle->getLeftFromText());
         self::assertEquals(20, $tableStyle->getRightFromText());
@@ -118,7 +118,7 @@ class StyleTest extends AbstractTestReader
         $elements = $phpWord->getSection(0)->getElements();
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
         self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
-        /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
+        /** @var Table $tableStyle */
         $tableStyle = $elements[0]->getStyle();
         self::assertEquals(TblWidth::AUTO, $tableStyle->getUnit());
         self::assertEquals(10.5, $tableStyle->getCellSpacing());
@@ -187,7 +187,7 @@ class StyleTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $textRun);
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
         self::assertInstanceOf('PhpOffice\PhpWord\Style\Font', $textRun->getElement(0)->getFontStyle());
-        /** @var \PhpOffice\PhpWord\Style\Font $fontStyle */
+        /** @var Style\Font $fontStyle */
         $fontStyle = $textRun->getElement(0)->getFontStyle();
         self::assertEquals(15, $fontStyle->getPosition());
     }
@@ -205,7 +205,7 @@ class StyleTest extends AbstractTestReader
         $elements = $phpWord->getSection(0)->getElements();
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
         self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
-        /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
+        /** @var Table $tableStyle */
         $tableStyle = $elements[0]->getStyle();
         self::assertSame(TblWidth::TWIP, $tableStyle->getIndent()->getType());
         self::assertSame(2160, $tableStyle->getIndent()->getValue());
@@ -224,7 +224,7 @@ class StyleTest extends AbstractTestReader
         $elements = $phpWord->getSection(0)->getElements();
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
         self::assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
-        /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
+        /** @var Table $tableStyle */
         $tableStyle = $elements[0]->getStyle();
         self::assertTrue($tableStyle->isBidiVisual());
     }
@@ -248,7 +248,7 @@ class StyleTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $textRun);
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
         self::assertInstanceOf('PhpOffice\PhpWord\Style\Font', $textRun->getElement(0)->getFontStyle());
-        /** @var \PhpOffice\PhpWord\Style\Font $fontStyle */
+        /** @var Style\Font $fontStyle */
         $fontStyle = $textRun->getElement(0)->getFontStyle();
         self::assertTrue($fontStyle->isHidden());
     }

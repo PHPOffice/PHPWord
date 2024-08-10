@@ -171,7 +171,7 @@ class Paragraph extends AbstractStyle
         $numStyle = $numbering['style'];
         $numLevel = $numbering['level'];
 
-        /** @var \PhpOffice\PhpWord\Style\Numbering $numbering */
+        /** @var Style\Numbering $numbering */
         $numbering = Style::getStyle($numStyle);
         if ($numStyle !== null && $numbering !== null) {
             $xmlWriter->startElement('w:numPr');

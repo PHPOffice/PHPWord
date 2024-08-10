@@ -50,7 +50,7 @@ class Table extends Border
     /**
      * Style for first row.
      *
-     * @var \PhpOffice\PhpWord\Style\Table
+     * @var Table
      */
     private $firstRowStyle;
 
@@ -113,7 +113,7 @@ class Table extends Border
     /**
      * Shading.
      *
-     * @var \PhpOffice\PhpWord\Style\Shading
+     * @var Shading
      */
     private $shading;
 
@@ -208,7 +208,7 @@ class Table extends Border
     /**
      * Set first row.
      *
-     * @return \PhpOffice\PhpWord\Style\Table
+     * @return Table
      */
     public function getFirstRow()
     {
@@ -538,7 +538,7 @@ class Table extends Border
     /**
      * Get shading.
      *
-     * @return \PhpOffice\PhpWord\Style\Shading
+     * @return Shading
      */
     public function getShading()
     {

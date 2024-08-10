@@ -32,7 +32,7 @@ class PDF
     /**
      * The wrapper for the requested PDF rendering engine.
      *
-     * @var \PhpOffice\PhpWord\Writer\PDF\AbstractRenderer
+     * @var AbstractRenderer
      */
     private $renderer;
 
