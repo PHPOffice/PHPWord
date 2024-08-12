@@ -472,10 +472,52 @@ class Html
             $cellStyles['gridSpan'] = $colspan - 0;
         }
 
+        $rowspan = $node->getAttribute('rowspan');
+        if (!empty($rowspan)) {
+            $cellStyles['vMerge'] = 'restart';
+        }
+        $beforespan = $node->getAttribute('beforespan');
+        if (!empty($beforespan)) {
+            $cellRowContinue = ['vMerge' => 'continue'];
+            $beforecolspan = $node->getAttribute('beforecolspan');
+
+            for ($s = 1; $s <= $beforespan; ++$s) {
+                if (!empty($beforecolspan)) {
+                    if (is_numeric($beforecolspan)) {
+                        $beforecolspan = (int) $beforecolspan;
+                    } else {
+                        $beforecolspans = json_decode($beforecolspan, true);
+                        $beforecolspan = $beforecolspans[$s - 1];
+                    }
+                    $cellRowContinue['gridSpan'] = $beforecolspan;
+                }
+                $element->addCell(null, $cellRowContinue);
+            }
+        }
+
         // set cell width to control column widths
         $width = $cellStyles['width'] ?? null;
         unset($cellStyles['width']); // would not apply
         $cell = $element->addCell($width, $cellStyles);
+
+        $afterspan = $node->getAttribute('afterspan');
+        if (!empty($afterspan)) {
+            $cellRowContinue = ['vMerge' => 'continue'];
+            $aftercolspan = $node->getAttribute('aftercolspan');
+
+            for ($s = 1; $s <= $afterspan; ++$s) {
+                if (!empty($aftercolspan)) {
+                    if (is_numeric($aftercolspan)) {
+                        $aftercolspan = (int) $aftercolspan;
+                    } else {
+                        $aftercolspans = json_decode($aftercolspan, true);
+                        $aftercolspan = $aftercolspans[$s - 1];
+                    }
+                    $cellRowContinue['gridSpan'] = $aftercolspan;
+                }
+                $element->addCell(null, $cellRowContinue);
+            }
+        }
 
         if (self::shouldAddTextRun($node)) {
             return $cell->addTextRun(self::filterOutNonInheritedStyles(self::parseInlineStyle($node, $styles['paragraph'])));

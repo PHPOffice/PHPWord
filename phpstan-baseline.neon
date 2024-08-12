@@ -397,7 +397,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method DOMNode\\:\\:getAttribute\\(\\)\\.$#"
-			count: 1
+			count: 6
 			path: src/PhpWord/Shared/Html.php
 
 		-
