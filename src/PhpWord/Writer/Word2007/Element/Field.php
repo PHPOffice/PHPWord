@@ -17,6 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Element\Field as ElementField;
+use PhpOffice\PhpWord\Element\TextRun;
+
 /**
  * Field element writer.
  *
@@ -30,7 +33,7 @@ class Field extends Text
     public function write(): void
     {
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Field) {
+        if (!$element instanceof ElementField) {
             return;
         }
 
@@ -42,7 +45,7 @@ class Field extends Text
         }
     }
 
-    private function writeDefault(\PhpOffice\PhpWord\Element\Field $element): void
+    private function writeDefault(ElementField $element): void
     {
         $xmlWriter = $this->getXmlWriter();
         $this->startElementP();
@@ -73,7 +76,7 @@ class Field extends Text
         $xmlWriter->endElement(); // w:r
 
         if ($element->getText() != null) {
-            if ($element->getText() instanceof \PhpOffice\PhpWord\Element\TextRun) {
+            if ($element->getText() instanceof TextRun) {
                 $containerWriter = new Container($xmlWriter, $element->getText(), true);
                 $containerWriter->write();
 
@@ -120,7 +123,7 @@ class Field extends Text
      *
      * //TODO A lot of code duplication with general method, should maybe be refactored
      */
-    protected function writeMacrobutton(\PhpOffice\PhpWord\Element\Field $element): void
+    protected function writeMacrobutton(ElementField $element): void
     {
         $xmlWriter = $this->getXmlWriter();
         $this->startElementP();
@@ -159,7 +162,7 @@ class Field extends Text
         $this->endElementP(); // w:p
     }
 
-    private function buildPropertiesAndOptions(\PhpOffice\PhpWord\Element\Field $element)
+    private function buildPropertiesAndOptions(ElementField $element)
     {
         $propertiesAndOptions = '';
         $properties = $element->getProperties();
@@ -228,11 +231,9 @@ class Field extends Text
     }
 
     /**
-     * Writes a REF field
-     *
-     * @param \PhpOffice\PhpWord\Element\Field $element
+     * Writes a REF field.
      */
-    protected function writeRef(\PhpOffice\PhpWord\Element\Field $element)
+    protected function writeRef(ElementField $element): void
     {
         $xmlWriter = $this->getXmlWriter();
         $this->startElementP();
@@ -303,7 +304,7 @@ class Field extends Text
         $this->endElementP(); // w:p
     }
 
-    private function convertRefOption($optionKey, $optionValue)
+    private function convertRefOption(string $optionKey, string $optionValue): string
     {
         if ($optionKey === 'NumberSeperatorSequence') {
             return '\\d ' . $optionValue;
