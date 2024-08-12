@@ -5067,7 +5067,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "phpstan/phpstan-phpunit": 0
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
