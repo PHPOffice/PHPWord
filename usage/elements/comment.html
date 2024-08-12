@@ -1994,7 +1994,7 @@
 
 <h1 id="comment">Comment</h1>
 <p>Comments can be added to a document by using <code>addComment</code>.
-The comment can contain formatted text. Once the comment has been added, it can be linked to any element with <code>setCommentStart</code>.</p>
+The comment can contain formatted text. Once the comment has been added, it can be linked to any element with <code>setCommentRangeStart</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// first create a comment</span>
@@ -2008,9 +2008,10 @@ The comment can contain formatted text. Once the comment has been added, it can 
 <span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;This &#39;</span><span class="p">);</span>
 <span class="nv">$text</span> <span class="o">=</span> <span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;is&#39;</span><span class="p">);</span>
 <span class="c1">// link the comment to the text you just created</span>
-<span class="nv">$text</span><span class="o">-&gt;</span><span class="na">setCommentStart</span><span class="p">(</span><span class="nv">$comment</span><span class="p">);</span>
+<span class="nv">$text</span><span class="o">-&gt;</span><span class="na">setCommentRangeStart</span><span class="p">(</span><span class="nv">$comment</span><span class="p">);</span>
+<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39; a test&#39;</span><span class="p">);</span>
 </code></pre></div>
-<p>If no end is set for a comment using the <code>setCommentEnd</code>, the comment will be ended automatically at the end of the element it is started on.</p>
+<p>If no end is set for a comment using the <code>setCommentRangeEnd</code>, the comment will be ended automatically at the end of the element it is started on.</p>
 
 
 
