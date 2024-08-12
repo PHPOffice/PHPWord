@@ -386,8 +386,9 @@ class Image extends AbstractElement
             $imageBinary = $this->source;
         } else {
             $fileHandle = fopen($actualSource, 'rb', false);
-            if ($fileHandle !== false) {
-                $imageBinary = fread($fileHandle, filesize($actualSource));
+            $fileSize = filesize($actualSource);
+            if ($fileHandle !== false && $fileSize > 0) {
+                $imageBinary = fread($fileHandle, $fileSize);
                 fclose($fileHandle);
             }
         }
