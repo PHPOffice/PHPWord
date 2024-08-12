@@ -196,13 +196,10 @@ abstract class AbstractPart
         if ($xmlReader->elementExists('w:r/w:fldChar/w:ffData', $domNode)) {
             // FormField
             $partOfFormField = false;
-            $formNodes = array();
+            $formNodes = [];
             $formType = null;
-//            $field = new FormField("type", "forntsyle", "paragraphstyle"):
             $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag', $domNode);
-            if (0 === $textRunContainers) {
-                $parent->addTextBreak(null, $paragraphStyle);
-            } else {
+            if ($textRunContainers > 0) {
                 $nodes = $xmlReader->getElements('*', $domNode);
                 $paragraph = $parent->addTextRun($paragraphStyle);
                 foreach ($nodes as $node) {
@@ -312,7 +309,7 @@ abstract class AbstractPart
         // Text and TextRun
         $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag|w:commentReference|w:commentRangeStart|w:commentRangeEnd', $domNode);
         if (0 === $textRunContainers) {
-            $parent->addTextBreak(null, $paragraphStyle);
+            $parent->addTextBreak(1, $paragraphStyle);
         } else {
             $nodes = $xmlReader->getElements('*', $domNode);
             $paragraph = $parent->addTextRun($paragraphStyle);
@@ -323,15 +320,14 @@ abstract class AbstractPart
     }
 
     /**
-     * @param XMLReader $xmlReader
-     * @param \DOMElement[] $domNodes
+     * @param DOMElement[] $domNodes
      * @param AbstractContainer $parent
      * @param mixed $paragraphStyle
      * @param string $formType
      */
-    private function readFormField(XMLReader $xmlReader, array $domNodes, $parent, $paragraphStyle, $formType)
+    private function readFormField(XMLReader $xmlReader, array $domNodes, $parent, $paragraphStyle, $formType): void
     {
-        if (!in_array($formType, array('textinput', 'checkbox', 'dropdown'))) {
+        if (!in_array($formType, ['textinput', 'checkbox', 'dropdown'])) {
             return;
         }
 
@@ -339,57 +335,67 @@ abstract class AbstractPart
         $ffData = $xmlReader->getElement('w:fldChar/w:ffData', $domNodes[0]);
 
         foreach ($xmlReader->getElements('*', $ffData) as $node) {
-            /** @var \DOMElement $node */
+            /** @var DOMElement $node */
             switch ($node->localName) {
                 case 'name':
                     $formField->setName($node->getAttribute('w:val'));
+
                     break;
                 case 'ddList':
-                    $listEntries = array();
+                    $listEntries = [];
                     foreach ($xmlReader->getElements('*', $node) as $ddListNode) {
                         switch ($ddListNode->localName) {
                             case 'result':
                                 $formField->setValue($xmlReader->getAttribute('w:val', $ddListNode));
+
                                 break;
                             case 'default':
                                 $formField->setDefault($xmlReader->getAttribute('w:val', $ddListNode));
+
                                 break;
                             case 'listEntry':
                                 $listEntries[] = $xmlReader->getAttribute('w:val', $ddListNode);
+
                                 break;
                         }
                     }
                     $formField->setEntries($listEntries);
-                    if (!is_null($formField->getValue())) {
+                    if (null !== $formField->getValue()) {
                         $formField->setText($listEntries[$formField->getValue()]);
                     }
+
                     break;
                 case 'textInput':
                     foreach ($xmlReader->getElements('*', $node) as $ddListNode) {
                         switch ($ddListNode->localName) {
                             case 'default':
                                 $formField->setDefault($xmlReader->getAttribute('w:val', $ddListNode));
+
                                 break;
                             case 'format':
                             case 'maxLength':
                                 break;
                         }
                     }
+
                     break;
                 case 'checkBox':
                     foreach ($xmlReader->getElements('*', $node) as $ddListNode) {
                         switch ($ddListNode->localName) {
                             case 'default':
                                 $formField->setDefault($xmlReader->getAttribute('w:val', $ddListNode));
+
                                 break;
                             case 'checked':
                                 $formField->setValue($xmlReader->getAttribute('w:val', $ddListNode));
+
                                 break;
                             case 'size':
                             case 'sizeAuto':
                                 break;
                         }
                     }
+
                     break;
             }
         }
@@ -417,7 +423,7 @@ abstract class AbstractPart
     }
 
     /**
-     * Returns the depth of the Heading, returns 0 for a Title
+     * Returns the depth of the Heading, returns 0 for a Title.
      *
      * @return null|number
      */

@@ -357,9 +357,9 @@ class ElementTest extends AbstractTestReader
     }
 
     /**
-     * Test reading FormField - DROPDOWN
+     * Test reading FormField - DROPDOWN.
      */
-    public function testReadFormFieldDropdown()
+    public function testReadFormFieldDropdown(): void
     {
         $documentXml = '<w:p>
             <w:r>
@@ -404,28 +404,28 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
 
         $subElements = $elements[0]->getElements();
 
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
-        $this->assertEquals('Reference', $subElements[0]->getText());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
+        self::assertEquals('Reference', $subElements[0]->getText());
 
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
-        $this->assertEquals('dropdown', $subElements[1]->getType());
-        $this->assertEquals('DropDownList1', $subElements[1]->getName());
-        $this->assertEquals('2', $subElements[1]->getValue());
-        $this->assertEquals('Option Two', $subElements[1]->getText());
-        $this->assertEquals(array('TBD', 'Option One', 'Option Two', 'Option Three', 'Other'), $subElements[1]->getEntries());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
+        self::assertEquals('dropdown', $subElements[1]->getType());
+        self::assertEquals('DropDownList1', $subElements[1]->getName());
+        self::assertEquals('2', $subElements[1]->getValue());
+        self::assertEquals('Option Two', $subElements[1]->getText());
+        self::assertEquals(['TBD', 'Option One', 'Option Two', 'Option Three', 'Other'], $subElements[1]->getEntries());
     }
 
     /**
-     * Test reading FormField - textinput
+     * Test reading FormField - textinput.
      */
-    public function testReadFormFieldTextinput()
+    public function testReadFormFieldTextinput(): void
     {
         $documentXml = '<w:p>
             <w:r>
@@ -473,27 +473,27 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
 
         $subElements = $elements[0]->getElements();
 
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
-        $this->assertEquals('Fieldname', $subElements[0]->getText());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
+        self::assertEquals('Fieldname', $subElements[0]->getText());
 
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
-        $this->assertEquals('textinput', $subElements[1]->getType());
-        $this->assertEquals('TextInput2', $subElements[1]->getName());
-        $this->assertEquals('This is some sample text', $subElements[1]->getValue());
-        $this->assertEquals('This is some sample text', $subElements[1]->getText());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
+        self::assertEquals('textinput', $subElements[1]->getType());
+        self::assertEquals('TextInput2', $subElements[1]->getName());
+        self::assertEquals('This is some sample text', $subElements[1]->getValue());
+        self::assertEquals('This is some sample text', $subElements[1]->getText());
     }
 
     /**
-     * Test reading FormField - checkbox
+     * Test reading FormField - checkbox.
      */
-    public function testReadFormFieldCheckbox()
+    public function testReadFormFieldCheckbox(): void
     {
         $documentXml = '<w:p>
 			<w:pPr/>
@@ -529,18 +529,18 @@ class ElementTest extends AbstractTestReader
 			</w:r>
 		</w:p>';
 
-        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
 
         $elements = $phpWord->getSection(0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
 
         $subElements = $elements[0]->getElements();
 
 //        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
 //        $this->assertEquals('Fieldname', $subElements[0]->getText());
 
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[0]);
-        $this->assertEquals('checkbox', $subElements[0]->getType());
-        $this->assertEquals('SomeCheckbox', $subElements[0]->getName());
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[0]);
+        self::assertEquals('checkbox', $subElements[0]->getType());
+        self::assertEquals('SomeCheckbox', $subElements[0]->getName());
     }
 }
