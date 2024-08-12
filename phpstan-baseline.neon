@@ -236,11 +236,6 @@ parameters:
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php
 
 		-
-			message: "#^Parameter \\#1 \\$count of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractContainer\\:\\:addTextBreak\\(\\) expects int, null given\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/Word2007/AbstractPart.php
-
-		-
 			message: "#^Parameter \\#1 \\$depth of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractContainer\\:\\:addListItemRun\\(\\) expects int, string\\|null given\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php
