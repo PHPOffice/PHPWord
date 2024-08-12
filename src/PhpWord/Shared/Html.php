@@ -902,12 +902,34 @@ class Html
                     break;
                 case 'width':
                     $width = $attribute->value;
+
+                    // pt
+                    if (false !== strpos($width, 'pt')) {
+                        $width = Converter::pointToPixel((float) str_replace('pt', '', $width));
+                    }
+
+                    // px
+                    if (false !== strpos($width, 'px')) {
+                        $width = str_replace('px', '', $width);
+                    }
+
                     $style['width'] = $width;
                     $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
 
                     break;
                 case 'height':
                     $height = $attribute->value;
+
+                    // pt
+                    if (false !== strpos($height, 'pt')) {
+                        $height = Converter::pointToPixel((float) str_replace('pt', '', $height));
+                    }
+
+                    // px
+                    if (false !== strpos($height, 'px')) {
+                        $height = str_replace('px', '', $height);
+                    }
+
                     $style['height'] = $height;
                     $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
 
