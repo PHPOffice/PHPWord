@@ -14,4 +14,6 @@ parameters:
         - src/PhpWord/Writer/PDF/MPDF.php
     bootstrapFiles:
         - tests/bootstrap.php
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
