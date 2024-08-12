@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d0272c1442e11290de55a7947fc849c",
+    "content-hash": "15c1d733e1ddd2f424af0383ceb28dfd",
     "packages": [
         {
             "name": "phpoffice/math",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/Math.git",
-                "reference": "f0f8cad98624459c540cdd61d2a174d834471773"
+                "reference": "fc2eb6d1a61b058d5dac77197059db30ee3c8329"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/Math/zipball/f0f8cad98624459c540cdd61d2a174d834471773",
-                "reference": "f0f8cad98624459c540cdd61d2a174d834471773",
+                "url": "https://api.github.com/repos/PHPOffice/Math/zipball/fc2eb6d1a61b058d5dac77197059db30ee3c8329",
+                "reference": "fc2eb6d1a61b058d5dac77197059db30ee3c8329",
                 "shasum": ""
             },
             "require": {
@@ -32,8 +32,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "PhpOffice\\Math\\": "src/Math/",
-                    "Tests\\PhpOffice\\Math\\": "tests/Math/"
+                    "PhpOffice\\Math\\": "src/Math/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -55,9 +54,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/Math/issues",
-                "source": "https://github.com/PHPOffice/Math/tree/0.1.0"
+                "source": "https://github.com/PHPOffice/Math/tree/0.2.0"
             },
-            "time": "2023-09-25T12:08:20+00:00"
+            "time": "2024-08-12T07:30:45+00:00"
         }
     ],
     "packages-dev": [
