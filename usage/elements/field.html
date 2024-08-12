@@ -2001,6 +2001,7 @@
 <li>XE</li>
 <li>INDEX</li>
 <li>FILENAME</li>
+<li>REF</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
@@ -2014,18 +2015,26 @@ Options which are not specifically defined can be added. Those must start with a
 <p>For instance for the INDEX field, you can do the following (See <code>Index Field for list of available options &lt;https://support.office.com/en-us/article/Field-codes-Index-field-adafcf4a-cb30-43f6-85c7-743da1635d9e?ui=en-US&amp;rs=en-US&amp;ad=US&gt;</code>_ ):</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="c1">//the $fieldText can be either a simple string</span>
+<span class="c1">// the $fieldText can be either a simple string</span>
 <span class="nv">$fieldText</span> <span class="o">=</span> <span class="s1">&#39;The index value&#39;</span><span class="p">;</span>
 
-<span class="c1">//or a &#39;TextRun&#39;, to be able to format the text you want in the index</span>
+<span class="c1">// or a &#39;TextRun&#39;, to be able to format the text you want in the index</span>
 <span class="nv">$fieldText</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TextRun</span><span class="p">();</span>
 <span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;My &#39;</span><span class="p">);</span>
 <span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;bold index&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;bold&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">]);</span>
 <span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39; entry&#39;</span><span class="p">);</span>
 <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addField</span><span class="p">(</span><span class="s1">&#39;XE&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(),</span> <span class="k">array</span><span class="p">(),</span> <span class="nv">$fieldText</span><span class="p">);</span>
 
-<span class="c1">//this actually adds the index</span>
+<span class="c1">// this actually adds the index</span>
 <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addField</span><span class="p">(</span><span class="s1">&#39;INDEX&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;\\e &quot;   &quot; \\h &quot;A&quot; \\c &quot;3&quot;&#39;</span><span class="p">),</span> <span class="s1">&#39;right click to update index&#39;</span><span class="p">);</span>
+
+<span class="c1">// Adding reference to a bookmark</span>
+<span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addField</span><span class="p">(</span><span class="s1">&#39;REF&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;bookmark&#39;</span>
+<span class="p">],</span> <span class="p">[</span>
+    <span class="s1">&#39;InsertParagraphNumberRelativeContext&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;CreateHyperLink&#39;</span><span class="p">,</span>
+<span class="p">]);</span>
 </code></pre></div>
 
 

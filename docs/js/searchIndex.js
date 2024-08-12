@@ -14616,6 +14616,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Field.html#method_buildPropertiesAndOptions"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Field\u003A\u003AwriteRef\u0028\u0029",
+            "name": "writeRef",
+            "summary": "Writes\u0020a\u0020REF\u0020field.",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Field.html#method_writeRef"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Field\u003A\u003AconvertRefOption\u0028\u0029",
+            "name": "convertRefOption",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Field.html#method_convertRefOption"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Footnote",
             "name": "Footnote",
             "summary": "Footnote\u0020element\u0020writer.",
