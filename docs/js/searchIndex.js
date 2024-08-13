@@ -14011,10 +14011,25 @@ Search.appendIndex(
             "summary": "Write\u0020cell.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#method_writeCell"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table\u003A\u003AwriteCellStyle\u0028\u0029",
+            "name": "writeCellStyle",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#method_writeCellStyle"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table\u003A\u003AwriteCellBorder\u0028\u0029",
+            "name": "writeCellBorder",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#method_writeCellBorder"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table\u003A\u003AgetVMerge\u0028\u0029",
             "name": "getVMerge",
             "summary": "Get\u0020vertical\u0020merge\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#method_getVMerge"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table\u003A\u003A\u0024element",
+            "name": "element",
+            "summary": "Element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Table.html#property_element"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Text",
             "name": "Text",
