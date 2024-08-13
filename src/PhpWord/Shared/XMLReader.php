@@ -61,7 +61,15 @@ class XMLReader
         }
 
         $zip = new ZipArchive();
-        $zip->open($zipFile);
+        $openStatus = $zip->open($zipFile);
+        if ($openStatus !== true) {
+            /**
+             * Throw an exception since making further calls on the ZipArchive would cause a fatal error.
+             * This prevents fatal errors on corrupt archives and attempts to open old "doc" files.
+             */
+            throw new Exception("The archive failed to load with the following error code: $openStatus");
+        }
+
         $content = $zip->getFromName(ltrim($xmlFile, '/'));
         $zip->close();
 

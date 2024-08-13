@@ -29,6 +29,7 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Reader\Word2007;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -80,6 +81,41 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         self::assertEquals('0', $doc->getElementAttribute('/w:document/w:body/w:p/w:r[w:t/node()="italics"]/w:rPr/w:b', 'w:val'));
+    }
+
+    public function testLoadStyles(): void
+    {
+        $phpWord = IOFactory::load(dirname(__DIR__, 1) . '/_files/documents/reader-styles.docx', 'Word2007');
+
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $section2 = $phpWord->getSection(2);
+        self::assertInstanceOf(Section::class, $section2);
+
+        $element2_31 = $section2->getElement(31);
+        self::assertInstanceOf(TextRun::class, $element2_31);
+        self::assertEquals('This is a paragraph with border differents', $element2_31->getText());
+
+        /** @var Paragraph $element2_31_pStyle */
+        $element2_31_pStyle = $element2_31->getParagraphStyle();
+        self::assertInstanceOf(Paragraph::class, $element2_31_pStyle);
+
+        // Top
+        self::assertEquals('FFFF00', $element2_31_pStyle->getBorderTopColor());
+        self::assertEquals('10', $element2_31_pStyle->getBorderTopSize());
+        self::assertEquals('dotted', $element2_31_pStyle->getBorderTopStyle());
+        // Right
+        self::assertEquals('00A933', $element2_31_pStyle->getBorderRightColor());
+        self::assertEquals('4', $element2_31_pStyle->getBorderRightSize());
+        self::assertEquals('dashed', $element2_31_pStyle->getBorderRightStyle());
+        // Bottom
+        self::assertEquals('F10D0C', $element2_31_pStyle->getBorderBottomColor());
+        self::assertEquals('8', $element2_31_pStyle->getBorderBottomSize());
+        self::assertEquals('dashSmallGap', $element2_31_pStyle->getBorderBottomStyle());
+        // Left
+        self::assertEquals('3465A4', $element2_31_pStyle->getBorderLeftColor());
+        self::assertEquals('8', $element2_31_pStyle->getBorderLeftSize());
+        self::assertEquals('dashed', $element2_31_pStyle->getBorderLeftStyle());
     }
 
     /**

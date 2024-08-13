@@ -662,8 +662,8 @@ class TemplateProcessor
         foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
             $searchParts[$this->getHeaderName($headerIndex)] = &$this->tempDocumentHeaders[$headerIndex];
         }
-        foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
-            $searchParts[$this->getFooterName($headerIndex)] = &$this->tempDocumentFooters[$headerIndex];
+        foreach (array_keys($this->tempDocumentFooters) as $footerIndex) {
+            $searchParts[$this->getFooterName($footerIndex)] = &$this->tempDocumentFooters[$footerIndex];
         }
 
         // define templates
@@ -805,8 +805,8 @@ class TemplateProcessor
      */
     public function deleteRow(string $search): void
     {
-        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
-            $search = '${' . $search . '}';
+        if (self::$macroOpeningChars !== substr($search, 0, 2) && self::$macroClosingChars !== substr($search, -1)) {
+            $search = self::$macroOpeningChars . $search . self::$macroClosingChars;
         }
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
