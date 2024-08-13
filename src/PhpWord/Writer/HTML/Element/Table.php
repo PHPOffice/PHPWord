@@ -120,9 +120,7 @@ class Table extends AbstractElement
             return '';
         }
         if (is_string($tableStyle)) {
-            $style = ' class="' . $tableStyle;
-
-            return $style . '"';
+            return ' class="' . $tableStyle . '"';
         }
 
         $styleWriter = new TableStyleWriter($tableStyle);

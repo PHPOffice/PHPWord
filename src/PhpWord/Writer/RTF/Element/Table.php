@@ -21,7 +21,10 @@ use PhpOffice\PhpWord\Element\Cell as CellElement;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Table as TableElement;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Border;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Cell as CellStyle;
+use PhpOffice\PhpWord\Style\Table as TableStyle;
 
 /**
  * Table element RTF writer.
@@ -30,6 +33,11 @@ use PhpOffice\PhpWord\Style;
  */
 class Table extends AbstractElement
 {
+    /**
+     * @var TableElement
+     */
+    protected $element;
+
     /**
      * Write element.
      *
@@ -77,9 +85,18 @@ class Table extends AbstractElement
     private function writeRowDef(RowElement $row)
     {
         $content = '';
+        $tableStyle = $this->element->getStyle();
+        if (is_string($tableStyle)) {
+            $tableStyle = Style::getStyle($tableStyle);
+            if (!($tableStyle instanceof TableStyle)) {
+                $tableStyle = null;
+            }
+        }
 
         $rightMargin = 0;
         foreach ($row->getCells() as $cell) {
+            $content .= $this->writeCellStyle($cell->getStyle(), $tableStyle);
+
             $width = $cell->getWidth();
             $vMerge = $this->getVMerge($cell->getStyle()->getVMerge());
             if ($width === null) {
@@ -123,6 +140,103 @@ class Table extends AbstractElement
         $content .= $writer->write();
 
         $content .= '\cell' . PHP_EOL;
+
+        return $content;
+    }
+
+    private function writeCellStyle(CellStyle $cell, ?TableStyle $table): string
+    {
+        $content = $this->writeCellBorder(
+            't',
+            $cell->getBorderTopStyle() ?: ($table ? $table->getBorderTopStyle() : null),
+            (int) round($cell->getBorderTopSize() ?: ($table ? ($table->getBorderTopSize() ?: 0) : 0)),
+            $cell->getBorderTopColor() ?? ($table ? $table->getBorderTopColor() : null)
+        );
+        $content .= $this->writeCellBorder(
+            'l',
+            $cell->getBorderLeftStyle() ?: ($table ? $table->getBorderLeftStyle() : null),
+            (int) round($cell->getBorderLeftSize() ?: ($table ? ($table->getBorderLeftSize() ?: 0) : 0)),
+            $cell->getBorderLeftColor() ?? ($table ? $table->getBorderLeftColor() : null)
+        );
+        $content .= $this->writeCellBorder(
+            'b',
+            $cell->getBorderBottomStyle() ?: ($table ? $table->getBorderBottomStyle() : null),
+            (int) round($cell->getBorderBottomSize() ?: ($table ? ($table->getBorderBottomSize() ?: 0) : 0)),
+            $cell->getBorderBottomColor() ?? ($table ? $table->getBorderBottomColor() : null)
+        );
+        $content .= $this->writeCellBorder(
+            'r',
+            $cell->getBorderRightStyle() ?: ($table ? $table->getBorderRightStyle() : null),
+            (int) round($cell->getBorderRightSize() ?: ($table ? ($table->getBorderRightSize() ?: 0) : 0)),
+            $cell->getBorderRightColor() ?? ($table ? $table->getBorderRightColor() : null)
+        );
+
+        return $content;
+    }
+
+    private function writeCellBorder(string $prefix, ?string $borderStyle, int $borderSize, ?string $borderColor): string
+    {
+        if ($borderSize == 0) {
+            return '';
+        }
+
+        $content = '\clbrdr' . $prefix;
+        /**
+         * \brdrs 	Single-thickness border.
+         * \brdrth 	Double-thickness border.
+         * \brdrsh 	Shadowed border.
+         * \brdrdb 	Double border.
+         * \brdrdot 	Dotted border.
+         * \brdrdash 	Dashed border.
+         * \brdrhair 	Hairline border.
+         * \brdrinset 	Inset border.
+         * \brdrdashsm 	Dash border (small).
+         * \brdrdashd 	Dot dash border.
+         * \brdrdashdd 	Dot dot dash border.
+         * \brdroutset 	Outset border.
+         * \brdrtriple 	Triple border.
+         * \brdrtnthsg 	Thick thin border (small).
+         * \brdrthtnsg 	Thin thick border (small).
+         * \brdrtnthtnsg 	Thin thick thin border (small).
+         * \brdrtnthmg 	Thick thin border (medium).
+         * \brdrthtnmg 	Thin thick border (medium).
+         * \brdrtnthtnmg 	Thin thick thin border (medium).
+         * \brdrtnthlg 	Thick thin border (large).
+         * \brdrthtnlg 	Thin thick border (large).
+         * \brdrtnthtnlg 	Thin thick thin border (large).
+         * \brdrwavy 	Wavy border.
+         * \brdrwavydb 	Double wavy border.
+         * \brdrdashdotstr 	Striped border.
+         * \brdremboss 	Emboss border.
+         * \brdrengrave 	Engrave border.
+         */
+        switch ($borderStyle) {
+            case Border::DOTTED:
+                $content .= '\brdrdot';
+
+                break;
+            case Border::SINGLE:
+            default:
+                $content .= '\brdrs';
+
+                break;
+        }
+
+        // \brdrwN 	N is the width in twips (1/20 pt) of the pen used to draw the paragraph border line.
+        //          N cannot be greater than 75.
+        //          To obtain a larger border width, the \brdth control word can be used to obtain a width double that of N.
+        // $borderSize is in eights of a point, i.e. 4 / 8 = .5pt
+        // 1/20 pt => 1/8 / 2.5
+        $content .= '\brdrw' . (int) ($borderSize / 2.5);
+
+        // \brdrcfN 	N is the color of the paragraph border, specified as an index into the color table in the RTF header.
+        $colorIndex = 0;
+        $index = array_search($borderColor, $this->parentWriter->getColorTable());
+        if ($index !== false) {
+            $colorIndex = (int) $index + 1;
+        }
+        $content .= '\brdrcf' . $colorIndex;
+        $content .= PHP_EOL;
 
         return $content;
     }
