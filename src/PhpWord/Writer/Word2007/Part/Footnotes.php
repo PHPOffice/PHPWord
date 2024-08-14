@@ -141,7 +141,7 @@ class Footnotes extends AbstractPart
     protected function writeNote(XMLWriter $xmlWriter, $element): void
     {
         $xmlWriter->startElement($this->elementNode);
-        $xmlWriter->writeAttribute('w:id', $element->getRelationId());
+        $xmlWriter->writeAttribute('w:id', $element->getRelationId() + 1);
         $xmlWriter->startElement('w:p');
 
         // Paragraph style
