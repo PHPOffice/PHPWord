@@ -63,6 +63,8 @@ class Table extends AbstractStyle
     {
         // w:tblPr
         $xmlWriter->startElement('w:tblPr');
+        $tblStyle = $style->getTblStyle();
+        $xmlWriter->writeElementIf($tblStyle !== '', 'w:tblStyle', 'w:val', $tblStyle);
 
         // Table alignment
         if ('' !== $style->getAlignment()) {
@@ -139,6 +141,7 @@ class Table extends AbstractStyle
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->setStyles($style->getBorderStyle());
             $styleWriter->write();
 
             $xmlWriter->endElement(); // w:tblBorders

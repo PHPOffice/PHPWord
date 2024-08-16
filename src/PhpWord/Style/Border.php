@@ -528,6 +528,14 @@ class Border extends AbstractStyle
     public function hasBorder()
     {
         $borders = $this->getBorderSize();
+        if ($borders !== array_filter($borders, 'is_null')) {
+            return true;
+        }
+        $borders = $this->getBorderColor();
+        if ($borders !== array_filter($borders, 'is_null')) {
+            return true;
+        }
+        $borders = $this->getBorderStyle();
 
         return $borders !== array_filter($borders, 'is_null');
     }
