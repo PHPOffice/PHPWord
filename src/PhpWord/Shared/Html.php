@@ -180,7 +180,8 @@ class Html
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
 
             $bidi = false;
-            $direction = isset($attributes['dir']) ? $attributes['dir']->value : ''; // @phpstan-ignore-line
+            $attrDir = $attributes->getNamedItem('dir');
+            $direction = isset($attrDir) ? $attrDir->nodeValue : '';
             if ($direction === 'rtl') {
                 $bidi = $styles['bidi'] = $styles['rtl'] = true;
                 $styles['textDirection'] = TextDirection::RLTB;
@@ -550,7 +551,7 @@ class Html
 
         $attributes = $node->attributes;
         if ($attributes->getNamedItem('border') !== null && is_object($newElement->getStyle())) {
-            $border = (int) $attributes->getNamedItem('border')->value; // @phpstan-ignore-line
+            $border = (int) $attributes->getNamedItem('border')->nodeValue;
             $newElement->getStyle()->setBorderSize((int) Converter::pixelToTwip($border));
             $newElement->getStyle()->setBorderStyle(($border === 0) ? 'none' : 'single');
         }
