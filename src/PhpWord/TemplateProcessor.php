@@ -662,13 +662,13 @@ class TemplateProcessor
         foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
             $searchParts[$this->getHeaderName($headerIndex)] = &$this->tempDocumentHeaders[$headerIndex];
         }
-        foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
-            $searchParts[$this->getFooterName($headerIndex)] = &$this->tempDocumentFooters[$headerIndex];
+        foreach (array_keys($this->tempDocumentFooters) as $footerIndex) {
+            $searchParts[$this->getFooterName($footerIndex)] = &$this->tempDocumentFooters[$footerIndex];
         }
 
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
-        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}" stroked="f"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
+        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}" stroked="f" filled="f"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
 
         $i = 0;
         foreach ($searchParts as $partFileName => &$partContent) {
@@ -805,8 +805,8 @@ class TemplateProcessor
      */
     public function deleteRow(string $search): void
     {
-        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
-            $search = '${' . $search . '}';
+        if (self::$macroOpeningChars !== substr($search, 0, 2) && self::$macroClosingChars !== substr($search, -1)) {
+            $search = self::$macroOpeningChars . $search . self::$macroClosingChars;
         }
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);

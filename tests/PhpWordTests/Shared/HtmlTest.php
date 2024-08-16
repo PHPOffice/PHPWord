@@ -807,6 +807,66 @@ HTML;
     }
 
     /**
+     * Test parsing of img.
+     */
+    public function testParseImageSizeInPixels(): void
+    {
+        $src = __DIR__ . '/../_files/images/firefox.png';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150px" height="200px" /></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        self::assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+    }
+
+    /**
+     * Test parsing of img.
+     */
+    public function testParseImageSizeInPoints(): void
+    {
+        $src = __DIR__ . '/../_files/images/firefox.png';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150pt" height="200pt" /></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertStringMatchesFormat('%Swidth:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        self::assertStringMatchesFormat('%Sheight:266.66666666667%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+    }
+
+    /**
+     * Test parsing of img.
+     */
+    public function testParseImageSizeWithoutUnits(): void
+    {
+        $src = __DIR__ . '/../_files/images/firefox.png';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" /></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        self::assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+    }
+
+    /**
      * Test parsing of remote img.
      */
     public function testParseRemoteImage(): void
