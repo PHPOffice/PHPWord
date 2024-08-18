@@ -85,7 +85,7 @@ class Body extends AbstractPart
                 if (isset($collection[$noteTypeId])) {
                     $element = $collection[$noteTypeId];
                     $noteAnchor = "<a name=\"note-{$noteId}\" />";
-                    $noteAnchor .= "<a href=\"#{$noteMark}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";
+                    $noteAnchor .= "<a href=\"#{$noteMark}\" class=\"NoteRef\"><sup>{$noteId}</sup></a></a>";
 
                     $writer = new TextRunWriter($this->getParentWriter(), $element);
                     $writer->setOpeningText($noteAnchor);
