@@ -362,10 +362,10 @@ class TemplateProcessor
     /**
      * Set values from a one-dimensional array of "variable => value"-pairs.
      */
-    public function setValues(array $values): void
+    public function setValues(array $values, int $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT): void
     {
         foreach ($values as $macro => $replace) {
-            $this->setValue($macro, $replace);
+            $this->setValue($macro, $replace, $limit);
         }
     }
 
@@ -893,7 +893,7 @@ class TemplateProcessor
      *
      * @return null|string
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null)
+    public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null, int $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
         $xmlBlock = null;
         $matches = [];
@@ -921,11 +921,21 @@ class TemplateProcessor
             }
 
             if ($replace) {
-                $this->tempDocumentMainPart = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
-                    implode('', $cloned),
-                    $this->tempDocumentMainPart
-                );
+                if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
+                    $this->tempDocumentMainPart = str_replace(
+                        $matches[2] . $matches[3] . $matches[4],
+                        implode('', $cloned),
+                        $this->tempDocumentMainPart
+                    );
+                } else {
+                    $regExpEscaper = new RegExp();
+                    $this->tempDocumentMainPart = preg_replace(
+                        $regExpEscaper->escape($matches[2] . $matches[3] . $matches[4]),
+                        implode('', $cloned),
+                        $this->tempDocumentMainPart,
+                        $limit
+                    );
+                }
             }
         }
 
