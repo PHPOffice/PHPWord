@@ -12886,6 +12886,11 @@ Search.appendIndex(
             "summary": "Translates\u0020Table\u0020style\u0020in\u0020CSS\u0020equivalent.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Table.html#method_getTableStyle"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Table\u003A\u003AcalculateCellRowSpan\u0028\u0029",
+            "name": "calculateCellRowSpan",
+            "summary": "Calculates\u0020cell\u0020rowspan.",
+            "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Table.html#method_calculateCellRowSpan"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Text",
             "name": "Text",
             "summary": "Text\u0020element\u0020HTML\u0020writer.",
