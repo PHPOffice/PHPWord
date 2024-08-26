@@ -8,6 +8,7 @@ Currently the following fields are supported:
 - XE
 - INDEX
 - FILENAME
+- REF
 
 ``` php
 <?php
@@ -25,16 +26,24 @@ For instance for the INDEX field, you can do the following (See `Index Field for
 ``` php
 <?php
 
-//the $fieldText can be either a simple string
+// the $fieldText can be either a simple string
 $fieldText = 'The index value';
 
-//or a 'TextRun', to be able to format the text you want in the index
+// or a 'TextRun', to be able to format the text you want in the index
 $fieldText = new TextRun();
 $fieldText->addText('My ');
 $fieldText->addText('bold index', ['bold' => true]);
 $fieldText->addText(' entry');
 $section->addField('XE', array(), array(), $fieldText);
 
-//this actually adds the index
+// this actually adds the index
 $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), 'right click to update index');
+
+// Adding reference to a bookmark
+$fieldText->addField('REF', [
+    'name' => 'bookmark'
+], [
+    'InsertParagraphNumberRelativeContext',
+    'CreateHyperLink',
+]);
 ```
