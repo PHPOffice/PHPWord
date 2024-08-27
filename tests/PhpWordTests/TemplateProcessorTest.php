@@ -635,20 +635,32 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         // test with a specific limit that is lower than the number of replacements
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->setValues(['firstname' => 'Jane', 'lastname' => 'Smith'], 2);
+        $variablesCounts = $templateProcessor->getVariableCount();
+
         self::assertStringContainsString('Hello Jane Smith', $templateProcessor->getMainPart());
         self::assertStringContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+        self::assertEquals(1, $variablesCounts['firstname']);
+        self::assertEquals(1, $variablesCounts['lastname']);
 
         // test with a limit for only one replacement
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->setValues(['firstname' => 'Alice', 'lastname' => 'Wonderland'], 1);
+        $variablesCounts = $templateProcessor->getVariableCount();
+
         self::assertStringContainsString('Hello Alice Wonderland', $templateProcessor->getMainPart());
         self::assertStringContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+        self::assertEquals(2, $variablesCounts['firstname']);
+        self::assertEquals(2, $variablesCounts['lastname']);
 
         // Test with a limit of 0 for a result with no replacements
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->setValues(['firstname' => 'Test', 'lastname' => 'User'], 0);
+        $variablesCounts = $templateProcessor->getVariableCount();
+
         self::assertStringContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
         self::assertStringNotContainsString('Hello Test User', $templateProcessor->getMainPart());
+        self::assertEquals(3, $variablesCounts['firstname']);
+        self::assertEquals(3, $variablesCounts['lastname']);
     }
 
     /**
