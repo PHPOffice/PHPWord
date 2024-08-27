@@ -614,7 +614,18 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             <w:r>
                 <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
             </w:r>
-        </w:p>';
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>
+        ';
 
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->setValues(['firstname' => 'John', 'lastname' => 'Doe']);
