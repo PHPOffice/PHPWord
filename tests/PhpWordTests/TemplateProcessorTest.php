@@ -629,8 +629,17 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->setValues(['firstname' => 'John', 'lastname' => 'Doe']);
-
         self::assertStringContainsString('Hello John Doe', $templateProcessor->getMainPart());
+
+        // test with a specific limit that is lower than the number of replacements
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(['firstname' => 'Jane', 'lastname' => 'Smith'], 2);
+        self::assertStringContainsString('Hello Jane Smith', $templateProcessor->getMainPart());
+
+        // test with a limit for only one replacement
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(['firstname' => 'Alice', 'lastname' => 'Wonderland'], 1);
+        self::assertStringContainsString('Hello Alice Wonderland', $templateProcessor->getMainPart());
     }
 
     /**
