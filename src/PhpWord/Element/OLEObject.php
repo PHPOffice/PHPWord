@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -35,7 +36,7 @@ class OLEObject extends AbstractElement
     /**
      * Image Style.
      *
-     * @var ?\PhpOffice\PhpWord\Style\Image
+     * @var ?ImageStyle
      */
     private $style;
 
@@ -100,7 +101,7 @@ class OLEObject extends AbstractElement
     /**
      * Get object style.
      *
-     * @return ?\PhpOffice\PhpWord\Style\Image
+     * @return ?ImageStyle
      */
     public function getStyle()
     {
