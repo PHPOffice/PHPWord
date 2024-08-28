@@ -317,6 +317,7 @@ class Settings
     /**
      * Returns path to temporary directory.
      *
+     * @return string
      * @since 0.12.0
      */
     public static function getTempDir(): string
@@ -331,6 +332,7 @@ class Settings
     }
 
     /**
+     * @return bool
      * @since 0.13.0
      */
     public static function isOutputEscapingEnabled(): bool
@@ -373,7 +375,7 @@ class Settings
      *
      * @return float|int
      */
-    public static function getDefaultFontSize()
+    public static function getDefaultFontSize(): int
     {
         return self::$defaultFontSize;
     }

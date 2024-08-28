@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- *
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -97,13 +97,19 @@ class Chart extends AbstractElement
      * @param array $categories
      * @param array $values
      * @param null|mixed $name
+     * @param string|null $type
+     * @param array $options
      */
-    public function addSeries($categories, $values, $name = null): void
+    public function addSeries(array $categories, array $values, $name = null, ?string $type = null, array $options = []): void
     {
-        $this->series[] = [
+        if ($type === null) {
+            $type = $this->type;
+        }
+        $this->series[$type][] = [
             'categories' => $categories,
             'values' => $values,
             'name' => $name,
+            'options' => $options
         ];
     }
 
@@ -112,7 +118,7 @@ class Chart extends AbstractElement
      *
      * @return array
      */
-    public function getSeries()
+    public function getSeries(): array
     {
         return $this->series;
     }

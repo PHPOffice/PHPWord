@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- *
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -108,6 +108,23 @@ class Style
         }
 
         return self::setStyleValues($styleName, new Font('title', $paragraphStyle), $fontStyle);
+    }
+
+    /**
+     * Add toc style.
+     *
+     * @param int $depth Provide null to set title font
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
+     *
+     * @return \PhpOffice\PhpWord\Style\Font
+     * @since 0.19.0
+     */
+    public static function addTocStyle($depth, $fontStyle, $paragraphStyle = null)
+    {
+        $styleName = "TOC $depth";
+
+        return self::setStyleValues($styleName, new Font('toc', $paragraphStyle), $fontStyle);
     }
 
     /**

@@ -176,7 +176,7 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('w:type', $type);
 
         // Heading style
-        if ($styleType == 'title') {
+        if ($styleType === 'title') {
             $arrStyle = explode('_', $styleName);
             if (count($arrStyle) > 1) {
                 $styleId = 'Heading' . $arrStyle[1];

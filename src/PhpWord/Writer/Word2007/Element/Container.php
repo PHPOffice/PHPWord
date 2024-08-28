@@ -71,6 +71,8 @@ class Container extends AbstractElement
     /**
      * Write individual element.
      *
+     * @param XMLWriter $xmlWriter
+     * @param Element $element
      * @param bool $withoutP
      *
      * @return string

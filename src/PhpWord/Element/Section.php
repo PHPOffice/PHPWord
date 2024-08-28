@@ -62,7 +62,7 @@ class Section extends AbstractContainer
      * @param int $sectionCount
      * @param null|array|\PhpOffice\PhpWord\Style|string $style
      */
-    public function __construct($sectionCount, $style = null)
+    public function __construct(int $sectionCount, $style = null)
     {
         $this->sectionId = $sectionCount;
         $this->setDocPart($this->container, $this->sectionId);
@@ -75,11 +75,11 @@ class Section extends AbstractContainer
     /**
      * Set section style.
      *
-     * @param array $style
+     * @param array|null $style
      */
-    public function setStyle($style = null): void
+    public function setStyle(?array $style = null): void
     {
-        if (null !== $style && is_array($style)) {
+        if (is_array($style)) {
             $this->style->setStyleByArray($style);
         }
     }
@@ -89,7 +89,7 @@ class Section extends AbstractContainer
      *
      * @return ?\PhpOffice\PhpWord\Style\Section
      */
-    public function getStyle()
+    public function getStyle(): ?SectionStyle
     {
         return $this->style;
     }
@@ -97,13 +97,14 @@ class Section extends AbstractContainer
     /**
      * Add header.
      *
-     * @since 0.10.0
-     *
      * @param string $type
      *
      * @return Header
+     *
+     * @throws Exception
+     * @since 0.10.0
      */
-    public function addHeader($type = Header::AUTO)
+    public function addHeader(string $type = Header::AUTO)
     {
         return $this->addHeaderFooter($type, true);
     }
@@ -111,13 +112,14 @@ class Section extends AbstractContainer
     /**
      * Add footer.
      *
-     * @since 0.10.0
-     *
      * @param string $type
      *
      * @return Footer
+     *
+     * @throws Exception
+     * @since 0.10.0
      */
-    public function addFooter($type = Header::AUTO)
+    public function addFooter(string $type = Header::AUTO)
     {
         return $this->addHeaderFooter($type, false);
     }
@@ -127,7 +129,7 @@ class Section extends AbstractContainer
      *
      * @return Header[]
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -135,9 +137,10 @@ class Section extends AbstractContainer
     /**
      * Get footer elements.
      *
-     * @return Footer[]
+     * @retu
+     * rn Footer[]
      */
-    public function getFooters()
+    public function getFooters(): array
     {
         return $this->footers;
     }
@@ -145,9 +148,9 @@ class Section extends AbstractContainer
     /**
      * Get the footnote properties.
      *
-     * @return FootnoteProperties
+     * @return FootnoteProperties|null
      */
-    public function getFootnoteProperties()
+    public function getFootnoteProperties(): ?FootnoteProperties
     {
         return $this->footnoteProperties;
     }
@@ -168,7 +171,7 @@ class Section extends AbstractContainer
      *
      * @return bool
      */
-    public function hasDifferentFirstPage()
+    public function hasDifferentFirstPage(): bool
     {
         foreach ($this->headers as $header) {
             if ($header->getType() == Header::FIRST) {
@@ -187,14 +190,15 @@ class Section extends AbstractContainer
     /**
      * Add header/footer.
      *
-     * @since 0.10.0
-     *
      * @param string $type
      * @param bool $header
      *
      * @return Footer|Header
+     * @throws Exception
+     *
+     * @since 0.10.0
      */
-    private function addHeaderFooter($type = Header::AUTO, $header = true)
+    private function addHeaderFooter(string $type = Header::AUTO, bool $header = true)
     {
         $containerClass = substr(static::class, 0, strrpos(static::class, '\\')) . '\\' .
             ($header ? 'Header' : 'Footer');
@@ -203,7 +207,7 @@ class Section extends AbstractContainer
 
         if (in_array($type, [Header::AUTO, Header::FIRST, Header::EVEN])) {
             $index = count($collection);
-            /** @var \PhpOffice\PhpWord\Element\AbstractContainer $container Type hint */
+            /** @var \PhpOffice\PhpWord\Element\Header|\PhpOffice\PhpWord\Element\Footer $container Type hint */
             $container = new $containerClass($this->sectionId, ++$index, $type);
             $container->setPhpWord($this->phpWord);
 

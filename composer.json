@@ -1,5 +1,5 @@
 {
-    "name": "phpoffice/phpword",
+    "name": "simialbi/phpword",
     "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
     "keywords": [
         "PHP", "PHPOffice", "office", "PHPWord", "word", "template", "template processor", "reader", "writer",
@@ -65,6 +65,7 @@
     },
     "require": {
         "php": "^7.1|^8.0",
+        "ext-bcmath": "*",
         "ext-dom": "*",
         "ext-json": "*",
         "ext-xml": "*",
@@ -89,6 +90,9 @@
         "ext-xmlwriter": "Allows writing OOXML and ODF",
         "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
         "dompdf/dompdf": "Allows writing PDF"
+    },
+    "replace": {
+        "phpoffice/phpword": "*"
     },
     "autoload": {
         "psr-4": {

@@ -72,7 +72,7 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         $chart = $section->addChart('pie', $categories, $series1, $style);
         $chart->getStyle()->setColors($colorArray)->setTitle('3d chart')->set3d(true);
         $chart = $section->addChart('stacked_bar', $categories, $series1, $style);
-        $chart->getStyle()->setColors($colorArray)->setShowLegend(true);
+        $chart->getStyle()->setColors($colorArray)->setShowLegend(true)->setShowDataTable(true);
         $chart = $section->addChart('scatter', $categories, $series1, $style);
         $chart->getStyle()->setMajorTickPosition('cross');
         $section->addChart('scatter', $categories, $series1, $style, 'seriesname');
@@ -115,6 +115,7 @@ class ChartTest extends \PHPUnit\Framework\TestCase
             $element = $path . "/c:ser/c:dPt[$idxp1]/c:spPr/a:solidFill/a:srgbClr";
             self::assertEquals($colorArray[$idx - 1], $doc->getElementAttribute($element, 'val'), "bar chart idx=$idx");
         }
+        self::assertTrue($doc->elementExists('/c:chartSpace/c:chart/c:plotArea/c:dTable', $file));
     }
 
     public function testChartEscapingEnabled(): void
