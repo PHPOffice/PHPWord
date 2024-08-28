@@ -236,18 +236,21 @@ abstract class AbstractPart
             $fontStyle = $this->readFontStyle($xmlReader, $domNode);
             $nodes = $xmlReader->getElements('w:r', $domNode);
             foreach ($nodes as $node) {
-                $instrText = $xmlReader->getValue('w:instrText', $node);
-                if ($xmlReader->elementExists('w:fldChar', $node)) {
-                    $fldCharType = $xmlReader->getAttribute('w:fldCharType', $node, 'w:fldChar');
-                    if ('begin' == $fldCharType) {
-                        $ignoreText = true;
-                    } elseif ('end' == $fldCharType) {
-                        $ignoreText = false;
-                    }
+                if ($xmlReader->elementExists('w:lastRenderedPageBreak', $node)) {
+                    $parent->addPageBreak();
                 }
+                $instrText = $xmlReader->getValue('w:instrText', $node);
                 if (null !== $instrText) {
                     $textContent .= '{' . $instrText . '}';
                 } else {
+                    if ($xmlReader->elementExists('w:fldChar', $node)) {
+                        $fldCharType = $xmlReader->getAttribute('w:fldCharType', $node, 'w:fldChar');
+                        if ('begin' == $fldCharType) {
+                            $ignoreText = true;
+                        } elseif ('end' == $fldCharType) {
+                            $ignoreText = false;
+                        }
+                    }
                     if (false === $ignoreText) {
                         $textContent .= $xmlReader->getValue('w:t', $node);
                     }
