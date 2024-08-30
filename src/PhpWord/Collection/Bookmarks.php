@@ -17,10 +17,13 @@
 
 namespace PhpOffice\PhpWord\Collection;
 
+use PhpOffice\PhpWord\Element\Bookmark;
+
 /**
  * Bookmarks collection.
  *
  * @since 0.12.0
+ * @extends AbstractCollection<Bookmark>
  */
 class Bookmarks extends AbstractCollection
 {

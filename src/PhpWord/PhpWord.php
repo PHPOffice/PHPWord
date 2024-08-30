@@ -134,7 +134,6 @@ class PhpWord
         if (in_array($function, $addCollection)) {
             $key = ucfirst(str_replace('add', '', $function) . 's');
 
-            /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collectionObject */
             $collectionObject = $this->collections[$key];
 
             return $collectionObject->addItem($args[0] ?? null);

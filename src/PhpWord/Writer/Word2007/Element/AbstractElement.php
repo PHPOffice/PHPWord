@@ -128,7 +128,7 @@ abstract class AbstractElement
     {
         if ($this->element->getCommentsRangeStart() != null) {
             foreach ($this->element->getCommentsRangeStart()->getItems() as $comment) {
-                $this->xmlWriter->writeElementBlock('w:commentRangeStart', array('w:id' => $comment->getElementId()));
+                $this->xmlWriter->writeElementBlock('w:commentRangeStart', ['w:id' => $comment->getElementId()]);
             }
         }
     }
@@ -140,18 +140,18 @@ abstract class AbstractElement
     {
         if ($this->element->getCommentsRangeEnd() != null) {
             foreach ($this->element->getCommentsRangeEnd()->getItems() as $comment) {
-                $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
+                $this->xmlWriter->writeElementBlock('w:commentRangeEnd', ['w:id' => $comment->getElementId()]);
                 $this->xmlWriter->startElement('w:r');
-                $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
+                $this->xmlWriter->writeElementBlock('w:commentReference', ['w:id' => $comment->getElementId()]);
                 $this->xmlWriter->endElement();
             }
         }
         if ($this->element->getCommentsRangeStart() != null) {
             foreach ($this->element->getCommentsRangeStart()->getItems() as $comment) {
                 if ($comment->getEndElement() == null) {
-                    $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
+                    $this->xmlWriter->writeElementBlock('w:commentRangeEnd', ['w:id' => $comment->getElementId()]);
                     $this->xmlWriter->startElement('w:r');
-                    $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
+                    $this->xmlWriter->writeElementBlock('w:commentReference', ['w:id' => $comment->getElementId()]);
                     $this->xmlWriter->endElement();
                 }
             }

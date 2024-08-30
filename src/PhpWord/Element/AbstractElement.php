@@ -19,8 +19,10 @@ namespace PhpOffice\PhpWord\Element;
 
 use DateTime;
 use InvalidArgumentException;
+use PhpOffice\PhpWord\Collection\Comments;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Element abstract class.
@@ -32,7 +34,7 @@ abstract class AbstractElement
     /**
      * PhpWord object.
      *
-     * @var ?\PhpOffice\PhpWord\PhpWord
+     * @var ?PhpWord
      */
     protected $phpWord;
 
@@ -131,25 +133,25 @@ abstract class AbstractElement
     protected $collectionRelation = false;
 
     /**
-     * The start position for the linked comments
+     * The start position for the linked comments.
      *
-     * @var \PHPOffice\PHPWord\Collection\Comments
+     * @var Comments
      */
     protected $commentsRangeStart;
 
     /**
-     * The end position for the linked comments
+     * The end position for the linked comments.
      *
-     * @var \PHPOffice\PHPWord\Collection\Comments
+     * @var Comments
      */
     protected $commentsRangeEnd;
 
     /**
      * Get PhpWord.
      *
-     * @return ?\PhpOffice\PhpWord\PhpWord
+     * @return ?PhpWord
      */
-    public function getPhpWord()
+    public function getPhpWord(): ?PhpWord
     {
         return $this->phpWord;
     }
@@ -288,21 +290,21 @@ abstract class AbstractElement
     }
 
     /**
-     * Get comments start
+     * Get comments start.
      *
-     * @return \PhpOffice\PhpWord\Collection\Comments
+     * @return Comments
      */
-    public function getCommentsRangeStart()
+    public function getCommentsRangeStart(): ?Comments
     {
         return $this->commentsRangeStart;
     }
 
     /**
-     * Get comment start
+     * Get comment start.
      *
      * @return Comment
      */
-    public function getCommentRangeStart()
+    public function getCommentRangeStart(): ?Comment
     {
         if ($this->commentsRangeStart != null) {
             return $this->commentsRangeStart->getItem($this->commentsRangeStart->countItems());
@@ -320,7 +322,7 @@ abstract class AbstractElement
             throw new InvalidArgumentException('Cannot set a Comment on a Comment');
         }
         if ($this->commentsRangeStart == null) {
-            $this->commentsRangeStart = new \PhpOffice\PhpWord\Collection\Comments();
+            $this->commentsRangeStart = new Comments();
         }
         // Set ID early to avoid duplicates.
         if ($value->getElementId() == null) {
@@ -331,16 +333,16 @@ abstract class AbstractElement
                 return;
             }
         }
-        $this->commentsRangeStart->addItem($value);
-        $this->commentsRangeStart->getItem($this->commentsRangeStart->countItems())->setStartElement($this);
+        $idxItem = $this->commentsRangeStart->addItem($value);
+        $this->commentsRangeStart->getItem($idxItem)->setStartElement($this);
     }
 
     /**
-     * Get comments end
+     * Get comments end.
      *
-     * @return \PhpOffice\PhpWord\Collection\Comments
+     * @return Comments
      */
-    public function getCommentsRangeEnd()
+    public function getCommentsRangeEnd(): ?Comments
     {
         return $this->commentsRangeEnd;
     }
@@ -350,7 +352,7 @@ abstract class AbstractElement
      *
      * @return Comment
      */
-    public function getCommentRangeEnd()
+    public function getCommentRangeEnd(): ?Comment
     {
         if ($this->commentsRangeEnd != null) {
             return $this->commentsRangeEnd->getItem($this->commentsRangeEnd->countItems());
@@ -368,7 +370,7 @@ abstract class AbstractElement
             throw new InvalidArgumentException('Cannot set a Comment on a Comment');
         }
         if ($this->commentsRangeEnd == null) {
-            $this->commentsRangeEnd = new \PhpOffice\PhpWord\Collection\Comments();
+            $this->commentsRangeEnd = new Comments();
         }
         // Set ID early to avoid duplicates.
         if ($value->getElementId() == null) {
@@ -379,8 +381,8 @@ abstract class AbstractElement
                 return;
             }
         }
-        $this->commentsRangeEnd->addItem($value);
-        $this->commentsRangeEnd->getItem($this->commentsRangeEnd->countItems())->setEndElement($this);
+        $idxItem = $this->commentsRangeEnd->addItem($value);
+        $this->commentsRangeEnd->getItem($idxItem)->setEndElement($this);
     }
 
     /**
@@ -480,7 +482,7 @@ abstract class AbstractElement
      * Set new style value.
      *
      * @param mixed $styleObject Style object
-     * @param null|array|\PhpOffice\PhpWord\Style|string $styleValue Style value
+     * @param null|array|string|Style $styleValue Style value
      * @param bool $returnObject Always return object
      *
      * @return mixed
