@@ -446,6 +446,11 @@ Search.appendIndex(
             "summary": "Get\u0020nested\u0020level.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getNestedLevel"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetCommentsRangeStart\u0028\u0029",
+            "name": "getCommentsRangeStart",
+            "summary": "Get\u0020comments\u0020start.",
+            "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getCommentsRangeStart"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetCommentRangeStart\u0028\u0029",
             "name": "getCommentRangeStart",
             "summary": "Get\u0020comment\u0020start.",
@@ -455,6 +460,11 @@ Search.appendIndex(
             "name": "setCommentRangeStart",
             "summary": "Set\u0020comment\u0020start.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_setCommentRangeStart"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetCommentsRangeEnd\u0028\u0029",
+            "name": "getCommentsRangeEnd",
+            "summary": "Get\u0020comments\u0020end.",
+            "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#method_getCommentsRangeEnd"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003AgetCommentRangeEnd\u0028\u0029",
             "name": "getCommentRangeEnd",
@@ -581,15 +591,15 @@ Search.appendIndex(
             "summary": "Is\u0020part\u0020of\u0020collection\u003B\u0020true\u0020for\u0020Title,\u0020Footnote,\u0020Endnote,\u0020Chart,\u0020and\u0020Comment.",
             "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_collectionRelation"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024commentRangeStart",
-            "name": "commentRangeStart",
-            "summary": "The\u0020start\u0020position\u0020for\u0020the\u0020linked\u0020comment.",
-            "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_commentRangeStart"
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024commentsRangeStart",
+            "name": "commentsRangeStart",
+            "summary": "The\u0020start\u0020position\u0020for\u0020the\u0020linked\u0020comments.",
+            "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_commentsRangeStart"
         },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024commentRangeEnd",
-            "name": "commentRangeEnd",
-            "summary": "The\u0020end\u0020position\u0020for\u0020the\u0020linked\u0020comment.",
-            "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_commentRangeEnd"
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\AbstractElement\u003A\u003A\u0024commentsRangeEnd",
+            "name": "commentsRangeEnd",
+            "summary": "The\u0020end\u0020position\u0020for\u0020the\u0020linked\u0020comments.",
+            "url": "classes/PhpOffice-PhpWord-Element-AbstractElement.html#property_commentsRangeEnd"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Bookmark",
             "name": "Bookmark",
