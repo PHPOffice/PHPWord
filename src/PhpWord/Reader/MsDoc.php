@@ -1279,10 +1279,12 @@ class MsDoc extends AbstractReader implements ReaderInterface
                     break;
                 }
                 $strLen = $arrayRGFC[$key + 1] - $arrayRGFC[$key] - 1;
-                for ($inc = 0; $inc < $strLen; ++$inc) {
-                    $byte = self::getInt1d($this->dataWorkDocument, $arrayRGFC[$key] + $inc);
+                for ($inc = 0; $inc < ($strLen * 2); ++$inc) {
+                    $byte = self::getInt2d($this->dataWorkDocument, $arrayRGFC[$key] + ($inc * 2));
                     if ($byte > 0) {
-                        $string .= chr($byte);
+                        $string .= mb_chr($byte, 'UTF-8');
+                    } else {
+                        break;
                     }
                 }
             }
@@ -2331,7 +2333,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
             foreach ($this->arrayParagraphs as $itmParagraph) {
                 $textPara = $itmParagraph;
                 foreach ($this->arrayCharacters as $oCharacters) {
-                    $subText = substr($textPara, $oCharacters->pos_start, $oCharacters->pos_len);
+                    $subText = mb_substr($textPara, $oCharacters->pos_start, $oCharacters->pos_len);
                     $subText = str_replace(chr(13), PHP_EOL, $subText);
                     $arrayText = explode(PHP_EOL, $subText);
                     if (end($arrayText) == '') {
