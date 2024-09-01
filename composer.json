@@ -74,7 +74,7 @@
         "ext-zip": "*",
         "ext-gd": "*",
         "ext-libxml": "*",
-        "dompdf/dompdf": "^2.0",
+        "dompdf/dompdf": "^2.0 || ^3.0",
         "mpdf/mpdf": "^8.1",
         "phpmd/phpmd": "^2.13",
         "phpunit/phpunit": ">=7.0",
