@@ -47,6 +47,13 @@ class Indentation extends AbstractStyle
     private $firstLine = 0;
 
     /**
+     * Additional first line chars indentation (twip).
+     *
+     * @var float|int
+     */
+    private $firstLineChars = 0;
+
+    /**
      * Indentation removed from first line (twip).
      *
      * @var float|int
@@ -132,6 +139,29 @@ class Indentation extends AbstractStyle
     {
         $this->firstLine = $this->setNumericVal($value, $this->firstLine);
 
+        return $this;
+    }
+
+    /**
+     * Get first line chars.
+     *
+     * @return float|int
+     */
+    public function getFirstLineChars()
+    {
+        return $this->firstLineChars;
+    }
+
+    /**
+     * Set first line chars.
+     *
+     * @param float|int $value
+     *
+     * @return $this
+     */
+    public function setFirstLineChars($value)
+    {
+        $this->firstLineChars = $this->setNumericVal($value, $this->firstLineChars);
         return $this;
     }
 
