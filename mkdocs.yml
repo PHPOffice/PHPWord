@@ -86,9 +86,9 @@ nav:
   - How to: 'howto.md'
   - Credits: 'credits.md'
   - Releases:
-    - '2.x':
-      - '2.0.0 (WIP)': 'changes/2.x/2.0.0.md'
     - '1.x':
+      - '1.4.0 (WIP)': 'changes/1.x/1.4.0.md'
+      - '1.3.0': 'changes/1.x/1.3.0.md'
       - '1.2.0': 'changes/1.x/1.2.0.md'
       - '1.1.0': 'changes/1.x/1.1.0.md'
       - '1.0.0': 'changes/1.x/1.0.0.md'

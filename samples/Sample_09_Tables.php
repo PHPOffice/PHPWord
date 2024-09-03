@@ -56,11 +56,13 @@ for ($i = 1; $i <= 8; ++$i) {
 
 /*
  *  3. colspan (gridSpan) and rowspan (vMerge)
- *  ---------------------
- *  |     |   B    |    |
- *  |  A  |--------|  E |
- *  |     | C |  D |    |
- *  ---------------------
+ *  -------------------------
+ *  |  A  |     B     |  C  |
+ *  |-----|-----------|     |
+ *  |        D        |     |
+ *  ------|-----------|     |
+ *  |  E  |  F  |  G  |     |
+ *  -------------------------
  */
 
 $section->addPageBreak();
@@ -77,25 +79,20 @@ $spanTableStyleName = 'Colspan Rowspan';
 $phpWord->addTableStyle($spanTableStyleName, $fancyTableStyle);
 $table = $section->addTable($spanTableStyleName);
 
-$table->addRow();
+$row1 = $table->addRow();
+$row1->addCell(500)->addText('A');
+$row1->addCell(1000, ['gridSpan' => 2])->addText('B');
+$row1->addCell(500, ['vMerge' => 'restart'])->addText('C');
 
-$cell1 = $table->addCell(2000, $cellRowSpan);
-$textrun1 = $cell1->addTextRun($cellHCentered);
-$textrun1->addText('A');
-$textrun1->addFootnote()->addText('Row span');
+$row2 = $table->addRow();
+$row2->addCell(1500, ['gridSpan' => 3])->addText('D');
+$row2->addCell(null, ['vMerge' => 'continue']);
 
-$cell2 = $table->addCell(4000, $cellColSpan);
-$textrun2 = $cell2->addTextRun($cellHCentered);
-$textrun2->addText('B');
-$textrun2->addFootnote()->addText('Column span');
-
-$table->addCell(2000, $cellRowSpan)->addText('E', null, $cellHCentered);
-
-$table->addRow();
-$table->addCell(null, $cellRowContinue);
-$table->addCell(2000, $cellVCentered)->addText('C', null, $cellHCentered);
-$table->addCell(2000, $cellVCentered)->addText('D', null, $cellHCentered);
-$table->addCell(null, $cellRowContinue);
+$row3 = $table->addRow();
+$row3->addCell(500)->addText('E');
+$row3->addCell(500)->addText('F');
+$row3->addCell(500)->addText('G');
+$row3->addCell(null, ['vMerge' => 'continue']);
 
 /*
  *  4. colspan (gridSpan) and rowspan (vMerge)

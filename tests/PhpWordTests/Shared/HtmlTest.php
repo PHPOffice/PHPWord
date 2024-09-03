@@ -1037,6 +1037,27 @@ HTML;
         self::assertEquals('bookmark', $doc->getElement('/w:document/w:body/w:p/w:hyperlink')->getAttribute('w:anchor'));
     }
 
+    public function testParseLinkAllowsAbsenceOfHref(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><a>text of href-less link</a></p>';
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
+        self::assertEquals('text of href-less link', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><a href="">text of empty-href link</a></p>';
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
+        self::assertEquals('text of empty-href link', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
+    }
+
     public function testParseMalformedStyleIsIgnored(): void
     {
         $phpWord = new PhpWord();

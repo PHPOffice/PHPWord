@@ -227,7 +227,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $collection = $phpWord->$method();
 
         // Add footnotes media files, relations, and contents
-        /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collection Type hint */
         if ($collection->countItems() > 0) {
             $media = Media::getElements($noteType);
             $this->addFilesToPackage($zip, $media);
@@ -260,7 +259,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $partName = 'comments';
 
         // Add comment relations and contents
-        /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collection Type hint */
         if ($collection->countItems() > 0) {
             $this->relationships[] = ['target' => "{$partName}.xml", 'type' => $partName, 'rID' => ++$rId];
 

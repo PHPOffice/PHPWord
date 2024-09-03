@@ -533,10 +533,45 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists("{$parent}/w:i"));
         self::assertEquals($styles['underline'], $doc->getElementAttribute("{$parent}/w:u", 'w:val'));
         self::assertTrue($doc->elementExists("{$parent}/w:strike"));
+        self::assertFalse($doc->elementExists("{$parent}/w:dstrike"));
         self::assertEquals('superscript', $doc->getElementAttribute("{$parent}/w:vertAlign", 'w:val'));
         self::assertEquals($styles['color'], $doc->getElementAttribute("{$parent}/w:color", 'w:val'));
         self::assertEquals($styles['fgColor'], $doc->getElementAttribute("{$parent}/w:highlight", 'w:val'));
         self::assertTrue($doc->elementExists("{$parent}/w:smallCaps"));
+    }
+
+    /**
+     * covers ::_writeTextStyle.
+     *
+     * @dataProvider providerFontStyleStrikethrough
+     */
+    public function testWriteFontStyleStrikethrough(
+        bool $isStrikethrough,
+        bool $isDoubleStrikethrough,
+        bool $expectedStrikethrough,
+        bool $expectedDoubleStrikethrough
+    ): void {
+        $phpWord = new PhpWord();
+        $styles['strikethrough'] = $isStrikethrough;
+        $styles['doublestrikethrough'] = $isDoubleStrikethrough;
+
+        $section = $phpWord->addSection();
+        $section->addText('Test', $styles);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $parent = '/w:document/w:body/w:p/w:r/w:rPr';
+        self::assertSame($expectedStrikethrough, $doc->elementExists("{$parent}/w:strike"));
+        self::assertSame($expectedDoubleStrikethrough, $doc->elementExists("{$parent}/w:dstrike"));
+    }
+
+    public static function providerFontStyleStrikethrough(): iterable
+    {
+        return [
+            [true, true, false, true],
+            [true, false, true, false],
+            [false, true, false, true],
+            [false, false, false, false],
+        ];
     }
 
     /**
