@@ -70,12 +70,8 @@ class Container extends AbstractElement
 
     /**
      * Write individual element.
-     *
-     * @param bool $withoutP
-     *
-     * @return string
      */
-    private function writeElement(XMLWriter $xmlWriter, Element $element, $withoutP)
+    private function writeElement(XMLWriter $xmlWriter, Element $element, bool $withoutP): string
     {
         $elementClass = substr(get_class($element), strrpos(get_class($element), '\\') + 1);
         $writerClass = $this->namespace . '\\' . $elementClass;
