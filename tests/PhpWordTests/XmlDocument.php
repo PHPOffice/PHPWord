@@ -176,6 +176,14 @@ class XmlDocument
     }
 
     /**
+     * Return if element attribute exists.
+     */
+    public function hasElementAttribute(string $path, string $attribute, string $file = ''): bool
+    {
+        return $this->getElement($path, $file)->hasAttribute($attribute);
+    }
+
+    /**
      * Check if element exists.
      */
     public function elementExists(string $path, string $file = ''): bool
