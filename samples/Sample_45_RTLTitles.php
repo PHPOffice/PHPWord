@@ -6,7 +6,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Html as SharedHtml;
 
-// Suggested by issue #2427.
+// Suggested by issue 2427.
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new PhpWord();
 Settings::setDefaultRtl(true);
