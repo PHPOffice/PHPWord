@@ -57,37 +57,29 @@ class Text extends AbstractElement
             $xmlWriter->writeAttribute('text:change-id', $element->getTrackChange()->getElementId());
             $xmlWriter->endElement();
         } else {
-            if (empty($fontStyle)) {
-                if (empty($paragraphStyle)) {
-                    if (!$this->withoutP) {
-                        $xmlWriter->writeAttribute('text:style-name', 'Normal');
-                    }
-                } elseif (is_string($paragraphStyle)) {
-                    if (!$this->withoutP) {
-                        $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
-                    }
+            if (empty($paragraphStyle)) {
+                if (!$this->withoutP) {
+                    $xmlWriter->writeAttribute('text:style-name', 'Normal');
                 }
-                $this->writeChangeInsertion(true, $element->getTrackChange());
-                $this->replaceTabs($element->getText(), $xmlWriter);
-                $this->writeChangeInsertion(false, $element->getTrackChange());
-            } else {
-                if (empty($paragraphStyle)) {
-                    if (!$this->withoutP) {
-                        $xmlWriter->writeAttribute('text:style-name', 'Normal');
-                    }
-                } elseif (is_string($paragraphStyle)) {
-                    if (!$this->withoutP) {
-                        $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
-                    }
+            } elseif (is_string($paragraphStyle)) {
+                if (!$this->withoutP) {
+                    $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
                 }
+            }
+
+            if (!empty($fontStyle)) {
                 // text:span
                 $xmlWriter->startElement('text:span');
                 if (is_string($fontStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', $fontStyle);
                 }
-                $this->writeChangeInsertion(true, $element->getTrackChange());
-                $this->replaceTabs($element->getText(), $xmlWriter);
-                $this->writeChangeInsertion(false, $element->getTrackChange());
+            }
+
+            $this->writeChangeInsertion(true, $element->getTrackChange());
+            $this->replaceTabs($element->getText(), $xmlWriter);
+            $this->writeChangeInsertion(false, $element->getTrackChange());
+
+            if (!empty($fontStyle)) {
                 $xmlWriter->endElement();
             }
         }
