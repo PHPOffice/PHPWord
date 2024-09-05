@@ -63,10 +63,8 @@ abstract class AbstractElement
 
     /**
      * Create new instance.
-     *
-     * @param bool $withoutP
      */
-    public function __construct(XMLWriter $xmlWriter, Element $element, $withoutP = false)
+    public function __construct(XMLWriter $xmlWriter, Element $element, bool $withoutP = false)
     {
         $this->xmlWriter = $xmlWriter;
         $this->element = $element;
