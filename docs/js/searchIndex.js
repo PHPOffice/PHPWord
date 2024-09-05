@@ -13271,6 +13271,11 @@ Search.appendIndex(
             "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028ODText\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Container.html#property_namespace"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Container\u003A\u003A\u0024containerWithoutP",
+            "name": "containerWithoutP",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Container.html#property_containerWithoutP"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field",
             "name": "Field",
             "summary": "Field\u0020element\u0020writer.",
@@ -13315,6 +13320,16 @@ Search.appendIndex(
             "name": "write",
             "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Link.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\ListItemRun",
+            "name": "ListItemRun",
+            "summary": "ListItemRun\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-ListItemRun.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\ListItemRun\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020list\u0020item\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-ListItemRun.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\PageBreak",
             "name": "PageBreak",
@@ -13600,6 +13615,16 @@ Search.appendIndex(
             "name": "write",
             "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Image.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Numbering",
+            "name": "Numbering",
+            "summary": "Numbering\u0020style\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Numbering.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Numbering\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020style.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Numbering.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Paragraph",
             "name": "Paragraph",
@@ -14615,6 +14640,11 @@ Search.appendIndex(
             "name": "namespace",
             "summary": "Namespace\u003B\u0020Can\u0027t\u0020use\u0020__NAMESPACE__\u0020in\u0020inherited\u0020class\u0020\u0028ODText\u0029.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Container.html#property_namespace"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Container\u003A\u003A\u0024containerWithoutP",
+            "name": "containerWithoutP",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Container.html#property_containerWithoutP"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Endnote",
             "name": "Endnote",
