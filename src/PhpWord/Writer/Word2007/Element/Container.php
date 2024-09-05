@@ -37,6 +37,11 @@ class Container extends AbstractElement
     protected $namespace = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element';
 
     /**
+     * @var array<string>
+     */
+    protected $containerWithoutP = ['TextRun', 'Footnote', 'Endnote', 'ListItemRun'];
+
+    /**
      * Write element.
      */
     public function write(): void
@@ -46,7 +51,7 @@ class Container extends AbstractElement
             return;
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
-        $withoutP = in_array($containerClass, ['TextRun', 'Footnote', 'Endnote', 'ListItemRun']);
+        $withoutP = in_array($containerClass, $this->containerWithoutP);
         $xmlWriter = $this->getXmlWriter();
 
         // Loop through elements
