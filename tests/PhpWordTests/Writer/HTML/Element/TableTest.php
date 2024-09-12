@@ -19,7 +19,7 @@ namespace PhpOffice\PhpWordTests\Writer\HTML\Element;
 
 use DOMXPath;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Writer\HTML\Element\Table;
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
 use PhpOffice\PhpWordTests\Writer\HTML\Helper;
 use PHPUnit\Framework\TestCase;
 
@@ -161,5 +161,30 @@ class TableTest extends TestCase
         $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[.]tstyle[^\\r\\n]*/m', $style, $matches));
         self::assertEquals(".tstyle {table-layout: auto; $cssnone}", $matches[0]);
+    }
+
+    public function testWriteTableCellVAlign(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable();
+        $row = $table->addRow();
+
+        $cell = $row->addCell();
+        $cell->addText('top text');
+        $cell->getStyle()->setVAlign(VerticalJc::TOP);
+
+        $cell = $row->addCell();
+        $cell->addText('bottom text');
+        $cell->getStyle()->setVAlign(VerticalJc::BOTTOM);
+
+        $dom = Helper::getAsHTML($phpWord);
+        $xpath = new DOMXPath($dom);
+
+        $cell1Style = Helper::getTextContent($xpath, '//table/tr/td[1]', 'style');
+        $cell2Style = Helper::getTextContent($xpath, '//table/tr/td[2]', 'style');
+        self::assertSame('vertical-align: top;', $cell1Style);
+        self::assertSame('vertical-align: bottom;', $cell2Style);
     }
 }
