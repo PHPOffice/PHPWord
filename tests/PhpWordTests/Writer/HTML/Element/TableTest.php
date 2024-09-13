@@ -179,6 +179,11 @@ class TableTest extends TestCase
         $cell->addText('bottom text');
         $cell->getStyle()->setVAlign(VerticalJc::BOTTOM);
 
+        $cell = $row->addCell();
+        $cell->addText('no vAlign');
+        $cell->getStyle()->setVAlign(VerticalJc::BOTTOM);
+        $cell->getStyle()->setVAlign();
+
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
@@ -186,5 +191,12 @@ class TableTest extends TestCase
         $cell2Style = Helper::getTextContent($xpath, '//table/tr/td[2]', 'style');
         self::assertSame('vertical-align: top;', $cell1Style);
         self::assertSame('vertical-align: bottom;', $cell2Style);
+
+        $cell3Query = $xpath->query('//table/tr/td[3]');
+        self::assertNotFalse($cell3Query);
+        self::assertCount(1, $cell3Query);
+
+        $cell3Style = $cell3Query->item(0)->attributes->getNamedItem('style');
+        self::assertNull($cell3Style);
     }
 }
