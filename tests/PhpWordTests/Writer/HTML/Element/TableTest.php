@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\HTML\Element;
 use DOMXPath;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWordTests\Writer\HTML\Helper;
 use PHPUnit\Framework\TestCase;
 
@@ -179,6 +180,11 @@ class TableTest extends TestCase
         $cell->addText('bottom text');
         $cell->getStyle()->setVAlign(VerticalJc::BOTTOM);
 
+        $cell = $row->addCell();
+        $cell->addText('no vAlign');
+        $cell->getStyle()->setVAlign(VerticalJc::BOTTOM);
+        $cell->getStyle()->setVAlign();
+
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
@@ -186,5 +192,43 @@ class TableTest extends TestCase
         $cell2Style = Helper::getTextContent($xpath, '//table/tr/td[2]', 'style');
         self::assertSame('vertical-align: top;', $cell1Style);
         self::assertSame('vertical-align: bottom;', $cell2Style);
+
+        $cell3Query = $xpath->query('//table/tr/td[3]');
+        self::assertNotFalse($cell3Query);
+        self::assertCount(1, $cell3Query);
+
+        $cell3Style = $cell3Query->item(0)->attributes->getNamedItem('style');
+        self::assertNull($cell3Style);
+    }
+
+    public function testWriteTableCellVMerge(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable();
+
+        $cell = $table->addRow()->addCell();
+        $cell->addText('text');
+        $cell->getStyle()->setVMerge(Style\Cell::VMERGE_RESTART);
+
+        $cell = $table->addRow()->addCell();
+        $cell->getStyle()->setVMerge(Style\Cell::VMERGE_CONTINUE);
+
+        $cell = $table->addRow()->addCell();
+        $cell->addText('no vMerge');
+        $cell->getStyle()->setVMerge(Style\Cell::VMERGE_CONTINUE);
+        $cell->getStyle()->setVMerge();
+
+        $dom = Helper::getAsHTML($phpWord);
+        $xpath = new DOMXPath($dom);
+
+        $cell1Style = Helper::getTextContent($xpath, '//table/tr[1]/td[1]', 'rowspan');
+        self::assertSame('2', $cell1Style);
+
+        $cell3Query = $xpath->query('//table/tr[3]/td[1]');
+        self::assertNotFalse($cell3Query);
+        self::assertCount(1, $cell3Query);
+        self::assertNull($cell3Query->item(0)->attributes->getNamedItem('rowspan'));
     }
 }
