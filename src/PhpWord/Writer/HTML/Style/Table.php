@@ -46,6 +46,9 @@ class Table extends AbstractStyle
                 $css['direction'] = 'rtl';
             }
         }
+        if (is_object($style) && method_exists($style, 'getVAlign')) {
+            $css['vertical-align'] = $style->getVAlign();
+        }
 
         foreach (['Top', 'Left', 'Bottom', 'Right'] as $direction) {
             $method = 'getBorder' . $direction . 'Style';
