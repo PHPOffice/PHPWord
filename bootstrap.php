@@ -15,9 +15,19 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-$vendorDirPath = realpath(__DIR__ . '/vendor');
+$vendorDirPath = realpath(__DIR__);
+$normalizedPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $vendorDirPath);
+
+$toRemove = DIRECTORY_SEPARATOR . 'phpoffice' . DIRECTORY_SEPARATOR . 'phpword';
+$newPath = str_replace($toRemove, '', $normalizedPath);
+
+$vendorDirNewPath = rtrim($newPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
 if (file_exists($vendorDirPath . '/autoload.php')) {
     require $vendorDirPath . '/autoload.php';
+}
+elseif (file_exists($vendorDirNewPath . '/autoload.php')) {
+    require $vendorDirNewPath . '/autoload.php';
 } else {
     throw new Exception(
         sprintf(
