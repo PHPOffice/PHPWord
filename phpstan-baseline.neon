@@ -11,16 +11,6 @@ parameters:
 			path: src/PhpWord/Element/AbstractContainer.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, int\\<0, max\\> given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/AbstractElement.php
-
-		-
-			message: "#^Parameter \\#2 \\$styleValue of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:setNewStyle\\(\\) expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, array\\|PhpOffice\\\\PhpWord\\\\Style\\\\Cell\\|null given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Cell.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Field\\:\\:setOptions\\(\\) should return PhpOffice\\\\PhpWord\\\\Element\\\\Field but returns array\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Field.php
@@ -39,11 +29,6 @@ parameters:
 			message: "#^Result of \\|\\| is always true\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Field.php
-
-		-
-			message: "#^Parameter \\#2 \\$styleValue of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:setNewStyle\\(\\) expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, array\\|PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\|string\\|null given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Footnote.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Image\\:\\:getArchiveImageSize\\(\\) should return array\\|null but returns array<int\\|string, int\\|string>\\|false\\|null\\.$#"
@@ -82,11 +67,6 @@ parameters:
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Section\\:\\:addHeaderFooter\\(\\) should return PhpOffice\\\\PhpWord\\\\Element\\\\Footer but returns PhpOffice\\\\PhpWord\\\\Element\\\\AbstractContainer\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Section.php
-
-		-
-			message: "#^Parameter \\#2 \\$styleValue of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:setNewStyle\\(\\) expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, array\\|PhpOffice\\\\PhpWord\\\\Style\\|PhpOffice\\\\PhpWord\\\\Style\\\\Section\\|string given\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Section.php
 

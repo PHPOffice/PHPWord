@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Collection\Comments;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\AbstractStyle;
 
 /**
  * Element abstract class.
@@ -256,7 +257,7 @@ abstract class AbstractElement
      */
     public function setElementId(): void
     {
-        $this->elementId = substr(md5(mt_rand()), 0, 6);
+        $this->elementId = substr(md5((string) mt_rand()), 0, 6);
     }
 
     /**
@@ -482,21 +483,24 @@ abstract class AbstractElement
      * Set new style value.
      *
      * @param mixed $styleObject Style object
-     * @param null|array|string|Style $styleValue Style value
+     * @param null|AbstractStyle|array|string|Style $styleValue Style value
      * @param bool $returnObject Always return object
      *
      * @return mixed
      */
-    protected function setNewStyle($styleObject, $styleValue = null, $returnObject = false)
+    protected function setNewStyle($styleObject, $styleValue = null, bool $returnObject = false)
     {
-        if (null !== $styleValue && is_array($styleValue)) {
-            $styleObject->setStyleByArray($styleValue);
-            $style = $styleObject;
-        } else {
-            $style = $returnObject ? $styleObject : $styleValue;
+        if ($styleValue instanceof AbstractStyle && get_class($styleValue) === get_class($styleObject)) {
+            return $styleValue;
         }
 
-        return $style;
+        if (is_array($styleValue)) {
+            $styleObject->setStyleByArray($styleValue);
+
+            return $styleObject;
+        }
+
+        return $returnObject === true ? $styleObject : $styleValue;
     }
 
     /**
