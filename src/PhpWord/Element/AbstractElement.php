@@ -485,7 +485,7 @@ abstract class AbstractElement
      * Set new style value.
      *
      * @param AbstractStyle $styleObject Style object
-     * @param null|AbstractStyle|array|string $styleValue Style value
+     * @param null|AbstractStyle|Style|array|string $styleValue Style value
      * @param bool $returnObject Always return object
      *
      * @return mixed
