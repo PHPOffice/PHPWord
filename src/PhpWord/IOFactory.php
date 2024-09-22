@@ -30,10 +30,9 @@ abstract class IOFactory
      * Create new writer.
      *
      * @param string $name
-     *
-     * @return WriterInterface
+     * @param array $config
      */
-    public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
+    public static function createWriter(PhpWord $phpWord, $name = 'Word2007', $config = []): WriterInterface
     {
         if ($name !== 'WriterInterface' && !in_array($name, ['ODText', 'RTF', 'Word2007', 'HTML', 'PDF'], true)) {
             throw new Exception("\"{$name}\" is not a valid writer.");
@@ -41,7 +40,7 @@ abstract class IOFactory
 
         $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
 
-        return new $fqName($phpWord);
+        return new $fqName($phpWord, $config);
     }
 
     /**
