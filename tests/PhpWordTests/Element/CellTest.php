@@ -51,7 +51,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
-     * Test if the style object passed to the constructor is actually used
+     * Test if the style object passed to the constructor is actually used.
      */
     public function testConstructWithStyleObject(): void
     {
