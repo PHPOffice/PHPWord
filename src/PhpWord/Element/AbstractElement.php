@@ -19,13 +19,13 @@ namespace PhpOffice\PhpWord\Element;
 
 use DateTime;
 use InvalidArgumentException;
+use function is_array;
 use PhpOffice\PhpWord\Collection\Comments;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Style\AbstractStyle;
 
-use function is_array;
+use PhpOffice\PhpWord\Style\AbstractStyle;
 
 /**
  * Element abstract class.
@@ -485,19 +485,20 @@ abstract class AbstractElement
      * Set new style value.
      *
      * @param AbstractStyle $styleObject Style object
-     * @param null|string|array|AbstractStyle $styleValue Style value
+     * @param null|AbstractStyle|array|string $styleValue Style value
      * @param bool $returnObject Always return object
      *
-     * @return null|string|array|AbstractStyle
+     * @return mixed
      */
     protected function setNewStyle($styleObject, $styleValue = null, $returnObject = false)
     {
         if ($styleValue instanceof AbstractStyle && get_class($styleValue) === get_class($styleObject)) {
-            return clone $styleValue;
+            return $styleValue;
         }
 
         if (is_array($styleValue)) {
             $styleObject->setStyleByArray($styleValue);
+
             return $styleObject;
         }
 
