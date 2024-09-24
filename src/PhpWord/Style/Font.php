@@ -565,10 +565,8 @@ class Font extends AbstractStyle
 
     /**
      * Get strikethrough.
-     *
-     * @return bool
      */
-    public function isStrikethrough()
+    public function isStrikethrough(): ?bool
     {
         return $this->strikethrough;
     }
@@ -577,20 +575,16 @@ class Font extends AbstractStyle
      * Set strikethrough.
      *
      * @param bool $value
-     *
-     * @return self
      */
-    public function setStrikethrough($value = true)
+    public function setStrikethrough($value = true): self
     {
         return $this->setPairedVal($this->strikethrough, $this->doubleStrikethrough, $value);
     }
 
     /**
      * Get double strikethrough.
-     *
-     * @return bool
      */
-    public function isDoubleStrikethrough()
+    public function isDoubleStrikethrough(): ?bool
     {
         return $this->doubleStrikethrough;
     }
@@ -599,10 +593,8 @@ class Font extends AbstractStyle
      * Set double strikethrough.
      *
      * @param bool $value
-     *
-     * @return self
      */
-    public function setDoubleStrikethrough($value = true)
+    public function setDoubleStrikethrough($value = true): self
     {
         return $this->setPairedVal($this->doubleStrikethrough, $this->strikethrough, $value);
     }
