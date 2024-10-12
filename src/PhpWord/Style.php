@@ -36,6 +36,13 @@ class Style
     private static $styles = [];
 
     /**
+     * Mapping style name to internal code identifier.
+     *
+     * @var array<string, string>
+     */
+    private static $nameToIdentifierMapping = [];
+
+    /**
      * Add paragraph style.
      *
      * @param string $styleName
@@ -125,6 +132,52 @@ class Style
     }
 
     /**
+     * Add a styleName to identifier mapping entry.
+     *
+     * @param string $alias
+     * @param string $styleName
+     *
+     * @see self::resolveStyleNameIdentifier()
+     */
+    public static function addStyleNameAlias($alias, $styleName): void
+    {
+        self::$nameToIdentifierMapping[$alias] = $styleName;
+    }
+
+    /**
+     * Find the correct for a specified $alias. If $alias is a validName, it is returned. Otherwise, it will return
+     * the styleName for the alias if one is found, and a empty string if nothing could be found.
+     *
+     * @param string $alias
+     *
+     * @return string
+     */
+    public static function findStyleNameForAlias($alias)
+    {
+        foreach (self::$nameToIdentifierMapping as $alias => $mappedStyleName) {
+            if ($mappedStyleName === $alias) {
+                return $alias;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * Returns the alias for a specific $styleName. If no alias could be found, $styleName is returned.
+     *
+     * @param string $styleName
+     *
+     * @return string
+     */
+    public static function findAliasForStyleName($styleName)
+    {
+        return (isset(self::$nameToIdentifierMapping[$styleName]) && !empty(self::$nameToIdentifierMapping[$styleName]))
+            ? self::$nameToIdentifierMapping[$styleName]
+            : $styleName;
+    }
+
+    /**
      * Count styles.
      *
      * @return int
@@ -144,6 +197,7 @@ class Style
     public static function resetStyles(): void
     {
         self::$styles = [];
+        self::$nameToIdentifierMapping = [];
     }
 
     /**

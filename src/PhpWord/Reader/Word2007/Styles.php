@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Language;
 
 /**
@@ -65,8 +66,17 @@ class Styles extends AbstractPart
             foreach ($nodes as $node) {
                 $type = $xmlReader->getAttribute('w:type', $node);
                 $name = $xmlReader->getAttribute('w:val', $node, 'w:name');
-                if (null === $name) {
-                    $name = $xmlReader->getAttribute('w:styleId', $node);
+                $alias = $xmlReader->getAttribute('w:styleId', $node);
+                if (null === $name && null === $alias) {
+                    // no name or alias, skip it as matching would not possible otherwise.
+                    continue;
+                }
+                if (null === $name && null !== $alias) {
+                    // fully custom style, use alias as name.
+                    $name = $alias;
+                }
+                if (null !== $name && null === $alias) {
+                    $alias = $name;
                 }
                 $headingMatches = [];
                 preg_match('/Heading\s*(\d)/i', $name, $headingMatches);
@@ -76,14 +86,17 @@ class Styles extends AbstractPart
                         $paragraphStyle = $this->readParagraphStyle($xmlReader, $node);
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
                         if (!empty($headingMatches)) {
-                            $phpWord->addTitleStyle($headingMatches[1], $fontStyle, $paragraphStyle);
+                            $titleStyleName = $phpWord->addTitleStyle($headingMatches[1], $fontStyle, $paragraphStyle)->getStyleName();
+                            Style::addStyleNameAlias($alias, $titleStyleName);
                         } else {
                             if (empty($fontStyle)) {
                                 if (is_array($paragraphStyle)) {
-                                    $phpWord->addParagraphStyle($name, $paragraphStyle);
+                                    $paragraphStyleName = $phpWord->addParagraphStyle($name, $paragraphStyle)->getStyleName();
+                                    Style::addStyleNameAlias($alias, $paragraphStyleName);
                                 }
                             } else {
-                                $phpWord->addFontStyle($name, $fontStyle, $paragraphStyle);
+                                $fontStyleName = $phpWord->addFontStyle($name, $fontStyle, $paragraphStyle)->getStyleName();
+                                Style::addStyleNameAlias($alias, $fontStyleName);
                             }
                         }
 
@@ -91,14 +104,16 @@ class Styles extends AbstractPart
                     case 'character':
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
                         if (!empty($fontStyle)) {
-                            $phpWord->addFontStyle($name, $fontStyle);
+                            $fontStyleName = $phpWord->addFontStyle($name, $fontStyle)->getStyleName();
+                            Style::addStyleNameAlias($alias, $fontStyleName);
                         }
 
                         break;
                     case 'table':
                         $tStyle = $this->readTableStyle($xmlReader, $node);
                         if (!empty($tStyle)) {
-                            $phpWord->addTableStyle($name, $tStyle);
+                            $tableStyleName = $phpWord->addTableStyle($name, $tStyle)->getStyleName();
+                            Style::addStyleNameAlias($alias, $tableStyleName);
                         }
 
                         break;
