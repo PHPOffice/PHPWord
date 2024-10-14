@@ -57,8 +57,13 @@ class Title extends Text
     {
         /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
         $element = $this->element;
+        $text = method_exists($element, 'getText') ? $element->getText() : null;
+        // check for text run
+        if (is_object($text) && method_exists($text, 'getText')) {
+            $text = $text->getText();
+        }
         $elementClass = str_replace('\\Writer\\RTF', '', static::class);
-        if (!$element instanceof $elementClass || !is_string($element->getText())) {
+        if (!$element instanceof $elementClass || !is_string($text)) {
             return '';
         }
 
@@ -82,7 +87,7 @@ class Title extends Text
 
         $content .= '{';
         $content .= $this->writeFontStyle();
-        $content .= $this->writeText($element->getText());
+        $content .= $this->writeText($text);
         $content .= '}';
         $content .= $this->writeClosing();
         $content .= $endout;

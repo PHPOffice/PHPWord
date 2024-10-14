@@ -67,7 +67,7 @@ class RTF extends AbstractWriter implements WriterInterface
      *
      * @since 0.11.0
      */
-    private function getContent()
+    public function getContent()
     {
         $content = '';
 

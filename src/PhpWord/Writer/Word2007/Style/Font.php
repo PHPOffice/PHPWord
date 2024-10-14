@@ -153,10 +153,7 @@ class Font extends AbstractStyle
         }
 
         // RTL
-        if ($this->isInline === true) {
-            $styleName = $style->getStyleName();
-            $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
-        }
+        $xmlWriter->writeElementIf($style->isRTL(), 'w:rtl');
 
         // Position
         $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
