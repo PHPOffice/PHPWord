@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Shared\Text as SharedText;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
-use PhpOffice\PhpWord\Writer\AbstractWriter;
+use PhpOffice\PhpWord\Writer\RTF as WriterRTF;
 use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\RTF\Style\Paragraph as ParagraphStyleWriter;
 
@@ -38,7 +38,7 @@ abstract class AbstractElement
     /**
      * Parent writer.
      *
-     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @var WriterRTF
      */
     protected $parentWriter;
 
@@ -82,7 +82,7 @@ abstract class AbstractElement
      */
     protected $escaper;
 
-    public function __construct(AbstractWriter $parentWriter, Element $element, bool $withoutP = false)
+    public function __construct(WriterRTF $parentWriter, Element $element, bool $withoutP = false)
     {
         $this->parentWriter = $parentWriter;
         $this->element = $element;

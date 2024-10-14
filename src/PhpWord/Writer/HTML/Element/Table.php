@@ -65,16 +65,9 @@ class Table extends AbstractElement
                     $cellColSpan = $cellStyle->getGridSpan();
                     $cellRowSpan = 1;
                     $cellVMerge = $cellStyle->getVMerge();
-                    // If this is the first cell of the vertical merge, find out how man rows it spans
+                    // If this is the first cell of the vertical merge, find out how many rows it spans
                     if ($cellVMerge === 'restart') {
-                        for ($k = $i + 1; $k < $rowCount; ++$k) {
-                            $kRowCells = $rows[$k]->getCells();
-                            if (isset($kRowCells[$j]) && $kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
-                                ++$cellRowSpan;
-                            } else {
-                                break;
-                            }
-                        }
+                        $cellRowSpan = $this->calculateCellRowSpan($rows, $i, $j);
                     }
                     // Ignore cells that are merged vertically with previous rows
                     if ($cellVMerge !== 'continue') {
@@ -120,9 +113,7 @@ class Table extends AbstractElement
             return '';
         }
         if (is_string($tableStyle)) {
-            $style = ' class="' . $tableStyle;
-
-            return $style . '"';
+            return ' class="' . $tableStyle . '"';
         }
 
         $styleWriter = new TableStyleWriter($tableStyle);
@@ -132,5 +123,59 @@ class Table extends AbstractElement
         }
 
         return ' style="' . $style . '"';
+    }
+
+    /**
+     * Calculates cell rowspan.
+     *
+     * @param \PhpOffice\PhpWord\Element\Row[] $rows
+     */
+    private function calculateCellRowSpan(array $rows, int $rowIndex, int $colIndex): int
+    {
+        $currentRow = $rows[$rowIndex];
+        $currentRowCells = $currentRow->getCells();
+        $shiftedColIndex = 0;
+
+        foreach ($currentRowCells as $cell) {
+            if ($cell === $currentRowCells[$colIndex]) {
+                break;
+            }
+
+            $colSpan = 1;
+
+            if ($cell->getStyle()->getGridSpan() !== null) {
+                $colSpan = $cell->getStyle()->getGridSpan();
+            }
+
+            $shiftedColIndex += $colSpan;
+        }
+
+        $rowCount = count($rows);
+        $rowSpan = 1;
+
+        for ($i = $rowIndex + 1; $i < $rowCount; ++$i) {
+            $rowCells = $rows[$i]->getCells();
+            $colIndex = 0;
+
+            foreach ($rowCells as $cell) {
+                if ($colIndex === $shiftedColIndex) {
+                    if ($cell->getStyle()->getVMerge() === 'continue') {
+                        ++$rowSpan;
+                    }
+
+                    break;
+                }
+
+                $colSpan = 1;
+
+                if ($cell->getStyle()->getGridSpan() !== null) {
+                    $colSpan = $cell->getStyle()->getGridSpan();
+                }
+
+                $colIndex += $colSpan;
+            }
+        }
+
+        return $rowSpan;
     }
 }

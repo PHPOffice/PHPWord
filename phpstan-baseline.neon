@@ -61,11 +61,6 @@ parameters:
 			path: src/PhpWord/Element/Image.php
 
 		-
-			message: "#^Parameter \\#2 \\$length of function fread expects int\\<0, max\\>, int\\<0, max\\>\\|false given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Image.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Element\\\\Image\\:\\:\\$source \\(string\\) does not accept string\\|false\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Image.php
@@ -241,11 +236,6 @@ parameters:
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php
 
 		-
-			message: "#^Parameter \\#1 \\$count of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractContainer\\:\\:addTextBreak\\(\\) expects int, null given\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/Word2007/AbstractPart.php
-
-		-
 			message: "#^Parameter \\#1 \\$depth of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractContainer\\:\\:addListItemRun\\(\\) expects int, string\\|null given\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php
@@ -386,11 +376,6 @@ parameters:
 			path: src/PhpWord/Shared/Drawing.php
 
 		-
-			message: "#^Access to an undefined property DOMNode\\:\\:\\$value\\.$#"
-			count: 6
-			path: src/PhpWord/Shared/Html.php
-
-		-
 			message: "#^Binary operation \"\\*\" between string and 50 results in an error\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/Html.php
@@ -517,16 +502,6 @@ parameters:
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLWriter\\:\\:getData\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/XMLWriter.php
-
-		-
-			message: "#^Parameter \\#1 \\$uri of method XMLWriter\\:\\:openUri\\(\\) expects string, string\\|false given\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/XMLWriter.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Shared\\\\XMLWriter\\:\\:\\$tempFileName \\(string\\) does not accept string\\|false\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/XMLWriter.php
 
@@ -1111,11 +1086,6 @@ parameters:
 			path: src/PhpWord/TemplateProcessor.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function preg_quote expects string, int\\|string given\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
 			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, array\\<string\\>\\|string given\\.$#"
 			count: 1
 			path: src/PhpWord/TemplateProcessor.php
@@ -1132,11 +1102,6 @@ parameters:
 
 		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:\\$macroOpeningChars has no type specified\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:\\$tempDocumentFilename \\(string\\) does not accept string\\|false\\.$#"
 			count: 1
 			path: src/PhpWord/TemplateProcessor.php
 
@@ -1227,11 +1192,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\\\AbstractRenderer, string\\} given\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/PDF.php
-
-		-
-			message: "#^Parameter \\#3 \\$subject of function str_replace expects array\\|string, string\\|false given\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/PDF.php
 
@@ -1816,11 +1776,6 @@ parameters:
 			path: tests/PhpWordTests/TestHelperDOCX.php
 
 		-
-			message: "#^Static property PhpOffice\\\\PhpWordTests\\\\TestHelperDOCX\\:\\:\\$file \\(string\\) does not accept string\\|false\\.$#"
-			count: 1
-			path: tests/PhpWordTests/TestHelperDOCX.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\TestableTemplateProcesor\\:\\:__construct\\(\\) has parameter \\$mainPart with no type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/TestableTemplateProcesor.php
@@ -1832,17 +1787,12 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
-			count: 6
+			count: 9
 			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
 
 		-
 			message: "#^Cannot call method item\\(\\) on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
-			count: 8
-			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\HTML\\\\ElementTest\\:\\:getAsHTML\\(\\) has no return type specified\\.$#"
-			count: 1
+			count: 11
 			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
 
 		-

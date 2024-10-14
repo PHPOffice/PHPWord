@@ -165,6 +165,44 @@ class StyleTest extends AbstractTestReader
         self::assertEquals('auto', $styleCell->getBorderBottomColor());
     }
 
+    public function testReadTableCellsWithVerticalMerge(): void
+    {
+        $documentXml = '<w:tbl>
+          <w:tr>
+            <w:tc>
+              <w:tcPr>
+                <w:vMerge w:val="restart" />
+              </w:tcPr>
+            </w:tc>
+          </w:tr>
+          <w:tr>
+            <w:tc>
+              <w:tcPr>
+                <w:vMerge />
+              </w:tcPr>
+            </w:tc>
+          </w:tr>
+          <w:tr>
+            <w:tc />
+          </w:tr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $table = $phpWord->getSection(0)->getElements()[0];
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Table', $table);
+
+        $rows = $table->getRows();
+        self::assertCount(3, $rows);
+        foreach ($rows as $row) {
+            self::assertCount(1, $row->getCells());
+        }
+
+        self::assertSame('restart', $rows[0]->getCells()[0]->getStyle()->getVMerge());
+        self::assertSame('continue', $rows[1]->getCells()[0]->getStyle()->getVMerge());
+        self::assertNull($rows[2]->getCells()[0]->getStyle()->getVMerge());
+    }
+
     /**
      * Test reading of position.
      */

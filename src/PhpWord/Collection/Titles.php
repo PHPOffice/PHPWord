@@ -17,10 +17,13 @@
 
 namespace PhpOffice\PhpWord\Collection;
 
+use PhpOffice\PhpWord\Element\Title;
+
 /**
  * Titles collection.
  *
  * @since 0.10.0
+ * @extends AbstractCollection<Title>
  */
 class Titles extends AbstractCollection
 {

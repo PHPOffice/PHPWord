@@ -91,6 +91,10 @@ class Field extends AbstractElement
             ],
             'options' => ['Path', 'PreserveFormat'],
         ],
+        'REF' => [
+            'properties' => ['name' => ''],
+            'options' => ['f', 'h', 'n', 'p', 'r', 't', 'w'],
+        ],
     ];
 
     /**

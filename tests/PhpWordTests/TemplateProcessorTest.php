@@ -25,6 +25,7 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Throwable;
 use TypeError;
 use ZipArchive;
 
@@ -63,12 +64,21 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      *
      * @covers ::__construct
      * @covers ::__destruct
+     * @covers \PhpOffice\PhpWord\Shared\ZipArchive::close
      */
     public function testTheConstruct(): void
     {
         $object = $this->getTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
         self::assertInstanceOf('PhpOffice\\PhpWord\\TemplateProcessor', $object);
         self::assertEquals([], $object->getVariables());
+        $object->save();
+
+        try {
+            $object->zip()->close();
+            self::fail('Expected exception for double close');
+        } catch (Throwable $e) {
+            // nothing to do here
+        }
     }
 
     /**
