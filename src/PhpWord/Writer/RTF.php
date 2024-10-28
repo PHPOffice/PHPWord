@@ -35,10 +35,13 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Create new instance.
+     *
+     * @param array $config
      */
-    public function __construct(?PhpWord $phpWord = null)
+    public function __construct(?PhpWord $phpWord = null, $config = [])
     {
-        $this->setPhpWord($phpWord);
+        // Assign PhpWord
+        parent::__construct($phpWord, $config);
 
         $this->parts = ['Header', 'Document'];
         foreach ($this->parts as $partName) {

@@ -44,12 +44,13 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Create new Word2007 writer.
      *
-     * @param \PhpOffice\PhpWord\PhpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param array $config
      */
-    public function __construct(?PhpWord $phpWord = null)
+    public function __construct(?PhpWord $phpWord = null, $config = [])
     {
         // Assign PhpWord
-        $this->setPhpWord($phpWord);
+        parent::__construct($phpWord, $config);
 
         // Create parts
         // The first four files need to be in this order for Mimetype detection to work
@@ -78,7 +79,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         foreach (array_keys($this->parts) as $partName) {
             $partClass = static::class . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
-                /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $part Type hint */
+                /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $part */
                 $part = new $partClass();
                 $part->setParentWriter($this);
                 $this->writerParts[strtolower($partName)] = $part;
