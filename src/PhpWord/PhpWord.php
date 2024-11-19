@@ -257,6 +257,26 @@ class PhpWord
     }
 
     /**
+     * Get default asian font name.
+     *
+     * @return string
+     */
+    public function getDefaultAsianFontName()
+    {
+        return Settings::getDefaultAsianFontName();
+    }
+
+    /**
+     * Set default font name.
+     *
+     * @param string $fontName
+     */
+    public function setDefaultAsianFontName($fontName): void
+    {
+        Settings::setDefaultAsianFontName($fontName);
+    }
+
+    /**
      * Get default font size.
      *
      * @return int
