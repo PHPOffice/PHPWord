@@ -17,11 +17,8 @@
 
 namespace PhpOffice\PhpWordTests\Writer\Word2007\Style;
 
-use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
-use PhpOffice\PhpWord\Style\Table;
-use PhpOffice\PhpWord\Style\TablePosition;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -60,7 +57,7 @@ class TableCellTest extends \PHPUnit\Framework\TestCase
             'paddingTop' => $testValTop,
             'paddingRight' => $testValRight,
             'paddingBottom' => $testValBottom,
-            'paddingLeft' => $testValLeft
+            'paddingLeft' => $testValLeft,
         ];
         $table->addCell(null, $cellStyle)->addText('Some text');
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
