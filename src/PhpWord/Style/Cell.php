@@ -377,60 +377,66 @@ class Cell extends Border
         return $this->noWrap;
     }
 
-
     /**
      * Get style padding-top.
+     *
      * @return mixed
      */
     public function getPaddingTop()
     {
         return $this->paddingTop;
     }
+
     /**
      * Set style padding-top.
-     * @param  int $value
      *
      * @return $this
      */
-    public function setPaddingTop(int $value): Cell
+    public function setPaddingTop(int $value): self
     {
         $this->paddingTop = $value;
+
         return $this;
     }
+
     /**
      * Get style padding-bottom.
+     *
      * @return mixed
      */
     public function getPaddingBottom()
     {
         return $this->paddingBottom;
     }
+
     /**
      * Set style padding-bottom.
-     * @param int $value
      *
      * @return $this
      */
-    public function setPaddingBottom(int $value): Cell
+    public function setPaddingBottom(int $value): self
     {
         $this->paddingBottom = $value;
+
         return $this;
     }
+
     /**
      * Get style padding-left.
+     *
      * @return mixed
      */
     public function getPaddingLeft()
     {
         return $this->paddingLeft;
     }
+
     /**
      * Set style padding-left.
-     * @param int $value
      *
      * @return $this
      */
-    public function setPaddingLeft(int $value): Cell
+    public function setPaddingLeft(int $value): self
     {
         $this->paddingLeft = $value;
 
@@ -439,6 +445,7 @@ class Cell extends Border
 
     /**
      * Get style padding-right.
+     *
      * @return mixed
      */
     public function getPaddingRight()
@@ -448,11 +455,10 @@ class Cell extends Border
 
     /**
      * Set style padding-right.
-     * @param int $value
      *
      * @return $this
      */
-    public function setPaddingRight(int $value): Cell
+    public function setPaddingRight(int $value): self
     {
         $this->paddingRight = $value;
 
