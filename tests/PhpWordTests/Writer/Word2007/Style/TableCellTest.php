@@ -41,7 +41,7 @@ class TableCellTest extends \PHPUnit\Framework\TestCase
     /**
      * Test write styles.
      */
-    public function testCellSpacing(): void
+    public function testCellPadding(): void
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
