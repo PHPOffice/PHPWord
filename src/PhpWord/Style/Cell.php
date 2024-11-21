@@ -74,6 +74,26 @@ class Cell extends Border
     private $vAlign;
 
     /**
+     * @var null|int
+     */
+    private $paddingTop;
+
+    /**
+     * @var null|int
+     */
+    private $paddingBottom;
+
+    /**
+     * @var null|int
+     */
+    private $paddingLeft;
+
+    /**
+     * @var null|int
+     */
+    private $paddingRight;
+
+    /**
      * Text Direction.
      *
      * @var string
@@ -355,5 +375,93 @@ class Cell extends Border
     public function getNoWrap(): bool
     {
         return $this->noWrap;
+    }
+
+    /**
+     * Get style padding-top.
+     *
+     * @return mixed
+     */
+    public function getPaddingTop()
+    {
+        return $this->paddingTop;
+    }
+
+    /**
+     * Set style padding-top.
+     *
+     * @return $this
+     */
+    public function setPaddingTop(int $value): self
+    {
+        $this->paddingTop = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get style padding-bottom.
+     *
+     * @return mixed
+     */
+    public function getPaddingBottom()
+    {
+        return $this->paddingBottom;
+    }
+
+    /**
+     * Set style padding-bottom.
+     *
+     * @return $this
+     */
+    public function setPaddingBottom(int $value): self
+    {
+        $this->paddingBottom = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get style padding-left.
+     *
+     * @return mixed
+     */
+    public function getPaddingLeft()
+    {
+        return $this->paddingLeft;
+    }
+
+    /**
+     * Set style padding-left.
+     *
+     * @return $this
+     */
+    public function setPaddingLeft(int $value): self
+    {
+        $this->paddingLeft = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get style padding-right.
+     *
+     * @return mixed
+     */
+    public function getPaddingRight()
+    {
+        return $this->paddingRight;
+    }
+
+    /**
+     * Set style padding-right.
+     *
+     * @return $this
+     */
+    public function setPaddingRight(int $value): self
+    {
+        $this->paddingRight = $value;
+
+        return $this;
     }
 }
