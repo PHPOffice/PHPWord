@@ -84,6 +84,7 @@ class Styles extends AbstractPart
         $phpWord = $this->getParentWriter()->getPhpWord();
         $fontName = $phpWord->getDefaultFontName();
         $fontSize = $phpWord->getDefaultFontSize();
+		$fontColor = $phpWord->getDefaultFontColor();
         $language = $phpWord->getSettings()->getThemeFontLang();
         $latinLanguage = ($language == null || $language->getLatin() === null) ? 'en-US' : $language->getLatin();
 
@@ -97,6 +98,9 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('w:eastAsia', $fontName);
         $xmlWriter->writeAttribute('w:cs', $fontName);
         $xmlWriter->endElement(); // w:rFonts
+		$xmlWriter->startElement('w:color');
+        $xmlWriter->writeAttribute('w:val', $fontColor);
+		$xmlWriter->endElement(); 
         $xmlWriter->startElement('w:sz');
         $xmlWriter->writeAttribute('w:val', $fontSize * 2);
         $xmlWriter->endElement(); // w:sz

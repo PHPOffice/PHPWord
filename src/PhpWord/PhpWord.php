@@ -255,6 +255,27 @@ class PhpWord
     {
         Settings::setDefaultFontName($fontName);
     }
+	
+	 /**
+     * Set default font color.
+     *
+     * @param string $fontColor
+     */
+    public function setDefaultFontColor($fontColor): void
+    {
+        Settings::setDefaultFontColor($fontColor);
+    }
+	
+	/**
+     * Get default font color.
+     *
+     * @return string
+     */
+    public function getDefaultFontColor()
+    {
+        return Settings::getDefaultFontColor();
+    }
+
 
     /**
      * Get default font size.
