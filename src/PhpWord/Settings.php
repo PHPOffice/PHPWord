@@ -117,13 +117,13 @@ class Settings
      */
     private static $defaultFontName = self::DEFAULT_FONT_NAME;
 
-	/**
+    /**
      * Default font color.
      *
      * @var string
      */
     private static $defaultFontColor = self::DEFAULT_FONT_COLOR;
-	
+
     /**
      * Default font size.
      *
@@ -374,8 +374,8 @@ class Settings
 
         return false;
     }
-	
-	 /**
+
+    /**
      * Get default font color.
      */
     public static function getDefaultFontColor(): string
