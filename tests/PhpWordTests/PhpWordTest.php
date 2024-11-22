@@ -83,6 +83,18 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test set/get default font color.
+     */
+    public function testSetGetDefaultFontColor(): void
+    {
+        $phpWord = new PhpWord();
+        $fontColor = 'FF0000';
+        self::assertEquals(Settings::DEFAULT_FONT_COLOR, $phpWord->getDefaultFontColor());
+        $phpWord->setDefaultFontColor($fontColor);
+        self::assertEquals($fontColor, $phpWord->getDefaultFontColor());
+    }
+
+    /**
      * Test set default paragraph style.
      */
     public function testSetDefaultParagraphStyle(): void

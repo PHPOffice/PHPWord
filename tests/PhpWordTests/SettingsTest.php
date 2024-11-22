@@ -59,6 +59,7 @@ class SettingsTest extends TestCase
     protected function setUp(): void
     {
         $this->compatibility = Settings::hasCompatibility();
+        $this->defaultFontColor = Settings::getDefaultFontColor();
         $this->defaultFontSize = Settings::getDefaultFontSize();
         $this->defaultFontName = Settings::getDefaultFontName();
         $this->defaultPaper = Settings::getDefaultPaper();
@@ -75,6 +76,7 @@ class SettingsTest extends TestCase
     protected function tearDown(): void
     {
         Settings::setCompatibility($this->compatibility);
+        Settings::setDefaultFontColor($this->defaultFontColor);
         Settings::setDefaultFontSize($this->defaultFontSize);
         Settings::setDefaultFontName($this->defaultFontName);
         Settings::setDefaultPaper($this->defaultPaper);
@@ -234,6 +236,20 @@ class SettingsTest extends TestCase
         self::assertEquals(12.5, Settings::getDefaultFontSize());
         self::assertFalse(Settings::setDefaultFontSize(0));
         self::assertEquals(12.5, Settings::getDefaultFontSize());
+    }
+
+    /**
+     * Test set/get default font color.
+     */
+    public function testSetGetDefaultFontColor(): void
+    {
+        self::assertEquals(Settings::DEFAULT_FONT_COLOR, Settings::getDefaultFontColor());
+        self::assertFalse(Settings::setDefaultFontColor(' '));
+        self::assertEquals(Settings::DEFAULT_FONT_COLOR, Settings::getDefaultFontColor());
+        self::assertTrue(Settings::setDefaultFontColor('FF0000'));
+        self::assertEquals('FF0000', Settings::getDefaultFontColor());
+        self::assertFalse(Settings::setDefaultFontColor(' '));
+        self::assertEquals('FF0000', Settings::getDefaultFontColor());
     }
 
     /**
