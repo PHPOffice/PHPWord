@@ -30,6 +30,9 @@ class SettingsTest extends TestCase
 {
     private $compatibility;
 
+    /** @var string */
+    private $defaultFontColor;
+
     private $defaultFontSize;
 
     private $defaultFontName;
@@ -287,6 +290,7 @@ class SettingsTest extends TestCase
             'pdfRendererPath' => '',
             'defaultFontName' => 'Arial',
             'defaultFontSize' => 10,
+            'defaultFontColor' => '000000',
             'outputEscapingEnabled' => false,
             'defaultPaper' => 'A4',
         ];
