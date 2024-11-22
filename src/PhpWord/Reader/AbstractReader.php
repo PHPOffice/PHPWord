@@ -95,6 +95,9 @@ abstract class AbstractReader implements ReaderInterface
      */
     protected function openFile($filename)
     {
+        // Only take path from the URL
+        $filename = parse_url($filename, PHP_URL_PATH);
+        
         // Check if file exists
         if (!file_exists($filename) || !is_readable($filename)) {
             throw new Exception("Could not open $filename for reading! File does not exist.");
