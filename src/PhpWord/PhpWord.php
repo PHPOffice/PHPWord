@@ -261,7 +261,7 @@ class PhpWord
      *
      * @param string $fontColor
      */
-    public function setDefaultFontColor($fontColor): void
+    public function setDefaultFontColor(string $fontColor): void
     {
         Settings::setDefaultFontColor($fontColor);
     }
