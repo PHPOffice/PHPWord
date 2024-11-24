@@ -271,7 +271,7 @@ class PhpWord
      *
      * @return string
      */
-    public function getDefaultFontColor()
+    public function getDefaultFontColor(): string
     {
         return Settings::getDefaultFontColor();
     }
