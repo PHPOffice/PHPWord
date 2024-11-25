@@ -258,8 +258,6 @@ class PhpWord
 
     /**
      * Set default font color.
-     *
-     * @param string $fontColor
      */
     public function setDefaultFontColor(string $fontColor): void
     {
@@ -268,8 +266,6 @@ class PhpWord
 
     /**
      * Get default font color.
-     *
-     * @return string
      */
     public function getDefaultFontColor(): string
     {
