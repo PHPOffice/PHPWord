@@ -1507,20 +1507,20 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.11.10",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "640410b32995914bde3eed26fa89552f9c2c082f"
+                "reference": "46b4d3529b12178112d9008337beda0cc2a1a6b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/640410b32995914bde3eed26fa89552f9c2c082f",
-                "reference": "640410b32995914bde3eed26fa89552f9c2c082f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/46b4d3529b12178112d9008337beda0cc2a1a6b4",
+                "reference": "46b4d3529b12178112d9008337beda0cc2a1a6b4",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2|^8.0"
+                "php": "^7.4|^8.0"
             },
             "conflict": {
                 "phpstan/phpstan-shim": "*"
@@ -1561,34 +1561,33 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-08T09:02:50+00:00"
+            "time": "2024-11-28T22:19:37+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
-            "version": "1.4.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-phpunit.git",
-                "reference": "f3ea021866f4263f07ca3636bf22c64be9610c11"
+                "reference": "4b6ad7fab8683ff4efd7887ba26ef8ee171c7475"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-phpunit/zipball/f3ea021866f4263f07ca3636bf22c64be9610c11",
-                "reference": "f3ea021866f4263f07ca3636bf22c64be9610c11",
+                "url": "https://api.github.com/repos/phpstan/phpstan-phpunit/zipball/4b6ad7fab8683ff4efd7887ba26ef8ee171c7475",
+                "reference": "4b6ad7fab8683ff4efd7887ba26ef8ee171c7475",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.11"
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpstan": "^2.0"
             },
             "conflict": {
                 "phpunit/phpunit": "<7.0"
             },
             "require-dev": {
-                "nikic/php-parser": "^4.13.0",
                 "php-parallel-lint/php-parallel-lint": "^1.2",
-                "phpstan/phpstan-strict-rules": "^1.5.1",
-                "phpunit/phpunit": "^9.5"
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "phpunit/phpunit": "^9.6"
             },
             "type": "phpstan-extension",
             "extra": {
@@ -1611,9 +1610,9 @@
             "description": "PHPUnit extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-phpunit/issues",
-                "source": "https://github.com/phpstan/phpstan-phpunit/tree/1.4.0"
+                "source": "https://github.com/phpstan/phpstan-phpunit/tree/2.0.1"
             },
-            "time": "2024-04-20T06:39:00+00:00"
+            "time": "2024-11-12T12:48:00+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5070,9 +5069,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "phpstan/phpstan-phpunit": 0
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
