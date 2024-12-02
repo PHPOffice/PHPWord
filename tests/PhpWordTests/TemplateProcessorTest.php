@@ -351,11 +351,16 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('<w:t>Metropolis</w:t>', $templateProcessor->getMainPart());
     }
 
+    /**
+     * @covers ::cloneRow
+     */
     public function testCloneNotExistingRowShouldThrowException(): void
     {
-        $this->expectException(Exception::class);
         $mainPart = '<?xml version="1.0" encoding="UTF-8"?><w:p><w:r><w:rPr></w:rPr><w:t>text</w:t></w:r></w:p>';
         $templateProcessor = new TestableTemplateProcesor($mainPart);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('fake_search');
 
         $templateProcessor->cloneRow('fake_search', 2);
     }
