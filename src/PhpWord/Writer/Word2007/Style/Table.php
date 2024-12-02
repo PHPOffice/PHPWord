@@ -63,7 +63,15 @@ class Table extends AbstractStyle
     {
         // w:tblPr
         $xmlWriter->startElement('w:tblPr');
-
+        
+        //Support table style name and custom styles at the same time
+        //set style name 1st (so word sets its style 1st then any custom styles)
+        if($style->getStyleName() != ''){
+            $xmlWriter->startElement('w:tblStyle');
+            $xmlWriter->writeAttribute('w:val', $style->getStyleName());
+            $xmlWriter->endElement();            
+        }
+        
         // Table alignment
         if ('' !== $style->getAlignment()) {
             $tableAlignment = new TableAlignment($style->getAlignment());
