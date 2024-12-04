@@ -52,14 +52,15 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $this->setPhpWord($phpWord);
 
         // Create parts
+        // The first four files need to be in this order for Mimetype detection to work
         $this->parts = [
             'ContentTypes' => '[Content_Types].xml',
             'Rels' => '_rels/.rels',
+            'RelsDocument' => 'word/_rels/document.xml.rels',
+            'Document' => 'word/document.xml',
             'DocPropsApp' => 'docProps/app.xml',
             'DocPropsCore' => 'docProps/core.xml',
             'DocPropsCustom' => 'docProps/custom.xml',
-            'RelsDocument' => 'word/_rels/document.xml.rels',
-            'Document' => 'word/document.xml',
             'Comments' => 'word/comments.xml',
             'Styles' => 'word/styles.xml',
             'Numbering' => 'word/numbering.xml',
@@ -90,10 +91,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
     /**
      * Save document by name.
-     *
-     * @param string $filename
      */
-    public function save($filename = null): void
+    public function save(string $filename): void
     {
         $filename = $this->getTempFile($filename);
         $zip = $this->getZipArchive($filename);
@@ -120,7 +119,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $this->addHeaderFooterMedia($zip, 'footer');
 
         // Add header/footer contents
-        $rId = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
+        $rId = Media::countElements('section') + 6; //@see Rels::writeDocRels for 6 first elements
         $sections = $phpWord->getSections();
         foreach ($sections as $section) {
             $this->addHeaderFooterContent($section, $zip, 'header', $rId);
@@ -228,7 +227,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $collection = $phpWord->$method();
 
         // Add footnotes media files, relations, and contents
-        /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collection Type hint */
         if ($collection->countItems() > 0) {
             $media = Media::getElements($noteType);
             $this->addFilesToPackage($zip, $media);
@@ -261,7 +259,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $partName = 'comments';
 
         // Add comment relations and contents
-        /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collection Type hint */
         if ($collection->countItems() > 0) {
             $this->relationships[] = ['target' => "{$partName}.xml", 'type' => $partName, 'rID' => ++$rId];
 

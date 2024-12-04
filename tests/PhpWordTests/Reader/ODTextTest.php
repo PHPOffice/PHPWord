@@ -17,7 +17,11 @@
 
 namespace PhpOffice\PhpWordTests\Reader;
 
+use PhpOffice\Math\Element;
+use PhpOffice\PhpWord\Element\Formula;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\ODText.
@@ -33,8 +37,31 @@ class ODTextTest extends \PHPUnit\Framework\TestCase
      */
     public function testLoad(): void
     {
-        $filename = __DIR__ . '/../_files/documents/reader.odt';
-        $phpWord = IOFactory::load($filename, 'ODText');
-        self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+        $phpWord = IOFactory::load(dirname(__DIR__, 1) . '/_files/documents/reader.odt', 'ODText');
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+    }
+
+    public function testLoadFormula(): void
+    {
+        $phpWord = IOFactory::load(dirname(__DIR__, 1) . '/_files/documents/reader-formula.odt', 'ODText');
+
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $sections = $phpWord->getSections();
+        self::assertCount(1, $sections);
+
+        $section = $sections[0];
+        self::assertInstanceOf(Section::class, $section);
+
+        $elements = $section->getElements();
+        self::assertCount(1, $elements);
+
+        $element = $elements[0];
+        self::assertInstanceOf(Formula::class, $element);
+
+        $elements = $element->getMath()->getElements();
+        self::assertCount(1, $elements);
+
+        self::assertInstanceOf(Element\Semantics::class, $elements[0]);
     }
 }

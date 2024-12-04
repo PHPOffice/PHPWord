@@ -31,7 +31,7 @@ class Section extends AbstractContainer
     /**
      * Section style.
      *
-     * @var \PhpOffice\PhpWord\Style\Section
+     * @var ?\PhpOffice\PhpWord\Style\Section
      */
     private $style;
 
@@ -60,7 +60,7 @@ class Section extends AbstractContainer
      * Create new instance.
      *
      * @param int $sectionCount
-     * @param null|array|\PhpOffice\PhpWord\Style $style
+     * @param null|array|\PhpOffice\PhpWord\Style|string $style
      */
     public function __construct($sectionCount, $style = null)
     {
@@ -87,7 +87,7 @@ class Section extends AbstractContainer
     /**
      * Get section style.
      *
-     * @return \PhpOffice\PhpWord\Style\Section
+     * @return ?\PhpOffice\PhpWord\Style\Section
      */
     public function getStyle()
     {
@@ -154,8 +154,6 @@ class Section extends AbstractContainer
 
     /**
      * Set the footnote properties.
-     *
-     * @param FootnoteProperties $footnoteProperties
      */
     public function setFootnoteProperties(?FootnoteProperties $footnoteProperties = null): void
     {

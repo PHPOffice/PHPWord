@@ -6,7 +6,7 @@
         "docx", "OOXML", "OpenXML", "Office Open XML", "ISO IEC 29500", "WordprocessingML",
         "RTF", "Rich Text Format", "doc", "odt", "ODF", "OpenDocument", "PDF", "HTML"
     ],
-    "homepage": "https://phpword.readthedocs.io/",
+    "homepage": "https://phpoffice.github.io/PHPWord/",
     "type": "library",
     "license": "LGPL-3.0",
     "authors": [
@@ -36,19 +36,19 @@
     ],
     "scripts": {
         "test": [
-            "phpunit --color=always"
+            "@php vendor/bin/phpunit --color=always"
         ],
         "test-no-coverage": [
-            "phpunit --color=always --no-coverage"
+            "@php vendor/bin/phpunit --color=always --no-coverage"
         ],
         "check": [
-            "php-cs-fixer fix --ansi --dry-run --diff",
-            "phpcs --report-width=200 --report-summary --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
-            "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
-            "@test-no-coverage"
+            "@php vendor/bin/php-cs-fixer fix --ansi --dry-run --diff",
+            "@php vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
+            "@test-no-coverage",
+            "@php vendor/bin/phpstan analyse --ansi"
         ],
         "fix": [
-            "php-cs-fixer fix --ansi"
+            "@php vendor/bin/php-cs-fixer fix --ansi"
         ]
     },
     "scripts-descriptions": {
@@ -57,24 +57,30 @@
         "check": "Runs PHP CheckStyle and PHP Mess detector",
         "fix": "Fixes issues found by PHP-CS"
     },
+    "config": {
+        "platform": {
+            "php": "8.0"
+        }
+    },
     "require": {
         "php": "^7.1|^8.0",
         "ext-dom": "*",
         "ext-json": "*",
         "ext-xml": "*",
-        "laminas/laminas-escaper": ">=2.6"
+        "phpoffice/math": "^0.2"
     },
     "require-dev": {
         "ext-zip": "*",
         "ext-gd": "*",
         "ext-libxml": "*",
-        "dompdf/dompdf": "^2.0",
+        "dompdf/dompdf": "^2.0 || ^3.0",
         "mpdf/mpdf": "^8.1",
-        "php-coveralls/php-coveralls": "^2.5",
         "phpmd/phpmd": "^2.13",
         "phpunit/phpunit": ">=7.0",
         "tecnickcom/tcpdf": "^6.5",
-        "symfony/process": "^4.4"
+        "symfony/process": "^4.4 || ^5.0",
+        "friendsofphp/php-cs-fixer": "^3.3",
+        "phpstan/phpstan-phpunit": "@stable"
     },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",
@@ -91,11 +97,6 @@
     "autoload-dev": {
         "psr-4": {
             "PhpOffice\\PhpWordTests\\": "tests/PhpWordTests"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-develop": "0.19-dev"
         }
     }
 }

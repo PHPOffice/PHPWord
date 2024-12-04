@@ -34,7 +34,7 @@ class TextBox extends AbstractContainer
     /**
      * TextBox style.
      *
-     * @var \PhpOffice\PhpWord\Style\TextBox
+     * @var ?\PhpOffice\PhpWord\Style\TextBox
      */
     private $style;
 
@@ -51,7 +51,7 @@ class TextBox extends AbstractContainer
     /**
      * Get textbox style.
      *
-     * @return \PhpOffice\PhpWord\Style\TextBox
+     * @return ?\PhpOffice\PhpWord\Style\TextBox
      */
     public function getStyle()
     {

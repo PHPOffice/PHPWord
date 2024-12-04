@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 use PhpOffice\PhpWord\Settings;
 
 $requirements = [
-    'php' => ['PHP 7.4', version_compare(PHP_VERSION, '7.4', '>=')],
+    'php' => ['PHP 7.1', version_compare(PHP_VERSION, '7.1', '>=')],
     'xml' => ['PHP extension XML', extension_loaded('xml')],
     'temp' => ['Temp folder "<code>' . Settings::getTempDir() . '</code>" is writable', is_writable(Settings::getTempDir())],
     'zip' => ['PHP extension ZipArchive (optional)', extension_loaded('zip')],
@@ -19,7 +19,7 @@ if (!CLI) {
 <p>&nbsp;</p>
 <p>
     <a class="btn btn-lg btn-primary" href="https://github.com/PHPOffice/PHPWord" role="button"><i class="fa fa-github fa-lg" title="GitHub"></i>  Fork us on Github!</a>
-    <a class="btn btn-lg btn-primary" href="http://phpword.readthedocs.org/" role="button"><i class="fa fa-book fa-lg" title="Docs"></i>  Read the Docs</a>
+    <a class="btn btn-lg btn-primary" href="https://phpoffice.github.io/PHPWord/" role="button"><i class="fa fa-book fa-lg" title="Docs"></i>  Read the Docs</a>
 </p>
 </div>
     <?php

@@ -69,7 +69,7 @@ class Cell extends Border
     /**
      * Vertical align (top, center, both, bottom).
      *
-     * @var string
+     * @var null|string
      */
     private $vAlign;
 
@@ -93,7 +93,7 @@ class Cell extends Border
      * - restart: Start/restart merged region
      * - continue: Continue merged region
      *
-     * @var string
+     * @var null|string
      */
     private $vMerge;
 
@@ -107,7 +107,7 @@ class Cell extends Border
     /**
      * Width.
      *
-     * @var int
+     * @var ?int
      */
     private $width;
 
@@ -119,9 +119,16 @@ class Cell extends Border
     private $unit = TblWidth::TWIP;
 
     /**
+     * Prevent text from wrapping in the cell.
+     *
+     * @var bool
+     */
+    private $noWrap = true;
+
+    /**
      * Get vertical align.
      *
-     * @return string
+     * @return null|string
      */
     public function getVAlign()
     {
@@ -131,12 +138,18 @@ class Cell extends Border
     /**
      * Set vertical align.
      *
-     * @param string $value
+     * @param null|string $value
      *
      * @return self
      */
     public function setVAlign($value = null)
     {
+        if ($value === null) {
+            $this->vAlign = null;
+
+            return $this;
+        }
+
         VerticalJc::validate($value);
         $this->vAlign = $this->setEnumVal($value, VerticalJc::values(), $this->vAlign);
 
@@ -162,7 +175,14 @@ class Cell extends Border
      */
     public function setTextDirection($value = null)
     {
-        $enum = [self::TEXT_DIR_BTLR, self::TEXT_DIR_TBRL];
+        $enum = [
+            self::TEXT_DIR_BTLR,
+            self::TEXT_DIR_TBRL,
+            self::TEXT_DIR_LRTB,
+            self::TEXT_DIR_LRTBV,
+            self::TEXT_DIR_TBRLV,
+            self::TEXT_DIR_TBLRV,
+        ];
         $this->textDirection = $this->setEnumVal($value, $enum, $this->textDirection);
 
         return $this;
@@ -221,7 +241,7 @@ class Cell extends Border
     /**
      * Get vertical merge (rowspan).
      *
-     * @return string
+     * @return null|string
      */
     public function getVMerge()
     {
@@ -231,12 +251,18 @@ class Cell extends Border
     /**
      * Set vertical merge (rowspan).
      *
-     * @param string $value
+     * @param null|string $value
      *
      * @return self
      */
     public function setVMerge($value = null)
     {
+        if ($value === null) {
+            $this->vMerge = null;
+
+            return $this;
+        }
+
         $enum = [self::VMERGE_RESTART, self::VMERGE_CONTINUE];
         $this->vMerge = $this->setEnumVal($value, $enum, $this->vMerge);
 
@@ -270,7 +296,7 @@ class Cell extends Border
     /**
      * Get cell width.
      *
-     * @return int
+     * @return ?int
      */
     public function getWidth()
     {
@@ -286,7 +312,7 @@ class Cell extends Border
      */
     public function setWidth($value)
     {
-        $this->setIntVal($value);
+        $this->width = $this->setIntVal($value);
 
         return $this;
     }
@@ -311,5 +337,23 @@ class Cell extends Border
         $this->unit = $this->setEnumVal($value, [TblWidth::AUTO, TblWidth::PERCENT, TblWidth::TWIP], TblWidth::TWIP);
 
         return $this;
+    }
+
+    /**
+     * Set noWrap.
+     */
+    public function setNoWrap(bool $value): self
+    {
+        $this->noWrap = $this->setBoolVal($value, true);
+
+        return $this;
+    }
+
+    /**
+     * Get noWrap.
+     */
+    public function getNoWrap(): bool
+    {
+        return $this->noWrap;
     }
 }

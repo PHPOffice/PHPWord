@@ -35,13 +35,23 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
         $object = new Footnotes();
         $object->addItem(new Footnote()); // addItem #1
 
-        self::assertEquals(2, $object->addItem(new Footnote())); // addItem #2. Should returns new item index
+        self::assertEquals(1, $object->addItem(new Footnote())); // addItem #2. Should returns new item index
         self::assertCount(2, $object->getItems()); // getItems returns array
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $object->getItem(1)); // getItem returns object
+        self::assertInstanceOf(Footnote::class, $object->getItem(1)); // getItem returns object
         self::assertNull($object->getItem(3)); // getItem returns null when invalid index is referenced
 
         $object->setItem(2, null); // Set item #2 to null
 
         self::assertNull($object->getItem(2)); // Check if it's null
+    }
+
+    public function testCollectionSetItem(): void
+    {
+        $object = new Footnotes();
+        $object->addItem(new Footnote());
+        self::assertCount(1, $object->getItems());
+
+        $object->setItem(0, new Footnote());
+        self::assertCount(1, $object->getItems());
     }
 }

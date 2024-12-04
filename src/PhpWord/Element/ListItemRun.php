@@ -32,7 +32,7 @@ class ListItemRun extends TextRun
     /**
      * ListItem Style.
      *
-     * @var \PhpOffice\PhpWord\Style\ListItem
+     * @var ?\PhpOffice\PhpWord\Style\ListItem
      */
     private $style;
 
@@ -66,7 +66,7 @@ class ListItemRun extends TextRun
     /**
      * Get ListItem style.
      *
-     * @return \PhpOffice\PhpWord\Style\ListItem
+     * @return ?\PhpOffice\PhpWord\Style\ListItem
      */
     public function getStyle()
     {

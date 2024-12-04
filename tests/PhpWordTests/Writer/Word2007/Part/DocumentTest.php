@@ -2,10 +2,8 @@
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
- *
  * PHPWord is free software distributed under the terms of the GNU Lesser
  * General Public License version 3 as published by the Free Software Foundation.
- *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
@@ -61,11 +59,11 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         self::assertNotNull($doc);
 
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key3"]/vt:i4'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key4"]/vt:r8'));
-//         $this->assertTrue($doc->elementExists('/Properties/property[name="key5"]/vt:lpwstr'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key3"]/vt:i4'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key4"]/vt:r8'));
+        //         $this->assertTrue($doc->elementExists('/Properties/property[name="key5"]/vt:lpwstr'));
     }
 
     /**
@@ -408,7 +406,13 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         // behind
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
         $style = $element->getAttribute('style');
-        self::assertRegExp('/z\-index:\-[0-9]*/', $style);
+        if (method_exists(self::class, 'assertMatchesRegularExpression')) {
+            self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
+        } elseif (method_exists(self::class, 'assertRegExp')) {
+            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
+        } else {
+            self::fail('Unsure how to test regexp');
+        }
 
         // square
         $element = $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:pict/v:shape/w10:wrap');
@@ -529,10 +533,45 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists("{$parent}/w:i"));
         self::assertEquals($styles['underline'], $doc->getElementAttribute("{$parent}/w:u", 'w:val'));
         self::assertTrue($doc->elementExists("{$parent}/w:strike"));
+        self::assertFalse($doc->elementExists("{$parent}/w:dstrike"));
         self::assertEquals('superscript', $doc->getElementAttribute("{$parent}/w:vertAlign", 'w:val'));
         self::assertEquals($styles['color'], $doc->getElementAttribute("{$parent}/w:color", 'w:val'));
         self::assertEquals($styles['fgColor'], $doc->getElementAttribute("{$parent}/w:highlight", 'w:val'));
         self::assertTrue($doc->elementExists("{$parent}/w:smallCaps"));
+    }
+
+    /**
+     * covers ::_writeTextStyle.
+     *
+     * @dataProvider providerFontStyleStrikethrough
+     */
+    public function testWriteFontStyleStrikethrough(
+        bool $isStrikethrough,
+        bool $isDoubleStrikethrough,
+        bool $expectedStrikethrough,
+        bool $expectedDoubleStrikethrough
+    ): void {
+        $phpWord = new PhpWord();
+        $styles['strikethrough'] = $isStrikethrough;
+        $styles['doublestrikethrough'] = $isDoubleStrikethrough;
+
+        $section = $phpWord->addSection();
+        $section->addText('Test', $styles);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $parent = '/w:document/w:body/w:p/w:r/w:rPr';
+        self::assertSame($expectedStrikethrough, $doc->elementExists("{$parent}/w:strike"));
+        self::assertSame($expectedDoubleStrikethrough, $doc->elementExists("{$parent}/w:dstrike"));
+    }
+
+    public static function providerFontStyleStrikethrough(): iterable
+    {
+        return [
+            [true, true, false, true],
+            [true, false, true, false],
+            [false, true, false, true],
+            [false, false, false, false],
+        ];
     }
 
     /**
@@ -551,7 +590,13 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $cell->addText('Test');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        self::assertEquals(Cell::DEFAULT_BORDER_COLOR, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top', 'w:color'));
+        self::assertEquals(
+            Cell::DEFAULT_BORDER_COLOR,
+            $doc->getElementAttribute(
+                '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top',
+                'w:color'
+            )
+        );
     }
 
     /**

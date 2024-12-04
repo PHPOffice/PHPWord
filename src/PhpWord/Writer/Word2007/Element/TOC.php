@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Element\TOC as TOCElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
@@ -63,17 +64,14 @@ class TOC extends AbstractElement
 
     /**
      * Write title.
-     *
-     * @param \PhpOffice\PhpWord\Element\Title $title
-     * @param bool $writeFieldMark
      */
-    private function writeTitle(XMLWriter $xmlWriter, TOCElement $element, $title, $writeFieldMark): void
+    private function writeTitle(XMLWriter $xmlWriter, TOCElement $element, Title $title, bool $writeFieldMark): void
     {
         $tocStyle = $element->getStyleTOC();
         $fontStyle = $element->getStyleFont();
         $isObject = ($fontStyle instanceof Font) ? true : false;
         $rId = $title->getRelationId();
-        $indent = ($title->getDepth() - 1) * $tocStyle->getIndent();
+        $indent = (int) (($title->getDepth() - 1) * $tocStyle->getIndent());
 
         $xmlWriter->startElement('w:p');
 
@@ -95,7 +93,10 @@ class TOC extends AbstractElement
             $styleWriter->write();
         }
         $xmlWriter->startElement('w:t');
-        $this->writeText($title->getText());
+
+        $titleText = $title->getText();
+        $this->writeText(is_string($titleText) ? $titleText : '');
+
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
@@ -116,6 +117,20 @@ class TOC extends AbstractElement
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 
+        if ($title->getPageNumber() !== null) {
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:fldChar');
+            $xmlWriter->writeAttribute('w:fldCharType', 'separate');
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:t');
+            $xmlWriter->text((string) $title->getPageNumber());
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+        }
+
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
         $xmlWriter->writeAttribute('w:fldCharType', 'end');
@@ -129,10 +144,8 @@ class TOC extends AbstractElement
 
     /**
      * Write style.
-     *
-     * @param int $indent
      */
-    private function writeStyle(XMLWriter $xmlWriter, TOCElement $element, $indent): void
+    private function writeStyle(XMLWriter $xmlWriter, TOCElement $element, int $indent): void
     {
         $tocStyle = $element->getStyleTOC();
         $fontStyle = $element->getStyleFont();

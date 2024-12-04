@@ -18,7 +18,9 @@
 namespace PhpOffice\PhpWordTests\Reader;
 
 use Exception;
+use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Reader\MsDoc;
 
 /**
@@ -50,14 +52,84 @@ class MsDocTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($object->canRead($filename));
     }
 
-    /**
-     * Load.
-     */
-    public function testLoad(): void
+    public function testLoadBasic(): void
     {
         $filename = __DIR__ . '/../_files/documents/reader.doc';
         $phpWord = IOFactory::load($filename, 'MsDoc');
-        self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $sections = $phpWord->getSections();
+        self::assertCount(1, $sections);
+        $elements = $sections[0]->getElements();
+        self::assertArrayHasKey(0, $elements);
+        /** @var Text $element0 */
+        $element0 = $elements[0];
+        self::assertInstanceOf(Text::class, $element0);
+        self::assertEquals('Welcome to PhpWord', $element0->getText());
+    }
+
+    public function testLoadHalfPointFont(): void
+    {
+        $filename = __DIR__ . '/../_files/documents/reader.font-halfpoint.doc';
+        $phpWord = IOFactory::load($filename, 'MsDoc');
+        $sections = $phpWord->getSections();
+        self::assertCount(1, $sections);
+        $elements = $sections[0]->getElements();
+        self::assertArrayHasKey(0, $elements);
+        $element0 = $elements[0];
+        if (method_exists($element0, 'getFontStyle')) {
+            self::assertSame(19.5, $element0->getFontStyle()->getSize());
+        } else {
+            self::fail('Unexpected no font style for first element');
+        }
+    }
+
+    public function testLoadChinese(): void
+    {
+        $filename = __DIR__ . '/../_files/documents/docChinese.doc';
+        $phpWord = IOFactory::load($filename, 'MsDoc');
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $sections = $phpWord->getSections();
+        self::assertCount(1, $sections);
+        $elements = $sections[0]->getElements();
+        self::assertArrayHasKey(0, $elements);
+        /** @var Text $element0 */
+        $element0 = $elements[0];
+        self::assertInstanceOf(Text::class, $element0);
+        self::assertEquals('OKKI AI 客户案例', $element0->getText());
+    }
+
+    public function testLoadCzech(): void
+    {
+        $filename = __DIR__ . '/../_files/documents/docCzech.doc';
+        $phpWord = IOFactory::load($filename, 'MsDoc');
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $sections = $phpWord->getSections();
+        self::assertCount(1, $sections);
+        $elements = $sections[0]->getElements();
+        self::assertArrayHasKey(0, $elements);
+        /** @var Text $element0 */
+        $element0 = $elements[0];
+        self::assertInstanceOf(Text::class, $element0);
+        self::assertEquals('Příliš žluťoučký kůň pěl ďábelské ódy', $element0->getText());
+    }
+
+    public function testLoadSlovak(): void
+    {
+        $filename = __DIR__ . '/../_files/documents/docSlovak.doc';
+        $phpWord = IOFactory::load($filename, 'MsDoc');
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $sections = $phpWord->getSections();
+        self::assertCount(1, $sections);
+        $elements = $sections[0]->getElements();
+        self::assertArrayHasKey(0, $elements);
+        /** @var Text $element0 */
+        $element0 = $elements[0];
+        self::assertInstanceOf(Text::class, $element0);
+        self::assertEquals('Pondelok', $element0->getText());
     }
 
     /**

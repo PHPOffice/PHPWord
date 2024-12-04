@@ -23,8 +23,6 @@ use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Image.
- *
- * @runTestsInSeparateProcesses
  */
 class ImageTest extends AbstractWebServerEmbeddedTest
 {
@@ -65,33 +63,40 @@ class ImageTest extends AbstractWebServerEmbeddedTest
 
     /**
      * Valid image types.
+     *
+     * @dataProvider providerImages
      */
-    public function testImages(): void
+    public function testImages($source, $type, $extension, $createFunction, $imageFunction, $imageQuality): void
     {
-        $images = [
-            ['mars.jpg', 'image/jpeg', 'jpg', 'imagecreatefromjpeg', 'imagejpeg'],
-            ['mario.gif', 'image/gif', 'gif', 'imagecreatefromgif', 'imagegif'],
-            ['firefox.png', 'image/png', 'png', 'imagecreatefrompng', 'imagepng'],
-            ['duke_nukem.bmp', 'image/bmp', 'bmp', null, null],
-            ['angela_merkel.tif', 'image/tiff', 'tif', null, null],
-        ];
-
-        foreach ($images as $imageData) {
-            [$source, $type, $extension, $createFunction, $imageFunction] = $imageData;
-            $nam = ucfirst(strtok($source, '.'));
-            $source = __DIR__ . "/../_files/images/{$source}";
-            $image = new Image($source, null, null, $nam);
-            self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
-            self::assertEquals($source, $image->getSource());
-            self::assertEquals($nam, $image->getName());
-            self::assertEquals(md5($source), $image->getMediaId());
-            self::assertEquals($type, $image->getImageType());
-            self::assertEquals($extension, $image->getImageExtension());
-            self::assertEquals($createFunction, $image->getImageCreateFunction());
-            self::assertEquals($imageFunction, $image->getImageFunction());
-            self::assertFalse($image->isMemImage());
-            self::assertNotNull($image->getImageStringData());
+        $nam = ucfirst(strtok($source, '.'));
+        $source = __DIR__ . "/../_files/images/{$source}";
+        $image = new Image($source, null, null, $nam);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
+        self::assertEquals($source, $image->getSource());
+        self::assertEquals($nam, $image->getName());
+        self::assertEquals(md5($source), $image->getMediaId());
+        self::assertEquals($type, $image->getImageType());
+        self::assertEquals($extension, $image->getImageExtension());
+        self::assertEquals($createFunction, $image->getImageCreateFunction());
+        if ($imageFunction) {
+            self::assertNotNull($image->getImageFunction());
+        } else {
+            self::assertNull($image->getImageFunction());
         }
+        self::assertEquals($imageQuality, $image->getImageQuality());
+        self::assertFalse($image->isMemImage());
+        self::assertNotNull($image->getImageStringData());
+    }
+
+    public static function providerImages(): array
+    {
+        return [
+            ['mars.jpg', 'image/jpeg', 'jpg', 'imagecreatefromjpeg', true, 100],
+            ['mario.gif', 'image/gif', 'gif', 'imagecreatefromgif', true, null],
+            ['firefox.png', 'image/png', 'png', 'imagecreatefrompng', true, -1],
+            ['duke_nukem.bmp', 'image/bmp', 'bmp', null, false, null],
+            ['angela_merkel.tif', 'image/tiff', 'tif', null, false, null],
+        ];
     }
 
     /**
@@ -204,7 +209,8 @@ class ImageTest extends AbstractWebServerEmbeddedTest
         self::assertEquals('image/jpeg', $image->getImageType());
         self::assertEquals('jpg', $image->getImageExtension());
         self::assertEquals('imagecreatefromstring', $image->getImageCreateFunction());
-        self::assertEquals('imagejpeg', $image->getImageFunction());
+        self::assertNotNull($image->getImageFunction());
+        self::assertEquals(100, $image->getImageQuality());
         self::assertTrue($image->isMemImage());
 
         self::assertNotNull($image->getImageStringData());
@@ -225,7 +231,8 @@ class ImageTest extends AbstractWebServerEmbeddedTest
         self::assertEquals('image/png', $image->getImageType());
         self::assertEquals('png', $image->getImageExtension());
         self::assertEquals('imagecreatefrompng', $image->getImageCreateFunction());
-        self::assertEquals('imagepng', $image->getImageFunction());
+        self::assertNotNull($image->getImageFunction());
+        self::assertEquals(-1, $image->getImageQuality());
         self::assertTrue($image->isMemImage());
 
         self::assertNotNull($image->getImageStringData());

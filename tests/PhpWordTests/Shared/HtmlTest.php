@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWordTests\Shared;
 
 use Exception;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -34,6 +35,14 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  */
 class HtmlTest extends AbstractWebServerEmbeddedTest
 {
+    /**
+     * Tear down after each test.
+     */
+    protected function tearDown(): void
+    {
+        TestHelperDOCX::clear();
+    }
+
     /**
      * Test unit conversion functions with various numbers.
      */
@@ -107,6 +116,44 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         self::assertEquals('text with entities <my text>', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
     }
 
+    public function testParseStyle(): void
+    {
+        $html = '<style type="text/css">
+        .pStyle {
+          font-size:15px;
+        }
+        .tableStyle {
+          width:100%;
+          background-color:red;
+        }
+        </style>
+        
+        <p class="pStyle">Calculator</p>';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:t'));
+        self::assertEquals('Calculator', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz'));
+        self::assertEquals('22.5', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz', 'w:val'));
+    }
+
+    public function testParseStyleTableClassName(): void
+    {
+        $html = '<style type="text/css">.pStyle { font-size:15px; }</style><table class="pStyle"><tr><td></td></tr></table>';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        self::assertInstanceOf(Table::class, $section->getElement(0));
+        self::assertEquals('pStyle', $section->getElement(0)->getStyle()->getStyleName());
+    }
+
     /**
      * Test underline.
      */
@@ -135,6 +182,21 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
         self::assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
+    }
+
+    /**
+     * Test font-variant style.
+     */
+    public function testParseFontVariant(): void
+    {
+        $html = '<span style="font-variant: small-caps;">test</span>';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:smallCaps'));
+        self::assertEquals('1', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:smallCaps', 'w:val'));
     }
 
     /**
@@ -426,6 +488,58 @@ HTML;
     }
 
     /**
+     * Parse heights in rows, which also allows for controlling column height.
+     */
+    public function testParseTableRowHeight(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection([
+            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+        ]);
+
+        $html = <<<HTML
+<table>
+    <tr style="height: 100px;">
+        <td>100px</td>
+    </tr>
+    <tr style="height: 200pt;">
+        <td>200pt</td>
+    </tr>
+    <tr>
+        <td>
+            <table>
+                <tr style="height: 300px;">
+                    <td>300px</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+HTML;
+
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        // <tr style="height: 100; ... 100px = 1500 twips (100 / 96 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr/w:trPr/w:trHeight';
+        self::assertTrue($doc->elementExists($xpath));
+        self::assertEquals(1500, $doc->getElement($xpath)->getAttribute('w:val'));
+        self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
+
+        // <tr style="height: 200pt; ... 200pt = 4000 twips (200 / 72 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr[2]/w:trPr/w:trHeight';
+        self::assertTrue($doc->elementExists($xpath));
+        self::assertEquals(4000, $doc->getElement($xpath)->getAttribute('w:val'));
+        self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
+
+        // <tr style="width: 300; .. 300px = 4500 twips (300 / 72 * 1440)
+        $xpath = '/w:document/w:body/w:tbl/w:tr[3]/w:tc/w:tbl/w:tr/w:trPr/w:trHeight';
+        self::assertTrue($doc->elementExists($xpath));
+        self::assertEquals(4500, $doc->getElement($xpath)->getAttribute('w:val'));
+        self::assertEquals('exact', $doc->getElement($xpath)->getAttribute('w:hRule'));
+    }
+
+    /**
      * Test parsing table (attribute border).
      */
     public function testParseTableAttributeBorder(): void
@@ -693,11 +807,89 @@ HTML;
     }
 
     /**
+     * Test parsing of img.
+     */
+    public function testParseImageSizeInPixels(): void
+    {
+        $src = __DIR__ . '/../_files/images/firefox.png';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150px" height="200px" /></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        self::assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+    }
+
+    /**
+     * Test parsing of img.
+     */
+    public function testParseImageSizeInPoints(): void
+    {
+        $src = __DIR__ . '/../_files/images/firefox.png';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150pt" height="200pt" /></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertStringMatchesFormat('%Swidth:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        self::assertStringMatchesFormat('%Sheight:266.66666666667%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+    }
+
+    /**
+     * Test parsing of img.
+     */
+    public function testParseImageSizeWithoutUnits(): void
+    {
+        $src = __DIR__ . '/../_files/images/firefox.png';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" /></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        self::assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+    }
+
+    /**
      * Test parsing of remote img.
      */
     public function testParseRemoteImage(): void
     {
         $src = self::getRemoteImageUrl();
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/><img src="' . $src . '" style="float: left;"/></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+    }
+
+    /**
+     * Test parsing of remote img without extension.
+     */
+    public function testParseRemoteImageWithoutExtension(): void
+    {
+        $src = self::getRemoteImageUrlWithoutExtension();
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -767,7 +959,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $html = '<p><a href="http://phpword.readthedocs.io/" style="text-decoration: underline">link text</a></p>';
+        $html = '<p><a href="https://phpoffice.github.io/PHPWord/" style="text-decoration: underline">link text</a></p>';
         Html::addHtml($section, $html);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
@@ -776,7 +968,10 @@ HTML;
         self::assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink/w:r/w:rPr/w:u'));
         self::assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:hyperlink/w:r/w:rPr/w:u', 'w:val'));
+    }
 
+    public function testParseLink2(): void
+    {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addBookmark('bookmark');
@@ -787,6 +982,27 @@ HTML;
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
         self::assertTrue($doc->getElement('/w:document/w:body/w:p/w:hyperlink')->hasAttribute('w:anchor'));
         self::assertEquals('bookmark', $doc->getElement('/w:document/w:body/w:p/w:hyperlink')->getAttribute('w:anchor'));
+    }
+
+    public function testParseLinkAllowsAbsenceOfHref(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><a>text of href-less link</a></p>';
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
+        self::assertEquals('text of href-less link', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><a href="">text of empty-href link</a></p>';
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
+        self::assertEquals('text of empty-href link', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
     }
 
     public function testParseMalformedStyleIsIgnored(): void

@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Table;
 
 /**
  * RTF header part writer.
@@ -236,6 +237,14 @@ class Header extends AbstractPart
             $this->registerTableItem($this->fontTable, $style->getName(), $defaultFont);
             $this->registerTableItem($this->colorTable, $style->getColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getFgColor(), $defaultColor);
+
+            return;
+        }
+        if ($style instanceof Table) {
+            $this->registerTableItem($this->colorTable, $style->getBorderTopColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getBorderRightColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getBorderLeftColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getBorderBottomColor(), $defaultColor);
         }
     }
 

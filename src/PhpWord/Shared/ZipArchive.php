@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Shared;
 use PclZip;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Settings;
+use Throwable;
 
 /**
  * ZipArchive wrapper.
@@ -30,8 +31,8 @@ use PhpOffice\PhpWord\Settings;
  *
  * @method  bool addFile(string $filename, string $localname = null)
  * @method  bool addFromString(string $localname, string $contents)
- * @method  string getNameIndex(int $index)
- * @method  int locateName(string $name)
+ * @method  false|string getNameIndex(int $index)
+ * @method  false|int locateName(string $name)
  *
  * @since   0.10.0
  */
@@ -162,13 +163,16 @@ class ZipArchive
      * Close the active archive.
      *
      * @return bool
-     *
-     * @codeCoverageIgnore Can't find any test case. Uncomment when found.
      */
     public function close()
     {
         if (!$this->usePclzip) {
-            if ($this->zip->close() === false) {
+            try {
+                $result = @$this->zip->close();
+            } catch (Throwable $e) {
+                $result = false;
+            }
+            if ($result === false) {
                 throw new Exception("Could not close zip file {$this->filename}: ");
             }
         }
@@ -396,7 +400,7 @@ class ZipArchive
      *
      * @param string $filename Filename for the file in zip archive
      *
-     * @return int
+     * @return false|int
      */
     public function pclzipLocateName($filename)
     {

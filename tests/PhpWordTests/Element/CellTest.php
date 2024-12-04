@@ -68,7 +68,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
     public function testAddTextNotUTF8(): void
     {
         $oCell = new Cell();
-        $element = $oCell->addText(utf8_decode('ééé'));
+        $element = $oCell->addText(utf8decode('ééé'));
 
         self::assertCount(1, $oCell->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
@@ -81,7 +81,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
     public function testAddLink(): void
     {
         $oCell = new Cell();
-        $element = $oCell->addLink(utf8_decode('ééé'), utf8_decode('ééé'));
+        $element = $oCell->addLink(utf8decode('ééé'), utf8decode('ééé'));
 
         self::assertCount(1, $oCell->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
@@ -117,7 +117,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
     public function testAddListItemNotUTF8(): void
     {
         $oCell = new Cell();
-        $element = $oCell->addListItem(utf8_decode('ééé'));
+        $element = $oCell->addListItem(utf8decode('ééé'));
 
         self::assertCount(1, $oCell->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItem', $element);
@@ -219,7 +219,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
     {
         $oCell = new Cell();
         $oCell->setDocPart('Header', 1);
-        $element = $oCell->addPreserveText(utf8_decode('ééé'));
+        $element = $oCell->addPreserveText(utf8decode('ééé'));
 
         self::assertCount(1, $oCell->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
@@ -255,7 +255,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
     public function testAddCheckBox(): void
     {
         $oCell = new Cell();
-        $element = $oCell->addCheckBox(utf8_decode('ééé'), utf8_decode('ééé'));
+        $element = $oCell->addCheckBox(utf8decode('ééé'), utf8decode('ééé'));
 
         self::assertCount(1, $oCell->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\CheckBox', $element);

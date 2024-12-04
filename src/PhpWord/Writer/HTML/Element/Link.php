@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Writer\HTML;
 
 /**
  * Link element HTML writer.
@@ -39,11 +39,11 @@ class Link extends Text
 
         $prefix = $this->element->isInternal() ? '#' : '';
         $content = $this->writeOpening();
-        if (Settings::isOutputEscapingEnabled()) {
-            $content .= "<a href=\"{$prefix}{$this->escaper->escapeHtmlAttr($this->element->getSource())}\">{$this->escaper->escapeHtml($this->element->getText())}</a>";
-        } else {
-            $content .= "<a href=\"{$prefix}{$this->element->getSource()}\">{$this->element->getText()}</a>";
-        }
+        $content .= "<a href=\"{$prefix}"
+            . $this->parentWriter->escapeHTML($this->element->getSource())
+            . '">'
+            . $this->parentWriter->escapeHTML($this->element->getText())
+            . '</a>';
         $content .= $this->writeClosing();
 
         return $content;

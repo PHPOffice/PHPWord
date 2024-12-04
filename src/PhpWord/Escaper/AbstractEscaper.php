@@ -25,7 +25,7 @@ namespace PhpOffice\PhpWord\Escaper;
 abstract class AbstractEscaper implements EscaperInterface
 {
     /**
-     * @param string $input
+     * @param ?string $input
      *
      * @return string
      */

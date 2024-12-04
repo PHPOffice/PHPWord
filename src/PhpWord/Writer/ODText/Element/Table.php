@@ -44,7 +44,7 @@ class Table extends AbstractElement
         if ($rowCount > 0) {
             $xmlWriter->startElement('table:table');
             $xmlWriter->writeAttribute('table:name', $element->getElementId());
-            $xmlWriter->writeAttribute('table:style', $element->getElementId());
+            $xmlWriter->writeAttribute('table:style-name', $element->getElementId());
 
             // Write columns
             $this->writeColumns($xmlWriter, $element);

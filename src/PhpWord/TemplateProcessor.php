@@ -27,6 +27,7 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use Throwable;
 use XSLTProcessor;
 
 class TemplateProcessor
@@ -94,6 +95,10 @@ class TemplateProcessor
      */
     protected $tempDocumentNewImages = [];
 
+    protected static $macroOpeningChars = '${';
+
+    protected static $macroClosingChars = '}';
+
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
@@ -129,6 +134,18 @@ class TemplateProcessor
         $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
         $this->tempDocumentSettingsPart = $this->readPartWithRels($this->getSettingsPartName());
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
+    }
+
+    public function __destruct()
+    {
+        // ZipClass
+        if ($this->zipClass) {
+            try {
+                $this->zipClass->close();
+            } catch (Throwable $e) {
+                // Nothing to do here.
+            }
+        }
     }
 
     /**
@@ -238,30 +255,25 @@ class TemplateProcessor
      */
     protected static function ensureMacroCompleted($macro)
     {
-        if (substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
-            $macro = '${' . $macro . '}';
+        if (substr($macro, 0, 2) !== self::$macroOpeningChars && substr($macro, -1) !== self::$macroClosingChars) {
+            $macro = self::$macroOpeningChars . $macro . self::$macroClosingChars;
         }
 
         return $macro;
     }
 
     /**
-     * @param string $subject
+     * @param ?string $subject
      *
      * @return string
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        if (!Text::isUTF8($subject) && null !== $subject) {
-            $subject = utf8_encode($subject);
-        }
-
-        return (null !== $subject) ? $subject : '';
+        return $subject ? Text::toUTF8($subject) : '';
     }
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexValue($search, Element\AbstractElement $complexType): void
     {
@@ -289,7 +301,6 @@ class TemplateProcessor
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexBlock($search, Element\AbstractElement $complexType): void
     {
@@ -334,6 +345,15 @@ class TemplateProcessor
             $replace = $xmlEscaper->escape($replace);
         }
 
+        // convert carriage returns
+        if (is_array($replace)) {
+            foreach ($replace as &$item) {
+                $item = $this->replaceCarriageReturns($item);
+            }
+        } else {
+            $replace = $this->replaceCarriageReturns($replace);
+        }
+
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
         $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
@@ -347,6 +367,27 @@ class TemplateProcessor
         foreach ($values as $macro => $replace) {
             $this->setValue($macro, $replace);
         }
+    }
+
+    public function setCheckbox(string $search, bool $checked): void
+    {
+        $search = static::ensureMacroCompleted($search);
+        $blockType = 'w:sdt';
+
+        $where = $this->findContainingXmlBlockForMacro($search, $blockType);
+        if (!is_array($where)) {
+            return;
+        }
+
+        $block = $this->getSlice($where['start'], $where['end']);
+
+        $val = $checked ? '1' : '0';
+        $block = preg_replace('/(<w14:checked w14:val=)".*?"(\/>)/', '$1"' . $val . '"$2', $block);
+
+        $text = $checked ? '☒' : '☐';
+        $block = preg_replace('/(<w:t>).*?(<\/w:t>)/', '$1' . $text . '$2', $block);
+
+        $this->replaceXmlBlock($search, $block, $blockType);
     }
 
     /**
@@ -433,7 +474,7 @@ class TemplateProcessor
         if (null === $value && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
+        if (!preg_match('/^([0-9\.]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value ?? '')) {
             $value = null;
         }
         if (null === $value) {
@@ -621,13 +662,13 @@ class TemplateProcessor
         foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
             $searchParts[$this->getHeaderName($headerIndex)] = &$this->tempDocumentHeaders[$headerIndex];
         }
-        foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
-            $searchParts[$this->getFooterName($headerIndex)] = &$this->tempDocumentFooters[$headerIndex];
+        foreach (array_keys($this->tempDocumentFooters) as $footerIndex) {
+            $searchParts[$this->getFooterName($footerIndex)] = &$this->tempDocumentFooters[$footerIndex];
         }
 
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
-        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}" stroked="f"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
+        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}" stroked="f" filled="f"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
 
         $i = 0;
         foreach ($searchParts as $partFileName => &$partContent) {
@@ -760,6 +801,70 @@ class TemplateProcessor
     }
 
     /**
+     * Delete a table row in a template document.
+     */
+    public function deleteRow(string $search): void
+    {
+        if (self::$macroOpeningChars !== substr($search, 0, 2) && self::$macroClosingChars !== substr($search, -1)) {
+            $search = self::$macroOpeningChars . $search . self::$macroClosingChars;
+        }
+
+        $tagPos = strpos($this->tempDocumentMainPart, $search);
+        if (!$tagPos) {
+            throw new Exception(sprintf('Can not delete row %s, template variable not found or variable contains markup.', $search));
+        }
+
+        $tableStart = $this->findTableStart($tagPos);
+        $tableEnd = $this->findTableEnd($tagPos);
+        $xmlTable = $this->getSlice($tableStart, $tableEnd);
+
+        if (substr_count($xmlTable, '<w:tr') === 1) {
+            $this->tempDocumentMainPart = $this->getSlice(0, $tableStart) . $this->getSlice($tableEnd);
+
+            return;
+        }
+
+        $rowStart = $this->findRowStart($tagPos);
+        $rowEnd = $this->findRowEnd($tagPos);
+        $xmlRow = $this->getSlice($rowStart, $rowEnd);
+
+        $this->tempDocumentMainPart = $this->getSlice(0, $rowStart) . $this->getSlice($rowEnd);
+
+        // Check if there's a cell spanning multiple rows.
+        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+            $extraRowStart = $rowStart;
+            while (true) {
+                $extraRowStart = $this->findRowStart($extraRowStart + 1);
+                $extraRowEnd = $this->findRowEnd($extraRowStart + 1);
+
+                // If extraRowEnd is lower then 7, there was no next row found.
+                if ($extraRowEnd < 7) {
+                    break;
+                }
+
+                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)
+                ) {
+                    break;
+                }
+
+                $tableStart = $this->findTableStart($extraRowEnd + 1);
+                $tableEnd = $this->findTableEnd($extraRowEnd + 1);
+                $xmlTable = $this->getSlice($tableStart, $tableEnd);
+                if (substr_count($xmlTable, '<w:tr') === 1) {
+                    $this->tempDocumentMainPart = $this->getSlice(0, $tableStart) . $this->getSlice($tableEnd);
+
+                    return;
+                }
+
+                $this->tempDocumentMainPart = $this->getSlice(0, $extraRowStart) . $this->getSlice($extraRowEnd);
+            }
+        }
+    }
+
+    /**
      * Clones a table row and populates it's values from a two-dimensional array in a template document.
      *
      * @param string $search
@@ -792,8 +897,12 @@ class TemplateProcessor
     {
         $xmlBlock = null;
         $matches = [];
+        $escapedMacroOpeningChars = self::$macroOpeningChars;
+        $escapedMacroClosingChars = self::$macroClosingChars;
         preg_match(
-            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\${' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            //'/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\{{' . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\{{\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\\' . $escapedMacroOpeningChars . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\\' . $escapedMacroOpeningChars . '\/' . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>)/is',
+            //'/(.*((?s)<w:p\b(?:(?!<w:p\b).)*?\\'. $escapedMacroOpeningChars . $blockname . '}<\/w:.*?p>))(.*)((?s)<w:p\b(?:(?!<w:p\b).)[^$]*?\\'.$escapedMacroOpeningChars.'\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -832,8 +941,10 @@ class TemplateProcessor
     public function replaceBlock($blockname, $replacement): void
     {
         $matches = [];
+        $escapedMacroOpeningChars = preg_quote(self::$macroOpeningChars);
+        $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p.*>' . $escapedMacroOpeningChars . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>)(.*)(<w:p.*' . $escapedMacroOpeningChars . '\/' . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -949,8 +1060,12 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
+        $brokenMacroOpeningChars = substr(self::$macroOpeningChars, 0, 1);
+        $endMacroOpeningChars = substr(self::$macroOpeningChars, 1);
+        $macroClosingChars = self::$macroClosingChars;
+
         return preg_replace_callback(
-            '/\$(?:\{|[^{$]*\>\{)[^}$]*\}/U',
+            '/\\' . $brokenMacroOpeningChars . '(?:\\' . $endMacroOpeningChars . '|[^{$]*\>\{)[^' . $macroClosingChars . '$]*\}/U',
             function ($match) {
                 return strip_tags($match[0]);
             },
@@ -963,7 +1078,7 @@ class TemplateProcessor
      *
      * @param mixed $search
      * @param mixed $replace
-     * @param string $documentPartXML
+     * @param array<int, string>|string $documentPartXML
      * @param int $limit
      *
      * @return string
@@ -989,7 +1104,10 @@ class TemplateProcessor
     protected function getVariablesForPart($documentPartXML)
     {
         $matches = [];
-        preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
+        $escapedMacroOpeningChars = preg_quote(self::$macroOpeningChars);
+        $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
+
+        preg_match_all("/$escapedMacroOpeningChars(.*?)$escapedMacroClosingChars/i", $documentPartXML, $matches);
 
         return $matches[1];
     }
@@ -1080,6 +1198,39 @@ class TemplateProcessor
     }
 
     /**
+     * Find the start position of the nearest table before $offset.
+     */
+    private function findTableStart(int $offset): int
+    {
+        $rowStart = strrpos(
+            $this->tempDocumentMainPart,
+            '<w:tbl ',
+            ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+        );
+
+        if (!$rowStart) {
+            $rowStart = strrpos(
+                $this->tempDocumentMainPart,
+                '<w:tbl>',
+                ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+            );
+        }
+        if (!$rowStart) {
+            throw new Exception('Can not find the start position of the table.');
+        }
+
+        return $rowStart;
+    }
+
+    /**
+     * Find the end position of the nearest table row after $offset.
+     */
+    private function findTableEnd(int $offset): int
+    {
+        return strpos($this->tempDocumentMainPart, '</w:tbl>', $offset) + 7;
+    }
+
+    /**
      * Find the start position of the nearest table row before $offset.
      *
      * @param int $offset
@@ -1141,15 +1292,26 @@ class TemplateProcessor
     protected function indexClonedVariables($count, $xmlBlock)
     {
         $results = [];
+        $escapedMacroOpeningChars = preg_quote(self::$macroOpeningChars);
+        $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
+
         for ($i = 1; $i <= $count; ++$i) {
-            $results[] = preg_replace('/\$\{([^:]*?)(:.*?)?\}/', '\${\1#' . $i . '\2}', $xmlBlock);
+            $results[] = preg_replace("/$escapedMacroOpeningChars([^:]*?)(:.*?)?$escapedMacroClosingChars/", self::$macroOpeningChars . '\1#' . $i . '\2' . self::$macroClosingChars, $xmlBlock);
         }
 
         return $results;
     }
 
     /**
-     * Raplaces variables with values from array, array keys are the variable names.
+     * Replace carriage returns with xml.
+     */
+    public function replaceCarriageReturns(string $string): string
+    {
+        return str_replace(["\r\n", "\r", "\n"], '</w:t><w:br/><w:t>', $string);
+    }
+
+    /**
+     * Replaces variables with values from array, array keys are the variable names.
      *
      * @param array $variableReplacements
      * @param string $xmlBlock
@@ -1297,7 +1459,7 @@ class TemplateProcessor
         }
 
         $unformattedText = preg_replace('/>\s+</', '><', $text);
-        $result = str_replace(['${', '}'], ['</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">${', '}</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'], $unformattedText);
+        $result = str_replace([self::$macroOpeningChars, self::$macroClosingChars], ['</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">' . self::$macroOpeningChars, self::$macroClosingChars . '</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'], $unformattedText);
 
         return str_replace(['<w:r>' . $extractedStyle . '<w:t xml:space="preserve"></w:t></w:r>', '<w:r><w:t xml:space="preserve"></w:t></w:r>', '<w:t>'], ['', '', '<w:t xml:space="preserve">'], $result);
     }
@@ -1311,6 +1473,30 @@ class TemplateProcessor
      */
     protected function textNeedsSplitting($text)
     {
-        return preg_match('/[^>]\${|}[^<]/i', $text) == 1;
+        $escapedMacroOpeningChars = preg_quote(self::$macroOpeningChars);
+        $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
+
+        return 1 === preg_match('/[^>]' . $escapedMacroOpeningChars . '|' . $escapedMacroClosingChars . '[^<]/i', $text);
+    }
+
+    public function setMacroOpeningChars(string $macroOpeningChars): void
+    {
+        self::$macroOpeningChars = $macroOpeningChars;
+    }
+
+    public function setMacroClosingChars(string $macroClosingChars): void
+    {
+        self::$macroClosingChars = $macroClosingChars;
+    }
+
+    public function setMacroChars(string $macroOpeningChars, string $macroClosingChars): void
+    {
+        self::$macroOpeningChars = $macroOpeningChars;
+        self::$macroClosingChars = $macroClosingChars;
+    }
+
+    public function getTempDocumentFilename(): string
+    {
+        return $this->tempDocumentFilename;
     }
 }

@@ -1,23 +1,24 @@
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="./tests/bootstrap.php"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false">
-    <testsuites>
-        <testsuite name="PhpWord Test Suite">
-            <directory>./tests/PhpWordTests</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">./src</directory>
-            <exclude>
-                <directory suffix=".php">./src/PhpWordTests/Shared/PCLZip</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="./tests/bootstrap.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" convertDeprecationsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./src/PhpWord/Shared/PCLZip</directory>
+    </exclude>
+    <report>
+      <clover outputFile="./build/logs/clover.xml"/>
+      <html outputDirectory="./build/coverage"/>
+    </report>
+  </coverage>
+  <php>
+    <ini name="error_reporting" value="E_ALL"/>
+  </php>
+  <testsuites>
+    <testsuite name="PhpWord Test Suite">
+      <directory>./tests/PhpWordTests</directory>
+    </testsuite>
+  </testsuites>
+  <logging/>
 </phpunit>

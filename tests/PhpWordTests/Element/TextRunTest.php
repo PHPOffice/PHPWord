@@ -99,7 +99,7 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
     public function testAddTextNotUTF8(): void
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->addText(utf8_decode('ééé'));
+        $element = $oTextRun->addText(utf8decode('ééé'));
 
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         self::assertCount(1, $oTextRun->getElements());
