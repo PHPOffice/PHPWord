@@ -89,7 +89,7 @@ abstract class AbstractContainer extends AbstractElement
             'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'OLEObject',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
-            'Chart', 'FormField', 'SDT', 'Comment',
+            'Chart', 'FormField', 'SDT', 'Comment', 'Cell',
             'Formula',
         ];
         $functions = [];
