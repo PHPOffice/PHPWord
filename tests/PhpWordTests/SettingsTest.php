@@ -217,6 +217,20 @@ class SettingsTest extends TestCase
     }
 
     /**
+     * Test set/get default font name.
+     */
+    public function testSetGetDefaultAsianFontName(): void
+    {
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultAsianFontName());
+        self::assertFalse(Settings::setDefaultAsianFontName(' '));
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultAsianFontName());
+        self::assertTrue(Settings::setDefaultAsianFontName('Times New Roman'));
+        self::assertEquals('Times New Roman', Settings::getDefaultAsianFontName());
+        self::assertFalse(Settings::setDefaultAsianFontName(' '));
+        self::assertEquals('Times New Roman', Settings::getDefaultAsianFontName());
+    }
+
+    /**
      * Test set/get default font size.
      */
     public function testSetGetDefaultFontSize(): void
