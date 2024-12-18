@@ -939,7 +939,7 @@ class TemplateProcessor
 
                             $this->tempDocumentMainPart = preg_replace(
                                 $escapedPattern,
-                                implode('', $cloned),
+                                is_array($cloned) ? implode('', $cloned) : $cloned,
                                 $this->tempDocumentMainPart,
                                 $limit
                             );
