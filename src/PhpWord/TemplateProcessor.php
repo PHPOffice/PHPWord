@@ -929,12 +929,22 @@ class TemplateProcessor
                     );
                 } else {
                     $regExpEscaper = new RegExp();
-                    $this->tempDocumentMainPart = preg_replace(
-                        $regExpEscaper->escape($matches[2] . $matches[3] . $matches[4]),
-                        implode('', $cloned),
-                        $this->tempDocumentMainPart,
-                        $limit
-                    );
+
+                    // Process each match individually to avoid a single large regex
+                    foreach ($matches as $key => $match) {
+                        if (isset($matches[2][$key], $matches[3][$key], $matches[4][$key])) {
+                            $escapedPattern = $regExpEscaper->escape(
+                                $matches[2][$key] . $matches[3][$key] . $matches[4][$key]
+                            );
+
+                            $this->tempDocumentMainPart = preg_replace(
+                                $escapedPattern,
+                                implode('', $cloned),
+                                $this->tempDocumentMainPart,
+                                $limit
+                            );
+                        }
+                    }
                 }
             }
         }
