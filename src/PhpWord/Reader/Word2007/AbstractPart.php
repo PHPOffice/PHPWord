@@ -229,6 +229,8 @@ abstract class AbstractPart
                     }
                 }
             }
+
+            return;
         } elseif ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
             // PreserveText
             $ignoreText = false;
