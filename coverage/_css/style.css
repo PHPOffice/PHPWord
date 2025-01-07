@@ -51,12 +51,12 @@ body {
  background-color: #99cb84;
 }
 
-.table tbody tr.danger, .table tbody td.danger, li.danger, span.danger {
- background-color: #f2dede;
-}
-
 .table tbody tr.warning, .table tbody td.warning, li.warning, span.warning {
  background-color: #fcf8e3;
+}
+
+.table tbody tr.danger, .table tbody td.danger, li.danger, span.danger {
+ background-color: #f2dede;
 }
 
 .table tbody td.info {
