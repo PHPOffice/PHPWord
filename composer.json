@@ -67,10 +67,12 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-xml": "*",
-        "phpoffice/math": "^0.2"
+        "phpoffice/math": "^0.2",
+        "ext-zip": "*",
+        "ext-fileinfo": "*", 
+        "ext-mbstring": "*"
     },
     "require-dev": {
-        "ext-zip": "*",
         "ext-gd": "*",
         "ext-libxml": "*",
         "dompdf/dompdf": "^2.0 || ^3.0",
