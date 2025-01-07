@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -57,7 +58,7 @@ class Html
      * Warning: Do not pass user-generated HTML here, as that would allow an attacker to read arbitrary
      * files or perform server-side request forgery by passing local file paths or URLs in <img>.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
+     * @param AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
      * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
@@ -185,7 +186,7 @@ class Html
      * Parse a node and add a corresponding element to the parent element.
      *
      * @param DOMNode $node node to parse
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element object to add an element corresponding with the node
+     * @param AbstractContainer $element object to add an element corresponding with the node
      * @param array $styles Array with all styles
      * @param array $data Array to transport data to a next level in the DOM tree, for example level of listitems
      */
@@ -276,7 +277,7 @@ class Html
      * Parse child nodes.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer|Row|Table $element
+     * @param AbstractContainer|Row|Table $element
      * @param array $styles
      * @param array $data
      */
@@ -298,7 +299,7 @@ class Html
      * Parse paragraph node.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      * @param array &$styles
      *
      * @return \PhpOffice\PhpWord\Element\PageBreak|\PhpOffice\PhpWord\Element\TextRun
@@ -317,7 +318,7 @@ class Html
      * Parse input node.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      * @param array &$styles
      */
     protected static function parseInput($node, $element, &$styles): void
@@ -341,7 +342,7 @@ class Html
     /**
      * Parse heading node.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      * @param array &$styles
      * @param string $argument1 Name of heading style
      *
@@ -362,7 +363,7 @@ class Html
      * Parse text node.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      * @param array &$styles
      */
     protected static function parseText($node, $element, &$styles): void
@@ -406,7 +407,7 @@ class Html
      * Parse table node.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      * @param array &$styles
      *
      * @return Table $element
@@ -437,7 +438,7 @@ class Html
      * Parse a table row.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param Table $element
      * @param array &$styles
      *
      * @return Row $element
@@ -460,7 +461,7 @@ class Html
      * Parse table cell.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param Table $element
      * @param array &$styles
      *
      * @return \PhpOffice\PhpWord\Element\Cell|\PhpOffice\PhpWord\Element\TextRun $element
@@ -554,7 +555,7 @@ class Html
      * Parse list node.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      * @param array &$styles
      * @param array &$data
      */
@@ -644,7 +645,7 @@ class Html
      * Parse list item node.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      * @param array &$styles
      * @param array $data
      *
@@ -886,7 +887,7 @@ class Html
      * Parse image node.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      *
      * @return \PhpOffice\PhpWord\Element\Image
      */
@@ -970,14 +971,15 @@ class Html
 
             $match = [];
             preg_match('/data:image\/(\w+);base64,(.+)/', $src, $match);
+            if (!empty($match)) {
+                $src = $imgFile = $tmpDir . uniqid() . '.' . $match[1];
 
-            $src = $imgFile = $tmpDir . uniqid() . '.' . $match[1];
+                $ifp = fopen($imgFile, 'wb');
 
-            $ifp = fopen($imgFile, 'wb');
-
-            if ($ifp !== false) {
-                fwrite($ifp, base64_decode($match[2]));
-                fclose($ifp);
+                if ($ifp !== false) {
+                    fwrite($ifp, base64_decode($match[2]));
+                    fclose($ifp);
+                }
             }
         }
         $src = urldecode($src);
@@ -1129,7 +1131,7 @@ class Html
     /**
      * Parse line break.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      */
     protected static function parseLineBreak($element): void
     {
@@ -1140,7 +1142,7 @@ class Html
      * Parse link node.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      * @param array $styles
      */
     protected static function parseLink($node, $element, &$styles)
@@ -1172,7 +1174,7 @@ class Html
      * Note: Word rule is not the same as HTML's <hr> since it does not support width and thus neither alignment.
      *
      * @param DOMNode $node
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param AbstractContainer $element
      */
     protected static function parseHorizRule($node, $element): void
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -77,7 +78,7 @@ class Styles extends AbstractPart
     /**
      * Write default font and other default styles.
      *
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle[] $styles
+     * @param Style\AbstractStyle[] $styles
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles): void
     {
@@ -125,7 +126,7 @@ class Styles extends AbstractPart
         if (isset($styles['Normal'])) {
             $normalStyle = $styles['Normal'];
             // w:pPr
-            if ($normalStyle instanceof Fontstyle && $normalStyle->getParagraph() != null) {
+            if ($normalStyle instanceof FontStyle && $normalStyle->getParagraph() != null) {
                 $styleWriter = new ParagraphStyleWriter($xmlWriter, $normalStyle->getParagraph());
                 $styleWriter->write();
             } elseif ($normalStyle instanceof ParagraphStyle) {

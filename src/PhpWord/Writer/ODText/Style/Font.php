@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -39,7 +40,7 @@ class Font extends AbstractStyle
         if ($stylep instanceof \PhpOffice\PhpWord\Style\Paragraph) {
             $temp1 = clone $stylep;
             $temp1->setStyleName($style->getStyleName());
-            $temp2 = new \PhpOffice\PhpWord\Writer\ODText\Style\Paragraph($xmlWriter, $temp1);
+            $temp2 = new Paragraph($xmlWriter, $temp1);
             $temp2->write();
         }
 

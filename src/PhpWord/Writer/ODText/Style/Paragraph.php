@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -45,7 +46,7 @@ class Paragraph extends AbstractStyle
     public function write(): void
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+        if (!$style instanceof Style\Paragraph) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
@@ -73,13 +74,13 @@ class Paragraph extends AbstractStyle
             } elseif (substr($styleName, 0, 2) === 'HD') {
                 $styleAuto = true;
                 $psm = 'Heading_' . substr($styleName, 2);
-                $stylep = \PhpOffice\PhpWord\Style::getStyle($psm);
-                if ($stylep instanceof \PhpOffice\PhpWord\Style\Font) {
+                $stylep = Style::getStyle($psm);
+                if ($stylep instanceof Style\Font) {
                     if (method_exists($stylep, 'getParagraph')) {
                         $stylep = $stylep->getParagraph();
                     }
                 }
-                if ($stylep instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+                if ($stylep instanceof Style\Paragraph) {
                     if ($stylep->hasPageBreakBefore()) {
                         $breakbefore = true;
                     }

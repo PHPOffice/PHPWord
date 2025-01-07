@@ -61,7 +61,7 @@ if ($handle = opendir('.')) {
 /**
  * Write documents.
  *
- * @param \PhpOffice\PhpWord\PhpWord $phpWord
+ * @param PhpOffice\PhpWord\PhpWord $phpWord
  * @param string $filename
  * @param array $writers
  *

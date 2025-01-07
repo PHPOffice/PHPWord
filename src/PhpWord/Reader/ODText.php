@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -32,7 +33,7 @@ class ODText extends AbstractReader implements ReaderInterface
      *
      * @param string $docFile
      *
-     * @return \PhpOffice\PhpWord\PhpWord
+     * @return PhpWord
      */
     public function load($docFile)
     {
@@ -58,7 +59,7 @@ class ODText extends AbstractReader implements ReaderInterface
     {
         $partClass = "PhpOffice\\PhpWord\\Reader\\ODText\\{$partName}";
         if (class_exists($partClass)) {
-            /** @var \PhpOffice\PhpWord\Reader\ODText\AbstractPart $part Type hint */
+            /** @var ODText\AbstractPart $part Type hint */
             $part = new $partClass($docFile, $xmlFile);
             $part->setRels($relationships);
             $part->read($phpWord);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -33,7 +34,7 @@ class UnsupportedImageTypeExceptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testThrowException(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\UnsupportedImageTypeException::class);
+        $this->expectException(UnsupportedImageTypeException::class);
 
         throw new UnsupportedImageTypeException();
     }
