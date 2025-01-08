@@ -15,7 +15,8 @@
  *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-require_once __DIR__ . '/../bootstrap.php';
+
+require dirname(__DIR__) . '/vendor/autoload.php';
 
 date_default_timezone_set('UTC');
 
