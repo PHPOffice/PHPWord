@@ -95,7 +95,8 @@
             "php samples/Sample_41_TemplateSetChart.php",
             "php samples/Sample_42_TemplateSetCheckbox.php",
             "php samples/Sample_43_RTLDefault.php",
-            "php samples/Sample_44_ExtractVariablesFromReaderWord2007.php"
+            "php samples/Sample_44_ExtractVariablesFromReaderWord2007.php",
+            "php samples/Sample_45_Autoloader.php"
         ]
     },
     "scripts-descriptions": {

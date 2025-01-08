@@ -1,5 +1,19 @@
 <?php
-require_once __DIR__ . '/../bootstrap.php';
+
+$vendorDirPath = realpath(__DIR__ . '/../vendor');
+
+if ((defined('USE_AUTOLOADER') && USE_AUTOLOADER == true)
+    || !file_exists($vendorDirPath . '/autoload.php')) {
+    // PhpWord
+    require_once __DIR__ . '/../src/PhpWord/Autoloader.php';
+    PhpOffice\PhpWord\Autoloader::register();
+} else {
+    require $vendorDirPath . '/autoload.php';
+    $dompdfPath = $vendorDirPath . '/dompdf/dompdf';
+    if (file_exists($dompdfPath)) {
+        define('DOMPDF_ENABLE_AUTOLOAD', false);
+    }
+}
 
 use PhpOffice\PhpWord\Settings;
 
@@ -12,9 +26,7 @@ define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
 Settings::loadConfig();
 
-$dompdfPath = $vendorDirPath . '/dompdf/dompdf';
-if (file_exists($dompdfPath)) {
-    define('DOMPDF_ENABLE_AUTOLOAD', false);
+if (defined('DOMPDF_ENABLE_AUTOLOAD')) {
     Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $vendorDirPath . '/dompdf/dompdf');
 }
 
@@ -60,14 +72,8 @@ if ($handle = opendir('.')) {
 
 /**
  * Write documents.
- *
- * @param PhpOffice\PhpWord\PhpWord $phpWord
- * @param string $filename
- * @param array $writers
- *
- * @return string
  */
-function write($phpWord, $filename, $writers)
+function write(PhpOffice\PhpWord\PhpWord $phpWord, string $filename, array $writers): string
 {
     $result = '';
 
@@ -90,13 +96,8 @@ function write($phpWord, $filename, $writers)
 
 /**
  * Get ending notes.
- *
- * @param array $writers
- * @param mixed $filename
- *
- * @return string
  */
-function getEndingNotes($writers, $filename)
+function getEndingNotes(array $writers, string $filename): string
 {
     $result = '';
 
