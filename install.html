@@ -2130,17 +2130,14 @@
 <p>To install manually:</p>
 <ul>
 <li><a href="https://github.com/PHPOffice/PHPWord/archive/master.zip">download PHPOffice\PHPWord package from GitHub</a></li>
-<li><a href="https://github.com/PHPOffice/Common/archive/master.zip">download PHPOffice\Common package from GitHub</a></li>
 <li>extract the package and put the contents to your machine.</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="k">require_once</span> <span class="s1">&#39;path/to/PHPWord/src/PhpWord/Autoloader.php&#39;</span><span class="p">;</span>
 <span class="nx">\PhpOffice\PhpWord\Autoloader</span><span class="o">::</span><span class="na">register</span><span class="p">();</span>
-
-<span class="k">require_once</span> <span class="s1">&#39;path/to/PhpOffice/Common/src/Common/Autoloader.php&#39;</span><span class="p">;</span>
-<span class="nx">\PhpOffice\Common\Autoloader</span><span class="o">::</span><span class="na">register</span><span class="p">();</span>
 </code></pre></div>
+<p>The preferred method is the Composer one.</p>
 <h2 id="samples">Samples</h2>
 <p>After installation, you can browse and use the samples that we've provided, either by command line or using browser. If you can access your PhpWord library folder using browser, point your browser to the <code>samples</code> folder, e.g. <code>http://localhost/PhpWord/samples/</code>.</p>
 

@@ -1,6 +1,26 @@
 Search.appendIndex(
     [
                 {
+            "fqsen": "\\PhpOffice\\PhpWord\\Autoloader",
+            "name": "Autoloader",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Autoloader.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Autoloader\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Autoloader.html#method_register"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Autoloader\u003A\u003Aautoload\u0028\u0029",
+            "name": "autoload",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Autoloader.html#method_autoload"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Autoloader\u003A\u003ANAMESPACE_PREFIX",
+            "name": "NAMESPACE_PREFIX",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Autoloader.html#constant_NAMESPACE_PREFIX"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection\\AbstractCollection",
             "name": "AbstractCollection",
             "summary": "Collection\u0020abstract\u0020class.",
@@ -16181,6 +16201,16 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord",
+            "name": "PhpWord",
+            "summary": "",
+            "url": "namespaces/phpoffice-phpword.html"
+        },                {
+            "fqsen": "\\PhpOffice",
+            "name": "PhpOffice",
+            "summary": "",
+            "url": "namespaces/phpoffice.html"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Collection",
             "name": "Collection",
             "summary": "",
@@ -16205,16 +16235,6 @@ Search.appendIndex(
             "name": "Exception",
             "summary": "",
             "url": "namespaces/phpoffice-phpword-exception.html"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord",
-            "name": "PhpWord",
-            "summary": "",
-            "url": "namespaces/phpoffice-phpword.html"
-        },                {
-            "fqsen": "\\PhpOffice",
-            "name": "PhpOffice",
-            "summary": "",
-            "url": "namespaces/phpoffice.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Metadata",
             "name": "Metadata",
