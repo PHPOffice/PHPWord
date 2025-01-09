@@ -16,7 +16,7 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWordTests\Reader\Html;
+namespace PhpOffice\PhpWordTests\Reader;
 
 use Exception;
 use PhpOffice\PhpWord\IOFactory;
@@ -35,7 +35,7 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
      */
     public function testLoad(): void
     {
-        $filename = 'tests/PhpWordTests/_files/documents/reader.html';
+        $filename = __DIR__ . '/../_files/documents/reader.html';
         $phpWord = IOFactory::load($filename, 'HTML');
         self::assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
     }
