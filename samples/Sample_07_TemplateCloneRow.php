@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 
 // Template processor instance creation
 echo date('H:i:s'), ' Creating new TemplateProcessor instance...', EOL;
-$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('resources/Sample_07_TemplateCloneRow.docx');
+$templateProcessor = new PhpOffice\PhpWord\TemplateProcessor(__DIR__ . '/resources/Sample_07_TemplateCloneRow.docx');
 
 // Variables on different parts of document
 $templateProcessor->setValue('weekday', date('l'));            // On section/content
@@ -79,9 +79,9 @@ $templateProcessor->cloneRowAndSetValues('userId', $values);
 // $templateProcessor->setValue('userPhone#3', '+1 428 889 775');
 
 echo date('H:i:s'), ' Saving the result document...', EOL;
-$templateProcessor->saveAs('results/Sample_07_TemplateCloneRow.docx');
+$templateProcessor->saveAs(__DIR__ . '/results/Sample_07_TemplateCloneRow.docx');
 
-echo getEndingNotes(['Word2007' => 'docx'], 'results/Sample_07_TemplateCloneRow.docx');
+echo getEndingNotes(['Word2007' => 'docx'], __DIR__ . '/results/Sample_07_TemplateCloneRow.docx');
 if (!CLI) {
     include_once 'Sample_Footer.php';
 }

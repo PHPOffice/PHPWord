@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // Define styles
 $paragraphStyleName = 'pStyle';
@@ -17,7 +17,7 @@ $coloredFontStyleName = 'ColoredText';
 $phpWord->addFontStyle($coloredFontStyleName, ['color' => 'FF8080', 'bgColor' => 'FFFFCC']);
 
 $linkFontStyleName = 'NLink';
-$phpWord->addLinkStyle($linkFontStyleName, ['color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE]);
+$phpWord->addLinkStyle($linkFontStyleName, ['color' => '0000FF', 'underline' => PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE]);
 
 // New portrait section
 $section = $phpWord->addSection();
@@ -35,9 +35,9 @@ $textrun->addText(' All elements are placed inside a paragraph with the optional
 $textrun->addText(' Sample Link: ');
 $textrun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub', $linkFontStyleName);
 $textrun->addText(' Sample Image: ');
-$textrun->addImage('resources/_earth.jpg', ['width' => 18, 'height' => 18]);
+$textrun->addImage(__DIR__ . '/resources/_earth.jpg', ['width' => 18, 'height' => 18]);
 $textrun->addText(' Sample Object: ');
-$textrun->addObject('resources/_sheet.xls');
+$textrun->addObject(__DIR__ . '/resources/_sheet.xls');
 $textrun->addText(' Here is some more text. ');
 
 $textrun = $section->addTextRun();

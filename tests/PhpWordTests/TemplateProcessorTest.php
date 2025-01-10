@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -863,15 +864,15 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         // dynamic generated doc
         $testFileName = 'images-test-sample.docx';
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('${Test:width=100:ratio=true}');
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
 
         $resultFileName = 'images-test-result.docx';
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($testFileName);
+        $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
         $templateProcessor->setImageValue('Test', $imagePath);
         $templateProcessor->setImageValue('Test1', $imagePath);
@@ -1025,7 +1026,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         // and the placeholders have been replaced correctly
         $phpWord = IOFactory::load($templatePath);
         $sections = $phpWord->getSections();
-        /** @var \PhpOffice\PhpWord\Element\TextRun[] $actualElements */
+        /** @var TextRun[] $actualElements */
         $actualElements = $sections[0]->getElements();
         unlink($templatePath);
         $expectedElements = [
@@ -1079,7 +1080,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         // and the placeholders have been replaced correctly
         $phpWord = IOFactory::load($templatePath);
         $sections = $phpWord->getSections();
-        /** @var \PhpOffice\PhpWord\Element\TextRun[] $actualElements */
+        /** @var TextRun[] $actualElements */
         $actualElements = $sections[0]->getElements();
 
         unlink($templatePath);

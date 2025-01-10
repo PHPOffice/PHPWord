@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // Define styles
 $fontStyleName = 'myOwnStyle';
@@ -25,7 +25,7 @@ $phpWord->addNumberingStyle(
     ]
 );
 
-$predefinedMultilevelStyle = ['listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED];
+$predefinedMultilevelStyle = ['listType' => PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED];
 
 // New section
 $section = $phpWord->addSection();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,12 +20,12 @@ namespace PhpOffice\PhpWordTests\Element;
 
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Image.
  */
-class ImageTest extends AbstractWebServerEmbeddedTest
+class ImageTest extends AbstractWebServerEmbedded
 {
     /**
      * New instance.
@@ -68,7 +69,7 @@ class ImageTest extends AbstractWebServerEmbeddedTest
      */
     public function testImages($source, $type, $extension, $createFunction, $imageFunction, $imageQuality): void
     {
-        $nam = ucfirst(strtok($source, '.'));
+        $nam = ucfirst((string) strtok($source, '.'));
         $source = __DIR__ . "/../_files/images/{$source}";
         $image = new Image($source, null, null, $nam);
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
@@ -205,7 +206,7 @@ class ImageTest extends AbstractWebServerEmbeddedTest
         $image = new Image($source);
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
         self::assertEquals($source, $image->getSource());
-        self::assertEquals(md5($source), $image->getMediaId());
+        self::assertEquals(md5((string) $source), $image->getMediaId());
         self::assertEquals('image/jpeg', $image->getImageType());
         self::assertEquals('jpg', $image->getImageExtension());
         self::assertEquals('imagecreatefromstring', $image->getImageCreateFunction());

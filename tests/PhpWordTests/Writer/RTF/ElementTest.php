@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -49,7 +50,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Field('FILENAME');
-        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+        $field = new RTF\Element\Field($parentWriter, $element);
 
         self::assertEquals("{\\field{\\*\\fldinst FILENAME}{\\fldrslt}}\\par\n", $this->removeCr($field));
     }
@@ -58,7 +59,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Field('FILENAME', [], ['Path']);
-        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+        $field = new RTF\Element\Field($parentWriter, $element);
 
         self::assertEquals("{\\field{\\*\\fldinst FILENAME \\\\p}{\\fldrslt}}\\par\n", $this->removeCr($field));
     }
@@ -67,7 +68,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Field('PAGE');
-        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+        $field = new RTF\Element\Field($parentWriter, $element);
 
         self::assertEquals("{\\field{\\*\\fldinst PAGE}{\\fldrslt}}\\par\n", $this->removeCr($field));
     }
@@ -76,7 +77,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Field('NUMPAGES');
-        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+        $field = new RTF\Element\Field($parentWriter, $element);
 
         self::assertEquals("{\\field{\\*\\fldinst NUMPAGES}{\\fldrslt}}\\par\n", $this->removeCr($field));
     }
@@ -85,7 +86,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Field('DATE', ['dateformat' => 'd MM yyyy H:mm:ss']);
-        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+        $field = new RTF\Element\Field($parentWriter, $element);
 
         self::assertEquals("{\\field{\\*\\fldinst DATE \\\\@ \"d MM yyyy H:mm:ss\"}{\\fldrslt}}\\par\n", $this->removeCr($field));
     }
@@ -94,7 +95,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Field('INDEX');
-        $field = new \PhpOffice\PhpWord\Writer\RTF\Element\Field($parentWriter, $element);
+        $field = new RTF\Element\Field($parentWriter, $element);
 
         self::assertEquals("{}\\par\n", $this->removeCr($field));
     }
@@ -115,7 +116,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $tce->addText('3');
         $tce = $element->addCell($width);
         $tce->addText('4');
-        $table = new \PhpOffice\PhpWord\Writer\RTF\Element\Table($parentWriter, $element);
+        $table = new RTF\Element\Table($parentWriter, $element);
         $expect = implode("\n", [
             '\\pard',
             "\\trowd \\cellx$width \\cellx$width2 ",
@@ -147,7 +148,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = new \PhpOffice\PhpWord\Element\TextRun();
         $element->addText('Hello ');
         $element->addText('there.');
-        $textrun = new \PhpOffice\PhpWord\Writer\RTF\Element\TextRun($parentWriter, $element);
+        $textrun = new RTF\Element\TextRun($parentWriter, $element);
         $expect = "\\pard\\nowidctlpar {{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
         self::assertEquals($expect, $this->removeCr($textrun));
     }
@@ -158,7 +159,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = new \PhpOffice\PhpWord\Element\TextRun(['spaceBefore' => 0, 'spaceAfter' => 0]);
         $element->addText('Hello ');
         $element->addText('there.');
-        $textrun = new \PhpOffice\PhpWord\Writer\RTF\Element\TextRun($parentWriter, $element);
+        $textrun = new RTF\Element\TextRun($parentWriter, $element);
         $expect = "\\pard\\nowidctlpar \\sb0\\sa0{{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
         self::assertEquals($expect, $this->removeCr($textrun));
     }
@@ -170,7 +171,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $phpWord->addTitleStyle(1, [], ['spaceBefore' => 0, 'spaceAfter' => 0]);
         $section = $phpWord->addSection();
         $element = $section->addTitle('First Heading', 1);
-        $elwrite = new \PhpOffice\PhpWord\Writer\RTF\Element\Title($parentWriter, $element);
+        $elwrite = new RTF\Element\Title($parentWriter, $element);
         $expect = "\\pard\\nowidctlpar \\sb0\\sa0{\\outlinelevel0{\\cf0\\f0 First Heading}\\par\n}";
         self::assertEquals($expect, $this->removeCr($elwrite));
     }

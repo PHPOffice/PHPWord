@@ -7,7 +7,6 @@ are provided in the [samples folder](https://github.com/PHPOffice/PHPWord/tree/m
 
 ``` php
 <?php
-require_once 'bootstrap.php';
 
 // Creating the new document...
 $phpWord = new \PhpOffice\PhpWord\PhpWord();

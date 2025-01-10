@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -152,7 +153,7 @@ class Paragraph extends AbstractStyle
     /**
      * Write tabs.
      *
-     * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
+     * @param Style\Tab[] $tabs
      */
     private function writeTabs(XMLWriter $xmlWriter, $tabs): void
     {
@@ -176,7 +177,7 @@ class Paragraph extends AbstractStyle
         $numStyle = $numbering['style'];
         $numLevel = $numbering['level'];
 
-        /** @var \PhpOffice\PhpWord\Style\Numbering $numbering */
+        /** @var Style\Numbering $numbering */
         $numbering = Style::getStyle($numStyle);
         if ($numStyle !== null && $numbering !== null) {
             $xmlWriter->startElement('w:numPr');
