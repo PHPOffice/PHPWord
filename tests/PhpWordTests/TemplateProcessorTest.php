@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -25,6 +26,7 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Throwable;
 use TypeError;
 use ZipArchive;
 
@@ -63,12 +65,21 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      *
      * @covers ::__construct
      * @covers ::__destruct
+     * @covers \PhpOffice\PhpWord\Shared\ZipArchive::close
      */
     public function testTheConstruct(): void
     {
         $object = $this->getTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
         self::assertInstanceOf('PhpOffice\\PhpWord\\TemplateProcessor', $object);
         self::assertEquals([], $object->getVariables());
+        $object->save();
+
+        try {
+            $object->zip()->close();
+            self::fail('Expected exception for double close');
+        } catch (Throwable $e) {
+            // nothing to do here
+        }
     }
 
     /**
@@ -853,15 +864,15 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         // dynamic generated doc
         $testFileName = 'images-test-sample.docx';
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('${Test:width=100:ratio=true}');
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
 
         $resultFileName = 'images-test-result.docx';
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($testFileName);
+        $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
         $templateProcessor->setImageValue('Test', $imagePath);
         $templateProcessor->setImageValue('Test1', $imagePath);
@@ -1015,7 +1026,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         // and the placeholders have been replaced correctly
         $phpWord = IOFactory::load($templatePath);
         $sections = $phpWord->getSections();
-        /** @var \PhpOffice\PhpWord\Element\TextRun[] $actualElements */
+        /** @var TextRun[] $actualElements */
         $actualElements = $sections[0]->getElements();
         unlink($templatePath);
         $expectedElements = [
@@ -1069,7 +1080,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         // and the placeholders have been replaced correctly
         $phpWord = IOFactory::load($templatePath);
         $sections = $phpWord->getSections();
-        /** @var \PhpOffice\PhpWord\Element\TextRun[] $actualElements */
+        /** @var TextRun[] $actualElements */
         $actualElements = $sections[0]->getElements();
 
         unlink($templatePath);

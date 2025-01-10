@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -69,7 +70,7 @@ class Cell extends Border
     /**
      * Vertical align (top, center, both, bottom).
      *
-     * @var string
+     * @var null|string
      */
     private $vAlign;
 
@@ -93,14 +94,14 @@ class Cell extends Border
      * - restart: Start/restart merged region
      * - continue: Continue merged region
      *
-     * @var string
+     * @var null|string
      */
     private $vMerge;
 
     /**
      * Shading.
      *
-     * @var \PhpOffice\PhpWord\Style\Shading
+     * @var Shading
      */
     private $shading;
 
@@ -128,7 +129,7 @@ class Cell extends Border
     /**
      * Get vertical align.
      *
-     * @return string
+     * @return null|string
      */
     public function getVAlign()
     {
@@ -138,12 +139,18 @@ class Cell extends Border
     /**
      * Set vertical align.
      *
-     * @param string $value
+     * @param null|string $value
      *
      * @return self
      */
     public function setVAlign($value = null)
     {
+        if ($value === null) {
+            $this->vAlign = null;
+
+            return $this;
+        }
+
         VerticalJc::validate($value);
         $this->vAlign = $this->setEnumVal($value, VerticalJc::values(), $this->vAlign);
 
@@ -235,7 +242,7 @@ class Cell extends Border
     /**
      * Get vertical merge (rowspan).
      *
-     * @return string
+     * @return null|string
      */
     public function getVMerge()
     {
@@ -245,12 +252,18 @@ class Cell extends Border
     /**
      * Set vertical merge (rowspan).
      *
-     * @param string $value
+     * @param null|string $value
      *
      * @return self
      */
     public function setVMerge($value = null)
     {
+        if ($value === null) {
+            $this->vMerge = null;
+
+            return $this;
+        }
+
         $enum = [self::VMERGE_RESTART, self::VMERGE_CONTINUE];
         $this->vMerge = $this->setEnumVal($value, $enum, $this->vMerge);
 
@@ -260,7 +273,7 @@ class Cell extends Border
     /**
      * Get shading.
      *
-     * @return \PhpOffice\PhpWord\Style\Shading
+     * @return Shading
      */
     public function getShading()
     {

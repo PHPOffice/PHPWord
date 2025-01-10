@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -32,14 +33,14 @@ class TextRun extends AbstractContainer
     /**
      * Paragraph style.
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph|string
+     * @var Paragraph|string
      */
     protected $paragraphStyle;
 
     /**
      * Create new instance.
      *
-     * @param array|\PhpOffice\PhpWord\Style\Paragraph|string $paragraphStyle
+     * @param array|Paragraph|string $paragraphStyle
      */
     public function __construct($paragraphStyle = null)
     {
@@ -49,7 +50,7 @@ class TextRun extends AbstractContainer
     /**
      * Get Paragraph style.
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph|string
+     * @return Paragraph|string
      */
     public function getParagraphStyle()
     {
@@ -59,9 +60,9 @@ class TextRun extends AbstractContainer
     /**
      * Set Paragraph style.
      *
-     * @param array|\PhpOffice\PhpWord\Style\Paragraph|string $style
+     * @param array|Paragraph|string $style
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph|string
+     * @return Paragraph|string
      */
     public function setParagraphStyle($style = null)
     {

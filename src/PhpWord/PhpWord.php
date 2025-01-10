@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -47,7 +48,7 @@ class PhpWord
     /**
      * Collection of sections.
      *
-     * @var \PhpOffice\PhpWord\Element\Section[]
+     * @var Section[]
      */
     private $sections = [];
 
@@ -134,7 +135,6 @@ class PhpWord
         if (in_array($function, $addCollection)) {
             $key = ucfirst(str_replace('add', '', $function) . 's');
 
-            /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collectionObject */
             $collectionObject = $this->collections[$key];
 
             return $collectionObject->addItem($args[0] ?? null);
@@ -152,7 +152,7 @@ class PhpWord
     /**
      * Get document properties object.
      *
-     * @return \PhpOffice\PhpWord\Metadata\DocInfo
+     * @return Metadata\DocInfo
      */
     public function getDocInfo()
     {
@@ -162,7 +162,7 @@ class PhpWord
     /**
      * Get compatibility.
      *
-     * @return \PhpOffice\PhpWord\Metadata\Compatibility
+     * @return Metadata\Compatibility
      *
      * @since 0.12.0
      */
@@ -174,7 +174,7 @@ class PhpWord
     /**
      * Get compatibility.
      *
-     * @return \PhpOffice\PhpWord\Metadata\Settings
+     * @return Metadata\Settings
      *
      * @since 0.14.0
      */
@@ -186,7 +186,7 @@ class PhpWord
     /**
      * Get all sections.
      *
-     * @return \PhpOffice\PhpWord\Element\Section[]
+     * @return Section[]
      */
     public function getSections()
     {
@@ -198,7 +198,7 @@ class PhpWord
      *
      * @param int $index
      *
-     * @return null|\PhpOffice\PhpWord\Element\Section
+     * @return null|Section
      */
     public function getSection($index)
     {
@@ -214,7 +214,7 @@ class PhpWord
      *
      * @param null|array|string $style
      *
-     * @return \PhpOffice\PhpWord\Element\Section
+     * @return Section
      */
     public function addSection($style = null)
     {
@@ -282,7 +282,7 @@ class PhpWord
      *
      * @param array $styles Paragraph style definition
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return Style\Paragraph
      */
     public function setDefaultParagraphStyle($styles)
     {
@@ -334,7 +334,7 @@ class PhpWord
      *
      * @param array $settings
      *
-     * @return \PhpOffice\PhpWord\Element\Section
+     * @return Section
      *
      * @codeCoverageIgnore
      */
@@ -348,7 +348,7 @@ class PhpWord
      *
      * @deprecated 0.12.0
      *
-     * @return \PhpOffice\PhpWord\Metadata\DocInfo
+     * @return Metadata\DocInfo
      *
      * @codeCoverageIgnore
      */
@@ -362,7 +362,7 @@ class PhpWord
      *
      * @deprecated 0.12.0
      *
-     * @param \PhpOffice\PhpWord\Metadata\DocInfo $documentProperties
+     * @param Metadata\DocInfo $documentProperties
      *
      * @return self
      *

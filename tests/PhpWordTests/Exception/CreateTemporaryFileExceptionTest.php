@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -33,7 +34,7 @@ class CreateTemporaryFileExceptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreateTemporaryFileExceptionCanBeThrown(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\CreateTemporaryFileException::class);
+        $this->expectException(CreateTemporaryFileException::class);
 
         throw new CreateTemporaryFileException();
     }

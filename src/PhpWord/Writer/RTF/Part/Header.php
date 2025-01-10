@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,6 +22,7 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Table;
 
 /**
  * RTF header part writer.
@@ -210,7 +212,7 @@ class Header extends AbstractPart
     /**
      * Register border colors.
      *
-     * @param \PhpOffice\PhpWord\Style\Border $style
+     * @param Style\Border $style
      */
     private function registerBorderColor($style): void
     {
@@ -225,7 +227,7 @@ class Header extends AbstractPart
     /**
      * Register fonts and colors.
      *
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle $style
+     * @param Style\AbstractStyle $style
      */
     private function registerFontItems($style): void
     {
@@ -236,6 +238,14 @@ class Header extends AbstractPart
             $this->registerTableItem($this->fontTable, $style->getName(), $defaultFont);
             $this->registerTableItem($this->colorTable, $style->getColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getFgColor(), $defaultColor);
+
+            return;
+        }
+        if ($style instanceof Table) {
+            $this->registerTableItem($this->colorTable, $style->getBorderTopColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getBorderRightColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getBorderLeftColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getBorderBottomColor(), $defaultColor);
         }
     }
 

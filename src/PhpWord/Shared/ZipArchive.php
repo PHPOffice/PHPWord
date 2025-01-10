@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -20,6 +21,7 @@ namespace PhpOffice\PhpWord\Shared;
 use PclZip;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Settings;
+use Throwable;
 
 /**
  * ZipArchive wrapper.
@@ -162,13 +164,16 @@ class ZipArchive
      * Close the active archive.
      *
      * @return bool
-     *
-     * @codeCoverageIgnore Can't find any test case. Uncomment when found.
      */
     public function close()
     {
         if (!$this->usePclzip) {
-            if ($this->zip->close() === false) {
+            try {
+                $result = @$this->zip->close();
+            } catch (Throwable $e) {
+                $result = false;
+            }
+            if ($result === false) {
                 throw new Exception("Could not close zip file {$this->filename}: ");
             }
         }
@@ -289,8 +294,10 @@ class ZipArchive
 
         // Write $contents to a temp file
         $handle = fopen($this->tempDir . DIRECTORY_SEPARATOR . $filenameParts['basename'], 'wb');
-        fwrite($handle, $contents);
-        fclose($handle);
+        if ($handle) {
+            fwrite($handle, $contents);
+            fclose($handle);
+        }
 
         // Add temp file to zip
         $filename = $this->tempDir . DIRECTORY_SEPARATOR . $filenameParts['basename'];

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,22 +22,24 @@ namespace PhpOffice\PhpWord\Collection;
  * Collection abstract class.
  *
  * @since 0.10.0
+ *
+ * @template T
  */
 abstract class AbstractCollection
 {
     /**
      * Items.
      *
-     * @var \PhpOffice\PhpWord\Element\AbstractContainer[]
+     * @var T[]
      */
     private $items = [];
 
     /**
      * Get items.
      *
-     * @return \PhpOffice\PhpWord\Element\AbstractContainer[]
+     * @return T[]
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->items;
     }
@@ -44,11 +47,9 @@ abstract class AbstractCollection
     /**
      * Get item by index.
      *
-     * @param int $index
-     *
-     * @return ?\PhpOffice\PhpWord\Element\AbstractContainer
+     * @return ?T
      */
-    public function getItem($index)
+    public function getItem(int $index)
     {
         if (array_key_exists($index, $this->items)) {
             return $this->items[$index];
@@ -60,10 +61,9 @@ abstract class AbstractCollection
     /**
      * Set item.
      *
-     * @param int $index
-     * @param ?\PhpOffice\PhpWord\Element\AbstractContainer $item
+     * @param ?T $item
      */
-    public function setItem($index, $item): void
+    public function setItem(int $index, $item): void
     {
         if (array_key_exists($index, $this->items)) {
             $this->items[$index] = $item;
@@ -73,11 +73,9 @@ abstract class AbstractCollection
     /**
      * Add new item.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $item
-     *
-     * @return int
+     * @param T $item
      */
-    public function addItem($item)
+    public function addItem($item): int
     {
         $index = $this->countItems();
         $this->items[$index] = $item;
@@ -87,10 +85,8 @@ abstract class AbstractCollection
 
     /**
      * Get item count.
-     *
-     * @return int
      */
-    public function countItems()
+    public function countItems(): int
     {
         return count($this->items);
     }

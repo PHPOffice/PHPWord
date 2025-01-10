@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -120,7 +121,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Set colors.
      *
-     * @param string[] $value
+     * @param array<null|string> $value
      */
     public function setColors($value): void
     {
