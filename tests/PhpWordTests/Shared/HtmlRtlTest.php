@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -23,7 +24,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -31,7 +32,7 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Shared\Html
  */
-class HtmlRtlTest extends AbstractWebServerEmbeddedTest
+class HtmlRtlTest extends AbstractWebServerEmbedded
 {
     /**
      * Tear down after each test.

@@ -479,7 +479,7 @@ class HtmlTest extends AbstractWebServerEmbedded
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
-            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+            'orientation' => Style\Section::ORIENTATION_LANDSCAPE,
         ]);
 
         // borders & backgrounds are here just for better visual comparison
@@ -548,7 +548,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
-            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+            'orientation' => Style\Section::ORIENTATION_LANDSCAPE,
         ]);
 
         $html = <<<HTML
@@ -629,7 +629,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
-            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+            'orientation' => Style\Section::ORIENTATION_LANDSCAPE,
         ]);
 
         // borders & backgrounds are here just for better visual comparison
@@ -670,7 +670,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
-            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+            'orientation' => Style\Section::ORIENTATION_LANDSCAPE,
         ]);
 
         $html = '<table style="background-color:red;width:100%;" bgColor="lightgreen" width="50%">

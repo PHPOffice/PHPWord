@@ -417,7 +417,7 @@ class Html
      * @param AbstractContainer $element
      * @param array &$styles
      *
-     * @return \PhpOffice\PhpWord\Element\PageBreak|\PhpOffice\PhpWord\Element\TextRun
+     * @return \PhpOffice\PhpWord\Element\PageBreak|TextRun
      */
     protected static function parseParagraph($node, $element, &$styles)
     {
@@ -590,7 +590,7 @@ class Html
      * @param Table $element
      * @param array &$styles
      *
-     * @return \PhpOffice\PhpWord\Element\Cell|\PhpOffice\PhpWord\Element\TextRun $element
+     * @return \PhpOffice\PhpWord\Element\Cell|TextRun $element
      */
     protected static function parseCell($node, $element, &$styles)
     {
