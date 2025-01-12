@@ -83,11 +83,19 @@ jobs:
       -   name: Composer Install
           run: composer install --ansi --prefer-dist --no-interaction --no-progress
 
-      -   name: Run phpunit
-          if: matrix.php != '7.3'
+      -   name: Run phpunit 7.1 7.2
+          if: matrix.php == '7.1' || matrix.php == '7.2'
+          run: ./vendor/bin/phpunit -c phpunit.7.8.xml.dist --no-coverage
+
+      -   name: Run phpunit 7.4 8.0
+          if: matrix.php == '7.4' || matrix.php == '8.0'
           run: ./vendor/bin/phpunit -c phpunit.xml.dist --no-coverage
 
-      -   name: Run phpunit
+      -   name: Run phpunit 8.1 8.2 8.3 8.4
+          if: matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.3' || matrix.php == '8.4'
+          run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage
+
+      -   name: Run phpunit 7.3
           if: matrix.php == '7.3'
           run: ./vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/clover.xml
 
