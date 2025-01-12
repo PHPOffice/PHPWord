@@ -8,5 +8,4 @@
       <directory>./tests/PhpWordTests</directory>
     </testsuite>
   </testsuites>
-  <logging/>
 </phpunit>
