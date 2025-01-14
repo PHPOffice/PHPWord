@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -23,6 +24,7 @@ use PhpOffice\PhpWord\Element\Bookmark;
  * Bookmarks collection.
  *
  * @since 0.12.0
+ *
  * @extends AbstractCollection<Bookmark>
  */
 class Bookmarks extends AbstractCollection

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -25,7 +26,7 @@ use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -33,7 +34,7 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Shared\Html
  */
-class HtmlTest extends AbstractWebServerEmbeddedTest
+class HtmlTest extends AbstractWebServerEmbedded
 {
     /**
      * Tear down after each test.
@@ -986,7 +987,7 @@ HTML;
 
     public function testParseLinkAllowsAbsenceOfHref(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $html = '<p><a>text of href-less link</a></p>';
         Html::addHtml($section, $html);
@@ -995,7 +996,7 @@ HTML;
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
         self::assertEquals('text of href-less link', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $html = '<p><a href="">text of empty-href link</a></p>';
         Html::addHtml($section, $html);

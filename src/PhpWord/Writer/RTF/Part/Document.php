@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -162,12 +163,12 @@ class Document extends AbstractPart
 
             foreach ($section->getHeaders() as $header) {
                 $type = $header->getType();
-                if ($evenOdd || $type !== FOOTER::EVEN) {
+                if ($evenOdd || $type !== Footer::EVEN) {
                     $content .= '{\\header';
                     if ($type === Footer::FIRST) {
                         $content .= 'f';
                     } elseif ($evenOdd) {
-                        $content .= ($type === FOOTER::EVEN) ? 'l' : 'r';
+                        $content .= ($type === Footer::EVEN) ? 'l' : 'r';
                     }
                     foreach ($header->getElements() as $element) {
                         $cl = get_class($element);
@@ -182,12 +183,12 @@ class Document extends AbstractPart
             }
             foreach ($section->getFooters() as $footer) {
                 $type = $footer->getType();
-                if ($evenOdd || $type !== FOOTER::EVEN) {
+                if ($evenOdd || $type !== Footer::EVEN) {
                     $content .= '{\\footer';
                     if ($type === Footer::FIRST) {
                         $content .= 'f';
                     } elseif ($evenOdd) {
-                        $content .= ($type === FOOTER::EVEN) ? 'l' : 'r';
+                        $content .= ($type === Footer::EVEN) ? 'l' : 'r';
                     }
                     foreach ($footer->getElements() as $element) {
                         $cl = get_class($element);

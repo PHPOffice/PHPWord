@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -33,7 +34,7 @@ class CopyFileExceptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCopyFileExceptionCanBeThrown(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\CopyFileException::class);
+        $this->expectException(CopyFileException::class);
 
         throw new CopyFileException('C:\source\dummy.txt', 'C:\destination\dummy.txt');
     }

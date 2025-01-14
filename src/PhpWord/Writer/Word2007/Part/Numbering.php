@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -190,6 +191,6 @@ class Numbering extends AbstractPart
      */
     private function getRandomHexNumber($length = 8)
     {
-        return strtoupper(substr(md5(mt_rand()), 0, $length));
+        return strtoupper((string) substr(md5((string) mt_rand()), 0, $length));
     }
 }

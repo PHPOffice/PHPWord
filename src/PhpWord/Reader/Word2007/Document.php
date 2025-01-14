@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -34,7 +35,7 @@ class Document extends AbstractPart
     /**
      * PhpWord object.
      *
-     * @var \PhpOffice\PhpWord\PhpWord
+     * @var PhpWord
      */
     private $phpWord;
 

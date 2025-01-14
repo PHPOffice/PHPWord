@@ -9,7 +9,7 @@ include_once 'Sample_Header.php';
 
 // Template processor instance creation
 echo date('H:i:s'), ' Creating new TemplateProcessor instance...', EOL;
-$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('resources/Sample_40_TemplateSetComplexValue.docx');
+$templateProcessor = new PhpOffice\PhpWord\TemplateProcessor(__DIR__ . '/resources/Sample_40_TemplateSetComplexValue.docx');
 
 $title = new TextRun();
 $title->addText('This title has been set ', ['bold' => true, 'italic' => true, 'color' => 'blue']);
@@ -38,9 +38,9 @@ $templateProcessor->setComplexValue('field', $field);
 // $templateProcessor->setComplexValue('link', $link);
 
 echo date('H:i:s'), ' Saving the result document...', EOL;
-$templateProcessor->saveAs('results/Sample_40_TemplateSetComplexValue.docx');
+$templateProcessor->saveAs(__DIR__ . '/results/Sample_40_TemplateSetComplexValue.docx');
 
-echo getEndingNotes(['Word2007' => 'docx'], 'results/Sample_40_TemplateSetComplexValue.docx');
+echo getEndingNotes(['Word2007' => 'docx'], __DIR__ . '/results/Sample_40_TemplateSetComplexValue.docx');
 if (!CLI) {
     include_once 'Sample_Footer.php';
 }

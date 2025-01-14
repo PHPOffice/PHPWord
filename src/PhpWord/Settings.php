@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -29,7 +30,7 @@ class Settings
      */
     public const ZIPARCHIVE = 'ZipArchive';
     public const PCLZIP = 'PclZip';
-    public const OLD_LIB = \PhpOffice\PhpWord\Shared\ZipArchive::class; // @deprecated 0.11
+    public const OLD_LIB = Shared\ZipArchive::class; // @deprecated 0.11
 
     /**
      * PDF rendering libraries.
