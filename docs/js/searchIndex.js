@@ -5031,6 +5031,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_convertRgb"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AconvertHtmlSize\u0028\u0029",
+            "name": "convertHtmlSize",
+            "summary": "Transform\u0020HTML\u0020sizes\u0020\u0028pt,\u0020px\u0029\u0020in\u0020pixels.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_convertHtmlSize"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003ARGB_REGEXP",
             "name": "RGB_REGEXP",
             "summary": "",
