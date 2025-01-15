@@ -137,6 +137,14 @@ $phpWord->setDefaultFontName('Times New Roman');
 $phpWord->setDefaultFontSize(12);
 ```
 
+Or you can specify Asian Font
+
+``` php
+<?php
+
+$phpWord->setDefaultAsianFontName('標楷體');
+```
+
 ## Document settings
 
 Settings for the generated document can be set using ``$phpWord->getSettings()``

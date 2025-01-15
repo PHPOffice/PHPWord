@@ -30,6 +30,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
@@ -209,6 +210,21 @@ class HtmlTest extends AbstractWebServerEmbedded
     }
 
     /**
+     * Test text-decoration style.
+     */
+    public function testParseTextDecoration(): void
+    {
+        $html = '<span style="text-decoration: underline;">test</span>';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
+        self::assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
+    }
+
+    /**
      * Test underline.
      */
     public function testParseUnderline(): void
@@ -224,18 +240,22 @@ class HtmlTest extends AbstractWebServerEmbedded
     }
 
     /**
-     * Test text-decoration style.
+     * Test width.
+     *
+     * @dataProvider providerParseWidth
      */
-    public function testParseTextDecoration(): void
+    public function testParseWidth(string $htmlSize, float $docxSize, string $docxUnit): void
     {
-        $html = '<span style="text-decoration: underline;">test</span>';
+        $html = '<table width="' . $htmlSize . '"><tr><td>A</td></tr></table>';
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        Html::addHtml($section, $html);
 
+        Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
-        self::assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
+        $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblW';
+        self::assertTrue($doc->elementExists($xpath));
+        self::assertEquals($docxSize, $doc->getElement($xpath)->getAttribute('w:w'));
+        self::assertEquals($docxUnit, $doc->getElement($xpath)->getAttribute('w:type'));
     }
 
     /**
@@ -514,31 +534,31 @@ HTML;
         $xpath = '/w:document/w:body/w:tbl/w:tblGrid/w:gridCol';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(25 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
 
         // <td style="width: 25%; ...
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(25 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('pct', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::PERCENT, $doc->getElement($xpath)->getAttribute('w:type'));
 
         // <table width="400" .. 400px = 6000 twips (400 / 96 * 1440)
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr/w:tc/w:tcPr/w:tcW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(6000, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
 
         // <th style="width: 50pt; .. 50pt = 750 twips (50 / 72 * 1440)
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr[2]/w:tc[2]/w:tcPr/w:tcW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(1000, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
 
         // <th width="300" .. 300px = 4500 twips (300 / 96 * 1440)
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr[3]/w:tc/w:tcPr/w:tcW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(4500, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
     }
 
     /**
@@ -652,7 +672,7 @@ HTML;
         $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellSpacing';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(3 * 15, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
 
         $xpath = '/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:tcPr/w:shd';
         self::assertTrue($doc->elementExists($xpath));
@@ -685,7 +705,7 @@ HTML;
         $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(100 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('pct', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::PERCENT, $doc->getElement($xpath)->getAttribute('w:type'));
 
         $xpath = '/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:tcPr/w:shd';
         self::assertTrue($doc->elementExists($xpath));
@@ -1277,5 +1297,16 @@ HTML;
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         self::assertIsObject($doc);
+    }
+
+    public static function providerParseWidth(): array
+    {
+        return [
+            ['auto', 5000, TblWidth::PERCENT],
+            ['100%', 5000, TblWidth::PERCENT],
+            ['200pt', 3999.999999999999, TblWidth::TWIP],
+            ['300px', 4500, TblWidth::TWIP],
+            ['400', 6000, TblWidth::TWIP],
+        ];
     }
 }
