@@ -258,8 +258,6 @@ class PhpWord
 
     /**
      * Get default asian font name.
-     *
-     * @return string
      */
     public function getDefaultAsianFontName(): string
     {
