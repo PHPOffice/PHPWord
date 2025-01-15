@@ -261,7 +261,7 @@ class PhpWord
      *
      * @return string
      */
-    public function getDefaultAsianFontName()
+    public function getDefaultAsianFontName(): string
     {
         return Settings::getDefaultAsianFontName();
     }
