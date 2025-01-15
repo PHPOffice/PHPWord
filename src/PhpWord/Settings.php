@@ -119,6 +119,13 @@ class Settings
     private static $defaultFontName = self::DEFAULT_FONT_NAME;
 
     /**
+     * Default font name.
+     *
+     * @var string
+     */
+    private static $defaultAsianFontName = self::DEFAULT_FONT_NAME;
+
+    /**
      * Default font size.
      *
      * @var float|int
@@ -356,12 +363,31 @@ class Settings
     }
 
     /**
+     * Get default font name.
+     */
+    public static function getDefaultAsianFontName(): string
+    {
+        return self::$defaultAsianFontName;
+    }
+
+    /**
      * Set default font name.
      */
     public static function setDefaultFontName(string $value): bool
     {
         if (trim($value) !== '') {
             self::$defaultFontName = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function setDefaultAsianFontName(string $value): bool
+    {
+        if (trim($value) !== '') {
+            self::$defaultAsianFontName = $value;
 
             return true;
         }

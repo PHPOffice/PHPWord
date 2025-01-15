@@ -84,6 +84,18 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test set/get default asian font name.
+     */
+    public function testSetGetDefaultAsianFontName(): void
+    {
+        $phpWord = new PhpWord();
+        $fontName = 'Times New Roman';
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultAsianFontName());
+        $phpWord->setDefaultAsianFontName($fontName);
+        self::assertEquals($fontName, $phpWord->getDefaultAsianFontName());
+    }
+
+    /**
      * Test set default paragraph style.
      */
     public function testSetDefaultParagraphStyle(): void
