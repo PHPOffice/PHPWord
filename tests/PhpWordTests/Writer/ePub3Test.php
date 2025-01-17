@@ -22,21 +22,19 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Writer\ePub3;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Epub3
+ * Test class for PhpOffice\PhpWord\Writer\Epub3.
  *
  * @runTestsInSeparateProcesses
  */
 class ePub3Test extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test document construction
+     * Test document construction.
      */
     public function testConstruct(): void
     {
         $object = new ePub3(new PhpWord());
-        
         self::assertInstanceOf(PhpWord::class, $object->getPhpWord());
-        
         self::assertEquals('./', $object->getDiskCachingDirectory());
         foreach (['Content', 'Manifest', 'Mimetype'] as $part) {
             self::assertInstanceOf(
@@ -51,7 +49,7 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test construction with null
+     * Test construction with null.
      */
     public function testConstructWithNull(): void
     {
@@ -62,7 +60,7 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test saving document
+     * Test saving document.
      */
     public function testSave(): void
     {
@@ -78,24 +76,20 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
         $section->addTitle('Test', 1);
         $section->addPageBreak();
         $section->addImage($imageSrc);
-        
         $writer = new ePub3($phpWord);
         $writer->save($file);
-
         self::assertFileExists($file);
-        
         unlink($file);
     }
 
     /**
-     * Test PHP output
+     * Test PHP output.
      */
     public function testSavePhpOutput(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test');
-        
         $writer = new ePub3($phpWord);
         ob_start();
         $writer->save('php://output');
@@ -105,7 +99,7 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test disk caching
+     * Test disk caching.
      */
     public function testSetGetUseDiskCaching(): void
     {
@@ -116,7 +110,7 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test disk caching exception
+     * Test disk caching exception.
      */
     public function testSetUseDiskCachingException(): void
     {

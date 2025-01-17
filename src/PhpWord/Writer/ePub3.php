@@ -81,7 +81,6 @@ class ePub3 extends AbstractWriter implements WriterInterface
             if (!$part instanceof AbstractPart) {
                 continue;
             }
-            
 
             $zip->addFromString($fileName, $part->write());
         }
