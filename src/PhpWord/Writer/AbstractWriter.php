@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -33,7 +34,7 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * PHPWord object.
      *
-     * @var \PhpOffice\PhpWord\PhpWord
+     * @var PhpWord
      */
     protected $phpWord;
 
@@ -96,7 +97,7 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Get PhpWord object.
      *
-     * @return \PhpOffice\PhpWord\PhpWord
+     * @return PhpWord
      */
     public function getPhpWord()
     {
@@ -109,8 +110,6 @@ abstract class AbstractWriter implements WriterInterface
 
     /**
      * Set PhpWord object.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord
      *
      * @return self
      */
@@ -267,7 +266,7 @@ abstract class AbstractWriter implements WriterInterface
      *
      * @param string $filename
      *
-     * @return \PhpOffice\PhpWord\Shared\ZipArchive
+     * @return ZipArchive
      */
     protected function getZipArchive($filename)
     {
@@ -360,7 +359,7 @@ abstract class AbstractWriter implements WriterInterface
      *
      * Get the actual source from an archive image.
      *
-     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zipPackage
+     * @param ZipArchive $zipPackage
      * @param string $source
      * @param string $target
      */

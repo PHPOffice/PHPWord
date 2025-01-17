@@ -6,7 +6,7 @@ include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 PhpOffice\PhpWord\Style::addTitleStyle(1, ['size' => 14]);
 
 // New section
@@ -49,7 +49,7 @@ $textrun->addText('here:');
 $section->addText('The actual index:');
 $section->addField('INDEX', [], ['\\e "	"'], 'right click to update the index');
 
-$textrun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
+$textrun = $section->addTextRun(['alignment' => PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
 $textrun->addText('This is the date of lunar calendar ');
 $textrun->addField('DATE', ['dateformat' => 'd-M-yyyy H:mm:ss'], ['PreserveFormat', 'LunarCalendar']);
 $textrun->addText(' written in a textrun.');
