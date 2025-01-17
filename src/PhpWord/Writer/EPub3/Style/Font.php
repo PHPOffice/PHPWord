@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -15,12 +16,12 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\ePub3\Style;
+namespace PhpOffice\PhpWord\Writer\EPub3\Style;
 
 /**
- * Class for ePub3 table styles.
+ * Class for EPub3 font styles.
  */
-class Table extends AbstractStyle
+class Font extends AbstractStyle
 {
     /**
      * Write style content.
@@ -29,14 +30,10 @@ class Table extends AbstractStyle
      */
     public function write()
     {
-        $content = 'table {';
-        $content .= 'border-collapse: collapse;';
-        $content .= 'width: 100%;';
-        $content .= '}';
-        $content .= 'th, td {';
-        $content .= 'border: 1px solid black;';
-        $content .= 'padding: 8px;';
-        $content .= 'text-align: left;';
+        $content = 'body {';
+        $content .= 'font-family: "Times New Roman", Times, serif;';
+        $content .= 'font-size: 12pt;';
+        $content .= 'color: #000000;';
         $content .= '}';
 
         return $content;

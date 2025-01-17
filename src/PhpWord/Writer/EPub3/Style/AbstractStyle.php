@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -15,19 +16,19 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\ePub3\Style;
+namespace PhpOffice\PhpWord\Writer\EPub3\Style;
 
 use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
- * Abstract class for ePub3 styles.
+ * Abstract class for EPub3 styles.
  */
 abstract class AbstractStyle
 {
     /**
      * Parent writer.
      *
-     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @var AbstractWriter
      */
     protected $parentWriter;
 
@@ -46,7 +47,7 @@ abstract class AbstractStyle
     /**
      * Get parent writer.
      *
-     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     * @return AbstractWriter
      */
     public function getParentWriter()
     {

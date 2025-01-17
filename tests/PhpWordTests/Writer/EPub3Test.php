@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,21 +20,21 @@ namespace PhpOffice\PhpWordTests\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\Writer\ePub3;
+use PhpOffice\PhpWord\Writer\EPub3;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Epub3.
  *
  * @runTestsInSeparateProcesses
  */
-class ePub3Test extends \PHPUnit\Framework\TestCase
+class EPub3Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test document construction.
      */
     public function testConstruct(): void
     {
-        $object = new ePub3(new PhpWord());
+        $object = new EPub3(new PhpWord());
         self::assertInstanceOf(PhpWord::class, $object->getPhpWord());
         self::assertEquals('./', $object->getDiskCachingDirectory());
         foreach (['Content', 'Manifest', 'Mimetype'] as $part) {
@@ -55,7 +56,7 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $this->expectExceptionMessage('No PhpWord assigned.');
-        $object = new ePub3();
+        $object = new EPub3();
         $object->getPhpWord();
     }
 
@@ -76,7 +77,7 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
         $section->addTitle('Test', 1);
         $section->addPageBreak();
         $section->addImage($imageSrc);
-        $writer = new ePub3($phpWord);
+        $writer = new EPub3($phpWord);
         $writer->save($file);
         self::assertFileExists($file);
         unlink($file);
@@ -90,7 +91,7 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test');
-        $writer = new ePub3($phpWord);
+        $writer = new EPub3($phpWord);
         ob_start();
         $writer->save('php://output');
         $contents = ob_get_contents();
@@ -103,7 +104,7 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetUseDiskCaching(): void
     {
-        $object = new ePub3();
+        $object = new EPub3();
         $object->setUseDiskCaching(true, PHPWORD_TESTS_BASE_DIR);
         self::assertTrue($object->isUseDiskCaching());
         self::assertEquals(PHPWORD_TESTS_BASE_DIR, $object->getDiskCachingDirectory());
@@ -117,7 +118,7 @@ class ePub3Test extends \PHPUnit\Framework\TestCase
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $dir = implode(DIRECTORY_SEPARATOR, [PHPWORD_TESTS_BASE_DIR, 'foo']);
 
-        $object = new ePub3();
+        $object = new EPub3();
         $object->setUseDiskCaching(true, $dir);
     }
 }

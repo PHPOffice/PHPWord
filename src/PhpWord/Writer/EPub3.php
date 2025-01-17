@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,17 +20,15 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Writer\ePub3\Part\AbstractPart;
+use PhpOffice\PhpWord\Writer\EPub3\Part\AbstractPart;
 
 /**
- * ePub3 writer.
+ * EPub3 writer.
  */
-class ePub3 extends AbstractWriter implements WriterInterface
+class EPub3 extends AbstractWriter implements WriterInterface
 {
     /**
-     * Create new ePub3 writer.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord
+     * Create new EPub3 writer.
      */
     public function __construct(?PhpWord $phpWord = null)
     {
@@ -47,7 +46,7 @@ class ePub3 extends AbstractWriter implements WriterInterface
         foreach (array_keys($this->parts) as $partName) {
             $partClass = static::class . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
-                /** @var \PhpOffice\PhpWord\Writer\ePub3\Part\AbstractPart $partObject Type hint */
+                /** @var AbstractPart $partObject Type hint */
                 $partObject = new $partClass();
                 $partObject->setParentWriter($this);
                 $this->writerParts[strtolower($partName)] = $partObject;

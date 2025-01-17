@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -15,20 +16,30 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\ePub3\Part;
+namespace PhpOffice\PhpWord\Writer\EPub3\Style;
 
 /**
- * Class for ePub3 mimetype part.
+ * Class for EPub3 table styles.
  */
-class Mimetype extends AbstractPart
+class Table extends AbstractStyle
 {
     /**
-     * Write part content.
+     * Write style content.
      *
      * @return string
      */
     public function write()
     {
-        return 'application/epub+zip';
+        $content = 'table {';
+        $content .= 'border-collapse: collapse;';
+        $content .= 'width: 100%;';
+        $content .= '}';
+        $content .= 'th, td {';
+        $content .= 'border: 1px solid black;';
+        $content .= 'padding: 8px;';
+        $content .= 'text-align: left;';
+        $content .= '}';
+
+        return $content;
     }
 }

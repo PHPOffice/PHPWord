@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -15,48 +16,20 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\ePub3\Part;
-
-use PhpOffice\PhpWord\Writer\AbstractWriter;
+namespace PhpOffice\PhpWord\Writer\EPub3\Part;
 
 /**
- * Abstract class for ePub3 parts.
+ * Class for EPub3 mimetype part.
  */
-abstract class AbstractPart
+class Mimetype extends AbstractPart
 {
-    /**
-     * Parent writer.
-     *
-     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
-     */
-    protected $parentWriter;
-
-    /**
-     * Set parent writer.
-     *
-     * @return self
-     */
-    public function setParentWriter(AbstractWriter $writer)
-    {
-        $this->parentWriter = $writer;
-
-        return $this;
-    }
-
-    /**
-     * Get parent writer.
-     *
-     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
-     */
-    public function getParentWriter()
-    {
-        return $this->parentWriter;
-    }
-
     /**
      * Write part content.
      *
      * @return string
      */
-    abstract public function write();
+    public function write()
+    {
+        return 'application/epub+zip';
+    }
 }

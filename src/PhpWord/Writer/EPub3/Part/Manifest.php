@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -15,12 +16,12 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\ePub3\Part;
+namespace PhpOffice\PhpWord\Writer\EPub3\Part;
 
 /**
- * Class for ePub3 metadata part.
+ * Class for EPub3 manifest part.
  */
-class Meta extends AbstractPart
+class Manifest extends AbstractPart
 {
     /**
      * Write part content.
@@ -30,12 +31,11 @@ class Meta extends AbstractPart
     public function write()
     {
         $content = '<?xml version="1.0" encoding="UTF-8"?>';
-        $content .= '<metadata xmlns="http://www.idpf.org/2007/opf">';
-        $content .= '<dc:title>Sample ePub3 Document</dc:title>';
-        $content .= '<dc:language>en</dc:language>';
-        $content .= '<dc:identifier id="bookid">urn:uuid:12345</dc:identifier>';
-        $content .= '<meta property="dcterms:modified">2023-01-01T00:00:00Z</meta>';
-        $content .= '</metadata>';
+        $content .= '<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">';
+        $content .= '<rootfiles>';
+        $content .= '<rootfile full-path="content.opf" media-type="application/oebps-package+xml"/>';
+        $content .= '</rootfiles>';
+        $content .= '</container>';
 
         return $content;
     }

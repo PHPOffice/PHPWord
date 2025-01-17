@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -15,12 +16,12 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\ePub3\Part;
+namespace PhpOffice\PhpWord\Writer\EPub3\Part;
 
 /**
- * Class for ePub3 manifest part.
+ * Class for EPub3 content part.
  */
-class Manifest extends AbstractPart
+class Content extends AbstractPart
 {
     /**
      * Write part content.
@@ -30,11 +31,18 @@ class Manifest extends AbstractPart
     public function write()
     {
         $content = '<?xml version="1.0" encoding="UTF-8"?>';
-        $content .= '<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">';
-        $content .= '<rootfiles>';
-        $content .= '<rootfile full-path="content.opf" media-type="application/oebps-package+xml"/>';
-        $content .= '</rootfiles>';
-        $content .= '</container>';
+        $content .= '<package xmlns="http://www.idpf.org/2007/opf" version="3.0">';
+        $content .= '<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">';
+        $content .= '<dc:title>Sample EPub3 Document</dc:title>';
+        $content .= '<dc:language>en</dc:language>';
+        $content .= '</metadata>';
+        $content .= '<manifest>';
+        $content .= '<item id="content" href="content.xhtml" media-type="application/xhtml+xml"/>';
+        $content .= '</manifest>';
+        $content .= '<spine>';
+        $content .= '<itemref idref="content"/>';
+        $content .= '</spine>';
+        $content .= '</package>';
 
         return $content;
     }
