@@ -15,7 +15,7 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\EPub3\Style;
+namespace PhpOffice\PhpWord\Writer\ePub3\Style;
 
 use PhpOffice\PhpWord\Writer\AbstractWriter;
 

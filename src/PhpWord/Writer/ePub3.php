@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\PhpWord;
-//use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Writer\ePub3\Part\AbstractPart;
 
 /**
  * ePub3 writer.
@@ -47,7 +47,7 @@ class ePub3 extends AbstractWriter implements WriterInterface
         foreach (array_keys($this->parts) as $partName) {
             $partClass = static::class . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
-                /** @var \PhpOffice\PhpWord\Writer\EPub3\Part\AbstractPart $partObject Type hint */
+                /** @var \PhpOffice\PhpWord\Writer\ePub3\Part\AbstractPart $partObject Type hint */
                 $partObject = new $partClass();
                 $partObject->setParentWriter($this);
                 $this->writerParts[strtolower($partName)] = $partObject;
@@ -81,6 +81,7 @@ class ePub3 extends AbstractWriter implements WriterInterface
             if (!$part instanceof AbstractPart) {
                 continue;
             }
+            
 
             $zip->addFromString($fileName, $part->write());
         }
