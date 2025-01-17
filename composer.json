@@ -108,7 +108,6 @@
     "require": {
         "php": "^7.1|^8.0",
         "ext-dom": "*",
-        "ext-gd": "*",
         "ext-json": "*",
         "ext-xml": "*",
         "phpoffice/math": "^0.2"
