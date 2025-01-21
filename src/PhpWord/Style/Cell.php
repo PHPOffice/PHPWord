@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -120,7 +121,7 @@ class Cell extends Border
     /**
      * Shading.
      *
-     * @var \PhpOffice\PhpWord\Style\Shading
+     * @var Shading
      */
     private $shading;
 
@@ -292,7 +293,7 @@ class Cell extends Border
     /**
      * Get shading.
      *
-     * @return \PhpOffice\PhpWord\Style\Shading
+     * @return Shading
      */
     public function getShading()
     {
