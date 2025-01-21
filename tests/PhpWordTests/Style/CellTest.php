@@ -89,4 +89,25 @@ class CellTest extends \PHPUnit\Framework\TestCase
         $object->setStyleValue('borderSize', $value);
         self::assertEquals($expected, $object->getBorderSize());
     }
+    /**
+     * @return void
+     */
+    public function testPadding(): void
+    {
+        $object = new Cell();
+        $methods = [
+            'paddingTop' => 10,
+            'paddingBottom' => 20,
+            'paddingLeft' => 30,
+            'paddingRight' => 40
+        ];
+
+        foreach($methods as $methodName => $methodValue){
+
+            $object->setStyleValue($methodName, $methodValue);
+            $getterName = 'get'.ucfirst($methodName);
+
+            self::assertEquals($methodValue, $object->$getterName());
+        }
+    }
 }
