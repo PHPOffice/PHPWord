@@ -19,17 +19,13 @@ class Image extends AbstractElement
         if (!$element instanceof ImageElement) {
             return;
         }
-
         $mediaIndex = $element->getMediaIndex();
         $target = 'media/image' . $mediaIndex . '.' . $element->getImageType();
-        
         if (!$this->withoutP) {
             $xmlWriter->startElement('p');
         }
-
         $xmlWriter->startElement('img');
         $xmlWriter->writeAttribute('src', $target);
-        
         $style = '';
         if ($element->getStyle()->getWidth() !== null) {
             $style .= 'width:' . $element->getStyle()->getWidth() . 'px;';
@@ -37,13 +33,10 @@ class Image extends AbstractElement
         if ($element->getStyle()->getHeight() !== null) {
             $style .= 'height:' . $element->getStyle()->getHeight() . 'px;';
         }
-        
-        if (!empty($style)) {
+        if ($style !== '') {
             $xmlWriter->writeAttribute('style', $style);
         }
-        
         $xmlWriter->endElement(); // img
-
         if (!$this->withoutP) {
             $xmlWriter->endElement(); // p
         }

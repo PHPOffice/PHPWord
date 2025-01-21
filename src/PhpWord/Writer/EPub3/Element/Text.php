@@ -51,7 +51,7 @@ class Text extends AbstractElement
     }
 
     /**
-     * Write track changes
+     * Write track changes.
      */
     private function writeTrackChanges(?TrackChange $trackChange, bool $isStart): void
     {
@@ -60,7 +60,6 @@ class Text extends AbstractElement
         }
 
         $xmlWriter = $this->getXmlWriter();
-        
         if ($trackChange->getChangeType() === TrackChange::INSERTED) {
             $xmlWriter->startElement('ins');
             $xmlWriter->writeAttribute('class', 'phpword-change');
