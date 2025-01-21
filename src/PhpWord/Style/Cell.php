@@ -382,7 +382,7 @@ class Cell extends Border
      *
      * @return mixed
      */
-    public function getPaddingTop()
+    public function getPaddingTop(): ?int
     {
         return $this->paddingTop;
     }
@@ -404,7 +404,7 @@ class Cell extends Border
      *
      * @return mixed
      */
-    public function getPaddingBottom()
+    public function getPaddingBottom(): ?int
     {
         return $this->paddingBottom;
     }
@@ -426,7 +426,7 @@ class Cell extends Border
      *
      * @return mixed
      */
-    public function getPaddingLeft()
+    public function getPaddingLeft(): ?int
     {
         return $this->paddingLeft;
     }
@@ -448,7 +448,7 @@ class Cell extends Border
      *
      * @return mixed
      */
-    public function getPaddingRight()
+    public function getPaddingRight(): ?int
     {
         return $this->paddingRight;
     }

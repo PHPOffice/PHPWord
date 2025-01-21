@@ -825,34 +825,33 @@ class Html
                         $valueLeft = $paddingArr[3];
                     }
                     if ($valueTop !== null) {
-                        $styles['paddingTop'] = Converter::cssToTwip($valueTop);
+                        $styles['paddingTop'] = Converter::cssToTwip(self::convertHtmlSize($valueTop));
                     }
                     if ($valueRight !== null) {
-                        $styles['paddingRight'] = Converter::cssToTwip($valueRight);
+                        $styles['paddingRight'] = Converter::cssToTwip(self::convertHtmlSize($valueRight));
                     }
                     if ($valueBottom !== null) {
-                        $styles['paddingBottom'] = Converter::cssToTwip($valueBottom);
+                        $styles['paddingBottom'] = Converter::cssToTwip(self::convertHtmlSize($valueBottom));
                     }
                     if ($valueLeft !== null) {
-                        $styles['paddingLeft'] = Converter::cssToTwip($valueLeft);
+                        $styles['paddingLeft'] = Converter::cssToTwip(self::convertHtmlSize($valueLeft));
                     }
 
                     break;
                 case 'padding-top':
-                    $styles['paddingTop'] = Converter::cssToTwip($value);
+                    $styles['paddingTop'] = Converter::cssToTwip(self::convertHtmlSize($value));
 
                     break;
                 case 'padding-right':
-                    $styles['paddingRight'] = Converter::cssToTwip($value);
+                    $styles['paddingRight'] = Converter::cssToTwip(self::convertHtmlSize($value));
 
                     break;
                 case 'padding-bottom':
-                    $styles['paddingBottom'] = Converter::cssToTwip($value);
+                    $styles['paddingBottom'] = Converter::cssToTwip(self::convertHtmlSize($value));
 
                     break;
                 case 'padding-left':
-                    $styles['paddingLeft'] = Converter::cssToTwip($value);
-
+                    $styles['paddingLeft'] = Converter::cssToTwip(self::convertHtmlSize($value));
                     break;
 
                 case 'border-color':
