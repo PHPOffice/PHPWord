@@ -15,12 +15,13 @@ class Image extends AbstractElement
     public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->setIndent(false);
         $element = $this->getElement();
         if (!$element instanceof ImageElement) {
             return;
         }
         $mediaIndex = $element->getMediaIndex();
-        $target = 'media/image' . $mediaIndex . '.' . $element->getImageType();
+        $target = 'media/image' . $mediaIndex . '.' . $element->getImageExtension();
         if (!$this->withoutP) {
             $xmlWriter->startElement('p');
         }

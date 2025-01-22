@@ -15,6 +15,8 @@ class Text extends AbstractElement
     public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->setIndent(true);
+        $xmlWriter->setIndentString('  ');
         $element = $this->getElement();
         if (!$element instanceof \PhpOffice\PhpWord\Element\Text) {
             return;
@@ -25,7 +27,7 @@ class Text extends AbstractElement
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('p');
-            if (!empty($paragraphStyle)) {
+            if (is_string($paragraphStyle) && $paragraphStyle !== '') {
                 $xmlWriter->writeAttribute('class', $paragraphStyle);
             }
         }
@@ -61,6 +63,7 @@ class Text extends AbstractElement
 
         $xmlWriter = $this->getXmlWriter();
         if ($trackChange->getChangeType() === TrackChange::INSERTED) {
+            $xmlWriter->writeRaw("\n    ");
             $xmlWriter->startElement('ins');
             $xmlWriter->writeAttribute('class', 'phpword-change');
             $xmlWriter->writeAttribute('data-change-id', $trackChange->getElementId());
@@ -68,6 +71,7 @@ class Text extends AbstractElement
                 $xmlWriter->endElement();
             }
         } elseif ($trackChange->getChangeType() === TrackChange::DELETED) {
+            $xmlWriter->writeRaw("\n    ");
             $xmlWriter->startElement('del');
             $xmlWriter->writeAttribute('class', 'phpword-change');
             $xmlWriter->writeAttribute('data-change-id', $trackChange->getElementId());

@@ -18,26 +18,63 @@
 
 namespace PhpOffice\PhpWord\Writer\EPub3\Part;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
 /**
  * Class for EPub3 metadata part.
  */
 class Meta extends AbstractPart
 {
     /**
+     * Get XML Writer
+     *
+     * @return \PhpOffice\PhpWord\Shared\XMLWriter
+     */
+    protected function getXmlWriter()
+    {
+        $xmlWriter = new XMLWriter();
+        $xmlWriter->openMemory();
+        $xmlWriter->startDocument('1.0', 'UTF-8');
+
+        return $xmlWriter;
+    }
+
+    /**
      * Write part content.
      *
      * @return string
      */
-    public function write()
+    public function write(): string
     {
-        $content = '<?xml version="1.0" encoding="UTF-8"?>';
-        $content .= '<metadata xmlns="http://www.idpf.org/2007/opf">';
-        $content .= '<dc:title>Sample EPub3 Document</dc:title>';
-        $content .= '<dc:language>en</dc:language>';
-        $content .= '<dc:identifier id="bookid">urn:uuid:12345</dc:identifier>';
-        $content .= '<meta property="dcterms:modified">2023-01-01T00:00:00Z</meta>';
-        $content .= '</metadata>';
+        $xmlWriter = $this->getXmlWriter();
 
-        return $content;
+        $xmlWriter->startElement('metadata');
+        $xmlWriter->writeAttribute('xmlns', 'http://www.idpf.org/2007/opf');
+        $xmlWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
+
+        // Write basic metadata
+        $title = $this->getParentWriter()->getPhpWord()->getDocInfo()->getTitle() ?: 'Sample EPub3 Document';
+        $xmlWriter->writeRaw('<dc:title>' . htmlspecialchars($title, ENT_QUOTES) . '</dc:title>');
+        $xmlWriter->writeElement('dc:language', 'en');
+        $xmlWriter->writeElement('dc:identifier', 'urn:uuid:12345');
+        $xmlWriter->writeAttribute('id', 'bookid');
+
+        // Write document info if available
+        $docInfo = $this->getParentWriter()->getPhpWord()->getDocInfo();
+        if ($docInfo) {
+            if ($docInfo->getCreator()) {
+                $xmlWriter->writeElement('dc:creator', $docInfo->getCreator());
+            }
+        }
+
+        // Write modification date
+        $xmlWriter->startElement('meta');
+        $xmlWriter->writeAttribute('property', 'dcterms:modified');
+        $xmlWriter->text('2023-01-01T00:00:00Z');
+        $xmlWriter->endElement();
+
+        $xmlWriter->endElement(); // metadata
+
+        return $xmlWriter->getData();
     }
 }
