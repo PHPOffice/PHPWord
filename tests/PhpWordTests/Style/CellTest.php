@@ -93,6 +93,7 @@ class CellTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
+
     public function testPadding(): void
     {
         $object = new Cell();
@@ -100,13 +101,13 @@ class CellTest extends \PHPUnit\Framework\TestCase
             'paddingTop' => 10,
             'paddingBottom' => 20,
             'paddingLeft' => 30,
-            'paddingRight' => 40
+            'paddingRight' => 40,
         ];
 
-        foreach($methods as $methodName => $methodValue){
+        foreach ($methods as $methodName => $methodValue) {
 
             $object->setStyleValue($methodName, $methodValue);
-            $getterName = 'get'.ucfirst($methodName);
+            $getterName = 'get' . ucfirst($methodName);
 
             self::assertEquals($methodValue, $object->$getterName());
         }
