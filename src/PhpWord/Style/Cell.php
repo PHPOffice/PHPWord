@@ -377,10 +377,9 @@ class Cell extends Border
     {
         return $this->noWrap;
     }
+
     /**
      * Get style padding-top.
-     *
-     * @return int|null
      */
     public function getPaddingTop(): ?int
     {
@@ -401,8 +400,6 @@ class Cell extends Border
 
     /**
      * Get style padding-bottom.
-     *
-     * @return int|null
      */
     public function getPaddingBottom(): ?int
     {
@@ -423,8 +420,6 @@ class Cell extends Border
 
     /**
      * Get style padding-left.
-     *
-     * @return int|null
      */
     public function getPaddingLeft(): ?int
     {
@@ -445,8 +440,6 @@ class Cell extends Border
 
     /**
      * Get style padding-right.
-     *
-     * @return int|null
      */
     public function getPaddingRight(): ?int
     {
