@@ -7496,6 +7496,46 @@ Search.appendIndex(
             "summary": "Get\u0020noWrap.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getNoWrap"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetPaddingTop\u0028\u0029",
+            "name": "getPaddingTop",
+            "summary": "Get\u0020style\u0020padding\u002Dtop.",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getPaddingTop"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetPaddingTop\u0028\u0029",
+            "name": "setPaddingTop",
+            "summary": "Set\u0020style\u0020padding\u002Dtop.",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setPaddingTop"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetPaddingBottom\u0028\u0029",
+            "name": "getPaddingBottom",
+            "summary": "Get\u0020style\u0020padding\u002Dbottom.",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getPaddingBottom"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetPaddingBottom\u0028\u0029",
+            "name": "setPaddingBottom",
+            "summary": "Set\u0020style\u0020padding\u002Dbottom.",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setPaddingBottom"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetPaddingLeft\u0028\u0029",
+            "name": "getPaddingLeft",
+            "summary": "Get\u0020style\u0020padding\u002Dleft.",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getPaddingLeft"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetPaddingLeft\u0028\u0029",
+            "name": "setPaddingLeft",
+            "summary": "Set\u0020style\u0020padding\u002Dleft.",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setPaddingLeft"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AgetPaddingRight\u0028\u0029",
+            "name": "getPaddingRight",
+            "summary": "Get\u0020style\u0020padding\u002Dright.",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_getPaddingRight"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003AsetPaddingRight\u0028\u0029",
+            "name": "setPaddingRight",
+            "summary": "Set\u0020style\u0020padding\u002Dright.",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#method_setPaddingRight"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003ATEXT_DIR_LRTB",
             "name": "TEXT_DIR_LRTB",
             "summary": "Left\u0020to\u0020Right,\u0020Top\u0020to\u0020Bottom.",
@@ -7545,6 +7585,26 @@ Search.appendIndex(
             "name": "vAlign",
             "summary": "Vertical\u0020align\u0020\u0028top,\u0020center,\u0020both,\u0020bottom\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_vAlign"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024paddingTop",
+            "name": "paddingTop",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_paddingTop"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024paddingBottom",
+            "name": "paddingBottom",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_paddingBottom"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024paddingLeft",
+            "name": "paddingLeft",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_paddingLeft"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024paddingRight",
+            "name": "paddingRight",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Style-Cell.html#property_paddingRight"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Cell\u003A\u003A\u0024textDirection",
             "name": "textDirection",
