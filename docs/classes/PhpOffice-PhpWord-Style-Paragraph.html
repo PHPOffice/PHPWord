@@ -616,23 +616,44 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getHanging">getHanging()</a>
     <span>
-                                &nbsp;: int    </span>
+                                &nbsp;: float|null    </span>
 </dt>
 <dd>Get hanging.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndent">getIndent()</a>
+    <a class="-deprecated" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndent">getIndent()</a>
     <span>
-                                &nbsp;: int    </span>
+                                &nbsp;: float|null    </span>
 </dt>
 <dd>Get indentation.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentation">getIndentation()</a>
     <span>
-                                &nbsp;: null|<a href="classes/PhpOffice-PhpWord-Style-Indentation.html"><abbr title="\PhpOffice\PhpWord\Style\Indentation">Indentation</abbr></a>    </span>
+                                &nbsp;: <a href="classes/PhpOffice-PhpWord-Style-Indentation.html"><abbr title="\PhpOffice\PhpWord\Style\Indentation">Indentation</abbr></a>|null    </span>
 </dt>
 <dd>Get indentation.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentFirstLine">getIndentFirstLine()</a>
+    <span>
+                                &nbsp;: float|null    </span>
+</dt>
+<dd>Get firstLine.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentLeft">getIndentLeft()</a>
+    <span>
+                                &nbsp;: float|null    </span>
+</dt>
+<dd>Get left indentation.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentRight">getIndentRight()</a>
+    <span>
+                                &nbsp;: float|null    </span>
+</dt>
+<dd>Get right indentation.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_getIndex">getIndex()</a>
@@ -969,14 +990,14 @@
 <dd>Set contextualSpacing.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setHanging">setHanging()</a>
+    <a class="-deprecated" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setHanging">setHanging()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Set hanging.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndent">setIndent()</a>
+    <a class="-deprecated" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndent">setIndent()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
@@ -987,7 +1008,35 @@
     <span>
                                 &nbsp;: self    </span>
 </dt>
-<dd>Set shading.</dd>
+<dd>Set indentation.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentFirstLine">setIndentFirstLine()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Set firstline indentation.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentHanging">setIndentHanging()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Set hanging indentation.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentLeft">setIndentLeft()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Set left indentation.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentRight">setIndentRight()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Set right indentation.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setIndex">setIndex()</a>
@@ -3505,7 +3554,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">376</span>
+    <span class="phpdocumentor-element-found-in__line">328</span>
 
     </aside>
 
@@ -3513,7 +3562,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getHanging</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">getHanging</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">float|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3526,7 +3575,7 @@
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">int</span>
+        <span class="phpdocumentor-signature__response_type">float|null</span>
             </section>
 
 </article>
@@ -3534,7 +3583,7 @@
         class="phpdocumentor-element
             -method
             -public
-                                                        "
+            -deprecated                                            "
 >
     <h4 class="phpdocumentor-element__name" id="method_getIndent">
         getIndent()
@@ -3544,17 +3593,24 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">354</span>
+    <span class="phpdocumentor-element-found-in__line">338</span>
 
     </aside>
 
         <p class="phpdocumentor-summary">Get indentation.</p>
 
-    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <code class="phpdocumentor-code phpdocumentor-signature -deprecated">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getIndent</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">getIndent</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">float|null</span></code>
 
     <div class="phpdocumentor-label-line">
+        </div>
+                <div class="phpdocumentor-admonition">
+        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <article>
+                <p>Use getIndentLeft</p>
+
+            </article>
         </div>
     
     
@@ -3565,7 +3621,7 @@
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">int</span>
+        <span class="phpdocumentor-signature__response_type">float|null</span>
             </section>
 
 </article>
@@ -3583,7 +3639,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">330</span>
+    <span class="phpdocumentor-element-found-in__line">346</span>
 
     </aside>
 
@@ -3591,7 +3647,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getIndentation</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">null|<a href="classes/PhpOffice-PhpWord-Style-Indentation.html"><abbr title="\PhpOffice\PhpWord\Style\Indentation">Indentation</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">getIndentation</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Style-Indentation.html"><abbr title="\PhpOffice\PhpWord\Style\Indentation">Indentation</abbr></a>|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3604,7 +3660,124 @@
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">null|<a href="classes/PhpOffice-PhpWord-Style-Indentation.html"><abbr title="\PhpOffice\PhpWord\Style\Indentation">Indentation</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/PhpOffice-PhpWord-Style-Indentation.html"><abbr title="\PhpOffice\PhpWord\Style\Indentation">Indentation</abbr></a>|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getIndentFirstLine">
+        getIndentFirstLine()
+        <a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentFirstLine" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">354</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get firstLine.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getIndentFirstLine</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">float|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">float|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getIndentLeft">
+        getIndentLeft()
+        <a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentLeft" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">362</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get left indentation.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getIndentLeft</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">float|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">float|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getIndentRight">
+        getIndentRight()
+        <a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentRight" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">370</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get right indentation.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getIndentRight</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">float|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">float|null</span>
             </section>
 
 </article>
@@ -3661,7 +3834,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">514</span>
+    <span class="phpdocumentor-element-found-in__line">572</span>
 
     </aside>
 
@@ -3895,7 +4068,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">668</span>
+    <span class="phpdocumentor-element-found-in__line">726</span>
 
     </aside>
 
@@ -3934,7 +4107,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">644</span>
+    <span class="phpdocumentor-element-found-in__line">702</span>
 
     </aside>
 
@@ -3973,7 +4146,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">718</span>
+    <span class="phpdocumentor-element-found-in__line">776</span>
 
     </aside>
 
@@ -4012,7 +4185,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">400</span>
+    <span class="phpdocumentor-element-found-in__line">458</span>
 
     </aside>
 
@@ -4067,7 +4240,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">448</span>
+    <span class="phpdocumentor-element-found-in__line">506</span>
 
     </aside>
 
@@ -4106,7 +4279,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">426</span>
+    <span class="phpdocumentor-element-found-in__line">484</span>
 
     </aside>
 
@@ -4145,7 +4318,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">470</span>
+    <span class="phpdocumentor-element-found-in__line">528</span>
 
     </aside>
 
@@ -4184,7 +4357,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">492</span>
+    <span class="phpdocumentor-element-found-in__line">550</span>
 
     </aside>
 
@@ -4319,7 +4492,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">692</span>
+    <span class="phpdocumentor-element-found-in__line">750</span>
 
     </aside>
 
@@ -4358,7 +4531,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">791</span>
+    <span class="phpdocumentor-element-found-in__line">849</span>
 
     </aside>
 
@@ -4436,7 +4609,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">742</span>
+    <span class="phpdocumentor-element-found-in__line">800</span>
 
     </aside>
 
@@ -4475,7 +4648,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">620</span>
+    <span class="phpdocumentor-element-found-in__line">678</span>
 
     </aside>
 
@@ -4514,7 +4687,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">814</span>
+    <span class="phpdocumentor-element-found-in__line">872</span>
 
     </aside>
 
@@ -4552,7 +4725,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">548</span>
+    <span class="phpdocumentor-element-found-in__line">606</span>
 
     </aside>
 
@@ -4630,7 +4803,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">766</span>
+    <span class="phpdocumentor-element-found-in__line">824</span>
 
     </aside>
 
@@ -4669,7 +4842,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">596</span>
+    <span class="phpdocumentor-element-found-in__line">654</span>
 
     </aside>
 
@@ -4708,7 +4881,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">572</span>
+    <span class="phpdocumentor-element-found-in__line">630</span>
 
     </aside>
 
@@ -4908,7 +5081,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">779</span>
+    <span class="phpdocumentor-element-found-in__line">837</span>
 
     </aside>
 
@@ -5694,7 +5867,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">754</span>
+    <span class="phpdocumentor-element-found-in__line">812</span>
 
     </aside>
 
@@ -5733,7 +5906,7 @@ implemented in all styles.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
+            -deprecated                                            "
 >
     <h4 class="phpdocumentor-element__name" id="method_setHanging">
         setHanging()
@@ -5743,17 +5916,24 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">388</span>
+    <span class="phpdocumentor-element-found-in__line">380</span>
 
     </aside>
 
         <p class="phpdocumentor-summary">Set hanging.</p>
 
-    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <code class="phpdocumentor-code phpdocumentor-signature -deprecated">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setHanging</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">setHanging</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">float|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
+        </div>
+                <div class="phpdocumentor-admonition">
+        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <article>
+                <p>Use setIndentHanging</p>
+
+            </article>
         </div>
     
     
@@ -5761,7 +5941,7 @@ implemented in all styles.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$value</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                : <span class="phpdocumentor-signature__argument__return-type">float|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -5782,7 +5962,7 @@ implemented in all styles.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
+            -deprecated                                            "
 >
     <h4 class="phpdocumentor-element__name" id="method_setIndent">
         setIndent()
@@ -5792,17 +5972,24 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">366</span>
+    <span class="phpdocumentor-element-found-in__line">390</span>
 
     </aside>
 
         <p class="phpdocumentor-summary">Set indentation.</p>
 
-    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <code class="phpdocumentor-code phpdocumentor-signature -deprecated">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setIndent</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">setIndent</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">float|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
+        </div>
+                <div class="phpdocumentor-admonition">
+        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <article>
+                <p>Use setIndentLeft</p>
+
+            </article>
         </div>
     
     
@@ -5810,7 +5997,7 @@ implemented in all styles.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$value</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                : <span class="phpdocumentor-signature__argument__return-type">float|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -5841,15 +6028,15 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">342</span>
+    <span class="phpdocumentor-element-found-in__line">405</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Set shading.</p>
+        <p class="phpdocumentor-summary">Set indentation.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setIndentation</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">setIndentation</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">array{left?: null|float|int|numeric-string, right?: null|float|int|numeric-string, hanging?: null|float|int|numeric-string, firstLine?: null|float|int|numeric-string}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -5859,7 +6046,203 @@ implemented in all styles.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$value</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array{left?: null|float|int|numeric-string, right?: null|float|int|numeric-string, hanging?: null|float|int|numeric-string, firstLine?: null|float|int|numeric-string}</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setIndentFirstLine">
+        setIndentFirstLine()
+        <a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentFirstLine" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">430</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set firstline indentation.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setIndentFirstLine</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">float|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">float|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setIndentHanging">
+        setIndentHanging()
+        <a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentHanging" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">422</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set hanging indentation.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setIndentHanging</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">float|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">float|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setIndentLeft">
+        setIndentLeft()
+        <a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentLeft" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">438</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set left indentation.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setIndentLeft</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">float|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">float|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setIndentRight">
+        setIndentRight()
+        <a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentRight" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">446</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set right indentation.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setIndentRight</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">float|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">float|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -5939,7 +6322,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">608</span>
+    <span class="phpdocumentor-element-found-in__line">666</span>
 
     </aside>
 
@@ -5988,7 +6371,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">584</span>
+    <span class="phpdocumentor-element-found-in__line">642</span>
 
     </aside>
 
@@ -6037,7 +6420,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">526</span>
+    <span class="phpdocumentor-element-found-in__line">584</span>
 
     </aside>
 
@@ -6331,7 +6714,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">680</span>
+    <span class="phpdocumentor-element-found-in__line">738</span>
 
     </aside>
 
@@ -6380,7 +6763,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">656</span>
+    <span class="phpdocumentor-element-found-in__line">714</span>
 
     </aside>
 
@@ -6429,7 +6812,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">632</span>
+    <span class="phpdocumentor-element-found-in__line">690</span>
 
     </aside>
 
@@ -6478,7 +6861,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">730</span>
+    <span class="phpdocumentor-element-found-in__line">788</span>
 
     </aside>
 
@@ -6527,7 +6910,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">414</span>
+    <span class="phpdocumentor-element-found-in__line">472</span>
 
     </aside>
 
@@ -6592,7 +6975,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">460</span>
+    <span class="phpdocumentor-element-found-in__line">518</span>
 
     </aside>
 
@@ -6641,7 +7024,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">438</span>
+    <span class="phpdocumentor-element-found-in__line">496</span>
 
     </aside>
 
@@ -6690,7 +7073,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">482</span>
+    <span class="phpdocumentor-element-found-in__line">540</span>
 
     </aside>
 
@@ -6739,7 +7122,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">504</span>
+    <span class="phpdocumentor-element-found-in__line">562</span>
 
     </aside>
 
@@ -6944,7 +7327,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">822</span>
+    <span class="phpdocumentor-element-found-in__line">880</span>
 
     </aside>
 
@@ -6988,7 +7371,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">704</span>
+    <span class="phpdocumentor-element-found-in__line">762</span>
 
     </aside>
 
@@ -7037,7 +7420,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">803</span>
+    <span class="phpdocumentor-element-found-in__line">861</span>
 
     </aside>
 
@@ -7086,7 +7469,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Paragraph.php"><a href="files/src-phpword-style-paragraph.html"><abbr title="src/PhpWord/Style/Paragraph.php">Paragraph.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">560</span>
+    <span class="phpdocumentor-element-found-in__line">618</span>
 
     </aside>
 
@@ -7474,7 +7857,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/AbstractStyle.php"><a href="files/src-phpword-style-abstractstyle.html"><abbr title="src/PhpWord/Style/AbstractStyle.php">AbstractStyle.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">325</span>
+    <span class="phpdocumentor-element-found-in__line">324</span>
 
     </aside>
 
@@ -7533,7 +7916,7 @@ implemented in all styles.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/AbstractStyle.php"><a href="files/src-phpword-style-abstractstyle.html"><abbr title="src/PhpWord/Style/AbstractStyle.php">AbstractStyle.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">350</span>
+    <span class="phpdocumentor-element-found-in__line">349</span>
 
     </aside>
 
@@ -7766,8 +8149,11 @@ implemented in all styles.</p>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Border.html#method_getBorderTopStyle">getBorderTopStyle()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_getChildStyleValue">getChildStyleValue()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getHanging">getHanging()</a></li>
-                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndent">getIndent()</a></li>
+                                            <li class="-deprecated"><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndent">getIndent()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentation">getIndentation()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentFirstLine">getIndentFirstLine()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentLeft">getIndentLeft()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getIndentRight">getIndentRight()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_getIndex">getIndex()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_getLineHeight">getLineHeight()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Border.html#method_getMarginBottom">getMarginBottom()</a></li>
@@ -7816,9 +8202,13 @@ implemented in all styles.</p>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderTopSize">setBorderTopSize()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Border.html#method_setBorderTopStyle">setBorderTopStyle()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setContextualSpacing">setContextualSpacing()</a></li>
-                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setHanging">setHanging()</a></li>
-                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndent">setIndent()</a></li>
+                                            <li class="-deprecated"><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setHanging">setHanging()</a></li>
+                                            <li class="-deprecated"><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndent">setIndent()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentation">setIndentation()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentFirstLine">setIndentFirstLine()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentHanging">setIndentHanging()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentLeft">setIndentLeft()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentRight">setIndentRight()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-AbstractStyle.html#method_setIndex">setIndex()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setKeepLines">setKeepLines()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setKeepNext">setKeepNext()</a></li>
