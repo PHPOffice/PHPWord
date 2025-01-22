@@ -22,6 +22,7 @@ use Exception;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
@@ -268,6 +269,66 @@ class HtmlTest extends AbstractWebServerEmbedded
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[5]/w:pPr/w:spacing'));
         self::assertEquals(Paragraph::LINE_HEIGHT, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:line'));
         self::assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:lineRule'));
+    }
+
+    public function testParseCellPaddingStyle(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $top = 10;
+        $right = 11;
+        $bottom = 12;
+        $left = 13;
+
+        $testValTop = Converter::pixelToTwip($top);
+        $testValRight = Converter::pixelToTwip($right);
+        $testValBottom = Converter::pixelToTwip($bottom);
+        $testValLeft = Converter::pixelToTwip($left);
+
+        $html = '<table>
+            <tbody>
+                <tr>
+                    <td style="padding:' . $top . 'px ' . $right . 'px ' . $bottom . 'px ' . $left . 'px;">full</td>
+                    <td style="padding:' . $top . 'px 0px ' . $bottom . 'px ' . $left . 'px;padding-right:' . $right . 'px;">mix</td>
+                    <td style="padding-top:' . $top . 'px;">top</td>
+                    <td style="padding-bottom:' . $bottom . 'px;">bottom</td>
+                    <td style="padding-left:' . $left . 'px;">left</td>
+                </tr>
+            </tbody>
+        </table>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcMar/w:top';
+        self::assertTrue($doc->elementExists($path));
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcMar/w:bottom';
+        self::assertTrue($doc->elementExists($path));
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcMar/w:end';
+        self::assertTrue($doc->elementExists($path));
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcMar/w:start';
+        self::assertTrue($doc->elementExists($path));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[2]/w:tcPr/w:tcMar/w:end';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals($testValRight, $doc->getElementAttribute($path, 'w:w'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[3]/w:tcPr/w:tcMar/w:top';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals($testValTop, $doc->getElementAttribute($path, 'w:w'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[4]/w:tcPr/w:tcMar/w:bottom';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals($testValBottom, $doc->getElementAttribute($path, 'w:w'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[5]/w:tcPr/w:tcMar/w:start';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals($testValLeft, $doc->getElementAttribute($path, 'w:w'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
     }
 
     /**
