@@ -90,10 +90,10 @@ class CellTest extends \PHPUnit\Framework\TestCase
         $object->setStyleValue('borderSize', $value);
         self::assertEquals($expected, $object->getBorderSize());
     }
-    /**
-     * @return void
-     */
 
+    /**
+     * Test cell padding.
+     */
     public function testPadding(): void
     {
         $object = new Cell();
@@ -105,7 +105,6 @@ class CellTest extends \PHPUnit\Framework\TestCase
         ];
 
         foreach ($methods as $methodName => $methodValue) {
-
             $object->setStyleValue($methodName, $methodValue);
             $getterName = 'get' . ucfirst($methodName);
 
