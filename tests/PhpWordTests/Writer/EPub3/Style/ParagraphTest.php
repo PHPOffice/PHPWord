@@ -16,10 +16,10 @@ class ParagraphTest extends TestCase
 
         $content = $style->write();
 
-        $this->assertStringContainsString('margin-top: 0;', $content);
-        $this->assertStringContainsString('margin-bottom: 1em;', $content);
-        $this->assertStringContainsString('text-align: left;', $content);
-        $this->assertStringStartsWith('p {', $content);
-        $this->assertStringEndsWith('}', $content);
+        self::assertStringContainsString('margin-top: 0;', $content);
+        self::assertStringContainsString('margin-bottom: 1em;', $content);
+        self::assertStringContainsString('text-align: left;', $content);
+        self::assertStringStartsWith('p {', $content);
+        self::assertStringEndsWith('}', $content);
     }
 }

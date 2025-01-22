@@ -3,10 +3,10 @@
 namespace PhpOffice\PhpWordTests\Writer\EPub3\Element;
 
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
 use PhpOffice\PhpWord\Writer\EPub3\Element\Image as ImageWriter;
 use PHPUnit\Framework\TestCase;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 class ImageTest extends TestCase
 {
@@ -40,7 +40,7 @@ class ImageTest extends TestCase
         $this->writer->write();
 
         $expected = '<p><img src="media/image.jpg" style="width:500px;height:500px;"/></p>';
-        $this->assertEquals($expected, $this->xmlWriter->getData());
+        self::assertEquals($expected, $this->xmlWriter->getData());
     }
 
     public function testWriteWithoutP(): void
@@ -54,7 +54,7 @@ class ImageTest extends TestCase
         $this->writer->write();
 
         $expected = '<img src="media/image.jpg" style="width:500px;height:500px;"/>';
-        $this->assertEquals($expected, $this->xmlWriter->getData());
+        self::assertEquals($expected, $this->xmlWriter->getData());
     }
 
     public function testWriteWithInvalidElement(): void
@@ -64,6 +64,6 @@ class ImageTest extends TestCase
 
         $writer->write();
 
-        $this->assertEquals('', $this->xmlWriter->getData());
+        self::assertEquals('', $this->xmlWriter->getData());
     }
 }

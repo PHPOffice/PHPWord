@@ -18,7 +18,7 @@ class AbstractStyleTest extends TestCase
 
         $result = $style->setParentWriter($parentWriter);
 
-        $this->assertSame($style, $result);
-        $this->assertSame($parentWriter, $style->getParentWriter());
+        self::assertSame($style, $result);
+        self::assertSame($parentWriter, $style->getParentWriter());
     }
 }

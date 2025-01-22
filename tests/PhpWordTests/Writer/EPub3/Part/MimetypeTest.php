@@ -25,8 +25,8 @@ class MimetypeTest extends TestCase
     public function testWrite(): void
     {
         $result = $this->mimetype->write();
-        
-        $this->assertIsString($result);
-        $this->assertEquals('application/epub+zip', $result);
+
+        self::assertIsString($result);
+        self::assertEquals('application/epub+zip', $result);
     }
 }

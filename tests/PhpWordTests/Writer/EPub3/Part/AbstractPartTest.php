@@ -22,7 +22,7 @@ class AbstractPartTest extends TestCase
     {
         $writer = new EPub3();
         $this->part->setParentWriter($writer);
-        
-        $this->assertInstanceOf(EPub3::class, $this->part->getParentWriter());
+
+        self::assertInstanceOf(EPub3::class, $this->part->getParentWriter());
     }
 }

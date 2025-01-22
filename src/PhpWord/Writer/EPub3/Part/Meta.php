@@ -26,9 +26,9 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 class Meta extends AbstractPart
 {
     /**
-     * Get XML Writer
+     * Get XML Writer.
      *
-     * @return \PhpOffice\PhpWord\Shared\XMLWriter
+     * @return XMLWriter
      */
     protected function getXmlWriter()
     {
@@ -41,8 +41,6 @@ class Meta extends AbstractPart
 
     /**
      * Write part content.
-     *
-     * @return string
      */
     public function write(): string
     {
@@ -61,10 +59,8 @@ class Meta extends AbstractPart
 
         // Write document info if available
         $docInfo = $this->getParentWriter()->getPhpWord()->getDocInfo();
-        if ($docInfo) {
-            if ($docInfo->getCreator()) {
-                $xmlWriter->writeElement('dc:creator', $docInfo->getCreator());
-            }
+        if ($docInfo->getCreator()) {
+            $xmlWriter->writeElement('dc:creator', $docInfo->getCreator());
         }
 
         // Write modification date

@@ -21,25 +21,25 @@ namespace PhpOffice\PhpWord\Writer\EPub3;
 use PhpOffice\PhpWord\Exception\Exception;
 
 /**
- * Factory class for EPub3 parts
+ * Factory class for EPub3 parts.
  */
 class Part
 {
     /**
-     * Get the fully qualified class name for a specific part type
+     * Get the fully qualified class name for a specific part type.
      *
      * @param string $type The type of part (Content, Manifest, Meta, Mimetype)
+     *
      * @return string The fully qualified class name
-     * @throws Exception If the part type is invalid
      */
     public static function getPartClass(string $type): string
     {
         $class = 'PhpOffice\\PhpWord\\Writer\\EPub3\\Part\\' . $type;
-        
+
         if (!class_exists($class)) {
             throw new Exception("Invalid part type: {$type}");
         }
-        
+
         return $class;
     }
 }

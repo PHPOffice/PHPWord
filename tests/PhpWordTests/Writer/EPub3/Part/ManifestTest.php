@@ -25,11 +25,11 @@ class ManifestTest extends TestCase
     public function testWrite(): void
     {
         $result = $this->manifest->write();
-        
-        $this->assertIsString($result);
-        $this->assertStringContainsString('<?xml version="1.0" encoding="UTF-8"?>', $result);
-        $this->assertStringContainsString('<container version="1.0"', $result);
-        $this->assertStringContainsString('<rootfiles>', $result);
-        $this->assertStringContainsString('<rootfile full-path="content.opf"', $result);
+
+        self::assertStringContainsString('<?xml version="1.0" encoding="UTF-8"?>', $result);
+        self::assertIsString($result);
+        self::assertStringContainsString('<container version="1.0"', $result);
+        self::assertStringContainsString('<rootfiles>', $result);
+        self::assertStringContainsString('<rootfile full-path="content.opf"', $result);
     }
 }

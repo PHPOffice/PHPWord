@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\EPub3\Style;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
@@ -33,6 +34,13 @@ abstract class AbstractStyle
     protected $parentWriter;
 
     /**
+     * XML Writer.
+     *
+     * @var XMLWriter
+     */
+    protected $xmlWriter;
+
+    /**
      * Set parent writer.
      *
      * @return self
@@ -40,6 +48,18 @@ abstract class AbstractStyle
     public function setParentWriter(AbstractWriter $writer)
     {
         $this->parentWriter = $writer;
+
+        return $this;
+    }
+
+    /**
+     * Set XML Writer.
+     *
+     * @return self
+     */
+    public function setXmlWriter(XMLWriter $writer)
+    {
+        $this->xmlWriter = $writer;
 
         return $this;
     }

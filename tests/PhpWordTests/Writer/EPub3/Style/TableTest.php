@@ -16,13 +16,13 @@ class TableTest extends TestCase
 
         $content = $style->write();
 
-        $this->assertStringContainsString('border-collapse: collapse;', $content);
-        $this->assertStringContainsString('width: 100%;', $content);
-        $this->assertStringContainsString('border: 1px solid black;', $content);
-        $this->assertStringContainsString('padding: 8px;', $content);
-        $this->assertStringContainsString('text-align: left;', $content);
-        $this->assertStringContainsString('table {', $content);
-        $this->assertStringContainsString('th, td {', $content);
-        $this->assertStringEndsWith('}', $content);
+        self::assertStringContainsString('border-collapse: collapse;', $content);
+        self::assertStringContainsString('width: 100%;', $content);
+        self::assertStringContainsString('border: 1px solid black;', $content);
+        self::assertStringContainsString('padding: 8px;', $content);
+        self::assertStringContainsString('text-align: left;', $content);
+        self::assertStringContainsString('table {', $content);
+        self::assertStringContainsString('th, td {', $content);
+        self::assertStringEndsWith('}', $content);
     }
 }

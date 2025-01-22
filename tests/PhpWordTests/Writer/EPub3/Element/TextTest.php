@@ -3,10 +3,9 @@
 namespace PhpOffice\PhpWordTests\Writer\EPub3\Element;
 
 use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TrackChange;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\EPub3\Element\Text as TextWriter;
 use PHPUnit\Framework\TestCase;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 class TextTest extends TestCase
 {
@@ -37,7 +36,7 @@ class TextTest extends TestCase
         $this->writer->write();
 
         $expected = "<p>\n  <span>Sample Text</span>\n</p>\n";
-        $this->assertEquals($expected, $this->xmlWriter->getData());
+        self::assertEquals($expected, $this->xmlWriter->getData());
     }
 
     public function testWriteWithFontStyle(): void
@@ -47,7 +46,7 @@ class TextTest extends TestCase
         $this->writer->write();
 
         $expected = "<p>\n  <span class=\"customStyle\">Sample Text</span>\n</p>\n";
-        $this->assertEquals($expected, $this->xmlWriter->getData());
+        self::assertEquals($expected, $this->xmlWriter->getData());
     }
 
     public function testWriteWithParagraphStyle(): void
@@ -57,7 +56,7 @@ class TextTest extends TestCase
         $this->writer->write();
 
         $expected = "<p class=\"paragraphStyle\">\n  <span>Sample Text</span>\n</p>\n";
-        $this->assertEquals($expected, $this->xmlWriter->getData());
+        self::assertEquals($expected, $this->xmlWriter->getData());
     }
 
     public function testWriteWithoutP(): void
@@ -69,7 +68,7 @@ class TextTest extends TestCase
         $this->writer->write();
 
         $expected = "<span>Sample Text</span>\n";
-        $this->assertEquals($expected, $xmlWriter->getData());
+        self::assertEquals($expected, $xmlWriter->getData());
     }
 
     public function testWriteWithInvalidElement(): void
@@ -79,6 +78,6 @@ class TextTest extends TestCase
 
         $writer->write();
 
-        $this->assertEquals('', $this->xmlWriter->getData());
+        self::assertEquals('', $this->xmlWriter->getData());
     }
 }

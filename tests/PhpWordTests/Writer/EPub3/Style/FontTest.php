@@ -16,10 +16,10 @@ class FontTest extends TestCase
 
         $content = $style->write();
 
-        $this->assertStringContainsString('font-family: "Times New Roman", Times, serif;', $content);
-        $this->assertStringContainsString('font-size: 12pt;', $content);
-        $this->assertStringContainsString('color: #000000;', $content);
-        $this->assertStringStartsWith('body {', $content);
-        $this->assertStringEndsWith('}', $content);
+        self::assertStringContainsString('font-family: "Times New Roman", Times, serif;', $content);
+        self::assertStringContainsString('font-size: 12pt;', $content);
+        self::assertStringContainsString('color: #000000;', $content);
+        self::assertStringStartsWith('body {', $content);
+        self::assertStringEndsWith('}', $content);
     }
 }

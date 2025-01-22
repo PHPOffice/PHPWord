@@ -13,7 +13,8 @@ class StyleTest extends TestCase
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\EPub3\\Style\\' . $style;
             $xmlWriter = new XMLWriter();
-            $object = new $objectClass($xmlWriter);
+            $object = new $objectClass();
+            $object->setXmlWriter($xmlWriter);
             $object->write();
 
             self::assertEquals('', $xmlWriter->getData());

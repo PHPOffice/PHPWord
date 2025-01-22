@@ -20,7 +20,7 @@ class ContentTest extends TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test content');
-        
+
         $writer = new EPub3($phpWord);
         $this->content->setParentWriter($writer);
     }
@@ -28,11 +28,11 @@ class ContentTest extends TestCase
     public function testWrite(): void
     {
         $result = $this->content->write();
-        
-        $this->assertIsString($result);
-        $this->assertStringContainsString('<?xml version="1.0" encoding="UTF-8"?>', $result);
-        $this->assertStringContainsString('<package', $result);
-        $this->assertStringContainsString('<manifest>', $result);
-        $this->assertStringContainsString('<spine>', $result);
+
+        self::assertIsString($result);
+        self::assertStringContainsString('<?xml version="1.0" encoding="UTF-8"?>', $result);
+        self::assertStringContainsString('<package', $result);
+        self::assertStringContainsString('<manifest>', $result);
+        self::assertStringContainsString('<spine>', $result);
     }
 }
