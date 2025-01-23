@@ -883,8 +883,8 @@ class Html
                         $styles["border{$which}Size"] = $size; // twips
                         $styles["border{$which}Color"] = $color;
                         $styles["border{$which}Style"] = $style;
-
                     }
+
                     break;
                 case 'vertical-align':
                     // https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
