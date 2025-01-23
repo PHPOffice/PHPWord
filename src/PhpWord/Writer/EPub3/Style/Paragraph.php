@@ -25,10 +25,8 @@ class Paragraph extends AbstractStyle
 {
     /**
      * Write style content.
-     *
-     * @return string
      */
-    public function write()
+    public function write(): string
     {
         $content = 'p {';
         $content .= 'margin-top: 0;';

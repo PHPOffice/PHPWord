@@ -31,10 +31,8 @@ abstract class AbstractElement extends Word2007AbstractElement
      * Get class name of writer element based on read element.
      *
      * @param \PhpOffice\PhpWord\Element\AbstractElement $element
-     *
-     * @return string
      */
-    public static function getElementClass($element)
+    public static function getElementClass($element): string
     {
         $elementClass = str_replace('PhpOffice\\PhpWord\\Element\\', '', get_class($element));
         $writerClass = 'PhpOffice\\PhpWord\\Writer\\EPub3\\Element\\' . $elementClass;

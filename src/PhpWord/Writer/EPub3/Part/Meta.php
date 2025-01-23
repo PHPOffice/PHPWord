@@ -27,10 +27,8 @@ class Meta extends AbstractPart
 {
     /**
      * Get XML Writer.
-     *
-     * @return XMLWriter
      */
-    protected function getXmlWriter()
+    protected function getXmlWriter(): XMLWriter
     {
         $xmlWriter = new XMLWriter();
         $xmlWriter->openMemory();

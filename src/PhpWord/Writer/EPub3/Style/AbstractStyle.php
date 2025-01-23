@@ -42,10 +42,8 @@ abstract class AbstractStyle
 
     /**
      * Set parent writer.
-     *
-     * @return self
      */
-    public function setParentWriter(AbstractWriter $writer)
+    public function setParentWriter(AbstractWriter $writer): self
     {
         $this->parentWriter = $writer;
 
@@ -54,10 +52,8 @@ abstract class AbstractStyle
 
     /**
      * Set XML Writer.
-     *
-     * @return self
      */
-    public function setXmlWriter(XMLWriter $writer)
+    public function setXmlWriter(XMLWriter $writer): self
     {
         $this->xmlWriter = $writer;
 
@@ -66,18 +62,14 @@ abstract class AbstractStyle
 
     /**
      * Get parent writer.
-     *
-     * @return AbstractWriter
      */
-    public function getParentWriter()
+    public function getParentWriter(): AbstractWriter
     {
         return $this->parentWriter;
     }
 
     /**
      * Write style content.
-     *
-     * @return string
      */
-    abstract public function write();
+    abstract public function write(): string;
 }

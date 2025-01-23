@@ -113,8 +113,6 @@
         "phpoffice/math": "^0.2"
     },
     "require-dev": {
-        "ext-zip": "*",
-        "ext-gd": "*",
         "ext-libxml": "*",
         "dompdf/dompdf": "^2.0 || ^3.0",
         "friendsofphp/php-cs-fixer": "^3.3",

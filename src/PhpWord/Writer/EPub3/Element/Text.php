@@ -2,8 +2,6 @@
 
 namespace PhpOffice\PhpWord\Writer\EPub3\Element;
 
-use PhpOffice\PhpWord\Element\TrackChange;
-
 /**
  * Text element writer for EPub3.
  */
@@ -39,9 +37,7 @@ class Text extends AbstractElement
             }
         }
 
-        $this->writeTrackChanges($element->getTrackChange(), true);
         $xmlWriter->text($element->getText());
-        $this->writeTrackChanges($element->getTrackChange(), false);
 
         if (!empty($fontStyle)) {
             $xmlWriter->endElement(); // span
@@ -49,35 +45,6 @@ class Text extends AbstractElement
 
         if (!$this->withoutP) {
             $xmlWriter->endElement(); // p
-        }
-    }
-
-    /**
-     * Write track changes.
-     */
-    private function writeTrackChanges(?TrackChange $trackChange, bool $isStart): void
-    {
-        if ($trackChange === null) {
-            return;
-        }
-
-        $xmlWriter = $this->getXmlWriter();
-        if ($trackChange->getChangeType() === TrackChange::INSERTED) {
-            $xmlWriter->writeRaw("\n    ");
-            $xmlWriter->startElement('ins');
-            $xmlWriter->writeAttribute('class', 'phpword-change');
-            $xmlWriter->writeAttribute('data-change-id', $trackChange->getElementId());
-            if (!$isStart) {
-                $xmlWriter->endElement();
-            }
-        } elseif ($trackChange->getChangeType() === TrackChange::DELETED) {
-            $xmlWriter->writeRaw("\n    ");
-            $xmlWriter->startElement('del');
-            $xmlWriter->writeAttribute('class', 'phpword-change');
-            $xmlWriter->writeAttribute('data-change-id', $trackChange->getElementId());
-            if (!$isStart) {
-                $xmlWriter->endElement();
-            }
         }
     }
 }

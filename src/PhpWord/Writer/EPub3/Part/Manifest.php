@@ -25,10 +25,8 @@ class Manifest extends AbstractPart
 {
     /**
      * Write part content.
-     *
-     * @return string
      */
-    public function write()
+    public function write(): string
     {
         $content = '<?xml version="1.0" encoding="UTF-8"?>';
         $content .= '<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">';

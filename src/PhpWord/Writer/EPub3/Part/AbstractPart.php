@@ -34,10 +34,8 @@ abstract class AbstractPart
 
     /**
      * Set parent writer.
-     *
-     * @return self
      */
-    public function setParentWriter(AbstractWriter $writer)
+    public function setParentWriter(AbstractWriter $writer): self
     {
         $this->parentWriter = $writer;
 
@@ -46,18 +44,14 @@ abstract class AbstractPart
 
     /**
      * Get parent writer.
-     *
-     * @return AbstractWriter
      */
-    public function getParentWriter()
+    public function getParentWriter(): AbstractWriter
     {
         return $this->parentWriter;
     }
 
     /**
      * Write part content.
-     *
-     * @return string
      */
-    abstract public function write();
+    abstract public function write(): string;
 }

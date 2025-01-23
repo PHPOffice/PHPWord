@@ -25,10 +25,8 @@ class Content extends AbstractPart
 {
     /**
      * Write part content.
-     *
-     * @return string
      */
-    public function write()
+    public function write(): string
     {
         $content = '<?xml version="1.0" encoding="UTF-8"?>';
         $content .= '<package xmlns="http://www.idpf.org/2007/opf" version="3.0">';

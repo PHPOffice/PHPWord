@@ -25,10 +25,8 @@ class Table extends AbstractStyle
 {
     /**
      * Write style content.
-     *
-     * @return string
      */
-    public function write()
+    public function write(): string
     {
         $content = 'table {';
         $content .= 'border-collapse: collapse;';

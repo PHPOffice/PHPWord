@@ -25,10 +25,8 @@ class Font extends AbstractStyle
 {
     /**
      * Write style content.
-     *
-     * @return string
      */
-    public function write()
+    public function write(): string
     {
         $content = 'body {';
         $content .= 'font-family: "Times New Roman", Times, serif;';

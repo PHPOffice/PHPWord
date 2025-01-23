@@ -25,10 +25,8 @@ class Mimetype extends AbstractPart
 {
     /**
      * Write part content.
-     *
-     * @return string
      */
-    public function write()
+    public function write(): string
     {
         return 'application/epub+zip';
     }
