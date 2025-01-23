@@ -67,6 +67,16 @@ class Ruby extends AbstractElement
     }
 
     /**
+     * Set the base text run.
+     */
+    public function setBaseTextRun(TextRun $textRun): self
+    {
+        $this->baseTextRun = $textRun;
+
+        return $this;
+    }
+
+    /**
      * Get ruby text run.
      */
     public function getRubyTextRun(): TextRun
@@ -75,10 +85,30 @@ class Ruby extends AbstractElement
     }
 
     /**
-     * Get properties.
+     * Set the ruby text run.
+     */
+    public function setRubyTextRun(TextRun $textRun): self
+    {
+        $this->rubyTextRun = $textRun;
+
+        return $this;
+    }
+
+    /**
+     * Get ruby properties.
      */
     public function getProperties(): RubyProperties
     {
         return $this->properties;
+    }
+
+    /**
+     * Set the ruby properties.
+     */
+    public function setProperties(RubyProperties $properties): self
+    {
+        $this->properties = $properties;
+
+        return $this;
     }
 }
