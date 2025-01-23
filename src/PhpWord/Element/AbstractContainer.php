@@ -50,7 +50,7 @@ use ReflectionClass;
  * @method FormField addFormField(string $type, mixed $fStyle = null, mixed $pStyle = null)
  * @method SDT addSDT(string $type)
  * @method Formula addFormula(Math $math)
- * @method Ruby addRuby(TextRun $baseText, TextRun $rubyText, RubyProperties $properties)
+ * @method Ruby addRuby(TextRun $baseText, TextRun $rubyText, \PhpOffice\PhpWord\ComplexType\RubyProperties $properties)
  * @method \PhpOffice\PhpWord\Element\OLEObject addObject(string $source, mixed $style = null) deprecated, use addOLEObject instead
  *
  * @since 0.10.0

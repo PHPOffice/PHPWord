@@ -621,9 +621,9 @@ abstract class AbstractPart
         $rubyLid = $xmlReader->getElement('w:lid', $domNode)->getAttribute('w:val'); // type of ruby
         $properties = new RubyProperties();
         $properties->setAlignment($rubyAlignment);
-        $properties->setFontFaceSize($rubyHps);
-        $properties->setFontPointsAboveBaseText($rubyHpsRaise);
-        $properties->setFontSizeForBaseText($rubyHpsBaseText);
+        $properties->setFontFaceSize(floatval($rubyHps));
+        $properties->setFontPointsAboveBaseText(floatval($rubyHpsRaise));
+        $properties->setFontSizeForBaseText(floatval($rubyHpsBaseText));
         $properties->setLanguageId($rubyLid);
 
         return $properties;
