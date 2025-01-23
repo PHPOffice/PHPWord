@@ -604,4 +604,69 @@ class ElementTest extends AbstractTestReader
         $textRun = $subElements[0]->getRubyTextRun();
         self::assertEquals('わたし', $textRun->getText());
     }
+
+    /**
+     * Test reading of ruby title.
+     */
+    public function testReadRubyTitle(): void
+    {
+        $documentXml = '<w:p
+             w:rsidR="00CB4855"
+             w:rsidRDefault="00AA542C"
+             w:rsidP="00AA542C">
+            <w:pPr>
+                <w:pStyle w:val="Heading1" />
+            </w:pPr>
+            <w:r>
+                <w:ruby>
+                    <w:rubyPr>
+                        <w:rubyAlign w:val="distributeSpace" />
+                        <w:hps w:val="20" />
+                        <w:hpsRaise w:val="38" />
+                        <w:hpsBaseText w:val="40" />
+                        <w:lid w:val="ja-JP" />
+                    </w:rubyPr>
+                    <w:rt>
+                        <w:r w:rsidR="00AA542C"
+                             w:rsidRPr="00AA542C">
+                            <w:rPr>
+                                <w:rFonts w:ascii="Yu Gothic Light"
+                                          w:eastAsia="Yu Gothic Light"
+                                          w:hAnsi="Yu Gothic Light"
+                                          w:hint="eastAsia" />
+                                <w:sz w:val="20" />
+                            </w:rPr>
+                            <w:t>かみ</w:t>
+                        </w:r>
+                    </w:rt>
+                    <w:rubyBase>
+                        <w:r w:rsidR="00AA542C">
+                            <w:rPr>
+                                <w:rFonts w:hint="eastAsia" />
+                            </w:rPr>
+                            <w:t>神</w:t>
+                        </w:r>
+                    </w:rubyBase>
+                </w:ruby>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[0]);
+        $subElements = $elements[0]->getText()->getElements(); // <w:ruby>
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Ruby', $subElements[0]);
+        /** @var RubyProperties $rubyProperties */
+        $rubyProperties = $subElements[0]->getProperties();
+        self::assertEquals(RubyProperties::ALIGNMENT_DISTRIBUTE_SPACE, $rubyProperties->getAlignment());
+        self::assertEquals(20, $rubyProperties->getFontFaceSize());
+        self::assertEquals(38, $rubyProperties->getFontPointsAboveBaseText());
+        self::assertEquals(40, $rubyProperties->getFontSizeForBaseText());
+        self::assertEquals('ja-JP', $rubyProperties->getLanguageId());
+        /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
+        $textRun = $subElements[0]->getBaseTextRun();
+        self::assertEquals('神', $textRun->getText());
+        $textRun = $subElements[0]->getRubyTextRun();
+        self::assertEquals('かみ', $textRun->getText());
+    }
 }
