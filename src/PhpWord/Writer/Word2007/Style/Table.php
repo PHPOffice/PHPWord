@@ -140,6 +140,7 @@ class Table extends AbstractStyle
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->setStyles($style->getBorderStyle());
             $styleWriter->write();
 
             $xmlWriter->endElement(); // w:tblBorders

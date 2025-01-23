@@ -839,9 +839,34 @@ class Html
                 case 'border-bottom':
                 case 'border-right':
                 case 'border-left':
-                    // must have exact order [width color style], e.g. "1px #0011CC solid" or "2pt green solid"
+                    $value = preg_replace('/ +/', ' ', trim($value));
+                    $valueArr = explode(' ', strtolower($value));
+
+                    $size = $color = $style = null;
+                    // must have exact order of one of the options
+                    //  [width color style], e.g. "1px #0011CC solid" or "2pt green solid"
+                    //  [width style color], e.g. "1px solid #0011CC" or "2pt solid green"
                     // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
-                    if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+|[a-zA-Z]+)\s+([a-z]+)/', $value, $matches)) {
+                    // we determine the order of color and style by checking value of the color.
+                    $namedColors = self::mapNamedBorderColor();
+                    foreach($valueArr as $tmpValue){
+
+                        if (strpos($tmpValue, '#') === 0 || isset($namedColors[$tmpValue])) {
+                            $color = trim($tmpValue, '#');
+                        } elseif(strpos($tmpValue, 'px') !== false ||
+                                strpos($tmpValue, 'pt') !== false ||
+                                strpos($tmpValue, 'cm') !== false ||
+                                strpos($tmpValue, 'mm') !== false ||
+                                strpos($tmpValue, 'in') !== false ||
+                                strpos($tmpValue, 'pc') !== false)
+                        {
+                            $size = Converter::cssToTwip($tmpValue);
+                        }else{
+                            $style = self::mapBorderStyle($valueArr[2]);
+                        }
+                    }
+
+                    if ($size !== null && $color !== null && $style !== null) {
                         if (false !== strpos($property, '-')) {
                             $tmp = explode('-', $property);
                             $which = $tmp[1];
@@ -855,14 +880,12 @@ class Html
                         // Therefore we need to normalize converted twip value to cca 1/2 of value.
                         // This may be adjusted, if better ratio or formula found.
                         // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
-                        $size = Converter::cssToTwip($matches[1]);
                         $size = (int) ($size / 2);
                         // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
                         $styles["border{$which}Size"] = $size; // twips
-                        $styles["border{$which}Color"] = trim($matches[2], '#');
-                        $styles["border{$which}Style"] = self::mapBorderStyle($matches[3]);
+                        $styles["border{$which}Color"] = $color;
+                        $styles["border{$which}Style"] = $style;
                     }
-
                     break;
                 case 'vertical-align':
                     // https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
@@ -1009,10 +1032,170 @@ class Html
             case 'dashed':
             case 'dotted':
             case 'double':
+            case 'inset':
+            case 'outset':
                 return $cssBorderStyle;
             default:
                 return 'single';
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected static function mapNamedBorderColor(): array
+    {
+        $colors = [];
+        $colors['aliceblue'] = '#f0f8ff';
+        $colors['antiquewhite'] = '#faebd7';
+        $colors['aqua'] = '#00ffff';
+        $colors['aquamarine'] = '#7fffd4';
+        $colors['azure'] = '#f0ffff';
+        $colors['beige'] = '#f5f5dc';
+        $colors['bisque'] = '#ffe4c4';
+        $colors['black'] = '#000000';
+        $colors['blanchedalmond'] = '#ffebcd';
+        $colors['blue'] = '#0000ff';
+        $colors['blueviolet'] = '#8a2be2';
+        $colors['brown'] = '#a52a2a';
+        $colors['burlywood'] = '#deb887';
+        $colors['cadetblue'] = '#5f9ea0';
+        $colors['chartreuse'] = '#7fff00';
+        $colors['chocolate'] = '#d2691e';
+        $colors['coral'] = '#ff7f50';
+        $colors['cornflowerblue'] = '#6495ed';
+        $colors['cornsilk'] = '#fff8dc';
+        $colors['crimson'] = '#dc143c';
+        $colors['cyan'] = '#00ffff';
+        $colors['darkblue'] = '#00008b';
+        $colors['darkcyan'] = '#008b8b';
+        $colors['darkgoldenrod'] = '#b8860b';
+        $colors['darkgray'] = '#a9a9a9';
+        $colors['darkgrey'] = '#a9a9a9';
+        $colors['darkgreen'] = '#006400';
+        $colors['darkkhaki'] = '#bdb76b';
+        $colors['darkmagenta'] = '#8b008b';
+        $colors['darkolivegreen'] = '#556b2f';
+        $colors['darkorange'] = '#ff8c00';
+        $colors['darkorchid'] = '#9932cc';
+        $colors['darkred'] = '#8b0000';
+        $colors['darksalmon'] = '#e9967a';
+        $colors['darkseagreen'] = '#8fbc8f';
+        $colors['darkslateblue'] = '#483d8b';
+        $colors['darkslategray'] = '#2f4f4f';
+        $colors['darkslategrey'] = '#2f4f4f';
+        $colors['darkturquoise'] = '#00ced1';
+        $colors['darkviolet'] = '#9400d3';
+        $colors['deeppink'] = '#ff1493';
+        $colors['deepskyblue'] = '#00bfff';
+        $colors['dimgray'] = '#696969';
+        $colors['dimgrey'] = '#696969';
+        $colors['dodgerblue'] = '#1e90ff';
+        $colors['firebrick'] = '#b22222';
+        $colors['floralwhite'] = '#fffaf0';
+        $colors['forestgreen'] = '#228b22';
+        $colors['fuchsia'] = '#ff00ff';
+        $colors['gainsboro'] = '#dcdcdc';
+        $colors['ghostwhite'] = '#f8f8ff';
+        $colors['gold'] = '#ffd700';
+        $colors['goldenrod'] = '#daa520';
+        $colors['gray'] = '#808080';
+        $colors['grey'] = '#808080';
+        $colors['green'] = '#008000';
+        $colors['greenyellow'] = '#adff2f';
+        $colors['honeydew'] = '#f0fff0';
+        $colors['hotpink'] = '#ff69b4';
+        $colors['indianred'] = '#cd5c5c';
+        $colors['indigo'] = '#4b0082';
+        $colors['ivory'] = '#fffff0';
+        $colors['khaki'] = '#f0e68c';
+        $colors['lavender'] = '#e6e6fa';
+        $colors['lavenderblush'] = '#fff0f5';
+        $colors['lawngreen'] = '#7cfc00';
+        $colors['lemonchiffon'] = '#fffacd';
+        $colors['lightblue'] = '#add8e6';
+        $colors['lightcoral'] = '#f08080';
+        $colors['lightcyan'] = '#e0ffff';
+        $colors['lightgoldenrodyellow'] = '#fafad2';
+        $colors['lightgray'] = '#d3d3d3';
+        $colors['lightgrey'] = '#d3d3d3';
+        $colors['lightgreen'] = '#90ee90';
+        $colors['lightpink'] = '#ffb6c1';
+        $colors['lightsalmon'] = '#ffa07a';
+        $colors['lightseagreen'] = '#20b2aa';
+        $colors['lightskyblue'] = '#87cefa';
+        $colors['lightslategray'] = '#778899';
+        $colors['lightslategrey'] = '#778899';
+        $colors['lightsteelblue'] = '#b0c4de';
+        $colors['lightyellow'] = '#ffffe0';
+        $colors['lime'] = '#00ff00';
+        $colors['limegreen'] = '#32cd32';
+        $colors['linen'] = '#faf0e6';
+        $colors['magenta'] = '#ff00ff';
+        $colors['maroon'] = '#800000';
+        $colors['mediumaquamarine'] = '#66cdaa';
+        $colors['mediumblue'] = '#0000cd';
+        $colors['mediumorchid'] = '#ba55d3';
+        $colors['mediumpurple'] = '#9370db';
+        $colors['mediumseagreen'] = '#3cb371';
+        $colors['mediumslateblue'] = '#7b68ee';
+        $colors['mediumspringgreen'] = '#00fa9a';
+        $colors['mediumturquoise'] = '#48d1cc';
+        $colors['mediumvioletred'] = '#c71585';
+        $colors['midnightblue'] = '#191970';
+        $colors['mintcream'] = '#f5fffa';
+        $colors['mistyrose'] = '#ffe4e1';
+        $colors['moccasin'] = '#ffe4b5';
+        $colors['navajowhite'] = '#ffdead';
+        $colors['navy'] = '#000080';
+        $colors['oldlace'] = '#fdf5e6';
+        $colors['olive'] = '#808000';
+        $colors['olivedrab'] = '#6b8e23';
+        $colors['orange'] = '#ffa500';
+        $colors['orangered'] = '#ff4500';
+        $colors['orchid'] = '#da70d6';
+        $colors['palegoldenrod'] = '#eee8aa';
+        $colors['palegreen'] = '#98fb98';
+        $colors['paleturquoise'] = '#afeeee';
+        $colors['palevioletred'] = '#db7093';
+        $colors['papayawhip'] = '#ffefd5';
+        $colors['peachpuff'] = '#ffdab9';
+        $colors['peru'] = '#cd853f';
+        $colors['pink'] = '#ffc0cb';
+        $colors['plum'] = '#dda0dd';
+        $colors['powderblue'] = '#b0e0e6';
+        $colors['purple'] = '#800080';
+        $colors['rebeccapurple'] = '#663399';
+        $colors['red'] = '#ff0000';
+        $colors['rosybrown'] = '#bc8f8f';
+        $colors['royalblue'] = '#4169e1';
+        $colors['saddlebrown'] = '#8b4513';
+        $colors['salmon'] = '#fa8072';
+        $colors['sandybrown'] = '#f4a460';
+        $colors['seagreen'] = '#2e8b57';
+        $colors['seashell'] = '#fff5ee';
+        $colors['sienna'] = '#a0522d';
+        $colors['silver'] = '#c0c0c0';
+        $colors['skyblue'] = '#87ceeb';
+        $colors['slateblue'] = '#6a5acd';
+        $colors['slategray'] = '#708090';
+        $colors['slategrey'] = '#708090';
+        $colors['snow'] = '#fffafa';
+        $colors['springgreen'] = '#00ff7f';
+        $colors['steelblue'] = '#4682b4';
+        $colors['tan'] = '#d2b48c';
+        $colors['teal'] = '#008080';
+        $colors['thistle'] = '#d8bfd8';
+        $colors['tomato'] = '#ff6347';
+        $colors['turquoise'] = '#40e0d0';
+        $colors['violet'] = '#ee82ee';
+        $colors['wheat'] = '#f5deb3';
+        $colors['white'] = '#ffffff';
+        $colors['whitesmoke'] = '#f5f5f5';
+        $colors['yellow'] = '#ffff00';
+        $colors['yellowgreen'] = '#9acd32';
+
+        return $colors;
     }
 
     protected static function mapBorderColor(&$styles, $cssBorderColor): void
