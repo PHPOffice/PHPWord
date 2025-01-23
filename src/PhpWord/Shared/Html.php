@@ -849,17 +849,15 @@ class Html
                     // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
                     // we determine the order of color and style by checking value of the color.
                     $namedColors = self::mapNamedBorderColor();
-                    foreach($valueArr as $tmpValue){
-
+                    foreach ($valueArr as $tmpValue) {
                         if (strpos($tmpValue, '#') === 0 || isset($namedColors[$tmpValue])) {
                             $color = trim($tmpValue, '#');
-                        } elseif(strpos($tmpValue, 'px') !== false ||
+                        } elseif (strpos($tmpValue, 'px') !== false ||
                                 strpos($tmpValue, 'pt') !== false ||
                                 strpos($tmpValue, 'cm') !== false ||
                                 strpos($tmpValue, 'mm') !== false ||
                                 strpos($tmpValue, 'in') !== false ||
-                                strpos($tmpValue, 'pc') !== false)
-                        {
+                                strpos($tmpValue, 'pc') !== false) {
                             $size = Converter::cssToTwip($tmpValue);
                         } else {
                             $style = self::mapBorderStyle($valueArr[2]);
@@ -885,6 +883,7 @@ class Html
                         $styles["border{$which}Size"] = $size; // twips
                         $styles["border{$which}Color"] = $color;
                         $styles["border{$which}Style"] = $style;
+
                     }
                     break;
                 case 'vertical-align':
@@ -1040,9 +1039,6 @@ class Html
         }
     }
 
-    /**
-     * @return array
-     */
     protected static function mapNamedBorderColor(): array
     {
         $colors = [];
