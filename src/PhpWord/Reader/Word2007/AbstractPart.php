@@ -300,8 +300,8 @@ abstract class AbstractPart
         if ($headingDepth !== null) {
             $textContent = null;
             $nodes = $xmlReader->getElements('w:r|w:hyperlink', $domNode);
-            $rubyNodes = $xmlReader->getElements('w:r/w:ruby', $domNode);
-            if ($nodes->length === 1 && count($rubyNodes) == 0) {
+            $hasRubyElement = $xmlReader->elementExists('w:r/w:ruby', $domNode);
+            if ($nodes->length === 1 && !$hasRubyElement) {
                 $textContent = htmlspecialchars($xmlReader->getValue('w:t', $nodes->item(0)), ENT_QUOTES, 'UTF-8');
             } else {
                 $textContent = new TextRun($paragraphStyle);
