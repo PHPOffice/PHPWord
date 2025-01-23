@@ -50,12 +50,8 @@ class Ruby extends AbstractElement
 
     /**
      * Create a new Ruby Element.
-     *
-     * @param TextRun $baseTextRun
-     * @param TextRun $rubyTextRun
-     * @param RubyProperties $properties
      */
-    public function __construct($baseTextRun, $rubyTextRun, $properties)
+    public function __construct(TextRun $baseTextRun, TextRun $rubyTextRun, RubyProperties $properties)
     {
         $this->baseTextRun = $baseTextRun;
         $this->rubyTextRun = $rubyTextRun;
@@ -64,30 +60,24 @@ class Ruby extends AbstractElement
 
     /**
      * Get base text run.
-     *
-     * @return TextRun
      */
-    public function getBaseTextRun()
+    public function getBaseTextRun(): TextRun
     {
         return $this->baseTextRun;
     }
 
     /**
      * Get ruby text run.
-     *
-     * @return TextRun
      */
-    public function getRubyTextRun()
+    public function getRubyTextRun(): TextRun
     {
         return $this->rubyTextRun;
     }
 
     /**
      * Get properties.
-     *
-     * @return RubyProperties
      */
-    public function getProperties()
+    public function getProperties(): RubyProperties
     {
         return $this->properties;
     }

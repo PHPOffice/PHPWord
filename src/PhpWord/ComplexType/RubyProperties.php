@@ -25,7 +25,7 @@ use InvalidArgumentException;
  *
  * @see https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.rubyproperties?view=openxml-3.0.1
  */
-final class RubyProperties
+class RubyProperties
 {
     const ALIGNMENT_CENTER = 'center';
     const ALIGNMENT_DISTRIBUTE_LETTER = 'distributeLetter';
@@ -44,21 +44,21 @@ final class RubyProperties
     /**
      * Ruby font face size (w:hps).
      *
-     * @var float|int
+     * @var float
      */
     private $fontFaceSize;
 
     /**
      * Ruby font points above base text (w:hpsRaise).
      *
-     * @var float|int
+     * @var float
      */
     private $fontPointsAboveText;
 
     /**
      * Ruby font size for base text (w:hpsBaseText).
      *
-     * @var float|int
+     * @var float
      */
     private $baseTextFontSize;
 
@@ -71,22 +71,16 @@ final class RubyProperties
 
     /**
      * Get the ruby alignment.
-     *
-     * @return string
      */
-    public function getAlignment()
+    public function getAlignment(): string
     {
         return $this->alignment;
     }
 
     /**
      * Set the Ruby Alignment (center, distributeLetter, distributeSpace, left, right, rightVertical).
-     *
-     * @param string $alignment
-     *
-     * @return self
      */
-    public function setAlignment($alignment)
+    public function setAlignment(string $alignment): self
     {
         $alignmentTypes = [
             self::ALIGNMENT_CENTER,
@@ -108,22 +102,16 @@ final class RubyProperties
 
     /**
      * Get the ruby font face size.
-     *
-     * @return float|int
      */
-    public function getFontFaceSize()
+    public function getFontFaceSize(): float
     {
         return $this->fontFaceSize;
     }
 
     /**
      * Set the ruby font face size.
-     *
-     * @param float|int $size
-     *
-     * @return self
      */
-    public function setFontFaceSize($size)
+    public function setFontFaceSize(float $size): self
     {
         $this->fontFaceSize = $size;
 
@@ -132,22 +120,16 @@ final class RubyProperties
 
     /**
      * Get the ruby font points above base text.
-     *
-     * @return float|int
      */
-    public function getFontPointsAboveBaseText()
+    public function getFontPointsAboveBaseText(): float
     {
         return $this->fontPointsAboveText;
     }
 
     /**
      * Set the ruby font points above base text.
-     *
-     * @param float|int $size
-     *
-     * @return self
      */
-    public function setFontPointsAboveBaseText($size)
+    public function setFontPointsAboveBaseText(float $size): self
     {
         $this->fontPointsAboveText = $size;
 
@@ -156,22 +138,16 @@ final class RubyProperties
 
     /**
      * Get the ruby font size for base text.
-     *
-     * @return float|int
      */
-    public function getFontSizeForBaseText()
+    public function getFontSizeForBaseText(): float
     {
         return $this->baseTextFontSize;
     }
 
     /**
      * Set the ruby font size for base text.
-     *
-     * @param float|int $size
-     *
-     * @return self
      */
-    public function setFontSizeForBaseText($size)
+    public function setFontSizeForBaseText(float $size): self
     {
         $this->baseTextFontSize = $size;
 
@@ -180,22 +156,16 @@ final class RubyProperties
 
     /**
      * Get the ruby language id.
-     *
-     * @return string
      */
-    public function getLanguageId()
+    public function getLanguageId(): string
     {
         return $this->languageId;
     }
 
     /**
      * Set the ruby language id.
-     *
-     * @param string $langId
-     *
-     * @return self
      */
-    public function setLanguageId($langId)
+    public function setLanguageId(string $langId): self
     {
         $this->languageId = $langId;
 
