@@ -254,7 +254,7 @@ abstract class AbstractContainer extends AbstractElement
             'Footnote' => ['Section', 'TextRun', 'Cell', 'ListItemRun'],
             'Endnote' => ['Section', 'TextRun', 'Cell'],
             'PreserveText' => ['Section', 'Header', 'Footer', 'Cell'],
-            'Title' => ['Section', 'Cell'],
+            'Title' => ['Section', 'Cell', 'Header'],
             'TOC' => ['Section'],
             'PageBreak' => ['Section'],
             'Chart' => ['Section', 'Cell'],
