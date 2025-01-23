@@ -63,11 +63,11 @@ final class RubyProperties
     private $baseTextFontSize;
 
     /**
-     * Ruby type/language (w:lid).
+     * Ruby type/language id (w:lid).
      *
      * @var string
      */
-    private $language;
+    private $languageId;
 
     /**
      * Get the ruby alignment.
@@ -179,25 +179,25 @@ final class RubyProperties
     }
 
     /**
-     * Get the ruby language.
+     * Get the ruby language id.
      *
      * @return string
      */
-    public function getLanguage()
+    public function getLanguageId()
     {
-        return $this->language;
+        return $this->languageId;
     }
 
     /**
-     * Set the ruby language.
+     * Set the ruby language id.
      *
-     * @param string $language
+     * @param string $langId
      *
      * @return self
      */
-    public function setLanguage($lang)
+    public function setLanguageId($langId)
     {
-        $this->language = $lang;
+        $this->languageId = $langId;
 
         return $this;
     }

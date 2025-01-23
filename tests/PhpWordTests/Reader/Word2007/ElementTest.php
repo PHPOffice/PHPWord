@@ -597,11 +597,11 @@ class ElementTest extends AbstractTestReader
         self::assertEquals(12, $rubyProperties->getFontFaceSize());
         self::assertEquals(22, $rubyProperties->getFontPointsAboveBaseText());
         self::assertEquals(24, $rubyProperties->getFontSizeForBaseText());
-        self::assertEquals("ja-JP", $rubyProperties->getLanguage());
+        self::assertEquals('ja-JP', $rubyProperties->getLanguageId());
         /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
         $textRun = $subElements[0]->getBaseTextRun();
-        self::assertEquals("私", $textRun->getText());
+        self::assertEquals('私', $textRun->getText());
         $textRun = $subElements[0]->getRubyTextRun();
-        self::assertEquals("わたし", $textRun->getText());
+        self::assertEquals('わたし', $textRun->getText());
     }
 }

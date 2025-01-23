@@ -624,7 +624,7 @@ abstract class AbstractPart
         $properties->setFontFaceSize($rubyHps);
         $properties->setFontPointsAboveBaseText($rubyHpsRaise);
         $properties->setFontSizeForBaseText($rubyHpsBaseText);
-        $properties->setLanguage($rubyLid);
+        $properties->setLanguageId($rubyLid);
         return $properties;
     }
 
