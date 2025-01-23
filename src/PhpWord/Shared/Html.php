@@ -861,7 +861,7 @@ class Html
                                 strpos($tmpValue, 'pc') !== false)
                         {
                             $size = Converter::cssToTwip($tmpValue);
-                        }else{
+                        } else {
                             $style = self::mapBorderStyle($valueArr[2]);
                         }
                     }
