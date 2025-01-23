@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
 use PhpOffice\PhpWord\ComplexType\RubyProperties;
+use PhpOffice\PhpWord\Element\Ruby;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Style\Font;
@@ -654,19 +655,25 @@ class ElementTest extends AbstractTestReader
         $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
         $elements = $phpWord->getSection(0)->getElements();
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[0]);
-        $subElements = $elements[0]->getText()->getElements(); // <w:ruby>
+        /** @var \PhpOffice\PhpWord\Element\Title $title */
+        $title = $elements[0];
+        /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
+        $textRun = $title->getText();
+        $subElements = $textRun->getElements(); // <w:ruby>
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Ruby', $subElements[0]);
+        /** @var Ruby $ruby */
+        $ruby = $subElements[0];
         /** @var RubyProperties $rubyProperties */
-        $rubyProperties = $subElements[0]->getProperties();
+        $rubyProperties = $ruby->getProperties();
         self::assertEquals(RubyProperties::ALIGNMENT_DISTRIBUTE_SPACE, $rubyProperties->getAlignment());
         self::assertEquals(20, $rubyProperties->getFontFaceSize());
         self::assertEquals(38, $rubyProperties->getFontPointsAboveBaseText());
         self::assertEquals(40, $rubyProperties->getFontSizeForBaseText());
         self::assertEquals('ja-JP', $rubyProperties->getLanguageId());
         /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
-        $textRun = $subElements[0]->getBaseTextRun();
+        $textRun = $ruby->getBaseTextRun();
         self::assertEquals('神', $textRun->getText());
-        $textRun = $subElements[0]->getRubyTextRun();
+        $textRun = $ruby->getRubyTextRun();
         self::assertEquals('かみ', $textRun->getText());
     }
 }
