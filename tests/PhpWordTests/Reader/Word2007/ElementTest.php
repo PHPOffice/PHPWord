@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
+use PhpOffice\PhpWord\ComplexType\RubyProperties;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Style\Font;
@@ -543,5 +544,64 @@ class ElementTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[0]);
         self::assertEquals('checkbox', $subElements[0]->getType());
         self::assertEquals('SomeCheckbox', $subElements[0]->getName());
+    }
+
+    /**
+     * Test reading of ruby.
+     */
+    public function testReadRuby(): void
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:ruby>
+                    <w:rubyPr>
+                        <w:rubyAlign w:val="distributeSpace" />
+                        <w:hps w:val="12" />
+                        <w:hpsRaise w:val="22" />
+                        <w:hpsBaseText w:val="24" />
+                        <w:lid w:val="ja-JP" />
+                    </w:rubyPr>
+                    <w:rt>
+                        <w:r w:rsidR="00984B5D"
+                             w:rsidRPr="00984B5D">
+                            <w:rPr>
+                                <w:rFonts w:ascii="Yu Gothic"
+                                          w:eastAsia="Yu Gothic"
+                                          w:hAnsi="Yu Gothic"
+                                          w:hint="eastAsia" />
+                                <w:sz w:val="12" />
+                            </w:rPr>
+                            <w:t>わたし</w:t>
+                        </w:r>
+                    </w:rt>
+                    <w:rubyBase>
+                        <w:r w:rsidR="00984B5D">
+                            <w:rPr>
+                                <w:rFonts w:hint="eastAsia" />
+                            </w:rPr>
+                            <w:t>私</w:t>
+                        </w:r>
+                    </w:rubyBase>
+                </w:ruby>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        $subElements = $elements[0]->getElements(); // <w:ruby>
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Ruby', $subElements[0]);
+        /** @var RubyProperties $rubyProperties */
+        $rubyProperties = $subElements[0]->getProperties(); 
+        self::assertEquals(RubyProperties::ALIGNMENT_DISTRIBUTE_SPACE, $rubyProperties->getAlignment());
+        self::assertEquals(12, $rubyProperties->getFontFaceSize());
+        self::assertEquals(22, $rubyProperties->getFontPointsAboveBaseText());
+        self::assertEquals(24, $rubyProperties->getFontSizeForBaseText());
+        self::assertEquals("ja-JP", $rubyProperties->getLanguage());
+        /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
+        $textRun = $subElements[0]->getBaseTextRun();
+        self::assertEquals("私", $textRun->getText());
+        $textRun = $subElements[0]->getRubyTextRun();
+        self::assertEquals("わたし", $textRun->getText());
     }
 }
