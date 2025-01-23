@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\ComplexType\RubyProperties;
 
 /**
  * Ruby element.
- * 
+ *
  * @see https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.ruby?view=openxml-3.0.1
  */
 class Ruby extends AbstractElement

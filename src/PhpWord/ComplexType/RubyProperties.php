@@ -94,7 +94,7 @@ final class RubyProperties
             self::ALIGNMENT_DISTRIBUTE_SPACE,
             self::ALIGNMENT_LEFT,
             self::ALIGNMENT_RIGHT,
-            self::ALIGNMENT_RIGHT_VERTICAL
+            self::ALIGNMENT_RIGHT_VERTICAL,
         ];
 
         if (in_array($alignment, $alignmentTypes)) {

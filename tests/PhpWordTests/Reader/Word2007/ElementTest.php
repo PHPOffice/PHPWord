@@ -592,7 +592,7 @@ class ElementTest extends AbstractTestReader
         $subElements = $elements[0]->getElements(); // <w:ruby>
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Ruby', $subElements[0]);
         /** @var RubyProperties $rubyProperties */
-        $rubyProperties = $subElements[0]->getProperties(); 
+        $rubyProperties = $subElements[0]->getProperties();
         self::assertEquals(RubyProperties::ALIGNMENT_DISTRIBUTE_SPACE, $rubyProperties->getAlignment());
         self::assertEquals(12, $rubyProperties->getFontFaceSize());
         self::assertEquals(22, $rubyProperties->getFontPointsAboveBaseText());

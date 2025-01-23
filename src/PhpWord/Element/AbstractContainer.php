@@ -92,7 +92,7 @@ abstract class AbstractContainer extends AbstractElement
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
             'Chart', 'FormField', 'SDT', 'Comment',
-            'Formula', 'Ruby'
+            'Formula', 'Ruby',
         ];
         $functions = [];
         foreach ($elements as $element) {

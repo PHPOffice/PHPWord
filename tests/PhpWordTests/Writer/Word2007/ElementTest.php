@@ -562,29 +562,35 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         // check props
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr'));
         self::assertEquals(
-            RubyProperties::ALIGNMENT_RIGHT_VERTICAL, 
+            RubyProperties::ALIGNMENT_RIGHT_VERTICAL,
             $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:rubyAlign')->getAttribute('w:val')
         );
-        self::assertEquals(10, 
+        self::assertEquals(
+            10,
             $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hps')->getAttribute('w:val')
         );
-        self::assertEquals(4, 
+        self::assertEquals(
+            4,
             $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hpsRaise')->getAttribute('w:val')
         );
-        self::assertEquals(18, 
+        self::assertEquals(
+            18,
             $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hpsBaseText')->getAttribute('w:val')
         );
-        self::assertEquals('ja-JP', 
+        self::assertEquals(
+            'ja-JP',
             $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:lid')->getAttribute('w:val')
         );
         // check ruby text
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rt/w:r/w:t'));
-        self::assertEquals('わたし', 
+        self::assertEquals(
+            'わたし',
             $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rt/w:r/w:t')->nodeValue
         );
         // check base text
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rubyBase/w:r/w:t'));
-        self::assertEquals('私', 
+        self::assertEquals(
+            '私',
             $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyBase/w:r/w:t')->nodeValue
         );
     }

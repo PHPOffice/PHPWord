@@ -18,8 +18,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Element\TrackChange;
-
 /**
  * Ruby element writer.
  */

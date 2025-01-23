@@ -588,7 +588,7 @@ abstract class AbstractPart
             }
         } elseif ($node->nodeName == 'w:softHyphen') {
             $element = $parent->addText("\u{200c}", $fontStyle, $paragraphStyle);
-        } else if ($node->nodeName == 'w:ruby') {
+        } elseif ($node->nodeName == 'w:ruby') {
             $rubyPropertiesNode = $xmlReader->getElement('w:rubyPr', $node);
             $properties = $this->readRubyProperties($xmlReader, $rubyPropertiesNode);
             // read base text node
@@ -625,6 +625,7 @@ abstract class AbstractPart
         $properties->setFontPointsAboveBaseText($rubyHpsRaise);
         $properties->setFontSizeForBaseText($rubyHpsBaseText);
         $properties->setLanguageId($rubyLid);
+
         return $properties;
     }
 
