@@ -852,12 +852,7 @@ class Html
                     foreach ($valueArr as $tmpValue) {
                         if (strpos($tmpValue, '#') === 0 || isset($namedColors[$tmpValue])) {
                             $color = trim($tmpValue, '#');
-                        } elseif (strpos($tmpValue, 'px') !== false ||
-                                strpos($tmpValue, 'pt') !== false ||
-                                strpos($tmpValue, 'cm') !== false ||
-                                strpos($tmpValue, 'mm') !== false ||
-                                strpos($tmpValue, 'in') !== false ||
-                                strpos($tmpValue, 'pc') !== false) {
+                        } elseif (preg_match('/[\-\d]+(px|pt|cm|mm|in|pc)/', $tmpValue) === 1) {
                             $size = Converter::cssToTwip($tmpValue);
                         } else {
                             $style = self::mapBorderStyle($valueArr[2]);
