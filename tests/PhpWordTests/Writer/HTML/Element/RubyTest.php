@@ -18,7 +18,6 @@
 
 namespace PhpOffice\PhpWordTests\Writer\HTML\Element;
 
-use Countable;
 use DOMXPath;
 use PhpOffice\PhpWord\ComplexType\RubyProperties;
 use PhpOffice\PhpWord\Element\TextRun;
