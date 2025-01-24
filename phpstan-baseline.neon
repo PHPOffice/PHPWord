@@ -1689,6 +1689,11 @@ parameters:
 			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
 			count: 9
 			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
+			
+		-
+			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
+			count: 2
+			path: tests/PhpWordTests/Writer/HTML/Element/RubyTest.php
 
 		-
 			message: "#^Cannot call method item\\(\\) on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
