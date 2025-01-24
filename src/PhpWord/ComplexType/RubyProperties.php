@@ -70,6 +70,20 @@ class RubyProperties
     private $languageId;
 
     /**
+     * Create a new RubyProperties object.
+     */
+    public function __construct()
+    {
+        // these defaults came from opening a new Word doc, adding some ruby text to some 
+        // Japanese text, and copying out the defaults.
+        $this->alignment = self::ALIGNMENT_DISTRIBUTE_SPACE;
+        $this->fontFaceSize = 12;
+        $this->fontPointsAboveText = 22;
+        $this->languageId = 'ja-JP';
+        $this->baseTextFontSize = 24;
+    }
+
+    /**
      * Get the ruby alignment.
      */
     public function getAlignment(): string
