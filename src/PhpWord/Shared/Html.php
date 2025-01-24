@@ -804,6 +804,58 @@ class Html
                     $styles['spaceAfter'] = Converter::cssToTwip($value);
 
                     break;
+
+                case 'padding':
+                    $valueTop = $valueRight = $valueBottom = $valueLeft = null;
+                    $cValue = preg_replace('# +#', ' ', trim($value));
+                    $paddingArr = explode(' ', $cValue);
+                    $countParams = count($paddingArr);
+                    if ($countParams == 1) {
+                        $valueTop = $valueRight = $valueBottom = $valueLeft = $paddingArr[0];
+                    } elseif ($countParams == 2) {
+                        $valueTop = $valueBottom = $paddingArr[0];
+                        $valueRight = $valueLeft = $paddingArr[1];
+                    } elseif ($countParams == 3) {
+                        $valueTop = $paddingArr[0];
+                        $valueRight = $valueLeft = $paddingArr[1];
+                        $valueBottom = $paddingArr[2];
+                    } elseif ($countParams == 4) {
+                        $valueTop = $paddingArr[0];
+                        $valueRight = $paddingArr[1];
+                        $valueBottom = $paddingArr[2];
+                        $valueLeft = $paddingArr[3];
+                    }
+                    if ($valueTop !== null) {
+                        $styles['paddingTop'] = Converter::cssToTwip($valueTop);
+                    }
+                    if ($valueRight !== null) {
+                        $styles['paddingRight'] = Converter::cssToTwip($valueRight);
+                    }
+                    if ($valueBottom !== null) {
+                        $styles['paddingBottom'] = Converter::cssToTwip($valueBottom);
+                    }
+                    if ($valueLeft !== null) {
+                        $styles['paddingLeft'] = Converter::cssToTwip($valueLeft);
+                    }
+
+                    break;
+                case 'padding-top':
+                    $styles['paddingTop'] = Converter::cssToTwip($value);
+
+                    break;
+                case 'padding-right':
+                    $styles['paddingRight'] = Converter::cssToTwip($value);
+
+                    break;
+                case 'padding-bottom':
+                    $styles['paddingBottom'] = Converter::cssToTwip($value);
+
+                    break;
+                case 'padding-left':
+                    $styles['paddingLeft'] = Converter::cssToTwip($value);
+
+                    break;
+
                 case 'border-color':
                     self::mapBorderColor($styles, $value);
 

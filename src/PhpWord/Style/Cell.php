@@ -75,6 +75,26 @@ class Cell extends Border
     private $vAlign;
 
     /**
+     * @var null|int
+     */
+    private $paddingTop;
+
+    /**
+     * @var null|int
+     */
+    private $paddingBottom;
+
+    /**
+     * @var null|int
+     */
+    private $paddingLeft;
+
+    /**
+     * @var null|int
+     */
+    private $paddingRight;
+
+    /**
      * Text Direction.
      *
      * @var string
@@ -356,5 +376,85 @@ class Cell extends Border
     public function getNoWrap(): bool
     {
         return $this->noWrap;
+    }
+
+    /**
+     * Get style padding-top.
+     */
+    public function getPaddingTop(): ?int
+    {
+        return $this->paddingTop;
+    }
+
+    /**
+     * Set style padding-top.
+     *
+     * @return $this
+     */
+    public function setPaddingTop(int $value): self
+    {
+        $this->paddingTop = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get style padding-bottom.
+     */
+    public function getPaddingBottom(): ?int
+    {
+        return $this->paddingBottom;
+    }
+
+    /**
+     * Set style padding-bottom.
+     *
+     * @return $this
+     */
+    public function setPaddingBottom(int $value): self
+    {
+        $this->paddingBottom = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get style padding-left.
+     */
+    public function getPaddingLeft(): ?int
+    {
+        return $this->paddingLeft;
+    }
+
+    /**
+     * Set style padding-left.
+     *
+     * @return $this
+     */
+    public function setPaddingLeft(int $value): self
+    {
+        $this->paddingLeft = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get style padding-right.
+     */
+    public function getPaddingRight(): ?int
+    {
+        return $this->paddingRight;
+    }
+
+    /**
+     * Set style padding-right.
+     *
+     * @return $this
+     */
+    public function setPaddingRight(int $value): self
+    {
+        $this->paddingRight = $value;
+
+        return $this;
     }
 }
