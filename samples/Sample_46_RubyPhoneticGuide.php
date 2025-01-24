@@ -31,6 +31,12 @@ $textRun->addRuby($baseTextRun, $rubyTextRun, $properties);
 $textRun->addText(' word.');
 
 $textRun = $section->addTextRun();
+$properties = new RubyProperties();
+$properties->setAlignment(RubyProperties::ALIGNMENT_CENTER);
+$properties->setFontFaceSize(10);
+$properties->setFontPointsAboveBaseText(20);
+$properties->setFontSizeForBaseText(18);
+$properties->setLanguageId('ja-JP');
 $textRun->addText('Here is a demonstration of ruby text for Japanese text: ');
 $baseTextRun = new TextRun(null);
 $baseTextRun->addText('私');
@@ -44,10 +50,10 @@ $phpWord->addTitleStyle(1, ['name' => 'Arial', 'size' => 24, 'bold' => true, 'co
 
 $properties = new RubyProperties();
 $properties->setAlignment(RubyProperties::ALIGNMENT_CENTER);
-$properties->setFontFaceSize(18);
+$properties->setFontFaceSize(10);
 $properties->setFontPointsAboveBaseText(50);
 $properties->setFontSizeForBaseText(18);
-$properties->setLanguageId('en-US');
+$properties->setLanguageId('ja-JP');
 
 $baseTextRun = new TextRun(null);
 $baseTextRun->addText('私');
