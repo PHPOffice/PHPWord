@@ -74,7 +74,7 @@ class RubyProperties
      */
     public function __construct()
     {
-        // these defaults came from opening a new Word doc, adding some ruby text to some 
+        // these defaults came from opening a new Word doc, adding some ruby text to some
         // Japanese text, and copying out the defaults.
         $this->alignment = self::ALIGNMENT_DISTRIBUTE_SPACE;
         $this->fontFaceSize = 12;

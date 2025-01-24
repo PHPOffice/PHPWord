@@ -12,7 +12,7 @@ $phpWord = new PhpOffice\PhpWord\PhpWord();
 // Section for demonstrating ruby (phonetic guide) features
 $section = $phpWord->addSection();
 
-$section->addText("Here is some normal text with no ruby (phonetic guide) text.");
+$section->addText('Here is some normal text with no ruby (phonetic guide) text.');
 
 $properties = new RubyProperties();
 $properties->setAlignment(RubyProperties::ALIGNMENT_CENTER);
@@ -22,16 +22,16 @@ $properties->setFontSizeForBaseText(18);
 $properties->setLanguageId('en-US');
 
 $textRun = $section->addTextRun();
-$textRun->addText("Here is a demonstration of ruby text for ");
+$textRun->addText('Here is a demonstration of ruby text for ');
 $baseTextRun = new TextRun(null);
 $baseTextRun->addText('this');
 $rubyTextRun = new TextRun(null);
 $rubyTextRun->addText('ruby-text');
 $textRun->addRuby($baseTextRun, $rubyTextRun, $properties);
-$textRun->addText(" word.");
+$textRun->addText(' word.');
 
 $textRun = $section->addTextRun();
-$textRun->addText("Here is a demonstration of ruby text for Japanese text: ");
+$textRun->addText('Here is a demonstration of ruby text for Japanese text: ');
 $baseTextRun = new TextRun(null);
 $baseTextRun->addText('私');
 $rubyTextRun = new TextRun(null);
