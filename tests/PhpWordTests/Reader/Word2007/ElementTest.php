@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -195,13 +196,13 @@ class ElementTest extends AbstractTestReader
 
         self::assertEquals('two', $textRun->getElement(1)->getText());
         self::assertNotNull($textRun->getElement(1)->getTrackChange());
-        /** @var \PhpOffice\PhpWord\Element\TrackChange $trackChange */
+        /** @var TrackChange $trackChange */
         $trackChange = $textRun->getElement(1)->getTrackChange();
         self::assertEquals(TrackChange::DELETED, $trackChange->getChangeType());
 
         self::assertEquals('three', $textRun->getElement(2)->getText());
         self::assertNotNull($textRun->getElement(2)->getTrackChange());
-        /** @var \PhpOffice\PhpWord\Element\TrackChange $trackChange */
+        /** @var TrackChange $trackChange */
         $trackChange = $textRun->getElement(2)->getTrackChange();
         self::assertEquals(TrackChange::INSERTED, $trackChange->getChangeType());
     }

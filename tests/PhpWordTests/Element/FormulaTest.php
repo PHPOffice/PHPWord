@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -20,14 +21,14 @@ namespace PhpOffice\PhpWordTests\Element;
 use PhpOffice\Math\Element;
 use PhpOffice\Math\Math;
 use PhpOffice\PhpWord\Element\Formula;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Formula.
  *
  * @runTestsInSeparateProcesses
  */
-class FormulaTest extends AbstractWebServerEmbeddedTest
+class FormulaTest extends AbstractWebServerEmbedded
 {
     /**
      * @covers \PhpOffice\PhpWord\Element\Formula::__construct

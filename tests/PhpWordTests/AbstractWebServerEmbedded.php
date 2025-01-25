@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,7 +20,7 @@ namespace PhpOffice\PhpWordTests;
 
 use Symfony\Component\Process\Process;
 
-abstract class AbstractWebServerEmbeddedTest extends \PHPUnit\Framework\TestCase
+abstract class AbstractWebServerEmbedded extends \PHPUnit\Framework\TestCase
 {
     private static $httpServer;
 

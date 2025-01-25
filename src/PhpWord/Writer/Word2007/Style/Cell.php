@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -52,6 +53,40 @@ class Cell extends AbstractStyle
             $xmlWriter->writeAttribute('w:w', $width);
             $xmlWriter->writeAttribute('w:type', $style->getUnit());
             $xmlWriter->endElement(); // w:tcW
+        }
+
+        $paddingTop = $style->getPaddingTop();
+        $paddingLeft = $style->getPaddingLeft();
+        $paddingBottom = $style->getPaddingBottom();
+        $paddingRight = $style->getPaddingRight();
+
+        if ($paddingTop !== null || $paddingLeft !== null || $paddingBottom !== null || $paddingRight !== null) {
+            $xmlWriter->startElement('w:tcMar');
+            if ($paddingTop !== null) {
+                $xmlWriter->startElement('w:top');
+                $xmlWriter->writeAttribute('w:w', $paddingTop);
+                $xmlWriter->writeAttribute('w:type', \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP);
+                $xmlWriter->endElement(); // w:top
+            }
+            if ($paddingLeft !== null) {
+                $xmlWriter->startElement('w:start');
+                $xmlWriter->writeAttribute('w:w', $paddingLeft);
+                $xmlWriter->writeAttribute('w:type', \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP);
+                $xmlWriter->endElement(); // w:start
+            }
+            if ($paddingBottom !== null) {
+                $xmlWriter->startElement('w:bottom');
+                $xmlWriter->writeAttribute('w:w', $paddingBottom);
+                $xmlWriter->writeAttribute('w:type', \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP);
+                $xmlWriter->endElement(); // w:bottom
+            }
+            if ($paddingRight !== null) {
+                $xmlWriter->startElement('w:end');
+                $xmlWriter->writeAttribute('w:w', $paddingRight);
+                $xmlWriter->writeAttribute('w:type', \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP);
+                $xmlWriter->endElement(); // w:end
+            }
+            $xmlWriter->endElement(); // w:tcMar
         }
 
         // Text direction

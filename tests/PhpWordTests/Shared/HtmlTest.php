@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,11 +22,13 @@ use Exception;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -33,7 +36,7 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Shared\Html
  */
-class HtmlTest extends AbstractWebServerEmbeddedTest
+class HtmlTest extends AbstractWebServerEmbedded
 {
     /**
      * Tear down after each test.
@@ -155,6 +158,21 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
+     * Test text-decoration style.
+     */
+    public function testParseTextDecoration(): void
+    {
+        $html = '<span style="text-decoration: underline;">test</span>';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
+        self::assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
+    }
+
+    /**
      * Test underline.
      */
     public function testParseUnderline(): void
@@ -170,18 +188,22 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
     }
 
     /**
-     * Test text-decoration style.
+     * Test width.
+     *
+     * @dataProvider providerParseWidth
      */
-    public function testParseTextDecoration(): void
+    public function testParseWidth(string $htmlSize, float $docxSize, string $docxUnit): void
     {
-        $html = '<span style="text-decoration: underline;">test</span>';
+        $html = '<table width="' . $htmlSize . '"><tr><td>A</td></tr></table>';
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        Html::addHtml($section, $html);
 
+        Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
-        self::assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
+        $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblW';
+        self::assertTrue($doc->elementExists($xpath));
+        self::assertEquals($docxSize, $doc->getElement($xpath)->getAttribute('w:w'));
+        self::assertEquals($docxUnit, $doc->getElement($xpath)->getAttribute('w:type'));
     }
 
     /**
@@ -247,6 +269,66 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[5]/w:pPr/w:spacing'));
         self::assertEquals(Paragraph::LINE_HEIGHT, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:line'));
         self::assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:lineRule'));
+    }
+
+    public function testParseCellPaddingStyle(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $top = 10;
+        $right = 11;
+        $bottom = 12;
+        $left = 13;
+
+        $testValTop = Converter::pixelToTwip($top);
+        $testValRight = Converter::pixelToTwip($right);
+        $testValBottom = Converter::pixelToTwip($bottom);
+        $testValLeft = Converter::pixelToTwip($left);
+
+        $html = '<table>
+            <tbody>
+                <tr>
+                    <td style="padding:' . $top . 'px ' . $right . 'px ' . $bottom . 'px ' . $left . 'px;">full</td>
+                    <td style="padding:' . $top . 'px 0px ' . $bottom . 'px ' . $left . 'px;padding-right:' . $right . 'px;">mix</td>
+                    <td style="padding-top:' . $top . 'px;">top</td>
+                    <td style="padding-bottom:' . $bottom . 'px;">bottom</td>
+                    <td style="padding-left:' . $left . 'px;">left</td>
+                </tr>
+            </tbody>
+        </table>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcMar/w:top';
+        self::assertTrue($doc->elementExists($path));
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcMar/w:bottom';
+        self::assertTrue($doc->elementExists($path));
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcMar/w:end';
+        self::assertTrue($doc->elementExists($path));
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcMar/w:start';
+        self::assertTrue($doc->elementExists($path));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[2]/w:tcPr/w:tcMar/w:end';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals($testValRight, $doc->getElementAttribute($path, 'w:w'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[3]/w:tcPr/w:tcMar/w:top';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals($testValTop, $doc->getElementAttribute($path, 'w:w'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[4]/w:tcPr/w:tcMar/w:bottom';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals($testValBottom, $doc->getElementAttribute($path, 'w:w'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[5]/w:tcPr/w:tcMar/w:start';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals($testValLeft, $doc->getElementAttribute($path, 'w:w'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
     }
 
     /**
@@ -460,31 +542,31 @@ HTML;
         $xpath = '/w:document/w:body/w:tbl/w:tblGrid/w:gridCol';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(25 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
 
         // <td style="width: 25%; ...
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(25 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('pct', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::PERCENT, $doc->getElement($xpath)->getAttribute('w:type'));
 
         // <table width="400" .. 400px = 6000 twips (400 / 96 * 1440)
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr/w:tc/w:tcPr/w:tcW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(6000, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
 
         // <th style="width: 50pt; .. 50pt = 750 twips (50 / 72 * 1440)
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr[2]/w:tc[2]/w:tcPr/w:tcW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(1000, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
 
         // <th width="300" .. 300px = 4500 twips (300 / 96 * 1440)
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tbl/w:tr[3]/w:tc/w:tcPr/w:tcW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(4500, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
     }
 
     /**
@@ -598,7 +680,7 @@ HTML;
         $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellSpacing';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(3 * 15, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('dxa', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
 
         $xpath = '/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:tcPr/w:shd';
         self::assertTrue($doc->elementExists($xpath));
@@ -631,7 +713,7 @@ HTML;
         $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblW';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(100 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals('pct', $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertEquals(TblWidth::PERCENT, $doc->getElement($xpath)->getAttribute('w:type'));
 
         $xpath = '/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:tcPr/w:shd';
         self::assertTrue($doc->elementExists($xpath));
@@ -986,7 +1068,7 @@ HTML;
 
     public function testParseLinkAllowsAbsenceOfHref(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $html = '<p><a>text of href-less link</a></p>';
         Html::addHtml($section, $html);
@@ -995,7 +1077,7 @@ HTML;
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
         self::assertEquals('text of href-less link', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $html = '<p><a href="">text of empty-href link</a></p>';
         Html::addHtml($section, $html);
@@ -1223,5 +1305,16 @@ HTML;
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         self::assertIsObject($doc);
+    }
+
+    public static function providerParseWidth(): array
+    {
+        return [
+            ['auto', 5000, TblWidth::PERCENT],
+            ['100%', 5000, TblWidth::PERCENT],
+            ['200pt', 3999.999999999999, TblWidth::TWIP],
+            ['300px', 4500, TblWidth::TWIP],
+            ['400', 6000, TblWidth::TWIP],
+        ];
     }
 }

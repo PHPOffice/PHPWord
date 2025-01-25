@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -40,7 +41,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
-        $element = new \PhpOffice\PhpWord\Element\Table();
+        $element = new Table();
         $width = 100;
         $width2 = 2 * $width;
         $element->addRow();

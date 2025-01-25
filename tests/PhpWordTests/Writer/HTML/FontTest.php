@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -90,21 +91,27 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
         $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('* {font-family: \'Courier New\'; font-size: 12pt;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style1 {font-family: \'Tahoma\'; font-size: 10pt; color: #1B2232; font-weight: bold;}', $matches[0]);
         $prg = preg_match('/^[.]style2[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style2 {font-family: \'Arial\'; font-size: 10pt;}', $matches[0]);
         $prg = preg_match('/^[.]style3[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style3 {font-family: \'hack attempt&#039;}; display:none\'; font-size: 10pt;}', $matches[0]);
         $prg = preg_match('/^[.]style4[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style4 {font-family: \'padmaa 1.1\'; font-size: 10pt; font-weight: bold;}', $matches[0]);
         $prg = preg_match('/^[.]style5[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style5 {font-family: \'MingLiU-ExtB\'; font-size: 10pt; font-weight: bold;}', $matches[0]);
     }
@@ -140,18 +147,23 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
         $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('* {font-family: \'Courier New\'; font-size: 12pt;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style1 {font-family: \'Tahoma\'; font-size: 10pt; color: #1B2232; font-weight: bold;}', $matches[0]);
         $prg = preg_match('/^[.]style2[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style2 {font-family: \'Arial\', sans-serif; font-size: 10pt;}', $matches[0]);
         $prg = preg_match('/^[.]style3[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style3 {font-family: \'DejaVu Sans Monospace\', monospace; font-size: 10pt;}', $matches[0]);
         $prg = preg_match('/^[.]style4[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style4 {font-family: \'Arial\'; font-size: 10pt;}', $matches[0]);
     }
@@ -187,18 +199,23 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
         $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('* {font-family: \'Courier New\', monospace; font-size: 12pt;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style1 {font-family: \'Tahoma\'; font-size: 10pt; color: #1B2232; font-weight: bold;}', $matches[0]);
         $prg = preg_match('/^[.]style2[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style2 {font-family: \'Arial\', sans-serif; font-size: 10pt;}', $matches[0]);
         $prg = preg_match('/^[.]style3[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style3 {font-family: \'DejaVu Sans Monospace\', monospace; font-size: 10pt;}', $matches[0]);
         $prg = preg_match('/^[.]style4[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style4 {font-family: \'Arial\'; font-size: 10pt;}', $matches[0]);
     }
@@ -229,15 +246,19 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertNotFalse(preg_match('/^[*][^\\r\\n]*/m', $style, $matches));
         self::assertEquals('* {font-family: \'Arial\'; font-size: 12pt; white-space: pre-wrap;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style1 {font-family: \'Courier New\'; font-size: 10pt; white-space: pre-wrap;}', $matches[0]);
         $prg = preg_match('/^[.]style2[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style2 {font-family: \'Courier New\'; font-size: 10pt;}', $matches[0]);
         $prg = preg_match('/^[.]style3[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style3 {font-family: \'Courier New\'; font-size: 10pt; white-space: normal;}', $matches[0]);
         $prg = preg_match('/^[.]style4[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
         self::assertEquals('.style4 {font-family: \'Courier New\'; font-size: 10pt;}', $matches[0]);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -293,8 +294,10 @@ class ZipArchive
 
         // Write $contents to a temp file
         $handle = fopen($this->tempDir . DIRECTORY_SEPARATOR . $filenameParts['basename'], 'wb');
-        fwrite($handle, $contents);
-        fclose($handle);
+        if ($handle) {
+            fwrite($handle, $contents);
+            fclose($handle);
+        }
 
         // Add temp file to zip
         $filename = $this->tempDir . DIRECTORY_SEPARATOR . $filenameParts['basename'];

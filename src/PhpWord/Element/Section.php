@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -31,7 +32,7 @@ class Section extends AbstractContainer
     /**
      * Section style.
      *
-     * @var ?\PhpOffice\PhpWord\Style\Section
+     * @var ?SectionStyle
      */
     private $style;
 
@@ -87,7 +88,7 @@ class Section extends AbstractContainer
     /**
      * Get section style.
      *
-     * @return ?\PhpOffice\PhpWord\Style\Section
+     * @return ?SectionStyle
      */
     public function getStyle()
     {
@@ -196,14 +197,14 @@ class Section extends AbstractContainer
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
-        $containerClass = substr(static::class, 0, strrpos(static::class, '\\')) . '\\' .
+        $containerClass = substr(static::class, 0, strrpos(static::class, '\\') ?: 0) . '\\' .
             ($header ? 'Header' : 'Footer');
         $collectionArray = $header ? 'headers' : 'footers';
         $collection = &$this->$collectionArray;
 
         if (in_array($type, [Header::AUTO, Header::FIRST, Header::EVEN])) {
             $index = count($collection);
-            /** @var \PhpOffice\PhpWord\Element\AbstractContainer $container Type hint */
+            /** @var AbstractContainer $container Type hint */
             $container = new $containerClass($this->sectionId, ++$index, $type);
             $container->setPhpWord($this->phpWord);
 
