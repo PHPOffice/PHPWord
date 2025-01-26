@@ -564,23 +564,23 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr'));
         self::assertEquals(
             RubyProperties::ALIGNMENT_RIGHT_VERTICAL,
-            $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:rubyAlign')->getAttribute('w:val')
+            $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:rubyAlign', 'w:val')
         );
         self::assertEquals(
             10,
-            $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hps')->getAttribute('w:val')
+            $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hps', 'w:val')
         );
         self::assertEquals(
             4,
-            $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hpsRaise')->getAttribute('w:val')
+            $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hpsRaise', 'w:val')
         );
         self::assertEquals(
             18,
-            $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hpsBaseText')->getAttribute('w:val')
+            $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hpsBaseText', 'w:val')
         );
         self::assertEquals(
             'ja-JP',
-            $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:lid')->getAttribute('w:val')
+            $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:lid', 'w:val')
         );
         // check ruby text
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rt/w:r/w:t'));
