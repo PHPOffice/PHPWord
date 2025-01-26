@@ -183,5 +183,4 @@ class StylesTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals($defaultFontColor, $element->getAttribute('w:val'));
     }
-
 }
