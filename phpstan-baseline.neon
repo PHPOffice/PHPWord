@@ -431,6 +431,11 @@ parameters:
 			path: src/PhpWord/Shared/Html.php
 
 		-
+			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\Html\\:\\:parseRuby\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/PhpWord/Shared/Html.php
+
+		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\Html\\:\\:parseStyleDeclarations\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/Html.php
@@ -442,7 +447,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$attribute of static method PhpOffice\\\\PhpWord\\\\Shared\\\\Html\\:\\:parseStyle\\(\\) expects DOMAttr, DOMNode given\\.$#"
-			count: 1
+			count: 3
 			path: src/PhpWord/Shared/Html.php
 
 		-
