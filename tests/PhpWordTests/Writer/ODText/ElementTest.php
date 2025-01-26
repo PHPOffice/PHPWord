@@ -203,7 +203,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addTitle('Text Title', 1);
         $section->addText('Text following Text Title');
-        $textRun = new \PhpOffice\PhpWord\Element\TextRun();
+        $textRun = new TextRun();
         $textRun->addText('Text Run');
         $textRun->addText(' Title');
         $section->addTitle($textRun, 1);
