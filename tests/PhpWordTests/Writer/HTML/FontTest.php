@@ -34,6 +34,9 @@ class FontTest extends \PHPUnit\Framework\TestCase
     /** @var float|int */
     private $defaultFontSize;
 
+    /** @var string */
+    private $defaultFontColor;
+
     /**
      * Executed before each method of the class.
      */
@@ -41,6 +44,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
     {
         $this->defaultFontName = Settings::getDefaultFontName();
         $this->defaultFontSize = Settings::getDefaultFontSize();
+        $this->defaultFontColor = Settings::getDefaultFontColor();
     }
 
     /**
@@ -50,6 +54,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
     {
         Settings::setDefaultFontName($this->defaultFontName);
         Settings::setDefaultFontSize($this->defaultFontSize);
+        Settings::setDefaultFontColor($this->defaultFontColor);
     }
 
     /**
