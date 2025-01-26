@@ -1325,13 +1325,13 @@ HTML;
     public function testParseRubyHtml(): void
     {
         $html = <<<HTML
-        <ruby lang="en-US" style="line-height: 8pt;font-size:20pt;ruby-align:center;">
-            base text
-            <rp>(</rp>
-            <rt style="line-height: 4pt;font-size:10pt">ruby text</rt>
-            <rp>)</rp>
-        </ruby>
-        HTML;
+<ruby lang="en-US" style="line-height: 8pt;font-size:20pt;ruby-align:center;">
+    base text
+    <rp>(</rp>
+    <rt style="line-height: 4pt;font-size:10pt">ruby text</rt>
+    <rp>)</rp>
+</ruby>
+HTML;
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         Html::addHtml($section, $html);
