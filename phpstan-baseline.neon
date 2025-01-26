@@ -1056,14 +1056,14 @@ parameters:
 			path: src/PhpWord/Writer/ODText/Element/Table.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Text\\:\\:replacetabs\\(\\) has parameter \\$text with no type specified\\.$#"
+			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\AbstractElement\\:\\:replaceTabs\\(\\) has parameter \\$text with no type specified\\.$#"
 			count: 1
-			path: src/PhpWord/Writer/ODText/Element/Text.php
+			path: src/PhpWord/Writer/ODText/Element/AbstractElement.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Text\\:\\:replacetabs\\(\\) has parameter \\$xmlWriter with no type specified\\.$#"
+			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\AbstractElement\\:\\:replaceTabs\\(\\) has parameter \\$xmlWriter with no type specified\\.$#"
 			count: 1
-			path: src/PhpWord/Writer/ODText/Element/Text.php
+			path: src/PhpWord/Writer/ODText/Element/AbstractElement.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Text\\:\\:writeChangeInsertion\\(\\) has parameter \\$start with no type specified\\.$#"
