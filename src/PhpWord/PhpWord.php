@@ -289,6 +289,7 @@ class PhpWord
     public function getDefaultFontColor(): string
     {
         return Settings::getDefaultFontColor();
+    }
 
     /**
      * Get default font size.
