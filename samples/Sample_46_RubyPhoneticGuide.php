@@ -12,7 +12,7 @@ $phpWord = new PhpOffice\PhpWord\PhpWord();
 // Section for demonstrating ruby (phonetic guide) features
 $section = $phpWord->addSection();
 
-$section->addText('Here is some normal text with no ruby (phonetic guide) text.');
+$section->addText('Here is some normal text with no ruby, also known as "phonetic guide", text.');
 
 $properties = new RubyProperties();
 $properties->setAlignment(RubyProperties::ALIGNMENT_CENTER);
