@@ -131,6 +131,7 @@ class Settings
      * @var string
      */
     private static $defaultFontColor = self::DEFAULT_FONT_COLOR;
+
     /**
      * Default font size.
      *
