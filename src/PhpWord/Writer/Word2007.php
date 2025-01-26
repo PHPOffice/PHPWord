@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -43,8 +44,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
     /**
      * Create new Word2007 writer.
-     *
-     * @param \PhpOffice\PhpWord\PhpWord
      */
     public function __construct(?PhpWord $phpWord = null)
     {
@@ -78,7 +77,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         foreach (array_keys($this->parts) as $partName) {
             $partClass = static::class . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
-                /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $part Type hint */
+                /** @var Word2007\Part\AbstractPart $part Type hint */
                 $part = new $partClass();
                 $part->setParentWriter($this);
                 $this->writerParts[strtolower($partName)] = $part;
@@ -179,7 +178,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
                         $this->registerContentTypes($media);
                     }
 
-                    /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $writerPart Type hint */
+                    /** @var Word2007\Part\AbstractPart $writerPart Type hint */
                     $writerPart = $this->getWriterPart('relspart')->setMedia($media);
                     $zip->addFromString("word/_rels/{$file}.xml.rels", $writerPart->write());
                 }
@@ -206,7 +205,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $this->contentTypes['override']["/word/$elmFile"] = $elmType;
             $this->relationships[] = ['target' => $elmFile, 'type' => $elmType, 'rID' => $rId];
 
-            /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $writerPart Type hint */
+            /** @var Word2007\Part\AbstractPart $writerPart Type hint */
             $writerPart = $this->getWriterPart($elmType)->setElement($element);
             $zip->addFromString("word/$elmFile", $writerPart->write());
         }
@@ -236,7 +235,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
             // Write relationships file, e.g. word/_rels/footnotes.xml
             if (!empty($media)) {
-                /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $writerPart Type hint */
+                /** @var Word2007\Part\AbstractPart $writerPart Type hint */
                 $writerPart = $this->getWriterPart('relspart')->setMedia($media);
                 $zip->addFromString("word/_rels/{$partName}.xml.rels", $writerPart->write());
             }

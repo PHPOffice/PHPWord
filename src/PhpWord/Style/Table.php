@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -50,7 +51,7 @@ class Table extends Border
     /**
      * Style for first row.
      *
-     * @var \PhpOffice\PhpWord\Style\Table
+     * @var Table
      */
     private $firstRowStyle;
 
@@ -113,7 +114,7 @@ class Table extends Border
     /**
      * Shading.
      *
-     * @var \PhpOffice\PhpWord\Style\Shading
+     * @var Shading
      */
     private $shading;
 
@@ -145,7 +146,7 @@ class Table extends Border
     /**
      * Position.
      *
-     * @var ?\PhpOffice\PhpWord\Style\TablePosition
+     * @var ?TablePosition
      */
     private $position;
 
@@ -208,7 +209,7 @@ class Table extends Border
     /**
      * Set first row.
      *
-     * @return \PhpOffice\PhpWord\Style\Table
+     * @return Table
      */
     public function getFirstRow()
     {
@@ -538,7 +539,7 @@ class Table extends Border
     /**
      * Get shading.
      *
-     * @return \PhpOffice\PhpWord\Style\Shading
+     * @return Shading
      */
     public function getShading()
     {
@@ -706,7 +707,7 @@ class Table extends Border
     /**
      * Get position.
      *
-     * @return ?\PhpOffice\PhpWord\Style\TablePosition
+     * @return ?TablePosition
      */
     public function getPosition()
     {

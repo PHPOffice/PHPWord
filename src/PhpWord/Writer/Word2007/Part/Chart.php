@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -31,7 +32,7 @@ class Chart extends AbstractPart
     /**
      * Chart element.
      *
-     * @var \PhpOffice\PhpWord\Element\Chart
+     * @var ChartElement
      */
     private $element;
 

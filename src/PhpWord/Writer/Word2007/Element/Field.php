@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -147,7 +148,7 @@ class Field extends Text
         $xmlWriter->endElement(); // w:r
 
         if ($element->getText() != null) {
-            if ($element->getText() instanceof \PhpOffice\PhpWord\Element\TextRun) {
+            if ($element->getText() instanceof TextRun) {
                 $containerWriter = new Container($xmlWriter, $element->getText(), true);
                 $containerWriter->write();
             }
@@ -262,7 +263,7 @@ class Field extends Text
         $xmlWriter->endElement(); // w:r
 
         if ($element->getText() != null) {
-            if ($element->getText() instanceof \PhpOffice\PhpWord\Element\TextRun) {
+            if ($element->getText() instanceof TextRun) {
                 $containerWriter = new Container($xmlWriter, $element->getText(), true);
                 $containerWriter->write();
 

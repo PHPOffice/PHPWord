@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -183,7 +184,7 @@ abstract class AbstractPart
     /**
      * Read w:p.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
+     * @param AbstractContainer $parent
      * @param string $docPart
      *
      * @todo Get font style for preserve text
@@ -450,7 +451,7 @@ abstract class AbstractPart
     /**
      * Read w:r.
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
+     * @param AbstractContainer $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
      *
@@ -661,8 +662,10 @@ abstract class AbstractPart
             'alignment' => [self::READ_VALUE, 'w:jc'],
             'basedOn' => [self::READ_VALUE, 'w:basedOn'],
             'next' => [self::READ_VALUE, 'w:next'],
-            'indent' => [self::READ_VALUE, 'w:ind', 'w:left'],
-            'hanging' => [self::READ_VALUE, 'w:ind', 'w:hanging'],
+            'indentLeft' => [self::READ_VALUE, 'w:ind', 'w:left'],
+            'indentRight' => [self::READ_VALUE, 'w:ind', 'w:right'],
+            'indentHanging' => [self::READ_VALUE, 'w:ind', 'w:hanging'],
+            'indentFirstLine' => [self::READ_VALUE, 'w:ind', 'w:firstLine'],
             'spaceAfter' => [self::READ_VALUE, 'w:spacing', 'w:after'],
             'spaceBefore' => [self::READ_VALUE, 'w:spacing', 'w:before'],
             'widowControl' => [self::READ_FALSE, 'w:widowControl'],

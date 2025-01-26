@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -88,5 +89,26 @@ class CellTest extends \PHPUnit\Framework\TestCase
         $expected = [$value, $value, $value, $value];
         $object->setStyleValue('borderSize', $value);
         self::assertEquals($expected, $object->getBorderSize());
+    }
+
+    /**
+     * Test cell padding.
+     */
+    public function testPadding(): void
+    {
+        $object = new Cell();
+        $methods = [
+            'paddingTop' => 10,
+            'paddingBottom' => 20,
+            'paddingLeft' => 30,
+            'paddingRight' => 40,
+        ];
+
+        foreach ($methods as $methodName => $methodValue) {
+            $object->setStyleValue($methodName, $methodValue);
+            $getterName = 'get' . ucfirst($methodName);
+
+            self::assertEquals($methodValue, $object->$getterName());
+        }
     }
 }

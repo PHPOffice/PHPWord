@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -23,6 +24,7 @@ use PhpOffice\PhpWord\Element\Footnote;
  * Footnotes collection.
  *
  * @since 0.10.0
+ *
  * @extends AbstractCollection<Footnote>
  */
 class Footnotes extends AbstractCollection

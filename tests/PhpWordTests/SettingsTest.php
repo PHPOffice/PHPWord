@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -219,6 +220,20 @@ class SettingsTest extends TestCase
         self::assertEquals('Times New Roman', Settings::getDefaultFontName());
         self::assertFalse(Settings::setDefaultFontName(' '));
         self::assertEquals('Times New Roman', Settings::getDefaultFontName());
+    }
+
+    /**
+     * Test set/get default font name.
+     */
+    public function testSetGetDefaultAsianFontName(): void
+    {
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultAsianFontName());
+        self::assertFalse(Settings::setDefaultAsianFontName(' '));
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultAsianFontName());
+        self::assertTrue(Settings::setDefaultAsianFontName('Times New Roman'));
+        self::assertEquals('Times New Roman', Settings::getDefaultAsianFontName());
+        self::assertFalse(Settings::setDefaultAsianFontName(' '));
+        self::assertEquals('Times New Roman', Settings::getDefaultAsianFontName());
     }
 
     /**
