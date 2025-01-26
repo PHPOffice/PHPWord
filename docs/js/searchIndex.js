@@ -3188,8 +3188,18 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AsetDefaultAsianFontName\u0028\u0029",
             "name": "setDefaultAsianFontName",
-            "summary": "Set\u0020default\u0020font\u0020name.",
+            "summary": "Set\u0020default\u0020asian\u0020font\u0020name.",
             "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_setDefaultAsianFontName"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AsetDefaultFontColor\u0028\u0029",
+            "name": "setDefaultFontColor",
+            "summary": "Set\u0020default\u0020font\u0020color.",
+            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_setDefaultFontColor"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetDefaultFontColor\u0028\u0029",
+            "name": "getDefaultFontColor",
+            "summary": "Get\u0020default\u0020font\u0020color.",
+            "url": "classes/PhpOffice-PhpWord-PhpWord.html#method_getDefaultFontColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\PhpWord\u003A\u003AgetDefaultFontSize\u0028\u0029",
             "name": "getDefaultFontSize",
@@ -4371,6 +4381,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Settings.html#method_setDefaultAsianFontName"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetDefaultFontColor\u0028\u0029",
+            "name": "getDefaultFontColor",
+            "summary": "Get\u0020default\u0020font\u0020color.",
+            "url": "classes/PhpOffice-PhpWord-Settings.html#method_getDefaultFontColor"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AsetDefaultFontColor\u0028\u0029",
+            "name": "setDefaultFontColor",
+            "summary": "Set\u0020default\u0020font\u0020color.",
+            "url": "classes/PhpOffice-PhpWord-Settings.html#method_setDefaultFontColor"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003AgetDefaultFontSize\u0028\u0029",
             "name": "getDefaultFontSize",
             "summary": "Get\u0020default\u0020font\u0020size.",
@@ -4528,8 +4548,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024defaultAsianFontName",
             "name": "defaultAsianFontName",
-            "summary": "Default\u0020font\u0020name.",
+            "summary": "Default\u0020asian\u0020font\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Settings.html#property_defaultAsianFontName"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024defaultFontColor",
+            "name": "defaultFontColor",
+            "summary": "Default\u0020font\u0020color.",
+            "url": "classes/PhpOffice-PhpWord-Settings.html#property_defaultFontColor"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Settings\u003A\u003A\u0024defaultFontSize",
             "name": "defaultFontSize",

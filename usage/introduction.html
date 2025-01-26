@@ -2578,11 +2578,12 @@ You can alter the default paper by using the following function:</p>
 <span class="nx">\PhpOffice\PhpWord\Settings</span><span class="o">::</span><span class="na">setDefaultPaper</span><span class="p">(</span><span class="s1">&#39;Letter&#39;</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="default-font">Default font</h3>
-<p>By default, every text appears in Arial 10 point. You can alter the
-default font by using the following two functions:</p>
+<p>By default, every text appears in Arial 10 point in the color black (000000).
+You can alter the default font by using the following functions:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultFontName</span><span class="p">(</span><span class="s1">&#39;Times New Roman&#39;</span><span class="p">);</span>
+<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultFontColor</span><span class="p">(</span><span class="s1">&#39;FF0000&#39;</span><span class="p">);</span>
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultFontSize</span><span class="p">(</span><span class="mi">12</span><span class="p">);</span>
 </code></pre></div>
 <p>Or you can specify Asian Font</p>
