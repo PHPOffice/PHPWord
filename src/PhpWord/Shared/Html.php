@@ -895,9 +895,6 @@ class Html
                     $valueArr = explode(' ', strtolower($value));
 
                     $size = $color = $style = null;
-                    // must have exact order of one of the options
-                    //  [width color style], e.g. "1px #0011CC solid" or "2pt green solid"
-                    //  [width style color], e.g. "1px solid #0011CC" or "2pt solid green"
                     // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
                     // we determine the order of color and style by checking value of the color.
                     $namedColors = self::mapNamedBorderColor();
@@ -907,7 +904,7 @@ class Html
                         } elseif (preg_match('/[\-\d]+(px|pt|cm|mm|in|pc)/', $tmpValue) === 1) {
                             $size = Converter::cssToTwip($tmpValue);
                         } else {
-                            $style = self::mapBorderStyle($valueArr[2]);
+                            $style = self::mapBorderStyle($tmpValue);
                         }
                     }
 
