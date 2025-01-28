@@ -110,6 +110,13 @@ Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
 Settings::setPdfRendererPath(__DIR__ . '/../vendor/mpdf/mpdf');
 ```
 
+or you can edit settings in phpword.ini ( or phpword.ini.dist) файл.
+
+``` ini
+pdfRendererName       = MPDF    ;DomPDF, TCPDF, MPDF
+pdfRendererPath       = /path/to/your/renderer/folder
+```
+
 ## RTF
 The name of the writer is `RTF`.
 
