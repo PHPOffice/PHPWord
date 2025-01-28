@@ -13198,7 +13198,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Body",
             "name": "Body",
-            "summary": "RTF\u0020body\u0020part\u0020writer.",
+            "summary": "HTML\u0020body\u0020part\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Part-Body.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Body\u003A\u003Awrite\u0028\u0029",
@@ -13213,7 +13213,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Head",
             "name": "Head",
-            "summary": "RTF\u0020head\u0020part\u0020writer.",
+            "summary": "HTML\u0020head\u0020part\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Part-Head.html"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Head\u003A\u003Awrite\u0028\u0029",
