@@ -57,6 +57,37 @@ class FontTest extends \PHPUnit\Framework\TestCase
         Settings::setDefaultFontColor($this->defaultFontColor);
     }
 
+    public function testDefaultDefaults(): void
+    {
+        $phpWord = new PhpWord();
+
+        $dom = Helper::getAsHTML($phpWord);
+        $xpath = new DOMXPath($dom);
+        $style = Helper::getTextContent($xpath, '/html/head/style[1]');
+
+        $prg = preg_match('/body {(.*?)}/', $style, $matches);
+        self::assertNotEmpty($matches);
+        self::assertNotFalse($prg);
+        self::assertEquals('body {font-family: \'Arial\'; font-size: 12pt; color: #000000;}', $matches[0]);
+    }
+
+    public function testSettingDefaultFontColor(): void
+    {
+        $phpWord = new PhpWord();
+
+        $defaultFontColor = '00FF00';
+        $phpWord->setDefaultFontColor($defaultFontColor);
+
+        $dom = Helper::getAsHTML($phpWord);
+        $xpath = new DOMXPath($dom);
+        $style = Helper::getTextContent($xpath, '/html/head/style[1]');
+
+        $prg = preg_match('/body {(.*?)}/', $style, $matches);
+        self::assertNotEmpty($matches);
+        self::assertNotFalse($prg);
+        self::assertEquals('body {font-family: \'Arial\'; font-size: 12pt; color: #00FF00;}', $matches[0]);
+    }
+
     /**
      * Tests font names - without generics.
      */
@@ -93,7 +124,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
-        self::assertEquals('* {font-family: \'Courier New\'; font-size: 12pt;}', $matches[0]);
+        self::assertEquals('* {font-family: \'Courier New\'; font-size: 12pt; color: #000000;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
@@ -149,7 +180,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
-        self::assertEquals('* {font-family: \'Courier New\'; font-size: 12pt;}', $matches[0]);
+        self::assertEquals('* {font-family: \'Courier New\'; font-size: 12pt; color: #000000;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
@@ -201,7 +232,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
-        self::assertEquals('* {font-family: \'Courier New\', monospace; font-size: 12pt;}', $matches[0]);
+        self::assertEquals('* {font-family: \'Courier New\', monospace; font-size: 12pt; color: #000000;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
@@ -244,7 +275,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[*][^\\r\\n]*/m', $style, $matches));
-        self::assertEquals('* {font-family: \'Arial\'; font-size: 12pt; white-space: pre-wrap;}', $matches[0]);
+        self::assertEquals('* {font-family: \'Arial\'; font-size: 12pt; color: #000000; white-space: pre-wrap;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
