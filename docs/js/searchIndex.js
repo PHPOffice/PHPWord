@@ -231,6 +231,121 @@ Search.appendIndex(
             "summary": "Grammatical\u0020Checking\u0020State.",
             "url": "classes/PhpOffice-PhpWord-ComplexType-ProofState.html#property_grammar"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties",
+            "name": "RubyProperties",
+            "summary": "Ruby\u0020properties.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Create\u0020a\u0020new\u0020RubyProperties\u0020object.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method___construct"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AgetAlignment\u0028\u0029",
+            "name": "getAlignment",
+            "summary": "Get\u0020the\u0020ruby\u0020alignment.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_getAlignment"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AsetAlignment\u0028\u0029",
+            "name": "setAlignment",
+            "summary": "Set\u0020the\u0020Ruby\u0020Alignment\u0020\u0028center,\u0020distributeLetter,\u0020distributeSpace,\u0020left,\u0020right,\u0020rightVertical\u0029.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_setAlignment"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AgetFontFaceSize\u0028\u0029",
+            "name": "getFontFaceSize",
+            "summary": "Get\u0020the\u0020ruby\u0020font\u0020face\u0020size.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_getFontFaceSize"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AsetFontFaceSize\u0028\u0029",
+            "name": "setFontFaceSize",
+            "summary": "Set\u0020the\u0020ruby\u0020font\u0020face\u0020size.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_setFontFaceSize"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AgetFontPointsAboveBaseText\u0028\u0029",
+            "name": "getFontPointsAboveBaseText",
+            "summary": "Get\u0020the\u0020ruby\u0020font\u0020points\u0020above\u0020base\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_getFontPointsAboveBaseText"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AsetFontPointsAboveBaseText\u0028\u0029",
+            "name": "setFontPointsAboveBaseText",
+            "summary": "Set\u0020the\u0020ruby\u0020font\u0020points\u0020above\u0020base\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_setFontPointsAboveBaseText"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AgetFontSizeForBaseText\u0028\u0029",
+            "name": "getFontSizeForBaseText",
+            "summary": "Get\u0020the\u0020ruby\u0020font\u0020size\u0020for\u0020base\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_getFontSizeForBaseText"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AsetFontSizeForBaseText\u0028\u0029",
+            "name": "setFontSizeForBaseText",
+            "summary": "Set\u0020the\u0020ruby\u0020font\u0020size\u0020for\u0020base\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_setFontSizeForBaseText"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AgetLanguageId\u0028\u0029",
+            "name": "getLanguageId",
+            "summary": "Get\u0020the\u0020ruby\u0020language\u0020id.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_getLanguageId"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AsetLanguageId\u0028\u0029",
+            "name": "setLanguageId",
+            "summary": "Set\u0020the\u0020ruby\u0020language\u0020id.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#method_setLanguageId"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AALIGNMENT_CENTER",
+            "name": "ALIGNMENT_CENTER",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#constant_ALIGNMENT_CENTER"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AALIGNMENT_DISTRIBUTE_LETTER",
+            "name": "ALIGNMENT_DISTRIBUTE_LETTER",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#constant_ALIGNMENT_DISTRIBUTE_LETTER"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AALIGNMENT_DISTRIBUTE_SPACE",
+            "name": "ALIGNMENT_DISTRIBUTE_SPACE",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#constant_ALIGNMENT_DISTRIBUTE_SPACE"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AALIGNMENT_LEFT",
+            "name": "ALIGNMENT_LEFT",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#constant_ALIGNMENT_LEFT"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AALIGNMENT_RIGHT",
+            "name": "ALIGNMENT_RIGHT",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#constant_ALIGNMENT_RIGHT"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003AALIGNMENT_RIGHT_VERTICAL",
+            "name": "ALIGNMENT_RIGHT_VERTICAL",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#constant_ALIGNMENT_RIGHT_VERTICAL"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003A\u0024alignment",
+            "name": "alignment",
+            "summary": "Ruby\u0020alignment\u0020\u0028w\u003ArubyAlign\u0029.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#property_alignment"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003A\u0024fontFaceSize",
+            "name": "fontFaceSize",
+            "summary": "Ruby\u0020font\u0020face\u0020size\u0020\u0028w\u003Ahps\u0029.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#property_fontFaceSize"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003A\u0024fontPointsAboveText",
+            "name": "fontPointsAboveText",
+            "summary": "Ruby\u0020font\u0020points\u0020above\u0020base\u0020text\u0020\u0028w\u003AhpsRaise\u0029.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#property_fontPointsAboveText"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003A\u0024baseTextFontSize",
+            "name": "baseTextFontSize",
+            "summary": "Ruby\u0020font\u0020size\u0020for\u0020base\u0020text\u0020\u0028w\u003AhpsBaseText\u0029.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#property_baseTextFontSize"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\RubyProperties\u003A\u003A\u0024languageId",
+            "name": "languageId",
+            "summary": "Ruby\u0020type\/language\u0020id\u0020\u0028w\u003Alid\u0029.",
+            "url": "classes/PhpOffice-PhpWord-ComplexType-RubyProperties.html#property_languageId"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\ComplexType\\TblWidth",
             "name": "TblWidth",
             "summary": "",
@@ -1680,6 +1795,61 @@ Search.appendIndex(
             "name": "cells",
             "summary": "Row\u0020cells.",
             "url": "classes/PhpOffice-PhpWord-Element-Row.html#property_cells"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby",
+            "name": "Ruby",
+            "summary": "Ruby\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Create\u0020a\u0020new\u0020Ruby\u0020Element.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#method___construct"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003AgetBaseTextRun\u0028\u0029",
+            "name": "getBaseTextRun",
+            "summary": "Get\u0020base\u0020text\u0020run.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#method_getBaseTextRun"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003AsetBaseTextRun\u0028\u0029",
+            "name": "setBaseTextRun",
+            "summary": "Set\u0020the\u0020base\u0020text\u0020run.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#method_setBaseTextRun"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003AgetRubyTextRun\u0028\u0029",
+            "name": "getRubyTextRun",
+            "summary": "Get\u0020ruby\u0020text\u0020run.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#method_getRubyTextRun"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003AsetRubyTextRun\u0028\u0029",
+            "name": "setRubyTextRun",
+            "summary": "Set\u0020the\u0020ruby\u0020text\u0020run.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#method_setRubyTextRun"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003AgetProperties\u0028\u0029",
+            "name": "getProperties",
+            "summary": "Get\u0020ruby\u0020properties.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#method_getProperties"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003AsetProperties\u0028\u0029",
+            "name": "setProperties",
+            "summary": "Set\u0020the\u0020ruby\u0020properties.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#method_setProperties"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003A\u0024properties",
+            "name": "properties",
+            "summary": "Ruby\u0020properties.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#property_properties"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003A\u0024rubyTextRun",
+            "name": "rubyTextRun",
+            "summary": "Ruby\u0020text\u0020run.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#property_rubyTextRun"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Ruby\u003A\u003A\u0024baseTextRun",
+            "name": "baseTextRun",
+            "summary": "Ruby\u0020base\u0020text\u0020run.",
+            "url": "classes/PhpOffice-PhpWord-Element-Ruby.html#property_baseTextRun"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\SDT",
             "name": "SDT",
@@ -3916,6 +4086,11 @@ Search.appendIndex(
             "summary": "Parses\u0020nodes\u0020under\u0020w\u003Ar.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readRunChild"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadRubyProperties\u0028\u0029",
+            "name": "readRubyProperties",
+            "summary": "Read\u0020w\u003ArubyPr\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-AbstractPart.html#method_readRubyProperties"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\AbstractPart\u003A\u003AreadTable\u0028\u0029",
             "name": "readTable",
             "summary": "Read\u0020w\u003Atbl.",
@@ -5051,6 +5226,11 @@ Search.appendIndex(
             "summary": "Transforms\u0020a\u0020HTML\/CSS\u0020alignment\u0020into\u0020a\u0020\\PhpOffice\\PhpWord\\SimpleType\\Jc.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_mapAlign"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AmapRubyAlign\u0028\u0029",
+            "name": "mapRubyAlign",
+            "summary": "Transforms\u0020a\u0020HTML\/CSS\u0020ruby\u0020alignment\u0020into\u0020a\u0020\\PhpOffice\\PhpWord\\SimpleType\\Jc.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_mapRubyAlign"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AmapAlignVertical\u0028\u0029",
             "name": "mapAlignVertical",
             "summary": "Transforms\u0020a\u0020HTML\/CSS\u0020vertical\u0020alignment.",
@@ -5075,6 +5255,11 @@ Search.appendIndex(
             "name": "parseHorizRule",
             "summary": "Render\u0020horizontal\u0020rule\nNote\u003A\u0020Word\u0020rule\u0020is\u0020not\u0020the\u0020same\u0020as\u0020HTML\u0027s\u0020\u003Chr\u003E\u0020since\u0020it\u0020does\u0020not\u0020support\u0020width\u0020and\u0020thus\u0020neither\u0020alignment.",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseHorizRule"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AparseRuby\u0028\u0029",
+            "name": "parseRuby",
+            "summary": "Parse\u0020ruby\u0020node.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Html.html#method_parseRuby"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Html\u003A\u003AconvertRgb\u0028\u0029",
             "name": "convertRgb",
@@ -13051,6 +13236,31 @@ Search.appendIndex(
             "summary": "Write\u0020page\u0020break.",
             "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-PageBreak.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Ruby",
+            "name": "Ruby",
+            "summary": "Ruby\u0020element\u0020HTML\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Ruby.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Ruby\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Ruby.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Ruby\u003A\u003AgetPropertyCssForRubyTag\u0028\u0029",
+            "name": "getPropertyCssForRubyTag",
+            "summary": "Get\u0020property\u0020CSS\u0020for\u0020the\u0020\u003Cruby\u003E\u0020tag.",
+            "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Ruby.html#method_getPropertyCssForRubyTag"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Ruby\u003A\u003AgetPropertyCssForRtTag\u0028\u0029",
+            "name": "getPropertyCssForRtTag",
+            "summary": "Get\u0020property\u0020CSS\u0020for\u0020the\u0020\u003Crt\u003E\u0020tag.",
+            "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Ruby.html#method_getPropertyCssForRtTag"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Ruby\u003A\u003AgetParagraphStyleForTextRun\u0028\u0029",
+            "name": "getParagraphStyleForTextRun",
+            "summary": "Write\u0020paragraph\u0020style\u0020for\u0020a\u0020given\u0020TextRun.",
+            "url": "classes/PhpOffice-PhpWord-Writer-HTML-Element-Ruby.html#method_getParagraphStyleForTextRun"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\HTML\\Element\\Table",
             "name": "Table",
             "summary": "Table\u0020element\u0020HTML\u0020writer.",
@@ -13431,6 +13641,11 @@ Search.appendIndex(
             "summary": "Abstract\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-AbstractElement.html"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\AbstractElement\u003A\u003AreplaceTabs\u0028\u0029",
+            "name": "replaceTabs",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-AbstractElement.html#method_replaceTabs"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Container",
             "name": "Container",
             "summary": "Container\u0020element\u0020writer\u0020\u0028section,\u0020textrun,\u0020header,\u0020footnote,\u0020cell,\u0020etc.\u0029.",
@@ -13511,6 +13726,16 @@ Search.appendIndex(
             "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-PageBreak.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Ruby",
+            "name": "Ruby",
+            "summary": "Ruby\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Ruby.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Ruby\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Ruby.html#method_write"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Table",
             "name": "Table",
             "summary": "Table\u0020element\u0020writer.",
@@ -13540,11 +13765,6 @@ Search.appendIndex(
             "name": "write",
             "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Text.html#method_write"
-        },                {
-            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Text\u003A\u003Areplacetabs\u0028\u0029",
-            "name": "replacetabs",
-            "summary": "",
-            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Text.html#method_replacetabs"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Text\u003A\u003AwriteChangeInsertion\u0028\u0029",
             "name": "writeChangeInsertion",
@@ -14195,6 +14415,16 @@ Search.appendIndex(
             "name": "write",
             "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-PageBreak.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Ruby",
+            "name": "Ruby",
+            "summary": "Ruby\u0020element\u0020RTF\u0020writer.\u0020Writes\u0020\u007BbaseText\u007D\u0020\u0028\u007BrubyText\u007D\u0029\u0020in\u0020current\u0020paragraph\u0020style\nbecause\u0020RTF\u0020does\u0020not\u0020natively\u0020support\u0020ruby\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Ruby.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Ruby\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-RTF-Element-Ruby.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\RTF\\Element\\Table",
             "name": "Table",
@@ -15050,6 +15280,16 @@ Search.appendIndex(
             "name": "write",
             "summary": "Write\u0020preserve\u0020text\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-PreserveText.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Ruby",
+            "name": "Ruby",
+            "summary": "Ruby\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Ruby.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\Ruby\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020ruby\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-Word2007-Element-Ruby.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\SDT",
             "name": "SDT",
