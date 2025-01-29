@@ -45,6 +45,26 @@ require_once 'path/to/PHPWord/src/PhpWord/Autoloader.php';
 
 The preferred method is the Composer one.
 
+### Configuration
+
+In order to configure you can create phpword.ini file and load configuration by calling Settings::loadConfig
+
+``` php
+<?php
+
+Settings::loadConfig();
+
+```
+
+You can also specify the config file location. (Do not use phpword.ini file in vendor folder)
+
+``` php
+<?php
+
+Settings::loadConfig(__DIR__ . '/../../phpword.ini');
+
+```
+
 ## Samples
 
 After installation, you can browse and use the samples that we've provided, either by command line or using browser. If you can access your PhpWord library folder using browser, point your browser to the `samples` folder, e.g. `http://localhost/PhpWord/samples/`.
