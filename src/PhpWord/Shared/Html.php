@@ -23,6 +23,7 @@ use DOMDocument;
 use DOMNode;
 use DOMXPath;
 use Exception;
+use PhpOffice\PhpWord\ComplexType\RubyProperties;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
@@ -354,6 +355,7 @@ class Html
             'a' => ['Link',        $node,  $element,   $styles,    null,   null,           null],
             'input' => ['Input',       $node,  $element,   $styles,    null,   null,           null],
             'hr' => ['HorizRule',   $node,  $element,   $styles,    null,   null,           null],
+            'ruby' => ['Ruby',   $node,  $element,   $styles,    null,   null,           null],
         ];
 
         $newElement = null;
@@ -832,6 +834,10 @@ class Html
                     $styles['alignment'] = self::mapAlign($value, $bidi);
 
                     break;
+                case 'ruby-align':
+                    $styles['rubyAlignment'] = self::mapRubyAlign($value);
+
+                    break;
                 case 'display':
                     $styles['hidden'] = $value === 'none' || $value === 'hidden';
 
@@ -1250,6 +1256,23 @@ class Html
     }
 
     /**
+     * Transforms a HTML/CSS ruby alignment into a \PhpOffice\PhpWord\SimpleType\Jc.
+     */
+    protected static function mapRubyAlign(string $cssRubyAlignment): string
+    {
+        switch ($cssRubyAlignment) {
+            case 'center':
+                return RubyProperties::ALIGNMENT_CENTER;
+            case 'start':
+                return RubyProperties::ALIGNMENT_LEFT;
+            case 'space-between':
+                return RubyProperties::ALIGNMENT_DISTRIBUTE_SPACE;
+            default:
+                return '';
+        }
+    }
+
+    /**
      * Transforms a HTML/CSS vertical alignment.
      *
      * @param string $alignment
@@ -1376,6 +1399,59 @@ class Html
         // - table - throws error "cannot be inside textruns", e.g. lists
         // - line - that is a shape, has different behaviour
         // - repeated text, e.g. underline "_", because of unpredictable line wrapping
+    }
+
+    /**
+     * Parse ruby node.
+     *
+     * @param DOMNode $node
+     * @param AbstractContainer $element
+     * @param array $styles
+     */
+    protected static function parseRuby($node, $element, &$styles)
+    {
+        $rubyProperties = new RubyProperties();
+        $baseTextRun = new TextRun($styles['paragraph']);
+        $rubyTextRun = new TextRun(null);
+        if ($node->hasAttributes()) {
+            $langAttr = $node->attributes->getNamedItem('lang');
+            if ($langAttr !== null) {
+                $rubyProperties->setLanguageId($langAttr->textContent);
+            }
+            $styleAttr = $node->attributes->getNamedItem('style');
+            if ($styleAttr !== null) {
+                $styles = self::parseStyle($styleAttr, $styles['paragraph']);
+                if (isset($styles['rubyAlignment']) && $styles['rubyAlignment'] !== '') {
+                    $rubyProperties->setAlignment($styles['rubyAlignment']);
+                }
+                if (isset($styles['size']) && $styles['size'] !== '') {
+                    $rubyProperties->setFontSizeForBaseText($styles['size']);
+                }
+                $baseTextRun->setParagraphStyle($styles);
+            }
+        }
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeName === '#text') {
+                $content = trim($child->textContent);
+                if ($content !== '') {
+                    $baseTextRun->addText($content);
+                }
+            } elseif ($child->nodeName === 'rt') {
+                $rubyTextRun->addText(trim($child->textContent));
+                if ($child->hasAttributes()) {
+                    $styleAttr = $child->attributes->getNamedItem('style');
+                    if ($styleAttr !== null) {
+                        $styles = self::parseStyle($styleAttr, []);
+                        if (isset($styles['size']) && $styles['size'] !== '') {
+                            $rubyProperties->setFontFaceSize($styles['size']);
+                        }
+                        $rubyTextRun->setParagraphStyle($styles);
+                    }
+                }
+            }
+        }
+
+        return $element->addRuby($baseTextRun, $rubyTextRun, $rubyProperties);
     }
 
     private static function convertRgb(string $rgb): string

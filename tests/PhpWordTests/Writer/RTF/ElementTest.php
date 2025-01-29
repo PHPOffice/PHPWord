@@ -175,4 +175,45 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $expect = "\\pard\\nowidctlpar \\sb0\\sa0{\\outlinelevel0{\\cf0\\f0 First Heading}\\par\n}";
         self::assertEquals($expect, $this->removeCr($elwrite));
     }
+
+    public function testRuby(): void
+    {
+        $parentWriter = new RTF();
+        $properties = new \PhpOffice\PhpWord\ComplexType\RubyProperties();
+        $baseTextRun = new \PhpOffice\PhpWord\Element\TextRun(null);
+        $baseTextRun->addText('base text');
+        $rubyTextRun = new \PhpOffice\PhpWord\Element\TextRun(null);
+        $rubyTextRun->addText('ruby');
+        $element = new \PhpOffice\PhpWord\Element\TextRun();
+        $element->addRuby($baseTextRun, $rubyTextRun, $properties);
+
+        $textrun = new RTF\Element\TextRun($parentWriter, $element);
+        $expect = "\\pard\\nowidctlpar {{base text (ruby)}}\\par\n";
+        self::assertEquals($expect, $this->removeCr($textrun));
+    }
+
+    public function testRubyTitle(): void
+    {
+        $parentWriter = new RTF();
+        $properties = new \PhpOffice\PhpWord\ComplexType\RubyProperties();
+        $baseTextRun = new \PhpOffice\PhpWord\Element\TextRun(null);
+        $baseTextRun->addText('base text');
+        $rubyTextRun = new \PhpOffice\PhpWord\Element\TextRun(null);
+        $rubyTextRun->addText('ruby');
+        $textRun = new \PhpOffice\PhpWord\Element\TextRun();
+        $textRun->addRuby($baseTextRun, $rubyTextRun, $properties);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->addTitleStyle(
+            1,
+            ['size' => 24, 'bold' => true, 'color' => '000099'],
+            ['spaceBefore' => 0, 'spaceAfter' => 2]
+        );
+        $section = $phpWord->addSection();
+        $element = $section->addTitle($textRun, 1);
+        $elwrite = new RTF\Element\Title($parentWriter, $element);
+
+        $expect = "\\pard\\nowidctlpar \\sb0\\sa2{\\outlinelevel0{\\cf0\\f0\\fs48\\b base text (ruby)}\\par\n}";
+        self::assertEquals($expect, $this->removeCr($elwrite));
+    }
 }

@@ -63,6 +63,7 @@ nav:
       - OLE Object: 'usage/elements/oleobject.md'
       - Page Break: 'usage/elements/pagebreak.md'
       - Preserve Text: 'usage/elements/preservetext.md'
+      - Ruby: 'usage/elements/ruby.md'
       - Text: 'usage/elements/text.md'
       - TextBox: 'usage/elements/textbox.md'
       - Text Break: 'usage/elements/textbreak.md'
