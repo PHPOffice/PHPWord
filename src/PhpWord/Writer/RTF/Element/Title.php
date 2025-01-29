@@ -59,8 +59,13 @@ class Title extends Text
         /** @var \PhpOffice\PhpWord\Element\Title $element Type hint */
         $element = $this->element;
         $elementClass = str_replace('\\Writer\\RTF', '', static::class);
-        if (!$element instanceof $elementClass || !is_string($element->getText())) {
+        if (!$element instanceof $elementClass) {
             return '';
+        }
+
+        $textToWrite = $element->getText();
+        if ($textToWrite instanceof \PhpOffice\PhpWord\Element\TextRun) {
+            $textToWrite = $textToWrite->getText(); // gets text from TextRun
         }
 
         $this->getStyles();
@@ -83,7 +88,7 @@ class Title extends Text
 
         $content .= '{';
         $content .= $this->writeFontStyle();
-        $content .= $this->writeText($element->getText());
+        $content .= $this->writeText($textToWrite);
         $content .= '}';
         $content .= $this->writeClosing();
         $content .= $endout;

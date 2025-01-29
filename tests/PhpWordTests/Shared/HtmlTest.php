@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWordTests\Shared;
 
 use Exception;
+use PhpOffice\PhpWord\ComplexType\RubyProperties;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\PhpWord;
@@ -248,6 +249,7 @@ class HtmlTest extends AbstractWebServerEmbedded
         Html::addHtml($section, '<p style="line-height: 120%;">test</p>');
         Html::addHtml($section, '<p style="line-height: 0.17in;">test</p>');
         Html::addHtml($section, '<p style="line-height: normal;">test</p>');
+        Html::addHtml($section, '<p style="line-height: inherit;">test</p>');
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:spacing'));
@@ -269,6 +271,10 @@ class HtmlTest extends AbstractWebServerEmbedded
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[5]/w:pPr/w:spacing'));
         self::assertEquals(Paragraph::LINE_HEIGHT, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:line'));
         self::assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:lineRule'));
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[6]/w:pPr/w:spacing'));
+        self::assertEquals(Paragraph::LINE_HEIGHT, $doc->getElementAttribute('/w:document/w:body/w:p[6]/w:pPr/w:spacing', 'w:line'));
+        self::assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[6]/w:pPr/w:spacing', 'w:lineRule'));
     }
 
     public function testParseCellPaddingStyle(): void
@@ -1316,5 +1322,52 @@ HTML;
             ['300px', 4500, TblWidth::TWIP],
             ['400', 6000, TblWidth::TWIP],
         ];
+    }
+
+    /**
+     * Test ruby.
+     */
+    public function testParseRubyHtml(): void
+    {
+        $html = <<<HTML
+<ruby lang="en-US" style="line-height: 8pt;font-size:20pt;ruby-align:center;">
+    base text
+    <rp>(</rp>
+    <rt style="line-height: 4pt;font-size:10pt">ruby text</rt>
+    <rp>)</rp>
+</ruby>
+HTML;
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby'));
+        self::assertEquals('ruby text', $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rt/w:r/w:t')->textContent);
+        self::assertEquals(
+            'base text',
+            $doc->getElement('/w:document/w:body/w:p/w:r/w:ruby/w:rubyBase/w:r/w:t')->textContent
+        );
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:rubyAlign'));
+        self::assertEquals(
+            RubyProperties::ALIGNMENT_CENTER,
+            $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:rubyAlign', 'w:val')
+        );
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hps'));
+        self::assertEquals(
+            10,
+            $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hps', 'w:val')
+        );
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hpsBaseText'));
+        self::assertEquals(
+            20,
+            $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:hpsBaseText', 'w:val')
+        );
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:lid'));
+        self::assertEquals(
+            'en-US',
+            $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:lid', 'w:val')
+        );
     }
 }
