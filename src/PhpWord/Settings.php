@@ -119,11 +119,18 @@ class Settings
     private static $defaultFontName = self::DEFAULT_FONT_NAME;
 
     /**
-     * Default font name.
+     * Default asian font name.
      *
      * @var string
      */
     private static $defaultAsianFontName = self::DEFAULT_FONT_NAME;
+
+    /**
+     * Default font color.
+     *
+     * @var string
+     */
+    private static $defaultFontColor = self::DEFAULT_FONT_COLOR;
 
     /**
      * Default font size.
@@ -388,6 +395,28 @@ class Settings
     {
         if (trim($value) !== '') {
             self::$defaultAsianFontName = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get default font color.
+     */
+    public static function getDefaultFontColor(): string
+    {
+        return self::$defaultFontColor;
+    }
+
+    /**
+     * Set default font color.
+     */
+    public static function setDefaultFontColor(string $value): bool
+    {
+        if (trim($value) !== '') {
+            self::$defaultFontColor = $value;
 
             return true;
         }

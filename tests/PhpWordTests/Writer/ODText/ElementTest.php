@@ -19,6 +19,8 @@
 namespace PhpOffice\PhpWordTests\Writer\ODText;
 
 use DateTime;
+use PhpOffice\PhpWord\ComplexType\RubyProperties;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
@@ -201,7 +203,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addTitle('Text Title', 1);
         $section->addText('Text following Text Title');
-        $textRun = new \PhpOffice\PhpWord\Element\TextRun();
+        $textRun = new TextRun();
         $textRun->addText('Text Run');
         $textRun->addText(' Title');
         $section->addTitle($textRun, 1);
@@ -327,5 +329,37 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::AssertEquals($tc2id, $doc->getElementAttribute($element, 'text:change-id'));
         $element = "$p2t/text:change";
         self::AssertEquals($tc3id, $doc->getElementAttribute($element, 'text:change-id'));
+    }
+
+    /**
+     * Test ruby output.
+     * Note that this test will need to be updated when ODT Ruby output supports
+     * ODT's native ruby functionality.
+     */
+    public function testRubyText(): void
+    {
+        $esc = \PhpOffice\PhpWord\Settings::isOutputEscapingEnabled();
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $properties = new RubyProperties();
+        $properties->setAlignment(RubyProperties::ALIGNMENT_RIGHT_VERTICAL);
+        $properties->setFontFaceSize(10);
+        $properties->setFontPointsAboveBaseText(4);
+        $properties->setFontSizeForBaseText(18);
+        $properties->setLanguageId('ja-JP');
+
+        $baseTextRun = new TextRun(null);
+        $baseTextRun->addText('私');
+        $rubyTextRun = new TextRun(null);
+        $rubyTextRun->addText('わたし');
+        $section->addRuby($baseTextRun, $rubyTextRun, $properties);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled($esc);
+        $p2t = '/office:document-content/office:body/office:text/text:section';
+        $element = "$p2t/text:p[2]";
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('私 (わたし)', $doc->getElement($element)->nodeValue);
     }
 }
