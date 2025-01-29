@@ -110,7 +110,7 @@ Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
 Settings::setPdfRendererPath(__DIR__ . '/../vendor/mpdf/mpdf');
 ```
 
-or you can edit settings in phpword.ini ( or phpword.ini.dist) файл.
+or you can edit settings in phpword.ini ( or phpword.ini.dist) file.
 
 ``` ini
 pdfRendererName       = MPDF    ;DomPDF, TCPDF, MPDF
