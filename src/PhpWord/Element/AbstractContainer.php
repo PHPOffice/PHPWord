@@ -50,6 +50,7 @@ use ReflectionClass;
  * @method FormField addFormField(string $type, mixed $fStyle = null, mixed $pStyle = null)
  * @method SDT addSDT(string $type)
  * @method Formula addFormula(Math $math)
+ * @method Ruby addRuby(TextRun $baseText, TextRun $rubyText, \PhpOffice\PhpWord\ComplexType\RubyProperties $properties)
  * @method \PhpOffice\PhpWord\Element\OLEObject addObject(string $source, mixed $style = null) deprecated, use addOLEObject instead
  *
  * @since 0.10.0
@@ -91,7 +92,7 @@ abstract class AbstractContainer extends AbstractElement
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
             'Chart', 'FormField', 'SDT', 'Comment',
-            'Formula',
+            'Formula', 'Ruby',
         ];
         $functions = [];
         foreach ($elements as $element) {
@@ -254,7 +255,7 @@ abstract class AbstractContainer extends AbstractElement
             'Footnote' => ['Section', 'TextRun', 'Cell', 'ListItemRun'],
             'Endnote' => ['Section', 'TextRun', 'Cell'],
             'PreserveText' => ['Section', 'Header', 'Footer', 'Cell'],
-            'Title' => ['Section', 'Cell'],
+            'Title' => ['Section', 'Cell', 'Header'],
             'TOC' => ['Section'],
             'PageBreak' => ['Section'],
             'Chart' => ['Section', 'Cell'],
