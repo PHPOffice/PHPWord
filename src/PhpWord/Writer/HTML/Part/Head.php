@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -29,7 +30,7 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Table as TableStyleWriter;
 
 /**
- * RTF head part writer.
+ * HTML head part writer.
  *
  * @since 0.11.0
  */
@@ -84,11 +85,12 @@ class Head extends AbstractPart
     private function writeStyles(): string
     {
         $css = '<style>' . PHP_EOL;
-
+        $defaultFontColor = Settings::getDefaultFontColor();
         // Default styles
         $astarray = [
             'font-family' => $this->getFontFamily(Settings::getDefaultFontName(), $this->getParentWriter()->getDefaultGenericFont()),
             'font-size' => Settings::getDefaultFontSize() . 'pt',
+            'color' => "#{$defaultFontColor}",
         ];
         // Mpdf sometimes needs separate tag for body; doesn't harm others.
         $bodyarray = $astarray;

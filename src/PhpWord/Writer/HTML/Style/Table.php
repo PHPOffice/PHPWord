@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -45,6 +46,9 @@ class Table extends AbstractStyle
             if ($style->isBidiVisual()) {
                 $css['direction'] = 'rtl';
             }
+        }
+        if (is_object($style) && method_exists($style, 'getVAlign')) {
+            $css['vertical-align'] = $style->getVAlign();
         }
 
         foreach (['Top', 'Left', 'Bottom', 'Right'] as $direction) {

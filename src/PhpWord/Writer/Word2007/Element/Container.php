@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -37,6 +38,11 @@ class Container extends AbstractElement
     protected $namespace = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element';
 
     /**
+     * @var array<string>
+     */
+    protected $containerWithoutP = ['TextRun', 'Footnote', 'Endnote', 'ListItemRun'];
+
+    /**
      * Write element.
      */
     public function write(): void
@@ -46,7 +52,7 @@ class Container extends AbstractElement
             return;
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
-        $withoutP = in_array($containerClass, ['TextRun', 'Footnote', 'Endnote', 'ListItemRun']);
+        $withoutP = in_array($containerClass, $this->containerWithoutP);
         $xmlWriter = $this->getXmlWriter();
 
         // Loop through elements
@@ -62,7 +68,7 @@ class Container extends AbstractElement
         $writeLastTextBreak = ($containerClass == 'Cell') && ($elementClass == '' || $elementClass == 'Table');
         if ($writeLastTextBreak) {
             $writerClass = $this->namespace . '\\TextBreak';
-            /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
+            /** @var AbstractElement $writer Type hint */
             $writer = new $writerClass($xmlWriter, new TextBreakElement(), $withoutP);
             $writer->write();
         }
@@ -70,18 +76,14 @@ class Container extends AbstractElement
 
     /**
      * Write individual element.
-     *
-     * @param bool $withoutP
-     *
-     * @return string
      */
-    private function writeElement(XMLWriter $xmlWriter, Element $element, $withoutP)
+    private function writeElement(XMLWriter $xmlWriter, Element $element, bool $withoutP): string
     {
         $elementClass = substr(get_class($element), strrpos(get_class($element), '\\') + 1);
         $writerClass = $this->namespace . '\\' . $elementClass;
 
         if (class_exists($writerClass)) {
-            /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
+            /** @var AbstractElement $writer Type hint */
             $writer = new $writerClass($xmlWriter, $element, $withoutP);
             $writer->setPart($this->getPart());
             $writer->write();

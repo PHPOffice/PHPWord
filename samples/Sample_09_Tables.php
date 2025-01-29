@@ -7,7 +7,7 @@ include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 $header = ['size' => 16, 'bold' => true];
 
@@ -31,10 +31,10 @@ $section->addTextBreak(1);
 $section->addText('Fancy table', $header);
 
 $fancyTableStyleName = 'Fancy Table';
-$fancyTableStyle = ['borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50];
+$fancyTableStyle = ['borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80, 'alignment' => PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50];
 $fancyTableFirstRowStyle = ['borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF'];
 $fancyTableCellStyle = ['valign' => 'center'];
-$fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
+$fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
 $fancyTableFontStyle = ['bold' => true];
 $phpWord->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
 $table = $section->addTable($fancyTableStyleName);
@@ -56,11 +56,13 @@ for ($i = 1; $i <= 8; ++$i) {
 
 /*
  *  3. colspan (gridSpan) and rowspan (vMerge)
- *  ---------------------
- *  |     |   B    |    |
- *  |  A  |--------|  E |
- *  |     | C |  D |    |
- *  ---------------------
+ *  -------------------------
+ *  |  A  |     B     |  C  |
+ *  |-----|-----------|     |
+ *  |        D        |     |
+ *  ------|-----------|     |
+ *  |  E  |  F  |  G  |     |
+ *  -------------------------
  */
 
 $section->addPageBreak();
@@ -70,32 +72,27 @@ $fancyTableStyle = ['borderSize' => 6, 'borderColor' => '999999'];
 $cellRowSpan = ['vMerge' => 'restart', 'valign' => 'center', 'bgColor' => 'FFFF00'];
 $cellRowContinue = ['vMerge' => 'continue'];
 $cellColSpan = ['gridSpan' => 2, 'valign' => 'center'];
-$cellHCentered = ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER];
+$cellHCentered = ['alignment' => PhpOffice\PhpWord\SimpleType\Jc::CENTER];
 $cellVCentered = ['valign' => 'center'];
 
 $spanTableStyleName = 'Colspan Rowspan';
 $phpWord->addTableStyle($spanTableStyleName, $fancyTableStyle);
 $table = $section->addTable($spanTableStyleName);
 
-$table->addRow();
+$row1 = $table->addRow();
+$row1->addCell(500)->addText('A');
+$row1->addCell(1000, ['gridSpan' => 2])->addText('B');
+$row1->addCell(500, ['vMerge' => 'restart'])->addText('C');
 
-$cell1 = $table->addCell(2000, $cellRowSpan);
-$textrun1 = $cell1->addTextRun($cellHCentered);
-$textrun1->addText('A');
-$textrun1->addFootnote()->addText('Row span');
+$row2 = $table->addRow();
+$row2->addCell(1500, ['gridSpan' => 3])->addText('D');
+$row2->addCell(null, ['vMerge' => 'continue']);
 
-$cell2 = $table->addCell(4000, $cellColSpan);
-$textrun2 = $cell2->addTextRun($cellHCentered);
-$textrun2->addText('B');
-$textrun2->addFootnote()->addText('Column span');
-
-$table->addCell(2000, $cellRowSpan)->addText('E', null, $cellHCentered);
-
-$table->addRow();
-$table->addCell(null, $cellRowContinue);
-$table->addCell(2000, $cellVCentered)->addText('C', null, $cellHCentered);
-$table->addCell(2000, $cellVCentered)->addText('D', null, $cellHCentered);
-$table->addCell(null, $cellRowContinue);
+$row3 = $table->addRow();
+$row3->addCell(500)->addText('E');
+$row3->addCell(500)->addText('F');
+$row3->addCell(500)->addText('G');
+$row3->addCell(null, ['vMerge' => 'continue']);
 
 /*
  *  4. colspan (gridSpan) and rowspan (vMerge)
@@ -137,10 +134,10 @@ $row->addCell(1000)->addText('3');
 $section->addTextBreak(2);
 $section->addText('Nested table in a centered and 50% width table.', $header);
 
-$table = $section->addTable(['width' => 50 * 50, 'unit' => 'pct', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+$table = $section->addTable(['width' => 50 * 50, 'unit' => 'pct', 'alignment' => PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
 $cell = $table->addRow()->addCell();
 $cell->addText('This cell contains nested table.');
-$innerCell = $cell->addTable(['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER])->addRow()->addCell();
+$innerCell = $cell->addTable(['alignment' => PhpOffice\PhpWord\SimpleType\JcTable::CENTER])->addRow()->addCell();
 $innerCell->addText('Inside nested table');
 
 // 6. Table with floating position
