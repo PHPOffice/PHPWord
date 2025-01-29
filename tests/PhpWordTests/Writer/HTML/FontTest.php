@@ -220,7 +220,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('style4', Helper::getTextContent($xpath, '/html/body/div/p[5]/span', 'class'));
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
-        $prg = preg_match('/body[*][^\\r\\n]*/m', $style, $matches);
+        $prg = preg_match('/^body[^\\r\\n]*/m', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertSame(1, $prg);
         self::assertEquals('body {font-family: \'Courier New\', monospace; font-size: 12pt; color: #000000;}', $matches[0]);
