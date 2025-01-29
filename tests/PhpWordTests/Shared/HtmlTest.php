@@ -249,6 +249,7 @@ class HtmlTest extends AbstractWebServerEmbedded
         Html::addHtml($section, '<p style="line-height: 120%;">test</p>');
         Html::addHtml($section, '<p style="line-height: 0.17in;">test</p>');
         Html::addHtml($section, '<p style="line-height: normal;">test</p>');
+        Html::addHtml($section, '<p style="line-height: inherit;">test</p>');
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:spacing'));
@@ -270,6 +271,10 @@ class HtmlTest extends AbstractWebServerEmbedded
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[5]/w:pPr/w:spacing'));
         self::assertEquals(Paragraph::LINE_HEIGHT, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:line'));
         self::assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:lineRule'));
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[6]/w:pPr/w:spacing'));
+        self::assertEquals(Paragraph::LINE_HEIGHT, $doc->getElementAttribute('/w:document/w:body/w:p[6]/w:pPr/w:spacing', 'w:line'));
+        self::assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[6]/w:pPr/w:spacing', 'w:lineRule'));
     }
 
     public function testParseCellPaddingStyle(): void
