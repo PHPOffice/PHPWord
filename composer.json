@@ -109,7 +109,6 @@
         "php": "^7.1|^8.0",
         "ext-dom": "*",
         "ext-gd": "*",
-        "ext-json": "*",
         "ext-xml": "*",
         "ext-zip": "*",
         "phpoffice/math": "^0.2"

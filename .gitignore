@@ -24,4 +24,5 @@ phpword.ini
 /nbproject
 /.php_cs.cache
 /.phpunit.result.cache
+/.phpunit.cache
 /public

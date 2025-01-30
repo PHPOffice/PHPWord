@@ -40,7 +40,7 @@ class Converter
      */
     public static function cmToTwip($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM * self::INCH_TO_TWIP;
+        return $centimeter * self::INCH_TO_TWIP / self::INCH_TO_CM;
     }
 
     /**
@@ -64,7 +64,7 @@ class Converter
      */
     public static function cmToPixel($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM * self::INCH_TO_PIXEL;
+        return $centimeter * self::INCH_TO_PIXEL / self::INCH_TO_CM;
     }
 
     /**
@@ -76,7 +76,7 @@ class Converter
      */
     public static function cmToPoint($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM * self::INCH_TO_POINT;
+        return $centimeter * self::INCH_TO_POINT / self::INCH_TO_CM;
     }
 
     /**
@@ -88,7 +88,7 @@ class Converter
      */
     public static function cmToEmu($centimeter = 1)
     {
-        return round($centimeter / self::INCH_TO_CM * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+        return round($centimeter * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU / self::INCH_TO_CM);
     }
 
     /**
@@ -160,7 +160,7 @@ class Converter
      */
     public static function pixelToTwip($pixel = 1)
     {
-        return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_TWIP;
+        return $pixel * self::INCH_TO_TWIP / self::INCH_TO_PIXEL;
     }
 
     /**
@@ -172,7 +172,7 @@ class Converter
      */
     public static function pixelToCm($pixel = 1)
     {
-        return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_CM;
+        return $pixel * self::INCH_TO_CM / self::INCH_TO_PIXEL;
     }
 
     /**
@@ -184,7 +184,7 @@ class Converter
      */
     public static function pixelToPoint($pixel = 1)
     {
-        return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_POINT;
+        return $pixel * self::INCH_TO_POINT / self::INCH_TO_PIXEL;
     }
 
     /**
@@ -208,7 +208,7 @@ class Converter
      */
     public static function pointToTwip($point = 1)
     {
-        return $point / self::INCH_TO_POINT * self::INCH_TO_TWIP;
+        return $point * self::INCH_TO_TWIP / self::INCH_TO_POINT;
     }
 
     /**
@@ -220,7 +220,7 @@ class Converter
      */
     public static function pointToPixel($point = 1)
     {
-        return $point / self::INCH_TO_POINT * self::INCH_TO_PIXEL;
+        return $point * self::INCH_TO_PIXEL / self::INCH_TO_POINT;
     }
 
     /**
@@ -232,7 +232,7 @@ class Converter
      */
     public static function pointToEmu($point = 1)
     {
-        return round($point / self::INCH_TO_POINT * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+        return round($point * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU / self::INCH_TO_POINT);
     }
 
     /**
@@ -244,7 +244,7 @@ class Converter
      */
     public static function pointToCm($point = 1)
     {
-        return $point / self::INCH_TO_POINT * self::INCH_TO_CM;
+        return $point * self::INCH_TO_CM / self::INCH_TO_POINT;
     }
 
     /**
@@ -268,7 +268,7 @@ class Converter
      */
     public static function picaToPoint($pica = 1)
     {
-        return $pica / self::INCH_TO_PICA * self::INCH_TO_POINT;
+        return $pica * self::INCH_TO_POINT / self::INCH_TO_PICA;
     }
 
     /**

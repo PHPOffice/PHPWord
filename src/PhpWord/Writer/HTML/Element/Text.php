@@ -163,20 +163,22 @@ class Text extends AbstractElement
 
         $content = '';
         if (($changed->getChangeType() == TrackChange::INSERTED)) {
-            $content .= '<ins data-phpword-prop=\'';
+            $content .= '<ins';
         } elseif ($changed->getChangeType() == TrackChange::DELETED) {
-            $content .= '<del data-phpword-prop=\'';
+            $content .= '<del';
         }
-
-        $changedProp = ['changed' => ['author' => $changed->getAuthor(), 'id' => $this->element->getElementId()]];
-        if ($changed->getDate() != null) {
-            $changedProp['changed']['date'] = $changed->getDate()->format('Y-m-d\TH:i:s\Z');
+        $author = htmlspecialchars($changed->getAuthor(), ENT_QUOTES);
+        $content .= " data-phpword-chg-author='$author'";
+        $elementId = htmlspecialchars($this->element->getElementId(), ENT_QUOTES);
+        $content .= " data-phpword-chg-id='$elementId'";
+        $date = $changed->getDate();
+        if ($date !== null) {
+            $dateout = $date->format('Y-m-d\TH:i:s\Z');
+            $content .= " data-phpword-chg-timestamp='$dateout'";
         }
-        $content .= json_encode($changedProp);
-        $content .= '\' ';
-        $content .= 'title="' . $changed->getAuthor();
-        if ($changed->getDate() != null) {
-            $dateUser = $changed->getDate()->format('Y-m-d H:i:s');
+        $content .= ' title="' . $author;
+        if ($date !== null) {
+            $dateUser = $date->format('Y-m-d H:i:s');
             $content .= ' - ' . $dateUser;
         }
         $content .= '">';

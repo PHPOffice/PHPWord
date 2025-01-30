@@ -1477,6 +1477,12 @@ class Html
         if (false !== strpos($size, 'px')) {
             return (float) str_replace('px', '', $size);
         }
+        if (false !== strpos($size, 'cm')) {
+            return Converter::cmToPixel((float) str_replace('cm', '', $size));
+        }
+        if (false !== strpos($size, 'in')) {
+            return Converter::inchToPixel((float) str_replace('in', '', $size));
+        }
 
         return (float) $size;
     }

@@ -256,7 +256,8 @@ class HtmlTest extends AbstractWebServerEmbedded
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblW';
         self::assertTrue($doc->elementExists($xpath));
-        self::assertEquals($docxSize, $doc->getElement($xpath)->getAttribute('w:w'));
+        $actual = (float) $doc->getElement($xpath)->getAttribute('w:w');
+        self::assertEqualsWithDelta($docxSize, $actual, 1.0e-12);
         self::assertEquals($docxUnit, $doc->getElement($xpath)->getAttribute('w:type'));
     }
 
@@ -1371,9 +1372,11 @@ HTML;
         return [
             ['auto', 5000, TblWidth::PERCENT],
             ['100%', 5000, TblWidth::PERCENT],
-            ['200pt', 3999.999999999999, TblWidth::TWIP],
+            ['200pt', 4000, TblWidth::TWIP],
             ['300px', 4500, TblWidth::TWIP],
             ['400', 6000, TblWidth::TWIP],
+            ['2in', 2880, TblWidth::TWIP],
+            ['2.54cm', 1440, TblWidth::TWIP],
         ];
     }
 
