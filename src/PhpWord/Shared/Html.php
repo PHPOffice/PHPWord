@@ -867,7 +867,7 @@ class Html
                     break;
                 case 'line-height':
                     $matches = [];
-                    if ($value === 'normal') {
+                    if ($value === 'normal' || $value === 'inherit') {
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
                         $spacing = 0;
                     } elseif (preg_match('/([0-9]+\.?[0-9]*[a-z]+)/', $value, $matches)) {
