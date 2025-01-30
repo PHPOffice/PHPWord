@@ -36,11 +36,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultDefaults(): void
     {
-        //$doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
-
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-
-        //$phpWord->setDefaultFontColor($defaultFontColor);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
@@ -55,8 +51,6 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
     public function testSettingDefaults(): void
     {
-        //$doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
-
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
         $defaultFontColor = '00FF00';
