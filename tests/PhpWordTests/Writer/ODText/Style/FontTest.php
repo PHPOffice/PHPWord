@@ -47,6 +47,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $element = $doc->getElement($path, $file);
 
         self::assertEquals('#000000', $element->getAttribute('fo:color'));
+        self::assertEquals('false', $element->getAttribute('style:use-window-font-color')); //has to be set to false so that fo:color can take effect
     }
 
     public function testSettingDefaults(): void
