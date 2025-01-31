@@ -36,6 +36,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\SimpleType\TextDirection;
 use PhpOffice\PhpWord\Style\Paragraph;
+use Throwable;
 
 /**
  * Common Html functions.
@@ -114,20 +115,20 @@ class Html
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
 
         try {
-            $result = $dom->loadHTML($html, LIBXML_NOWARNING | LIBXML_NOERROR);
+            $result = @$dom->loadHTML($html);
             $exceptionMessage = 'DOM loadHTML failed';
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $result = false;
             $exceptionMessage = $e->getMessage();
         }
         if ($result === false) {
-            throw new Exception($exceptionMessage); // @codeCoverageIgnore
+            throw new Exception($exceptionMessage);
         }
         self::removeAnnoyingWhitespaceTextNodes($dom);
         static::$xpath = new DOMXPath($dom);
         $node = $dom->getElementsByTagName('html');
         if (count($node) === 0 || $node->item(0) === null) {
-            $node = $dom->getElementsByTagName('body');
+            $node = $dom->getElementsByTagName('body'); // @codeCoverageIgnore
         }
 
         static::parseNode($node->item(0), $element);
@@ -1319,7 +1320,6 @@ class Html
                 return NumberFormat::LOWER_ROMAN; // i, ii, iii, iv, ..
             case 'I':
                 return NumberFormat::UPPER_ROMAN; // I, II, III, IV, ..
-            case '1':
             default:
                 return NumberFormat::DECIMAL; // 1, 2, 3, ..
         }

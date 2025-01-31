@@ -524,11 +524,6 @@ class HtmlColours
         'yellowgreen' => '9acd32',
     ];
 
-    public static function colourNameLookup(string $colorName): string
-    {
-        return self::COLOUR_MAP[$colorName] ?? '';
-    }
-
     public static function convertColour(string $colorName): string
     {
         $colorName = trim($colorName);
