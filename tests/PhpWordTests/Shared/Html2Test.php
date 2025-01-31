@@ -137,4 +137,68 @@ class Html2Test extends AbstractWebServerEmbedded
         $numIdPath = $path . '/w:pPr/w:numPr/w:numId';
         self::assertSame($expected, $doc->getElement($numIdPath)->getAttribute('w:val'));
     }
+
+    public function testPadding(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<table><tbody>'
+            . '<tr>'
+            . '<td style="padding: 20px">20</td>'
+            . '<td style="padding: 20px 30px">20 30</td>'
+            . '</tr><tr>'
+            . '<td style="padding: 20px 30px 40px">20 30 40</td>'
+            . '<td style="padding: 20px 30px 40px 50px">20 30 40 50</td>'
+            . '</tr></tbody></table>';
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $item = 1;
+        $td = 1;
+        $path = "/w:document/w:body/w:tbl/w:tr[$item]/w:tc[$td]";
+        self::assertSame('20', $doc->getElement("$path/w:p/w:r")->nodeValue);
+        $tcMarPath = $path . '/w:tcPr/w:tcMar';
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:top')->getAttribute('w:w'));
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:start')->getAttribute('w:w'));
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:bottom')->getAttribute('w:w'));
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:end')->getAttribute('w:w'));
+
+        ++$td;
+        $path = "/w:document/w:body/w:tbl/w:tr[$item]/w:tc[$td]";
+        self::assertSame('20 30', $doc->getElement("$path/w:p/w:r")->nodeValue);
+        $tcMarPath = $path . '/w:tcPr/w:tcMar';
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:top')->getAttribute('w:w'));
+        self::assertSame('450', $doc->getElement($tcMarPath . '/w:start')->getAttribute('w:w'));
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:bottom')->getAttribute('w:w'));
+        self::assertSame('450', $doc->getElement($tcMarPath . '/w:end')->getAttribute('w:w'));
+
+        $item = 1;
+        $td = 1;
+        $path = "/w:document/w:body/w:tbl/w:tr[$item]/w:tc[$td]";
+        self::assertSame('20', $doc->getElement("$path/w:p/w:r")->nodeValue);
+        $tcMarPath = $path . '/w:tcPr/w:tcMar';
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:top')->getAttribute('w:w'));
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:start')->getAttribute('w:w'));
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:bottom')->getAttribute('w:w'));
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:end')->getAttribute('w:w'));
+
+        ++$item;
+        $td = 1;
+        $path = "/w:document/w:body/w:tbl/w:tr[$item]/w:tc[$td]";
+        self::assertSame('20 30 40', $doc->getElement("$path/w:p/w:r")->nodeValue);
+        $tcMarPath = $path . '/w:tcPr/w:tcMar';
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:top')->getAttribute('w:w'));
+        self::assertSame('450', $doc->getElement($tcMarPath . '/w:start')->getAttribute('w:w'));
+        self::assertSame('600', $doc->getElement($tcMarPath . '/w:bottom')->getAttribute('w:w'));
+        self::assertSame('450', $doc->getElement($tcMarPath . '/w:end')->getAttribute('w:w'));
+
+        ++$td;
+        $path = "/w:document/w:body/w:tbl/w:tr[$item]/w:tc[$td]";
+        self::assertSame('20 30 40 50', $doc->getElement("$path/w:p/w:r")->nodeValue);
+        $tcMarPath = $path . '/w:tcPr/w:tcMar';
+        self::assertSame('300', $doc->getElement($tcMarPath . '/w:top')->getAttribute('w:w'));
+        self::assertSame('750', $doc->getElement($tcMarPath . '/w:start')->getAttribute('w:w'));
+        self::assertSame('600', $doc->getElement($tcMarPath . '/w:bottom')->getAttribute('w:w'));
+        self::assertSame('450', $doc->getElement($tcMarPath . '/w:end')->getAttribute('w:w'));
+    }
 }
