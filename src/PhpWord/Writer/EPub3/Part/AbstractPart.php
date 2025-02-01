@@ -19,11 +19,12 @@
 namespace PhpOffice\PhpWord\Writer\EPub3\Part;
 
 use PhpOffice\PhpWord\Writer\AbstractWriter;
+use PhpOffice\PhpWord\Writer\WriterPartInterface;
 
 /**
  * Abstract class for EPub3 parts.
  */
-abstract class AbstractPart
+abstract class AbstractPart implements WriterPartInterface
 {
     /**
      * Parent writer.
@@ -35,11 +36,9 @@ abstract class AbstractPart
     /**
      * Set parent writer.
      */
-    public function setParentWriter(AbstractWriter $writer): self
+    public function setParentWriter(AbstractWriter $writer): void
     {
         $this->parentWriter = $writer;
-
-        return $this;
     }
 
     /**

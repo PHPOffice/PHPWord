@@ -16,8 +16,8 @@ class ContentTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->content = new Content();
         $phpWord = new PhpWord();
+        $this->content = new Content($phpWord);
         $section = $phpWord->addSection();
         $section->addText('Test content');
 

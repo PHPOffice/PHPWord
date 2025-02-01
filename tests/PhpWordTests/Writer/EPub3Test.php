@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Writer\EPub3;
@@ -54,10 +55,11 @@ class EPub3Test extends \PHPUnit\Framework\TestCase
      */
     public function testConstructWithNull(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('No PhpWord assigned.');
-        $object = new EPub3();
-        $object->getPhpWord();
+
+        $writer = new EPub3();
+        $writer->getWriterPart('content')->write();
     }
 
     /**
@@ -115,7 +117,7 @@ class EPub3Test extends \PHPUnit\Framework\TestCase
      */
     public function testSetUseDiskCachingException(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectException(Exception::class);
         $dir = implode(DIRECTORY_SEPARATOR, [PHPWORD_TESTS_BASE_DIR, 'foo']);
 
         $object = new EPub3();

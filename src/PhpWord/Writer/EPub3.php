@@ -18,7 +18,6 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\EPub3\Part\AbstractPart;
 
@@ -42,14 +41,16 @@ class EPub3 extends AbstractWriter implements WriterInterface
             'Toc' => 'toc.ncx',
             'Styles' => 'styles.css',
             'Manifest' => 'META-INF/container.xml',
+            'Nav' => 'nav.xhtml',
+            'ContentXhtml' => 'content.xhtml',
         ];
         foreach (array_keys($this->parts) as $partName) {
             $partClass = static::class . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
-                /** @var AbstractPart $partObject Type hint */
-                $partObject = new $partClass();
-                $partObject->setParentWriter($this);
-                $this->writerParts[strtolower($partName)] = $partObject;
+                /** @var WriterPartInterface $part */
+                $part = new $partClass($partName === 'Content' || $partName === 'ContentXhtml' ? $phpWord : null);
+                $part->setParentWriter($this);
+                $this->writerParts[strtolower($partName)] = $part;
             }
         }
 
@@ -65,13 +66,11 @@ class EPub3 extends AbstractWriter implements WriterInterface
         $filename = $this->getTempFile($filename);
         $zip = $this->getZipArchive($filename);
 
-        // Add section media files
-        $sectionMedia = Media::getElements('section');
-        if (!empty($sectionMedia)) {
-            $this->addFilesToPackage($zip, $sectionMedia);
-        }
+        // Add mimetype first without compression
+        $zip->addFromString('mimetype', 'application/epub+zip');
+        $zip->addEmptyDir('META-INF');
 
-        // Write parts
+        // Add other files
         foreach ($this->parts as $partName => $fileName) {
             if ($fileName === '') {
                 continue;
@@ -80,12 +79,13 @@ class EPub3 extends AbstractWriter implements WriterInterface
             if (!$part instanceof AbstractPart) {
                 continue;
             }
-
             $zip->addFromString($fileName, $part->write());
         }
 
-        // Close zip archive and cleanup temp file
+        // Close zip archive
         $zip->close();
+
+        // Cleanup temp file
         $this->cleanupTempFile();
     }
 }
