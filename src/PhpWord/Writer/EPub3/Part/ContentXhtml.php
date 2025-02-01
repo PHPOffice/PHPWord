@@ -2,6 +2,8 @@
 
 namespace PhpOffice\PhpWord\Writer\EPub3\Part;
 
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use XMLWriter;
 
@@ -64,33 +66,19 @@ class ContentXhtml extends AbstractPart
             $xmlWriter->writeAttribute('class', 'section');
 
             foreach ($section->getElements() as $element) {
-                if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                if ($element instanceof TextRun) {
                     $xmlWriter->startElement('p');
-                    foreach ($element->getElements() as $textElement) {
-                        if ($textElement instanceof \PhpOffice\PhpWord\Element\Text) {
-                            $xmlWriter->text($textElement->getText());
-                        } elseif (method_exists($textElement, 'getText')) {
-                            $xmlWriter->text($textElement->getText());
-                        }
-                    }
+                    $this->writeTextRun($element, $xmlWriter);
                     $xmlWriter->endElement(); // p
                 } elseif (method_exists($element, 'getText')) {
-                    $textValue = $element->getText();
-                    if ($textValue instanceof \PhpOffice\PhpWord\Element\TextRun) {
-                        $xmlWriter->startElement('p');
-                        foreach ($textValue->getElements() as $childElement) {
-                            if ($childElement instanceof \PhpOffice\PhpWord\Element\Text) {
-                                $xmlWriter->text($childElement->getText());
-                            } elseif (method_exists($childElement, 'getText')) {
-                                $xmlWriter->text($childElement->getText());
-                            }
-                        }
-                        $xmlWriter->endElement(); // p
-                    } else {
-                        $xmlWriter->startElement('p');
-                        $xmlWriter->text($textValue);
-                        $xmlWriter->endElement(); // p
+                    $text = $element->getText();
+                    $xmlWriter->startElement('p');
+                    if ($text instanceof TextRun) {
+                        $this->writeTextRun($text, $xmlWriter);
+                    } elseif ($text !== null) {
+                        $xmlWriter->text((string) $text);
                     }
+                    $xmlWriter->endElement(); // p
                 }
             }
 
@@ -101,5 +89,29 @@ class ContentXhtml extends AbstractPart
         $xmlWriter->endElement(); // html
 
         return $xmlWriter->outputMemory(true);
+    }
+
+    protected function writeTextElement(\PhpOffice\PhpWord\Element\AbstractElement $textElement, XMLWriter $xmlWriter): void
+    {
+        if ($textElement instanceof Text) {
+            $text = $textElement->getText();
+            if ($text !== null) {
+                $xmlWriter->text((string) $text);
+            }
+        } elseif (is_object($textElement) && method_exists($textElement, 'getText')) {
+            $text = $textElement->getText();
+            if ($text instanceof TextRun) {
+                $this->writeTextRun($text, $xmlWriter);
+            } elseif ($text !== null) {
+                $xmlWriter->text((string) $text);
+            }
+        }
+    }
+
+    protected function writeTextRun(TextRun $textRun, XMLWriter $xmlWriter): void
+    {
+        foreach ($textRun->getElements() as $element) {
+            $this->writeTextElement($element, $xmlWriter);
+        }
     }
 }
