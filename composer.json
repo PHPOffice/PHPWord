@@ -108,10 +108,10 @@
     "require": {
         "php": "^7.1|^8.0",
         "ext-dom": "*",
-        "ext-gd": "*",
+        "ext-gd": "*",  
+        "ext-zip": "*",
         "ext-json": "*",
         "ext-xml": "*",
-        "ext-zip": "*",
         "phpoffice/math": "^0.2"
     },
     "require-dev": {
