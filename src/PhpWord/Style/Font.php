@@ -109,7 +109,7 @@ class Font extends AbstractStyle
     /**
      * Font color.
      *
-     * @var string
+     * @var null|string
      */
     private $color;
 
@@ -426,10 +426,8 @@ class Font extends AbstractStyle
 
     /**
      * Get font color.
-     *
-     * @return string
      */
-    public function getColor()
+    public function getColor(): ?string
     {
         return $this->color;
     }
