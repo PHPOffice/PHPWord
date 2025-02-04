@@ -1362,7 +1362,7 @@ class TemplateProcessor
      *
      * @return TemplateProcessor Fluent interface
      */
-    public function replaceMultipleXmlBlocks($macro, $block, $blockType = 'w:p'): self
+    public function replaceMultipleXmlBlocks($macro, $block, $blockType = 'w:p')
     {
         $offset = 0;
         while (true) {
