@@ -66,6 +66,11 @@ class TestableTemplateProcesor extends TemplateProcessor
         return parent::findContainingXmlBlockForMacro($macro, $blockType);
     }
 
+    public function findAllContainingXmlBlockForMacro($macro, $blockType = 'w:p', $offset = 0)
+    {
+        return parent::findAllContainingXmlBlockForMacro($macro, $blockType, $offset);
+    }
+
     public function getSlice($startPosition, $endPosition = 0)
     {
         return parent::getSlice($startPosition, $endPosition);

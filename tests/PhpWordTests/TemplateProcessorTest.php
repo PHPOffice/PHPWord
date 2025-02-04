@@ -1613,6 +1613,113 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($result);
     }
 
+    /**
+     * @covers ::findAllContainingXmlBlockForMacro
+     */
+    public function testFindAllContainingXmlBlockForMacro(): void
+    {
+        $toFind = '<w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                    <w:t>This is the first ${macro}</w:t>
+                </w:r>';
+
+        $mainPart = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:p>
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                    <w:t>Some text without macro</w:t>
+                </w:r>
+            </w:p>
+            <w:p>' . $toFind . '</w:p>
+            <w:p>
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                    <w:t>This is the second ${macro}</w:t>
+                </w:r>
+            </w:p>
+        </w:document>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+
+        $firstOccurrence = $templateProcessor->findAllContainingXmlBlockForMacro('${macro}', 'w:r');
+
+        self::assertNotFalse($firstOccurrence);
+
+        self::assertEquals(
+            $toFind,
+            $templateProcessor->getSlice($firstOccurrence['start'], $firstOccurrence['end'])
+        );
+
+        $secondOccurrence = $templateProcessor->findAllContainingXmlBlockForMacro('${macro}', 'w:r', $firstOccurrence['end']);
+
+        self::assertNotFalse($secondOccurrence);
+
+        $expectedSecond = '<w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                    <w:t>This is the second ${macro}</w:t>
+                </w:r>';
+
+        self::assertEquals($expectedSecond, $templateProcessor->getSlice($secondOccurrence['start'], $secondOccurrence['end']));
+    }
+
+    /**
+     * @covers ::replaceXmlBlock
+     */
+    public function testReplaceXmlBlock(): void
+    {
+        $originalXml = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:p>${macro}</w:p>
+            <w:p>Some text</w:p>
+            <w:p>${macro}</w:p>
+        </w:document>';
+
+        $expectedXml = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:p>New content</w:p>
+            <w:p>Some text</w:p>
+            <w:p>${macro}</w:p>
+        </w:document>';
+
+        $templateProcessor = new TestableTemplateProcesor($originalXml);
+        $templateProcessor->replaceXmlBlock('${macro}', '<w:p>New content</w:p>');
+
+        self::assertEquals($expectedXml, $templateProcessor->getMainPart());
+    }
+
+    /**
+     * @covers ::replaceMultipleXmlBlocks
+     */
+    public function testReplaceMultipleXmlBlocks(): void
+    {
+        $originalXml = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:p>${macro}</w:p>
+            <w:p>Some text</w:p>
+            <w:p>${macro}</w:p>
+        </w:document>';
+
+        $expectedXml = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:p>New content</w:p>
+            <w:p>Some text</w:p>
+            <w:p>New content</w:p>
+        </w:document>';
+
+        $templateProcessor = new TestableTemplateProcesor($originalXml);
+        $templateProcessor->replaceMultipleXmlBlocks('${macro}', '<w:p>New content</w:p>');
+
+        self::assertEquals($expectedXml, $templateProcessor->getMainPart());
+    }
+
     public function testShouldMakeFieldsUpdateOnOpen(): void
     {
         $settingsPart = '<w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
