@@ -1354,10 +1354,39 @@ class TemplateProcessor
     }
 
     /**
+     * Replace an XML block surrounding a macro with a new block.
+     *
+     * @param string $macro Name of macro
+     * @param string $block New block content
+     * @param string $blockType XML tag type of block
+     *
+     * @return TemplateProcessor Fluent interface
+     */
+    public function replaceMultipleXmlBlocks($macro, $block, $blockType = 'w:p')
+    {
+        $offset = 0;
+        while (true) {
+            $where = $this->findAllContainingXmlBlockForMacro($macro, $blockType, $offset);
+
+            if (false === $where) {
+                break;
+            }
+
+            $this->tempDocumentMainPart = $this->getSlice(0, $where['start']) . $block . $this->getSlice($where['end']);
+
+            $offset = $where['start'] + strlen($block);
+        }
+
+        return $this;
+    }
+
+    /**
      * Find start and end of XML block containing the given macro
      * e.g. <w:p>...${macro}...</w:p>.
      *
      * Note that only the first instance of the macro will be found
+     *
+     * @see findAllContainingXmlBlockForMacro for finding all instances
      *
      * @param string $macro Name of macro
      * @param string $blockType XML tag for block
@@ -1377,6 +1406,42 @@ class TemplateProcessor
         $end = $this->findXmlBlockEnd($start, $blockType);
         //if not found or if resulting string does not contain the macro we are searching for
         if (0 > $end || strstr($this->getSlice($start, $end), $macro) === false) {
+            return false;
+        }
+
+        return ['start' => $start, 'end' => $end];
+    }
+
+    /**
+     * Find start and end of XML block containing the given macro
+     * e.g. <w:p>...${macro}...</w:p>.
+     *
+     * Unlike `findContainingXmlBlockForMacro`, this method searches for all occurrences
+     * of the macro starting from the specified offset.
+     *
+     * @param string $macro Name of macro
+     * @param string $blockType XML tag for block
+     * @param int $offset Position to start searching for the macro
+     *
+     * @return array{start: int, end: int}|false FALSE if not found, otherwise array with start and end
+     */
+    protected function findAllContainingXmlBlockForMacro($macro, $blockType = 'w:p', $offset = 0)
+    {
+        $macroPos = $this->findMacro($macro, $offset);
+
+        if (0 > $macroPos) {
+            return false;
+        }
+
+        $start = $this->findXmlBlockStart($macroPos, $blockType);
+
+        if (0 > $start) {
+            return false;
+        }
+
+        $end = $this->findXmlBlockEnd($start, $blockType);
+        $slice = $this->getSlice($start, $end);
+        if ($end < 0 || strpos($slice, $macro) === false) {
             return false;
         }
 
