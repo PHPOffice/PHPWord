@@ -19,9 +19,8 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\Title as PhpWordTitle;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML;
-use PhpOffice\PhpWord\Writer\HTML\Style\Font;
+use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph;
 
 /**
  * TextRun element HTML writer.
@@ -44,17 +43,21 @@ class Title extends AbstractElement
         $tag = 'h' . $this->element->getDepth();
 
         $text = $this->element->getText();
+        $paragraphStyle = null;
         if (is_string($text)) {
             $text = $this->parentWriter->escapeHTML($text);
         } else {
+            $paragraphStyle = $text->getParagraphStyle();
             $writer = new Container($this->parentWriter, $text);
             $text = $writer->write();
         }
         $css = '';
-        $style = Style::getStyle('Heading_' . $this->element->getDepth());
-        if ($style !== null) {
-            $styleWriter = new Font($style);
-            $css = ' style="' . $styleWriter->write() . '"';
+        if (is_object($paragraphStyle)) {
+            $styleWriter = new Paragraph($paragraphStyle);
+            $write = $styleWriter->write();
+            if ($write !== '') {
+                $css = " style=\"$write\"";
+            }
         }
 
         $content = "<{$tag}{$css}>{$text}</{$tag}>" . PHP_EOL;

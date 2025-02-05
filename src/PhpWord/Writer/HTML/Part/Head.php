@@ -134,6 +134,7 @@ class Head extends AbstractPart
                     $styleWriter = new FontStyleWriter($style);
                     if ($style->getStyleType() == 'title') {
                         $name = str_replace('Heading_', 'h', $name);
+                        $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                         $styleParagraph = $style->getParagraph();
                         $style = $styleParagraph;
                     } else {

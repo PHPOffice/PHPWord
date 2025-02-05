@@ -350,10 +350,10 @@ class Html
      */
     protected static function parseHeading(DOMNode $node, AbstractContainer $element, array &$styles, string $headingStyle): TextRun
     {
-        self::parseInlineStyle($node, $styles['font']);
-        // Create a TextRun to hold styles and text
-        $styles['paragraph'] = $headingStyle;
-        $textRun = new TextRun($styles['paragraph']);
+        $style = new Paragraph();
+        $style->setStyleName($headingStyle);
+        $style->setStyleByArray(self::parseInlineStyle($node, $styles['paragraph']));
+        $textRun = new TextRun($style);
 
         // Create a title with level corresponding to number in heading style
         // (Eg, Heading1 = 1)
