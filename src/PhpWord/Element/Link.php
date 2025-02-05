@@ -99,10 +99,8 @@ class Link extends AbstractElement
 
     /**
      * Get link text.
-     *
-     * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }

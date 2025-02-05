@@ -22,12 +22,15 @@ use Exception;
 use PhpOffice\PhpWord\ComplexType\RubyProperties;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
@@ -103,6 +106,48 @@ class HtmlTest extends AbstractWebServerEmbedded
         Html::addHtml($section, '<body><p>test paragraph1</p><p>test paragraph2</p></body>', true);
 
         self::assertCount(2, $section->getElements());
+    }
+
+    public function testParseHeader(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<h1>Text</h1>');
+
+        self::assertCount(1, $section->getElements());
+        $element = $section->getElement(0);
+        self::assertInstanceOf(TextRun::class, $element);
+        self::assertInstanceOf(Paragraph::class, $element->getParagraphStyle());
+        self::assertEquals('Heading1', $element->getParagraphStyle()->getStyleName());
+        self::assertEquals('', $element->getParagraphStyle()->getAlignment());
+        self::assertEquals('Text', $element->getText());
+        self::assertCount(1, $element->getElements());
+        $subElement = $element->getElement(0);
+        self::assertInstanceOf(Text::class, $subElement);
+        self::assertInstanceOf(Font::class, $subElement->getFontStyle());
+        self::assertNull($subElement->getFontStyle()->getColor());
+        self::assertEquals('Text', $subElement->getText());
+    }
+
+    public function testParseHeaderStyle(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<h1 style="color: #ff0000; text-align:center">Text</h1>');
+
+        self::assertCount(1, $section->getElements());
+        $element = $section->getElement(0);
+        self::assertInstanceOf(TextRun::class, $element);
+        self::assertInstanceOf(Paragraph::class, $element->getParagraphStyle());
+        self::assertEquals('Heading1', $element->getParagraphStyle()->getStyleName());
+        self::assertEquals('center', $element->getParagraphStyle()->getAlignment());
+        self::assertEquals('Text', $element->getText());
+        self::assertCount(1, $element->getElements());
+        $subElement = $element->getElement(0);
+        self::assertInstanceOf(Text::class, $subElement);
+        self::assertInstanceOf(Font::class, $subElement->getFontStyle());
+        self::assertEquals('ff0000', $subElement->getFontStyle()->getColor());
+        self::assertEquals('Text', $subElement->getText());
     }
 
     /**
@@ -249,6 +294,7 @@ class HtmlTest extends AbstractWebServerEmbedded
         Html::addHtml($section, '<p style="line-height: 120%;">test</p>');
         Html::addHtml($section, '<p style="line-height: 0.17in;">test</p>');
         Html::addHtml($section, '<p style="line-height: normal;">test</p>');
+        Html::addHtml($section, '<p style="line-height: inherit;">test</p>');
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:spacing'));
@@ -270,6 +316,10 @@ class HtmlTest extends AbstractWebServerEmbedded
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[5]/w:pPr/w:spacing'));
         self::assertEquals(Paragraph::LINE_HEIGHT, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:line'));
         self::assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[5]/w:pPr/w:spacing', 'w:lineRule'));
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[6]/w:pPr/w:spacing'));
+        self::assertEquals(Paragraph::LINE_HEIGHT, $doc->getElementAttribute('/w:document/w:body/w:p[6]/w:pPr/w:spacing', 'w:line'));
+        self::assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[6]/w:pPr/w:spacing', 'w:lineRule'));
     }
 
     public function testParseCellPaddingStyle(): void
