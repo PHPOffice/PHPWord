@@ -40,7 +40,7 @@ class HtmlHeadingsTest extends TestCase
         $section = $originalDoc->addSection();
         $expectedStrings = [];
         $section->addTitle('Title 1', 1);
-        $expectedStrings[] = '<h1>Title 1</h1>';
+        $expectedStrings[] = '<h1 style="font-size: 20pt;">Title 1</h1>';
         for ($i = 2; $i <= 6; ++$i) {
             $textRun = new TextRun();
             $textRun->addText('Title ');
@@ -59,8 +59,18 @@ class HtmlHeadingsTest extends TestCase
         SharedHtml::addHtml($newSection, $content, true);
         $newWriter = new HtmlWriter($newDoc);
         $newContent = $newWriter->getContent();
+        // Reader does not yet support h1 declaration in css.
+        $content = str_replace('h1 {font-size: 20pt;}' . PHP_EOL, '', $content);
 
-        // This needs work
-        self::assertSame($newContent, str_replace('h1 {font-size: 20pt;}' . PHP_EOL, '', $content));
+        // Reader transforms Text to TextRun,
+        //  but result is functionally the same.
+        self::assertSame(
+            $newContent,
+            str_replace(
+                '<h1 style="font-size: 20pt;">Title 1</h1>',
+                '<h1><span style="font-size: 20pt;">Title 1</span></h1>',
+                $content
+            )
+        );
     }
 }
