@@ -423,4 +423,15 @@ class ZipArchive
 
         return ($listIndex > -1) ? $listIndex : false;
     }
+
+    /**
+     * Add an empty directory to the zip archive (emulate \ZipArchive).
+     *
+     * @param string $dirname Directory name to add to the zip archive
+     */
+    public function addEmptyDir(string $dirname): bool
+    {
+        // Create a directory entry by adding an empty file with trailing slash
+        return $this->addFromString(rtrim($dirname, '/') . '/', '');
+    }
 }

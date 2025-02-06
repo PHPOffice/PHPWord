@@ -73,7 +73,7 @@ class Text extends AbstractElement
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
 
-        $text = $this->parentWriter->escapeHTML($element->getText());
+        $text = $this->parentWriter->escapeHTML($element->getText() ?? '');
         if (!$this->withoutP && !trim($text)) {
             $text = '&nbsp;';
         }

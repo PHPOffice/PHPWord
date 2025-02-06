@@ -326,16 +326,16 @@ class Html
 
         // Node mapping table
         $nodes = [
-            // $method        $node   $element    $styles     $data   $argument1      $argument2
-            'p' => ['Paragraph',   $node,  $element,   $styles,    null,   null,           null],
-            'h1' => ['Heading',    $node,   $element,   $styles,    null,   'Heading1',     null],
-            'h2' => ['Heading',    $node,   $element,   $styles,    null,   'Heading2',     null],
-            'h3' => ['Heading',    $node,   $element,   $styles,    null,   'Heading3',     null],
-            'h4' => ['Heading',    $node,   $element,   $styles,    null,   'Heading4',     null],
-            'h5' => ['Heading',    $node,   $element,   $styles,    null,   'Heading5',     null],
-            'h6' => ['Heading',    $node,   $element,   $styles,    null,   'Heading6',     null],
-            '#text' => ['Text',        $node,  $element,   $styles,    null,   null,           null],
-            'strong' => ['Property',    null,   null,       $styles,    null,   'bold',         true],
+            // $method               $node   $element    $styles     $data   $argument1      $argument2
+            'p' => ['Paragraph',     $node,  $element,   $styles,    null,   null,           null],
+            'h1' => ['Heading',      $node,  $element,   $styles,    null,   'Heading1',     null],
+            'h2' => ['Heading',      $node,  $element,   $styles,    null,   'Heading2',     null],
+            'h3' => ['Heading',      $node,  $element,   $styles,    null,   'Heading3',     null],
+            'h4' => ['Heading',      $node,  $element,   $styles,    null,   'Heading4',     null],
+            'h5' => ['Heading',      $node,  $element,   $styles,    null,   'Heading5',     null],
+            'h6' => ['Heading',      $node,  $element,   $styles,    null,   'Heading6',     null],
+            '#text' => ['Text',      $node,  $element,   $styles,    null,   null,           null],
+            'strong' => ['Property', null,   null,       $styles,    null,   'bold',         true],
             'b' => ['Property',    null,   null,       $styles,    null,   'bold',         true],
             'em' => ['Property',    null,   null,       $styles,    null,   'italic',       true],
             'i' => ['Property',    null,   null,       $styles,    null,   'italic',       true],

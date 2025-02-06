@@ -109,8 +109,8 @@
         "php": "^7.1|^8.0",
         "ext-dom": "*",
         "ext-gd": "*",
-        "ext-xml": "*",
         "ext-zip": "*",
+        "ext-xml": "*",
         "phpoffice/math": "^0.2"
     },
     "require-dev": {

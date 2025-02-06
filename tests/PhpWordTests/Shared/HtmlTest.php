@@ -126,6 +126,48 @@ class HtmlTest extends AbstractWebServerEmbedded
         self::assertCount(2, $section->getElements());
     }
 
+    public function testParseHeader(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<h1>Text</h1>');
+
+        self::assertCount(1, $section->getElements());
+        $element = $section->getElement(0);
+        self::assertInstanceOf(TextRun::class, $element);
+        self::assertInstanceOf(Paragraph::class, $element->getParagraphStyle());
+        self::assertEquals('Heading1', $element->getParagraphStyle()->getStyleName());
+        self::assertEquals('', $element->getParagraphStyle()->getAlignment());
+        self::assertEquals('Text', $element->getText());
+        self::assertCount(1, $element->getElements());
+        $subElement = $element->getElement(0);
+        self::assertInstanceOf(Text::class, $subElement);
+        self::assertInstanceOf(Font::class, $subElement->getFontStyle());
+        self::assertNull($subElement->getFontStyle()->getColor());
+        self::assertEquals('Text', $subElement->getText());
+    }
+
+    public function testParseHeaderStyle(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<h1 style="color: #ff0000; text-align:center">Text</h1>');
+
+        self::assertCount(1, $section->getElements());
+        $element = $section->getElement(0);
+        self::assertInstanceOf(TextRun::class, $element);
+        self::assertInstanceOf(Paragraph::class, $element->getParagraphStyle());
+        self::assertEquals('Heading1', $element->getParagraphStyle()->getStyleName());
+        self::assertEquals('center', $element->getParagraphStyle()->getAlignment());
+        self::assertEquals('Text', $element->getText());
+        self::assertCount(1, $element->getElements());
+        $subElement = $element->getElement(0);
+        self::assertInstanceOf(Text::class, $subElement);
+        self::assertInstanceOf(Font::class, $subElement->getFontStyle());
+        self::assertEquals('ff0000', $subElement->getFontStyle()->getColor());
+        self::assertEquals('Text', $subElement->getText());
+    }
+
     /**
      * Test HTML entities.
      */
