@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
@@ -134,6 +135,8 @@ class HtmlTest extends AbstractWebServerEmbedded
 
         self::assertCount(1, $section->getElements());
         $element = $section->getElement(0);
+        self::assertInstanceOf(Title::class, $element);
+        $element = $element->getText();
         self::assertInstanceOf(TextRun::class, $element);
         self::assertInstanceOf(Paragraph::class, $element->getParagraphStyle());
         self::assertEquals('Heading1', $element->getParagraphStyle()->getStyleName());
@@ -155,6 +158,8 @@ class HtmlTest extends AbstractWebServerEmbedded
 
         self::assertCount(1, $section->getElements());
         $element = $section->getElement(0);
+        self::assertInstanceOf(Title::class, $element);
+        $element = $element->getText();
         self::assertInstanceOf(TextRun::class, $element);
         self::assertInstanceOf(Paragraph::class, $element->getParagraphStyle());
         self::assertEquals('Heading1', $element->getParagraphStyle()->getStyleName());
