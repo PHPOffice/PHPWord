@@ -125,7 +125,7 @@ class Settings extends AbstractPart
     }
 
     /**
-     * Sets the proof state.
+     * Sets the zoom level.
      */
     protected function setZoom(XMLReader $xmlReader, PhpWord $phpWord, DOMElement $node): void
     {
