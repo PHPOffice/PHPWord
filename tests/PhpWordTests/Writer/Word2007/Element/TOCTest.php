@@ -76,6 +76,7 @@ class TOCTest extends \PHPUnit\Framework\TestCase
             self::assertEquals('Title ' . $i, $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[1]/w:t')->textContent);
             self::assertTrue($doc->elementExists('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText'));
             self::assertEquals('preserve', $doc->getElementAttribute('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText', 'xml:space'));
+            self::assertEquals('PAGEREF  \\h', $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText')->nodeValue);
         }
     }
 }
