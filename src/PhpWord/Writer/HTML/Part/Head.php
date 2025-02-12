@@ -101,7 +101,6 @@ class Head extends AbstractPart
 
         foreach ([
             'body' => $bodyarray,
-            //'*' => $astarray,
             'a.NoteRef' => [
                 'text-decoration' => 'none',
             ],

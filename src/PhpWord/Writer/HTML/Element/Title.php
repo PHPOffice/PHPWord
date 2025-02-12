@@ -18,7 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Element\Title as PhpWordTitle;
+use PhpOffice\PhpWord\Element\Title as ElementTitle;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font;
@@ -38,7 +38,7 @@ class Title extends AbstractElement
      */
     public function write()
     {
-        if (!$this->element instanceof PhpWordTitle) {
+        if (!$this->element instanceof ElementTitle) {
             return '';
         }
 
