@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,8 @@
 
 namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
+use PhpOffice\PhpWord\ComplexType\RubyProperties;
+use PhpOffice\PhpWord\Element\Ruby;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Style\Font;
@@ -195,13 +198,13 @@ class ElementTest extends AbstractTestReader
 
         self::assertEquals('two', $textRun->getElement(1)->getText());
         self::assertNotNull($textRun->getElement(1)->getTrackChange());
-        /** @var \PhpOffice\PhpWord\Element\TrackChange $trackChange */
+        /** @var TrackChange $trackChange */
         $trackChange = $textRun->getElement(1)->getTrackChange();
         self::assertEquals(TrackChange::DELETED, $trackChange->getChangeType());
 
         self::assertEquals('three', $textRun->getElement(2)->getText());
         self::assertNotNull($textRun->getElement(2)->getTrackChange());
-        /** @var \PhpOffice\PhpWord\Element\TrackChange $trackChange */
+        /** @var TrackChange $trackChange */
         $trackChange = $textRun->getElement(2)->getTrackChange();
         self::assertEquals(TrackChange::INSERTED, $trackChange->getChangeType());
     }
@@ -354,5 +357,323 @@ class ElementTest extends AbstractTestReader
 
         $elements = $phpWord->getSection(0)->getElements();
         self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+    }
+
+    /**
+     * Test reading FormField - DROPDOWN.
+     */
+    public function testReadFormFieldDropdown(): void
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:t>Reference</w:t>
+            </w:r>
+            <w:r>
+                <w:fldChar w:fldCharType="begin">
+                    <w:ffData>
+                        <w:name w:val="DropDownList1"/>
+                        <w:enabled/>
+                        <w:calcOnExit w:val="0"/>
+                        <w:ddList>
+                            <w:result w:val="2"/>
+                            <w:listEntry w:val="TBD"/>
+                            <w:listEntry w:val="Option One"/>
+                            <w:listEntry w:val="Option Two"/>
+                            <w:listEntry w:val="Option Three"/>
+                            <w:listEntry w:val="Other"/>
+                        </w:ddList>
+                    </w:ffData>
+                </w:fldChar>
+            </w:r>
+            <w:r>
+                <w:instrText xml:space="preserve"> FORMDROPDOWN </w:instrText>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:fldChar w:fldCharType="separate"/>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:fldChar w:fldCharType="end"/>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+
+        $subElements = $elements[0]->getElements();
+
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
+        self::assertEquals('Reference', $subElements[0]->getText());
+
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
+        self::assertEquals('dropdown', $subElements[1]->getType());
+        self::assertEquals('DropDownList1', $subElements[1]->getName());
+        self::assertEquals('2', $subElements[1]->getValue());
+        self::assertEquals('Option Two', $subElements[1]->getText());
+        self::assertEquals(['TBD', 'Option One', 'Option Two', 'Option Three', 'Other'], $subElements[1]->getEntries());
+    }
+
+    /**
+     * Test reading FormField - textinput.
+     */
+    public function testReadFormFieldTextinput(): void
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:t>Fieldname</w:t>
+            </w:r>
+            <w:r>
+                <w:fldChar w:fldCharType="begin">
+                    <w:ffData>
+                        <w:name w:val="TextInput2"/>
+                        <w:enabled/>
+                        <w:calcOnExit w:val="0"/>
+                        <w:textInput>
+                            <w:default w:val="TBD"/>
+                            <w:maxLength w:val="200"/>
+                        </w:textInput>
+                    </w:ffData>
+                </w:fldChar>
+            </w:r>
+            <w:r>
+                <w:instrText xml:space="preserve"> FORMTEXT </w:instrText>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:fldChar w:fldCharType="separate"/>
+            </w:r>
+            <w:r w:rsidR="00807709">
+                <w:rPr>
+                    <w:noProof/>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:t>This is some sample text</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:lang w:val="en-GB"/>
+                </w:rPr>
+                <w:fldChar w:fldCharType="end"/>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+
+        $subElements = $elements[0]->getElements();
+
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
+        self::assertEquals('Fieldname', $subElements[0]->getText());
+
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[1]);
+        self::assertEquals('textinput', $subElements[1]->getType());
+        self::assertEquals('TextInput2', $subElements[1]->getName());
+        self::assertEquals('This is some sample text', $subElements[1]->getValue());
+        self::assertEquals('This is some sample text', $subElements[1]->getText());
+    }
+
+    /**
+     * Test reading FormField - checkbox.
+     */
+    public function testReadFormFieldCheckbox(): void
+    {
+        $documentXml = '<w:p>
+			<w:pPr/>
+			<w:r>
+				<w:fldChar w:fldCharType="begin">
+					<w:ffData>
+						<w:enabled w:val="1"/>
+						<w:name w:val="SomeCheckbox"/>
+						<w:calcOnExit w:val="0"/>
+						<w:checkBox>
+							<w:sizeAuto w:val=""/>
+							<w:default w:val="0"/>
+							<w:checked w:val="0"/>
+						</w:checkBox>
+					</w:ffData>
+				</w:fldChar>
+			</w:r>
+			<w:r>
+				<w:rPr/>
+				<w:instrText xml:space="preserve">FORMCHECKBOX</w:instrText>
+			</w:r>
+			<w:r>
+				<w:rPr/>
+				<w:fldChar w:fldCharType="separate"/>
+			</w:r>
+			<w:r>
+				<w:rPr/>
+				<w:t xml:space="preserve">                              </w:t>
+			</w:r>
+			<w:r>
+				<w:rPr/>
+				<w:fldChar w:fldCharType="end"/>
+			</w:r>
+		</w:p>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+
+        $subElements = $elements[0]->getElements();
+
+//        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $subElements[0]);
+//        $this->assertEquals('Fieldname', $subElements[0]->getText());
+
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\FormField', $subElements[0]);
+        self::assertEquals('checkbox', $subElements[0]->getType());
+        self::assertEquals('SomeCheckbox', $subElements[0]->getName());
+    }
+
+    /**
+     * Test reading of ruby.
+     */
+    public function testReadRuby(): void
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:ruby>
+                    <w:rubyPr>
+                        <w:rubyAlign w:val="distributeSpace" />
+                        <w:hps w:val="12" />
+                        <w:hpsRaise w:val="22" />
+                        <w:hpsBaseText w:val="24" />
+                        <w:lid w:val="ja-JP" />
+                    </w:rubyPr>
+                    <w:rt>
+                        <w:r w:rsidR="00984B5D"
+                             w:rsidRPr="00984B5D">
+                            <w:rPr>
+                                <w:rFonts w:ascii="Yu Gothic"
+                                          w:eastAsia="Yu Gothic"
+                                          w:hAnsi="Yu Gothic"
+                                          w:hint="eastAsia" />
+                                <w:sz w:val="12" />
+                            </w:rPr>
+                            <w:t>わたし</w:t>
+                        </w:r>
+                    </w:rt>
+                    <w:rubyBase>
+                        <w:r w:rsidR="00984B5D">
+                            <w:rPr>
+                                <w:rFonts w:hint="eastAsia" />
+                            </w:rPr>
+                            <w:t>私</w:t>
+                        </w:r>
+                    </w:rubyBase>
+                </w:ruby>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        $subElements = $elements[0]->getElements(); // <w:ruby>
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Ruby', $subElements[0]);
+        /** @var RubyProperties $rubyProperties */
+        $rubyProperties = $subElements[0]->getProperties();
+        self::assertEquals(RubyProperties::ALIGNMENT_DISTRIBUTE_SPACE, $rubyProperties->getAlignment());
+        self::assertEquals(12, $rubyProperties->getFontFaceSize());
+        self::assertEquals(22, $rubyProperties->getFontPointsAboveBaseText());
+        self::assertEquals(24, $rubyProperties->getFontSizeForBaseText());
+        self::assertEquals('ja-JP', $rubyProperties->getLanguageId());
+        /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
+        $textRun = $subElements[0]->getBaseTextRun();
+        self::assertEquals('私', $textRun->getText());
+        $textRun = $subElements[0]->getRubyTextRun();
+        self::assertEquals('わたし', $textRun->getText());
+    }
+
+    /**
+     * Test reading of ruby title.
+     */
+    public function testReadRubyTitle(): void
+    {
+        $documentXml = '<w:p
+             w:rsidR="00CB4855"
+             w:rsidRDefault="00AA542C"
+             w:rsidP="00AA542C">
+            <w:pPr>
+                <w:pStyle w:val="Heading1" />
+            </w:pPr>
+            <w:r>
+                <w:ruby>
+                    <w:rubyPr>
+                        <w:rubyAlign w:val="distributeSpace" />
+                        <w:hps w:val="20" />
+                        <w:hpsRaise w:val="38" />
+                        <w:hpsBaseText w:val="40" />
+                        <w:lid w:val="ja-JP" />
+                    </w:rubyPr>
+                    <w:rt>
+                        <w:r w:rsidR="00AA542C"
+                             w:rsidRPr="00AA542C">
+                            <w:rPr>
+                                <w:rFonts w:ascii="Yu Gothic Light"
+                                          w:eastAsia="Yu Gothic Light"
+                                          w:hAnsi="Yu Gothic Light"
+                                          w:hint="eastAsia" />
+                                <w:sz w:val="20" />
+                            </w:rPr>
+                            <w:t>かみ</w:t>
+                        </w:r>
+                    </w:rt>
+                    <w:rubyBase>
+                        <w:r w:rsidR="00AA542C">
+                            <w:rPr>
+                                <w:rFonts w:hint="eastAsia" />
+                            </w:rPr>
+                            <w:t>神</w:t>
+                        </w:r>
+                    </w:rubyBase>
+                </w:ruby>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[0]);
+        /** @var \PhpOffice\PhpWord\Element\Title $title */
+        $title = $elements[0];
+        /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
+        $textRun = $title->getText();
+        $subElements = $textRun->getElements(); // <w:ruby>
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Ruby', $subElements[0]);
+        /** @var Ruby $ruby */
+        $ruby = $subElements[0];
+        /** @var RubyProperties $rubyProperties */
+        $rubyProperties = $ruby->getProperties();
+        self::assertEquals(RubyProperties::ALIGNMENT_DISTRIBUTE_SPACE, $rubyProperties->getAlignment());
+        self::assertEquals(20, $rubyProperties->getFontFaceSize());
+        self::assertEquals(38, $rubyProperties->getFontPointsAboveBaseText());
+        self::assertEquals(40, $rubyProperties->getFontSizeForBaseText());
+        self::assertEquals('ja-JP', $rubyProperties->getLanguageId());
+        /** @var \PhpOffice\PhpWord\Element\TextRun $textRun */
+        $textRun = $ruby->getBaseTextRun();
+        self::assertEquals('神', $textRun->getText());
+        $textRun = $ruby->getRubyTextRun();
+        self::assertEquals('かみ', $textRun->getText());
     }
 }

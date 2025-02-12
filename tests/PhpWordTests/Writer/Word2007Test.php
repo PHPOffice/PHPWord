@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -22,7 +23,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Writer\Word2007;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -30,7 +31,7 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  *
  * @runTestsInSeparateProcesses
  */
-class Word2007Test extends AbstractWebServerEmbeddedTest
+class Word2007Test extends AbstractWebServerEmbedded
 {
     /**
      * Tear down after each test.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -108,7 +109,7 @@ class Font extends AbstractStyle
     /**
      * Font color.
      *
-     * @var string
+     * @var null|string
      */
     private $color;
 
@@ -219,14 +220,14 @@ class Font extends AbstractStyle
     /**
      * Paragraph style.
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph
+     * @var Paragraph
      */
     private $paragraph;
 
     /**
      * Shading.
      *
-     * @var \PhpOffice\PhpWord\Style\Shading
+     * @var Shading
      */
     private $shading;
 
@@ -248,7 +249,7 @@ class Font extends AbstractStyle
     /**
      * Languages.
      *
-     * @var null|\PhpOffice\PhpWord\Style\Language
+     * @var null|Language
      */
     private $lang;
 
@@ -288,7 +289,7 @@ class Font extends AbstractStyle
      * Create new font style.
      *
      * @param string $type Type of font
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle|string $paragraph Paragraph styles definition
+     * @param AbstractStyle|array|string $paragraph Paragraph styles definition
      */
     public function __construct($type = 'text', $paragraph = null)
     {
@@ -425,10 +426,8 @@ class Font extends AbstractStyle
 
     /**
      * Get font color.
-     *
-     * @return string
      */
-    public function getColor()
+    public function getColor(): ?string
     {
         return $this->color;
     }
@@ -565,10 +564,8 @@ class Font extends AbstractStyle
 
     /**
      * Get strikethrough.
-     *
-     * @return bool
      */
-    public function isStrikethrough()
+    public function isStrikethrough(): ?bool
     {
         return $this->strikethrough;
     }
@@ -577,20 +574,16 @@ class Font extends AbstractStyle
      * Set strikethrough.
      *
      * @param bool $value
-     *
-     * @return self
      */
-    public function setStrikethrough($value = true)
+    public function setStrikethrough($value = true): self
     {
         return $this->setPairedVal($this->strikethrough, $this->doubleStrikethrough, $value);
     }
 
     /**
      * Get double strikethrough.
-     *
-     * @return bool
      */
-    public function isDoubleStrikethrough()
+    public function isDoubleStrikethrough(): ?bool
     {
         return $this->doubleStrikethrough;
     }
@@ -599,10 +592,8 @@ class Font extends AbstractStyle
      * Set double strikethrough.
      *
      * @param bool $value
-     *
-     * @return self
      */
-    public function setDoubleStrikethrough($value = true)
+    public function setDoubleStrikethrough($value = true): self
     {
         return $this->setPairedVal($this->doubleStrikethrough, $this->strikethrough, $value);
     }
@@ -690,7 +681,7 @@ class Font extends AbstractStyle
      *
      * @param string $value
      *
-     * @return \PhpOffice\PhpWord\Style\Table
+     * @return Table
      */
     public function setBgColor($value = null)
     {
@@ -820,7 +811,7 @@ class Font extends AbstractStyle
     /**
      * Get paragraph style.
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return Paragraph
      */
     public function getParagraph()
     {
@@ -868,7 +859,7 @@ class Font extends AbstractStyle
     /**
      * Get shading.
      *
-     * @return \PhpOffice\PhpWord\Style\Shading
+     * @return Shading
      */
     public function getShading()
     {
@@ -892,7 +883,7 @@ class Font extends AbstractStyle
     /**
      * Get language.
      *
-     * @return null|\PhpOffice\PhpWord\Style\Language
+     * @return null|Language
      */
     public function getLang()
     {

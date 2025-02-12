@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -35,7 +36,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
 
     public function escapestring(string $str): string
     {
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        Settings::setOutputEscapingEnabled(true);
         $parentWriter = new \PhpOffice\PhpWord\Writer\RTF();
         $element = new \PhpOffice\PhpWord\Element\Text($str);
         $txt = new \PhpOffice\PhpWord\Writer\RTF\Element\Text($parentWriter, $element);

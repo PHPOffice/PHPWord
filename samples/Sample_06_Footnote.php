@@ -7,8 +7,8 @@ include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
-\PhpOffice\PhpWord\Settings::setCompatibility(false);
+$phpWord = new PhpOffice\PhpWord\PhpWord();
+PhpOffice\PhpWord\Settings::setCompatibility(false);
 
 // Define styles
 $paragraphStyleName = 'pStyle';
@@ -21,7 +21,7 @@ $coloredFontStyleName = 'ColoredText';
 $phpWord->addFontStyle($coloredFontStyleName, ['color' => 'FF8080', 'bgColor' => 'FFFFCC']);
 
 $linkFontStyleName = 'NLink';
-$phpWord->addLinkStyle($linkFontStyleName, ['color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE]);
+$phpWord->addLinkStyle($linkFontStyleName, ['color' => '0000FF', 'underline' => PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE]);
 
 // New portrait section
 $section = $phpWord->addSection();
@@ -39,9 +39,9 @@ $footnote->addText('But you can insert a manual text break like above, ');
 $footnote->addText('links like ');
 $footnote->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub', $linkFontStyleName);
 $footnote->addText(', image like ');
-$footnote->addImage('resources/_earth.jpg', ['width' => 18, 'height' => 18]);
+$footnote->addImage(__DIR__ . '/resources/_earth.jpg', ['width' => 18, 'height' => 18]);
 $footnote->addText(', or object like ');
-$footnote->addObject('resources/_sheet.xls');
+$footnote->addObject(__DIR__ . '/resources/_sheet.xls');
 $footnote->addText('But you can only put footnote in section, not in header or footer.');
 
 $section->addText(

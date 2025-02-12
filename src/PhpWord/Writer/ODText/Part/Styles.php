@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -91,11 +92,12 @@ class Styles extends AbstractPart
 
         // Font
         $xmlWriter->startElement('style:text-properties');
-        $xmlWriter->writeAttribute('style:use-window-font-color', 'true');
+        $xmlWriter->writeAttribute('style:use-window-font-color', 'false');
         $xmlWriter->writeAttribute('style:font-name', Settings::getDefaultFontName());
         $xmlWriter->writeAttribute('fo:font-size', Settings::getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('fo:language', $latinLang[0]);
         $xmlWriter->writeAttribute('fo:country', $latinLang[1]);
+        $xmlWriter->writeAttribute('fo:color', '#' . Settings::getDefaultFontColor());
         $xmlWriter->writeAttribute('style:letter-kerning', 'true');
         $xmlWriter->writeAttribute('style:font-name-asian', Settings::getDefaultFontName() . '2');
         $xmlWriter->writeAttribute('style:font-size-asian', Settings::getDefaultFontSize() . 'pt');

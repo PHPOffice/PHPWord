@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -42,7 +43,7 @@ class TestHelperDOCX
      *
      * @param string $writerName
      *
-     * @return \PhpOffice\PhpWordTests\XmlDocument
+     * @return XmlDocument
      */
     public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')
     {

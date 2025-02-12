@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -29,6 +30,7 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Reader\Word2007;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -82,6 +84,41 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         self::assertEquals('0', $doc->getElementAttribute('/w:document/w:body/w:p/w:r[w:t/node()="italics"]/w:rPr/w:b', 'w:val'));
     }
 
+    public function testLoadStyles(): void
+    {
+        $phpWord = IOFactory::load(dirname(__DIR__, 1) . '/_files/documents/reader-styles.docx', 'Word2007');
+
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $section2 = $phpWord->getSection(2);
+        self::assertInstanceOf(Section::class, $section2);
+
+        $element2e31 = $section2->getElement(31);
+        self::assertInstanceOf(TextRun::class, $element2e31);
+        self::assertEquals('This is a paragraph with border differents', $element2e31->getText());
+
+        /** @var Paragraph $element2e31pStyle */
+        $element2e31pStyle = $element2e31->getParagraphStyle();
+        self::assertInstanceOf(Paragraph::class, $element2e31pStyle);
+
+        // Top
+        self::assertEquals('FFFF00', $element2e31pStyle->getBorderTopColor());
+        self::assertEquals('10', $element2e31pStyle->getBorderTopSize());
+        self::assertEquals('dotted', $element2e31pStyle->getBorderTopStyle());
+        // Right
+        self::assertEquals('00A933', $element2e31pStyle->getBorderRightColor());
+        self::assertEquals('4', $element2e31pStyle->getBorderRightSize());
+        self::assertEquals('dashed', $element2e31pStyle->getBorderRightStyle());
+        // Bottom
+        self::assertEquals('F10D0C', $element2e31pStyle->getBorderBottomColor());
+        self::assertEquals('8', $element2e31pStyle->getBorderBottomSize());
+        self::assertEquals('dashSmallGap', $element2e31pStyle->getBorderBottomStyle());
+        // Left
+        self::assertEquals('3465A4', $element2e31pStyle->getBorderLeftColor());
+        self::assertEquals('8', $element2e31pStyle->getBorderLeftSize());
+        self::assertEquals('dashed', $element2e31pStyle->getBorderLeftStyle());
+    }
+
     /**
      * Load a Word 2011 file.
      */
@@ -126,7 +163,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function providerSettingsImageLoading(): iterable
+    public static function providerSettingsImageLoading(): iterable
     {
         return [
             [true],

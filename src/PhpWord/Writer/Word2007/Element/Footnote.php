@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -51,7 +52,7 @@ class Footnote extends Text
         $xmlWriter->endElement(); // w:rStyle
         $xmlWriter->endElement(); // w:rPr
         $xmlWriter->startElement("w:{$this->referenceType}");
-        $xmlWriter->writeAttribute('w:id', $element->getRelationId());
+        $xmlWriter->writeAttribute('w:id', $element->getRelationId() + 1);
         $xmlWriter->endElement(); // w:$referenceType
         $xmlWriter->endElement(); // w:r
 

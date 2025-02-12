@@ -1,7 +1,7 @@
 # Comment
 
 Comments can be added to a document by using ``addComment``.
-The comment can contain formatted text. Once the comment has been added, it can be linked to any element with ``setCommentStart``.
+The comment can contain formatted text. Once the comment has been added, it can be linked to any element with ``setCommentRangeStart``.
 
 ``` php
 <?php
@@ -17,7 +17,8 @@ $textrun = $section->addTextRun();
 $textrun->addText('This ');
 $text = $textrun->addText('is');
 // link the comment to the text you just created
-$text->setCommentStart($comment);
+$text->setCommentRangeStart($comment);
+$textrun->addText(' a test');
 ```
 
-If no end is set for a comment using the ``setCommentEnd``, the comment will be ended automatically at the end of the element it is started on.
+If no end is set for a comment using the ``setCommentRangeEnd``, the comment will be ended automatically at the end of the element it is started on.

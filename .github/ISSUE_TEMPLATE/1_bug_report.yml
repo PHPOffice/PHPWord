@@ -1,0 +1,65 @@
+name: 🐛 Bug Report
+description: Create a report to help improve PHPWord
+labels: [ "Bug Report" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+         ### ❗️ Read this before submitting your bug report:
+         - **Write in English/French.** Reports in all other languages will be closed.
+         - **Provide as much detail as possible** 
+           - Attachments : Error logs, Screenshots, Document files (generated and expected).
+           - If the issue cannot be reproduced, it cannot be fixed.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Describe the bug and add attachments
+      description: What went wrong? If possible, add screenshots, error logs, document files (generated and expected) or screen recordings to help explain your problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: steps-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Please provide a code sample that reproduces the issue.
+      placeholder: |
+        ```php
+        <?php
+        require __DIR__ . '/vendor/autoload.php';
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->...
+        ```
+    validations:
+      required: true
+  - type: input
+    id: phpword-version
+    attributes:
+      label: PHPWord version(s) where the bug happened
+      placeholder: "e.g., 1.2.0 or master"
+    validations:
+      required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP version(s) where the bug happened
+      placeholder: "e.g., 7.1 or 8.2"
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Priority
+      description: Funded tickets have a higher priority.
+      options:
+        - label: I want to crowdfund the bug fix (with [@algora-io](https://docs.algora.io/bounties/overview)) and fund a community developer.
+          required: false
+        - label: I want to pay the bug fix and fund a maintainer for that. (Contact @Progi1984)
+          required: false

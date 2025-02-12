@@ -15,7 +15,7 @@ $imageStyle = array(
     'posHorizontalRel' => 'margin',
     'posVerticalRel' => 'line',
 );
-$textrun->addImage('resources/_earth.jpg', $imageStyle);
+$textrun->addImage(__DIR__ . '/resources/_earth.jpg', $imageStyle);
 ```
 
 ## Download the produced file automatically

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -34,7 +35,7 @@ class Border extends AbstractStyle
     /**
      * Border Top Color.
      *
-     * @var string
+     * @var null|string
      */
     protected $borderTopColor;
 
@@ -55,7 +56,7 @@ class Border extends AbstractStyle
     /**
      * Border Left Color.
      *
-     * @var string
+     * @var null|string
      */
     protected $borderLeftColor;
 
@@ -76,7 +77,7 @@ class Border extends AbstractStyle
     /**
      * Border Right Color.
      *
-     * @var string
+     * @var null|string
      */
     protected $borderRightColor;
 
@@ -97,7 +98,7 @@ class Border extends AbstractStyle
     /**
      * Border Bottom Color.
      *
-     * @var string
+     * @var null|string
      */
     protected $borderBottomColor;
 
@@ -171,7 +172,7 @@ class Border extends AbstractStyle
     /**
      * Get border color.
      *
-     * @return string[]
+     * @return array<null|string>
      */
     public function getBorderColor()
     {
@@ -186,7 +187,7 @@ class Border extends AbstractStyle
     /**
      * Set border color.
      *
-     * @param string $value
+     * @param null|string $value
      *
      * @return self
      */
@@ -259,7 +260,7 @@ class Border extends AbstractStyle
     /**
      * Get border top color.
      *
-     * @return string
+     * @return null|string
      */
     public function getBorderTopColor()
     {
@@ -269,7 +270,7 @@ class Border extends AbstractStyle
     /**
      * Set border top color.
      *
-     * @param string $value
+     * @param null|string $value
      *
      * @return self
      */
@@ -331,7 +332,7 @@ class Border extends AbstractStyle
     /**
      * Get border left color.
      *
-     * @return string
+     * @return null|string
      */
     public function getBorderLeftColor()
     {
@@ -341,7 +342,7 @@ class Border extends AbstractStyle
     /**
      * Set border left color.
      *
-     * @param string $value
+     * @param null|string $value
      *
      * @return self
      */
@@ -403,7 +404,7 @@ class Border extends AbstractStyle
     /**
      * Get border right color.
      *
-     * @return string
+     * @return null|string
      */
     public function getBorderRightColor()
     {
@@ -413,7 +414,7 @@ class Border extends AbstractStyle
     /**
      * Set border right color.
      *
-     * @param string $value
+     * @param null|string $value
      *
      * @return self
      */
@@ -475,7 +476,7 @@ class Border extends AbstractStyle
     /**
      * Get border bottom color.
      *
-     * @return string
+     * @return null|string
      */
     public function getBorderBottomColor()
     {
@@ -485,7 +486,7 @@ class Border extends AbstractStyle
     /**
      * Set border bottom color.
      *
-     * @param string $value
+     * @param null|string $value
      *
      * @return self
      */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -386,8 +387,9 @@ class Image extends AbstractElement
             $imageBinary = $this->source;
         } else {
             $fileHandle = fopen($actualSource, 'rb', false);
-            if ($fileHandle !== false) {
-                $imageBinary = fread($fileHandle, filesize($actualSource));
+            $fileSize = filesize($actualSource);
+            if ($fileHandle !== false && $fileSize > 0) {
+                $imageBinary = fread($fileHandle, $fileSize);
                 fclose($fileHandle);
             }
         }
