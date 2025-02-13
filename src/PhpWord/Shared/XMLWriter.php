@@ -180,7 +180,7 @@ class XMLWriter extends \XMLWriter
     public function writeAttribute($name, $value)
     {
         if (is_float($value)) {
-            $value = json_encode($value);
+            $value = (string) $value;
         }
 
         return parent::writeAttribute($name, $value ?? '');
