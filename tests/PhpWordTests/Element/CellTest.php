@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,14 +20,14 @@ namespace PhpOffice\PhpWordTests\Element;
 
 use BadMethodCallException;
 use PhpOffice\PhpWord\Element\Cell;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Cell.
  *
  * @runTestsInSeparateProcesses
  */
-class CellTest extends AbstractWebServerEmbeddedTest
+class CellTest extends AbstractWebServerEmbedded
 {
     /**
      * New instance.

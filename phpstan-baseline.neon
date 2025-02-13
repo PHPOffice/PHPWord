@@ -376,11 +376,6 @@ parameters:
 			path: src/PhpWord/Shared/Drawing.php
 
 		-
-			message: "#^Binary operation \"\\*\" between string and 50 results in an error\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/Html.php
-
-		-
 			message: "#^Call to an undefined method DOMNode\\:\\:getAttribute\\(\\)\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/Html.php
@@ -436,6 +431,11 @@ parameters:
 			path: src/PhpWord/Shared/Html.php
 
 		-
+			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\Html\\:\\:parseRuby\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/PhpWord/Shared/Html.php
+
+		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\Html\\:\\:parseStyleDeclarations\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/Html.php
@@ -447,7 +447,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$attribute of static method PhpOffice\\\\PhpWord\\\\Shared\\\\Html\\:\\:parseStyle\\(\\) expects DOMAttr, DOMNode given\\.$#"
-			count: 1
+			count: 3
 			path: src/PhpWord/Shared/Html.php
 
 		-
@@ -686,11 +686,6 @@ parameters:
 			path: src/PhpWord/Style/Cell.php
 
 		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Cell\\:\\:\\$shading is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Cell.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\Chart\\:\\:getMajorTickPosition\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Style/Chart.php
@@ -761,41 +756,6 @@ parameters:
 			path: src/PhpWord/Style/Font.php
 
 		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Font\\:\\:\\$allCaps is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Font.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Font\\:\\:\\$doubleStrikethrough is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Font.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Font\\:\\:\\$lang is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Font.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Font\\:\\:\\$paragraph is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Font.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Font\\:\\:\\$shading is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Font.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Font\\:\\:\\$smallCaps is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Font.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Font\\:\\:\\$strikethrough is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Font.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Line\\:\\:\\$weight \\(int\\) does not accept float\\|int\\|null\\.$#"
 			count: 1
 			path: src/PhpWord/Style/Line.php
@@ -816,21 +776,6 @@ parameters:
 			path: src/PhpWord/Style/Paragraph.php
 
 		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\:\\:\\$indentation is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Paragraph.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\:\\:\\$shading is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Paragraph.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\:\\:\\$spacing is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Paragraph.php
-
-		-
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: src/PhpWord/Style/Paragraph.php
@@ -839,36 +784,6 @@ parameters:
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\Section\\:\\:setSettingValue\\(\\) should return PhpOffice\\\\PhpWord\\\\Style\\\\Section but returns PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\.$#"
 			count: 1
 			path: src/PhpWord/Style/Section.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Section\\:\\:\\$lineNumbering is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Section.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Shape\\:\\:\\$extrusion is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Shape.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Shape\\:\\:\\$fill is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Shape.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Shape\\:\\:\\$frame is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Shape.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Shape\\:\\:\\$outline is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Shape.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Style\\\\Shape\\:\\:\\$shadow is never written, only read\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Shape.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\TOC\\:\\:setTabLeader\\(\\) should return PhpOffice\\\\PhpWord\\\\Style\\\\TOC but returns PhpOffice\\\\PhpWord\\\\Style\\\\Tab\\.$#"
@@ -1121,11 +1036,6 @@ parameters:
 			path: src/PhpWord/Writer/AbstractWriter.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\PhpOffice\\\\PhpWord\\\\PhpWord\\)\\: Unexpected token \"\\\\n     \\*\", expected variable at offset 78$#"
-			count: 1
-			path: src/PhpWord/Writer/AbstractWriter.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\HTML\\\\Element\\\\AbstractElement\\:\\:write\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/HTML/Element/AbstractElement.php
@@ -1146,14 +1056,14 @@ parameters:
 			path: src/PhpWord/Writer/ODText/Element/Table.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Text\\:\\:replacetabs\\(\\) has parameter \\$text with no type specified\\.$#"
+			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\AbstractElement\\:\\:replaceTabs\\(\\) has parameter \\$text with no type specified\\.$#"
 			count: 1
-			path: src/PhpWord/Writer/ODText/Element/Text.php
+			path: src/PhpWord/Writer/ODText/Element/AbstractElement.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Text\\:\\:replacetabs\\(\\) has parameter \\$xmlWriter with no type specified\\.$#"
+			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\AbstractElement\\:\\:replaceTabs\\(\\) has parameter \\$xmlWriter with no type specified\\.$#"
 			count: 1
-			path: src/PhpWord/Writer/ODText/Element/Text.php
+			path: src/PhpWord/Writer/ODText/Element/AbstractElement.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Element\\\\Text\\:\\:writeChangeInsertion\\(\\) has parameter \\$start with no type specified\\.$#"
@@ -1316,11 +1226,6 @@ parameters:
 			path: src/PhpWord/Writer/RTF/Style/Border.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\PhpOffice\\\\PhpWord\\\\PhpWord\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 86$#"
-			count: 1
-			path: src/PhpWord/Writer/Word2007.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\Word2007\\\\Element\\\\AbstractElement\\:\\:write\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/Word2007/Element/AbstractElement.php
@@ -1426,29 +1331,29 @@ parameters:
 			path: tests/PhpWordTests/AbstractTestReader.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbeddedTest\\:\\:getBaseUrl\\(\\) has no return type specified\\.$#"
+			message: "#^Method PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbedded\\:\\:getBaseUrl\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: tests/PhpWordTests/AbstractWebServerEmbeddedTest.php
+			path: tests/PhpWordTests/AbstractWebServerEmbedded.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbeddedTest\\:\\:getRemoteBmpImageUrl\\(\\) has no return type specified\\.$#"
+			message: "#^Method PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbedded\\:\\:getRemoteBmpImageUrl\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: tests/PhpWordTests/AbstractWebServerEmbeddedTest.php
+			path: tests/PhpWordTests/AbstractWebServerEmbedded.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbeddedTest\\:\\:getRemoteGifImageUrl\\(\\) has no return type specified\\.$#"
+			message: "#^Method PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbedded\\:\\:getRemoteGifImageUrl\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: tests/PhpWordTests/AbstractWebServerEmbeddedTest.php
+			path: tests/PhpWordTests/AbstractWebServerEmbedded.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbeddedTest\\:\\:getRemoteImageUrl\\(\\) has no return type specified\\.$#"
+			message: "#^Method PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbedded\\:\\:getRemoteImageUrl\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: tests/PhpWordTests/AbstractWebServerEmbeddedTest.php
+			path: tests/PhpWordTests/AbstractWebServerEmbedded.php
 
 		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbeddedTest\\:\\:\\$httpServer has no type specified\\.$#"
+			message: "#^Property PhpOffice\\\\PhpWordTests\\\\AbstractWebServerEmbedded\\:\\:\\$httpServer has no type specified\\.$#"
 			count: 1
-			path: tests/PhpWordTests/AbstractWebServerEmbeddedTest.php
+			path: tests/PhpWordTests/AbstractWebServerEmbedded.php
 
 		-
 			message: "#^Parameter \\#1 \\$width of class PhpOffice\\\\PhpWord\\\\Element\\\\Cell constructor expects int\\|null, string given\\.$#"
@@ -1789,6 +1694,11 @@ parameters:
 			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
 			count: 9
 			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
+			
+		-
+			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
+			count: 2
+			path: tests/PhpWordTests/Writer/HTML/Element/RubyTest.php
 
 		-
 			message: "#^Cannot call method item\\(\\) on DOMNodeList\\<DOMNode\\>\\|false\\.$#"

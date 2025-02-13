@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -62,8 +63,6 @@ class ZipArchiveTest extends \PHPUnit\Framework\TestCase
      * Test all methods.
      *
      * @param string $zipClass
-     *
-     * @covers ::<public>
      */
     public function testZipArchive($zipClass = 'ZipArchive'): void
     {
@@ -107,8 +106,6 @@ class ZipArchiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test PclZip.
-     *
-     * @covers ::<public>
      */
     public function testPCLZip(): void
     {

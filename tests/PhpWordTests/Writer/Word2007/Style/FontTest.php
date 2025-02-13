@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -43,7 +44,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testFontRTL(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $textrun = $section->addTextRun();
         $textrun->addText('سلام این یک پاراگراف راست به چپ است', ['rtl' => true, 'lang' => 'ar-DZ']);
@@ -56,7 +57,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
     public function testFontRTLNamed(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $stnam = 'fstyle';
         $phpWord->addFontStyle($stnam, [
             'rtl' => true,
@@ -81,7 +82,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
     public function testFontNotRTLNamed(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $stnam = 'fstyle';
         $phpWord->addFontStyle($stnam, [
             //'rtl'  => true,
@@ -106,7 +107,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
     public function testNoProof(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $fontStyle = [
             'noProof' => true,
             'name' => 'Courier New',
@@ -133,7 +134,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testFontWithLang(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Ce texte-ci est en français.', ['lang' => \PhpOffice\PhpWord\Style\Language::FR_BE]);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
@@ -148,7 +149,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testPosition(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('This text is lowered', ['position' => -20]);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');

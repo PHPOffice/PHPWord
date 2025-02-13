@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -33,7 +34,7 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetParentWriter(): void
     {
-        $object = $this->getMockForAbstractClass(\PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart::class);
+        $object = $this->getMockForAbstractClass(ODText\Part\AbstractPart::class);
         $object->setParentWriter(new ODText());
         self::assertEquals(new ODText(), $object->getParentWriter());
     }
@@ -45,7 +46,7 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('No parent WriterInterface assigned.');
-        $object = $this->getMockForAbstractClass(\PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart::class);
+        $object = $this->getMockForAbstractClass(ODText\Part\AbstractPart::class);
         $object->getParentWriter();
     }
 }

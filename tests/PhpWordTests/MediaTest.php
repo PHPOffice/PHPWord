@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -26,7 +27,7 @@ use PhpOffice\PhpWord\Media;
  *
  * @runTestsInSeparateProcesses
  */
-class MediaTest extends AbstractWebServerEmbeddedTest
+class MediaTest extends AbstractWebServerEmbedded
 {
     /**
      * Get section media elements.

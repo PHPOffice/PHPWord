@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -20,6 +21,7 @@ namespace PhpOffice\PhpWordTests\Element;
 use DateTime;
 use InvalidArgumentException;
 use PhpOffice\PhpWord\Element\Comment;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Text;
 
 /**
@@ -49,6 +51,39 @@ class CommentTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($initials, $oComment->getInitials());
         self::assertEquals($oText, $oComment->getStartElement());
         self::assertEquals($oText, $oComment->getEndElement());
+    }
+
+    /**
+     * Two comments on same text.
+     */
+    public function testTwoCommentsOnSameText(): void
+    {
+        $section = new Section(0);
+        $text = $section->addText('Text');
+
+        $comment1 = new Comment('Author1', new DateTime(), 'A1');
+        $comment1->addText('Comment1');
+
+        $comment2 = new Comment('Author2', new DateTime(), 'A2');
+        $comment2->addText('Comment2');
+
+        $comment1->setStartElement($text);
+        $comment2->setStartElement($text);
+
+        $text->setCommentRangeStart($comment1);
+        $text->setCommentRangeEnd($comment1);
+
+        $text->setCommentRangeStart($comment2);
+        $text->setCommentRangeEnd($comment2);
+
+        self::assertEquals(2, $text->getCommentsRangeStart()->countItems());
+        self::assertEquals(2, $text->getCommentsRangeEnd()->countItems());
+
+        self::assertEquals($text->getCommentsRangeStart()->getItem(0)->getElementId(), $comment1->getElementId());
+        self::assertEquals($text->getCommentsRangeEnd()->getItem(0)->getElementId(), $comment1->getElementId());
+
+        self::assertEquals($text->getCommentsRangeStart()->getItem(1)->getElementId(), $comment2->getElementId());
+        self::assertEquals($text->getCommentsRangeEnd()->getItem(1)->getElementId(), $comment2->getElementId());
     }
 
     /**

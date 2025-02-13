@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -36,14 +37,14 @@ class Text extends AbstractElement
     /**
      * Text style.
      *
-     * @var \PhpOffice\PhpWord\Style\Font|string
+     * @var Font|string
      */
     protected $fontStyle;
 
     /**
      * Paragraph style.
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph|string
+     * @var Paragraph|string
      */
     protected $paragraphStyle;
 
@@ -64,10 +65,10 @@ class Text extends AbstractElement
     /**
      * Set Text style.
      *
-     * @param array|\PhpOffice\PhpWord\Style\Font|string $style
-     * @param array|\PhpOffice\PhpWord\Style\Paragraph|string $paragraphStyle
+     * @param array|Font|string $style
+     * @param array|Paragraph|string $paragraphStyle
      *
-     * @return \PhpOffice\PhpWord\Style\Font|string
+     * @return Font|string
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -90,7 +91,7 @@ class Text extends AbstractElement
     /**
      * Get Text style.
      *
-     * @return \PhpOffice\PhpWord\Style\Font|string
+     * @return Font|string
      */
     public function getFontStyle()
     {
@@ -100,9 +101,9 @@ class Text extends AbstractElement
     /**
      * Set Paragraph style.
      *
-     * @param array|\PhpOffice\PhpWord\Style\Paragraph|string $style
+     * @param array|Paragraph|string $style
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph|string
+     * @return Paragraph|string
      */
     public function setParagraphStyle($style = null)
     {
@@ -123,7 +124,7 @@ class Text extends AbstractElement
     /**
      * Get Paragraph style.
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph|string
+     * @return Paragraph|string
      */
     public function getParagraphStyle()
     {
@@ -146,10 +147,8 @@ class Text extends AbstractElement
 
     /**
      * Get Text content.
-     *
-     * @return ?string
      */
-    public function getText()
+    public function getText(): ?string
     {
         return $this->text;
     }
