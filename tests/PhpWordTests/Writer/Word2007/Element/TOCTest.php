@@ -64,7 +64,7 @@ class TOCTest extends \PHPUnit\Framework\TestCase
         $section->addTOC();
 
         //more than one title and random text for create more than one page
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             $section->addTitle('Title ' . $i, 1);
             $content = file_get_contents('https://loripsum.net/api/10/long');
             \PhpOffice\PhpWord\Shared\Html::addHtml($section, $content ? $content : '', false, false);
@@ -73,7 +73,7 @@ class TOCTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             self::assertTrue($doc->elementExists('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[1]/w:t'));
             self::assertEquals('Title ' . $i, $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[1]/w:t')->textContent);
             self::assertTrue($doc->elementExists('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText'));
