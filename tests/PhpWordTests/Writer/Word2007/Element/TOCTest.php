@@ -15,6 +15,7 @@
  *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 declare(strict_types=1);
 
 namespace PhpOffice\PhpWordTests\Writer\Word2007\Element;
@@ -72,12 +73,12 @@ class TOCTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        for ($i = 1; $i <= 1; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             self::assertTrue($doc->elementExists('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[1]/w:t'));
             self::assertEquals('Title ' . $i, $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[1]/w:t')->textContent);
             self::assertTrue($doc->elementExists('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText'));
             self::assertEquals('preserve', $doc->getElementAttribute('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText', 'xml:space'));
-            self::assertEquals('PAGEREF  \\h', $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText')->nodeValue);
+            self::assertEquals('PAGEREF ' . ($i - 1) . ' \\h', $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText')->nodeValue);
         }
     }
 }
