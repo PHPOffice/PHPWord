@@ -99,7 +99,7 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('fo:country', $latinLang[1]);
         $xmlWriter->writeAttribute('fo:color', '#' . Settings::getDefaultFontColor());
         $xmlWriter->writeAttribute('style:letter-kerning', 'true');
-        $xmlWriter->writeAttribute('style:font-name-asian', Settings::getDefaultFontName() . '2');
+        $xmlWriter->writeAttribute('style:font-name-asian', Settings::getDefaultAsianFontName());
         $xmlWriter->writeAttribute('style:font-size-asian', Settings::getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('style:language-asian', $asianLang[0]);
         $xmlWriter->writeAttribute('style:country-asian', $asianLang[1]);

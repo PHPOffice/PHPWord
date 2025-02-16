@@ -48,6 +48,8 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
 
         self::assertFileExists($file);
 
+        $phpWordWriter->setDefaultFontName('This text should not be set after reading back the file');
+
         $phpWordReader = IOFactory::load($file, 'Word2007');
 
         self::assertEquals($testDefaultFontName, $phpWordReader->getDefaultFontName());
@@ -69,6 +71,8 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $writer->save($file);
 
         self::assertFileExists($file);
+
+        $phpWordWriter->setDefaultAsianFontName('This text should not be set after reading back the file');
 
         $phpWordReader = IOFactory::load($file, 'Word2007');
 
@@ -114,6 +118,8 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
 
         self::assertFileExists($file);
 
+        $phpWordWriter->setDefaultFontColor('C0FFEE'); //This value should not be set after reading back the file
+
         $phpWordReader = IOFactory::load($file, 'Word2007');
 
         self::assertEquals($testDefaultFontColor, $phpWordReader->getDefaultFontColor());
@@ -135,6 +141,8 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $writer->save($file);
 
         self::assertFileExists($file);
+
+        $phpWordWriter->getSettings()->setZoom(98); //This value should not be set after reading back the file
 
         $phpWordReader = IOFactory::load($file, 'Word2007');
 

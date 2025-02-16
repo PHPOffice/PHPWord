@@ -756,6 +756,7 @@ abstract class AbstractPart
         $styleDefs = [
             'styleName' => [self::READ_VALUE, 'w:rStyle'],
             'name' => [self::READ_VALUE, 'w:rFonts', ['w:ascii', 'w:hAnsi', 'w:eastAsia', 'w:cs']],
+            'nameEastAsia' => [self::READ_VALUE, 'w:rFonts', ['w:eastAsia', 'w:ascii', 'w:hAnsi',  'w:cs']],
             'hint' => [self::READ_VALUE, 'w:rFonts', 'w:hint'],
             'size' => [self::READ_SIZE,  ['w:sz', 'w:szCs']],
             'color' => [self::READ_VALUE, 'w:color'],
