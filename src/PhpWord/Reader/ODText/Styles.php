@@ -41,7 +41,7 @@ class Styles extends AbstractPart
         if ($fontDefaults !== null) {
             $phpWord->setDefaultFontName($fontDefaults->getAttribute('style:font-name'));
             $phpWord->setDefaultAsianFontName($fontDefaults->getAttribute('style:font-name-asian'));
-            $phpWord->setDefaultFontSize((float) (str_replace('pt', '', $fontDefaults->getAttribute('fo:font-size'))));
+            $phpWord->setDefaultFontSize((int) (str_replace('pt', '', $fontDefaults->getAttribute('fo:font-size'))));
             $phpWord->setDefaultFontColor(str_replace('#', '', $fontDefaults->getAttribute('fo:color')));
             $phpWord->getSettings()->setThemeFontLang(new Language($fontDefaults->getAttribute('fo:language')));
         }
