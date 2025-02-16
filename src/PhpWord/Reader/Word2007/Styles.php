@@ -44,6 +44,9 @@ class Styles extends AbstractPart
                 if (array_key_exists('name', $fontDefaultStyle)) {
                     $phpWord->setDefaultFontName($fontDefaultStyle['name']);
                 }
+                if (array_key_exists('nameEastAsia', $fontDefaultStyle)) {
+                    $phpWord->setDefaultAsianFontName($fontDefaultStyle['nameEastAsia']);
+                }
                 if (array_key_exists('size', $fontDefaultStyle)) {
                     $phpWord->setDefaultFontSize($fontDefaultStyle['size']);
                 }
