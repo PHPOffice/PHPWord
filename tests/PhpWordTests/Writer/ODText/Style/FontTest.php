@@ -34,6 +34,40 @@ class FontTest extends \PHPUnit\Framework\TestCase
         TestHelperDOCX::clear();
     }
 
+    public function testDefaultDefaults(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $file = 'styles.xml';
+
+        $path = '/office:document-styles/office:styles/style:default-style/style:text-properties';
+        self::assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+
+        self::assertEquals('#000000', $element->getAttribute('fo:color'));
+        self::assertEquals('false', $element->getAttribute('style:use-window-font-color')); //has to be set to false so that fo:color can take effect
+    }
+
+    public function testSettingDefaults(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+        $defaultFontColor = '00FF00';
+        $phpWord->setDefaultFontColor($defaultFontColor);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $file = 'styles.xml';
+
+        $path = '/office:document-styles/office:styles/style:default-style/style:text-properties';
+        self::assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+
+        self::assertEquals('#' . $defaultFontColor, $element->getAttribute('fo:color'));
+    }
+
     /**
      * Test colors.
      */

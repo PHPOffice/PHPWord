@@ -615,12 +615,53 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             <w:r>
                 <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
             </w:r>
-        </w:p>';
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>
+        ';
 
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->setValues(['firstname' => 'John', 'lastname' => 'Doe']);
-
         self::assertStringContainsString('Hello John Doe', $templateProcessor->getMainPart());
+        self::assertStringNotContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+
+        // test with a specific limit that is lower than the number of replacements
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(['firstname' => 'Jane', 'lastname' => 'Smith'], 2);
+        $variablesCounts = $templateProcessor->getVariableCount();
+
+        self::assertStringContainsString('Hello Jane Smith', $templateProcessor->getMainPart());
+        self::assertStringContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+        self::assertEquals(1, $variablesCounts['firstname']);
+        self::assertEquals(1, $variablesCounts['lastname']);
+
+        // test with a limit for only one replacement
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(['firstname' => 'Alice', 'lastname' => 'Wonderland'], 1);
+        $variablesCounts = $templateProcessor->getVariableCount();
+
+        self::assertStringContainsString('Hello Alice Wonderland', $templateProcessor->getMainPart());
+        self::assertStringContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+        self::assertEquals(2, $variablesCounts['firstname']);
+        self::assertEquals(2, $variablesCounts['lastname']);
+
+        // Test with a limit of 0 for a result with no replacements
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(['firstname' => 'Test', 'lastname' => 'User'], 0);
+        $variablesCounts = $templateProcessor->getVariableCount();
+
+        self::assertStringContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+        self::assertStringNotContainsString('Hello Test User', $templateProcessor->getMainPart());
+        self::assertEquals(3, $variablesCounts['firstname']);
+        self::assertEquals(3, $variablesCounts['lastname']);
     }
 
     /**
@@ -1640,5 +1681,102 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $templateProcessor->setUpdateFields(false);
         self::assertStringContainsString('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
+    }
+
+    public function testEnsureUtf8Encoded(): void
+    {
+        $mainPart = '<w:tbl>
+            <w:tr>
+                <w:tc>
+                    <w:tcPr>
+                        <w:vMerge w:val="restart"/>
+                    </w:tcPr>
+                    <w:p>
+                        <w:r>
+                            <w:t t=1>${stringZero}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=2>${intZero}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=3>${stringTest}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=4>${null}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=5>${floatZero}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=6>${intTen}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=7>${boolFalse}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=8>${boolTrue}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+        </w:tbl>';
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+
+        self::assertEquals(
+            ['stringZero', 'intZero', 'stringTest', 'null', 'floatZero', 'intTen', 'boolFalse', 'boolTrue'],
+            $templateProcessor->getVariables()
+        );
+
+        $templateProcessor->setValue('stringZero', '0');
+        self::assertStringContainsString('<w:t t=1>0</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('intZero', 0);
+        self::assertStringContainsString('<w:t t=2>0</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('stringTest', 'test');
+        self::assertStringContainsString('<w:t t=3>test</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('null', null);
+        self::assertStringContainsString('<w:t t=4></w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('floatZero', 0.00);
+        self::assertStringContainsString('<w:t t=5>0</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('intTen', 10);
+        self::assertStringContainsString('<w:t t=6>10</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('boolFalse', false);
+        self::assertStringContainsString('<w:t t=7></w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('boolTrue', true);
+        self::assertStringContainsString('<w:t t=8>1</w:t>', $templateProcessor->getMainPart());
     }
 }

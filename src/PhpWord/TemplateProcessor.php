@@ -269,7 +269,7 @@ class TemplateProcessor
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        return $subject ? Text::toUTF8($subject) : '';
+        return (null !== $subject) ? Text::toUTF8($subject) : '';
     }
 
     /**
@@ -362,10 +362,10 @@ class TemplateProcessor
     /**
      * Set values from a one-dimensional array of "variable => value"-pairs.
      */
-    public function setValues(array $values): void
+    public function setValues(array $values, int $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT): void
     {
         foreach ($values as $macro => $replace) {
-            $this->setValue($macro, $replace);
+            $this->setValue($macro, $replace, $limit);
         }
     }
 
