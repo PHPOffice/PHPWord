@@ -12,6 +12,7 @@ _build
 /build
 phpunit.xml
 composer.phar
+composer.lock
 vendor
 /report
 /build
