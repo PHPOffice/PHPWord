@@ -1370,4 +1370,76 @@ HTML;
             $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:lid', 'w:val')
         );
     }
+
+    public function testParseBorderOrderHtml(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $html = '<table>
+            <tbody>
+                <tr>
+                    <td style="border:1px solid red;">border:1px solid red;</td>
+                    <td style="border:1px green dotted;">border:1px green dotted;</td>
+                    <td style="border:solid 2px #b8860b;">border:solid 2px #b8860b;</td>
+                    <td style="border-left:solid blue 1px;">border-left:solid blue 1px;</td>
+                </tr>
+            </tbody>
+        </table>';
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        //  [1]
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcBorders/w:top';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('red', $doc->getElementAttribute($path, 'w:color'));
+        self::assertEquals(7, $doc->getElementAttribute($path, 'w:sz'));
+        self::assertEquals('single', $doc->getElementAttribute($path, 'w:val'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcBorders/w:left';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('red', $doc->getElementAttribute($path, 'w:color'));
+        self::assertEquals(7, $doc->getElementAttribute($path, 'w:sz'));
+        self::assertEquals('single', $doc->getElementAttribute($path, 'w:val'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcBorders/w:bottom';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('red', $doc->getElementAttribute($path, 'w:color'));
+        self::assertEquals(7, $doc->getElementAttribute($path, 'w:sz'));
+        self::assertEquals('single', $doc->getElementAttribute($path, 'w:val'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[1]/w:tcPr/w:tcBorders/w:right';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('red', $doc->getElementAttribute($path, 'w:color'));
+        self::assertEquals(7, $doc->getElementAttribute($path, 'w:sz'));
+        self::assertEquals('single', $doc->getElementAttribute($path, 'w:val'));
+
+        //  [2]
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[2]/w:tcPr/w:tcBorders/w:top';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('green', $doc->getElementAttribute($path, 'w:color'));
+        self::assertEquals(7, $doc->getElementAttribute($path, 'w:sz'));
+        self::assertEquals('dotted', $doc->getElementAttribute($path, 'w:val'));
+
+        //  [3]
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[3]/w:tcPr/w:tcBorders/w:top';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('b8860b', $doc->getElementAttribute($path, 'w:color'));
+        self::assertEquals(15, $doc->getElementAttribute($path, 'w:sz'));
+        self::assertEquals('single', $doc->getElementAttribute($path, 'w:val'));
+
+        //  [4]
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[4]/w:tcPr/w:tcBorders/w:left';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('blue', $doc->getElementAttribute($path, 'w:color'));
+        self::assertEquals(7, $doc->getElementAttribute($path, 'w:sz'));
+        self::assertEquals('single', $doc->getElementAttribute($path, 'w:val'));
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[4]/w:tcPr/w:tcBorders/w:right';
+        self::assertNotTrue($doc->elementExists($path));
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[4]/w:tcPr/w:tcBorders/w:top';
+        self::assertNotTrue($doc->elementExists($path));
+        $path = '/w:document/w:body/w:tbl/w:tr/w:tc[4]/w:tcPr/w:tcBorders/w:bottom';
+        self::assertNotTrue($doc->elementExists($path));
+    }
 }
