@@ -580,41 +580,65 @@ class Chart extends AbstractStyle
         return $this;
     }
 
+    /**
+     * @return null|float|int
+     */
     public function minY()
     {
         return $this->minY;
     }
 
+    /**
+     * @param null|float|int $minY
+     */
     public function setMinY($minY): void
     {
         $this->minY = $minY;
     }
 
+    /**
+     * @return null|float|int
+     */
     public function minX()
     {
         return $this->minX;
     }
 
-    public function setMinX($minX)
+    /**
+     * @param null|float|int $minX
+     */
+    public function setMinX($minX): void
     {
         $this->minX = $minX;
     }
 
+    /**
+     * @return null|float|int
+     */
     public function maxY()
     {
         return $this->maxY;
     }
 
+    /**
+     * @param null|float|int $maxY
+     */
     public function setMaxY($maxY): void
     {
         $this->maxY = $maxY;
     }
 
+    /**
+     * @return null|float|int
+     */
     public function maxX()
     {
         return $this->maxX;
     }
 
+    /**
+     * @param null|float|int $maxX
+     */
     public function setMaxX($maxX): void
     {
         $this->maxX = $maxX;
