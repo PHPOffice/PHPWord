@@ -152,31 +152,30 @@ class Chart extends AbstractStyle
     /**
      * Min value for Y-Axis.
      *
-     * @var float|int
+     * @var null|float|int
      */
-    private $minY = 0;
+    private $minY;
 
     /**
      * Max value for X-Axis.
      *
-     * @var float|int
+     * @var null|float|int
      */
-    private $minX = 0;
+    private $minX;
 
     /**
      * Max value for Y-Axis.
      *
-     * @var float|int
+     * @var null|float|int
      */
-    private $maxY = 0;
+    private $maxY;
 
     /**
      * Max value for X-Axis.
      *
-     * @var float|int
+     * @var null|float|int
      */
-    private $maxX = 0;
-
+    private $maxX;
 
     /**
      * Create a new instance.
@@ -581,43 +580,42 @@ class Chart extends AbstractStyle
         return $this;
     }
 
-
-    public function minY(): float|int
+    public function minY(): float|int|null
     {
         return $this->minY;
     }
 
-    public function setMinY(float|int $minY): void
+    public function setMinY(float|int|null $minY): void
     {
         $this->minY = $minY;
     }
 
-    public function minX(): float|int
+    public function minX(): float|int|null
     {
         return $this->minX;
     }
 
-    public function setMinX(float|int $minX): void
+    public function setMinX(float|int|null $minX): void
     {
         $this->minX = $minX;
     }
 
-    public function maxY(): float|int
+    public function maxY(): float|int|null
     {
         return $this->maxY;
     }
 
-    public function setMaxY(float|int $maxY): void
+    public function setMaxY(float|int|null $maxY): void
     {
         $this->maxY = $maxY;
     }
 
-    public function maxX(): float|int
+    public function maxX(): float|int|null
     {
         return $this->maxX;
     }
 
-    public function setMaxX(float|int $maxX): void
+    public function setMaxX(float|int|null $maxX): void
     {
         $this->maxX = $maxX;
     }
