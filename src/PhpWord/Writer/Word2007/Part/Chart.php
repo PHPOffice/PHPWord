@@ -387,6 +387,18 @@ class Chart extends AbstractPart
 
         $xmlWriter->startElement('c:scaling');
         $xmlWriter->writeElementBlock('c:orientation', 'val', 'minMax');
+        if ($type == 'cat' && $style->minX()) {
+            $xmlWriter->writeElementBlock('c:min', 'val', $style->minX());
+        }
+        if ($type == 'cat' && $style->maxX()) {
+            $xmlWriter->writeElementBlock('c:max', 'val', $style->maxX());
+        }
+        if ($type == 'val' && $style->minY()) {
+            $xmlWriter->writeElementBlock('c:min', 'val', $style->minY());
+        }
+        if ($type == 'val' && $style->maxY()) {
+            $xmlWriter->writeElementBlock('c:max', 'val', $style->maxY());
+        }
         $xmlWriter->endElement(); // c:scaling
 
         $this->writeShape($xmlWriter, true);

@@ -150,6 +150,35 @@ class Chart extends AbstractStyle
     private $gridX = false;
 
     /**
+     * Min value for Y-Axis.
+     *
+     * @var float|int
+     */
+    private $minY = 0;
+
+    /**
+     * Max value for X-Axis.
+     *
+     * @var float|int
+     */
+    private $minX = 0;
+
+    /**
+     * Max value for Y-Axis.
+     *
+     * @var float|int
+     */
+    private $maxY = 0;
+
+    /**
+     * Max value for X-Axis.
+     *
+     * @var float|int
+     */
+    private $maxX = 0;
+
+
+    /**
      * Create a new instance.
      *
      * @param array $style
@@ -550,5 +579,46 @@ class Chart extends AbstractStyle
         $this->gridX = $this->setBoolVal($value, $this->gridX);
 
         return $this;
+    }
+
+
+    public function minY(): float|int
+    {
+        return $this->minY;
+    }
+
+    public function setMinY(float|int $minY): void
+    {
+        $this->minY = $minY;
+    }
+
+    public function minX(): float|int
+    {
+        return $this->minX;
+    }
+
+    public function setMinX(float|int $minX): void
+    {
+        $this->minX = $minX;
+    }
+
+    public function maxY(): float|int
+    {
+        return $this->maxY;
+    }
+
+    public function setMaxY(float|int $maxY): void
+    {
+        $this->maxY = $maxY;
+    }
+
+    public function maxX(): float|int
+    {
+        return $this->maxX;
+    }
+
+    public function setMaxX(float|int $maxX): void
+    {
+        $this->maxX = $maxX;
     }
 }
