@@ -379,7 +379,7 @@ class StyleTest extends AbstractTestReader
             488.00,
             10.0,
             490.00,
-            140
+            140,
         ];
         yield [
             '<w:ind w:left="709" w:right="488" w:hanging="10" w:firstLine="490"/>',
@@ -387,7 +387,7 @@ class StyleTest extends AbstractTestReader
             488.00,
             10.0,
             490.00,
-            0
+            0,
         ];
         yield [
             '<w:ind w:hanging="10" w:firstLine="490"/>',
@@ -395,7 +395,7 @@ class StyleTest extends AbstractTestReader
             0,
             10.0,
             490.00,
-            0
+            0,
         ];
         yield [
             '<w:ind w:left="709"/>',
@@ -403,7 +403,7 @@ class StyleTest extends AbstractTestReader
             0,
             0,
             0,
-            0
+            0,
         ];
         yield [
             '<w:ind w:right="488"/>',
@@ -411,7 +411,7 @@ class StyleTest extends AbstractTestReader
             488.00,
             0,
             0,
-            0
+            0,
         ];
     }
 }

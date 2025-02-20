@@ -138,7 +138,8 @@ class Indentation extends AbstractStyle
      */
     public function setFirstLineChars(int $value): self
     {
-        $this->firstLineChars = $this->setNumericVal($value, $this->firstLineChars);
+        $this->firstLineChars = $this->setIntVal($value, $this->firstLineChars);
+
         return $this;
     }
 

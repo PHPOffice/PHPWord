@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Shared\Html as SharedHtml;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 class IndentationTest extends \PHPUnit\Framework\TestCase
@@ -40,7 +40,9 @@ class IndentationTest extends \PHPUnit\Framework\TestCase
         Settings::setDefaultRtl(true);
         $section = $word->addSection();
         $text = $section->addText('AA');
-        $text->getParagraphStyle()->setIndentation([]);
+        $paragraphStyle = $text->getParagraphStyle();
+        self::assertInstanceOf(Paragraph::class, $paragraphStyle);
+        $paragraphStyle->setIndentation([]);
         $doc = TestHelperDOCX::getDocument($word, 'Word2007');
 
         $path = '/w:document/w:body/w:p[1]/w:pPr/w:ind';
@@ -54,7 +56,9 @@ class IndentationTest extends \PHPUnit\Framework\TestCase
         Settings::setDefaultRtl(true);
         $section = $word->addSection();
         $text = $section->addText('AA');
-        $text->getParagraphStyle()->setIndentation([
+        $paragraphStyle = $text->getParagraphStyle();
+        self::assertInstanceOf(Paragraph::class, $paragraphStyle);
+        $paragraphStyle->setIndentation([
             'firstLineChars' => 1440,
         ]);
         $doc = TestHelperDOCX::getDocument($word, 'Word2007');
