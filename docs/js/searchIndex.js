@@ -9456,6 +9456,16 @@ Search.appendIndex(
             "summary": "Set\u0020first\u0020line.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_setFirstLine"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AgetFirstLineChars\u0028\u0029",
+            "name": "getFirstLineChars",
+            "summary": "Get\u0020first\u0020line\u0020chars.",
+            "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_getFirstLineChars"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AsetFirstLineChars\u0028\u0029",
+            "name": "setFirstLineChars",
+            "summary": "Set\u0020first\u0020line\u0020chars.",
+            "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#method_setFirstLineChars"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003AgetHanging\u0028\u0029",
             "name": "getHanging",
             "summary": "Get\u0020hanging.",
@@ -9480,6 +9490,11 @@ Search.appendIndex(
             "name": "firstLine",
             "summary": "Additional\u0020first\u0020line\u0020indentation\u0020\u0028twip\u0029.",
             "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#property_firstLine"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003A\u0024firstLineChars",
+            "name": "firstLineChars",
+            "summary": "Additional\u0020first\u0020line\u0020chars\u0020indentation\u0020\u0028twip\u0029.",
+            "url": "classes/PhpOffice-PhpWord-Style-Indentation.html#property_firstLineChars"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Indentation\u003A\u003A\u0024hanging",
             "name": "hanging",
@@ -10705,6 +10720,11 @@ Search.appendIndex(
             "name": "setIndentFirstLine",
             "summary": "Set\u0020firstline\u0020indentation.",
             "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentFirstLine"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetIndentFirstLineChars\u0028\u0029",
+            "name": "setIndentFirstLineChars",
+            "summary": "Set\u0020firstlineChars\u0020indentation.",
+            "url": "classes/PhpOffice-PhpWord-Style-Paragraph.html#method_setIndentFirstLineChars"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Style\\Paragraph\u003A\u003AsetIndentLeft\u0028\u0029",
             "name": "setIndentLeft",
