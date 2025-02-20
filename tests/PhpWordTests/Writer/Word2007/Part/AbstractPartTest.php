@@ -32,9 +32,19 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetParentWriter(): void
     {
-        $object = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
-        $object->setParentWriter(new Word2007());
-        self::assertEquals(new Word2007(), $object->getParentWriter());
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $stub = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
+        } else {
+            /** @var Word2007\Part\AbstractPart $stub */
+            $stub = new class() extends Word2007\Part\AbstractPart {
+                public function write(): string
+                {
+                    return '';
+                }
+            };
+        }
+        $stub->setParentWriter(new Word2007());
+        self::assertEquals(new Word2007(), $stub->getParentWriter());
     }
 
     /**
@@ -44,7 +54,17 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('No parent WriterInterface assigned.');
-        $object = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
-        $object->getParentWriter();
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $stub = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
+        } else {
+            /** @var Word2007\Part\AbstractPart $stub */
+            $stub = new class() extends Word2007\Part\AbstractPart {
+                public function write(): string
+                {
+                    return '';
+                }
+            };
+        }
+        $stub->getParentWriter();
     }
 }
