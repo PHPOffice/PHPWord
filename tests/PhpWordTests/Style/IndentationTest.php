@@ -37,6 +37,7 @@ class IndentationTest extends \PHPUnit\Framework\TestCase
             'left' => [0, 10],
             'right' => [0, 10],
             'firstLine' => [null, 20],
+            'firstLineChars' => [0, 20],
             'hanging' => [null, 20],
         ];
         foreach ($properties as $property => $value) {
