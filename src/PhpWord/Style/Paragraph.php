@@ -418,6 +418,14 @@ class Paragraph extends Border
     }
 
     /**
+     * Set firstlineChars indentation.
+     */
+    public function setIndentFirstLineChars(int $value = 0): self
+    {
+        return $this->setIndentation(['firstLineChars' => $value]);
+    }
+
+    /**
      * Set left indentation.
      */
     public function setIndentLeft(?float $value = null): self

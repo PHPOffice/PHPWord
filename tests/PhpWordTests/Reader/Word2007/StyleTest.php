@@ -334,8 +334,14 @@ class StyleTest extends AbstractTestReader
     /**
      * @dataProvider providerIndentation
      */
-    public function testIndentation(string $indent, float $left, float $right, ?float $hanging, float $firstLine): void
-    {
+    public function testIndentation(
+        string $indent,
+        float $left,
+        float $right,
+        ?float $hanging,
+        float $firstLine,
+        int $firstLineChars
+    ): void {
         $documentXml = "<w:p>
             <w:pPr>
                 $indent
@@ -359,16 +365,53 @@ class StyleTest extends AbstractTestReader
         self::assertSame($right, $indentation->getRight());
         self::assertSame($hanging, $indentation->getHanging());
         self::assertSame($firstLine, $indentation->getFirstLine());
+        self::assertSame($firstLineChars, $indentation->getFirstLineChars());
     }
 
     /**
-     * @return Generator<array{0:string, 1:float, 2:float, 3:null|float, 4: float}>
+     * @return Generator<array{0:string, 1:float, 2:float, 3:null|float, 4: float, 5: int}>
      */
     public static function providerIndentation()
     {
-        yield ['<w:ind w:left="709" w:right="488" w:hanging="10" w:firstLine="490"/>', 709.00, 488.00, 10.0, 490.00];
-        yield ['<w:ind w:hanging="10" w:firstLine="490"/>', 0, 0, 10.0, 490.00];
-        yield ['<w:ind w:left="709"/>', 709.00, 0, 0, 0];
-        yield ['<w:ind w:right="488"/>', 0, 488.00, 0, 0];
+        yield [
+            '<w:ind w:left="709" w:right="488" w:hanging="10" w:firstLine="490" w:firstLineChars="140"/>',
+            709.00,
+            488.00,
+            10.0,
+            490.00,
+            140,
+        ];
+        yield [
+            '<w:ind w:left="709" w:right="488" w:hanging="10" w:firstLine="490"/>',
+            709.00,
+            488.00,
+            10.0,
+            490.00,
+            0,
+        ];
+        yield [
+            '<w:ind w:hanging="10" w:firstLine="490"/>',
+            0,
+            0,
+            10.0,
+            490.00,
+            0,
+        ];
+        yield [
+            '<w:ind w:left="709"/>',
+            709.00,
+            0,
+            0,
+            0,
+            0,
+        ];
+        yield [
+            '<w:ind w:right="488"/>',
+            0,
+            488.00,
+            0,
+            0,
+            0,
+        ];
     }
 }
