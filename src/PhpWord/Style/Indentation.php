@@ -50,7 +50,7 @@ class Indentation extends AbstractStyle
     /**
      * Additional first line chars indentation (twip).
      *
-     * @var float|int
+     * @var int
      */
     private $firstLineChars = 0;
 
@@ -127,22 +127,16 @@ class Indentation extends AbstractStyle
 
     /**
      * Get first line chars.
-     *
-     * @return float|int
      */
-    public function getFirstLineChars()
+    public function getFirstLineChars(): int
     {
         return $this->firstLineChars;
     }
 
     /**
      * Set first line chars.
-     *
-     * @param float|int $value
-     *
-     * @return $this
      */
-    public function setFirstLineChars($value)
+    public function setFirstLineChars(int $value): self
     {
         $this->firstLineChars = $this->setNumericVal($value, $this->firstLineChars);
         return $this;
