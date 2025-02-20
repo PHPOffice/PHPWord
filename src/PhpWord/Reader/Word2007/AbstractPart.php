@@ -708,6 +708,7 @@ abstract class AbstractPart
             'indentRight' => [self::READ_VALUE, 'w:ind', 'w:right'],
             'indentHanging' => [self::READ_VALUE, 'w:ind', 'w:hanging'],
             'indentFirstLine' => [self::READ_VALUE, 'w:ind', 'w:firstLine'],
+            'indentFirstLineChars' => [self::READ_VALUE, 'w:ind', 'w:firstLineChars'],
             'spaceAfter' => [self::READ_VALUE, 'w:spacing', 'w:after'],
             'spaceBefore' => [self::READ_VALUE, 'w:spacing', 'w:before'],
             'widowControl' => [self::READ_FALSE, 'w:widowControl'],

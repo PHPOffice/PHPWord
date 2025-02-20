@@ -14,7 +14,17 @@ class AbstractStyleTest extends TestCase
     public function testParentWriter(): void
     {
         $parentWriter = new EPub3();
-        $style = $this->getMockForAbstractClass(AbstractStyle::class);
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $style = $this->getMockForAbstractClass(AbstractStyle::class);
+        } else {
+            /** @var AbstractStyle $style */
+            $style = new class() extends AbstractStyle {
+                public function write(): string
+                {
+                    return '';
+                }
+            };
+        }
 
         $result = $style->setParentWriter($parentWriter);
 

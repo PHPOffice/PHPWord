@@ -30,7 +30,13 @@ class AbstractElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementIndex(): void
     {
-        $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        } else {
+            /** @var AbstractElement $stub */
+            $stub = new class() extends AbstractElement {
+            };
+        }
         $ival = mt_rand(0, 100);
         $stub->setElementIndex($ival);
         self::assertEquals($ival, $stub->getElementIndex());
@@ -41,7 +47,13 @@ class AbstractElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementId(): void
     {
-        $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        } else {
+            /** @var AbstractElement $stub */
+            $stub = new class() extends AbstractElement {
+            };
+        }
         $stub->setElementId();
         self::assertEquals(6, strlen($stub->getElementId()));
     }
