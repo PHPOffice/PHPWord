@@ -17,7 +17,7 @@ You can generate a Word file from html.
 
   $html = '<!-- Any html. Table for example -->
   <table>
-      <tr>``
+      <tr>
           <td style="border-left:solid blue 2px;">border-left:solid blue 2px;</td>
           <td style="border-right:solid 2px red;">border-right:solid 2px red;</td>
       </tr>
