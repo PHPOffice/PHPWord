@@ -15,13 +15,17 @@ class AbstractPartTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->part = $this->getMockForAbstractClass(AbstractPart::class);
+        $this->part = $this->getMockBuilder(AbstractPart::class)->getMock();
     }
 
     public function testParentWriter(): void
     {
         $writer = new EPub3();
         $this->part->setParentWriter($writer);
+
+        $this->part->expects(static::once())
+            ->method('getParentWriter')
+            ->willReturn($writer);
 
         self::assertInstanceOf(EPub3::class, $this->part->getParentWriter());
     }

@@ -14,9 +14,15 @@ class AbstractStyleTest extends TestCase
     public function testParentWriter(): void
     {
         $parentWriter = new EPub3();
-        $style = $this->getMockForAbstractClass(AbstractStyle::class);
+        $style = $this->getMockBuilder(AbstractStyle::class)->getMock();
 
+        $style->expects(static::once())
+            ->method('setParentWriter')
+            ->willReturn($style);
         $result = $style->setParentWriter($parentWriter);
+        $style->expects(static::once())
+            ->method('getParentWriter')
+            ->willReturn($parentWriter);
 
         self::assertSame($style, $result);
         self::assertSame($parentWriter, $style->getParentWriter());

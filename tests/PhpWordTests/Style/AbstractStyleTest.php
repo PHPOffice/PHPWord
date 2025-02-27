@@ -35,8 +35,13 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetStyleByArray(): void
     {
-        $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
+        $stub = $this->getMockBuilder(\PhpOffice\PhpWord\Style\AbstractStyle::class)->getMock();
+
         $stub->setStyleByArray(['index' => 1]);
+
+        $stub->expects(static::once())
+            ->method('getIndex')
+            ->willReturn(1);
 
         self::assertEquals(1, $stub->getIndex());
     }
@@ -62,7 +67,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValNormal(): void
     {
-        $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
+        $stub = $this->getMockBuilder(\PhpOffice\PhpWord\Style\AbstractStyle::class)->getMock();
 
         self::assertTrue(self::callProtectedMethod($stub, 'setBoolVal', [true, false]));
         self::assertEquals(12, self::callProtectedMethod($stub, 'setIntVal', [12, 200]));
@@ -76,7 +81,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValDefault(): void
     {
-        $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
+        $stub = $this->getMockBuilder(\PhpOffice\PhpWord\Style\AbstractStyle::class)->getMock();
 
         self::assertNotTrue(self::callProtectedMethod($stub, 'setBoolVal', ['a', false]));
         self::assertEquals(200, self::callProtectedMethod($stub, 'setIntVal', ['foo', 200]));
@@ -90,7 +95,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
     public function testSetValEnumException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
+        $stub = $this->getMockBuilder(\PhpOffice\PhpWord\Style\AbstractStyle::class)->getMock();
 
         self::assertEquals('b', self::callProtectedMethod($stub, 'setEnumVal', ['z', ['a', 'b'], 'b']));
     }
