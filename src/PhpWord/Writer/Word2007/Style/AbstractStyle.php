@@ -100,7 +100,7 @@ abstract class AbstractStyle
             return $this->phpWord->getStyle($styleName);
         }
 
-        return \PhpOffice\Style::getStyle($styleName);
+        return \PhpOffice\PhpWord\Style::getStyle($styleName);
     }
 
     /**
