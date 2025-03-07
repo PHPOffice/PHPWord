@@ -40,7 +40,7 @@ class ListItem extends AbstractElement
 
         $textObject = $element->getTextObject();
 
-        $styleWriter = new ParagraphStyleWriter($xmlWriter, $textObject->getParagraphStyle());
+        $styleWriter = new ParagraphStyleWriter($xmlWriter, $textObject->getParagraphStyle(), $element->getPhpWord());
         $styleWriter->setWithoutPPR(true);
         $styleWriter->setIsInline(true);
 

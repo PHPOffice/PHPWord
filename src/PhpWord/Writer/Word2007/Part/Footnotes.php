@@ -146,7 +146,7 @@ class Footnotes extends AbstractPart
         $xmlWriter->startElement('w:p');
 
         // Paragraph style
-        $styleWriter = new ParagraphStyleWriter($xmlWriter, $element->getParagraphStyle());
+        $styleWriter = new ParagraphStyleWriter($xmlWriter, $element->getParagraphStyle(), $element->getPhpWord());
         $styleWriter->setIsInline(true);
         $styleWriter->write();
 

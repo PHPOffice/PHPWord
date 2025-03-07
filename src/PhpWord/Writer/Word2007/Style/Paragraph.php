@@ -173,7 +173,7 @@ class Paragraph extends AbstractStyle
         $numLevel = $numbering['level'];
 
         /** @var Style\Numbering $numbering */
-        $numbering = Style::getStyle($numStyle);
+        $numbering = $this->getGlobalStyle($numStyle);
         if ($numStyle !== null && $numbering !== null) {
             $xmlWriter->startElement('w:numPr');
             $xmlWriter->startElement('w:numId');

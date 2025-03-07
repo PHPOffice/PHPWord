@@ -71,7 +71,7 @@ class TCPDF extends AbstractRenderer implements WriterInterface
     protected function prepareToWrite(TCPDFBase $pdf): void
     {
         $pdf->AddPage();
-        $customStyles = Style::getStyles();
+        $customStyles = $this->getParentWriter()->getPhpWord()->getStyles();
         $normal = $customStyles['Normal'] ?? null;
         if ($normal instanceof Style\Paragraph) {
             $before = $normal->getSpaceBefore();

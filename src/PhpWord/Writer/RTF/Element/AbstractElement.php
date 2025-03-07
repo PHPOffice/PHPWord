@@ -106,7 +106,7 @@ abstract class AbstractElement
         if (method_exists($element, 'getFontStyle')) {
             $this->fontStyle = $element->getFontStyle();
             if (is_string($this->fontStyle)) {
-                $this->fontStyle = Style::getStyle($this->fontStyle);
+                $this->fontStyle = $parentWriter->getPhpWord()->getStyle($this->fontStyle);
             }
         }
 
@@ -114,7 +114,7 @@ abstract class AbstractElement
         if (method_exists($element, 'getParagraphStyle')) {
             $this->paragraphStyle = $element->getParagraphStyle();
             if (is_string($this->paragraphStyle)) {
-                $this->paragraphStyle = Style::getStyle($this->paragraphStyle);
+                $this->paragraphStyle = $parentWriter->getPhpWord()->getStyle($this->paragraphStyle);
             }
 
             if ($this->paragraphStyle !== null && !$this->withoutP) {
