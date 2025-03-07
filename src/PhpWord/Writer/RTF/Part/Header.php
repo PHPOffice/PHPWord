@@ -190,7 +190,7 @@ class Header extends AbstractPart
         $this->fontTable[] = Settings::getDefaultFontName();
 
         // Search named styles
-        $styles = Style::getStyles();
+        $styles = $phpWord->getStyles();
         foreach ($styles as $style) {
             $this->registerFontItems($style);
         }

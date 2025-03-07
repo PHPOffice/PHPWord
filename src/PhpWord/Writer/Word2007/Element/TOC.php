@@ -90,7 +90,7 @@ class TOC extends AbstractElement
         // Title text
         $xmlWriter->startElement('w:r');
         if ($isObject) {
-            $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
+            $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle, $element->getPhpWord());
             $styleWriter->write();
         }
         $xmlWriter->startElement('w:t');
@@ -156,7 +156,7 @@ class TOC extends AbstractElement
 
         // Paragraph
         if ($isObject && null !== $fontStyle->getParagraph()) {
-            $styleWriter = new ParagraphStyleWriter($xmlWriter, $fontStyle->getParagraph());
+            $styleWriter = new ParagraphStyleWriter($xmlWriter, $fontStyle->getParagraph(), $element->getPhpWord());
             $styleWriter->write();
         }
 

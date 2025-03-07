@@ -88,7 +88,7 @@ class Table extends AbstractElement
         $content = '';
         $tableStyle = $this->element->getStyle();
         if (is_string($tableStyle)) {
-            $tableStyle = Style::getStyle($tableStyle);
+            $tableStyle = $this->element->getPhpWord()->getStyle($tableStyle);
             if (!($tableStyle instanceof TableStyle)) {
                 $tableStyle = null;
             }
