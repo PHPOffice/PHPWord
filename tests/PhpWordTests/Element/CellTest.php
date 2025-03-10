@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Element;
 
 use BadMethodCallException;
 use PhpOffice\PhpWord\Element\Cell;
+use PhpOffice\PhpWord\Style\Cell as CellStyle;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
@@ -49,6 +50,20 @@ class CellTest extends AbstractWebServerEmbedded
 
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Cell', $oCell->getStyle());
         self::assertNull($oCell->getWidth());
+    }
+
+    /**
+     * New instance with array.
+     */
+    public function testConstructWithStyleObject(): void
+    {
+        $oStyle = (new CellStyle())->setWidth(17);
+        $oCell = new Cell(null, $oStyle);
+
+        self::assertNotNull($oCell->getStyle());
+        self::assertInstanceOf(CellStyle::class, $oCell->getStyle());
+        self::assertSame($oStyle, $oCell->getStyle());
+        self::assertEquals(17, $oCell->getWidth());
     }
 
     /**
