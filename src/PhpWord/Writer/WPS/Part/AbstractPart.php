@@ -43,9 +43,9 @@ abstract class AbstractPart implements WriterPartInterface
     /**
      * Set parent writer.
      */
-    public function setParentWriter(WPS $writer): void
+    public function setParentWriter(\PhpOffice\PhpWord\Writer\AbstractWriter $parentWriter): void
     {
-        $this->parentWriter = $writer;
+        $this->parentWriter = $parentWriter;
     }
 
     /**
@@ -71,5 +71,5 @@ abstract class AbstractPart implements WriterPartInterface
     /**
      * Write part
      */
-    abstract public function write();
+    abstract public function write(): string;
 }

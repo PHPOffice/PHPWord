@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Writer\WPS\Media;
+use XMLWriter;
 
 /**
  * WPS content part writer

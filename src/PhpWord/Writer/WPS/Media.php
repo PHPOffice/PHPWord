@@ -17,11 +17,10 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\WPS;
+use PhpOffice\PhpWord\Media as Word2007Media;
 
-/**
- * WPS Media collection
- */
-class Media extends \PhpOffice\PhpWord\Writer\Word2007\Media
+
+class Media extends Word2007Media
 {
     /**
      * Media elements
@@ -37,19 +36,19 @@ class Media extends \PhpOffice\PhpWord\Writer\Word2007\Media
     /**
      * Add new media element
      */
-    public static function addElement(string $source, string $target, string $type, string $imageType = null): void
+    public static function addElement($container, $mediaType, $source, ?\PhpOffice\PhpWord\Element\Image $image = null): void
     {
-        if (!in_array($type, ['header', 'footer', 'section'])) {
+        if (!in_array($mediaType, ['header', 'footer', 'section'])) {
             return;
         }
 
-        self::$elements[$type][] = ['source' => $source, 'target' => $target, 'type' => $imageType];
+        self::$elements[$mediaType][] = ['source' => $source, 'target' => $container, 'type' => $image];
     }
 
     /**
      * Get media elements
      */
-    public static function getElements(string $type = null): array
+    public static function getElements($container, $type = null): array
     {
         if ($type !== null) {
             return self::$elements[$type] ?? [];
