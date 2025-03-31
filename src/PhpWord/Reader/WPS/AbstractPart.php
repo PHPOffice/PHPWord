@@ -33,5 +33,5 @@ abstract class AbstractPart extends Word2007AbstractPart
      *
      * @param PhpWord $phpWord
      */
-    abstract public function read(PhpWord $phpWord);
+    abstract public function read(PhpWord $phpWord): void;
 }

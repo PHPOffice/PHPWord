@@ -82,6 +82,9 @@ class WPSBinaryReader
         
         // Get entries position and total entries
         $entriesPos = $headersStart + 24;
+        if (strlen($fileContent) < $headersStart + 14) {
+            throw new \Exception("File corrupt: not enough data for total entries");
+        }
         $data = unpack('x12/vTotalEntries', substr($fileContent, $headersStart, 14));
         $totalEntries = $data['TotalEntries'];
         
@@ -97,21 +100,21 @@ class WPSBinaryReader
                 
                 // Get text from main block
                 $blockSize = min(self::TEXT_BLOCK, $textSize);
-                $textData = substr($fileContent, $textOffset, $blockSize);
+                $textData = substr($fileContent, $textOffset, (int) $blockSize);
                 $textSize -= $blockSize;
                 
                 // Handle additional blocks if present
                 if ($textSize > 0) {
                     $textOffset = 0x800; // Second block location
                     $blockSize = min(self::TEXT_BLOCK, $textSize);
-                    $textData .= substr($fileContent, $textOffset, $blockSize);
+                    $textData .= substr($fileContent, $textOffset, (int) $blockSize);
                     $textSize -= $blockSize;
                 }
                 
                 // Handle any remaining text
                 if ($textSize > 0) {
                     $textOffset = $textHeaderOffset + $headersStart + self::TEXT_BLOCK;
-                    $textData .= substr($fileContent, $textOffset, $textSize);
+                    $textData .= substr($fileContent, $textOffset, (int) $textSize);
                 }
                 break;
             }
@@ -147,6 +150,10 @@ class WPSBinaryReader
         $fileContent = file_get_contents($fileName);
         $text = '';
         
+        if (!is_string($fileContent)) {
+            return $text;
+        }
+
         // Look for UTF-16 encoded text blocks (common in WPS files)
         preg_match_all('/(?:[\x20-\x7E]\x00){4,}/', $fileContent, $matches);
         
@@ -168,6 +175,11 @@ class WPSBinaryReader
      */
     private function processEntries($entryBuff)
     {
+        // Check if the buffer has enough data
+        if (strlen($entryBuff) < 8) {
+            throw new \Exception("Invalid format - Entry buffer too short");
+        }
+
         // Unpack entry header
         $data = unpack('vmagic/vlocal/Inext_offset', substr($entryBuff, 0, 8));
         
@@ -182,9 +194,19 @@ class WPSBinaryReader
         // Process each entry
         for ($i = 0; $i < $local; $i++) {
             // Get entry size
-            $size = unpack('v', substr($entryBuff, $entryPos, 2))[1];
+            if (strlen($entryBuff) < $entryPos + 2) {
+                throw new \Exception("Invalid format - Entry buffer too short");
+            }
+            $sizeData = unpack('v', substr($entryBuff, $entryPos, 2));
+            if (!is_array($sizeData) || count($sizeData) === 0) {
+                throw new \Exception("Invalid format - Unable to unpack entry size");
+            }
+            $size = $sizeData[1];
             
             // Get name, offset and size
+            if (strlen($entryBuff) < $entryPos + $size) {
+                throw new \Exception("Invalid format - Entry buffer too short");
+            }
             $entryData = substr($entryBuff, $entryPos, $size);
             $entryInfo = unpack('x2/a4name/x10/Ioffset/Isize', $entryData);
             

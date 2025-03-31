@@ -69,6 +69,9 @@ class WPS extends AbstractReader implements ReaderInterface
     private function isBinaryWpsFile($docFile)
     {
         $fileContent = file_get_contents($docFile, false, null, 0, 1024);
+        if (!is_string($fileContent)) {
+            return false;
+        }
         return preg_match(self::WPS_MAGIC_PATTERN, $fileContent) === 1;
     }
     

@@ -48,7 +48,7 @@ class Content extends AbstractPart
     /**
      * Read element based on node name
      */
-    private function readElement(XMLReader $xmlReader, \DOMElement $node, $parent): void
+    private function readElement(XMLReader $xmlReader, \DOMElement $node, \PhpOffice\PhpWord\Element\Section $parent): void
     {
         switch ($node->nodeName) {
             case 'text:p':
@@ -91,7 +91,7 @@ class Content extends AbstractPart
     /**
      * Read heading
      */
-    private function readHeading(XMLReader $xmlReader, \DOMElement $node, $parent): void
+    private function readHeading(XMLReader $xmlReader, \DOMElement $node, \PhpOffice\PhpWord\Element\Section $parent): void
     {
         $text = $xmlReader->getValue('.', $node);
         $level = $xmlReader->getAttribute('text:outline-level', $node);
