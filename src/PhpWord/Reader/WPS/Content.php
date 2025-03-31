@@ -18,11 +18,12 @@
 
 namespace PhpOffice\PhpWord\Reader\WPS;
 
+use DOMElement;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
- * WPS content reader
+ * WPS content reader.
  *
  * @since 0.18.0
  */
@@ -35,7 +36,6 @@ class Content extends AbstractPart
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
-        
         $nodes = $xmlReader->getElements('office:body/office:text/*');
         if ($nodes->length > 0) {
             $section = $phpWord->addSection();
@@ -44,29 +44,31 @@ class Content extends AbstractPart
             }
         }
     }
-    
+
     /**
-     * Read element based on node name
+     * Read element based on node name.
      */
-    private function readElement(XMLReader $xmlReader, \DOMElement $node, \PhpOffice\PhpWord\Element\Section $parent): void
+    private function readElement(XMLReader $xmlReader, DOMElement $node, \PhpOffice\PhpWord\Element\Section $parent): void
     {
         switch ($node->nodeName) {
             case 'text:p':
                 $this->readParagraph($xmlReader, $node, $parent);
+
                 break;
             case 'text:h':
                 $this->readHeading($xmlReader, $node, $parent);
+
                 break;
             case 'table:table':
                 // Implement table reading as needed
                 break;
         }
     }
-    
+
     /**
-     * Read paragraph
+     * Read paragraph.
      */
-    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document'): void
+    protected function readParagraph(XMLReader $xmlReader, DOMElement $domNode, $parent, $docPart = 'document'): void
     {
         $textRun = $parent->addTextRun();
         $nodes = $xmlReader->getElements('*', $domNode);
@@ -80,31 +82,31 @@ class Content extends AbstractPart
                 $textRun->addTextBreak();
             }
         }
-        
+
         // If the paragraph has direct text content (not wrapped in spans)
         $textContent = $this->getDirectTextContent($domNode);
         if (!empty($textContent)) {
             $textRun->addText($textContent);
         }
     }
-    
+
     /**
-     * Read heading
+     * Read heading.
      */
-    private function readHeading(XMLReader $xmlReader, \DOMElement $node, \PhpOffice\PhpWord\Element\Section $parent): void
+    private function readHeading(XMLReader $xmlReader, DOMElement $node, \PhpOffice\PhpWord\Element\Section $parent): void
     {
         $text = $xmlReader->getValue('.', $node);
         $level = $xmlReader->getAttribute('text:outline-level', $node);
         if (empty($level)) {
             $level = 1;
         }
-        $parent->addTitle($text, $level);
+        $parent->addTitle($text, (int) $level);
     }
-    
+
     /**
-     * Get direct text content of a node, excluding child element content
+     * Get direct text content of a node, excluding child element content.
      */
-    private function getDirectTextContent(\DOMElement $node): string
+    private function getDirectTextContent(DOMElement $node): string
     {
         $textContent = '';
         foreach ($node->childNodes as $child) {
@@ -112,6 +114,7 @@ class Content extends AbstractPart
                 $textContent .= $child->nodeValue;
             }
         }
+
         return trim($textContent);
     }
 }

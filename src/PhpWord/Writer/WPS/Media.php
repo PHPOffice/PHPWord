@@ -17,13 +17,13 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\WPS;
-use PhpOffice\PhpWord\Media as Word2007Media;
 
+use PhpOffice\PhpWord\Media as Word2007Media;
 
 class Media extends Word2007Media
 {
     /**
-     * Media elements
+     * Media elements.
      *
      * @var array
      */
@@ -34,7 +34,7 @@ class Media extends Word2007Media
     ];
 
     /**
-     * Add new media element
+     * Add new media element.
      */
     public static function addElement($container, $mediaType, $source, ?\PhpOffice\PhpWord\Element\Image $image = null): void
     {
@@ -46,7 +46,7 @@ class Media extends Word2007Media
     }
 
     /**
-     * Get media elements
+     * Get media elements.
      */
     public static function getElements($container, $type = null): array
     {
@@ -58,7 +58,7 @@ class Media extends Word2007Media
     }
 
     /**
-     * Clear media elements
+     * Clear media elements.
      */
     public static function clearElements(): void
     {

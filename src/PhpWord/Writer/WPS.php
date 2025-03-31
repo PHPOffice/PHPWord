@@ -19,8 +19,8 @@
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Writer\WPS\Part\AbstractPart;
 use PhpOffice\PhpWord\Writer\WPS\Media;
+use PhpOffice\PhpWord\Writer\WPS\Part\AbstractPart;
 
 /**
  * WPS writer.
@@ -75,7 +75,7 @@ class WPS extends AbstractWriter implements WriterInterface
         if (!empty($headerMedia)) {
             $this->addFilesToPackage($zip, $headerMedia);
         }
-        
+
         $footerMedia = Media::getElements('footer');
         if (!empty($footerMedia)) {
             $this->addFilesToPackage($zip, $footerMedia);

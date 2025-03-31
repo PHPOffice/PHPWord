@@ -20,14 +20,13 @@ namespace PhpOffice\PhpWord\Writer\WPS\Part;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Writer\WPS\Media;
 use XMLWriter;
 
 /**
- * WPS content part writer
+ * WPS content part writer.
  */
 class Content extends AbstractPart
 {
@@ -38,10 +37,10 @@ class Content extends AbstractPart
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
-        
+
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8');
-        
+
         // office:document-content
         $xmlWriter->startElement('office:document-content');
         $xmlWriter->writeAttribute('xmlns:office', 'urn:oasis:names:tc:opendocument:xmlns:office:1.0');
@@ -70,11 +69,11 @@ class Content extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:rpt', 'http://openoffice.org/2005/report');
         $xmlWriter->writeAttribute('xmlns:of', 'urn:oasis:names:tc:opendocument:xmlns:of:1.2');
         $xmlWriter->writeAttribute('office:version', '1.2');
-        
+
         // office:scripts
         $xmlWriter->startElement('office:scripts');
         $xmlWriter->endElement();
-        
+
         // office:font-face-decls
         $xmlWriter->startElement('office:font-face-decls');
         $xmlWriter->startElement('style:font-face');
@@ -82,48 +81,48 @@ class Content extends AbstractPart
         $xmlWriter->writeAttribute('svg:font-family', 'Arial');
         $xmlWriter->endElement();
         $xmlWriter->endElement();
-        
+
         // office:automatic-styles
         $xmlWriter->startElement('office:automatic-styles');
         $xmlWriter->endElement();
-        
+
         // office:body
         $xmlWriter->startElement('office:body');
-        
+
         // office:text
         $xmlWriter->startElement('office:text');
-        
+
         // Write sections
         $sections = $phpWord->getSections();
         foreach ($sections as $section) {
             $this->writeSection($xmlWriter, $section);
         }
-        
+
         $xmlWriter->endElement(); // office:text
         $xmlWriter->endElement(); // office:body
         $xmlWriter->endElement(); // office:document-content
-        
+
         return $xmlWriter->getData();
     }
-    
+
     /**
-     * Write section
+     * Write section.
      */
     private function writeSection(XMLWriter $xmlWriter, Section $section): void
     {
         $xmlWriter->startElement('text:section');
         $xmlWriter->writeAttribute('text:style-name', 'Sect' . $section->getSectionId());
         $xmlWriter->writeAttribute('text:name', 'Section' . $section->getSectionId());
-        
+
         // Process all elements
         $elements = $section->getElements();
         $this->writeElements($xmlWriter, $elements);
-        
+
         $xmlWriter->endElement(); // text:section
     }
-    
+
     /**
-     * Write elements
+     * Write elements.
      */
     private function writeElements(XMLWriter $xmlWriter, array $elements): void
     {
@@ -139,9 +138,9 @@ class Content extends AbstractPart
             }
         }
     }
-    
+
     /**
-     * Write text element
+     * Write text element.
      */
     private function writeText(XMLWriter $xmlWriter, Text $text): void
     {
@@ -149,49 +148,49 @@ class Content extends AbstractPart
         $xmlWriter->writeRaw($text->getText());
         $xmlWriter->endElement();
     }
-    
+
     /**
-     * Write text run element
+     * Write text run element.
      */
     private function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun): void
     {
         $xmlWriter->startElement('text:p');
-        
+
         $elements = $textrun->getElements();
         foreach ($elements as $element) {
             if ($element instanceof Text) {
                 $xmlWriter->writeRaw($element->getText());
             }
         }
-        
+
         $xmlWriter->endElement();
     }
-    
+
     /**
-     * Write table element
+     * Write table element.
      */
     private function writeTable(XMLWriter $xmlWriter, Table $table): void
     {
         $xmlWriter->startElement('table:table');
         $xmlWriter->writeAttribute('table:name', 'Table' . $table->getElementId());
-        
+
         $rows = $table->getRows();
         foreach ($rows as $row) {
             $xmlWriter->startElement('table:table-row');
-            
+
             $cells = $row->getCells();
             foreach ($cells as $cell) {
                 $xmlWriter->startElement('table:table-cell');
-                
+
                 $elements = $cell->getElements();
                 $this->writeElements($xmlWriter, $elements);
-                
+
                 $xmlWriter->endElement(); // table:table-cell
             }
-            
+
             $xmlWriter->endElement(); // table:table-row
         }
-        
+
         $xmlWriter->endElement(); // table:table
     }
 }

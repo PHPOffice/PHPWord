@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
- * WPS meta reader
+ * WPS meta reader.
  *
  * @since 0.18.0
  */
@@ -35,45 +35,45 @@ class Meta extends AbstractPart
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
-        
+
         $docProps = $phpWord->getDocInfo();
-        
+
         // Title
         $title = $xmlReader->getValue('office:meta/dc:title');
         if (!empty($title)) {
             $docProps->setTitle($title);
         }
-        
+
         // Subject
         $subject = $xmlReader->getValue('office:meta/dc:subject');
         if (!empty($subject)) {
             $docProps->setSubject($subject);
         }
-        
+
         // Creator
         $creator = $xmlReader->getValue('office:meta/meta:initial-creator');
         if (!empty($creator)) {
             $docProps->setCreator($creator);
         }
-        
+
         // Keywords
         $keywords = $xmlReader->getValue('office:meta/meta:keyword');
         if (!empty($keywords)) {
             $docProps->setKeywords($keywords);
         }
-        
+
         // Description
         $description = $xmlReader->getValue('office:meta/dc:description');
         if (!empty($description)) {
             $docProps->setDescription($description);
         }
-        
+
         // Category
         $category = $xmlReader->getValue('office:meta/meta:user-defined[@meta:name="Category"]');
         if (!empty($category)) {
             $docProps->setCategory($category);
         }
-        
+
         // Company
         $company = $xmlReader->getValue('office:meta/meta:user-defined[@meta:name="Company"]');
         if (!empty($company)) {

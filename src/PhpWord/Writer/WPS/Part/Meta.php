@@ -21,7 +21,7 @@ namespace PhpOffice\PhpWord\Writer\WPS\Part;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * WPS meta part writer
+ * WPS meta part writer.
  *
  * @since 0.18.0
  */
@@ -29,8 +29,6 @@ class Meta extends AbstractPart
 {
     /**
      * Write meta.xml file.
-     *
-     * @return string
      */
     public function write(): string
     {
@@ -46,7 +44,7 @@ class Meta extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
         $xmlWriter->writeAttribute('xmlns:meta', 'urn:oasis:names:tc:opendocument:xmlns:meta:1.0');
         $xmlWriter->writeAttribute('xmlns:wps', 'http://wps.kdanmobile.com/2017/office');
-        
+
         $xmlWriter->startElement('office:meta');
 
         // Creator
@@ -60,7 +58,7 @@ class Meta extends AbstractPart
         $createdDate = $docInfo->getCreated();
         if ($createdDate !== null) {
             $xmlWriter->startElement('meta:creation-date');
-            $xmlWriter->writeRaw($createdDate);
+            $xmlWriter->writeRaw((string) $createdDate);
             $xmlWriter->endElement();
         }
 
@@ -68,7 +66,7 @@ class Meta extends AbstractPart
         $modifiedDate = $docInfo->getModified();
         if ($modifiedDate !== null) {
             $xmlWriter->startElement('dc:date');
-            $xmlWriter->writeRaw($modifiedDate);
+            $xmlWriter->writeRaw((string) $modifiedDate);
             $xmlWriter->endElement();
         }
 
@@ -115,7 +113,7 @@ class Meta extends AbstractPart
     }
 
     /**
-     * Write user defined value
+     * Write user defined value.
      */
     private function writeUserDefined(XMLWriter $xmlWriter, string $name, string $value): void
     {

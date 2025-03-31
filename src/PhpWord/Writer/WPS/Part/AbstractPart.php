@@ -20,21 +20,21 @@ namespace PhpOffice\PhpWord\Writer\WPS\Part;
 
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\AbstractWriter;
 use PhpOffice\PhpWord\Writer\WriterPartInterface;
-use PhpOffice\PhpWord\Writer\WPS;
 
 /**
- * Abstract writer part class
+ * Abstract writer part class.
  */
 abstract class AbstractPart implements WriterPartInterface
 {
     /**
-     * Parent writer
+     * Parent writer.
      *
-     * @var WPS
+     * @var AbstractWriter
      */
     protected $parentWriter;
-    
+
     /**
      * @var XMLWriter
      */
@@ -43,33 +43,34 @@ abstract class AbstractPart implements WriterPartInterface
     /**
      * Set parent writer.
      */
-    public function setParentWriter(\PhpOffice\PhpWord\Writer\AbstractWriter $parentWriter): void
+    public function setParentWriter(AbstractWriter $parentWriter): void
     {
         $this->parentWriter = $parentWriter;
     }
 
     /**
-     * Get parent writer
+     * Get parent writer.
      */
-    public function getParentWriter(): WPS
+    public function getParentWriter(): AbstractWriter
     {
         return $this->parentWriter;
     }
 
     /**
-     * Get XML Writer
+     * Get XML Writer.
      */
     protected function getXmlWriter(): XMLWriter
     {
         if (!$this->xmlWriter instanceof XMLWriter) {
-            $this->xmlWriter = new XMLWriter(Settings::hasCompatibility());
+            $compatibility = Settings::hasCompatibility() ? 1 : 0; // Convert boolean to integer
+            $this->xmlWriter = new XMLWriter($compatibility);
         }
 
         return $this->xmlWriter;
     }
 
     /**
-     * Write part
+     * Write part.
      */
     abstract public function write(): string;
 }

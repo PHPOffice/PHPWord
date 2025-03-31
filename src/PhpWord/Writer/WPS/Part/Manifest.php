@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * WPS manifest part writer
+ * WPS manifest part writer.
  *
  * @since 0.18.0
  */
@@ -30,34 +30,32 @@ class Manifest extends AbstractPart
 {
     /**
      * Write manifest.xml file.
-     *
-     * @return string
      */
     public function write(): string
     {
         $xmlWriter = $this->getXmlWriter();
-        
+
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('manifest:manifest');
-        
+
         // Write namespaces
         $xmlWriter->writeAttribute('xmlns:manifest', 'urn:oasis:names:tc:opendocument:xmlns:manifest:1.0');
-        
+
         // Basic document entries
         $this->writeManifestItem($xmlWriter, '/', 'application/vnd.wps-office.document');
         $this->writeManifestItem($xmlWriter, 'content.xml', 'text/xml');
         $this->writeManifestItem($xmlWriter, 'meta.xml', 'text/xml');
-        
+
         // Media files
         $this->writeMediaFiles($xmlWriter);
-        
+
         $xmlWriter->endElement(); // manifest:manifest
-        
+
         return $xmlWriter->getData();
     }
-    
+
     /**
-     * Write manifest item
+     * Write manifest item.
      */
     private function writeManifestItem(XMLWriter $xmlWriter, string $href, string $mediaType): void
     {
@@ -66,9 +64,9 @@ class Manifest extends AbstractPart
         $xmlWriter->writeAttribute('manifest:full-path', $href);
         $xmlWriter->endElement();
     }
-    
+
     /**
-     * Write media files
+     * Write media files.
      */
     private function writeMediaFiles(XMLWriter $xmlWriter): void
     {
@@ -86,14 +84,14 @@ class Manifest extends AbstractPart
             }
         }
     }
-    
+
     /**
-     * Get media type from file extension
+     * Get media type from file extension.
      */
     private function getMediaType(string $filename): string
     {
         $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        
+
         switch ($extension) {
             case 'jpeg':
             case 'jpg':

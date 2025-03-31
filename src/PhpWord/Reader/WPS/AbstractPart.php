@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Reader\Word2007\AbstractPart as Word2007AbstractPart;
 
 /**
- * Abstract part reader for WPS format
+ * Abstract part reader for WPS format.
  *
  * @since 0.18.0
  */
@@ -30,8 +30,6 @@ abstract class AbstractPart extends Word2007AbstractPart
 {
     /**
      * Read part.
-     *
-     * @param PhpWord $phpWord
      */
     abstract public function read(PhpWord $phpWord): void;
 }

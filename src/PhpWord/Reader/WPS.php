@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 class WPS extends AbstractReader implements ReaderInterface
 {
     /**
-     * Magic pattern to identify WPS binary format files
+     * Magic pattern to identify WPS binary format files.
      */
     const WPS_MAGIC_PATTERN = '/(CHNKWKS|CHNKINK)/';
 
@@ -41,12 +41,12 @@ class WPS extends AbstractReader implements ReaderInterface
     public function load($docFile)
     {
         $phpWord = new PhpWord();
-        
+
         // Check if this is a binary WPS file
         if ($this->isBinaryWpsFile($docFile)) {
             return $this->loadBinaryWps($docFile, $phpWord);
         }
-        
+
         // Otherwise process as XML-based WPS file
         $relationships = $this->readRelationships($docFile);
         $readerParts = [
@@ -56,14 +56,15 @@ class WPS extends AbstractReader implements ReaderInterface
         foreach ($readerParts as $xmlFile => $partName) {
             $this->readPart($phpWord, $relationships, $partName, $docFile, $xmlFile);
         }
+
         return $phpWord;
     }
 
     /**
-     * Check if the file is a binary WPS file
-     * 
+     * Check if the file is a binary WPS file.
+     *
      * @param string $docFile
-     * 
+     *
      * @return bool
      */
     private function isBinaryWpsFile($docFile)
@@ -72,27 +73,27 @@ class WPS extends AbstractReader implements ReaderInterface
         if (!is_string($fileContent)) {
             return false;
         }
+
         return preg_match(self::WPS_MAGIC_PATTERN, $fileContent) === 1;
     }
-    
+
     /**
-     * Load a binary WPS file
-     * 
+     * Load a binary WPS file.
+     *
      * @param string $docFile
-     * @param PhpWord $phpWord
-     * 
+     *
      * @return PhpWord
      */
     private function loadBinaryWps($docFile, PhpWord $phpWord)
     {
         $reader = new WPSBinaryReader();
         $text = $reader->extractText($docFile);
-        
+
         if (!empty($text)) {
             $section = $phpWord->addSection();
             $section->addText($text);
         }
-        
+
         return $phpWord;
     }
 
@@ -125,6 +126,7 @@ class WPS extends AbstractReader implements ReaderInterface
             $target = $xmlReader->getAttribute('manifest:full-path', $node);
             $rels[] = ['type' => $type, 'target' => $target];
         }
+
         return $rels;
     }
 }
