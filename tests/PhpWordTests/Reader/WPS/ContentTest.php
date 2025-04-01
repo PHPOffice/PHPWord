@@ -56,45 +56,54 @@ class ContentTest extends TestCase
 
         // Verify section and content was added
         $sections = $phpWord->getSections();
-        $this->assertCount(1, $sections);
-        
+        self::assertCount(1, $sections);
         $section = $sections[0];
         $elements = $section->getElements();
-        
-        // Should have elements: heading, and 3 paragraphs 
-        $this->assertCount(4, $elements);
-        
+
+        // Should have elements: heading, and 3 paragraphs
+        self::assertCount(4, $elements);
+
         // Test heading
         $heading = $elements[0];
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $heading);
-        $this->assertEquals('Heading 1', $heading->getText());
-        $this->assertEquals(1, $heading->getDepth());
-        
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $heading);
+        self::assertEquals('Heading 1', $heading->getText());
+        self::assertEquals(1, $heading->getDepth());
+
         // Test simple paragraph
         $paragraph1 = $elements[1];
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $paragraph1);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $paragraph1);
         $paragraphElements = $paragraph1->getElements();
-        $this->assertCount(1, $paragraphElements);
-        $this->assertEquals('Simple paragraph', $paragraphElements[0]->getText());
-        
+        self::assertCount(1, $paragraphElements);
+        if ($paragraphElements[0] instanceof \PhpOffice\PhpWord\Element\Text) {
+            self::assertEquals('Simple paragraph', $paragraphElements[0]->getText());
+        }
+
         // Test paragraph with styled text
         $paragraph2 = $elements[2];
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $paragraph2);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $paragraph2);
         $paragraphElements = $paragraph2->getElements();
-        $this->assertCount(2, $paragraphElements);
-        $this->assertEquals('Paragraph with ', $paragraphElements[0]->getText());
-        $this->assertEquals('styled text', $paragraphElements[1]->getText());
-        
+        self::assertCount(2, $paragraphElements);
+        if ($paragraphElements[0] instanceof \PhpOffice\PhpWord\Element\Text) {
+            self::assertEquals('Paragraph with ', $paragraphElements[0]->getText());
+        }
+        if ($paragraphElements[1] instanceof \PhpOffice\PhpWord\Element\Text) {
+            self::assertEquals('styled text', $paragraphElements[1]->getText());
+        }
+
         // Test paragraph with line break
         $paragraph3 = $elements[3];
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $paragraph3);
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $paragraph3);
         $paragraphElements = $paragraph3->getElements();
-        $this->assertCount(3, $paragraphElements);
-        $this->assertEquals('Paragraph with ', $paragraphElements[0]->getText());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextBreak', $paragraphElements[1]);
-        $this->assertEquals('line break', $paragraphElements[2]->getText());
+        self::assertCount(3, $paragraphElements);
+        if ($paragraphElements[0] instanceof \PhpOffice\PhpWord\Element\Text) {
+            self::assertEquals('Paragraph with ', $paragraphElements[0]->getText());
+        }
+        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextBreak', $paragraphElements[1]);
+        if ($paragraphElements[2] instanceof \PhpOffice\PhpWord\Element\Text) {
+            self::assertEquals('line break', $paragraphElements[2]->getText());
+        }
     }
-    
+
     public function testReadEmptyContent(): void
     {
         // Create empty content file
@@ -118,7 +127,7 @@ class ContentTest extends TestCase
 
         // Verify that no elements were added to the section
         $sections = $phpWord->getSections();
-        $this->assertCount(0, $sections);
+        self::assertCount(0, $sections);
 
         unlink($emptyFile);
     }

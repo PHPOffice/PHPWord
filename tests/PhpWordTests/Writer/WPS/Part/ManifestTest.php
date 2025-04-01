@@ -13,13 +13,13 @@ class ManifestTest extends TestCase
         $result = $manifest->write();
 
         // Assert that the result is a string
-        $this->assertIsString($result);
+        self::assertIsString($result);
 
         // Assert that the result contains expected XML structure
-        $this->assertStringContainsString('<manifest:manifest', $result);
-        $this->assertStringContainsString('xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"', $result);
-        $this->assertStringContainsString('<manifest:file-entry manifest:media-type="application/vnd.wps-office.document" manifest:full-path="/"', $result);
-        $this->assertStringContainsString('<manifest:file-entry manifest:media-type="text/xml" manifest:full-path="content.xml"', $result);
-        $this->assertStringContainsString('<manifest:file-entry manifest:media-type="text/xml" manifest:full-path="meta.xml"', $result);
+        self::assertStringContainsString('<manifest:manifest', $result);
+        self::assertStringContainsString('xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"', $result);
+        self::assertStringContainsString('<manifest:file-entry manifest:media-type="application/vnd.wps-office.document" manifest:full-path="/"', $result);
+        self::assertStringContainsString('<manifest:file-entry manifest:media-type="text/xml" manifest:full-path="content.xml"', $result);
+        self::assertStringContainsString('<manifest:file-entry manifest:media-type="text/xml" manifest:full-path="meta.xml"', $result);
     }
 }

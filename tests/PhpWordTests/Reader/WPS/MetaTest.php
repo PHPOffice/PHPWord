@@ -60,24 +60,24 @@ class MetaTest extends TestCase
         $meta->read($phpWord);
 
         $docInfo = $phpWord->getDocInfo();
-        
+
         // Verify all metadata properties were correctly extracted
-        $this->assertEquals('Test Creator', $docInfo->getCreator());
-        $this->assertEquals('Test Document Title', $docInfo->getTitle());
-        $this->assertEquals('Test Document Subject', $docInfo->getSubject());
-        $this->assertEquals('Test Document Description', $docInfo->getDescription());
-        $this->assertEquals('test, keywords, phpword', $docInfo->getKeywords());
-        $this->assertEquals('Test Category', $docInfo->getCategory());
-        $this->assertEquals('Test Company', $docInfo->getCompany());
+        self::assertEquals('Test Creator', $docInfo->getCreator());
+        self::assertEquals('Test Document Title', $docInfo->getTitle());
+        self::assertEquals('Test Document Subject', $docInfo->getSubject());
+        self::assertEquals('Test Document Description', $docInfo->getDescription());
+        self::assertEquals('test, keywords, phpword', $docInfo->getKeywords());
+        self::assertEquals('Test Category', $docInfo->getCategory());
+        self::assertEquals('Test Company', $docInfo->getCompany());
     }
-    
+
     public function testReadWithMissingProperties(): void
     {
         // Create a file with minimal metadata
         $minimalFile = tempnam(sys_get_temp_dir(), 'wps');
         $zip = new ZipArchive();
         $zip->open($minimalFile, ZipArchive::CREATE);
-        
+
         $minimalMetaXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
             <office:document-meta 
                 xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
@@ -95,16 +95,16 @@ class MetaTest extends TestCase
         $meta->read($phpWord);
 
         $docInfo = $phpWord->getDocInfo();
-        
+
         // Verify only the title was set, other properties should have default values
-        $this->assertEquals('Only Title', $docInfo->getTitle());
-        $this->assertNull($docInfo->getCreator());
-        $this->assertNull($docInfo->getSubject());
-        $this->assertNull($docInfo->getDescription());
-        $this->assertNull($docInfo->getKeywords());
-        $this->assertNull($docInfo->getCategory());
-        $this->assertNull($docInfo->getCompany());
-        
+        self::assertEquals('Only Title', $docInfo->getTitle());
+        self::assertEquals('', $docInfo->getCreator());
+        self::assertEquals('', $docInfo->getSubject());
+        self::assertEquals('', $docInfo->getDescription());
+        self::assertEquals('', $docInfo->getKeywords());
+        self::assertEquals('', $docInfo->getCategory());
+        self::assertEquals('', $docInfo->getCompany());
+
         unlink($minimalFile);
     }
 }

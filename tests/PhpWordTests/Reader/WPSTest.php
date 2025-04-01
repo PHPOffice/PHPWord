@@ -2,8 +2,9 @@
 
 namespace PhpWordTests\Reader;
 
-use PhpOffice\PhpWord\Reader\WPS;
+use Exception;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Reader\WPS;
 use PHPUnit\Framework\TestCase;
 use ZipArchive;
 
@@ -25,7 +26,7 @@ class WPSTest extends TestCase
         $this->xmlWpsFile = tempnam(sys_get_temp_dir(), 'wps');
         $zip = new ZipArchive();
         $zip->open($this->xmlWpsFile, ZipArchive::CREATE);
-        
+
         // Add content.xml
         $contentXml = '<?xml version="1.0" encoding="UTF-8"?>
             <office:document-content
@@ -38,7 +39,7 @@ class WPSTest extends TestCase
                 </office:body>
             </office:document-content>';
         $zip->addFromString('content.xml', $contentXml);
-        
+
         // Add meta.xml
         $metaXml = '<?xml version="1.0" encoding="UTF-8"?>
             <office:document-meta 
@@ -51,7 +52,7 @@ class WPSTest extends TestCase
                 </office:meta>
             </office:document-meta>';
         $zip->addFromString('meta.xml', $metaXml);
-        
+
         // Add manifest.xml
         $manifestXml = '<?xml version="1.0" encoding="UTF-8"?>
             <manifest:manifest
@@ -62,9 +63,9 @@ class WPSTest extends TestCase
             </manifest:manifest>';
         $zip->addEmptyDir('META-INF');
         $zip->addFromString('META-INF/manifest.xml', $manifestXml);
-        
+
         $zip->close();
-        
+
         // Create a temporary binary WPS file with magic pattern
         $this->binaryWpsFile = tempnam(sys_get_temp_dir(), 'wps');
         file_put_contents($this->binaryWpsFile, 'CHNKWKS' . str_repeat(' ', 100) . 'Test text content');
@@ -75,7 +76,7 @@ class WPSTest extends TestCase
         if (file_exists($this->xmlWpsFile)) {
             unlink($this->xmlWpsFile);
         }
-        
+
         if (file_exists($this->binaryWpsFile)) {
             unlink($this->binaryWpsFile);
         }
@@ -86,12 +87,12 @@ class WPSTest extends TestCase
         $reader = new WPS();
         $phpWord = $reader->load($this->xmlWpsFile);
 
-        $this->assertInstanceOf(PhpWord::class, $phpWord);
-        
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
         // Check that document info was read from meta.xml
         $docInfo = $phpWord->getDocInfo();
-        $this->assertEquals('Test Document Title', $docInfo->getTitle());
-        $this->assertEquals('Test Author', $docInfo->getCreator());
+        self::assertEquals('Test Document Title', $docInfo->getTitle());
+        self::assertEquals('Test Author', $docInfo->getCreator());
     }
 
     public function testLoadBinaryWpsFile(): void
@@ -99,38 +100,38 @@ class WPSTest extends TestCase
         $reader = new WPS();
         $phpWord = $reader->load($this->binaryWpsFile);
 
-        $this->assertInstanceOf(PhpWord::class, $phpWord);
-        
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
         // Binary WPS should have created a section with the extracted text
         $sections = $phpWord->getSections();
-        $this->assertCount(1, $sections);
+        self::assertCount(1, $sections);
     }
-    
+
     public function testCanReadFlag(): void
     {
         $reader = new WPS();
-        
+
         // XML-based WPS file
-        $this->assertTrue($reader->canRead($this->xmlWpsFile));
-        
+        self::assertTrue($reader->canRead($this->xmlWpsFile));
+
         // Binary WPS file
-        $this->assertTrue($reader->canRead($this->binaryWpsFile));
-        
+        self::assertTrue($reader->canRead($this->binaryWpsFile));
+
         // Non-WPS file
         $invalidFile = tempnam(sys_get_temp_dir(), 'txt');
         file_put_contents($invalidFile, 'Not a WPS file');
-        $this->assertFalse($reader->canRead($invalidFile));
+        self::assertFalse($reader->canRead($invalidFile));
         unlink($invalidFile);
     }
-    
+
     public function testInvalidFile(): void
     {
-        $this->expectException(\Exception::class);
-        
+        $this->expectException(Exception::class);
+
         $reader = new WPS();
         $reader->load('/path/to/non/existing/file.wps');
 
         // The exception should be thrown before this line
-        $this->fail('Expected exception not thrown');
+        self::fail('Expected exception not thrown');
     }
 }
