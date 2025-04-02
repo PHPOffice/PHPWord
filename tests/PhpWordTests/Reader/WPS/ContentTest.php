@@ -51,6 +51,15 @@ class ContentTest extends TestCase
     public function testRead(): void
     {
         $phpWord = new PhpWord();
+
+        self::assertFileExists($this->tempFile);
+        // Added check to ensure file is not empty, preventing use of empty file in ZipArchive
+        self::assertGreaterThan(0, filesize($this->tempFile), 'Generated file is empty.');
+
+        $zip = new ZipArchive();
+        $openResult = $zip->open($this->tempFile);
+        self::assertTrue($openResult === true, 'Unable to open generated zip archive');
+
         $content = new Content($this->tempFile, 'content.xml');
         $content->read($phpWord);
 

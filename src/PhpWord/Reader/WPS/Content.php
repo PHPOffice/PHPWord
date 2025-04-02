@@ -34,6 +34,11 @@ class Content extends AbstractPart
      */
     public function read(PhpWord $phpWord): void
     {
+        // Prevent using an empty file as ZipArchive to avoid deprecation warnings
+        if (filesize($this->docFile) === 0) {
+            return;
+        }
+
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
         $nodes = $xmlReader->getElements('office:body/office:text/*');

@@ -64,7 +64,7 @@ class WPSTest extends TestCase
         $section = $phpWord->addSection();
 
         // Add an image to the document
-        $imagePath = __DIR__ . '/../../_files/images/earth.jpg';
+        $imagePath = __DIR__ . '../tests/PhpWordTests/_files/images/earth.jpg';
         $section->addImage($imagePath);
 
         // Create header and add an image to it

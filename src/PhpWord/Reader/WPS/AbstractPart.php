@@ -18,7 +18,6 @@
 
 namespace PhpOffice\PhpWord\Reader\WPS;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Reader\Word2007\AbstractPart as Word2007AbstractPart;
 
 /**
@@ -28,8 +27,4 @@ use PhpOffice\PhpWord\Reader\Word2007\AbstractPart as Word2007AbstractPart;
  */
 abstract class AbstractPart extends Word2007AbstractPart
 {
-    /**
-     * Read part.
-     */
-    abstract public function read(PhpWord $phpWord): void;
 }

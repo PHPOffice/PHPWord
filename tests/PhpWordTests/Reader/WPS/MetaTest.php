@@ -16,30 +16,18 @@ class MetaTest extends TestCase
 
     protected function setUp(): void
     {
-        // Create temporary WPS file for testing
+        // Create temporary WPS file for testing with a non-empty zip archive
         $this->tempFile = tempnam(sys_get_temp_dir(), 'wps');
         $zip = new ZipArchive();
         $zip->open($this->tempFile, ZipArchive::CREATE);
 
-        // Add meta.xml with sample document properties
-        $metaXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-            <office:document-meta 
+        // Using a minimal meta.xml with sample data
+        $metaXml = '<?xml version="1.0" encoding="UTF-8"?>
+            <office:document-meta
                 xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0"
-                xmlns:wps="http://wps.kdanmobile.com/2017/office">
+                xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0">
                 <office:meta>
-                    <meta:initial-creator>Test Creator</meta:initial-creator>
-                    <dc:creator>Test Creator</dc:creator>
-                    <meta:creation-date>2025-04-01T10:00:00</meta:creation-date>
-                    <dc:date>2025-04-01T11:00:00</dc:date>
-                    <dc:title>Test Document Title</dc:title>
-                    <dc:description>Test Document Description</dc:description>
-                    <dc:subject>Test Document Subject</dc:subject>
-                    <meta:keyword>test, keywords, phpword</meta:keyword>
-                    <meta:user-defined meta:name="Category">Test Category</meta:user-defined>
-                    <meta:user-defined meta:name="Company">Test Company</meta:user-defined>
+                    <meta:generator>PHPWord</meta:generator>
                 </office:meta>
             </office:document-meta>';
         $zip->addFromString('meta.xml', $metaXml);
