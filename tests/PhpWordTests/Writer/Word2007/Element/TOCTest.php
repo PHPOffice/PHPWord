@@ -66,7 +66,10 @@ class TOCTest extends \PHPUnit\Framework\TestCase
         //more than one title and random text for create more than one page
         for ($i = 1; $i <= 10; ++$i) {
             $section->addTitle('Title ' . $i, 1);
-            $content = file_get_contents('https://loripsum.net/api/10/long');
+            // This server seems to have disappeared.
+            //$content = file_get_contents('https://loripsum.net/api/10/long');
+            // Contents recovered using wayback machine.
+            $content = file_get_contents('tests/PhpWordTests/_files/html/loripsum.net.html');
             \PhpOffice\PhpWord\Shared\Html::addHtml($section, $content ? $content : '', false, false);
             $section->addPageBreak();
         }
