@@ -70,16 +70,23 @@ class Manifest extends AbstractPart
      */
     private function writeMediaFiles(XMLWriter $xmlWriter): void
     {
-        // Document media
-        $media = Media::getElements('section');
-        if (!empty($media)) {
-            foreach ($media as $medium) {
-                if ($medium['type'] == 'image') {
-                    $this->writeManifestItem(
-                        $xmlWriter,
-                        'Pictures/' . $medium['target'],
-                        $this->getMediaType($medium['target'])
-                    );
+        $mediaParts = ['section', 'header', 'footer'];
+        $writtenTargets = []; // Keep track of written targets to avoid duplicates
+
+        foreach ($mediaParts as $partName) {
+            $media = Media::getElements($partName);
+            if (!empty($media)) {
+                foreach ($media as $medium) {
+                    $targetPath = 'Pictures/' . $medium['target'];
+                    // Only write entry if it hasn't been written yet
+                    if (!isset($writtenTargets[$targetPath]) && $medium['type'] == 'image') {
+                        $this->writeManifestItem(
+                            $xmlWriter,
+                            $targetPath,
+                            $this->getMediaType($medium['target'])
+                        );
+                        $writtenTargets[$targetPath] = true; // Mark as written
+                    }
                 }
             }
         }

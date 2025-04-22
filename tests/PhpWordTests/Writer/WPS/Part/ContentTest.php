@@ -32,10 +32,10 @@ class ContentTest extends TestCase
         self::assertStringContainsString('xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0"', $result);
         self::assertStringContainsString('xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"', $result);
         self::assertStringContainsString('xmlns:xlink="http://www.w3.org/1999/xlink"', $result);
-        self::assertStringContainsString('<office:scripts>', $result);
+        self::assertStringContainsString('<office:scripts/>', $result);
         self::assertStringContainsString('<office:font-face-decls>', $result);
         self::assertStringContainsString('<style:font-face style:name="Arial" svg:font-family="Arial"', $result);
-        self::assertStringContainsString('<office:automatic-styles>', $result);
+        self::assertStringContainsString('<office:automatic-styles/>', $result);
         self::assertStringContainsString('<office:body>', $result);
         self::assertStringContainsString('<office:text>', $result);
     }

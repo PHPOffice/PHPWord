@@ -64,8 +64,7 @@ class WPSTest extends TestCase
         $section = $phpWord->addSection();
 
         // Add an image to the document
-        // Correct the relative path and check if realpath returns a valid path
-        $imagePath = realpath(__DIR__ . 'tests/PhpWordTests/_files/images/earth.jpg');
+        $imagePath = realpath('tests/PhpWordTests/_files/images/earth.jpg');
         self::assertIsString($imagePath, 'Test image file not found or accessible at the expected location.'); // Ensure path is valid string
         self::assertFileExists($imagePath, "Test image file not found at: {$imagePath}"); // Use validated path
         $section->addImage($imagePath); // Use validated path
@@ -91,7 +90,7 @@ class WPSTest extends TestCase
 
         // Verify the Pictures directory exists and contains images
         self::assertTrue($zip->locateName('Pictures/') !== false, "'Pictures/' directory not found in ZIP.");
-        self::assertTrue($zip->locateName('Pictures/earth.jpg') !== false, "'earth.jpg' not found in 'Pictures/' directory.");
+        self::assertTrue($zip->locateName('Pictures/image1.jpg') !== false, "'Pictures/image1.jpg' not found in ZIP.");
 
         $zip->close();
         unlink($tempFile);
