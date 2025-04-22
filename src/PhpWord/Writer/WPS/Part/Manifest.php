@@ -18,8 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\WPS\Part;
 
-use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\WPS\Media;
 
 /**
  * WPS manifest part writer.
