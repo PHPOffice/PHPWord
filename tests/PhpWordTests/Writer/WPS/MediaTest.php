@@ -31,7 +31,7 @@ class MediaTest extends TestCase
 
     public function testAddElement(): void
     {
-        $imagePath = __DIR__ . 'tests/PhpWordTests/_files/images/earth.jpg';
+        $imagePath = 'tests/PhpWordTests/_files/images/earth.jpg';
         $imageElement = new Image($imagePath);
 
         // Add section media
@@ -78,7 +78,7 @@ class MediaTest extends TestCase
 
     public function testClearElements(): void
     {
-        $imagePath = __DIR__ . 'tests/PhpWordTests/_files/images/earth.jpg';
+        $imagePath = 'tests/PhpWordTests/_files/images/earth.jpg';
         $sectionImage = new Image($imagePath);
         $headerImage = new Image($imagePath);
 
