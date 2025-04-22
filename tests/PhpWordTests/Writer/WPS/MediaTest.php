@@ -43,7 +43,7 @@ class MediaTest extends TestCase
         self::assertStringStartsWith('image1.', $elements[0]['target']);
 
         // Add header media
-        $headerImageElement = new Image($imagePath); 
+        $headerImageElement = new Image($imagePath);
         Media::addElement('header', $headerImageElement);
         $headerElements = Media::getElements('header');
         self::assertCount(1, $headerElements);
