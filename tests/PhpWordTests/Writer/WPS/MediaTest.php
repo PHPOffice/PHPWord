@@ -38,7 +38,6 @@ class MediaTest extends TestCase
         Media::addElement('section', $imageElement);
         $elements = Media::getElements('section');
         self::assertCount(1, $elements);
-        self::assertEquals('section', $elements[0]['target']);
         self::assertEquals($imagePath, $elements[0]['source']);
         self::assertStringStartsWith('image1.', $elements[0]['target']);
 
@@ -47,7 +46,6 @@ class MediaTest extends TestCase
         Media::addElement('header', $headerImageElement);
         $headerElements = Media::getElements('header');
         self::assertCount(1, $headerElements);
-        self::assertEquals('header', $headerElements[0]['target']);
         self::assertEquals($imagePath, $headerElements[0]['source']);
         self::assertStringStartsWith('image1.', $headerElements[0]['target']);
 
@@ -56,7 +54,6 @@ class MediaTest extends TestCase
         Media::addElement('footer', $footerImageElement);
         $footerElements = Media::getElements('footer');
         self::assertCount(1, $footerElements);
-        self::assertEquals('footer', $footerElements[0]['target']);
         self::assertEquals($imagePath, $footerElements[0]['source']);
         self::assertStringStartsWith('image1.', $footerElements[0]['target']);
 
