@@ -64,7 +64,9 @@ class WPSTest extends TestCase
         $section = $phpWord->addSection();
 
         // Add an image to the document
-        $imagePath = __DIR__ . '../tests/PhpWordTests/_files/images/earth.jpg';
+        // Correct the relative path
+        $imagePath = realpath(__DIR__ . '/../../_files/images/earth.jpg');
+        self::assertFileExists($imagePath, "Test image file not found at: {$imagePath}"); // Add assertion for debugging
         $section->addImage($imagePath);
 
         // Create header and add an image to it
@@ -76,16 +78,19 @@ class WPSTest extends TestCase
         $footer->addImage($imagePath);
 
         $writer = new WPS($phpWord);
-        $tempFile = tempnam(sys_get_temp_dir(), 'wps');
+        $tempFile = tempnam(sys_get_temp_dir(), 'wps_media_'); // Use a distinct prefix
         $writer->save($tempFile);
 
         // Test ZIP archive contains images
         $zip = new ZipArchive();
-        $zip->open($tempFile);
+        self::assertTrue($zip->open($tempFile) === true, "Failed to open generated ZIP file: {$tempFile}");
 
-        // The exact path to images depends on the media handler implementation
-        // Just verify the Pictures directory exists
-        self::assertTrue($zip->locateName('Pictures/') !== false);
+        // Verify the Pictures directory exists and contains images
+        self::assertTrue($zip->locateName('Pictures/') !== false, "'Pictures/' directory not found in ZIP.");
+        // Check for specific image files (names depend on Media implementation)
+        self::assertTrue($zip->locateName('Pictures/image1.jpg') !== false, "Image 'Pictures/image1.jpg' not found.");
+        self::assertTrue($zip->locateName('Pictures/image2.jpg') !== false, "Image 'Pictures/image2.jpg' not found.");
+        self::assertTrue($zip->locateName('Pictures/image3.jpg') !== false, "Image 'Pictures/image3.jpg' not found.");
 
         $zip->close();
         unlink($tempFile);

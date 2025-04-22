@@ -2,6 +2,8 @@
 
 namespace PhpWordTests\Writer\WPS\Part;
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Writer\WPS;
 use PhpOffice\PhpWord\Writer\WPS\Part\Meta;
 use PHPUnit\Framework\TestCase;
 
@@ -9,12 +11,17 @@ class MetaTest extends TestCase
 {
     public function testWrite(): void
     {
-        $meta = new Meta();
+        // Arrange: Create necessary objects and set parent writer
+        $phpWord = new PhpWord();
+        $writer = new WPS($phpWord);
+        /** @var Meta $meta */
+        $meta = $writer->getWriterPart('meta'); // Get part from writer
+
+        // Act: Call the write method
         $result = $meta->write();
 
         // Assert that the result is a string
         self::assertIsString($result);
-
         // Assert that the result contains expected XML structure
         self::assertStringContainsString('<office:document-meta', $result);
         self::assertStringContainsString('xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"', $result);

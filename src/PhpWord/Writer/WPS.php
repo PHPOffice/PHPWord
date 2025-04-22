@@ -63,25 +63,38 @@ class WPS extends AbstractWriter implements WriterInterface
     {
         $filename = $this->getTempFile($filename);
         $zip = $this->getZipArchive($filename);
+        $phpWord = $this->getPhpWord();
 
-        // Add section media files
+        // Clear any previous media elements
+        Media::clearElements();
+
+        // Collect media relations by traversing the document
+        foreach ($phpWord->getSections() as $section) {
+            Media::collectMediaRelations('section', $section);
+            foreach ($section->getHeaders() as $header) {
+                Media::collectMediaRelations('header', $header);
+            }
+            foreach ($section->getFooters() as $footer) {
+                Media::collectMediaRelations('footer', $footer);
+            }
+        }
+
+        // Add collected media files to the package
         $sectionMedia = Media::getElements('section');
         if (!empty($sectionMedia)) {
             $this->addFilesToPackage($zip, $sectionMedia);
         }
-
-        // Add header/footer media files
         $headerMedia = Media::getElements('header');
         if (!empty($headerMedia)) {
             $this->addFilesToPackage($zip, $headerMedia);
         }
-
         $footerMedia = Media::getElements('footer');
         if (!empty($footerMedia)) {
             $this->addFilesToPackage($zip, $footerMedia);
         }
 
-        // Make sure the META-INF directory exists
+        // Make sure required directories exist
+        $zip->addEmptyDir('Pictures'); // Ensure Pictures directory exists for images
         $zip->addEmptyDir('META-INF');
 
         // Write parts

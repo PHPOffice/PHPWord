@@ -18,54 +18,88 @@
 
 namespace PhpOffice\PhpWord\Writer\WPS;
 
-use PhpOffice\PhpWord\Media as Word2007Media;
+use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\AbstractElement;
+use PhpOffice\PhpWord\Element\Image;
 
-class Media extends Word2007Media
+/**
+ * WPS Media handler.
+ *
+ * @since 0.18.0
+ */
+class Media
 {
     /**
-     * Media elements.
+     * Media elements collection, categorized by document part (section, header, footer).
      *
-     * @var array
+     * @var array<string, array<int, array>>
      */
-    private static $elements = [
-        'section' => [],
-        'header' => [],
-        'footer' => [],
-    ];
+    private static $elements = [];
 
     /**
-     * Add new media element.
+     * Add a media element to the collection.
+     *
+     * @param string          $docPart e.g., 'section', 'header', 'footer'
+     * @param AbstractElement $element The media element (e.g., Image)
      */
-    public static function addElement($container, $mediaType, $source, ?\PhpOffice\PhpWord\Element\Image $image = null): void
+    public static function addElement(string $docPart, AbstractElement $element): void
     {
-        if (!in_array($mediaType, ['header', 'footer', 'section'])) {
-            return;
+        if (!isset(self::$elements[$docPart])) {
+            self::$elements[$docPart] = [];
         }
 
-        self::$elements[$mediaType][] = ['source' => $source, 'target' => $container, 'type' => $image];
+        if ($element instanceof Image) {
+            $mediaIndex = count(self::$elements[$docPart]) + 1;
+            $element->setMediaIndex($mediaIndex);
+            $element->setTarget("image{$mediaIndex}.{$element->getImageExtension()}");
+
+            self::$elements[$docPart][] = [
+                'type' => 'image', // Add the missing 'type' index
+                'source' => $element->getSource(),
+                'target' => $element->getTarget(),
+                'isMemImage' => $element->isMemImage(),
+                'imageString' => $element->isMemImage() ? $element->getImageString() : null,
+            ];
+        }
+        // Add handling for other media types (OLEObject) if needed
     }
 
     /**
-     * Get media elements.
+     * Get all media elements for a specific document part.
+     *
+     * @param string $docPart e.g., 'section', 'header', 'footer'
+     *
+     * @return array<int, array>
      */
-    public static function getElements($container, $type = null): array
+    public static function getElements(string $docPart): array
     {
-        if ($type !== null) {
-            return self::$elements[$type] ?? [];
-        }
-
-        return self::$elements;
+        return self::$elements[$docPart] ?? [];
     }
 
     /**
-     * Clear media elements.
+     * Clear all stored media elements.
      */
     public static function clearElements(): void
     {
-        self::$elements = [
-            'section' => [],
-            'header' => [],
-            'footer' => [],
-        ];
+        self::$elements = [];
+    }
+
+    /**
+     * Recursively collect media elements from a container.
+     *
+     * @param string            $docPart   The document part ('section', 'header', 'footer')
+     * @param AbstractContainer $container The container element to traverse
+     */
+    public static function collectMediaRelations(string $docPart, AbstractContainer $container): void
+    {
+        foreach ($container->getElements() as $element) {
+            if ($element instanceof Image) {
+                self::addElement($docPart, $element);
+            } elseif ($element instanceof AbstractContainer) {
+                // Recursively check sub-containers
+                self::collectMediaRelations($docPart, $element);
+            }
+            // Add checks for other media types (OLEObject) if needed
+        }
     }
 }
