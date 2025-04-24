@@ -317,12 +317,11 @@ abstract class AbstractStyle
      * Set object value.
      *
      * @param mixed $value
-     * @param string $styleName
      * @param mixed &$style
      *
      * @return mixed
      */
-    protected function setObjectVal($value, $styleName, &$style)
+    protected function setObjectVal($value, string $styleName, &$style)
     {
         $styleClass = substr(static::class, 0, (int) strrpos(static::class, '\\')) . '\\' . $styleName;
         if (is_array($value)) {

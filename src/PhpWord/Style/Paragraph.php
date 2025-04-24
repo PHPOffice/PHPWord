@@ -323,71 +323,137 @@ class Paragraph extends Border
     }
 
     /**
+     * Get hanging.
+     */
+    public function getHanging(): ?float
+    {
+        return $this->getChildStyleValue($this->indentation, 'hanging');
+    }
+
+    /**
      * Get indentation.
      *
-     * @return null|Indentation
+     * @deprecated 1.4.0 Use getIndentLeft
      */
-    public function getIndentation()
+    public function getIndent(): ?float
+    {
+        return $this->getChildStyleValue($this->indentation, 'left');
+    }
+
+    /**
+     * Get indentation.
+     */
+    public function getIndentation(): ?Indentation
     {
         return $this->indentation;
     }
 
     /**
-     * Set shading.
-     *
-     * @param mixed $value
-     *
-     * @return self
+     * Get firstLine.
      */
-    public function setIndentation($value = null)
+    public function getIndentFirstLine(): ?float
     {
+        return $this->getChildStyleValue($this->indentation, 'firstLine');
+    }
+
+    /**
+     * Get left indentation.
+     */
+    public function getIndentLeft(): ?float
+    {
+        return $this->getChildStyleValue($this->indentation, 'left');
+    }
+
+    /**
+     * Get right indentation.
+     */
+    public function getIndentRight(): ?float
+    {
+        return $this->getChildStyleValue($this->indentation, 'right');
+    }
+
+    /**
+     * Set hanging.
+     *
+     * @deprecated 1.4.0 Use setIndentHanging
+     */
+    public function setHanging(?float $value = null): self
+    {
+        return $this->setIndentation(['hanging' => $value]);
+    }
+
+    /**
+     * Set indentation.
+     *
+     * @deprecated 1.4.0 Use setIndentLeft
+     */
+    public function setIndent(?float $value = null): self
+    {
+        return $this->setIndentation(['left' => $value]);
+    }
+
+    /**
+     * Set indentation.
+     *
+     * @param array{
+     *     left?:null|float|int|numeric-string,
+     *     right?:null|float|int|numeric-string,
+     *     hanging?:null|float|int|numeric-string,
+     *     firstLine?:null|float|int|numeric-string
+     * } $value
+     */
+    public function setIndentation(array $value = []): self
+    {
+        $value = array_map(function ($indent) {
+            if (is_string($indent) || is_numeric($indent)) {
+                $indent = $this->setFloatVal($indent);
+            }
+
+            return $indent;
+        }, $value);
         $this->setObjectVal($value, 'Indentation', $this->indentation);
 
         return $this;
     }
 
     /**
-     * Get indentation.
-     *
-     * @return int
+     * Set hanging indentation.
      */
-    public function getIndent()
+    public function setIndentHanging(?float $value = null): self
     {
-        return $this->getChildStyleValue($this->indentation, 'left');
+        return $this->setIndentation(['hanging' => $value]);
     }
 
     /**
-     * Set indentation.
-     *
-     * @param int $value
-     *
-     * @return self
+     * Set firstline indentation.
      */
-    public function setIndent($value = null)
+    public function setIndentFirstLine(?float $value = null): self
+    {
+        return $this->setIndentation(['firstLine' => $value]);
+    }
+
+    /**
+     * Set firstlineChars indentation.
+     */
+    public function setIndentFirstLineChars(int $value = 0): self
+    {
+        return $this->setIndentation(['firstLineChars' => $value]);
+    }
+
+    /**
+     * Set left indentation.
+     */
+    public function setIndentLeft(?float $value = null): self
     {
         return $this->setIndentation(['left' => $value]);
     }
 
     /**
-     * Get hanging.
-     *
-     * @return int
+     * Set right indentation.
      */
-    public function getHanging()
+    public function setIndentRight(?float $value = null): self
     {
-        return $this->getChildStyleValue($this->indentation, 'hanging');
-    }
-
-    /**
-     * Set hanging.
-     *
-     * @param int $value
-     *
-     * @return self
-     */
-    public function setHanging($value = null)
-    {
-        return $this->setIndentation(['hanging' => $value]);
+        return $this->setIndentation(['right' => $value]);
     }
 
     /**

@@ -23,9 +23,11 @@ use DOMDocument;
 use DOMNode;
 use DOMXPath;
 use Exception;
+use PhpOffice\PhpWord\ComplexType\RubyProperties;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
@@ -128,21 +130,21 @@ class Html
                         break;
                     case 'width':
                         // tables, cells
+                        $val = $val === 'auto' ? '100%' : $val;
                         if (false !== strpos($val, '%')) {
                             // e.g. <table width="100%"> or <td width="50%">
                             $styles['width'] = (int) $val * 50;
                             $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
                         } else {
                             // e.g. <table width="250> where "250" = 250px (always pixels)
-                            $styles['width'] = Converter::pixelToTwip($val);
+                            $styles['width'] = Converter::pixelToTwip(self::convertHtmlSize($val));
                             $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP;
                         }
 
                         break;
                     case 'cellspacing':
                         // tables e.g. <table cellspacing="2">,  where "2" = 2px (always pixels)
-                        $val = (int) $val . 'px';
-                        $styles['cellSpacing'] = Converter::cssToTwip($val);
+                        $styles['cellSpacing'] = Converter::pixelToTwip(self::convertHtmlSize($val));
 
                         break;
                     case 'bgcolor':
@@ -209,16 +211,16 @@ class Html
 
         // Node mapping table
         $nodes = [
-            // $method        $node   $element    $styles     $data   $argument1      $argument2
-            'p' => ['Paragraph',   $node,  $element,   $styles,    null,   null,           null],
-            'h1' => ['Heading',     null,   $element,   $styles,    null,   'Heading1',     null],
-            'h2' => ['Heading',     null,   $element,   $styles,    null,   'Heading2',     null],
-            'h3' => ['Heading',     null,   $element,   $styles,    null,   'Heading3',     null],
-            'h4' => ['Heading',     null,   $element,   $styles,    null,   'Heading4',     null],
-            'h5' => ['Heading',     null,   $element,   $styles,    null,   'Heading5',     null],
-            'h6' => ['Heading',     null,   $element,   $styles,    null,   'Heading6',     null],
-            '#text' => ['Text',        $node,  $element,   $styles,    null,   null,           null],
-            'strong' => ['Property',    null,   null,       $styles,    null,   'bold',         true],
+            // $method               $node   $element    $styles     $data   $argument1      $argument2
+            'p' => ['Paragraph',     $node,  $element,   $styles,    null,   null,           null],
+            'h1' => ['Heading',      $node,  $element,   $styles,    null,   'Heading1',     null],
+            'h2' => ['Heading',      $node,  $element,   $styles,    null,   'Heading2',     null],
+            'h3' => ['Heading',      $node,  $element,   $styles,    null,   'Heading3',     null],
+            'h4' => ['Heading',      $node,  $element,   $styles,    null,   'Heading4',     null],
+            'h5' => ['Heading',      $node,  $element,   $styles,    null,   'Heading5',     null],
+            'h6' => ['Heading',      $node,  $element,   $styles,    null,   'Heading6',     null],
+            '#text' => ['Text',      $node,  $element,   $styles,    null,   null,           null],
+            'strong' => ['Property', null,   null,       $styles,    null,   'bold',         true],
             'b' => ['Property',    null,   null,       $styles,    null,   'bold',         true],
             'em' => ['Property',    null,   null,       $styles,    null,   'italic',       true],
             'i' => ['Property',    null,   null,       $styles,    null,   'italic',       true],
@@ -239,6 +241,7 @@ class Html
             'a' => ['Link',        $node,  $element,   $styles,    null,   null,           null],
             'input' => ['Input',       $node,  $element,   $styles,    null,   null,           null],
             'hr' => ['HorizRule',   $node,  $element,   $styles,    null,   null,           null],
+            'ruby' => ['Ruby',   $node,  $element,   $styles,    null,   null,           null],
         ];
 
         $newElement = null;
@@ -302,7 +305,7 @@ class Html
      * @param AbstractContainer $element
      * @param array &$styles
      *
-     * @return \PhpOffice\PhpWord\Element\PageBreak|\PhpOffice\PhpWord\Element\TextRun
+     * @return \PhpOffice\PhpWord\Element\PageBreak|TextRun
      */
     protected static function parseParagraph($node, $element, &$styles)
     {
@@ -342,21 +345,18 @@ class Html
     /**
      * Parse heading node.
      *
-     * @param AbstractContainer $element
-     * @param array &$styles
      * @param string $argument1 Name of heading style
-     *
-     * @return \PhpOffice\PhpWord\Element\TextRun
      *
      * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
      * Heading1 - Heading6 are already defined somewhere
      */
-    protected static function parseHeading($element, &$styles, $argument1)
+    protected static function parseHeading(DOMNode $node, AbstractContainer $element, array &$styles, string $argument1): TextRun
     {
-        $styles['paragraph'] = $argument1;
-        $newElement = $element->addTextRun($styles['paragraph']);
+        $style = new Paragraph();
+        $style->setStyleName($argument1);
+        $style->setStyleByArray(self::parseInlineStyle($node, $styles['paragraph']));
 
-        return $newElement;
+        return $element->addTextRun($style);
     }
 
     /**
@@ -464,7 +464,7 @@ class Html
      * @param Table $element
      * @param array &$styles
      *
-     * @return \PhpOffice\PhpWord\Element\Cell|\PhpOffice\PhpWord\Element\TextRun $element
+     * @return \PhpOffice\PhpWord\Element\Cell|TextRun $element
      */
     protected static function parseCell($node, $element, &$styles)
     {
@@ -706,6 +706,10 @@ class Html
                     $styles['alignment'] = self::mapAlign($value, $bidi);
 
                     break;
+                case 'ruby-align':
+                    $styles['rubyAlignment'] = self::mapRubyAlign($value);
+
+                    break;
                 case 'display':
                     $styles['hidden'] = $value === 'none' || $value === 'hidden';
 
@@ -734,7 +738,7 @@ class Html
                     break;
                 case 'line-height':
                     $matches = [];
-                    if ($value === 'normal') {
+                    if ($value === 'normal' || $value === 'inherit') {
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
                         $spacing = 0;
                     } elseif (preg_match('/([0-9]+\.?[0-9]*[a-z]+)/', $value, $matches)) {
@@ -804,6 +808,58 @@ class Html
                     $styles['spaceAfter'] = Converter::cssToTwip($value);
 
                     break;
+
+                case 'padding':
+                    $valueTop = $valueRight = $valueBottom = $valueLeft = null;
+                    $cValue = preg_replace('# +#', ' ', trim($value));
+                    $paddingArr = explode(' ', $cValue);
+                    $countParams = count($paddingArr);
+                    if ($countParams == 1) {
+                        $valueTop = $valueRight = $valueBottom = $valueLeft = $paddingArr[0];
+                    } elseif ($countParams == 2) {
+                        $valueTop = $valueBottom = $paddingArr[0];
+                        $valueRight = $valueLeft = $paddingArr[1];
+                    } elseif ($countParams == 3) {
+                        $valueTop = $paddingArr[0];
+                        $valueRight = $valueLeft = $paddingArr[1];
+                        $valueBottom = $paddingArr[2];
+                    } elseif ($countParams == 4) {
+                        $valueTop = $paddingArr[0];
+                        $valueRight = $paddingArr[1];
+                        $valueBottom = $paddingArr[2];
+                        $valueLeft = $paddingArr[3];
+                    }
+                    if ($valueTop !== null) {
+                        $styles['paddingTop'] = Converter::cssToTwip($valueTop);
+                    }
+                    if ($valueRight !== null) {
+                        $styles['paddingRight'] = Converter::cssToTwip($valueRight);
+                    }
+                    if ($valueBottom !== null) {
+                        $styles['paddingBottom'] = Converter::cssToTwip($valueBottom);
+                    }
+                    if ($valueLeft !== null) {
+                        $styles['paddingLeft'] = Converter::cssToTwip($valueLeft);
+                    }
+
+                    break;
+                case 'padding-top':
+                    $styles['paddingTop'] = Converter::cssToTwip($value);
+
+                    break;
+                case 'padding-right':
+                    $styles['paddingRight'] = Converter::cssToTwip($value);
+
+                    break;
+                case 'padding-bottom':
+                    $styles['paddingBottom'] = Converter::cssToTwip($value);
+
+                    break;
+                case 'padding-left':
+                    $styles['paddingLeft'] = Converter::cssToTwip($value);
+
+                    break;
+
                 case 'border-color':
                     self::mapBorderColor($styles, $value);
 
@@ -902,36 +958,12 @@ class Html
 
                     break;
                 case 'width':
-                    $width = $attribute->value;
-
-                    // pt
-                    if (false !== strpos($width, 'pt')) {
-                        $width = Converter::pointToPixel((float) str_replace('pt', '', $width));
-                    }
-
-                    // px
-                    if (false !== strpos($width, 'px')) {
-                        $width = str_replace('px', '', $width);
-                    }
-
-                    $style['width'] = $width;
+                    $style['width'] = self::convertHtmlSize($attribute->value);
                     $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
 
                     break;
                 case 'height':
-                    $height = $attribute->value;
-
-                    // pt
-                    if (false !== strpos($height, 'pt')) {
-                        $height = Converter::pointToPixel((float) str_replace('pt', '', $height));
-                    }
-
-                    // px
-                    if (false !== strpos($height, 'px')) {
-                        $height = str_replace('px', '', $height);
-                    }
-
-                    $style['height'] = $height;
+                    $style['height'] = self::convertHtmlSize($attribute->value);
                     $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
 
                     break;
@@ -1076,6 +1108,23 @@ class Html
     }
 
     /**
+     * Transforms a HTML/CSS ruby alignment into a \PhpOffice\PhpWord\SimpleType\Jc.
+     */
+    protected static function mapRubyAlign(string $cssRubyAlignment): string
+    {
+        switch ($cssRubyAlignment) {
+            case 'center':
+                return RubyProperties::ALIGNMENT_CENTER;
+            case 'start':
+                return RubyProperties::ALIGNMENT_LEFT;
+            case 'space-between':
+                return RubyProperties::ALIGNMENT_DISTRIBUTE_SPACE;
+            default:
+                return '';
+        }
+    }
+
+    /**
      * Transforms a HTML/CSS vertical alignment.
      *
      * @param string $alignment
@@ -1203,6 +1252,59 @@ class Html
         // - repeated text, e.g. underline "_", because of unpredictable line wrapping
     }
 
+    /**
+     * Parse ruby node.
+     *
+     * @param DOMNode $node
+     * @param AbstractContainer $element
+     * @param array $styles
+     */
+    protected static function parseRuby($node, $element, &$styles)
+    {
+        $rubyProperties = new RubyProperties();
+        $baseTextRun = new TextRun($styles['paragraph']);
+        $rubyTextRun = new TextRun(null);
+        if ($node->hasAttributes()) {
+            $langAttr = $node->attributes->getNamedItem('lang');
+            if ($langAttr !== null) {
+                $rubyProperties->setLanguageId($langAttr->textContent);
+            }
+            $styleAttr = $node->attributes->getNamedItem('style');
+            if ($styleAttr !== null) {
+                $styles = self::parseStyle($styleAttr, $styles['paragraph']);
+                if (isset($styles['rubyAlignment']) && $styles['rubyAlignment'] !== '') {
+                    $rubyProperties->setAlignment($styles['rubyAlignment']);
+                }
+                if (isset($styles['size']) && $styles['size'] !== '') {
+                    $rubyProperties->setFontSizeForBaseText($styles['size']);
+                }
+                $baseTextRun->setParagraphStyle($styles);
+            }
+        }
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeName === '#text') {
+                $content = trim($child->textContent);
+                if ($content !== '') {
+                    $baseTextRun->addText($content);
+                }
+            } elseif ($child->nodeName === 'rt') {
+                $rubyTextRun->addText(trim($child->textContent));
+                if ($child->hasAttributes()) {
+                    $styleAttr = $child->attributes->getNamedItem('style');
+                    if ($styleAttr !== null) {
+                        $styles = self::parseStyle($styleAttr, []);
+                        if (isset($styles['size']) && $styles['size'] !== '') {
+                            $rubyProperties->setFontFaceSize($styles['size']);
+                        }
+                        $rubyTextRun->setParagraphStyle($styles);
+                    }
+                }
+            }
+        }
+
+        return $element->addRuby($baseTextRun, $rubyTextRun, $rubyProperties);
+    }
+
     private static function convertRgb(string $rgb): string
     {
         if (preg_match(self::RGB_REGEXP, $rgb, $matches) === 1) {
@@ -1210,5 +1312,23 @@ class Html
         }
 
         return trim($rgb, '# ');
+    }
+
+    /**
+     * Transform HTML sizes (pt, px) in pixels.
+     */
+    protected static function convertHtmlSize(string $size): float
+    {
+        // pt
+        if (false !== strpos($size, 'pt')) {
+            return Converter::pointToPixel((float) str_replace('pt', '', $size));
+        }
+
+        // px
+        if (false !== strpos($size, 'px')) {
+            return (float) str_replace('px', '', $size);
+        }
+
+        return (float) $size;
     }
 }
