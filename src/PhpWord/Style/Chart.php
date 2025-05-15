@@ -457,8 +457,7 @@ class Chart extends AbstractStyle
      * "low" - sets labels are below the graph
      * "high" - sets labels above the graph.
      *
-     * @param string
-     * @param mixed $labelPosition
+     * @param string $labelPosition
      */
     public function setValueLabelPosition($labelPosition)
     {
