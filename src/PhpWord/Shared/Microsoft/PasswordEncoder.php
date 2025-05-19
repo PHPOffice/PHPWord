@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Shared\Microsoft;
 
+use InvalidArgumentException;
+
 /**
  * Password encoder for microsoft office applications.
  */
@@ -119,6 +121,11 @@ class PasswordEncoder
         //   Get the single-byte values by iterating through the Unicode characters of the truncated password.
         //   For each character, if the low byte is not equal to 0, take it. Otherwise, take the high byte.
         $passUtf8 = mb_convert_encoding($password, 'UCS-2LE', 'UTF-8');
+
+        if (!is_string($passUtf8)) {
+            throw new InvalidArgumentException('mb_convert_encoding() failed to convert password to UCS-2LE.');
+        }
+
         $byteChars = [];
 
         for ($i = 0; $i < mb_strlen($password); ++$i) {
