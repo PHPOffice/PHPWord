@@ -63,11 +63,16 @@ class TOCTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addTOC();
 
+        $staticHtml = '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. 
+            Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. 
+            Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
+            <p>Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. 
+            Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim.</p>';
+
         //more than one title and random text for create more than one page
         for ($i = 1; $i <= 10; ++$i) {
             $section->addTitle('Title ' . $i, 1);
-            $content = file_get_contents('https://loripsum.net/api/10/long');
-            \PhpOffice\PhpWord\Shared\Html::addHtml($section, $content ? $content : '', false, false);
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, $staticHtml, false, false);
             $section->addPageBreak();
         }
 
