@@ -97,7 +97,7 @@ class Html
         }
 
         if (substr($html, 0, 2) === "\xfe\xff" || substr($html, 0, 2) === "\xff\xfe") {
-            $html = mb_convert_encoding($html, 'UTF-8', 'UTF-16');
+            $html = (string) mb_convert_encoding($html, 'UTF-8', 'UTF-16');
         }
         if (substr($html, 0, 3) === "\xEF\xBB\xBF") {
             $html = substr($html, 3);
