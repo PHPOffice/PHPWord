@@ -72,13 +72,41 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $text = $section->addText('my dummy text');
         $text->setChangeInfo(TrackChange::INSERTED, 'author name');
         $text2 = $section->addText('my other text');
-        $text2->setTrackChange(new TrackChange(TrackChange::DELETED, 'another author', new DateTime()));
+        $deleteTime = new DateTime();
+        $deleteAuthor = "Spec O'char";
+        $deleteTrack = new TrackChange(TrackChange::DELETED, $deleteAuthor, $deleteTime);
+        $text2->setTrackChange($deleteTrack);
 
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
         self::assertEquals(1, $xpath->query('/html/body/div/p[1]/ins')->length);
         self::assertEquals(1, $xpath->query('/html/body/div/p[2]/del')->length);
+        $node = $xpath->query('/html/body/div/p[2]/del');
+        self::assertNotFalse($node);
+        $allAttributes = $node[0]->attributes;
+        self::assertCount(4, $allAttributes);
+        $node = $xpath->query('/html/body/div/p[2]/del');
+        self::assertNotFalse($node);
+
+        $attributes = $node[0]->attributes[0];
+        self::assertSame('data-phpword-chg-author', $attributes->name);
+        self::assertSame($deleteAuthor, $attributes->value);
+
+        $text2Id = $text2->getElementId();
+        $attributes = $node[0]->attributes[1];
+        self::assertSame('data-phpword-chg-id', $attributes->name);
+        self::assertSame($text2Id, $attributes->value);
+
+        $attributes = $node[0]->attributes[2];
+        self::assertSame('data-phpword-chg-timestamp', $attributes->name);
+        self::assertSame($deleteTime->format('Y-m-d\TH:i:s\Z'), $attributes->value);
+
+        $attributes = $node[0]->attributes[3];
+        self::assertSame('title', $attributes->name);
+        $expected = $deleteAuthor . ' - '
+            . $deleteTime->format('Y-m-d H:i:s');
+        self::assertSame($expected, $attributes->value);
     }
 
     /**
