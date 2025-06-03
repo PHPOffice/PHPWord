@@ -54,7 +54,9 @@ function phpunit10ErrorHandler(int $errno, string $errstr, string $filename, int
 
 function utf8decode(string $value, string $toEncoding = 'ISO-8859-1'): string
 {
-    return function_exists('mb_convert_encoding') ? mb_convert_encoding($value, $toEncoding, 'UTF-8') : utf8_decode($value);
+    $result = function_exists('mb_convert_encoding') ? mb_convert_encoding($value, $toEncoding, 'UTF-8') : utf8_decode($value);
+
+    return $result === false ? '' : $result;
 }
 
 if (!method_exists(PHPUnit\Framework\TestCase::class, 'setOutputCallback')) {
