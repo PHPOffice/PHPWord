@@ -111,7 +111,7 @@
         "ext-gd": "*",
         "ext-zip": "*",
         "ext-xml": "*",
-        "phpoffice/math": "^0.2"
+        "phpoffice/math": "^0.3"
     },
     "require-dev": {
         "ext-libxml": "*",
