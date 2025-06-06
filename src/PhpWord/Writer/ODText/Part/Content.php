@@ -106,7 +106,8 @@ class Content extends AbstractPart
                 $xmlWriter->writeElement('dc:date', $trackedChange->getDate()->format('Y-m-d\TH:i:s\Z'));
             }
             $xmlWriter->endElement(); // office:change-info
-            if ($trackedChange->getChangeType() == TrackChange::DELETED) {
+            if ($trackedChange->getChangeType() == TrackChange::DELETED && method_exists($trackedElement, 'getText')) {
+                // @phpstan-ignore-next-line
                 $xmlWriter->writeElement('text:p', $trackedElement->getText());
             }
 

@@ -30,6 +30,7 @@ class AbstractElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementIndex(): void
     {
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $stub = $this->getMockForAbstractClass(AbstractElement::class);
         } else {
@@ -47,6 +48,7 @@ class AbstractElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementId(): void
     {
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $stub = $this->getMockForAbstractClass(AbstractElement::class);
         } else {

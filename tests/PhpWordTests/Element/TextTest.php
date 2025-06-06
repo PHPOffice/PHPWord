@@ -36,7 +36,6 @@ class TextTest extends \PHPUnit\Framework\TestCase
     {
         $oText = new Text();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $oText);
         self::assertNull($oText->getText());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oText->getFontStyle());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());

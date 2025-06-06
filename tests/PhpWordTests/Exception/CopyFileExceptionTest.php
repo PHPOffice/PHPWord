@@ -29,8 +29,6 @@ class CopyFileExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * CopyFileException can be thrown.
-     *
-     * @covers            ::__construct()
      */
     public function testCopyFileExceptionCanBeThrown(): void
     {

@@ -15,6 +15,7 @@ class AbstractPartTest extends TestCase
 
     protected function setUp(): void
     {
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $this->part = $this->getMockForAbstractClass(AbstractPart::class);
         } else {

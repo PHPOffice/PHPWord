@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
  * @since 0.12.0
  * @see  http://www.datypic.com/sc/ooxml/t-w_CT_SdtBlock.html
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+ * @SuppressWarnings("PHPMD.UnusedPrivateMethod")
  */
 class SDT extends Text
 {
