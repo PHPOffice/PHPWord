@@ -36,7 +36,6 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $oTextBox = new TextBox();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextBox', $oTextBox);
         self::assertNull($oTextBox->getStyle());
     }
 

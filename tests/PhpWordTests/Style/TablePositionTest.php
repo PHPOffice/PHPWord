@@ -42,23 +42,38 @@ class TablePositionTest extends \PHPUnit\Framework\TestCase
     /**
      * Test setting style with normal value.
      */
-    public function testSetGetNormal(): void
+    public function testSetGetNormalInt(): void
     {
         $object = new TablePosition();
 
-        $attributes = [
+        foreach ([
             'leftFromText' => 4,
             'rightFromText' => 4,
             'topFromText' => 4,
             'bottomFromText' => 4,
+            'tblpX' => 5,
+            'tblpY' => 6,
+        ] as $key => $value) {
+            $set = "set{$key}";
+            $get = "get{$key}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
+    }
+
+    /**
+     * Test setting style with normal value.
+     */
+    public function testSetGetNormalString(): void
+    {
+        $object = new TablePosition();
+
+        foreach ([
             'vertAnchor' => TablePosition::VANCHOR_PAGE,
             'horzAnchor' => TablePosition::HANCHOR_TEXT,
             'tblpXSpec' => TablePosition::XALIGN_CENTER,
-            'tblpX' => 5,
             'tblpYSpec' => TablePosition::YALIGN_OUTSIDE,
-            'tblpY' => 6,
-        ];
-        foreach ($attributes as $key => $value) {
+        ] as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);

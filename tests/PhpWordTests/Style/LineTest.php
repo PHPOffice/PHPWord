@@ -29,22 +29,31 @@ use PhpOffice\PhpWord\Style\Line;
  */
 class LineTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test setting style with normal value.
-     */
-    public function testSetGetNormal(): void
+    public function testSetGetNormalInt(): void
     {
         $object = new Line();
 
-        $properties = [
+        foreach ([
+            'weight' => 10,
+        ] as $key => $value) {
+            $set = "set{$key}";
+            $get = "get{$key}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
+    }
+
+    public function testSetGetNormalString(): void
+    {
+        $object = new Line();
+
+        foreach ([
             'connectorType' => Line::CONNECTOR_TYPE_STRAIGHT,
             'beginArrow' => Line::ARROW_STYLE_BLOCK,
             'endArrow' => Line::ARROW_STYLE_OVAL,
             'dash' => Line::DASH_STYLE_LONG_DASH_DOT_DOT,
-            'weight' => 10,
             'color' => 'red',
-        ];
-        foreach ($properties as $key => $value) {
+        ] as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);

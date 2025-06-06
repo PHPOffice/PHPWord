@@ -27,19 +27,32 @@ use PhpOffice\PhpWord\Style\LineNumbering;
  */
 class LineNumberingTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test get/set.
-     */
-    public function testGetSetProperties(): void
+    public function testGetSetPropertiesInt(): void
     {
         $object = new LineNumbering();
-        $properties = [
+        foreach ([
             'start' => [1, 2],
             'increment' => [1, 10],
             'distance' => [null, 10],
+        ] as $property => $value) {
+            [$default, $expected] = $value;
+            $get = "get{$property}";
+            $set = "set{$property}";
+
+            self::assertEquals($default, $object->$get()); // Default value
+
+            $object->$set($expected);
+
+            self::assertEquals($expected, $object->$get()); // New value
+        }
+    }
+
+    public function testGetSetPropertiesString(): void
+    {
+        $object = new LineNumbering();
+        foreach ([
             'restart' => [null, 'continuous'],
-        ];
-        foreach ($properties as $property => $value) {
+        ] as $property => $value) {
             [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";

@@ -59,15 +59,14 @@ class TOC extends AbstractElement
      * Create a new Table-of-Contents Element.
      *
      * @param mixed $fontStyle
-     * @param array $tocStyle
      * @param int $minDepth
      * @param int $maxDepth
      */
-    public function __construct($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
+    public function __construct($fontStyle = null, ?array $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
         $this->tocStyle = new TOCStyle();
 
-        if (null !== $tocStyle && is_array($tocStyle)) {
+        if (null !== $tocStyle) {
             $this->tocStyle->setStyleByArray($tocStyle);
         }
 

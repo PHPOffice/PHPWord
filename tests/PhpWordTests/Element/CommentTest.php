@@ -45,7 +45,6 @@ class CommentTest extends \PHPUnit\Framework\TestCase
         $oComment->setStartElement($oText);
         $oComment->setEndElement($oText);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Comment', $oComment);
         self::assertEquals($author, $oComment->getAuthor());
         self::assertEquals($date, $oComment->getDate());
         self::assertEquals($initials, $oComment->getInitials());

@@ -75,12 +75,10 @@ class Section extends AbstractContainer
 
     /**
      * Set section style.
-     *
-     * @param array $style
      */
-    public function setStyle($style = null): void
+    public function setStyle(?array $style = null): void
     {
-        if (null !== $style && is_array($style)) {
+        if (null !== $style) {
             $this->style->setStyleByArray($style);
         }
     }

@@ -31,7 +31,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  *
  * @since 0.11.0
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+ * @SuppressWarnings("PHPMD.UnusedPrivateMethod")
  */
 class Document
 {
