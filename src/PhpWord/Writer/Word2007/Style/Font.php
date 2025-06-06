@@ -45,7 +45,7 @@ class Font extends AbstractStyle
             $xmlWriter->startElement('w:rStyle');
             $xmlWriter->writeAttribute('w:val', $this->style);
             $xmlWriter->endElement();
-            $style = \PhpOffice\PhpWord\Style::getStyle($this->style);
+            $style = $this->getGlobalStyle($this->style);
             if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
                 $xmlWriter->writeElementIf($style->isRTL(), 'w:rtl');
             }

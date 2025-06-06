@@ -74,7 +74,7 @@ class Paragraph extends AbstractStyle
             } elseif (substr($styleName, 0, 2) === 'HD') {
                 $styleAuto = true;
                 $psm = 'Heading_' . substr($styleName, 2);
-                $stylep = Style::getStyle($psm);
+                $stylep = $this->getGlobalStyle($psm);
                 if ($stylep instanceof Style\Font) {
                     $stylep = $stylep->getParagraph();
                 }

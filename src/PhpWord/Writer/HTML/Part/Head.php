@@ -127,7 +127,7 @@ class Head extends AbstractPart
         }
 
         // Custom styles
-        $customStyles = Style::getStyles();
+        $customStyles = $this->getParentWriter()->getPhpWord()->getStyles();
         if (is_array($customStyles)) {
             foreach ($customStyles as $name => $style) {
                 $styleParagraph = null;

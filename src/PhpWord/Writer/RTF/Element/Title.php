@@ -31,7 +31,7 @@ class Title extends Text
         $element = $this->element;
         $style = $element->getStyle();
         $style = str_replace('Heading', 'Heading_', $style ?? '');
-        $style = \PhpOffice\PhpWord\Style::getStyle($style);
+        $style = $element->getPhpWord()->getStyle($style);
         if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
             $this->fontStyle = $style;
             $pstyle = $style->getParagraph();

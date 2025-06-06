@@ -120,14 +120,15 @@ class Styles extends AbstractPart
      */
     private function writeNamed(XMLWriter $xmlWriter): void
     {
-        $styles = Style::getStyles();
+        $phpWord = $this->getParentWriter()->getPhpWord();
+        $styles = $phpWord->getStyles();
         if (count($styles) > 0) {
             foreach ($styles as $style) {
                 if ($style->isAuto() === false) {
                     $styleClass = str_replace('\\Style\\', '\\Writer\\ODText\\Style\\', get_class($style));
                     if (class_exists($styleClass)) {
                         /** @var \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle $styleWriter Type hint */
-                        $styleWriter = new $styleClass($xmlWriter, $style);
+                        $styleWriter = new $styleClass($xmlWriter, $style, $phpWord);
                         $styleWriter->write();
                     }
                 }
