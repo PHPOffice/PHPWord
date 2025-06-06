@@ -39,7 +39,7 @@ class CheckBox extends Text
      *
      * @var bool
      */
-    private $defaultChecked;
+    private $defaultChecked = false;
 
     /**
      * Create new instance.
