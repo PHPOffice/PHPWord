@@ -75,6 +75,18 @@ or if you want the latest unreleased version
 composer require phpoffice/phpword:dev-master
 ```
 
+### Extras ###
+If you are having issues with missing dependencies, you can run the following to update all the project dependencies
+```sh
+    composer update
+```
+
+Run the following to install / generate the project without dev tools (production) 
+```sh
+    composer install --no-dev 
+```
+[Composer deploy info](https://stackoverflow.com/questions/21721495/how-to-deploy-correctly-when-using-composers-develop-production-switch)
+
 ## Getting started
 
 The following is a basic usage example of the PHPWord library.
