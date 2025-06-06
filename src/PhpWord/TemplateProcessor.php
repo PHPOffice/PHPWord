@@ -1504,4 +1504,25 @@ class TemplateProcessor
     {
         return $this->tempDocumentFilename;
     }
+
+    /**
+     * Delete Table 
+     * 
+     * Below function will take $search Parameter as an Input and remove Respective table from format
+     * 
+     * @param string $search
+     * return void
+     */
+    public function deleteTable(string $search): void
+    {
+        $search = self::ensureMacroCompleted($search);
+        $tagPos = strpos($this->tempDocumentMainPart, $search);
+        if ($tagPos) {
+            $tableStart = $this->findTableStart($tagPos);
+            $tableEnd = $this->findTableEnd($tagPos);
+    
+            // Delete the entire table
+            $this->tempDocumentMainPart = $this->getSlice(0, $tableStart) . $this->getSlice($tableEnd);
+        }
+    }
 }
