@@ -453,14 +453,14 @@ A couple of predefined values are defined here, see the websites below for more 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/PhpOffice-PhpWord-Style-Language.html#property_bidirectional">$bidirectional</a>
     <span>
-                        &nbsp;: string            </span>
+                        &nbsp;: null|string            </span>
 </dt>
 <dd>Complex Script Language.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/PhpOffice-PhpWord-Style-Language.html#property_eastAsia">$eastAsia</a>
     <span>
-                        &nbsp;: string            </span>
+                        &nbsp;: null|string            </span>
 </dt>
 <dd>East Asian Language.</dd>
 
@@ -481,7 +481,7 @@ A couple of predefined values are defined here, see the websites below for more 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/PhpOffice-PhpWord-Style-Language.html#property_latin">$latin</a>
     <span>
-                        &nbsp;: string            </span>
+                        &nbsp;: null|string            </span>
 </dt>
 <dd>Latin Language.</dd>
 
@@ -538,7 +538,7 @@ A couple of predefined values are defined here, see the websites below for more 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/PhpOffice-PhpWord-Style-Language.html#method_getLatin">getLatin()</a>
     <span>
-                                &nbsp;: null|string    </span>
+                                &nbsp;: string|null    </span>
 </dt>
 <dd>Get the Latin Language.</dd>
 
@@ -2081,7 +2081,7 @@ A couple of predefined values are defined here, see the websites below for more 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">null|string</span>
     <span class="phpdocumentor-signature__name">$bidirectional</span>
     </code>
 
@@ -2118,7 +2118,7 @@ A couple of predefined values are defined here, see the websites below for more 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">null|string</span>
     <span class="phpdocumentor-signature__name">$eastAsia</span>
     </code>
 
@@ -2259,7 +2259,7 @@ A couple of predefined values are defined here, see the websites below for more 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">null|string</span>
     <span class="phpdocumentor-signature__name">$latin</span>
     </code>
 
@@ -2292,7 +2292,7 @@ A couple of predefined values are defined here, see the websites below for more 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">129</span>
+    <span class="phpdocumentor-element-found-in__line">125</span>
 
     </aside>
 
@@ -2300,7 +2300,7 @@ A couple of predefined values are defined here, see the websites below for more 
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">null|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$latin</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">null|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eastAsia</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">null|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$bidirectional</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$latin</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eastAsia</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$bidirectional</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2310,21 +2310,21 @@ A couple of predefined values are defined here, see the websites below for more 
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$latin</span>
-                : <span class="phpdocumentor-signature__argument__return-type">null|string</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$eastAsia</span>
-                : <span class="phpdocumentor-signature__argument__return-type">null|string</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$bidirectional</span>
-                : <span class="phpdocumentor-signature__argument__return-type">null|string</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -2351,7 +2351,7 @@ A couple of predefined values are defined here, see the websites below for more 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">239</span>
+    <span class="phpdocumentor-element-found-in__line">231</span>
 
     </aside>
 
@@ -2457,7 +2457,7 @@ A couple of predefined values are defined here, see the websites below for more 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">214</span>
+    <span class="phpdocumentor-element-found-in__line">206</span>
 
     </aside>
 
@@ -2535,7 +2535,7 @@ A couple of predefined values are defined here, see the websites below for more 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">189</span>
+    <span class="phpdocumentor-element-found-in__line">181</span>
 
     </aside>
 
@@ -2574,7 +2574,7 @@ A couple of predefined values are defined here, see the websites below for more 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">162</span>
+    <span class="phpdocumentor-element-found-in__line">154</span>
 
     </aside>
 
@@ -2582,7 +2582,7 @@ A couple of predefined values are defined here, see the websites below for more 
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getLatin</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">null|string</span></code>
+                    <span class="phpdocumentor-signature__name">getLatin</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2595,7 +2595,7 @@ A couple of predefined values are defined here, see the websites below for more 
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">null|string</span>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
             </section>
 
 </article>
@@ -2740,7 +2740,7 @@ A couple of predefined values are defined here, see the websites below for more 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">227</span>
+    <span class="phpdocumentor-element-found-in__line">219</span>
 
     </aside>
 
@@ -2791,7 +2791,7 @@ A couple of predefined values are defined here, see the websites below for more 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">202</span>
+    <span class="phpdocumentor-element-found-in__line">194</span>
 
     </aside>
 
@@ -2891,7 +2891,7 @@ A couple of predefined values are defined here, see the websites below for more 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">177</span>
+    <span class="phpdocumentor-element-found-in__line">169</span>
 
     </aside>
 
@@ -2957,7 +2957,7 @@ A couple of predefined values are defined here, see the websites below for more 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">150</span>
+    <span class="phpdocumentor-element-found-in__line">144</span>
 
     </aside>
 
@@ -3628,7 +3628,7 @@ Check if the set method is exists. Throws an exception?</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Style/Language.php"><a href="files/src-phpword-style-language.html"><abbr title="src/PhpWord/Style/Language.php">Language.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">251</span>
+    <span class="phpdocumentor-element-found-in__line">243</span>
 
     </aside>
 
