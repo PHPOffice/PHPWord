@@ -85,4 +85,16 @@ class CheckBoxTest extends \PHPUnit\Framework\TestCase
         $oCheckBox->setParagraphStyle(['alignment' => Jc::CENTER, 'spaceAfter' => 100]);
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());
     }
+
+    /**
+     * Set and get default value.
+     */
+    public function testDefault(): void
+    {
+        $oCheckBox = new CheckBox('chkBox', 'CheckBox');
+        self::assertFalse($oCheckBox->isDefaultChecked());
+
+        $oCheckBox->setDefaultChecked(true);
+        self::assertTrue($oCheckBox->isDefaultChecked());
+    }
 }
