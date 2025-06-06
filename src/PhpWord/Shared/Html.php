@@ -344,18 +344,22 @@ class Html
     /**
      * Parse heading node.
      *
-     * @param string $argument1 Name of heading style
-     *
      * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
      * Heading1 - Heading6 are already defined somewhere
      */
-    protected static function parseHeading(DOMNode $node, AbstractContainer $element, array &$styles, string $argument1): TextRun
+    protected static function parseHeading(DOMNode $node, AbstractContainer $element, array &$styles, string $headingStyle): TextRun
     {
         $style = new Paragraph();
-        $style->setStyleName($argument1);
+        $style->setStyleName($headingStyle);
         $style->setStyleByArray(self::parseInlineStyle($node, $styles['paragraph']));
+        $textRun = new TextRun($style);
 
-        return $element->addTextRun($style);
+        // Create a title with level corresponding to number in heading style
+        // (Eg, Heading1 = 1)
+        $element->addTitle($textRun, (int) ltrim($headingStyle, 'Heading'));
+
+        // Return TextRun so children are parsed
+        return $textRun;
     }
 
     /**

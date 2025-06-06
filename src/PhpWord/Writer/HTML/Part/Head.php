@@ -92,17 +92,15 @@ class Head extends AbstractPart
             'font-size' => Settings::getDefaultFontSize() . 'pt',
             'color' => "#{$defaultFontColor}",
         ];
-        // Mpdf sometimes needs separate tag for body; doesn't harm others.
-        $bodyarray = $astarray;
 
         $defaultWhiteSpace = $this->getParentWriter()->getDefaultWhiteSpace();
         if ($defaultWhiteSpace) {
             $astarray['white-space'] = $defaultWhiteSpace;
         }
+        $bodyarray = $astarray;
 
         foreach ([
             'body' => $bodyarray,
-            '*' => $astarray,
             'a.NoteRef' => [
                 'text-decoration' => 'none',
             ],
@@ -135,12 +133,13 @@ class Head extends AbstractPart
                     $styleWriter = new FontStyleWriter($style);
                     if ($style->getStyleType() == 'title') {
                         $name = str_replace('Heading_', 'h', $name);
+                        $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                         $styleParagraph = $style->getParagraph();
                         $style = $styleParagraph;
                     } else {
                         $name = '.' . $name;
+                        $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                     }
-                    $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                 }
                 if ($style instanceof Paragraph) {
                     $styleWriter = new ParagraphStyleWriter($style);

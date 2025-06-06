@@ -18,7 +18,11 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Element\Title as ElementTitle;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML;
+use PhpOffice\PhpWord\Writer\HTML\Style\Font;
+use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph;
 
 /**
  * TextRun element HTML writer.
@@ -34,21 +38,41 @@ class Title extends AbstractElement
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
+        if (!$this->element instanceof ElementTitle) {
             return '';
         }
 
         $tag = 'h' . $this->element->getDepth();
 
         $text = $this->element->getText();
+        $paragraphStyle = null;
         if (is_string($text)) {
             $text = $this->parentWriter->escapeHTML($text);
         } else {
+            $paragraphStyle = $text->getParagraphStyle();
             $writer = new Container($this->parentWriter, $text);
             $text = $writer->write();
         }
+        $css = '';
+        $write1 = $write2 = $write3 = '';
+        $style = Style::getStyle('Heading_' . $this->element->getDepth());
+        if ($style !== null) {
+            $styleWriter = new Font($style);
+            $write1 = $styleWriter->write();
+        }
+        if (is_object($paragraphStyle)) {
+            $styleWriter = new Paragraph($paragraphStyle);
+            $write3 = $styleWriter->write();
+            if ($write1 !== '' && $write3 !== '') {
+                $write2 = ' ';
+            }
+        }
+        $css = "$write1$write2$write3";
+        if ($css !== '') {
+            $css = " style=\"$css\"";
+        }
 
-        $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
+        $content = "<{$tag}{$css}>{$text}</{$tag}>" . PHP_EOL;
 
         return $content;
     }
