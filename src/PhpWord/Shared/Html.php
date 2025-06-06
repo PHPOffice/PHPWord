@@ -1010,7 +1010,6 @@ class Html
                 }
             }
         }
-        $src = urldecode($src);
 
         if (!is_file($src)
             && null !== self::$options
