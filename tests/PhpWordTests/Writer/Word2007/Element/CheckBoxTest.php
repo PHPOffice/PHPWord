@@ -15,12 +15,15 @@ class CheckBoxTest extends TestCase
      * @dataProvider checkBoxCheckedProvider
      */
     public function testCheckBoxGeneratesCorrectXml(
+        bool $checked,
         string $expectedCheckedAttribute
     ): void {
         // Arrange
         $xmlWriter = new XMLWriter();
 
         $checkBoxElement = new CheckBoxElement('test', 'test');
+        $checkBoxElement->setDefaultChecked($checked);
+
         $checkBox = new CheckBox($xmlWriter, $checkBoxElement);
 
         // Act
@@ -38,9 +41,11 @@ class CheckBoxTest extends TestCase
     {
         return [
             'Default checked' => [
+                'checked' => true,
                 'w:default w:val="1"',
             ],
             'Default unchecked' => [
+                'checked' => false,
                 'w:default w:val="0"',
             ],
         ];
