@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class CheckBoxTest extends TestCase
 {
     /**
-     * @dataProvider checkBoxColorProvider
+     * @dataProvider checkBoxCheckedProvider
      */
     public function testCheckBoxGeneratesCorrectXml(
         string $expectedCheckedAttribute
@@ -32,16 +32,16 @@ class CheckBoxTest extends TestCase
     }
 
     /**
-     * Data provider for testing different combinations of background and border colors.
+     * Data provider for testing checked state.
      */
-    public static function checkBoxColorProvider(): array
+    public static function checkBoxCheckedProvider(): array
     {
         return [
             'Default checked' => [
-                'w:val="1"',
+                'w:default w:val="1"',
             ],
             'Default unchecked' => [
-                'w:val="0"',
+                'w:default w:val="0"',
             ],
         ];
     }
