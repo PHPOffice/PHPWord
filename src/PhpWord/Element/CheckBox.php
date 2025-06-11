@@ -81,10 +81,8 @@ class CheckBox extends Text
 
     /**
      * Set default state.
-     *
-     * @return self
      */
-    public function setDefaultChecked(bool $default = true)
+    public function setDefaultChecked(bool $default = true): self
     {
         $this->defaultChecked = $default;
 
@@ -93,11 +91,9 @@ class CheckBox extends Text
 
     /**
      * Is default state checked?
-     *
-     * @return bool
      */
     public function isDefaultChecked(): bool
     {
-        return $this->defaultChecked;
+        return (bool) $this->defaultChecked;
     }
 }
