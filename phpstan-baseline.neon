@@ -1834,3 +1834,39 @@ parameters:
 			message: "#^Property PhpOffice\\\\PhpWordTests\\\\XmlDocument\\:\\:\\$xpath \\(DOMXPath\\) does not accept null\\.$#"
 			count: 1
 			path: tests/PhpWordTests/XmlDocument.php
+
+		# https://github.com/phpstan/phpstan/issues/8770
+		-
+			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Writer\\\\HTML\\\\Part\\\\AbstractPart is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:|]+$#"
+			count: 1
+			path: src/PhpWord/Writer/HTML.php
+
+		# https://github.com/phpstan/phpstan/issues/8770
+		-
+			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
+			count: 2
+			path: tests/PhpWordTests/Element/AbstractElementTest.php
+
+		# https://github.com/phpstan/phpstan/issues/8770
+		-
+			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
+			count: 4
+			path: tests/PhpWordTests/Style/AbstractStyleTest.php
+
+		# https://github.com/phpstan/phpstan/issues/8770
+		-
+			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Writer\\\\EPub3\\\\Style\\\\AbstractStyle is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
+			count: 2
+			path: tests/PhpWordTests/Writer/EPub3/Style/AbstractStyleTest.php
+
+		# https://github.com/phpstan/phpstan/issues/8770
+		-
+			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Part\\\\AbstractPart is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
+			count: 2
+			path: tests/PhpWordTests/Writer/ODText/Part/AbstractPartTest.php
+
+		# https://github.com/phpstan/phpstan/issues/8770
+		-
+			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Writer\\\\Word2007\\\\Part\\\\AbstractPart is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
+			count: 2
+			path: tests/PhpWordTests/Writer/Word2007/Part/AbstractPartTest.php

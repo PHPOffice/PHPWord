@@ -36,6 +36,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetStyleByArray(): void
     {
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $stub = $this->getMockForAbstractClass(AbstractStyle::class);
         } else {
@@ -69,6 +70,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValNormal(): void
     {
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $stub = $this->getMockForAbstractClass(AbstractStyle::class);
         } else {
@@ -89,6 +91,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValDefault(): void
     {
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $stub = $this->getMockForAbstractClass(AbstractStyle::class);
         } else {
@@ -109,6 +112,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
     public function testSetValEnumException(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $stub = $this->getMockForAbstractClass(AbstractStyle::class);
         } else {

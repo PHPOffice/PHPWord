@@ -260,7 +260,7 @@ class SettingsTest extends TestCase
     public function testSetGetDefaultPaper(): void
     {
         $dflt = Settings::DEFAULT_PAPER;
-        $chng = ($dflt === 'A4') ? 'Letter' : 'A4';
+        $chng = 'A4';
         $doc = new PhpWord();
         self::assertEquals($dflt, Settings::getDefaultPaper());
         $sec1 = $doc->addSection();

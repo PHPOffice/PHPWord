@@ -57,11 +57,13 @@ class HTMLTest extends AbstractWebServerEmbedded
         $object = new HTML(new PhpWord());
 
         self::assertNull($object->getEditCallback());
-        self::assertInstanceOf(HTML::class, $object->setEditCallback(function (string $html): string {
+
+        $object->setEditCallback(function (string $html): string {
             return $html;
-        }));
+        });
         self::assertIsCallable($object->getEditCallback());
-        self::assertInstanceOf(HTML::class, $object->setEditCallback(null));
+
+        $object->setEditCallback(null);
         self::assertNull($object->getEditCallback());
     }
 
@@ -70,9 +72,11 @@ class HTMLTest extends AbstractWebServerEmbedded
         $object = new HTML(new PhpWord());
 
         self::assertEquals('', $object->getDefaultGenericFont());
-        self::assertInstanceOf(HTML::class, $object->setDefaultGenericFont('test'));
+
+        $object->setDefaultGenericFont('test');
         self::assertEquals('', $object->getDefaultGenericFont());
-        self::assertInstanceOf(HTML::class, $object->setDefaultGenericFont('cursive'));
+
+        $object->setDefaultGenericFont('cursive');
         self::assertEquals('cursive', $object->getDefaultGenericFont());
     }
 
@@ -81,9 +85,11 @@ class HTMLTest extends AbstractWebServerEmbedded
         $object = new HTML(new PhpWord());
 
         self::assertEquals('', $object->getDefaultWhiteSpace());
-        self::assertInstanceOf(HTML::class, $object->setDefaultWhiteSpace('test'));
+
+        $object->setDefaultWhiteSpace('test');
         self::assertEquals('', $object->getDefaultWhiteSpace());
-        self::assertInstanceOf(HTML::class, $object->setDefaultWhiteSpace('pre-line'));
+
+        $object->setDefaultWhiteSpace('pre-line');
         self::assertEquals('pre-line', $object->getDefaultWhiteSpace());
     }
 

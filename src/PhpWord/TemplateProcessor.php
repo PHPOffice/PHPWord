@@ -133,7 +133,10 @@ class TemplateProcessor
 
         $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
         $this->tempDocumentSettingsPart = $this->readPartWithRels($this->getSettingsPartName());
-        $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
+        $tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
+        if (is_string($tempDocumentContentTypes)) {
+            $this->tempDocumentContentTypes = $tempDocumentContentTypes;
+        }
     }
 
     public function __destruct()
@@ -326,8 +329,8 @@ class TemplateProcessor
     }
 
     /**
-     * @param mixed $search
-     * @param mixed $replace
+     * @param array<string>|string $search
+     * @param null|array<string>|bool|float|int|string $replace
      * @param int $limit
      */
     public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT): void
@@ -347,7 +350,7 @@ class TemplateProcessor
             }
             unset($item);
         } else {
-            $replace = static::ensureUtf8Encoded($replace);
+            $replace = static::ensureUtf8Encoded(null === $replace ? null : (string) $replace);
         }
 
         if (Settings::isOutputEscapingEnabled()) {
@@ -688,7 +691,7 @@ class TemplateProcessor
 
             foreach ($searchReplace as $searchString => $replaceImage) {
                 $varsToReplace = array_filter($partVariables, function ($partVar) use ($searchString) {
-                    return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString) . ':/', $partVar);
+                    return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString, '/') . ':/', $partVar);
                 });
 
                 foreach ($varsToReplace as $varNameWithArgs) {
@@ -707,7 +710,7 @@ class TemplateProcessor
                     // replace variable
                     $varNameWithArgsFixed = static::ensureMacroCompleted($varNameWithArgs);
                     $matches = [];
-                    if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed) . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
+                    if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed, '/') . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
                         $wholeTag = $matches[0];
                         array_shift($matches);
                         [$openTag, $prefix, , $postfix, $closeTag] = $matches;
@@ -1088,12 +1091,12 @@ class TemplateProcessor
     /**
      * Find and replace macros in the given XML section.
      *
-     * @param mixed $search
-     * @param mixed $replace
+     * @param array<string>|string $search
+     * @param array<string>|string $replace
      * @param array<int, string>|string $documentPartXML
      * @param int $limit
      *
-     * @return string
+     * @return ($documentPartXML is string ? string : array<string>)
      */
     protected function setValueForPart($search, $replace, $documentPartXML, $limit)
     {

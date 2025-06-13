@@ -93,7 +93,7 @@ class NumberingLevel extends AbstractStyle
     /**
      * Justification, w:lvlJc.
      *
-     * @var string, one of PhpOffice\PhpWord\SimpleType\Jc
+     * @var string one of PhpOffice\PhpWord\SimpleType\Jc
      */
     private $alignment = '';
 
