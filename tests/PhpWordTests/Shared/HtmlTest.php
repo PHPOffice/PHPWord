@@ -234,7 +234,6 @@ class HtmlTest extends AbstractWebServerEmbedded
         $html = '<p>This is <span class="boldtext">bold</span> text.</p>';
         $section = $phpWord->addSection();
         Html::addHtml($section, $html);
-        self::assertTrue(true);
         $element = $section->getElements()[0];
         self::assertInstanceOf(TextRun::class, $element);
         $textElements = $element->getElements();

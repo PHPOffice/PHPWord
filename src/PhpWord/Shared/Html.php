@@ -172,7 +172,7 @@ class Html
      * parse Inline style of a node.
      *
      * @param DOMNode $node Node to check on attributes and to compile a style array
-     * @param array<string, mixed> $styles is supplied, the inline style attributes are added to the already existing style
+     * @param array $styles is supplied, the inline style attributes are added to the already existing style
      *
      * @return array
      */
