@@ -50,14 +50,17 @@ class Paragraph2Test extends \PHPUnit\Framework\TestCase
         $element .= '/style:paragraph-properties';
         self::assertTrue($doc->elementExists($element));
         self::assertEquals('right', $doc->getElementAttribute($element, 'fo:text-align'));
+        self::assertEquals('rl-tb', $doc->getElementAttribute($element, 'style:writing-mode'));
 
         $element = "$s2a/style:style[6]/style:paragraph-properties";
         self::assertTrue($doc->elementExists($element));
         self::assertEquals('right', $doc->getElementAttribute($element, 'fo:text-align'));
+        self::assertEquals('rl-tb', $doc->getElementAttribute($element, 'style:writing-mode'));
 
         $element = "$s2a/style:style[8]/style:paragraph-properties";
         self::assertTrue($doc->elementExists($element));
         self::assertEquals('left', $doc->getElementAttribute($element, 'fo:text-align'));
+        self::assertEquals('rl-tb', $doc->getElementAttribute($element, 'style:writing-mode'));
 
         $doc->setDefaultFile('styles.xml');
         $element = '/office:document-styles/office:styles/style:style';
@@ -65,7 +68,8 @@ class Paragraph2Test extends \PHPUnit\Framework\TestCase
         self::assertEquals('Normal', $doc->getElementAttribute($element, 'style:name'));
         $element .= '/style:paragraph-properties';
         self::assertTrue($doc->elementExists($element));
-        self::assertEquals('left', $doc->getElementAttribute($element, 'fo:text-align'));
+        self::assertEquals('right', $doc->getElementAttribute($element, 'fo:text-align'));
+        self::assertEquals('rl-tb', $doc->getElementAttribute($element, 'style:writing-mode'));
     }
 
     /**

@@ -24,12 +24,15 @@ use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
@@ -55,6 +58,7 @@ class HtmlTest extends AbstractWebServerEmbedded
      */
     public function testAddHtml(): void
     {
+        Settings::setOutputEscapingEnabled(true);
         $content = '';
 
         // Default
@@ -83,16 +87,31 @@ class HtmlTest extends AbstractWebServerEmbedded
         // Other parts
         $section = $phpWord->addSection();
         $content = '';
+        $expectd = '';
         $content .= '<table><tr><th>Header</th><td>Content</td></tr></table>';
         $content .= '<ul><li>Bullet</li><ul><li>Bullet</li></ul></ul>';
         $content .= '<ol><li>Bullet</li></ol>';
         $content .= "'Single Quoted Text'";
+        $expectd .= "'Single Quoted Text'";
         $content .= '"Double Quoted Text"';
+        $expectd .= '"Double Quoted Text"';
         $content .= '& Ampersand';
-        $content .= '&lt;&gt;&ldquo;&lsquo;&rsquo;&laquo;&raquo;&lsaquo;&rsaquo;';
+        $expectd .= '& Ampersand';
+        $content .= '&lt;&gt;&ldquo;&rdquo;&lsquo;&rsquo;&laquo;&raquo;&lsaquo;&rsaquo;';
+        $expectd .= '<>“”‘’«»‹›';
         $content .= '&amp;&bull;&deg;&hellip;&trade;&copy;&reg;&mdash;';
+        $expectd .= '&•°…™©®—';
         $content .= '&ndash;&nbsp;&emsp;&ensp;&sup2;&sup3;&frac14;&frac12;&frac34;';
+        $expectd .= "–\u{a0}\u{2003}\u{2002}²³¼½¾";
         Html::addHtml($section, $content);
+        $elements = $section->getElements();
+        foreach ($elements as $element) {
+            if ($element instanceof Text) {
+                self::assertSame($expectd, $element->getText());
+
+                break;
+            }
+        }
     }
 
     /**
@@ -116,6 +135,8 @@ class HtmlTest extends AbstractWebServerEmbedded
 
         self::assertCount(1, $section->getElements());
         $element = $section->getElement(0);
+        self::assertInstanceOf(Title::class, $element);
+        $element = $element->getText();
         self::assertInstanceOf(TextRun::class, $element);
         self::assertInstanceOf(Paragraph::class, $element->getParagraphStyle());
         self::assertEquals('Heading1', $element->getParagraphStyle()->getStyleName());
@@ -137,6 +158,8 @@ class HtmlTest extends AbstractWebServerEmbedded
 
         self::assertCount(1, $section->getElements());
         $element = $section->getElement(0);
+        self::assertInstanceOf(Title::class, $element);
+        $element = $element->getText();
         self::assertInstanceOf(TextRun::class, $element);
         self::assertInstanceOf(Paragraph::class, $element->getParagraphStyle());
         self::assertEquals('Heading1', $element->getParagraphStyle()->getStyleName());
@@ -155,7 +178,7 @@ class HtmlTest extends AbstractWebServerEmbedded
      */
     public function testParseHtmlEntities(): void
     {
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        Settings::setOutputEscapingEnabled(true);
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         Html::addHtml($section, 'text with entities &lt;my text&gt;');
@@ -183,13 +206,14 @@ class HtmlTest extends AbstractWebServerEmbedded
         Html::addHtml($section, $html);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:t'));
-        self::assertEquals('Calculator', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr'));
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz'));
-        self::assertEquals('22.5', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz', 'w:val'));
+        $element = '/w:document/w:body/w:p';
+        self::assertTrue($doc->elementExists($element));
+        self::assertTrue($doc->elementExists("$element/w:r"));
+        self::assertTrue($doc->elementExists("$element/w:r/w:t"));
+        self::assertEquals('Calculator', $doc->getElement("$element/w:r/w:t")->nodeValue);
+        self::assertTrue($doc->elementExists("$element/w:r/w:rPr"));
+        self::assertTrue($doc->elementExists("$element/w:r/w:rPr/w:sz"));
+        self::assertEquals('22.5', $doc->getElementAttribute("$element/w:r/w:rPr/w:sz", 'w:val'));
     }
 
     public function testParseStyleTableClassName(): void
@@ -201,6 +225,36 @@ class HtmlTest extends AbstractWebServerEmbedded
 
         self::assertInstanceOf(Table::class, $section->getElement(0));
         self::assertEquals('pStyle', $section->getElement(0)->getStyle()->getStyleName());
+    }
+
+    public function testSpanClassName(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle('boldtext', ['bold' => true]);
+        $html = '<p>This is <span class="boldtext">bold</span> text.</p>';
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+        $element = $section->getElements()[0];
+        self::assertInstanceOf(TextRun::class, $element);
+        $textElements = $element->getElements();
+        self::assertCount(3, $textElements);
+
+        $text = $textElements[0];
+        self::assertInstanceOf(Text::class, $text);
+        self::assertInstanceOf(Font::class, $text->getFontStyle());
+        self::assertNotTrue($text->getFontStyle()->isBold());
+
+        $text = $textElements[1];
+        self::assertInstanceOf(Text::class, $text);
+        self::assertSame('boldtext', $text->getFontStyle());
+        $style = Style::getStyle('boldtext');
+        self::assertInstanceOf(Font::class, $style);
+        self::assertTrue($style->isBold());
+
+        $text = $textElements[2];
+        self::assertInstanceOf(Text::class, $text);
+        self::assertInstanceOf(Font::class, $text->getFontStyle());
+        self::assertNotTrue($text->getFontStyle()->isBold());
     }
 
     /**
@@ -248,7 +302,8 @@ class HtmlTest extends AbstractWebServerEmbedded
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblW';
         self::assertTrue($doc->elementExists($xpath));
-        self::assertEquals($docxSize, $doc->getElement($xpath)->getAttribute('w:w'));
+        $actual = (float) $doc->getElement($xpath)->getAttribute('w:w');
+        self::assertEqualsWithDelta($docxSize, $actual, 1.0e-12);
         self::assertEquals($docxUnit, $doc->getElement($xpath)->getAttribute('w:type'));
     }
 
@@ -558,7 +613,7 @@ class HtmlTest extends AbstractWebServerEmbedded
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
-            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+            'orientation' => Style\Section::ORIENTATION_LANDSCAPE,
         ]);
 
         // borders & backgrounds are here just for better visual comparison
@@ -627,7 +682,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
-            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+            'orientation' => Style\Section::ORIENTATION_LANDSCAPE,
         ]);
 
         $html = <<<HTML
@@ -708,7 +763,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
-            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+            'orientation' => Style\Section::ORIENTATION_LANDSCAPE,
         ]);
 
         // borders & backgrounds are here just for better visual comparison
@@ -749,7 +804,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
-            'orientation' => \PhpOffice\PhpWord\Style\Section::ORIENTATION_LANDSCAPE,
+            'orientation' => Style\Section::ORIENTATION_LANDSCAPE,
         ]);
 
         $html = '<table style="background-color:red;width:100%;" bgColor="lightgreen" width="50%">
@@ -768,7 +823,7 @@ HTML;
 
         $xpath = '/w:document/w:body/w:tbl/w:tr[1]/w:tc[1]/w:tcPr/w:shd';
         self::assertTrue($doc->elementExists($xpath));
-        self::assertEquals('red', $doc->getElement($xpath)->getAttribute('w:fill'));
+        self::assertEquals('ff0000', $doc->getElement($xpath)->getAttribute('w:fill'));
     }
 
     /**
@@ -876,7 +931,7 @@ HTML;
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $html = preg_replace('/\s+/', ' ', '<ul>
+        $html = '<ul>
                 <li>Some text before
                     <span style="font-family: arial,helvetica,sans-serif;">
                         <span style="font-size: 12px;">list item1 <b>bold</b> with text after bold</span>
@@ -888,7 +943,7 @@ HTML;
                         <span style="font-size: 12px;">list item2</span>
                     </span>
                 </li>
-            </ul>');
+            </ul>';
         Html::addHtml($section, $html, false, false);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
@@ -1230,7 +1285,7 @@ HTML;
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals('single', $doc->getElement($xpath)->getAttribute('w:val'));
         self::assertEquals((int) (5 * 15 / 2), $doc->getElement($xpath)->getAttribute('w:sz'));
-        self::assertEquals('lightblue', $doc->getElement($xpath)->getAttribute('w:color'));
+        self::assertEquals('add8e6', $doc->getElement($xpath)->getAttribute('w:color'));
 
         $xpath = '/w:document/w:body/w:p[4]/w:pPr/w:spacing';
         self::assertTrue($doc->elementExists($xpath));
@@ -1363,9 +1418,11 @@ HTML;
         return [
             ['auto', 5000, TblWidth::PERCENT],
             ['100%', 5000, TblWidth::PERCENT],
-            ['200pt', 3999.999999999999, TblWidth::TWIP],
+            ['200pt', 4000, TblWidth::TWIP],
             ['300px', 4500, TblWidth::TWIP],
             ['400', 6000, TblWidth::TWIP],
+            ['2in', 2880, TblWidth::TWIP],
+            ['2.54cm', 1440, TblWidth::TWIP],
         ];
     }
 
