@@ -29,19 +29,32 @@ use PHPUnit\Framework\Assert;
  */
 class LanguageTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test get/set.
-     */
-    public function testGetSetProperties(): void
+    public function testGetSetPropertiesInt(): void
     {
         $object = new Language();
-        $properties = [
+        foreach ([
+            'langId' => [null, 1036],
+        ] as $property => $value) {
+            [$default, $expected] = $value;
+            $get = "get{$property}";
+            $set = "set{$property}";
+
+            self::assertEquals($default, $object->$get()); // Default value
+
+            $object->$set($expected);
+
+            self::assertEquals($expected, $object->$get()); // New value
+        }
+    }
+
+    public function testGetSetPropertiesString(): void
+    {
+        $object = new Language();
+        foreach ([
             'latin' => [null, 'fr-BE'],
             'eastAsia' => [null, 'ja-JP'],
             'bidirectional' => [null, 'ar-SA'],
-            'langId' => [null, 1036],
-        ];
-        foreach ($properties as $property => $value) {
+        ] as $property => $value) {
             [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";

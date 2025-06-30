@@ -37,7 +37,6 @@ class HeaderTest extends AbstractWebServerEmbedded
         $iVal = mt_rand(1, 1000);
         $oHeader = new Header($iVal);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Header', $oHeader);
         self::assertEquals($iVal, $oHeader->getSectionId());
         self::assertEquals(Header::AUTO, $oHeader->getType());
     }

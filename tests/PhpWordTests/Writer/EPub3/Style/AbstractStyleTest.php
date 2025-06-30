@@ -14,6 +14,7 @@ class AbstractStyleTest extends TestCase
     public function testParentWriter(): void
     {
         $parentWriter = new EPub3();
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $style = $this->getMockForAbstractClass(AbstractStyle::class);
         } else {

@@ -28,7 +28,7 @@ use PhpOffice\PhpWord\Shared\XMLReader;
  *
  * @since 0.10.0
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For readWPNode
+ * @SuppressWarnings("PHPMD.UnusedPrivateMethod") For readWPNode
  */
 class Document extends AbstractPart
 {

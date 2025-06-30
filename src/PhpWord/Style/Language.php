@@ -101,32 +101,28 @@ final class Language extends AbstractStyle
     /**
      * Latin Language.
      *
-     * @var string
+     * @var null|string
      */
     private $latin;
 
     /**
      * East Asian Language.
      *
-     * @var string
+     * @var null|string
      */
     private $eastAsia;
 
     /**
      * Complex Script Language.
      *
-     * @var string
+     * @var null|string
      */
     private $bidirectional;
 
     /**
      * Constructor.
-     *
-     * @param null|string $latin
-     * @param null|string $eastAsia
-     * @param null|string $bidirectional
      */
-    public function __construct($latin = null, $eastAsia = null, $bidirectional = null)
+    public function __construct(?string $latin = null, ?string $eastAsia = null, ?string $bidirectional = null)
     {
         if (!empty($latin)) {
             $this->setLatin($latin);
@@ -144,10 +140,8 @@ final class Language extends AbstractStyle
      *
      * @param string $latin
      *            The value for the latin language
-     *
-     * @return self
      */
-    public function setLatin($latin)
+    public function setLatin(?string $latin): self
     {
         $this->latin = $this->validateLocale($latin);
 
@@ -156,10 +150,8 @@ final class Language extends AbstractStyle
 
     /**
      * Get the Latin Language.
-     *
-     * @return null|string
      */
-    public function getLatin()
+    public function getLatin(): ?string
     {
         return $this->latin;
     }

@@ -105,15 +105,13 @@ class Numbering extends AbstractStyle
      */
     public function setLevels(array $values): self
     {
-        if (is_array($values)) {
-            foreach ($values as $key => $value) {
-                $numberingLevel = new NumberingLevel();
-                if (is_array($value)) {
-                    $numberingLevel->setStyleByArray($value);
-                    $numberingLevel->setLevel($key);
-                }
-                $this->levels[$key] = $numberingLevel;
+        foreach ($values as $key => $value) {
+            $numberingLevel = new NumberingLevel();
+            if (is_array($value)) {
+                $numberingLevel->setStyleByArray($value);
+                $numberingLevel->setLevel($key);
             }
+            $this->levels[$key] = $numberingLevel;
         }
 
         return $this;

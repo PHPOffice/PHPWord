@@ -27,17 +27,12 @@ use PhpOffice\PhpWord\Style\Numbering;
  */
 class NumberingTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test get/set.
-     */
-    public function testGetSetProperties(): void
+    public function testGetSetPropertiesInt(): void
     {
         $object = new Numbering();
-        $properties = [
+        foreach ([
             'numId' => [null, 1],
-            'type' => [null, 'singleLevel'],
-        ];
-        foreach ($properties as $property => $value) {
+        ] as $property => $value) {
             [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";
@@ -50,9 +45,24 @@ class NumberingTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Test get level.
-     */
+    public function testGetSetPropertiesString(): void
+    {
+        $object = new Numbering();
+        foreach ([
+            'type' => [null, 'singleLevel'],
+        ] as $property => $value) {
+            [$default, $expected] = $value;
+            $get = "get{$property}";
+            $set = "set{$property}";
+
+            self::assertEquals($default, $object->$get()); // Default value
+
+            $object->$set($expected);
+
+            self::assertEquals($expected, $object->$get()); // New value
+        }
+    }
+
     public function testGetLevels(): void
     {
         $object = new Numbering();

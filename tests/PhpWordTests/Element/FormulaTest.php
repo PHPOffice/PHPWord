@@ -31,16 +31,6 @@ use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 class FormulaTest extends AbstractWebServerEmbedded
 {
     /**
-     * @covers \PhpOffice\PhpWord\Element\Formula::__construct
-     */
-    public function testConstruct(): void
-    {
-        $element = new Formula(new Math());
-
-        self::assertInstanceOf(Formula::class, $element);
-    }
-
-    /**
      * @covers \PhpOffice\PhpWord\Element\Formula::getMath
      * @covers \PhpOffice\PhpWord\Element\Formula::setMath
      */
@@ -54,11 +44,10 @@ class FormulaTest extends AbstractWebServerEmbedded
 
         $element = new Formula(new Math());
 
-        self::assertInstanceOf(Formula::class, $element);
         self::assertEquals(new Math(), $element->getMath());
         self::assertNotEquals($math, $element->getMath());
 
-        self::assertInstanceOf(Formula::class, $element->setMath($math));
+        $element->setMath($math);
         self::assertNotEquals(new Math(), $element->getMath());
         self::assertEquals($math, $element->getMath());
     }

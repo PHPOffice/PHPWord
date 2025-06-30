@@ -34,7 +34,6 @@ class ListItemRunTest extends \PHPUnit\Framework\TestCase
     {
         $oListItemRun = new ListItemRun();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         self::assertCount(0, $oListItemRun->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oListItemRun->getParagraphStyle());
     }
@@ -46,7 +45,6 @@ class ListItemRunTest extends \PHPUnit\Framework\TestCase
     {
         $oListItemRun = new ListItemRun(0, null, 'pStyle');
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         self::assertCount(0, $oListItemRun->getElements());
         self::assertEquals('pStyle', $oListItemRun->getParagraphStyle());
     }
@@ -58,7 +56,6 @@ class ListItemRunTest extends \PHPUnit\Framework\TestCase
     {
         $oListItemRun = new ListItemRun(0, 'numberingStyle');
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         self::assertCount(0, $oListItemRun->getElements());
     }
 
@@ -69,7 +66,6 @@ class ListItemRunTest extends \PHPUnit\Framework\TestCase
     {
         $oListItemRun = new ListItemRun(0, null, ['spacing' => 100]);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         self::assertCount(0, $oListItemRun->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oListItemRun->getParagraphStyle());
     }
