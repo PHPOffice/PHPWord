@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -33,6 +34,40 @@ class FontTest extends \PHPUnit\Framework\TestCase
         TestHelperDOCX::clear();
     }
 
+    public function testDefaultDefaults(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $file = 'styles.xml';
+
+        $path = '/office:document-styles/office:styles/style:default-style/style:text-properties';
+        self::assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+
+        self::assertEquals('#000000', $element->getAttribute('fo:color'));
+        self::assertEquals('false', $element->getAttribute('style:use-window-font-color')); //has to be set to false so that fo:color can take effect
+    }
+
+    public function testSettingDefaults(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+        $defaultFontColor = '00FF00';
+        $phpWord->setDefaultFontColor($defaultFontColor);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $file = 'styles.xml';
+
+        $path = '/office:document-styles/office:styles/style:default-style/style:text-properties';
+        self::assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+
+        self::assertEquals('#' . $defaultFontColor, $element->getAttribute('fo:color'));
+    }
+
     /**
      * Test colors.
      */
@@ -42,7 +77,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addText('This is red (800) in rtf/html, default in docx/odt', ['color' => '800']);
         $section->addText('This should be cyanish (008787)', ['color' => '008787']);
-        $section->addText('This should be dark green (FGCOLOR_DARKGREEN)', ['color' => \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKGREEN]);
+        $section->addText('This should be dark green (FGCOLOR_DARKGREEN)', ['color' => Font::FGCOLOR_DARKGREEN]);
         $section->addText('This color is default (unknow)', ['color' => 'unknow']);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
@@ -219,7 +254,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $fld->setFontStyle(['color' => '008000']);
         $textrun = $section->addTextRun();
         $fld = $textrun->addField('DATE');
-        $font = new \PhpOffice\PhpWord\Style\Font();
+        $font = new Font();
         $font->setColor('000080');
         $fld->setFontStyle($font);
         $textrun = $section->addTextRun();

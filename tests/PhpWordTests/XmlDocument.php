@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -173,6 +174,14 @@ class XmlDocument
     public function getElementAttribute(string $path, string $attribute, string $file = ''): string
     {
         return $this->getElement($path, $file)->getAttribute($attribute);
+    }
+
+    /**
+     * Return if element attribute exists.
+     */
+    public function hasElementAttribute(string $path, string $attribute, string $file = ''): bool
+    {
+        return $this->getElement($path, $file)->hasAttribute($attribute);
     }
 
     /**

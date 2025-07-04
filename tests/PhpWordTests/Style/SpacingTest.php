@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -26,16 +27,31 @@ use PhpOffice\PhpWord\Style\Spacing;
  */
 class SpacingTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test get/set.
-     */
-    public function testGetSetProperties(): void
+    public function testGetSetPropertiesInt(): void
     {
         $object = new Spacing();
         $properties = [
             'before' => [null, 10],
             'after' => [null, 10],
             'line' => [null, 10],
+        ];
+        foreach ($properties as $property => $value) {
+            [$default, $expected] = $value;
+            $get = "get{$property}";
+            $set = "set{$property}";
+
+            self::assertEquals($default, $object->$get()); // Default value
+
+            $object->$set($expected);
+
+            self::assertEquals($expected, $object->$get()); // New value
+        }
+    }
+
+    public function testGetSetPropertiesString(): void
+    {
+        $object = new Spacing();
+        $properties = [
             'lineRule' => ['auto', 'exact'],
         ];
         foreach ($properties as $property => $value) {

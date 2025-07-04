@@ -7,7 +7,7 @@ include_once 'Sample_Header.php';
 
 // Template processor instance creation
 echo date('H:i:s'), ' Creating new TemplateProcessor instance...', EOL;
-$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('resources/Sample_41_TemplateSetChart.docx');
+$templateProcessor = new PhpOffice\PhpWord\TemplateProcessor(__DIR__ . '/resources/Sample_41_TemplateSetChart.docx');
 
 $chartTypes = ['pie', 'doughnut', 'bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column'];
 $twoSeries = ['bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column'];
@@ -38,9 +38,9 @@ foreach ($chartTypes as $chartType) {
 }
 
 echo date('H:i:s'), ' Saving the result document...', EOL;
-$templateProcessor->saveAs('results/Sample_41_TemplateSetChart.docx');
+$templateProcessor->saveAs(__DIR__ . '/results/Sample_41_TemplateSetChart.docx');
 
-echo getEndingNotes(['Word2007' => 'docx'], 'results/Sample_41_TemplateSetChart.docx');
+echo getEndingNotes(['Word2007' => 'docx'], __DIR__ . '/results/Sample_41_TemplateSetChart.docx');
 if (!CLI) {
     include_once 'Sample_Footer.php';
 }

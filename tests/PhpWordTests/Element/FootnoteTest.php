@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -33,7 +34,6 @@ class FootnoteTest extends \PHPUnit\Framework\TestCase
     {
         $oFootnote = new Footnote();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $oFootnote);
         self::assertCount(0, $oFootnote->getElements());
         self::assertNull($oFootnote->getParagraphStyle());
     }

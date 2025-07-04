@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -20,25 +21,15 @@ namespace PhpOffice\PhpWordTests\Element;
 use PhpOffice\Math\Element;
 use PhpOffice\Math\Math;
 use PhpOffice\PhpWord\Element\Formula;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Formula.
  *
  * @runTestsInSeparateProcesses
  */
-class FormulaTest extends AbstractWebServerEmbeddedTest
+class FormulaTest extends AbstractWebServerEmbedded
 {
-    /**
-     * @covers \PhpOffice\PhpWord\Element\Formula::__construct
-     */
-    public function testConstruct(): void
-    {
-        $element = new Formula(new Math());
-
-        self::assertInstanceOf(Formula::class, $element);
-    }
-
     /**
      * @covers \PhpOffice\PhpWord\Element\Formula::getMath
      * @covers \PhpOffice\PhpWord\Element\Formula::setMath
@@ -53,11 +44,10 @@ class FormulaTest extends AbstractWebServerEmbeddedTest
 
         $element = new Formula(new Math());
 
-        self::assertInstanceOf(Formula::class, $element);
         self::assertEquals(new Math(), $element->getMath());
         self::assertNotEquals($math, $element->getMath());
 
-        self::assertInstanceOf(Formula::class, $element->setMath($math));
+        $element->setMath($math);
         self::assertNotEquals(new Math(), $element->getMath());
         self::assertEquals($math, $element->getMath());
     }

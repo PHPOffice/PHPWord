@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -36,7 +37,6 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         $src = __DIR__ . '/../_files/documents/reader.docx';
         $oObject = new OLEObject($src);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\OLEObject', $oObject);
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
         self::assertEquals($src, $oObject->getSource());
     }
@@ -49,7 +49,6 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         $src = __DIR__ . '/../_files/documents/sheet.xls';
         $oObject = new OLEObject($src);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\OLEObject', $oObject);
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
         self::assertEquals($src, $oObject->getSource());
     }
@@ -62,7 +61,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\PhpOffice\PhpWord\Exception\InvalidObjectException::class);
         $src = __DIR__ . '/../_files/xsl/passthrough.xsl';
         $oObject = new OLEObject($src);
-        $oObject->getSource();
+        $source = $oObject->getSource();
     }
 
     /**
@@ -73,7 +72,6 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         $src = __DIR__ . '/../_files/documents/sheet.xls';
         $oObject = new OLEObject($src, ['width' => '230px']);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\OLEObject', $oObject);
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
         self::assertEquals($src, $oObject->getSource());
     }

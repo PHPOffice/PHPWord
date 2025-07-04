@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -55,7 +56,7 @@ class ODText extends AbstractWriter implements WriterInterface
         foreach (array_keys($this->parts) as $partName) {
             $partClass = static::class . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
-                /** @var \PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart $partObject Type hint */
+                /** @var AbstractPart $partObject Type hint */
                 $partObject = new $partClass();
                 $partObject->setParentWriter($this);
                 $this->writerParts[strtolower($partName)] = $partObject;

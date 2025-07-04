@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -113,7 +114,7 @@ class TOC extends AbstractElement
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->text("PAGEREF _Toc{$rId} \\h");
+        $xmlWriter->text("PAGEREF $rId \\h");
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 

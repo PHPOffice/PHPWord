@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -34,7 +35,6 @@ class PreserveTextTest extends \PHPUnit\Framework\TestCase
     {
         $oPreserveText = new PreserveText();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $oPreserveText);
         self::assertNull($oPreserveText->getText());
         self::assertNull($oPreserveText->getFontStyle());
         self::assertNull($oPreserveText->getParagraphStyle());

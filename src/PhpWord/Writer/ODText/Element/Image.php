@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Element\Image as ElementImage;
 use PhpOffice\PhpWord\Shared\Converter;
 
 /**
@@ -31,9 +33,8 @@ class Image extends AbstractElement
      */
     public function write(): void
     {
-        $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Image) {
+        if (!$element instanceof ElementImage) {
             return;
         }
 
@@ -43,11 +44,16 @@ class Image extends AbstractElement
         $width = Converter::pixelToCm($style->getWidth());
         $height = Converter::pixelToCm($style->getHeight());
 
-        $xmlWriter->startElement('text:p');
-        $xmlWriter->writeAttribute('text:style-name', 'IM' . $mediaIndex);
+        $xmlWriter = $this->getXmlWriter();
+
+        if (!$this->withoutP) {
+            $xmlWriter->startElement('text:p');
+            $xmlWriter->writeAttribute('text:style-name', 'IM' . $mediaIndex);
+        }
 
         $xmlWriter->startElement('draw:frame');
         $xmlWriter->writeAttribute('draw:style-name', 'fr' . $mediaIndex);
+        $xmlWriter->writeAttributeIf($this->withoutP, 'draw:text-style-name', 'IM' . $mediaIndex);
         $xmlWriter->writeAttribute('draw:name', $element->getElementId());
         $xmlWriter->writeAttribute('text:anchor-type', 'as-char');
         $xmlWriter->writeAttribute('svg:width', $width . 'cm');
@@ -63,6 +69,8 @@ class Image extends AbstractElement
 
         $xmlWriter->endElement(); // draw:frame
 
-        $xmlWriter->endElement(); // text:p
+        if (!$this->withoutP) {
+            $xmlWriter->endElement(); // text:p
+        }
     }
 }

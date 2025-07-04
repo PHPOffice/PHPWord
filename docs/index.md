@@ -52,7 +52,7 @@ Below are the supported features for each file formats.
 |                           | Preserve Text        | :material-check: |       |       |        |       |
 |                           | Text Break           | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
 |                           | Page Break           | :material-check: |       |  :material-check:    |        |       |
-|                           | List                 | :material-check: |       |       |        |       |
+|                           | List                 | :material-check: | :material-check: |       |        |       |
 |                           | Table                | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
 |                           | Image                | :material-check: | :material-check: | :material-check: | :material-check: |       |
 |                           | Object               | :material-check: |       |       |        |       |

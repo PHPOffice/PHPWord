@@ -6,7 +6,7 @@ include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // New portrait section
 $section = $phpWord->addSection(['borderColor' => '00FF00', 'borderSize' => 12]);

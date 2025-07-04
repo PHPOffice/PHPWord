@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -92,7 +93,7 @@ class NumberingLevel extends AbstractStyle
     /**
      * Justification, w:lvlJc.
      *
-     * @var string, one of PhpOffice\PhpWord\SimpleType\Jc
+     * @var string one of PhpOffice\PhpWord\SimpleType\Jc
      */
     private $alignment = '';
 

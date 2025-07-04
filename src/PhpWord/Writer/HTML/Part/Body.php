@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -22,7 +23,7 @@ use PhpOffice\PhpWord\Writer\HTML\Element\TextRun as TextRunWriter;
 use PhpOffice\PhpWord\Writer\PDF\TCPDF;
 
 /**
- * RTF body part writer.
+ * HTML body part writer.
  *
  * @since 0.11.0
  */

@@ -7,16 +7,16 @@ include_once 'Sample_Header.php';
 // New Word Document
 echo date('H:i:s') , ' Create new PhpWord object' , EOL;
 
-$languageEnGb = new \PhpOffice\PhpWord\Style\Language(\PhpOffice\PhpWord\Style\Language::EN_GB);
+$languageEnGb = new PhpOffice\PhpWord\Style\Language(PhpOffice\PhpWord\Style\Language::EN_GB);
 
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 $phpWord->getSettings()->setThemeFontLang($languageEnGb);
 
 $fontStyleName = 'rStyle';
 $phpWord->addFontStyle($fontStyleName, ['bold' => true, 'italic' => true, 'size' => 16, 'allCaps' => true, 'doubleStrikethrough' => true]);
 
 $paragraphStyleName = 'pStyle';
-$phpWord->addParagraphStyle($paragraphStyleName, ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100]);
+$phpWord->addParagraphStyle($paragraphStyleName, ['alignment' => PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100]);
 
 $phpWord->addTitleStyle(1, ['bold' => true], ['spaceAfter' => 240]);
 
@@ -29,7 +29,7 @@ $section->addText('Hello World!');
 
 // $pStyle = new Font();
 // $pStyle->setLang()
-$section->addText('Ce texte-ci est en français.', ['lang' => \PhpOffice\PhpWord\Style\Language::FR_BE]);
+$section->addText('Ce texte-ci est en français.', ['lang' => PhpOffice\PhpWord\Style\Language::FR_BE]);
 
 // Two text break
 $section->addTextBreak(2);
@@ -82,7 +82,7 @@ $section->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
 $section->addTextBreak();
 
 // Image
-$section->addImage('resources/_earth.jpg', ['width' => 18, 'height' => 18]);
+$section->addImage(__DIR__ . '/resources/_earth.jpg', ['width' => 18, 'height' => 18]);
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

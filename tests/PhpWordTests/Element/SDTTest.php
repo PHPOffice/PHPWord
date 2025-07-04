@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -43,7 +44,6 @@ class SDTTest extends \PHPUnit\Framework\TestCase
         $object->setAlias($alias);
         $object->setTag($tag);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\SDT', $object);
         self::assertEquals($type, $object->getType());
         self::assertEquals($types, $object->getListItems());
         self::assertEquals($value, $object->getValue());

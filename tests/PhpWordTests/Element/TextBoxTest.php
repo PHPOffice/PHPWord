@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -35,7 +36,6 @@ class TextBoxTest extends \PHPUnit\Framework\TestCase
     {
         $oTextBox = new TextBox();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextBox', $oTextBox);
         self::assertNull($oTextBox->getStyle());
     }
 

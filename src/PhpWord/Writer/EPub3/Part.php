@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -15,26 +16,30 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWordTests\Element;
+namespace PhpOffice\PhpWord\Writer\EPub3;
 
-use PhpOffice\PhpWord\Element\PageBreak;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\PageBreak.
- *
- * @coversDefaultClass \PhpOffice\PhpWord\Element\PageBreak
- *
- * @runTestsInSeparateProcesses
+ * Factory class for EPub3 parts.
  */
-class PageBreakTest extends \PHPUnit\Framework\TestCase
+class Part
 {
     /**
-     * Executed before each method of the class.
+     * Get the fully qualified class name for a specific part type.
+     *
+     * @param string $type The type of part (Content, Manifest, Meta, Mimetype)
+     *
+     * @return string The fully qualified class name
      */
-    public function testConstruct(): void
+    public static function getPartClass(string $type): string
     {
-        $oPageBreak = new PageBreak();
+        $class = 'PhpOffice\\PhpWord\\Writer\\EPub3\\Part\\' . $type;
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PageBreak', $oPageBreak);
+        if (!class_exists($class)) {
+            throw new Exception("Invalid part type: {$type}");
+        }
+
+        return $class;
     }
 }

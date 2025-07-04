@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -35,7 +36,6 @@ class LineTest extends \PHPUnit\Framework\TestCase
     {
         $oLine = new Line();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Line', $oLine);
         self::assertNull($oLine->getStyle());
     }
 

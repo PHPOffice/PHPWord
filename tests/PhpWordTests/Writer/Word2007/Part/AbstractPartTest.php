@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -31,9 +32,20 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetParentWriter(): void
     {
-        $object = $this->getMockForAbstractClass(\PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart::class);
-        $object->setParentWriter(new Word2007());
-        self::assertEquals(new Word2007(), $object->getParentWriter());
+        // @phpstan-ignore-next-line
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $stub = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
+        } else {
+            /** @var Word2007\Part\AbstractPart $stub */
+            $stub = new class() extends Word2007\Part\AbstractPart {
+                public function write(): string
+                {
+                    return '';
+                }
+            };
+        }
+        $stub->setParentWriter(new Word2007());
+        self::assertEquals(new Word2007(), $stub->getParentWriter());
     }
 
     /**
@@ -43,7 +55,18 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('No parent WriterInterface assigned.');
-        $object = $this->getMockForAbstractClass(\PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart::class);
-        $object->getParentWriter();
+        // @phpstan-ignore-next-line
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $stub = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
+        } else {
+            /** @var Word2007\Part\AbstractPart $stub */
+            $stub = new class() extends Word2007\Part\AbstractPart {
+                public function write(): string
+                {
+                    return '';
+                }
+            };
+        }
+        $stub->getParentWriter();
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -27,14 +28,14 @@ use PhpOffice\PhpWord\Shared\XMLReader;
  *
  * @since 0.10.0
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For readWPNode
+ * @SuppressWarnings("PHPMD.UnusedPrivateMethod") For readWPNode
  */
 class Document extends AbstractPart
 {
     /**
      * PhpWord object.
      *
-     * @var \PhpOffice\PhpWord\PhpWord
+     * @var PhpWord
      */
     private $phpWord;
 
@@ -138,8 +139,6 @@ class Document extends AbstractPart
 
     /**
      * Read w:p node.
-     *
-     * @todo <w:lastRenderedPageBreak>
      */
     private function readWPNode(XMLReader $xmlReader, DOMElement $node, Section &$section): void
     {

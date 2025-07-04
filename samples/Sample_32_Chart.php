@@ -6,7 +6,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // Define styles
 $phpWord->addTitleStyle(1, ['size' => 14, 'bold' => true], ['keepNext' => true, 'spaceBefore' => 240]);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -36,6 +37,7 @@ class IndentationTest extends \PHPUnit\Framework\TestCase
             'left' => [0, 10],
             'right' => [0, 10],
             'firstLine' => [null, 20],
+            'firstLineChars' => [0, 20],
             'hanging' => [null, 20],
         ];
         foreach ($properties as $property => $value) {

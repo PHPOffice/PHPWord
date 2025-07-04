@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -57,71 +58,34 @@ class Text extends AbstractElement
             $xmlWriter->writeAttribute('text:change-id', $element->getTrackChange()->getElementId());
             $xmlWriter->endElement();
         } else {
-            if (empty($fontStyle)) {
-                if (empty($paragraphStyle)) {
-                    if (!$this->withoutP) {
-                        $xmlWriter->writeAttribute('text:style-name', 'Normal');
-                    }
-                } elseif (is_string($paragraphStyle)) {
-                    if (!$this->withoutP) {
-                        $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
-                    }
+            if (empty($paragraphStyle)) {
+                if (!$this->withoutP) {
+                    $xmlWriter->writeAttribute('text:style-name', 'Normal');
                 }
-                $this->writeChangeInsertion(true, $element->getTrackChange());
-                $this->replaceTabs($element->getText(), $xmlWriter);
-                $this->writeChangeInsertion(false, $element->getTrackChange());
-            } else {
-                if (empty($paragraphStyle)) {
-                    if (!$this->withoutP) {
-                        $xmlWriter->writeAttribute('text:style-name', 'Normal');
-                    }
-                } elseif (is_string($paragraphStyle)) {
-                    if (!$this->withoutP) {
-                        $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
-                    }
+            } elseif (is_string($paragraphStyle)) {
+                if (!$this->withoutP) {
+                    $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
                 }
+            }
+
+            if (!empty($fontStyle)) {
                 // text:span
                 $xmlWriter->startElement('text:span');
                 if (is_string($fontStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', $fontStyle);
                 }
-                $this->writeChangeInsertion(true, $element->getTrackChange());
-                $this->replaceTabs($element->getText(), $xmlWriter);
-                $this->writeChangeInsertion(false, $element->getTrackChange());
+            }
+
+            $this->writeChangeInsertion(true, $element->getTrackChange());
+            $this->replaceTabs($element->getText(), $xmlWriter);
+            $this->writeChangeInsertion(false, $element->getTrackChange());
+
+            if (!empty($fontStyle)) {
                 $xmlWriter->endElement();
             }
         }
         if (!$this->withoutP) {
             $xmlWriter->endElement(); // text:p
-        }
-    }
-
-    private function replacetabs($text, $xmlWriter): void
-    {
-        if (preg_match('/^ +/', $text, $matches)) {
-            $num = strlen($matches[0]);
-            $xmlWriter->startElement('text:s');
-            $xmlWriter->writeAttributeIf($num > 1, 'text:c', "$num");
-            $xmlWriter->endElement();
-            $text = preg_replace('/^ +/', '', $text);
-        }
-        preg_match_all('/([\\s\\S]*?)(\\t|  +| ?$)/', $text, $matches, PREG_SET_ORDER);
-        foreach ($matches as $match) {
-            $this->writeText($match[1]);
-            if ($match[2] === '') {
-                break;
-            } elseif ($match[2] === "\t") {
-                $xmlWriter->writeElement('text:tab');
-            } elseif ($match[2] === ' ') {
-                $xmlWriter->writeElement('text:s');
-
-                break;
-            } else {
-                $num = strlen($match[2]);
-                $xmlWriter->startElement('text:s');
-                $xmlWriter->writeAttributeIf($num > 1, 'text:c', "$num");
-                $xmlWriter->endElement();
-            }
         }
     }
 

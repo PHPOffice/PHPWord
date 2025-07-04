@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -26,7 +27,7 @@ use PhpOffice\PhpWord\Shared\AbstractEnum;
  * Since ISO/IEC-29500:2008 the type must not be used for table alignment.
  *
  * @since 0.13.0
- * @see \PhpOffice\PhpWord\SimpleType\JcTable For table alignment modes available since ISO/IEC-29500:2008.
+ * @see JcTable For table alignment modes available since ISO/IEC-29500:2008.
  * @see  http://www.datypic.com/sc/ooxml/t-w_ST_Jc.html
  */
 final class Jc extends AbstractEnum

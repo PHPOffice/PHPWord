@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -50,7 +51,7 @@ class Chart extends AbstractElement
     /**
      * Chart style.
      *
-     * @var ?\PhpOffice\PhpWord\Style\Chart
+     * @var ?ChartStyle
      */
     private $style;
 
@@ -120,7 +121,7 @@ class Chart extends AbstractElement
     /**
      * Get chart style.
      *
-     * @return ?\PhpOffice\PhpWord\Style\Chart
+     * @return ?ChartStyle
      */
     public function getStyle()
     {

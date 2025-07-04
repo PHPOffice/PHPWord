@@ -1,11 +1,11 @@
 # ![PHPWord](https://rawgit.com/PHPOffice/PHPWord/develop/docs/images/phpword.svg "PHPWord")
 
-[![Latest Stable Version](https://poser.pugx.org/phpoffice/phpword/v/stable.png)](https://packagist.org/packages/phpoffice/phpword)
+[![Latest Stable Version](https://poser.pugx.org/phpoffice/phpword/v)](https://packagist.org/packages/phpoffice/phpword)
 [![Coverage Status](https://coveralls.io/repos/github/PHPOffice/PHPWord/badge.svg?branch=master)](https://coveralls.io/github/PHPOffice/PHPWord?branch=master)
-[![Total Downloads](https://poser.pugx.org/phpoffice/phpword/downloads.png)](https://packagist.org/packages/phpoffice/phpword)
-[![License](https://poser.pugx.org/phpoffice/phpword/license.png)](https://packagist.org/packages/phpoffice/phpword)
-[![CI](https://github.com/PHPOffice/PHPWord/actions/workflows/ci.yml/badge.svg)](https://github.com/PHPOffice/PHPWord/actions/workflows/ci.yml)
-[![Join the chat at https://gitter.im/PHPOffice/PHPWord](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/PHPOffice/PHPWord)
+[![Total Downloads](https://poser.pugx.org/phpoffice/phpword/downloads)](https://packagist.org/packages/phpoffice/phpword)
+[![License](https://poser.pugx.org/phpoffice/phpword/license)](https://packagist.org/packages/phpoffice/phpword)
+
+Branch Master : [![PHPWord](https://github.com/PHPOffice/PHPWord/actions/workflows/php.yml/badge.svg?branch=master)](https://github.com/PHPOffice/PHPWord/actions/workflows/php.yml)
 
 PHPWord is a library written in pure PHP that provides a set of classes to write to and read from different document file formats. The current version of PHPWord supports Microsoft [Office Open XML](http://en.wikipedia.org/wiki/Office_Open_XML) (OOXML or OpenXML), OASIS [Open Document Format for Office Applications](http://en.wikipedia.org/wiki/OpenDocument) (OpenDocument or ODF), [Rich Text Format](http://en.wikipedia.org/wiki/Rich_Text_Format) (RTF), HTML, and PDF.
 
@@ -81,7 +81,6 @@ The following is a basic usage example of the PHPWord library.
 
 ```php
 <?php
-require_once 'bootstrap.php';
 
 // Creating the new document...
 $phpWord = new \PhpOffice\PhpWord\PhpWord();

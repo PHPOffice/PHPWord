@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -29,7 +30,14 @@ class AbstractElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementIndex(): void
     {
-        $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        // @phpstan-ignore-next-line
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        } else {
+            /** @var AbstractElement $stub */
+            $stub = new class() extends AbstractElement {
+            };
+        }
         $ival = mt_rand(0, 100);
         $stub->setElementIndex($ival);
         self::assertEquals($ival, $stub->getElementIndex());
@@ -40,7 +48,14 @@ class AbstractElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementId(): void
     {
-        $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        // @phpstan-ignore-next-line
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        } else {
+            /** @var AbstractElement $stub */
+            $stub = new class() extends AbstractElement {
+            };
+        }
         $stub->setElementId();
         self::assertEquals(6, strlen($stub->getElementId()));
     }

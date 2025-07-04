@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -35,7 +36,7 @@ class InvalidImageExceptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testThrowException(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+        $this->expectException(InvalidImageException::class);
 
         throw new InvalidImageException();
     }

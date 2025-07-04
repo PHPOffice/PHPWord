@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -28,14 +29,14 @@ class TextBreak extends AbstractElement
     /**
      * Paragraph style.
      *
-     * @var null|\PhpOffice\PhpWord\Style\Paragraph|string
+     * @var null|Paragraph|string
      */
     private $paragraphStyle;
 
     /**
      * Text style.
      *
-     * @var null|\PhpOffice\PhpWord\Style\Font|string
+     * @var null|Font|string
      */
     private $fontStyle;
 
@@ -61,7 +62,7 @@ class TextBreak extends AbstractElement
      * @param mixed $style
      * @param mixed $paragraphStyle
      *
-     * @return \PhpOffice\PhpWord\Style\Font|string
+     * @return Font|string
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -82,7 +83,7 @@ class TextBreak extends AbstractElement
     /**
      * Get Text style.
      *
-     * @return null|\PhpOffice\PhpWord\Style\Font|string
+     * @return null|Font|string
      */
     public function getFontStyle()
     {
@@ -92,9 +93,9 @@ class TextBreak extends AbstractElement
     /**
      * Set Paragraph style.
      *
-     * @param   array|\PhpOffice\PhpWord\Style\Paragraph|string $style
+     * @param   array|Paragraph|string $style
      *
-     * @return  \PhpOffice\PhpWord\Style\Paragraph|string
+     * @return  Paragraph|string
      */
     public function setParagraphStyle($style = null)
     {
@@ -113,7 +114,7 @@ class TextBreak extends AbstractElement
     /**
      * Get Paragraph style.
      *
-     * @return null|\PhpOffice\PhpWord\Style\Paragraph|string
+     * @return null|Paragraph|string
      */
     public function getParagraphStyle()
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -86,14 +87,14 @@ class Paragraph extends Border
     /**
      * Indentation.
      *
-     * @var null|\PhpOffice\PhpWord\Style\Indentation
+     * @var null|Indentation
      */
     private $indentation;
 
     /**
      * Spacing.
      *
-     * @var \PhpOffice\PhpWord\Style\Spacing
+     * @var Spacing
      */
     private $spacing;
 
@@ -149,14 +150,14 @@ class Paragraph extends Border
     /**
      * Set of Custom Tab Stops.
      *
-     * @var \PhpOffice\PhpWord\Style\Tab[]
+     * @var Tab[]
      */
     private $tabs = [];
 
     /**
      * Shading.
      *
-     * @var \PhpOffice\PhpWord\Style\Shading
+     * @var Shading
      */
     private $shading;
 
@@ -322,77 +323,143 @@ class Paragraph extends Border
     }
 
     /**
+     * Get hanging.
+     */
+    public function getHanging(): ?float
+    {
+        return $this->getChildStyleValue($this->indentation, 'hanging');
+    }
+
+    /**
      * Get indentation.
      *
-     * @return null|\PhpOffice\PhpWord\Style\Indentation
+     * @deprecated 1.4.0 Use getIndentLeft
      */
-    public function getIndentation()
+    public function getIndent(): ?float
+    {
+        return $this->getChildStyleValue($this->indentation, 'left');
+    }
+
+    /**
+     * Get indentation.
+     */
+    public function getIndentation(): ?Indentation
     {
         return $this->indentation;
     }
 
     /**
-     * Set shading.
-     *
-     * @param mixed $value
-     *
-     * @return self
+     * Get firstLine.
      */
-    public function setIndentation($value = null)
+    public function getIndentFirstLine(): ?float
     {
+        return $this->getChildStyleValue($this->indentation, 'firstLine');
+    }
+
+    /**
+     * Get left indentation.
+     */
+    public function getIndentLeft(): ?float
+    {
+        return $this->getChildStyleValue($this->indentation, 'left');
+    }
+
+    /**
+     * Get right indentation.
+     */
+    public function getIndentRight(): ?float
+    {
+        return $this->getChildStyleValue($this->indentation, 'right');
+    }
+
+    /**
+     * Set hanging.
+     *
+     * @deprecated 1.4.0 Use setIndentHanging
+     */
+    public function setHanging(?float $value = null): self
+    {
+        return $this->setIndentation(['hanging' => $value]);
+    }
+
+    /**
+     * Set indentation.
+     *
+     * @deprecated 1.4.0 Use setIndentLeft
+     */
+    public function setIndent(?float $value = null): self
+    {
+        return $this->setIndentation(['left' => $value]);
+    }
+
+    /**
+     * Set indentation.
+     *
+     * @param array{
+     *     left?:null|float|int|numeric-string,
+     *     right?:null|float|int|numeric-string,
+     *     hanging?:null|float|int|numeric-string,
+     *     firstLine?:null|float|int|numeric-string
+     * } $value
+     */
+    public function setIndentation(array $value = []): self
+    {
+        $value = array_map(function ($indent) {
+            if (is_string($indent) || is_numeric($indent)) {
+                $indent = $this->setFloatVal($indent);
+            }
+
+            return $indent;
+        }, $value);
         $this->setObjectVal($value, 'Indentation', $this->indentation);
 
         return $this;
     }
 
     /**
-     * Get indentation.
-     *
-     * @return int
+     * Set hanging indentation.
      */
-    public function getIndent()
-    {
-        return $this->getChildStyleValue($this->indentation, 'left');
-    }
-
-    /**
-     * Set indentation.
-     *
-     * @param int $value
-     *
-     * @return self
-     */
-    public function setIndent($value = null)
-    {
-        return $this->setIndentation(['left' => $value]);
-    }
-
-    /**
-     * Get hanging.
-     *
-     * @return int
-     */
-    public function getHanging()
-    {
-        return $this->getChildStyleValue($this->indentation, 'hanging');
-    }
-
-    /**
-     * Set hanging.
-     *
-     * @param int $value
-     *
-     * @return self
-     */
-    public function setHanging($value = null)
+    public function setIndentHanging(?float $value = null): self
     {
         return $this->setIndentation(['hanging' => $value]);
     }
 
     /**
+     * Set firstline indentation.
+     */
+    public function setIndentFirstLine(?float $value = null): self
+    {
+        return $this->setIndentation(['firstLine' => $value]);
+    }
+
+    /**
+     * Set firstlineChars indentation.
+     */
+    public function setIndentFirstLineChars(int $value = 0): self
+    {
+        return $this->setIndentation(['firstLineChars' => $value]);
+    }
+
+    /**
+     * Set left indentation.
+     */
+    public function setIndentLeft(?float $value = null): self
+    {
+        return $this->setIndentation(['left' => $value]);
+    }
+
+    /**
+     * Set right indentation.
+     */
+    public function setIndentRight(?float $value = null): self
+    {
+        return $this->setIndentation(['right' => $value]);
+    }
+
+    /**
      * Get spacing.
      *
-     * @return \PhpOffice\PhpWord\Style\Spacing
+     * @return Spacing
      *
      * @todo Rename to getSpacing in 1.0
      */
@@ -498,7 +565,7 @@ class Paragraph extends Border
      *
      * @param string $value Possible values are defined in LineSpacingRule
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return Paragraph
      */
     public function setSpacingLineRule($value)
     {
@@ -686,7 +753,7 @@ class Paragraph extends Border
     /**
      * Get tabs.
      *
-     * @return \PhpOffice\PhpWord\Style\Tab[]
+     * @return Tab[]
      */
     public function getTabs()
     {
@@ -712,7 +779,7 @@ class Paragraph extends Border
     /**
      * Get shading.
      *
-     * @return \PhpOffice\PhpWord\Style\Shading
+     * @return Shading
      */
     public function getShading()
     {

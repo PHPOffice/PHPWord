@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -29,23 +30,12 @@ use PhpOffice\PhpWord\Element\TextRun;
 class FieldTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * New instance.
-     */
-    public function testConstructNull(): void
-    {
-        $oField = new Field();
-
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
-    }
-
-    /**
      * New instance with type.
      */
     public function testConstructWithType(): void
     {
         $oField = new Field('DATE');
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         self::assertEquals('DATE', $oField->getType());
     }
 
@@ -56,7 +46,6 @@ class FieldTest extends \PHPUnit\Framework\TestCase
     {
         $oField = new Field('DATE', ['dateformat' => 'd-M-yyyy']);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         self::assertEquals('DATE', $oField->getType());
         self::assertEquals(['dateformat' => 'd-M-yyyy'], $oField->getProperties());
     }
@@ -68,7 +57,6 @@ class FieldTest extends \PHPUnit\Framework\TestCase
     {
         $oField = new Field('DATE', ['dateformat' => 'd-M-yyyy'], ['SakaEraCalendar', 'PreserveFormat']);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         self::assertEquals('DATE', $oField->getType());
         self::assertEquals(['dateformat' => 'd-M-yyyy'], $oField->getProperties());
         self::assertEquals(['SakaEraCalendar', 'PreserveFormat'], $oField->getOptions());
@@ -81,7 +69,6 @@ class FieldTest extends \PHPUnit\Framework\TestCase
     {
         $oField = new Field('XE', [], ['Bold', 'Italic'], 'FieldValue');
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         self::assertEquals('XE', $oField->getType());
         self::assertEquals([], $oField->getProperties());
         self::assertEquals(['Bold', 'Italic'], $oField->getOptions());
@@ -98,7 +85,6 @@ class FieldTest extends \PHPUnit\Framework\TestCase
 
         $oField = new Field('XE', [], ['Bold', 'Italic'], $textRun);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         self::assertEquals('XE', $oField->getType());
         self::assertEquals([], $oField->getProperties());
         self::assertEquals(['Bold', 'Italic'], $oField->getOptions());
@@ -109,7 +95,6 @@ class FieldTest extends \PHPUnit\Framework\TestCase
     {
         $oField = new Field('INDEX', [], ['\\c "3" \\h "A"']);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         self::assertEquals('INDEX', $oField->getType());
         self::assertEquals([], $oField->getProperties());
         self::assertEquals(['\\c "3" \\h "A"'], $oField->getOptions());

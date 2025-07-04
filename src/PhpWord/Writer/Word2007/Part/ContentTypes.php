@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -80,7 +81,7 @@ class ContentTypes extends AbstractPart
     /**
      * Write content types element.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
+     * @param XMLWriter $xmlWriter XML Writer
      * @param array $parts
      * @param bool $isDefault
      */

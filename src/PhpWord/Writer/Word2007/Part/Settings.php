@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -196,7 +197,7 @@ class Settings extends AbstractPart
                 ];
             } else {
                 if ($documentProtection->getSalt() == null) {
-                    $documentProtection->setSalt(openssl_random_pseudo_bytes(16));
+                    $documentProtection->setSalt((string) openssl_random_pseudo_bytes(16));
                 }
                 $passwordHash = PasswordEncoder::hashPassword($documentProtection->getPassword(), $documentProtection->getAlgorithm(), $documentProtection->getSalt(), $documentProtection->getSpinCount());
                 $this->settings['w:documentProtection'] = [

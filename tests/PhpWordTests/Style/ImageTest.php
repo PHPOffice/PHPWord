@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -30,26 +31,33 @@ use PhpOffice\PhpWord\Style\Image;
  */
 class ImageTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test setting style with normal value.
-     */
-    public function testSetGetNormal(): void
+    public function testSetGetNormalInt(): void
     {
         $object = new Image();
-
-        $properties = [
+        foreach ([
             'width' => 200,
             'height' => 200,
-            'alignment' => Jc::START,
             'marginTop' => 240,
             'marginLeft' => 240,
-            'wrappingStyle' => 'inline',
             'wrapDistanceLeft' => 10,
             'wrapDistanceRight' => 20,
             'wrapDistanceTop' => 30,
             'wrapDistanceBottom' => 40,
-        ];
-        foreach ($properties as $key => $value) {
+        ] as $key => $value) {
+            $set = "set{$key}";
+            $get = "get{$key}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
+    }
+
+    public function testSetGetNormalString(): void
+    {
+        $object = new Image();
+        foreach ([
+            'alignment' => Jc::START,
+            'wrappingStyle' => 'inline',
+        ] as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);
@@ -71,11 +79,11 @@ class ImageTest extends \PHPUnit\Framework\TestCase
             'marginTop' => 240,
             'marginLeft' => 240,
             'position' => 10,
-            'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
-            'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
-            'posVertical' => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
-            'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
-            'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_IMARGIN,
+            'positioning' => Image::POSITION_ABSOLUTE,
+            'posHorizontal' => Image::POSITION_HORIZONTAL_CENTER,
+            'posVertical' => Image::POSITION_VERTICAL_TOP,
+            'posHorizontalRel' => Image::POSITION_RELATIVE_TO_COLUMN,
+            'posVerticalRel' => Image::POSITION_RELATIVE_TO_IMARGIN,
             'wrapDistanceLeft' => 10,
             'wrapDistanceRight' => 20,
             'wrapDistanceTop' => 30,

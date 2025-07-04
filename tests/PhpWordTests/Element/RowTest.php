@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -35,7 +36,6 @@ class RowTest extends \PHPUnit\Framework\TestCase
     {
         $oRow = new Row();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $oRow);
         self::assertNull($oRow->getHeight());
         self::assertIsArray($oRow->getCells());
         self::assertCount(0, $oRow->getCells());

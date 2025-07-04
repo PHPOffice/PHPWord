@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -14,6 +15,7 @@
  *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 declare(strict_types=1);
 
 namespace PhpOffice\PhpWordTests\Writer\Word2007\Element;
@@ -52,5 +54,36 @@ class TOCTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('separate', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:hyperlink/w:r[5]/w:fldChar', 'w:fldCharType'));
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:hyperlink/w:r[6]/w:t'));
         self::assertEquals($expectedPageNum, $doc->getElement('/w:document/w:body/w:p[1]/w:hyperlink/w:r[6]/w:t')->textContent);
+    }
+
+    public function testWriteTitleWithoutpageNumber(): void
+    {
+        $phpWord = new PhpWord();
+
+        $section = $phpWord->addSection();
+        $section->addTOC();
+
+        $staticHtml = '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. 
+            Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. 
+            Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
+            <p>Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. 
+            Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim.</p>';
+
+        //more than one title and random text for create more than one page
+        for ($i = 1; $i <= 10; ++$i) {
+            $section->addTitle('Title ' . $i, 1);
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, $staticHtml, false, false);
+            $section->addPageBreak();
+        }
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        for ($i = 1; $i <= 10; ++$i) {
+            self::assertTrue($doc->elementExists('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[1]/w:t'));
+            self::assertEquals('Title ' . $i, $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[1]/w:t')->textContent);
+            self::assertTrue($doc->elementExists('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText'));
+            self::assertEquals('preserve', $doc->getElementAttribute('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText', 'xml:space'));
+            self::assertEquals('PAGEREF ' . ($i - 1) . ' \\h', $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText')->nodeValue);
+        }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -54,27 +55,33 @@ class Document extends AbstractPart
     private function writeInfo()
     {
         $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
-        $properties = ['title', 'subject', 'category', 'keywords', 'comment',
-            'author', 'operator', 'creatim', 'revtim', 'company', 'manager', ];
-        $mapping = [
+        $properties = [
+            'title' => 'title',
+            'subject' => 'subject',
+            'category' => 'category',
+            'keywords' => 'keywords',
             'comment' => 'description',
             'author' => 'creator',
             'operator' => 'lastModifiedBy',
             'creatim' => 'created',
-            'revtim' => 'modified', ];
+            'revtim' => 'modified',
+            'company' => 'company',
+            'manager' => 'manager',
+        ];
         $dateFields = ['creatim', 'revtim'];
 
         $content = '';
 
         $content .= '{';
         $content .= '\info';
-        foreach ($properties as $property) {
-            $method = 'get' . ($mapping[$property] ?? $property);
+        foreach ($properties as $property => $propertyMethod) {
+            $method = 'get' . $propertyMethod;
+
+            $value = $docProps->$method();
             if (!in_array($property, $dateFields) && Settings::isOutputEscapingEnabled()) {
-                $value = $this->escaper->escape($docProps->$method());
-            } else {
-                $value = $docProps->$method();
+                $value = $this->escaper->escape($value);
             }
+
             $value = in_array($property, $dateFields) ? $this->getDateValue($value) : $value;
             $content .= "{\\{$property} {$value}}";
         }
@@ -162,12 +169,12 @@ class Document extends AbstractPart
 
             foreach ($section->getHeaders() as $header) {
                 $type = $header->getType();
-                if ($evenOdd || $type !== FOOTER::EVEN) {
+                if ($evenOdd || $type !== Footer::EVEN) {
                     $content .= '{\\header';
                     if ($type === Footer::FIRST) {
                         $content .= 'f';
                     } elseif ($evenOdd) {
-                        $content .= ($type === FOOTER::EVEN) ? 'l' : 'r';
+                        $content .= ($type === Footer::EVEN) ? 'l' : 'r';
                     }
                     foreach ($header->getElements() as $element) {
                         $cl = get_class($element);
@@ -182,12 +189,12 @@ class Document extends AbstractPart
             }
             foreach ($section->getFooters() as $footer) {
                 $type = $footer->getType();
-                if ($evenOdd || $type !== FOOTER::EVEN) {
+                if ($evenOdd || $type !== Footer::EVEN) {
                     $content .= '{\\footer';
                     if ($type === Footer::FIRST) {
                         $content .= 'f';
                     } elseif ($evenOdd) {
-                        $content .= ($type === FOOTER::EVEN) ? 'l' : 'r';
+                        $content .= ($type === Footer::EVEN) ? 'l' : 'r';
                     }
                     foreach ($footer->getElements() as $element) {
                         $cl = get_class($element);

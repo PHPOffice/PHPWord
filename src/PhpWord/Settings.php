@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -29,7 +30,7 @@ class Settings
      */
     public const ZIPARCHIVE = 'ZipArchive';
     public const PCLZIP = 'PclZip';
-    public const OLD_LIB = \PhpOffice\PhpWord\Shared\ZipArchive::class; // @deprecated 0.11
+    public const OLD_LIB = Shared\ZipArchive::class; // @deprecated 0.11
 
     /**
      * PDF rendering libraries.
@@ -116,6 +117,20 @@ class Settings
      * @var string
      */
     private static $defaultFontName = self::DEFAULT_FONT_NAME;
+
+    /**
+     * Default asian font name.
+     *
+     * @var string
+     */
+    private static $defaultAsianFontName = self::DEFAULT_FONT_NAME;
+
+    /**
+     * Default font color.
+     *
+     * @var string
+     */
+    private static $defaultFontColor = self::DEFAULT_FONT_COLOR;
 
     /**
      * Default font size.
@@ -355,12 +370,53 @@ class Settings
     }
 
     /**
+     * Get default font name.
+     */
+    public static function getDefaultAsianFontName(): string
+    {
+        return self::$defaultAsianFontName;
+    }
+
+    /**
      * Set default font name.
      */
     public static function setDefaultFontName(string $value): bool
     {
         if (trim($value) !== '') {
             self::$defaultFontName = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function setDefaultAsianFontName(string $value): bool
+    {
+        if (trim($value) !== '') {
+            self::$defaultAsianFontName = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get default font color.
+     */
+    public static function getDefaultFontColor(): string
+    {
+        return self::$defaultFontColor;
+    }
+
+    /**
+     * Set default font color.
+     */
+    public static function setDefaultFontColor(string $value): bool
+    {
+        if (trim($value) !== '') {
+            self::$defaultFontColor = $value;
 
             return true;
         }

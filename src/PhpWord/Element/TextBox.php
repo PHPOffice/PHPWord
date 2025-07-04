@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -34,7 +35,7 @@ class TextBox extends AbstractContainer
     /**
      * TextBox style.
      *
-     * @var ?\PhpOffice\PhpWord\Style\TextBox
+     * @var ?TextBoxStyle
      */
     private $style;
 
@@ -51,7 +52,7 @@ class TextBox extends AbstractContainer
     /**
      * Get textbox style.
      *
-     * @return ?\PhpOffice\PhpWord\Style\TextBox
+     * @return ?TextBoxStyle
      */
     public function getStyle()
     {
