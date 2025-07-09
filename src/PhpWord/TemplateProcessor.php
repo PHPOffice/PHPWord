@@ -1499,7 +1499,7 @@ class TemplateProcessor
     }
 
     /**
-     * Check existing files inside zip from prefix
+     * Check existing files inside zip from prefix.
      *
      * @param string $prefix
      * @return array
