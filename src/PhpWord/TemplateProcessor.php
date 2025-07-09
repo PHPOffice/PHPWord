@@ -120,16 +120,9 @@ class TemplateProcessor
         // Temporary document content extraction
         $this->zipClass = new ZipArchive();
         $this->zipClass->open($this->tempDocumentFilename);
-        $index = 1;
-        while (false !== $this->zipClass->locateName($this->getHeaderName($index))) {
-            $this->tempDocumentHeaders[$index] = $this->readPartWithRels($this->getHeaderName($index));
-            ++$index;
-        }
-        $index = 1;
-        while (false !== $this->zipClass->locateName($this->getFooterName($index))) {
-            $this->tempDocumentFooters[$index] = $this->readPartWithRels($this->getFooterName($index));
-            ++$index;
-        }
+
+        $this->tempDocumentHeaders = $this->loadDocumentParts('word/header');
+        $this->tempDocumentFooters = $this->loadDocumentParts('word/footer');
 
         $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
         $this->tempDocumentSettingsPart = $this->readPartWithRels($this->getSettingsPartName());
@@ -1503,5 +1496,29 @@ class TemplateProcessor
     public function getTempDocumentFilename(): string
     {
         return $this->tempDocumentFilename;
+    }
+
+    /**
+     * Check existing files inside zip from prefix
+     *
+     * @param string $prefix
+     * @return array
+     */
+    private function loadDocumentParts(string $prefix): array
+    {
+        $parts = [];
+        $total = $this->zipClass->numFiles;
+
+        for ($i = 0; $i < $total; ++$i) {
+            $name = $this->zipClass->getNameIndex($i);
+
+            if (preg_match('#^' . preg_quote($prefix, '#') . '(\d+)\.xml$#', $name, $m)) {
+                $idx = (int) $m[1];
+                $parts[$idx] = $this->readPartWithRels($name);
+            }
+        }
+
+        ksort($parts);
+        return $parts;
     }
 }
