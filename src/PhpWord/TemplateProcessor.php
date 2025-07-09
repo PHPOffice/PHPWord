@@ -1516,6 +1516,7 @@ class TemplateProcessor
         }
 
         ksort($parts);
+
         return $parts;
     }
 }
