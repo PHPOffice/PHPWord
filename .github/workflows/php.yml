@@ -75,7 +75,7 @@ jobs:
           uses: shivammathur/setup-php@v2
           with:
               php-version: ${{ matrix.php }}
-              extensions: gd, xml, zip
+              extensions: dom, gd, mbstring, xml, zip
               coverage: ${{ (matrix.php == '7.3') && 'xdebug' || 'none' }}
 
       -   uses: actions/checkout@v2
