@@ -551,6 +551,12 @@ abstract class AbstractPart
             $parent->addTextBreak();
         } elseif ($node->nodeName == 'w:tab') {
             $parent->addText("\t");
+        } elseif ($node->nodeName == 'w:sym') {
+            // Symbol
+            $font = $xmlReader->getAttribute('w:font', $node);
+            $char = $xmlReader->getAttribute('w:char', $node);
+            $textContent = "[{$font},{$char}]";
+            $parent->addText($textContent, $fontStyle, $paragraphStyle);
         } elseif ($node->nodeName == 'mc:AlternateContent') {
             if ($node->hasChildNodes()) {
                 // Get fallback instead of mc:Choice to make sure it is compatible
