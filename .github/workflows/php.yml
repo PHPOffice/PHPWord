@@ -64,12 +64,29 @@ jobs:
             run: ./vendor/bin/phpstan analyse -c phpstan.neon.dist
 
   phpunit:
-    name: PHPUnit ${{ matrix.php }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+        experimental:
+          - false
+        php:
+          - '7.1'
+          - '7.2'
+          - '7.3'
+          - '7.4'
+          - '8.0'
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+
+        include:
+          - php: 'nightly'
+            experimental: true
+
+    name: PHPUnit ${{ matrix.php }}
+
     steps:
       -   name: Setup PHP
           uses: shivammathur/setup-php@v2
@@ -79,6 +96,10 @@ jobs:
               coverage: ${{ (matrix.php == '7.3') && 'xdebug' || 'none' }}
 
       -   uses: actions/checkout@v2
+
+      -   name: Composer Config nightly
+          if: matrix.php == 'nightly'
+          run: composer config platform.php 8.4.99
 
       -   name: Composer Install
           run: composer install --ansi --prefer-dist --no-interaction --no-progress
@@ -93,6 +114,12 @@ jobs:
 
       -   name: Run phpunit 8.1 8.2 8.3 8.4
           if: matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.3' || matrix.php == '8.4'
+          run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage
+
+      -   name: Run phpunit nightly experimental
+          if: matrix.php == 'nightly'
+          env:
+            FAILURE_ACTION: "${{ matrix.experimental == true }}"
           run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage
 
       -   name: Run phpunit 7.3
