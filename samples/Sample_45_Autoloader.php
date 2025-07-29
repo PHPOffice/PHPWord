@@ -2,7 +2,10 @@
 
 use PhpOffice\PhpWord\Style\Font;
 
-//define('USE_AUTOLOADER', true);
+// When following define is TRUE,
+// this script will use PhpWord autoloader rather than Composer,
+// and will not be able to find Pdf renderer.
+define('USE_AUTOLOADER', PHP_MINOR_VERSION % 2 === 0);
 
 include_once 'Sample_Header.php';
 
