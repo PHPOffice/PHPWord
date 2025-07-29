@@ -859,14 +859,16 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSetImageValue(): void
     {
         $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
-        $imagePath = __DIR__ . '/_files/images/earth.jpg';
+        $imageJpg = __DIR__ . '/_files/images/earth.jpg';
+        $imageGif = __DIR__ . '/_files/images/mario.gif';
+        $imageSvg = __DIR__ . '/_files/images/phpword.svg';
 
         $variablesReplace = [
-            'headerValue' => function () use ($imagePath) {
-                return $imagePath;
+            'headerValue' => function () use ($imageJpg) {
+                return $imageJpg;
             },
-            'documentContent' => ['path' => $imagePath, 'width' => 500, 'height' => 500],
-            'footerValue' => ['path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false],
+            'documentContent' => ['path' => $imageJpg, 'width' => 500, 'height' => 500],
+            'footerValue' => ['path' => $imageJpg, 'width' => 100, 'height' => 50, 'ratio' => false],
         ];
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 
@@ -914,9 +916,9 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $resultFileName = 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
-        $templateProcessor->setImageValue('Test', $imagePath);
-        $templateProcessor->setImageValue('Test1', $imagePath);
-        $templateProcessor->setImageValue('Test2', $imagePath);
+        $templateProcessor->setImageValue('Test', $imageJpg);
+        $templateProcessor->setImageValue('Test1', $imageGif);
+        $templateProcessor->setImageValue('Test2', $imageSvg);
         $templateProcessor->saveAs($resultFileName);
         self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
 

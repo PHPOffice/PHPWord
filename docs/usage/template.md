@@ -121,7 +121,7 @@ $templateProcessor = new TemplateProcessor('Template.docx');
 $templateProcessor->setValue('Name', 'John Doe');
 $templateProcessor->setValue(array('City', 'Street'), array('Detroit', '12th Street'));
 
-$templateProcessor->setImageValue('CompanyLogo', 'path/to/company/logo.png');
+$templateProcessor->setImageValue('CompanyLogo', 'path/to/company/logo.svg');
 $templateProcessor->setImageValue('UserLogo', array('path' => 'path/to/logo.png', 'width' => 100, 'height' => 100, 'ratio' => false));
 $templateProcessor->setImageValue('FeatureImage', function () {
     // Closure will only be executed if the replacement tag is found in the template
