@@ -2,7 +2,7 @@
 
 use PhpOffice\PhpWord\Style\Font;
 
-define('USE_AUTOLOADER', true);
+//define('USE_AUTOLOADER', true);
 
 include_once 'Sample_Header.php';
 

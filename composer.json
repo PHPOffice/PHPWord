@@ -97,6 +97,8 @@
             "php samples/Sample_43_RTLDefault.php",
             "php samples/Sample_44_ExtractVariablesFromReaderWord2007.php",
             "php samples/Sample_45_Autoloader.php"
+            "php samples/Sample_46_RubyPhoneticGuide.php"
+            "php samples/Sample_47_RTLTitles.php"
         ]
     },
     "scripts-descriptions": {
