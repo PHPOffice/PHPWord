@@ -754,7 +754,7 @@ class TemplateProcessor
                     // replace preparations
                     $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
                     if ($preparedImageAttrs['mime'] === 'image/svg+xml') {
-                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height'], $imgIndex, 'graphic'], $imgTpl);
+                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height'], $imgIndex, 'graphic'], $svgTpl);
                     } else {
                         $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
                     }

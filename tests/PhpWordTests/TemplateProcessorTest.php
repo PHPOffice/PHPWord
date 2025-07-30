@@ -908,7 +908,9 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $testFileName = 'images-test-sample.docx';
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('${Test:width=100:ratio=true}');
+        $section->addText('${Test0:width=100:ratio=true}');
+        $section->addText('${Test1:height=50:ratio=true}');
+        $section->addText('${Test2:width=10cm:height=7cm:ratio=false}');
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
@@ -916,9 +918,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $resultFileName = 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
-        $templateProcessor->setImageValue('Test', $imageJpg);
-        $templateProcessor->setImageValue('Test1', $imageGif);
-        $templateProcessor->setImageValue('Test2', $imageSvg);
+        $templateProcessor->setImageValue(['Test0', 'Test1', 'Test2'], [$imageJpg, $imageGif, $imageSvg]);
         $templateProcessor->saveAs($resultFileName);
         self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
 
