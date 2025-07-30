@@ -861,6 +861,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
         $imageJpg = __DIR__ . '/_files/images/earth.jpg';
         $imageGif = __DIR__ . '/_files/images/mario.gif';
+        $imagePng = __DIR__ . '/_files/images/firefox.png';
         $imageSvg = __DIR__ . '/_files/images/phpword.svg';
 
         $variablesReplace = [
@@ -909,8 +910,9 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('${Test0:width=100:ratio=true}');
-        $section->addText('${Test1:height=50:ratio=true}');
-        $section->addText('${Test2:width=10cm:height=7cm:ratio=false}');
+        $section->addText('${Test1::50:true}');
+        $section->addText('${Test2:size=10cmx7cm:ratio=false}');
+        $section->addText('${Test3}');
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
@@ -918,7 +920,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $resultFileName = 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
-        $templateProcessor->setImageValue(['Test0', 'Test1', 'Test2'], [$imageJpg, $imageGif, $imageSvg]);
+        $templateProcessor->setImageValue(['Test0', 'Test1', 'Test2', 'Test3'], [$imageJpg, $imageGif, $imageSvg, $imagePng]);
         $templateProcessor->saveAs($resultFileName);
         self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
 
@@ -930,7 +932,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
         unlink($resultFileName);
 
-        self::assertStringNotContainsString('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
+        self::assertStringNotContainsString('${Test', $expectedMainPartXml, 'word/document.xml has no image.');
     }
 
     /**
