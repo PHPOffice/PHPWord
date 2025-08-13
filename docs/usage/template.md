@@ -103,7 +103,8 @@ The search-pattern model for images can be like:
     - ``${search-image-pattern:width=[width]:height=[height]:ratio=false}``
 
 Where:
-    - [width] and [height] can be just numbers or numbers with measure, which supported by Word (cm, mm, in, pt, pc, px, %, em, ex)
+    - [width] and [height] can be just numbers or numbers with measure, which supported by Word (cm, mm, in, pt, pc, px, %, em, ex).
+      For SVG the relative measures (px, %, em, ex) might have different results than other images.
     - [ratio] uses only for ``false``, ``-`` or ``f`` to turn off respect aspect ration of image. By default template image size uses as 'container' size.
 
 You can use an array as first argument to replace all search patterns with the same file. If you use an indexed array as second argument, 
@@ -137,7 +138,7 @@ $templateProcessor->setImageValue(
     array('CompanyLogo', 'UserLogo'),
     array(
         'path/to/company/logo.svg',
-        array('path' => 'path/to/logo.png', 'width' => 100, 'height' => 100, 'ratio' => false)
+        array('path' => 'path/to/logo.png', 'width' => '100mm', 'height' => '100mm', 'ratio' => false)
     )
 );
 ```

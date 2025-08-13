@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
@@ -576,6 +577,8 @@ class TemplateProcessor
             $svgAttributes = $svgXml->attributes();
             $actualWidth = $svgAttributes->width;
             $actualHeight = $svgAttributes->height;
+            $actualWidth = is_numeric($actualWidth) ? $actualWidth . 'px' : $actualWidth;
+            $actualHeight = is_numeric($actualHeight) ? $actualHeight . 'px' : $actualHeight;
         } else {
             $imageData = @getimagesize($imgPath);
             if (!is_array($imageData)) {
@@ -597,6 +600,8 @@ class TemplateProcessor
             'mime' => $mime,
             'width' => $width,
             'height' => $height,
+            'originalWidth' => $actualWidth,
+            'originalHeight' => $actualHeight,
         ];
 
         return $imageAttrs;
@@ -754,7 +759,47 @@ class TemplateProcessor
                     // replace preparations
                     $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
                     if ($preparedImageAttrs['mime'] === 'image/svg+xml') {
-                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height'], $imgIndex, 'graphic'], $svgTpl);
+                        $width = Converter::cssToEmu($preparedImageAttrs['width']);
+                        $height = Converter::cssToEmu($preparedImageAttrs['height']);
+                        if ($width === null) {
+                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $width, $matches)) {
+                                $size = $matches[1];
+                                $unit = $matches[2];
+                                switch ($unit) {
+                                    case 'ex':
+                                        $size *= 2;
+                                        // fall through
+                                    case 'em':
+                                        $width = $size * 152400;
+                                        break;
+                                    case '%':
+                                        $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size;
+                                        break;
+                                }
+                            } else {
+                                $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']);
+                            }
+                        }
+                        if ($height === null) {
+                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $height, $matches)) {
+                                $size = $matches[1];
+                                $unit = $matches[2];
+                                switch ($unit) {
+                                    case 'ex':
+                                        $size *= 2;
+                                        // fall through
+                                    case 'em':
+                                        $height = $size * 152400;
+                                        break;
+                                    case '%':
+                                        $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size;
+                                        break;
+                                }
+                            } else {
+                                $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']);
+                            }
+                        }
+                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, $width, $height, $imgIndex, 'graphic'], $svgTpl);
                     } else {
                         $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
                     }

@@ -911,8 +911,14 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addText('${Test0:width=100:ratio=true}');
         $section->addText('${Test1::50:true}');
-        $section->addText('${Test2:size=10cmx7cm:ratio=false}');
-        $section->addText('${Test3}');
+        $section->addText('${Test2}');
+        $section->addText('${Test3:size=10cmx7cm:ratio=false}');
+        $section->addText('${Test4:size=100mmx70mm:ratio=true}');
+        $section->addText('${Test5:4in::true}');
+        $section->addText('${Test6:300pt:200pt}');
+        $section->addText('${Test7:25pc:}');
+        $section->addText('${Test8:50%:50%}');
+        $section->addText('${Test9::5ex}');
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
@@ -920,7 +926,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $resultFileName = 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
-        $templateProcessor->setImageValue(['Test0', 'Test1', 'Test2', 'Test3'], [$imageJpg, $imageGif, $imageSvg, $imagePng]);
+        $templateProcessor->setImageValue(['Test0', 'Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6', 'Test7', 'Test8', 'Test9'], [$imageJpg, $imageGif, $imagePng, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg]);
         $templateProcessor->saveAs($resultFileName);
         self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
 
@@ -932,7 +938,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
         unlink($resultFileName);
 
-        self::assertStringNotContainsString('${Test', $expectedMainPartXml, 'word/document.xml has no image.');
+        self::assertStringNotContainsString('${Test', $expectedMainPartXml, 'word/document.xml has not inserted all images.');
     }
 
     /**
