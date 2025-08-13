@@ -763,17 +763,20 @@ class TemplateProcessor
                         $height = Converter::cssToEmu($preparedImageAttrs['height']);
                         if ($width === null) {
                             if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $width, $matches)) {
-                                $size = floatval($matches[1]);
+                                $size = (float) ($matches[1]);
                                 $unit = $matches[2];
                                 switch ($unit) {
                                     case 'ex':
                                         $size = $size * 2;
+
                                         // no break
                                     case 'em':
                                         $width = $size * 152400;
+
                                         break;
                                     case '%':
                                         $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size;
+
                                         break;
                                 }
                             } else {
@@ -782,24 +785,27 @@ class TemplateProcessor
                         }
                         if ($height === null) {
                             if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $height, $matches)) {
-                                $size = floatval($matches[1]);
+                                $size = (float) ($matches[1]);
                                 $unit = $matches[2];
                                 switch ($unit) {
                                     case 'ex':
                                         $size *= 2;
+
                                         // no break
                                     case 'em':
                                         $height = $size * 152400;
+
                                         break;
                                     case '%':
                                         $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size;
+
                                         break;
                                 }
                             } else {
                                 $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']);
                             }
                         }
-                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, $width, $height, $imgIndex, 'graphic'], $svgTpl);
+                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, (string) $width, (string) $height, $imgIndex, 'graphic'], $svgTpl);
                     } else {
                         $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
                     }
