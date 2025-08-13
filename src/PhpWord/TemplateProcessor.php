@@ -762,7 +762,7 @@ class TemplateProcessor
                         $width = Converter::cssToEmu($preparedImageAttrs['width']);
                         $height = Converter::cssToEmu($preparedImageAttrs['height']);
                         if ($width === null) {
-                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $width, $matches)) {
+                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['width'], $matches)) {
                                 $size = (float) ($matches[1]);
                                 $unit = $matches[2];
                                 switch ($unit) {
@@ -784,7 +784,7 @@ class TemplateProcessor
                             }
                         }
                         if ($height === null) {
-                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $height, $matches)) {
+                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['height'], $matches)) {
                                 $size = (float) ($matches[1]);
                                 $unit = $matches[2];
                                 switch ($unit) {

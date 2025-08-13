@@ -926,7 +926,8 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $resultFileName = 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
-        $templateProcessor->setImageValue(['Test0', 'Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6', 'Test7', 'Test8', 'Test9'], [$imageJpg, $imageGif, $imagePng, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg]);
+        $templateProcessor->setImageValue('Test0', $imageJpg);
+        $templateProcessor->setImageValue(['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6', 'Test7', 'Test8', 'Test9'], [$imageGif, $imagePng, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg]);
         $templateProcessor->saveAs($resultFileName);
         self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
 

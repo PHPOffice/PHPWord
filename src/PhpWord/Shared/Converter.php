@@ -451,6 +451,11 @@ class Converter
      */
     public static function cssToEmu($value)
     {
-        return self::pointToEmu(self::cssToPoint($value));
+        $point = self::cssToPoint($value);
+        if ($point === null) {
+            return null;
+        }
+
+        return self::pointToEmu($point);
     }
 }
