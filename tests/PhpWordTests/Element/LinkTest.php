@@ -37,7 +37,6 @@ class LinkTest extends \PHPUnit\Framework\TestCase
     {
         $oLink = new Link('https://github.com/PHPOffice/PHPWord');
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
         self::assertEquals('https://github.com/PHPOffice/PHPWord', $oLink->getSource());
         self::assertEquals($oLink->getSource(), $oLink->getText());
         self::assertNull($oLink->getFontStyle());
@@ -56,7 +55,6 @@ class LinkTest extends \PHPUnit\Framework\TestCase
             ['marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600]
         );
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
         self::assertEquals('https://github.com/PHPOffice/PHPWord', $oLink->getSource());
         self::assertEquals('PHPWord on GitHub', $oLink->getText());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oLink->getFontStyle());

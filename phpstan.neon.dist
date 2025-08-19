@@ -16,6 +16,7 @@ parameters:
         - tests/bootstrap.php
     ## <=PHP7.4
     reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
     ignoreErrors:
         -
             identifier: missingType.iterableValue

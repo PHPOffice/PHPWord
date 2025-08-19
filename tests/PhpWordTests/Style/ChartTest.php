@@ -165,8 +165,6 @@ class ChartTest extends \PHPUnit\Framework\TestCase
     {
         $chart = new Chart();
 
-        $chart->getCategoryAxisTitle();
-
         self::assertEquals($chart->getCategoryAxisTitle(), null);
 
         $chart->setCategoryAxisTitle('Test Category Axis Title');
@@ -180,8 +178,6 @@ class ChartTest extends \PHPUnit\Framework\TestCase
     public function testSetGetValueAxisTitle(): void
     {
         $chart = new Chart();
-
-        $chart->getValueAxisTitle();
 
         self::assertEquals($chart->getValueAxisTitle(), null);
 

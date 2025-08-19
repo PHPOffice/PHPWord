@@ -34,15 +34,14 @@ class RubyPropertiesTest extends \PHPUnit\Framework\TestCase
     public function testConstruct(): void
     {
         $properties = new RubyProperties();
-        self::assertInstanceOf('PhpOffice\\PhpWord\\ComplexType\\RubyProperties', $properties);
 
         self::assertIsString($properties->getAlignment());
-        self::assertTrue($properties->getAlignment() !== '' && $properties->getAlignment() !== null);
+        self::assertNotEmpty($properties->getAlignment());
         self::assertIsFloat($properties->getFontFaceSize());
         self::assertIsFloat($properties->getFontPointsAboveBaseText());
         self::assertIsFloat($properties->getFontSizeForBaseText());
         self::assertIsString($properties->getLanguageId());
-        self::assertTrue($properties->getLanguageId() !== '' && $properties->getLanguageId() !== null);
+        self::assertTrue($properties->getLanguageId() !== '');
     }
 
     /**
@@ -52,7 +51,7 @@ class RubyPropertiesTest extends \PHPUnit\Framework\TestCase
     {
         $properties = new RubyProperties();
         self::assertIsString($properties->getAlignment());
-        self::assertTrue($properties->getAlignment() !== '' && $properties->getAlignment() !== null);
+        self::assertNotEmpty($properties->getAlignment());
         $properties->setAlignment(RubyProperties::ALIGNMENT_RIGHT_VERTICAL);
         self::assertEquals(RubyProperties::ALIGNMENT_RIGHT_VERTICAL, $properties->getAlignment());
     }
@@ -133,7 +132,7 @@ class RubyPropertiesTest extends \PHPUnit\Framework\TestCase
     {
         $properties = new RubyProperties();
 
-        self::assertTrue($properties->getLanguageId() !== '' && $properties->getLanguageId() !== null);
+        self::assertNotEmpty($properties->getLanguageId());
         $properties->setLanguageId('en-US');
         self::assertIsString($properties->getLanguageId());
         self::assertEquals('en-US', $properties->getLanguageId());

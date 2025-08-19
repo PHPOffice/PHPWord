@@ -19,6 +19,9 @@
 namespace PhpOffice\PhpWordTests\Writer\Word2007;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Frame;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Line;
+use PhpOffice\PhpWord\Writer\Word2007\Style\TextBox;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Style subnamespace.
@@ -48,20 +51,36 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     /**
      * Test method exceptions.
      */
-    public function testMethodExceptions(): void
+    public function testMethodExceptionsFrame(): void
     {
-        $styles = [
-            'Frame' => 'writeAlignment',
-            'Line' => 'writeStroke',
-            'TextBox' => 'writeBorder',
-        ];
-        foreach ($styles as $style => $method) {
-            $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $style;
-            $xmlWriter = new XMLWriter();
-            $object = new $objectClass($xmlWriter);
-            $object->$method();
+        $xmlWriter = new XMLWriter();
+        $object = new Frame($xmlWriter);
+        $object->writeAlignment();
 
-            self::assertEquals('', $xmlWriter->getData());
-        }
+        self::assertEquals('', $xmlWriter->getData());
+    }
+
+    /**
+     * Test method exceptions.
+     */
+    public function testMethodExceptionsLine(): void
+    {
+        $xmlWriter = new XMLWriter();
+        $object = new Line($xmlWriter);
+        $object->writeStroke();
+
+        self::assertEquals('', $xmlWriter->getData());
+    }
+
+    /**
+     * Test method exceptions.
+     */
+    public function testMethodExceptionsTextBox(): void
+    {
+        $xmlWriter = new XMLWriter();
+        $object = new TextBox($xmlWriter);
+        $object->writeBorder();
+
+        self::assertEquals('', $xmlWriter->getData());
     }
 }

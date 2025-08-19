@@ -222,7 +222,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $phpWord = $this->getPhpWord();
         $noteType = ($noteType == 'endnote') ? 'endnote' : 'footnote';
         $partName = "{$noteType}s";
-        $method = 'get' . $partName;
+        $method = 'get' . ucfirst($partName);
         $collection = $phpWord->$method();
 
         // Add footnotes media files, relations, and contents

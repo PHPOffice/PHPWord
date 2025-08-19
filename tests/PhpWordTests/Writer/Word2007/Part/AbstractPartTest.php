@@ -32,6 +32,7 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetParentWriter(): void
     {
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $stub = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
         } else {
@@ -54,6 +55,7 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('No parent WriterInterface assigned.');
+        // @phpstan-ignore-next-line
         if (method_exists($this, 'getMockForAbstractClass')) {
             $stub = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
         } else {

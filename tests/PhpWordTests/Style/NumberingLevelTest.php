@@ -28,25 +28,36 @@ use PhpOffice\PhpWord\Style\NumberingLevel;
  */
 class NumberingLevelTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test setting style with normal value.
-     */
-    public function testSetGetNormal(): void
+    public function testSetGetNormalInt(): void
     {
         $object = new NumberingLevel();
 
         $attributes = [
             'level' => 1,
             'start' => 1,
-            'format' => 'decimal',
             'restart' => 1,
+            'left' => 360,
+            'hanging' => 360,
+            'tabPos' => 360,
+        ];
+        foreach ($attributes as $key => $value) {
+            $set = "set{$key}";
+            $get = "get{$key}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
+    }
+
+    public function testSetGetNormalString(): void
+    {
+        $object = new NumberingLevel();
+
+        $attributes = [
+            'format' => 'decimal',
             'pStyle' => 'pStyle',
             'suffix' => 'space',
             'text' => '%1.',
             'alignment' => Jc::START,
-            'left' => 360,
-            'hanging' => 360,
-            'tabPos' => 360,
             'font' => 'Arial',
             'hint' => 'default',
         ];

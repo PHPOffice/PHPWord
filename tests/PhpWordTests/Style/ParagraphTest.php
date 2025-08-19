@@ -150,13 +150,17 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
         $object = new Paragraph();
         self::assertNull($object->getHanging());
-        self::assertInstanceOf(Paragraph::class, $object->setHanging($rand));
+
+        $object->setHanging($rand);
         self::assertEquals($rand, $object->getHanging());
-        self::assertInstanceOf(Paragraph::class, $object->setHanging(null));
+
+        $object->setHanging(null);
         self::assertNull($object->getHanging());
-        self::assertInstanceOf(Paragraph::class, $object->setHanging($rand));
+
+        $object->setHanging($rand);
         self::assertEquals($rand, $object->getHanging());
-        self::assertInstanceOf(Paragraph::class, $object->setHanging());
+
+        $object->setHanging();
         self::assertNull($object->getHanging());
     }
 
@@ -166,13 +170,17 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
         $object = new Paragraph();
         self::assertNull($object->getIndent());
-        self::assertInstanceOf(Paragraph::class, $object->setIndent($rand));
+
+        $object->setIndent($rand);
         self::assertEquals($rand, $object->getIndent());
-        self::assertInstanceOf(Paragraph::class, $object->setIndent(null));
+
+        $object->setIndent(null);
         self::assertNull($object->getIndent());
-        self::assertInstanceOf(Paragraph::class, $object->setIndent($rand));
+
+        $object->setIndent($rand);
         self::assertEquals($rand, $object->getIndent());
-        self::assertInstanceOf(Paragraph::class, $object->setIndent());
+
+        $object->setIndent();
         self::assertNull($object->getIndent());
     }
 
@@ -184,60 +192,60 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $object = new Paragraph();
         self::assertNull($object->getIndentation());
         // Set Basic indentation
-        self::assertInstanceOf(Paragraph::class, $object->setIndentation([]));
+        $object->setIndentation([]);
         self::assertNotNull($object->getIndentation());
         self::assertEquals(0, $object->getIndentation()->getLeft());
         self::assertEquals(0, $object->getIndentation()->getRight());
         self::assertEquals(0, $object->getIndentation()->getHanging());
         self::assertEquals(0, $object->getIndentation()->getFirstLine());
         // Set indentation : left
-        self::assertInstanceOf(Paragraph::class, $object->setIndentation([
+        $object->setIndentation([
             'left' => $rand,
-        ]));
+        ]);
         self::assertNotNull($object->getIndentation());
         self::assertEquals($rand, $object->getIndentation()->getLeft());
         self::assertEquals(0, $object->getIndentation()->getRight());
         self::assertEquals(0, $object->getIndentation()->getHanging());
         self::assertEquals(0, $object->getIndentation()->getFirstLine());
         // Set indentation : right
-        self::assertInstanceOf(Paragraph::class, $object->setIndentation([
+        $object->setIndentation([
             'right' => $rand,
-        ]));
+        ]);
         self::assertNotNull($object->getIndentation());
         self::assertEquals($rand, $object->getIndentation()->getLeft());
         self::assertEquals($rand, $object->getIndentation()->getRight());
         self::assertEquals(0, $object->getIndentation()->getHanging());
         self::assertEquals(0, $object->getIndentation()->getFirstLine());
         // Set indentation : hanging
-        self::assertInstanceOf(Paragraph::class, $object->setIndentation([
+        $object->setIndentation([
             'hanging' => $rand,
-        ]));
+        ]);
         self::assertNotNull($object->getIndentation());
         self::assertEquals($rand, $object->getIndentation()->getLeft());
         self::assertEquals($rand, $object->getIndentation()->getRight());
         self::assertEquals($rand, $object->getIndentation()->getHanging());
         self::assertEquals(0, $object->getIndentation()->getFirstLine());
         // Set indentation : firstline
-        self::assertInstanceOf(Paragraph::class, $object->setIndentation([
+        $object->setIndentation([
             'firstline' => $rand,
-        ]));
+        ]);
         self::assertNotNull($object->getIndentation());
         self::assertEquals($rand, $object->getIndentation()->getLeft());
         self::assertEquals($rand, $object->getIndentation()->getRight());
         self::assertEquals($rand, $object->getIndentation()->getHanging());
         self::assertEquals($rand, $object->getIndentation()->getFirstLine());
         // Replace indentation : left & firstline
-        self::assertInstanceOf(Paragraph::class, $object->setIndentation([
+        $object->setIndentation([
             'left' => $rand2,
             'firstline' => $rand2,
-        ]));
+        ]);
         self::assertNotNull($object->getIndentation());
         self::assertEquals($rand2, $object->getIndentation()->getLeft());
         self::assertEquals($rand, $object->getIndentation()->getRight());
         self::assertEquals($rand, $object->getIndentation()->getHanging());
         self::assertEquals($rand2, $object->getIndentation()->getFirstLine());
         // Replace indentation : N/A
-        self::assertInstanceOf(Paragraph::class, $object->setIndentation());
+        $object->setIndentation();
         self::assertNotNull($object->getIndentation());
         self::assertEquals($rand2, $object->getIndentation()->getLeft());
         self::assertEquals($rand, $object->getIndentation()->getRight());
@@ -251,13 +259,13 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
         $object = new Paragraph();
         self::assertNull($object->getIndentFirstLine());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentFirstLine($rand));
+        $object->setIndentFirstLine($rand);
         self::assertEquals($rand, $object->getIndentFirstLine());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentFirstLine(null));
+        $object->setIndentFirstLine(null);
         self::assertNull($object->getIndentFirstLine());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentFirstLine($rand));
+        $object->setIndentFirstLine($rand);
         self::assertEquals($rand, $object->getIndentFirstLine());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentFirstLine());
+        $object->setIndentFirstLine();
         self::assertNull($object->getIndentFirstLine());
     }
 
@@ -267,13 +275,13 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
         $object = new Paragraph();
         self::assertNull($object->getIndentLeft());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentLeft($rand));
+        $object->setIndentLeft($rand);
         self::assertEquals($rand, $object->getIndentLeft());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentLeft(null));
+        $object->setIndentLeft(null);
         self::assertNull($object->getIndentLeft());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentLeft($rand));
+        $object->setIndentLeft($rand);
         self::assertEquals($rand, $object->getIndentLeft());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentLeft());
+        $object->setIndentLeft();
         self::assertNull($object->getIndentLeft());
     }
 
@@ -283,13 +291,13 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
         $object = new Paragraph();
         self::assertNull($object->getIndentRight());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentRight($rand));
+        $object->setIndentRight($rand);
         self::assertEquals($rand, $object->getIndentRight());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentRight(null));
+        $object->setIndentRight(null);
         self::assertNull($object->getIndentRight());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentRight($rand));
+        $object->setIndentRight($rand);
         self::assertEquals($rand, $object->getIndentRight());
-        self::assertInstanceOf(Paragraph::class, $object->setIndentRight());
+        $object->setIndentRight();
         self::assertNull($object->getIndentRight());
     }
 
@@ -350,11 +358,11 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
     {
         $object = new Paragraph();
         self::assertNull($object->isBidi());
-        self::assertInstanceOf(Paragraph::class, $object->setBidi(true));
+        $object->setBidi(true);
         self::assertTrue($object->isBidi());
-        self::assertInstanceOf(Paragraph::class, $object->setBidi(false));
+        $object->setBidi(false);
         self::assertFalse($object->isBidi());
-        self::assertInstanceOf(Paragraph::class, $object->setBidi(null));
+        $object->setBidi(null);
         self::assertNull($object->isBidi());
     }
 

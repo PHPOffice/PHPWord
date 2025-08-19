@@ -35,7 +35,6 @@ class BookmarkTest extends \PHPUnit\Framework\TestCase
         $bookmarkName = 'test';
         $oBookmark = new Bookmark($bookmarkName);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Bookmark', $oBookmark);
         self::assertEquals($bookmarkName, $oBookmark->getName());
     }
 }

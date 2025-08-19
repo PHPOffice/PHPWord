@@ -29,8 +29,6 @@ class CreateTemporaryFileExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * CreateTemporaryFileException can be thrown.
-     *
-     * @covers            ::__construct()
      */
     public function testCreateTemporaryFileExceptionCanBeThrown(): void
     {

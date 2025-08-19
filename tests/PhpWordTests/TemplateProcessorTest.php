@@ -70,7 +70,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     public function testTheConstruct(): void
     {
         $object = $this->getTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
-        self::assertInstanceOf('PhpOffice\\PhpWord\\TemplateProcessor', $object);
         self::assertEquals([], $object->getVariables());
         $object->save();
 

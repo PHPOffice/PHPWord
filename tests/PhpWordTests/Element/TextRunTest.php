@@ -38,7 +38,6 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
     {
         $oTextRun = new TextRun();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
         self::assertCount(0, $oTextRun->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oTextRun->getParagraphStyle());
     }
@@ -50,7 +49,6 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
     {
         $oTextRun = new TextRun('pStyle');
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
         self::assertCount(0, $oTextRun->getElements());
         self::assertEquals('pStyle', $oTextRun->getParagraphStyle());
     }
@@ -62,7 +60,6 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
     {
         $oTextRun = new TextRun(['spacing' => 100]);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
         self::assertCount(0, $oTextRun->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oTextRun->getParagraphStyle());
     }
@@ -76,7 +73,6 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
         $oParagraphStyle->setAlignment(Jc::BOTH);
         $oTextRun = new TextRun($oParagraphStyle);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
         self::assertCount(0, $oTextRun->getElements());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oTextRun->getParagraphStyle());
         self::assertEquals(Jc::BOTH, $oTextRun->getParagraphStyle()->getAlignment());

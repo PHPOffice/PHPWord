@@ -32,7 +32,7 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
  *
  * @todo Do something with the numbering style introduced in 0.10.0
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For writeFontStyle, writeParagraphStyle, and writeTableStyle
+ * @SuppressWarnings("PHPMD.UnusedPrivateMethod") For writeFontStyle, writeParagraphStyle, and writeTableStyle
  */
 class Styles extends AbstractPart
 {

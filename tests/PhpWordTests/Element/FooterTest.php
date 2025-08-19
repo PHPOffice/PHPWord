@@ -36,7 +36,6 @@ class FooterTest extends AbstractWebServerEmbedded
         $iVal = mt_rand(1, 1000);
         $oFooter = new Footer($iVal);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footer', $oFooter);
         self::assertEquals($iVal, $oFooter->getSectionId());
     }
 

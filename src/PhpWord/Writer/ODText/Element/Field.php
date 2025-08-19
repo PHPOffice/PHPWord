@@ -57,12 +57,12 @@ class Field extends Text
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('text:span');
-        if (method_exists($element, 'getFontStyle')) {
-            $fstyle = $element->getFontStyle();
-            if (is_string($fstyle)) {
-                $xmlWriter->writeAttribute('text:style-name', $fstyle);
-            }
+
+        $fstyle = $element->getFontStyle();
+        if (is_string($fstyle)) {
+            $xmlWriter->writeAttribute('text:style-name', $fstyle);
         }
+
         switch ($type) {
             case 'date':
                 $xmlWriter->startElement('text:date');

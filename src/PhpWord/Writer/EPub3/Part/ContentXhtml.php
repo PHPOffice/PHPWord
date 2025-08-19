@@ -2,6 +2,7 @@
 
 namespace PhpOffice\PhpWord\Writer\EPub3\Part;
 
+use PhpOffice\PhpWord\Element\AbstractElement;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
@@ -91,14 +92,14 @@ class ContentXhtml extends AbstractPart
         return $xmlWriter->outputMemory(true);
     }
 
-    protected function writeTextElement(\PhpOffice\PhpWord\Element\AbstractElement $textElement, XMLWriter $xmlWriter): void
+    protected function writeTextElement(AbstractElement $textElement, XMLWriter $xmlWriter): void
     {
         if ($textElement instanceof Text) {
             $text = $textElement->getText();
             if ($text !== null) {
                 $xmlWriter->text((string) $text);
             }
-        } elseif (is_object($textElement) && method_exists($textElement, 'getText')) {
+        } elseif (method_exists($textElement, 'getText')) {
             $text = $textElement->getText();
             if ($text instanceof TextRun) {
                 $this->writeTextRun($text, $xmlWriter);
