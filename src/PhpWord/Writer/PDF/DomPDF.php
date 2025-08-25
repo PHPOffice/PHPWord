@@ -64,6 +64,14 @@ class DomPDF extends AbstractRenderer implements WriterInterface
         $orientation = 'portrait';
 
         //  Create PDF
+        $restoreHandler = false;
+        if (PHP_VERSION_ID >= self::$temporaryVersionCheck) {
+            // @codeCoverageIgnoreStart
+            $errhandler = [$this, 'specialErrorHandler'];
+            set_error_handler($errhandler); // @phpstan-ignore-line
+            $restoreHandler = true;
+            // @codeCoverageIgnoreEnd
+        }
         $pdf = $this->createExternalWriterInstance();
         $pdf->setPaper(strtolower($paperSize), $orientation);
         $pdf->loadHtml(str_replace(PHP_EOL, '', $this->getContent()));
@@ -72,6 +80,27 @@ class DomPDF extends AbstractRenderer implements WriterInterface
         //  Write to file
         fwrite($fileHandle, $pdf->output());
 
+        if ($restoreHandler) {
+            restore_error_handler(); // @codecoverageignore
+        }
         parent::restoreStateAfterSave($fileHandle);
+    }
+
+    protected static int $temporaryVersionCheck = 80500;
+
+    /*
+     * Temporary handler for Php8.5 waiting for Dompdf release.
+     *
+     * @codeCoverageIgnore
+     */
+    public function specialErrorHandler(int $errno, string $errstr, string $filename, int $lineno): bool
+    {
+        if ($errno === E_DEPRECATED) {
+            if (preg_match('/canonical|imagedestroy/', $errstr) === 1) {
+                return true;
+            }
+        }
+
+        return false; // continue error handling
     }
 }
