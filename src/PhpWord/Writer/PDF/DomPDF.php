@@ -81,7 +81,7 @@ class DomPDF extends AbstractRenderer implements WriterInterface
         fwrite($fileHandle, $pdf->output());
 
         if ($restoreHandler) {
-            restore_error_handler(); // @codecoverageignore
+            restore_error_handler(); // @codeCoverageIgnore
         }
         parent::restoreStateAfterSave($fileHandle);
     }
