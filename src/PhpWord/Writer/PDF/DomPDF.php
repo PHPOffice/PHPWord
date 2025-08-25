@@ -89,7 +89,7 @@ class DomPDF extends AbstractRenderer implements WriterInterface
     /** @var int */
     protected static $temporaryVersionCheck = 80500;
 
-    /*
+    /**
      * Temporary handler for Php8.5 waiting for Dompdf release.
      *
      * @codeCoverageIgnore
