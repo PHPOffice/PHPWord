@@ -124,7 +124,8 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('b', self::callProtectedMethod($stub, 'setEnumVal', ['z', ['a', 'b'], 'b']));
     }
 
-    protected static int $temporaryVersionCheck = 80500;
+    /** @var int */
+    protected static $temporaryVersionCheck = 80500;
 
     /**
      * Helper function to call protected method.
