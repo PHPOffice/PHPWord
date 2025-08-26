@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -29,14 +30,14 @@ class TOC extends AbstractElement
     /**
      * TOC style.
      *
-     * @var \PhpOffice\PhpWord\Style\TOC
+     * @var TOCStyle
      */
     private $tocStyle;
 
     /**
      * Font style.
      *
-     * @var \PhpOffice\PhpWord\Style\Font|string
+     * @var Font|string
      */
     private $fontStyle;
 
@@ -58,15 +59,14 @@ class TOC extends AbstractElement
      * Create a new Table-of-Contents Element.
      *
      * @param mixed $fontStyle
-     * @param array $tocStyle
      * @param int $minDepth
      * @param int $maxDepth
      */
-    public function __construct($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
+    public function __construct($fontStyle = null, ?array $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
         $this->tocStyle = new TOCStyle();
 
-        if (null !== $tocStyle && is_array($tocStyle)) {
+        if (null !== $tocStyle) {
             $this->tocStyle->setStyleByArray($tocStyle);
         }
 
@@ -94,7 +94,7 @@ class TOC extends AbstractElement
 
         $titles = $this->phpWord->getTitles()->getItems();
         foreach ($titles as $i => $title) {
-            /** @var \PhpOffice\PhpWord\Element\Title $title Type hint */
+            /** @var Title $title Type hint */
             $depth = $title->getDepth();
             if ($this->minDepth > $depth) {
                 unset($titles[$i]);
@@ -110,7 +110,7 @@ class TOC extends AbstractElement
     /**
      * Get TOC Style.
      *
-     * @return \PhpOffice\PhpWord\Style\TOC
+     * @return TOCStyle
      */
     public function getStyleTOC()
     {
@@ -120,7 +120,7 @@ class TOC extends AbstractElement
     /**
      * Get Font Style.
      *
-     * @return \PhpOffice\PhpWord\Style\Font|string
+     * @return Font|string
      */
     public function getStyleFont()
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -34,7 +35,6 @@ class BookmarkTest extends \PHPUnit\Framework\TestCase
         $bookmarkName = 'test';
         $oBookmark = new Bookmark($bookmarkName);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Bookmark', $oBookmark);
         self::assertEquals($bookmarkName, $oBookmark->getName());
     }
 }

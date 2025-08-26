@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -107,7 +108,7 @@ class Field extends AbstractElement
     /**
      * Field text.
      *
-     * @var string|TextRun
+     * @var null|string|TextRun
      */
     protected $text;
 
@@ -128,16 +129,16 @@ class Field extends AbstractElement
     /**
      * Font style.
      *
-     * @var \PhpOffice\PhpWord\Style\Font|string
+     * @var Font|string
      */
     protected $fontStyle;
 
     /**
      * Set Font style.
      *
-     * @param array|\PhpOffice\PhpWord\Style\Font|string $style
+     * @param array|Font|string $style
      *
-     * @return \PhpOffice\PhpWord\Style\Font|string
+     * @return Font|string
      */
     public function setFontStyle($style = null)
     {
@@ -158,7 +159,7 @@ class Field extends AbstractElement
     /**
      * Get Font style.
      *
-     * @return \PhpOffice\PhpWord\Style\Font|string
+     * @return Font|string
      */
     public function getFontStyle()
     {
@@ -172,7 +173,7 @@ class Field extends AbstractElement
      * @param array $properties
      * @param array $options
      * @param null|string|TextRun $text
-     * @param array|\PhpOffice\PhpWord\Style\Font|string $fontStyle
+     * @param array|Font|string $fontStyle
      */
     public function __construct($type = null, $properties = [], $options = [], $text = null, $fontStyle = null)
     {
@@ -216,22 +217,18 @@ class Field extends AbstractElement
     /**
      * Set Field properties.
      *
-     * @param array $properties
-     *
      * @return self
      */
-    public function setProperties($properties = [])
+    public function setProperties(array $properties = [])
     {
-        if (is_array($properties)) {
-            foreach (array_keys($properties) as $propkey) {
-                if (!(isset($this->fieldsArray[$this->type]['properties'][$propkey]))) {
-                    throw new InvalidArgumentException("Invalid property '$propkey'");
-                }
+        foreach (array_keys($properties) as $propkey) {
+            if (!(isset($this->fieldsArray[$this->type]['properties'][$propkey]))) {
+                throw new InvalidArgumentException("Invalid property '$propkey'");
             }
-            $this->properties = array_merge($this->properties, $properties);
         }
+        $this->properties = array_merge($this->properties, $properties);
 
-        return $this->properties;
+        return $this;
     }
 
     /**
@@ -247,22 +244,18 @@ class Field extends AbstractElement
     /**
      * Set Field options.
      *
-     * @param array $options
-     *
      * @return self
      */
-    public function setOptions($options = [])
+    public function setOptions(array $options = [])
     {
-        if (is_array($options)) {
-            foreach (array_keys($options) as $optionkey) {
-                if (!(isset($this->fieldsArray[$this->type]['options'][$optionkey])) && substr($optionkey, 0, 1) !== '\\') {
-                    throw new InvalidArgumentException("Invalid option '$optionkey', possible values are " . implode(', ', $this->fieldsArray[$this->type]['options']));
-                }
+        foreach (array_keys($options) as $optionkey) {
+            if (!(isset($this->fieldsArray[$this->type]['options'][$optionkey])) && substr($optionkey, 0, 1) !== '\\') {
+                throw new InvalidArgumentException("Invalid option '$optionkey', possible values are " . implode(', ', $this->fieldsArray[$this->type]['options']));
             }
-            $this->options = array_merge($this->options, $options);
         }
+        $this->options = array_merge($this->options, $options);
 
-        return $this->options;
+        return $this;
     }
 
     /**
@@ -278,13 +271,13 @@ class Field extends AbstractElement
     /**
      * Set Field text.
      *
-     * @param null|string|TextRun $text
+     * @param null|mixed|string|TextRun $text
      *
      * @return null|string|TextRun
      */
     public function setText($text = null)
     {
-        if (isset($text)) {
+        if (null !== $text) {
             if (is_string($text) || $text instanceof TextRun) {
                 $this->text = $text;
             } else {

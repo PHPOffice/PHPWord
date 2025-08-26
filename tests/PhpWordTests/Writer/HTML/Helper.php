@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,6 +20,8 @@ namespace PhpOffice\PhpWordTests\Writer\HTML;
 
 use DOMDocument;
 use DOMXPath;
+use Exception;
+use LibXMLError;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\HTML;
 
@@ -84,13 +87,41 @@ class Helper extends \PHPUnit\Framework\TestCase
         return $returnVal;
     }
 
-    public static function getAsHTML(PhpWord $phpWord, string $defaultWhiteSpace = '', string $defaultGenericFont = ''): DOMDocument
+    public static function getAsHTML(PhpWord $phpWord, string $defaultWhiteSpace = '', string $defaultGenericFont = '', array $validTags = []): DOMDocument
     {
         $htmlWriter = new HTML($phpWord);
         $htmlWriter->setDefaultWhiteSpace($defaultWhiteSpace);
         $htmlWriter->setDefaultGenericFont($defaultGenericFont);
         $dom = new DOMDocument();
+        // DOMDocument does not always accept HTML5 tags like <ruby>
+        // So, we can manually filter out those errors for testing purposes ONLY.
+        $original = libxml_use_internal_errors(true);
         $dom->loadHTML($htmlWriter->getContent());
+        $errors = libxml_get_errors();
+        $errorsToReport = [];
+        foreach ($errors as $error) {
+            /** @var LibXMLError $error */
+            if ($error->code === 801) {
+                $didFindValidTag = false;
+                foreach ($validTags as $tag) {
+                    if (trim($error->message) === ('Tag ' . $tag . ' invalid')) {
+                        $didFindValidTag = true;
+
+                        break;
+                    }
+                }
+                if (!$didFindValidTag) {
+                    $errorsToReport[] = $error;
+                }
+            } else {
+                $errorsToReport[] = $error;
+            }
+        }
+        libxml_clear_errors();
+        libxml_use_internal_errors($original);
+        if (count($errorsToReport) > 0) {
+            throw new Exception('Errors when loading DOMDocument: ' . print_r($errors, true));
+        }
 
         return $dom;
     }

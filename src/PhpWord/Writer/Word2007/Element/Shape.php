@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -27,7 +28,7 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Shape as ShapeStyleWriter;
  *
  * @since 0.12.0
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+ * @SuppressWarnings("PHPMD.UnusedPrivateMethod")
  */
 class Shape extends AbstractElement
 {

@@ -133,7 +133,10 @@ class TemplateProcessor
 
         $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
         $this->tempDocumentSettingsPart = $this->readPartWithRels($this->getSettingsPartName());
-        $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
+        $tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
+        if (is_string($tempDocumentContentTypes)) {
+            $this->tempDocumentContentTypes = $tempDocumentContentTypes;
+        }
     }
 
     public function __destruct()
@@ -154,7 +157,7 @@ class TemplateProcessor
      * To replace an image: $templateProcessor->zip()->AddFromString("word/media/image1.jpg", file_get_contents($file));<br>
      * To read a file: $templateProcessor->zip()->getFromName("word/media/image1.jpg");
      *
-     * @return \PhpOffice\PhpWord\Shared\ZipArchive
+     * @return ZipArchive
      */
     public function zip()
     {
@@ -269,7 +272,7 @@ class TemplateProcessor
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        return $subject ? Text::toUTF8($subject) : '';
+        return (null !== $subject) ? Text::toUTF8($subject) : '';
     }
 
     /**
@@ -281,7 +284,7 @@ class TemplateProcessor
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
-        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        /** @var Writer\Word2007\Element\AbstractElement $elementWriter */
         $elementWriter = new $objectClass($xmlWriter, $complexType, true);
         $elementWriter->write();
 
@@ -308,7 +311,7 @@ class TemplateProcessor
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
-        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        /** @var Writer\Word2007\Element\AbstractElement $elementWriter */
         $elementWriter = new $objectClass($xmlWriter, $complexType, false);
         $elementWriter->write();
 
@@ -316,8 +319,8 @@ class TemplateProcessor
     }
 
     /**
-     * @param mixed $search
-     * @param mixed $replace
+     * @param array<string>|string $search
+     * @param null|array<string>|bool|float|int|string $replace
      * @param int $limit
      */
     public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT): void
@@ -337,7 +340,7 @@ class TemplateProcessor
             }
             unset($item);
         } else {
-            $replace = static::ensureUtf8Encoded($replace);
+            $replace = static::ensureUtf8Encoded(null === $replace ? null : (string) $replace);
         }
 
         if (Settings::isOutputEscapingEnabled()) {
@@ -362,10 +365,10 @@ class TemplateProcessor
     /**
      * Set values from a one-dimensional array of "variable => value"-pairs.
      */
-    public function setValues(array $values): void
+    public function setValues(array $values, int $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT): void
     {
         foreach ($values as $macro => $replace) {
-            $this->setValue($macro, $replace);
+            $this->setValue($macro, $replace, $limit);
         }
     }
 
@@ -406,7 +409,7 @@ class TemplateProcessor
         $filename = "charts/chart{$rId}.xml";
 
         // Get the part writer
-        $writerPart = new \PhpOffice\PhpWord\Writer\Word2007\Part\Chart();
+        $writerPart = new Writer\Word2007\Part\Chart();
         $writerPart->setElement($chart);
 
         // ContentTypes.xml
@@ -499,20 +502,22 @@ class TemplateProcessor
             $widthFloat = $heightFloat * $imageRatio;
             $matches = [];
             preg_match('/\\d([a-z%]+)$/', $height, $matches);
-            $width = $widthFloat . $matches[1];
+            $width = $widthFloat . (!empty($matches) ? $matches[1] : 'px');
         } elseif ($height === '') { // defined height is empty
             $widthFloat = (float) $width;
             $heightFloat = $widthFloat / $imageRatio;
             $matches = [];
             preg_match('/\\d([a-z%]+)$/', $width, $matches);
-            $height = $heightFloat . $matches[1];
+            $height = $heightFloat . (!empty($matches) ? $matches[1] : 'px');
         } else { // we have defined size, but we need also check it aspect ratio
             $widthMatches = [];
             preg_match('/\\d([a-z%]+)$/', $width, $widthMatches);
             $heightMatches = [];
             preg_match('/\\d([a-z%]+)$/', $height, $heightMatches);
             // try to fix only if dimensions are same
-            if ($widthMatches[1] == $heightMatches[1]) {
+            if (!empty($widthMatches)
+                && !empty($heightMatches)
+                && $widthMatches[1] == $heightMatches[1]) {
                 $dimention = $widthMatches[1];
                 $widthFloat = (float) $width;
                 $heightFloat = (float) $height;
@@ -676,7 +681,7 @@ class TemplateProcessor
 
             foreach ($searchReplace as $searchString => $replaceImage) {
                 $varsToReplace = array_filter($partVariables, function ($partVar) use ($searchString) {
-                    return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString) . ':/', $partVar);
+                    return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString, '/') . ':/', $partVar);
                 });
 
                 foreach ($varsToReplace as $varNameWithArgs) {
@@ -695,7 +700,7 @@ class TemplateProcessor
                     // replace variable
                     $varNameWithArgsFixed = static::ensureMacroCompleted($varNameWithArgs);
                     $matches = [];
-                    if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed) . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
+                    if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed, '/') . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
                         $wholeTag = $matches[0];
                         array_shift($matches);
                         [$openTag, $prefix, , $postfix, $closeTag] = $matches;
@@ -1076,12 +1081,12 @@ class TemplateProcessor
     /**
      * Find and replace macros in the given XML section.
      *
-     * @param mixed $search
-     * @param mixed $replace
+     * @param array<string>|string $search
+     * @param array<string>|string $replace
      * @param array<int, string>|string $documentPartXML
      * @param int $limit
      *
-     * @return string
+     * @return ($documentPartXML is string ? string : array<string>)
      */
     protected function setValueForPart($search, $replace, $documentPartXML, $limit)
     {
@@ -1287,7 +1292,7 @@ class TemplateProcessor
      * @param int $count
      * @param string $xmlBlock
      *
-     * @return string
+     * @return array<string>
      */
     protected function indexClonedVariables($count, $xmlBlock)
     {
@@ -1339,7 +1344,7 @@ class TemplateProcessor
      * @param string $block New block content
      * @param string $blockType XML tag type of block
      *
-     * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
+     * @return TemplateProcessor Fluent interface
      */
     public function replaceXmlBlock($macro, $block, $blockType = 'w:p')
     {

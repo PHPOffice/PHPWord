@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,14 +22,14 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Writer\HTML;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\HTML.
  *
  * @runTestsInSeparateProcesses
  */
-class HTMLTest extends AbstractWebServerEmbeddedTest
+class HTMLTest extends AbstractWebServerEmbedded
 {
     /**
      * Construct.
@@ -56,11 +57,13 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
         $object = new HTML(new PhpWord());
 
         self::assertNull($object->getEditCallback());
-        self::assertInstanceOf(HTML::class, $object->setEditCallback(function (string $html): string {
+
+        $object->setEditCallback(function (string $html): string {
             return $html;
-        }));
+        });
         self::assertIsCallable($object->getEditCallback());
-        self::assertInstanceOf(HTML::class, $object->setEditCallback(null));
+
+        $object->setEditCallback(null);
         self::assertNull($object->getEditCallback());
     }
 
@@ -69,9 +72,11 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
         $object = new HTML(new PhpWord());
 
         self::assertEquals('', $object->getDefaultGenericFont());
-        self::assertInstanceOf(HTML::class, $object->setDefaultGenericFont('test'));
+
+        $object->setDefaultGenericFont('test');
         self::assertEquals('', $object->getDefaultGenericFont());
-        self::assertInstanceOf(HTML::class, $object->setDefaultGenericFont('cursive'));
+
+        $object->setDefaultGenericFont('cursive');
         self::assertEquals('cursive', $object->getDefaultGenericFont());
     }
 
@@ -80,9 +85,11 @@ class HTMLTest extends AbstractWebServerEmbeddedTest
         $object = new HTML(new PhpWord());
 
         self::assertEquals('', $object->getDefaultWhiteSpace());
-        self::assertInstanceOf(HTML::class, $object->setDefaultWhiteSpace('test'));
+
+        $object->setDefaultWhiteSpace('test');
         self::assertEquals('', $object->getDefaultWhiteSpace());
-        self::assertInstanceOf(HTML::class, $object->setDefaultWhiteSpace('pre-line'));
+
+        $object->setDefaultWhiteSpace('pre-line');
         self::assertEquals('pre-line', $object->getDefaultWhiteSpace());
     }
 

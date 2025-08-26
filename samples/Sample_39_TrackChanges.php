@@ -6,7 +6,7 @@ include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s') , ' Create new PhpWord object' , EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // New portrait section
 $section = $phpWord->addSection();
@@ -21,7 +21,7 @@ $text = $textRun->addText('up');
 $text->setTrackChange(new TrackChange(TrackChange::INSERTED, 'Fred'));
 
 $text = $textRun->addText('go to sleep');
-$text->setChangeInfo(TrackChange::DELETED, 'Barney', new \DateTime('@' . (time() - 3600)));
+$text->setChangeInfo(TrackChange::DELETED, 'Barney', new DateTime('@' . (time() - 3600)));
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

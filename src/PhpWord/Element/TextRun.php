@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -85,6 +86,9 @@ class TextRun extends AbstractContainer
         foreach ($this->getElements() as $element) {
             if ($element instanceof Text) {
                 $outstr .= $element->getText();
+            } elseif ($element instanceof Ruby) {
+                $outstr .= $element->getBaseTextRun()->getText() .
+                    ' (' . $element->getRubyTextRun()->getText() . ')';
             }
         }
 

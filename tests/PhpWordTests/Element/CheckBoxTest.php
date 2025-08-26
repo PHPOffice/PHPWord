@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -35,7 +36,6 @@ class CheckBoxTest extends \PHPUnit\Framework\TestCase
     {
         $oCheckBox = new CheckBox();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\CheckBox', $oCheckBox);
         self::assertNull($oCheckBox->getText());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oCheckBox->getFontStyle());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());

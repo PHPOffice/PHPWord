@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -67,7 +68,7 @@ class Container extends AbstractElement
         $writeLastTextBreak = ($containerClass == 'Cell') && ($elementClass == '' || $elementClass == 'Table');
         if ($writeLastTextBreak) {
             $writerClass = $this->namespace . '\\TextBreak';
-            /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
+            /** @var AbstractElement $writer Type hint */
             $writer = new $writerClass($xmlWriter, new TextBreakElement(), $withoutP);
             $writer->write();
         }
@@ -82,7 +83,7 @@ class Container extends AbstractElement
         $writerClass = $this->namespace . '\\' . $elementClass;
 
         if (class_exists($writerClass)) {
-            /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
+            /** @var AbstractElement $writer Type hint */
             $writer = new $writerClass($xmlWriter, $element, $withoutP);
             $writer->setPart($this->getPart());
             $writer->write();

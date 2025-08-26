@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -26,7 +27,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
  * @since 0.12.0
  * @see  http://www.datypic.com/sc/ooxml/t-w_CT_SdtBlock.html
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+ * @SuppressWarnings("PHPMD.UnusedPrivateMethod")
  */
 class SDT extends Text
 {

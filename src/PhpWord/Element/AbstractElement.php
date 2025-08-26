@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -148,8 +149,6 @@ abstract class AbstractElement
 
     /**
      * Get PhpWord.
-     *
-     * @return ?PhpWord
      */
     public function getPhpWord(): ?PhpWord
     {
@@ -256,7 +255,7 @@ abstract class AbstractElement
      */
     public function setElementId(): void
     {
-        $this->elementId = substr(md5(mt_rand()), 0, 6);
+        $this->elementId = substr(md5((string) mt_rand()), 0, 6);
     }
 
     /**
@@ -291,8 +290,6 @@ abstract class AbstractElement
 
     /**
      * Get comments start.
-     *
-     * @return Comments
      */
     public function getCommentsRangeStart(): ?Comments
     {
@@ -301,8 +298,6 @@ abstract class AbstractElement
 
     /**
      * Get comment start.
-     *
-     * @return Comment
      */
     public function getCommentRangeStart(): ?Comment
     {
@@ -339,8 +334,6 @@ abstract class AbstractElement
 
     /**
      * Get comments end.
-     *
-     * @return Comments
      */
     public function getCommentsRangeEnd(): ?Comments
     {
@@ -349,8 +342,6 @@ abstract class AbstractElement
 
     /**
      * Get comment end.
-     *
-     * @return Comment
      */
     public function getCommentRangeEnd(): ?Comment
     {

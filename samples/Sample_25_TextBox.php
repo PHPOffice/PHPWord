@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // New section
 $section = $phpWord->addSection();
@@ -12,7 +12,7 @@ $section = $phpWord->addSection();
 // In section
 $textbox = $section->addTextBox(
     [
-        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
+        'alignment' => PhpOffice\PhpWord\SimpleType\Jc::CENTER,
         'width' => 400,
         'height' => 150,
         'borderSize' => 1,
@@ -39,7 +39,7 @@ $textrun->addText('with bold text', ['bold' => true]);
 $textrun->addText(', ');
 $textrun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
 $textrun->addText(', and image ');
-$textrun->addImage('resources/_earth.jpg', ['width' => 18, 'height' => 18]);
+$textrun->addImage(__DIR__ . '/resources/_earth.jpg', ['width' => 18, 'height' => 18]);
 $textrun->addText('.');
 
 // Save file

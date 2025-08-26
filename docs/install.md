@@ -32,7 +32,6 @@ To install via Composer, add the following lines to your `composer.json`:
 To install manually:
 
 * [download PHPOffice\PHPWord package from GitHub](https://github.com/PHPOffice/PHPWord/archive/master.zip)
-* [download PHPOffice\Common package from GitHub](https://github.com/PHPOffice/Common/archive/master.zip)
 * extract the package and put the contents to your machine.
 
 
@@ -42,8 +41,27 @@ To install manually:
 require_once 'path/to/PHPWord/src/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 
-require_once 'path/to/PhpOffice/Common/src/Common/Autoloader.php';
-\PhpOffice\Common\Autoloader::register();
+```
+
+The preferred method is the Composer one.
+
+### Configuration
+
+In order to configure you can create phpword.ini file and load configuration by calling Settings::loadConfig
+
+``` php
+<?php
+
+Settings::loadConfig();
+
+```
+
+You can also specify the config file location. (Do not use phpword.ini file in vendor folder)
+
+``` php
+<?php
+
+Settings::loadConfig(__DIR__ . '/../../phpword.ini');
 
 ```
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -229,9 +230,11 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     public function testBookFoldPrinting(): void
     {
         $oSettings = new Settings();
-        self::assertInstanceOf(Settings::class, $oSettings->setBookFoldPrinting(true));
+
+        $oSettings->setBookFoldPrinting(true);
         self::assertTrue($oSettings->hasBookFoldPrinting());
-        self::assertInstanceOf(Settings::class, $oSettings->setBookFoldPrinting(false));
+
+        $oSettings->setBookFoldPrinting(false);
         self::assertFalse($oSettings->hasBookFoldPrinting());
     }
 

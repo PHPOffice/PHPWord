@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s') , ' Create new PhpWord object' , EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 $phpWord->addParagraphStyle('Heading2', ['alignment' => 'center']);
 
 $section = $phpWord->addSection();
@@ -93,7 +93,7 @@ $html .= '<table align="center" style="width: 80%; border: 6px #0000FF double;">
 $html .= '<p style="margin-top: 240pt;">The text below is not visible, click on show/hide to reveil it:</p>';
 $html .= '<p style="display: none">This is hidden text</p>';
 
-\PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

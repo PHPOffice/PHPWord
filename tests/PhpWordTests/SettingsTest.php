@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -30,6 +31,9 @@ class SettingsTest extends TestCase
 {
     private $compatibility;
 
+    /** @var string */
+    private $defaultFontColor;
+
     private $defaultFontSize;
 
     private $defaultFontName;
@@ -59,6 +63,7 @@ class SettingsTest extends TestCase
     protected function setUp(): void
     {
         $this->compatibility = Settings::hasCompatibility();
+        $this->defaultFontColor = Settings::getDefaultFontColor();
         $this->defaultFontSize = Settings::getDefaultFontSize();
         $this->defaultFontName = Settings::getDefaultFontName();
         $this->defaultPaper = Settings::getDefaultPaper();
@@ -75,6 +80,7 @@ class SettingsTest extends TestCase
     protected function tearDown(): void
     {
         Settings::setCompatibility($this->compatibility);
+        Settings::setDefaultFontColor($this->defaultFontColor);
         Settings::setDefaultFontSize($this->defaultFontSize);
         Settings::setDefaultFontName($this->defaultFontName);
         Settings::setDefaultPaper($this->defaultPaper);
@@ -217,6 +223,20 @@ class SettingsTest extends TestCase
     }
 
     /**
+     * Test set/get default font name.
+     */
+    public function testSetGetDefaultAsianFontName(): void
+    {
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultAsianFontName());
+        self::assertFalse(Settings::setDefaultAsianFontName(' '));
+        self::assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultAsianFontName());
+        self::assertTrue(Settings::setDefaultAsianFontName('Times New Roman'));
+        self::assertEquals('Times New Roman', Settings::getDefaultAsianFontName());
+        self::assertFalse(Settings::setDefaultAsianFontName(' '));
+        self::assertEquals('Times New Roman', Settings::getDefaultAsianFontName());
+    }
+
+    /**
      * Test set/get default font size.
      */
     public function testSetGetDefaultFontSize(): void
@@ -237,12 +257,26 @@ class SettingsTest extends TestCase
     }
 
     /**
+     * Test set/get default font color.
+     */
+    public function testSetGetDefaultFontColor(): void
+    {
+        self::assertEquals(Settings::DEFAULT_FONT_COLOR, Settings::getDefaultFontColor());
+        self::assertFalse(Settings::setDefaultFontColor(' '));
+        self::assertEquals(Settings::DEFAULT_FONT_COLOR, Settings::getDefaultFontColor());
+        self::assertTrue(Settings::setDefaultFontColor('FF0000'));
+        self::assertEquals('FF0000', Settings::getDefaultFontColor());
+        self::assertFalse(Settings::setDefaultFontColor(' '));
+        self::assertEquals('FF0000', Settings::getDefaultFontColor());
+    }
+
+    /**
      * Test set/get default paper.
      */
     public function testSetGetDefaultPaper(): void
     {
         $dflt = Settings::DEFAULT_PAPER;
-        $chng = ($dflt === 'A4') ? 'Letter' : 'A4';
+        $chng = 'A4';
         $doc = new PhpWord();
         self::assertEquals($dflt, Settings::getDefaultPaper());
         $sec1 = $doc->addSection();
@@ -271,6 +305,7 @@ class SettingsTest extends TestCase
             'pdfRendererPath' => '',
             'defaultFontName' => 'Arial',
             'defaultFontSize' => 10,
+            'defaultFontColor' => '000000',
             'outputEscapingEnabled' => false,
             'defaultPaper' => 'A4',
         ];

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -39,7 +40,6 @@ class TitleTest extends \PHPUnit\Framework\TestCase
     {
         $title = new Title('text');
 
-        self::assertInstanceOf(Title::class, $title);
         self::assertEquals('text', $title->getText());
         self::assertEquals(1, $title->getDepth());
         self::assertNull($title->getPageNumber());
@@ -72,7 +72,6 @@ class TitleTest extends \PHPUnit\Framework\TestCase
     {
         $title = new Title('text', 1, 0);
 
-        self::assertInstanceOf(Title::class, $title);
         self::assertEquals('text', $title->getText());
         self::assertEquals(0, $title->getPageNumber());
         self::assertNull($title->getStyle());

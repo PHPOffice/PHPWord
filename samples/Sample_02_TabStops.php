@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // Define styles
 $multipleTabsStyleName = 'multipleTab';
@@ -12,18 +12,18 @@ $phpWord->addParagraphStyle(
     $multipleTabsStyleName,
     [
         'tabs' => [
-            new \PhpOffice\PhpWord\Style\Tab('left', 1550),
-            new \PhpOffice\PhpWord\Style\Tab('center', 3200),
-            new \PhpOffice\PhpWord\Style\Tab('right', 5300),
+            new PhpOffice\PhpWord\Style\Tab('left', 1550),
+            new PhpOffice\PhpWord\Style\Tab('center', 3200),
+            new PhpOffice\PhpWord\Style\Tab('right', 5300),
         ],
     ]
 );
 
 $rightTabStyleName = 'rightTab';
-$phpWord->addParagraphStyle($rightTabStyleName, ['tabs' => [new \PhpOffice\PhpWord\Style\Tab('right', 9090)]]);
+$phpWord->addParagraphStyle($rightTabStyleName, ['tabs' => [new PhpOffice\PhpWord\Style\Tab('right', 9090)]]);
 
 $leftTabStyleName = 'centerTab';
-$phpWord->addParagraphStyle($leftTabStyleName, ['tabs' => [new \PhpOffice\PhpWord\Style\Tab('center', 4680)]]);
+$phpWord->addParagraphStyle($leftTabStyleName, ['tabs' => [new PhpOffice\PhpWord\Style\Tab('center', 4680)]]);
 
 // New portrait section
 $section = $phpWord->addSection();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -58,7 +59,7 @@ class Section extends Border
     /**
      * Paper size.
      *
-     * @var \PhpOffice\PhpWord\Style\Paper
+     * @var Paper
      */
     private $paper;
 
@@ -137,7 +138,7 @@ class Section extends Border
     /**
      * Line numbering.
      *
-     * @var \PhpOffice\PhpWord\Style\LineNumbering
+     * @var LineNumbering
      *
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_lnNumType-1.html
      */
@@ -278,7 +279,7 @@ class Section extends Border
     /**
      * @param null|float|int $value
      *
-     * @return \PhpOffice\PhpWord\Style\Section
+     * @return Section
      *
      * @since 0.12.0
      */
@@ -304,7 +305,7 @@ class Section extends Border
     /**
      * @param null|float|int $value
      *
-     * @return \PhpOffice\PhpWord\Style\Section
+     * @return Section
      *
      * @since 0.12.0
      */
@@ -486,7 +487,7 @@ class Section extends Border
     /**
      * Get line numbering.
      *
-     * @return \PhpOffice\PhpWord\Style\LineNumbering
+     * @return LineNumbering
      */
     public function getLineNumbering()
     {

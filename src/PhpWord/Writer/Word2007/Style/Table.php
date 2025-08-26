@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -150,7 +151,7 @@ class Table extends AbstractStyle
      *
      * @param string $elementName
      * @param string $unit
-     * @param float|int $width
+     * @param null|float|int $width
      */
     private function writeTblWidth(XMLWriter $xmlWriter, $elementName, $unit, $width = null): void
     {
@@ -158,7 +159,7 @@ class Table extends AbstractStyle
             return;
         }
         $xmlWriter->startElement($elementName);
-        $xmlWriter->writeAttributeIf(null !== $width, 'w:w', $width);
+        $xmlWriter->writeAttribute('w:w', $width);
         $xmlWriter->writeAttribute('w:type', $unit);
         $xmlWriter->endElement();
     }

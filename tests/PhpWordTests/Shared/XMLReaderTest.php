@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -90,10 +91,7 @@ class XMLReaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testThrowsExceptionOnZipArchiveOpenErrors(): void
     {
-        /**
-         * @var string
-         */
-        $tempPath = tempnam(sys_get_temp_dir(), 'PhpWord');
+        $tempPath = tempnam(sys_get_temp_dir(), 'PhpWord') ?: 'tempNameFile';
 
         // Simulate a corrupt archive
         file_put_contents($tempPath, mt_rand());
@@ -149,6 +147,7 @@ class XMLReaderTest extends \PHPUnit\Framework\TestCase
             self::assertEquals('AAA', $reader->getElement('/element/test:child')->textContent);
             self::fail();
         } catch (Exception $e) {
+            // @phpstan-ignore-next-line
             self::assertTrue(true);
         }
     }

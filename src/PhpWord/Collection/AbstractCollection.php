@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,6 +22,7 @@ namespace PhpOffice\PhpWord\Collection;
  * Collection abstract class.
  *
  * @since 0.10.0
+ *
  * @template T
  */
 abstract class AbstractCollection

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -84,7 +85,7 @@ class Border extends AbstractStyle
         if ($rtfWriter !== null) {
             $colorTable = $rtfWriter->getColorTable();
             $index = array_search($color, $colorTable);
-            if ($index !== false && $colorIndex !== null) {
+            if ($index !== false) {
                 $colorIndex = $index + 1;
             }
         }

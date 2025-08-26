@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -72,9 +73,9 @@ class Numbering extends AbstractStyle
             $xmlWriter->writeAttribute('fo:margin-left', number_format($tabPos, 2, '.', '') . 'cm');
 
             $xmlWriter->endElement(); // style:list-level-label-alignment
-          $xmlWriter->endElement(); // style:list-level-properties
+            $xmlWriter->endElement(); // style:list-level-properties
 
-          $xmlWriter->startElement('style:text-properties');
+            $xmlWriter->startElement('style:text-properties');
             $xmlWriter->writeAttribute('style:font-name', $styleLevel->getFont());
             $xmlWriter->endElement(); // style:text-properties
 

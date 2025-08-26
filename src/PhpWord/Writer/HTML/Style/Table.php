@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -34,19 +35,19 @@ class Table extends AbstractStyle
         }
 
         $css = [];
-        if (is_object($style) && method_exists($style, 'getLayout')) {
+        if (method_exists($style, 'getLayout')) {
             if ($style->getLayout() == StyleTable::LAYOUT_FIXED) {
                 $css['table-layout'] = 'fixed';
             } elseif ($style->getLayout() == StyleTable::LAYOUT_AUTO) {
                 $css['table-layout'] = 'auto';
             }
         }
-        if (is_object($style) && method_exists($style, 'isBidiVisual')) {
+        if (method_exists($style, 'isBidiVisual')) {
             if ($style->isBidiVisual()) {
                 $css['direction'] = 'rtl';
             }
         }
-        if (is_object($style) && method_exists($style, 'getVAlign')) {
+        if (method_exists($style, 'getVAlign')) {
             $css['vertical-align'] = $style->getVAlign();
         }
 

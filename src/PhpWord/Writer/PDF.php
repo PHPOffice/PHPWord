@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -32,7 +33,7 @@ class PDF
     /**
      * The wrapper for the requested PDF rendering engine.
      *
-     * @var \PhpOffice\PhpWord\Writer\PDF\AbstractRenderer
+     * @var AbstractRenderer
      */
     private $renderer;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -211,7 +212,7 @@ class Header extends AbstractPart
     /**
      * Register border colors.
      *
-     * @param \PhpOffice\PhpWord\Style\Border $style
+     * @param Style\Border $style
      */
     private function registerBorderColor($style): void
     {
@@ -226,7 +227,7 @@ class Header extends AbstractPart
     /**
      * Register fonts and colors.
      *
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle $style
+     * @param Style\AbstractStyle $style
      */
     private function registerFontItems($style): void
     {

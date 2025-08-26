@@ -4,11 +4,11 @@ include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 $phpWord->setDefaultParagraphStyle(
     [
-        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH,
-        'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(12),
+        'alignment' => PhpOffice\PhpWord\SimpleType\Jc::BOTH,
+        'spaceAfter' => PhpOffice\PhpWord\Shared\Converter::pointToTwip(12),
         'spacing' => 120,
     ]
 );

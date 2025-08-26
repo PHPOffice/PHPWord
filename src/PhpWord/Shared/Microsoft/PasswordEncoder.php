@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord\Shared\Microsoft;
+
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * Password encoder for microsoft office applications.
@@ -118,8 +121,11 @@ class PasswordEncoder
         //   Get the single-byte values by iterating through the Unicode characters of the truncated password.
         //   For each character, if the low byte is not equal to 0, take it. Otherwise, take the high byte.
         $passUtf8 = mb_convert_encoding($password, 'UCS-2LE', 'UTF-8');
-        $byteChars = [];
+        if (!is_string($passUtf8)) {
+            throw new Exception('Failed to convert password to UCS-2LE');
+        }
 
+        $byteChars = [];
         for ($i = 0; $i < mb_strlen($password); ++$i) {
             $byteChars[$i] = ord(substr($passUtf8, $i * 2, 1));
 

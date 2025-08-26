@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -28,14 +29,14 @@ class ListItem extends AbstractElement
     /**
      * Element style.
      *
-     * @var ?\PhpOffice\PhpWord\Style\ListItem
+     * @var ?ListItemStyle
      */
     private $style;
 
     /**
      * Text object.
      *
-     * @var \PhpOffice\PhpWord\Element\Text
+     * @var Text
      */
     private $textObject;
 
@@ -71,7 +72,7 @@ class ListItem extends AbstractElement
     /**
      * Get style.
      *
-     * @return ?\PhpOffice\PhpWord\Style\ListItem
+     * @return ?ListItemStyle
      */
     public function getStyle()
     {
@@ -81,7 +82,7 @@ class ListItem extends AbstractElement
     /**
      * Get Text object.
      *
-     * @return \PhpOffice\PhpWord\Element\Text
+     * @return Text
      */
     public function getTextObject()
     {

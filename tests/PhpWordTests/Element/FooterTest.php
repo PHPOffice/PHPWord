@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,14 +19,14 @@
 namespace PhpOffice\PhpWordTests\Element;
 
 use PhpOffice\PhpWord\Element\Footer;
-use PhpOffice\PhpWordTests\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Footer.
  *
  * @runTestsInSeparateProcesses
  */
-class FooterTest extends AbstractWebServerEmbeddedTest
+class FooterTest extends AbstractWebServerEmbedded
 {
     /**
      * New instance.
@@ -35,7 +36,6 @@ class FooterTest extends AbstractWebServerEmbeddedTest
         $iVal = mt_rand(1, 1000);
         $oFooter = new Footer($iVal);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footer', $oFooter);
         self::assertEquals($iVal, $oFooter->getSectionId());
     }
 

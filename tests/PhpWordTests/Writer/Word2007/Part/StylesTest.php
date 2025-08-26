@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -143,5 +144,43 @@ class StylesTest extends \PHPUnit\Framework\TestCase
         $path = '/w:styles/w:style[@w:styleId="GeneratEteinte"]/w:basedOn';
         $element = $doc->getElement($path, $file);
         self::assertEquals('Generation', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test default font color.
+     */
+    public function testDefaultDefaultFontColor(): void
+    {
+        $phpWord = new PhpWord();
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/styles.xml';
+
+        $path = '/w:styles/w:docDefaults/w:rPrDefault/w:rPr/w:color';
+        self::assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+
+        self::assertEquals('000000', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test default font color.
+     */
+    public function testDefaultFontColor(): void
+    {
+        $phpWord = new PhpWord();
+        $defaultFontColor = '00FF00';
+        $phpWord->setDefaultFontColor($defaultFontColor);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/styles.xml';
+
+        $path = '/w:styles/w:docDefaults/w:rPrDefault/w:rPr/w:color';
+        self::assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+
+        self::assertEquals($defaultFontColor, $element->getAttribute('w:val'));
     }
 }

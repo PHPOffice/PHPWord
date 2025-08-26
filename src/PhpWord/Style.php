@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -41,7 +42,7 @@ class Style
      * @param string $styleName
      * @param AbstractStyle|array $styles
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return Paragraph
      */
     public static function addParagraphStyle($styleName, $styles)
     {
@@ -55,7 +56,7 @@ class Style
      * @param AbstractStyle|array $fontStyle
      * @param AbstractStyle|array $paragraphStyle
      *
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @return Font
      */
     public static function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
     {
@@ -68,7 +69,7 @@ class Style
      * @param string $styleName
      * @param AbstractStyle|array $styles
      *
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @return Font
      */
     public static function addLinkStyle($styleName, $styles)
     {
@@ -81,7 +82,7 @@ class Style
      * @param string $styleName
      * @param AbstractStyle|array $styleValues
      *
-     * @return \PhpOffice\PhpWord\Style\Numbering
+     * @return Numbering
      *
      * @since 0.10.0
      */
@@ -97,7 +98,7 @@ class Style
      * @param AbstractStyle|array $fontStyle
      * @param AbstractStyle|array $paragraphStyle
      *
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @return Font
      */
     public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
     {
@@ -117,7 +118,7 @@ class Style
      * @param array $styleTable
      * @param null|array $styleFirstRow
      *
-     * @return \PhpOffice\PhpWord\Style\Table
+     * @return Table
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
@@ -151,7 +152,7 @@ class Style
      *
      * @param AbstractStyle|array $styles Paragraph style definition
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return Paragraph
      */
     public static function setDefaultParagraphStyle($styles)
     {
