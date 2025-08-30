@@ -42,7 +42,7 @@ class Tab extends AbstractStyle
             \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_HYPHEN => '\tlhyph',
             \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_UNDERSCORE => '\tlul',
             \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_HEAVY => '\tlth',
-            \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_MIDDLEDOT => '\tleq',
+            \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_MIDDLEDOT => '\tlmdot',
         ];
         $content = '';
         if (isset($tabs[$style->getType()])) {
