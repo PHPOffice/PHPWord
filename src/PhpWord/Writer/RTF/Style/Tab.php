@@ -51,8 +51,11 @@ class Tab extends AbstractStyle
         if (isset($tabs[$style->getLeader()])) {
             $content .= $tabs[$style->getLeader()];
         }
-        $content .= '\tx' . round($style->getPosition());
-
+        if ($style->getType() == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_BAR) {
+            $content .= '\tb' . round($style->getPosition());
+        } else {
+            $content .= '\tx' . round($style->getPosition());
+        }
         return $content;
     }
 }
