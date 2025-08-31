@@ -109,7 +109,7 @@ class Font extends AbstractStyle
         // Paragraph not implemented.
         $content .= $this->getValueIf($style->isRTL(), '\rtlch');
         $content .= $this->getValueIf($style->getShading() !== null, '\chcfpat' . $this->colorIndex); // Doesn't work; coloring not implemented.
-        $content .= $this->getValueIf($style->getColor() !== null, '\lnag' . $this->langIndex); // Doesn't work; language not implemented.
+        $content .= $this->getValueIf($style->getLang() !== null, '\lang' . $this->langIndex); // Doesn't work; language not implemented.
         // Whitespace and fallbackFont are HTML specific
         
         // Other items not in included in array found in PhpOffice\PhpWord\Style\Font\getStyleValues
