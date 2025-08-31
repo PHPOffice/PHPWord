@@ -115,6 +115,7 @@ class Font extends AbstractStyle
         // Other items not in included in array found in PhpOffice\PhpWord\Style\Font\getStyleValues
         $content .= $this->getValueIf($style->isNoProof(), '\noproof');
         $content .= $this->getValueIf($style->getBgColor() !== null, '\cb' . $this->colorIndex); // Doesn't work; coloring not implemented.
+        
         return $content . ' ';
     }
 
