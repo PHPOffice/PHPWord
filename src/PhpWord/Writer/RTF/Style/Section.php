@@ -55,6 +55,15 @@ class Section extends AbstractStyle
         $content .= $this->getValueIf($style->getFooterHeight() !== null, '\footery' . round($style->getFooterHeight()));
         $content .= $this->getValueIf($style->getGutter() !== null, '\guttersxn' . round($style->getGutter()));
         $content .= $this->getValueIf($style->getPageNumberingStart() !== null, '\pgnstarts' . $style->getPageNumberingStart() . '\pgnrestart');
+
+        // Vertical Align
+        $verticalAlign = [
+            \PhpOffice\PhpWord\SimpleType\VerticalJc::TOP => '\vertalt',
+            \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER => '\vertalc',
+            \PhpOffice\PhpWord\SimpleType\VerticalJc::BOTH => '\vertalj',
+            \PhpOffice\PhpWord\SimpleType\VerticalJc::BOTTOM => '\vertalb',
+        ];
+        if (isset($verticalAlign[$style->getVAlign()])) { $content .= $verticalAlign[$style->getVAlign()]; }
         $content .= ' ';
 
         // Borders
