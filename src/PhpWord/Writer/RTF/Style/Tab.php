@@ -38,12 +38,24 @@ class Tab extends AbstractStyle
             \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT => '\tqr',
             \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER => '\tqc',
             \PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL => '\tqdec',
+            \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_DOT => '\tldot',
+            \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_HYPHEN => '\tlhyph',
+            \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_UNDERSCORE => '\tlul',
+            \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_HEAVY => '\tlth',
+            \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_MIDDLEDOT => '\tlmdot',
         ];
         $content = '';
         if (isset($tabs[$style->getType()])) {
             $content .= $tabs[$style->getType()];
         }
-        $content .= '\tx' . round($style->getPosition());
+        if (isset($tabs[$style->getLeader()])) {
+            $content .= $tabs[$style->getLeader()];
+        }
+        if ($style->getType() == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_BAR) {
+            $content .= '\tb' . round($style->getPosition());
+        } else {
+            $content .= '\tx' . round($style->getPosition());
+        }
 
         return $content;
     }
