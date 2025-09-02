@@ -204,7 +204,7 @@ class Header extends AbstractPart
                 if (method_exists($element, 'getFontStyle')) {
                     $style = $element->getFontStyle();
                     $this->registerFontItems($style);
-                } elseif (method_exists($element, 'getElements')) { 
+                } elseif (method_exists($element, 'getElements')) {
                     $textRuns = $element->getElements();
                     foreach ($textRuns as $textRun) {
                         if (method_exists($textRun, 'getFontStyle')) {
