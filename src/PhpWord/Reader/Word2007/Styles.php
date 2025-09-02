@@ -68,11 +68,9 @@ class Styles extends AbstractPart
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
                 $type = $xmlReader->getAttribute('w:type', $node);
-                $name = $xmlReader->getAttribute('w:val', $node, 'w:name');
+                $namex = $xmlReader->getAttribute('w:val', $node, 'w:name');
                 $styleId = $xmlReader->getAttribute('w:styleId', $node);
-                if (null === $name) {
-                    $name = $styleId;
-                }
+                $name = ($namex !== null) ? $namex : $styleId;
                 $headingMatches = [];
                 preg_match('/Heading\s*(\d)/i', $name, $headingMatches);
                 // $default = ($xmlReader->getAttribute('w:default', $node) == 1);

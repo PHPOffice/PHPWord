@@ -88,7 +88,7 @@ class Head extends AbstractPart
         $defaultFontColor = Settings::getDefaultFontColor();
         // Default styles
         $astarray = [
-            'font-family' => $this->getFontFamily(Settings::getDefaultFontName(), $this->getParentWriter()->getDefaultGenericFont()),
+            'font-family' => $this->getFontFamily(Settings::getDefaultFontName() ?: Settings::DEFAULT_FONT_NAME, $this->getParentWriter()->getDefaultGenericFont()),
             'font-size' => Settings::getDefaultFontSize() . 'pt',
             'color' => "#{$defaultFontColor}",
         ];
@@ -199,9 +199,6 @@ class Head extends AbstractPart
      */
     private function getFontFamily(string $font, string $genericFont): string
     {
-        if (empty($font)) {
-            return '';
-        }
         $fontfamily = "'" . htmlspecialchars($font, ENT_QUOTES, 'UTF-8') . "'";
         if (!empty($genericFont)) {
             $fontfamily .= ", $genericFont";

@@ -41,6 +41,7 @@ class PDFTest extends \PHPUnit\Framework\TestCase
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         $writer = new PDF(new PhpWord());
+        $writer->setFont('xyz'); //* @phpstan-ignore-line
         $writer->save($file);
 
         self::assertFileExists($file);
