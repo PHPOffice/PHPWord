@@ -55,7 +55,7 @@ class Section extends AbstractStyle
         $content .= $this->getValueIf($style->getFooterHeight() !== null, '\footery' . round($style->getFooterHeight()));
         $content .= $this->getValueIf($style->getGutter() !== null, '\guttersxn' . round($style->getGutter()));
         $content .= $this->getValueIf($style->getPageNumberingStart() !== null, '\pgnstarts' . $style->getPageNumberingStart() . '\pgnrestart');
- 
+
         // Vertical Align
         $verticalAlign = [
             \PhpOffice\PhpWord\SimpleType\VerticalJc::TOP => '\vertalt',
