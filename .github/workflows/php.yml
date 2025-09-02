@@ -177,4 +177,4 @@ jobs:
       -   name: "Generate samples files (Experimental: ${{ matrix.experimental }})"
           env:
               FAILURE_ACTION: "${{ matrix.experimental == true }}"
-          run: composer run samples
+          run: composer run samples || $FAILURE_ACTION
