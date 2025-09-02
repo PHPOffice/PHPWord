@@ -117,6 +117,10 @@ class Font extends AbstractStyle
         // Other (Font settings currently not in included in array)
         $content .= $this->getValueIf($style->isNoProof(), '\noproof');
         $content .= $this->getValueIf($style->getBgColor() !== null, '\cb' . $this->bgColorIndex);
+       
+        if (empty($content)) {
+            return $content;
+        }
 
         return $content . ' ';
     }
