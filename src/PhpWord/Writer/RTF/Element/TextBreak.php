@@ -38,8 +38,8 @@ class TextBreak extends AbstractElement
 
         if ($this->withoutP) {
             return '\line' . PHP_EOL;
-        } else {
-            return '\pard\par' . PHP_EOL;
         }
+        
+        return '\pard\par' . PHP_EOL;
     }
 }
