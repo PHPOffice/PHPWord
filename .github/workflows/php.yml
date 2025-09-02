@@ -120,7 +120,7 @@ jobs:
           if: matrix.php == 'nightly'
           env:
             FAILURE_ACTION: "${{ matrix.experimental == true }}"
-          run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage
+          run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage || $FAILURE_ACTION
 
       -   name: Run phpunit 7.3
           if: matrix.php == '7.3'

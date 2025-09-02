@@ -97,7 +97,7 @@ class DomPDF extends AbstractRenderer implements WriterInterface
     public function specialErrorHandler(int $errno, string $errstr, string $filename, int $lineno): bool
     {
         if ($errno === E_DEPRECATED) {
-            if (preg_match('/canonical|imagedestroy/', $errstr) === 1) {
+            if (preg_match('/canonical|imagedestroy|http_response_header/', $errstr) === 1) {
                 return true;
             }
         }
