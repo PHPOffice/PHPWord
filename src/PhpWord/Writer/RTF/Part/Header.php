@@ -202,13 +202,13 @@ class Header extends AbstractPart
             $this->registerBorderColor($section->getStyle());
             foreach ($elements as $element) {
                 if (method_exists($element, 'getFontStyle')) {
-                    $style = $element->getFontStyle();
+                    $style = (object)$element->getFontStyle();
                     $this->registerFontItems($style);
                 } elseif (method_exists($element, 'getElements')) {
-                    $textRuns = $element->getElements();
-                    foreach ($textRuns as $textRun) {
-                        if (method_exists($textRun, 'getFontStyle')) {
-                            $style = $textRun->getFontStyle();
+                    $subElements = $element->getElements();
+                    foreach ($subElements as $subElement) {
+                        if (method_exists($subElement, 'getFontStyle')) {
+                            $style = (object)$subElement->getFontStyle();
                             $this->registerFontItems($style);
                         }
                     }
