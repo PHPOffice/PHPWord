@@ -202,6 +202,11 @@ class Styles extends AbstractPart
         } elseif (null !== $paragraphStyle) {
             // if type is 'paragraph' it should have a styleId
             $xmlWriter->writeAttribute('w:styleId', $styleName);
+        } else {
+            $styleId = Style::alternateName($styleName);
+            if ($styleName !== $styleId) {
+                $xmlWriter->writeAttribute('w:styleId', $styleId);
+            }
         }
 
         // Style name

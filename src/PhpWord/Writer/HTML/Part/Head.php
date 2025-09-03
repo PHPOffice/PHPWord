@@ -130,7 +130,8 @@ class Head extends AbstractPart
         // Custom styles
         $customStyles = Style::getStyles();
         if (is_array($customStyles)) {
-            foreach ($customStyles as $name => $style) {
+            foreach ($customStyles as $namex => $style) {
+                $name = Style::alternateName($namex);
                 $styleParagraph = null;
                 if ($style instanceof Font) {
                     $styleWriter = new FontStyleWriter($style);

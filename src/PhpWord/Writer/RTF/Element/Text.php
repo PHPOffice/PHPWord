@@ -45,6 +45,21 @@ class Text extends AbstractElement
         $content .= $this->writeOpening();
         $content .= '{';
         $content .= $this->writeFontStyle();
+        $change = $element->getTrackChange();
+        if ($change !== null) {
+            if ($change->getChangeType() === 'DELETED') {
+                $content .= '\strike ';
+            }
+        }
+        if ($this->fontStyle !== null) {
+            $fgColor = $this->fontStyle->getFgColor();
+            if ($fgColor !== null) {
+                $fgColorIndex = array_search($fgColor, $this->parentWriter->getColorTable());
+                if ($fgColorIndex !== false) {
+                    $content .= '\highlight' . ++$fgColorIndex . ' ';
+                }
+            }
+        }
         $content .= $this->writeText($element->getText());
         $content .= '}';
         $content .= $this->writeClosing();

@@ -41,7 +41,21 @@ class Link extends AbstractElement
         $content = '';
         $content .= $this->writeOpening();
         $content .= '{\field {\*\fldinst {HYPERLINK "' . $this->element->getSource() . '"}}{\\fldrslt {';
-        $content .= $this->writeFontStyle();
+        $temp = $this->writeFontStyle();
+        $content .= $temp;
+        if ($temp === '\cf0\f0 ') {
+            $content .= '\ul ';
+            $colors = $this->parentWriter->getColorTable();
+            $count = count($colors);
+            for ($i = 0; $i < $count; ++$i) {
+                if ($colors[$i] === '0000FF') {
+                    $j = $i + 1;
+                    $content .= '\cf' . $j . ' ';
+
+                    break;
+                }
+            }
+        }
         $content .= $this->writeText($this->element->getText());
         $content .= '}}}';
         $content .= $this->writeClosing();

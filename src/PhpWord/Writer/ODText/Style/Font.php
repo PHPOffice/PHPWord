@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Style;
+
 /**
  * Font style writer.
  *
@@ -31,13 +33,13 @@ class Font extends AbstractStyle
     public function write(): void
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
+        if (!$style instanceof Style\Font) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
 
         $stylep = $style->getParagraph();
-        if ($stylep instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+        if ($stylep instanceof Style\Paragraph) {
             $temp1 = clone $stylep;
             $temp1->setStyleName($style->getStyleName());
             $temp2 = new Paragraph($xmlWriter, $temp1);
@@ -45,7 +47,7 @@ class Font extends AbstractStyle
         }
 
         $xmlWriter->startElement('style:style');
-        $xmlWriter->writeAttribute('style:name', $style->getStyleName());
+        $xmlWriter->writeAttribute('style:name', Style::alternateName($style->getStyleName()));
         $xmlWriter->writeAttribute('style:family', 'text');
         $xmlWriter->startElement('style:text-properties');
 
@@ -100,9 +102,9 @@ class Font extends AbstractStyle
             $xmlWriter->writeAttribute('style:country-complex', 'none');
         }
 
-        // @todo Foreground-Color
-
-        // @todo Background color
+        // Foreground-Color (which is really background color)
+        $fgColor = $style->getFgColor();
+        $xmlWriter->writeAttributeIf($fgColor != '', 'fo:background-color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($fgColor));
 
         $xmlWriter->endElement(); // style:text-properties
         $xmlWriter->endElement(); // style:style

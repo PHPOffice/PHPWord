@@ -178,14 +178,23 @@ class Style
     /**
      * Get style by name.
      *
-     * @param string $styleName
+     * @param ?string $styleName
      *
      * @return ?AbstractStyle Paragraph|Font|Table|Numbering
      */
     public static function getStyle($styleName)
     {
+        if ($styleName === null) {
+            return null;
+        }
         if (isset(self::$styles[$styleName])) {
             return self::$styles[$styleName];
+        }
+        foreach (self::$styles as $key => $value) {
+            $styleId = self::alternateName($key);
+            if ($styleId === $styleName) {
+                return $value;
+            }
         }
 
         return null;
@@ -220,5 +229,25 @@ class Style
         }
 
         return self::getStyle($name);
+    }
+
+    /**
+     * Get alternate name for style names with embedded spaces.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public static function alternateName($name)
+    {
+        $explode = explode(' ', $name);
+        if (count($explode) > 1) {
+            $name = '';
+            foreach ($explode as $explodeItem) {
+                $name .= ucfirst($explodeItem);
+            }
+        }
+
+        return $name;
     }
 }
