@@ -107,6 +107,11 @@ abstract class AbstractElement
             $this->fontStyle = $element->getFontStyle();
             if (is_string($this->fontStyle)) {
                 $this->fontStyle = Style::getStyle($this->fontStyle);
+            } elseif ($this->fontStyle !== null && is_string($this->fontStyle->getStyleName())) {
+                $temp = Style::getStyle($this->fontStyle->getStyleName());
+                if ($temp instanceof FontStyle) {
+                    $this->fontStyle = $temp;
+                }
             }
         }
 

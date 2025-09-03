@@ -32,7 +32,11 @@ class Sample11Test extends \PHPUnit\Framework\TestCase
         $phpWord = IOFactory::load($source);
         $writer = new RTF($phpWord);
         $content = $writer->getContent();
-        $expected = '{\colortbl;\red255\green0\blue0;\red0\green0\blue0;\red0\green0\blue255;}';
+        $expected = '{\colortbl;\red255\green0\blue0;\red0\green0\blue0;\red0\green0\blue255;\red0\green176\blue80;\red255\green255\blue0;}';
+        self::assertStringContainsString($expected, $content);
+        $expected = '\highlight5 highlighted';
+        self::assertStringContainsString($expected, $content);
+        $expected = '\strike even ';
         self::assertStringContainsString($expected, $content);
     }
 }
