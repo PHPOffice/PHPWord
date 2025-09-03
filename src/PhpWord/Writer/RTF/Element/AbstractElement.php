@@ -197,25 +197,25 @@ abstract class AbstractElement
         if ($this->fontStyle->getColor() != null) {
             $colorIndex = array_search($this->fontStyle->getColor(), $parentWriter->getColorTable());
             if ($colorIndex !== false) {
-                $styleWriter->setColorIndex($colorIndex + 1);
+                $styleWriter->setColorIndex((int)$colorIndex + 1);
             }
         }
         if ($this->fontStyle->getFgColor() != null) {
             $colorIndex = array_search($this->fontStyle->getFgColor(), $parentWriter->getColorTable());
             if ($colorIndex !== false) {
-                $styleWriter->setFgColorIndex($colorIndex + 1);
+                $styleWriter->setFgColorIndex((int)$colorIndex + 1);
             }
         }
         if ($this->fontStyle->getBgColor() != null) {
             $colorIndex = array_search($this->fontStyle->getBgColor(), $parentWriter->getColorTable());
             if ($colorIndex !== false) {
-                $styleWriter->setBgColorIndex($colorIndex + 1);
+                $styleWriter->setBgColorIndex((int)$colorIndex + 1);
             }
         }
         if ($this->fontStyle->getName() != null) {
             $fontIndex = array_search($this->fontStyle->getName(), $parentWriter->getFontTable());
             if ($fontIndex !== false) {
-                $styleWriter->setNameIndex($fontIndex);
+                $styleWriter->setNameIndex((int)$fontIndex);
             }
         }
 
