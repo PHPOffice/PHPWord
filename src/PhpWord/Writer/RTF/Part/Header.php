@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Style\Numbering;
 
 /**
  * RTF header part writer.
@@ -54,6 +55,13 @@ class Header extends AbstractPart
     private $colorTable = [];
 
     /**
+     * List table.
+     *
+     * @var array
+     */
+    private $listTable = [];
+
+    /**
      * Get font table.
      *
      * @return array
@@ -74,13 +82,23 @@ class Header extends AbstractPart
     }
 
     /**
+     * Get list table.
+     *
+     * @return array
+     */
+    public function getListTable()
+    {
+        return $this->listTable;
+    }
+
+    /**
      * Write part.
      *
      * @return string
      */
     public function write()
     {
-        $this->registerFont();
+        $this->registerHeader();
 
         $content = '';
 
@@ -88,6 +106,7 @@ class Header extends AbstractPart
         $content .= $this->writeDefaults();
         $content .= $this->writeFontTable();
         $content .= $this->writeColorTable();
+        $content .= $this->writeListTable();
         $content .= $this->writeGenerator();
         $content .= PHP_EOL;
 
@@ -167,6 +186,18 @@ class Header extends AbstractPart
     }
 
     /**
+     * Write list table.
+     *
+     * @return string
+     */
+    private function writeListTable()
+    {
+        $content = '';
+
+        return $content;
+    }
+
+    /**
      * Write.
      *
      * @return string
@@ -182,9 +213,9 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register all fonts and colors in both named and inline styles to appropriate header table.
+     * Register all fonts, colors, and lists in both named and inline styles to appropriate header table.
      */
-    private function registerFont(): void
+    private function registerHeader(): void
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
         $this->fontTable[] = Settings::getDefaultFontName();
@@ -192,7 +223,7 @@ class Header extends AbstractPart
         // Search named styles
         $styles = Style::getStyles();
         foreach ($styles as $style) {
-            $this->registerFontItems($style);
+            $this->registerHeaderItems($style);
         }
 
         // Search inline styles
@@ -203,7 +234,7 @@ class Header extends AbstractPart
             foreach ($elements as $element) {
                 if (method_exists($element, 'getFontStyle')) {
                     $style = $element->getFontStyle();
-                    $this->registerFontItems($style);
+                    $this->registerHeaderItems($style);
                 }
             }
         }
@@ -225,11 +256,11 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register fonts and colors.
+     * Register fonts, colors, and lists.
      *
      * @param Style\AbstractStyle $style
      */
-    private function registerFontItems($style): void
+    private function registerHeaderItems($style): void
     {
         $defaultFont = Settings::getDefaultFontName();
         $defaultColor = Settings::DEFAULT_FONT_COLOR;
@@ -247,6 +278,9 @@ class Header extends AbstractPart
             $this->registerTableItem($this->colorTable, $style->getBorderLeftColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getBorderBottomColor(), $defaultColor);
         }
+        if ($style instanceof Numbering) {
+            $this->registerList($this->listTable, $style);
+        }
     }
 
     /**
@@ -261,5 +295,16 @@ class Header extends AbstractPart
         if (in_array($value, $table) === false && $value !== null && $value != $default) {
             $table[] = $value;
         }
+    }
+
+    /**
+     * Register lists and fonts within lists.
+     *
+     * @param array &$table
+     * @param Style\Numbering $style
+     */
+    private function registerList(&$table, $style): void
+    {
+        $table[] = [];
     }
 }
