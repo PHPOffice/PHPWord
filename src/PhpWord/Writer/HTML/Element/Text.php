@@ -257,6 +257,11 @@ class Text extends AbstractElement
             $fontCSS = $styleWriter->write();
             if ($fontCSS) {
                 $attributeStyle = ' style="' . $fontCSS . '"';
+            } else {
+                $className = $fontStyle->getStyleName();
+                if ($className) {
+                    $attributeStyle = ' class="' . $className . '"';
+                }
             }
             // Attribute Lang
             $lang = $fontStyle->getLang();
