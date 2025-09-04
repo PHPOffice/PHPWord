@@ -25,6 +25,11 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  */
 class ListItem extends Text
 {
+    /**
+     * Write list item element.
+     */
+    public function write()
+    {
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         if (!$element instanceof \PhpOffice\PhpWord\Element\ListItem) {
@@ -61,4 +66,5 @@ class ListItem extends Text
         $content .= $this->writeClosing();
 
         return $content;
+    }
 }
