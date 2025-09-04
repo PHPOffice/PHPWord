@@ -194,6 +194,164 @@ class Header extends AbstractPart
     {
         $content = '';
 
+        $listType = [
+            'singleLevel' => '\listsimple1',
+            'multilevel' => '\listsimple0',
+            'hybridMultilevel' => '\listhybrid',
+        ];
+
+        // see page 31-34 of RTF 1.9.1 spec - unsure which code to use for commented out items
+        $numberType = [
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL => '0',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::UPPER_ROMAN => '1',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::LOWER_ROMAN => '2',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::UPPER_LETTER => '3',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::LOWER_LETTER => '4',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::ORDINAL => '5',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::CARDINAL_TEXT => '6',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::ORDINAL_TEXT => '7',
+            /* \PhpOffice\PhpWord\SimpleType\NumberFormat::HEX => 'hex',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::CHICAGO => 'chicago',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::IDEOGRAPH_DIGITAL => 'ideographDigital',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::JAPANESE_COUNTING => 'japaneseCounting', */
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::AIUEO => '12',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::IROHA => '13',
+            /* \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_FULL_WIDTH => 'decimalFullWidth',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_HALF_WIDTH => 'decimalHalfWidth',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::JAPANESE_LEGAL => 'japaneseLegal',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::JAPANESE_DIGITAL_TEN_THOUSAND => 'japaneseDigitalTenThousand',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_ENCLOSED_CIRCLE => 'decimalEnclosedCircle',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_FULL_WIDTH2 => 'decimalFullWidth2', */
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::AIUEO_FULL_WIDTH => '20',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::IROHA_FULL_WIDTH => '21',
+            /* \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_ZERO => 'decimalZero',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::BULLET => 'bullet',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::GANADA => 'ganada',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::CHOSUNG => 'chosung',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_ENCLOSED_FULL_STOP => 'decimalEnclosedFullstop',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_ENCLOSED_PAREN => 'decimalEnclosedParen',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_ENCLOSED_CIRCLE_CHINESE => 'decimalEnclosedCircleChinese',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::IDEOGRAPHENCLOSEDCIRCLE => 'ideographEnclosedCircle',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::IDEOGRAPH_TRADITIONAL => 'ideographTraditional',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::IDEOGRAPH_ZODIAC => 'ideographZodiac',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::IDEOGRAPH_ZODIAC_TRADITIONAL => 'ideographZodiacTraditional',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::TAIWANESE_COUNTING => 'taiwaneseCounting',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::IDEOGRAPH_LEGAL_TRADITIONAL => 'ideographLegalTraditional',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::TAIWANESE_COUNTING_THOUSAND => 'taiwaneseCountingThousand',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::TAIWANESE_DIGITAL => 'taiwaneseDigital',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::CHINESE_COUNTING => 'chineseCounting',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::CHINESE_LEGAL_SIMPLIFIED => 'chineseLegalSimplified',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::CHINESE_COUNTING_THOUSAND => 'chineseCountingThousand',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::KOREAN_DIGITAL => 'koreanDigital',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::KOREAN_COUNTING => 'koreanCounting',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::KOREAN_LEGAL => 'koreanLegal',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::KOREAN_DIGITAL2 => 'koreanDigital2', */
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::VIETNAMESE_COUNTING => '56',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::RUSSIAN_LOWER => '58',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::RUSSIAN_UPPER => '59',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::NONE => '255',
+            /* \PhpOffice\PhpWord\SimpleType\NumberFormat::NUMBER_IN_DASH => 'numberInDash',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::HEBREW1 => 'hebrew1',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::HEBREW2 => 'hebrew2',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::ARABIC_ALPHA => 'arabicAlpha', */
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::ARABIC_ABJAD => '48',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::HINDI_VOWELS => '49',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::HINDI_CONSONANTS => '50',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::HINDI_NUMBERS => '51',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::HINDI_COUNTING => '52',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::THAI_LETTERS => '53',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::THAI_NUMBERS => '54',
+            \PhpOffice\PhpWord\SimpleType\NumberFormat::THAI_COUNTING => '55',
+        ];
+
+        // listtable
+        $content .= '{';
+        $content .= '\*\listtable' . PHP_EOL;
+
+        foreach ($this->listTable as $list) {
+            // $list = RTF tag
+            // [0] = \listtemplateid && \listid
+            // [1] = \listsimple OR \listhybrid
+            // [2] = array for \listlevel
+            $content .= '{';
+            $content .= '\list\listtemplateid' . $list[0];
+            if (isset($listType[$list[1]])) {
+                $content .= $listType[$list[1]];
+            }
+            $content .= PHP_EOL;
+            foreach ($list[2] as $listItem) {
+                // $listItem = RTF tag (may require manipulation)
+                // [0] = \listlevel
+                // [1] = \levelstartat
+                // [2] = \levellnfc
+                // [3] = \leveljc
+                // [4] = \leveltext && \levelnumbers
+                // [5] = \tx
+                // [6] = \li && \lin
+                // [7] = \fi
+                $content .= '{';
+                $content .= '\listlevel';
+                if (isset($numberType[$listItem[2]])) {
+                    $content .= '\levelnfc' . $numberType[$listItem[2]];
+                    $content .= '\levelnfcn' . $numberType[$listItem[2]];
+                }
+                $content .= '\leveljc' . $listItem[3];
+                $content .= '\leveljcn' . $listItem[3];
+                $content .= '\levelstartat' . $listItem[1];
+
+                // Level Text and Numbers
+                $level = $this->lowerDigitsByOne(str_replace('%', '\\\'0', $listItem[4]));
+                $levelNumbers = preg_replace('/\d/', 'X', str_replace('%', '', $listItem[4]));
+                $positions = [];
+                $offset = 0;
+                while (($pos = strpos($levelNumbers, 'X', $offset)) !== false) {
+                    $positions[] = $pos;
+                    $offset = $pos + 1; 
+                }
+                $strLength = sprintf("%02d", strlen($levelNumbers));
+
+                $content .= '{';
+                $content .= '\leveltext \\\'' . $strLength . $level;
+                $content .= ' ;}';
+                $content .= '{';
+                $content .= '\levelnumbers ';
+                foreach ($positions as $position) {
+                    $position++;
+                    $content .= '\\\'0' . $position;
+                }
+                $content .= ';}';
+
+                // Tabs, Hanging, and First Line
+                $content .= '\levelfollow' . '0';
+                $content .= '\jclisttab';
+                $content .= '\tx' . $listItem[5];
+                $hanging = $listItem[6] + $listItem[7];
+                $left = 0 - $listItem[7];
+                $content .= '\fi' . $left;
+                $content .= '\li' . $hanging;
+                $content .= '\lin' . $hanging;
+                $content .= '}';
+                $content .= PHP_EOL;
+            }
+            $content .= '\listid' . $list[0] . '}';
+            $content .= PHP_EOL;
+        }
+        $content .= '}';
+        $content .= PHP_EOL . PHP_EOL;
+
+        // listoverridetable
+        $content .= '{';
+        $content .= '\*\listoverridetable' . PHP_EOL;
+        foreach ($this->listTable as $list) {
+           $content .= '{';
+            $content .= '\listoverride\listid' . $list[0];
+            $content .= '\listoverridecount0\ls' . $list[0];
+            $content .= '}';
+            $content .= PHP_EOL;
+        }
+        $content .= '}';
+        $content .= PHP_EOL . PHP_EOL;
+
         return $content;
     }
 
@@ -305,6 +463,48 @@ class Header extends AbstractPart
      */
     private function registerList(&$table, $style): void
     {
-        $table[] = [];
+        $listItems = [];
+
+        $levels = $style->getLevels();
+        foreach ($levels as $level) {
+            echo 'Level:' . $level->getLevel() . ' Start:' . $level->getStart() . ' Format:' . $level->getFormat() . ' Restart:' . $level->getRestart() . ' PStyle:' . $level->getPStyle() . ' Suffix:' . $level->getSuffix() . ' Text:' . $level->getText() . ' Alignment:' . $level->getAlignment() . ' Left:' . $level->getLeft() . ' Hanging:' . $level->getHanging() . ' TabPos:' . $level->getTabPos() . ' Font:' . $level->getFont() . ' Hint:' . $level->getHint() . '<br>';
+            $this->registerTableItem($this->fontTable, $level->getFont(), $defaultFont);
+
+            /**
+             * $listItem = RTF tag (may require manipulation for correct output)
+             * [$level->getLevel()] = \listlevel
+             * [$level->getStart()] = \levelstartat
+             * [$level->getFormat()] = \levellnfc
+             * [$level->getAlignment()] = \leveljc
+             * [$level->getText()] = \leveltext && \levelnumbers
+             * [$level->getTabPos()] = \tx
+             * [$level->getLeft()] = \li && \lin
+             * [$level->getHanging()] = \fi */
+            $listItem = [$level->getLevel(), $level->getStart(), $level->getFormat(), $level->getAlignment(), $level->getText(), $level->getTabPos(), $level->getLeft(), $level->getHanging()];
+            array_push($listItems, $listItem);
+        }
+
+        /**
+         * $list = RTF tag in listtable
+         * [$style->getNumId()] = \listtemplateid && \listid
+         * [$style->getType()] = \listsimple OR \listhybrid
+         * [$listItems] = array for \listlevel */
+        $list = [$style->getNumId(), $style->getType(), $listItems];
+        $table[] = $list;
+    }
+    
+    /**
+     * NumberingLevel->getText() returns levels a step higher than expected in RTF \leveltext, (1-9) instead of (0-8).
+     * Thus all the digits need to be reduced by 1.
+     *
+     * @param string $string
+     */
+
+    private function lowerDigitsByOne($string) {
+        return preg_replace_callback('/\d/', function($matches) {
+            $digit = (int)$matches[0];
+            // Ensure the digit does not go below 0
+            return ($digit > 0) ? ($digit - 1) : $digit;
+        }, $string);
     }
 }
