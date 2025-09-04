@@ -306,9 +306,9 @@ class Header extends AbstractPart
                 $offset = 0;
                 while (($pos = strpos($levelNumbers, 'X', $offset)) !== false) {
                     $positions[] = $pos;
-                    $offset = $pos + 1; 
+                    $offset = $pos + 1;
                 }
-                $strLength = sprintf("%02d", strlen($levelNumbers));
+                $strLength = sprintf('%02d', strlen($levelNumbers));
 
                 $content .= '{';
                 $content .= '\leveltext \\\'' . $strLength . $level;
@@ -316,7 +316,7 @@ class Header extends AbstractPart
                 $content .= '{';
                 $content .= '\levelnumbers ';
                 foreach ($positions as $position) {
-                    $position++;
+                    ++$position;
                     $content .= '\\\'0' . $position;
                 }
                 $content .= ';}';
@@ -343,7 +343,7 @@ class Header extends AbstractPart
         $content .= '{';
         $content .= '\*\listoverridetable' . PHP_EOL;
         foreach ($this->listTable as $list) {
-           $content .= '{';
+            $content .= '{';
             $content .= '\listoverride\listid' . $list[0];
             $content .= '\listoverridecount0\ls' . $list[0];
             $content .= '}';
@@ -437,7 +437,7 @@ class Header extends AbstractPart
             $this->registerTableItem($this->colorTable, $style->getBorderBottomColor(), $defaultColor);
         }
         if ($style instanceof Numbering) {
-            $this->registerList($this->listTable, $style);
+            $this->registerList($this->listTable, $style, $defaultFont);
         }
     }
 
@@ -459,9 +459,10 @@ class Header extends AbstractPart
      * Register lists and fonts within lists.
      *
      * @param array &$table
-     * @param Style\Numbering $style
+     * @param Numbering $style
+     * @param string $default
      */
-    private function registerList(&$table, $style): void
+    private function registerList(&$table, $style, $defaultFont): void
     {
         $listItems = [];
 
@@ -492,7 +493,7 @@ class Header extends AbstractPart
         $list = [$style->getNumId(), $style->getType(), $listItems];
         $table[] = $list;
     }
-    
+
     /**
      * NumberingLevel->getText() returns levels a step higher than expected in RTF \leveltext, (1-9) instead of (0-8).
      * Thus all the digits need to be reduced by 1.
@@ -500,7 +501,8 @@ class Header extends AbstractPart
      * @param string $string
      */
 
-    private function lowerDigitsByOne($string) {
+    private function lowerDigitsByOne($string)
+    {
         return preg_replace_callback('/\d/', function($matches) {
             $digit = (int)$matches[0];
             // Ensure the digit does not go below 0
