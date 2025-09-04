@@ -22,8 +22,8 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\Numbering;
+use PhpOffice\PhpWord\Style\Table;
 
 /**
  * RTF header part writer.
