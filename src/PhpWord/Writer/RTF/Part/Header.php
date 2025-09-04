@@ -500,11 +500,11 @@ class Header extends AbstractPart
      *
      * @param string $string
      */
-
     private function lowerDigitsByOne($string)
     {
         return preg_replace_callback('/\d/', function ($matches) {
             $digit = (int) $matches[0];
+
             // Ensure the digit does not go below 0
             return ($digit > 0) ? ($digit - 1) : $digit;
         }, $string);
