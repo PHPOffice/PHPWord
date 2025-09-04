@@ -37,7 +37,7 @@ class ListItem extends Text
         }
 
         $this->getStyles();
-        
+
         $depth = (int) $element->getDepth();
         $style = $element->getStyle();
         $numStyle = $style->getNumberingStyle();
