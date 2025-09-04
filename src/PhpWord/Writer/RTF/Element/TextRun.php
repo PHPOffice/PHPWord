@@ -34,6 +34,17 @@ class TextRun extends AbstractElement
     {
         $writer = new Container($this->parentWriter, $this->element);
         $this->getStyles();
+        if ($this->paragraphStyle !== null && $this->paragraphStyle->hasPageBreakBefore()) {
+            $sect = $this->element->getParent();
+            if ($sect instanceof \PhpOffice\PhpWord\Element\Section) {
+                $elems = $sect->getElements();
+                if ($elems[0] === $this->element) {
+                    $pStyle = clone $this->paragraphStyle;
+                    $pStyle->setPageBreakBefore(false);
+                    $this->paragraphStyle = $pStyle;
+                }
+            }
+        }
 
         $content = '';
         $content .= $this->writeOpening();
