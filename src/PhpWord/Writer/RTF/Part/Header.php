@@ -460,7 +460,7 @@ class Header extends AbstractPart
      *
      * @param array &$table
      * @param Numbering $style
-     * @param string $default
+     * @param string $defaultFont
      */
     private function registerList(&$table, $style, $defaultFont): void
     {
@@ -503,8 +503,8 @@ class Header extends AbstractPart
 
     private function lowerDigitsByOne($string)
     {
-        return preg_replace_callback('/\d/', function($matches) {
-            $digit = (int)$matches[0];
+        return preg_replace_callback('/\d/', function ($matches) {
+            $digit = (int) $matches[0];
             // Ensure the digit does not go below 0
             return ($digit > 0) ? ($digit - 1) : $digit;
         }, $string);
