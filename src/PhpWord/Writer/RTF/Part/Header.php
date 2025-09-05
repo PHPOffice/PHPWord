@@ -300,15 +300,22 @@ class Header extends AbstractPart
                 $content .= '\levelstartat' . $listItem[1];
 
                 // Level Text and Numbers
-                $level = $this->lowerDigitsByOne(str_replace('%', '\\\'0', $listItem[4]));
-                $levelNumbers = preg_replace('/\d/', 'X', str_replace('%', '', $listItem[4]));
                 $positions = [];
-                $offset = 0;
-                while (($pos = strpos($levelNumbers, 'X', $offset)) !== false) {
-                    $positions[] = $pos;
-                    $offset = $pos + 1;
+                $level = '';
+                $strLength = '';
+                if (strpos($listItem[4], '%') !== false) {
+                    $level = $this->lowerDigitsByOne(str_replace('%', '\\\'0', $listItem[4]));
+                    $levelNumbers = preg_replace('/\d/', 'X', str_replace('%', '', $listItem[4]));
+                    $offset = 0;
+                    while (($pos = strpos($levelNumbers, 'X', $offset)) !== false) {
+                        $positions[] = $pos;
+                        $offset = $pos + 1; 
+                    }
+                    $strLength = sprintf("%02d", strlen($levelNumbers));
+                } else {
+                    $level = '\\\'' . strtoupper(dechex(ord(iconv('UTF-8', 'UCS-2', $listItem[4]))));
+                    $strLength = '01';
                 }
-                $strLength = sprintf('%02d', strlen($levelNumbers));
 
                 $content .= '{';
                 $content .= '\leveltext \\\'' . $strLength . $level;
@@ -500,7 +507,7 @@ class Header extends AbstractPart
      *
      * @param string $string
      */
-    private function lowerDigitsByOne($string)
+    private function lowerDigitsByOne($string): string
     {
         return preg_replace_callback('/\d/', function ($matches) {
             $digit = (int) $matches[0];
