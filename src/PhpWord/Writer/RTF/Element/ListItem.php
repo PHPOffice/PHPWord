@@ -33,7 +33,7 @@ class ListItem extends Text
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         if (!$element instanceof \PhpOffice\PhpWord\Element\ListItem) {
-            return;
+            return '';
         }
 
         $this->getStyles();
