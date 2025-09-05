@@ -40,8 +40,6 @@ class ListItem extends Text
 
         $depth = (int) $element->getDepth();
         $style = $element->getStyle();
-        $numStyle = $style->getNumberingStyle();
-        $levels = $numStyle->getLevels();
         $text = $element->getTextObject();
 
         // Bullet List
