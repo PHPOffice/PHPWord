@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Numbering as NumberingStyle;
 
 /**
  * List item style.
