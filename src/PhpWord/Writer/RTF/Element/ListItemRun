@@ -32,15 +32,34 @@ class ListItemRun extends TextRun
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
+        $element = $this->element;
+        if (!$element instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
             return '';
         }
 
-        $writer = new Container($this->parentWriter, $this->element);
+        $writer = new Container($this->parentWriter, $element);
         $this->getStyles();
+
+        $depth = (int) $element->getDepth();
+        $style = $element->getStyle();
+
+        echo $depth . '<br>';
+        print_r($style);
 
         $content = '';
         $content .= $this->writeOpening();
+        if ($style instanceof \PhpOffice\PhpWord\Style\ListItem) {
+            $numStyle = $style->getNumberingStyle();
+            $levels = $numStyle->getLevels();
+            $content .= '\ilvl' . $element->getDepth();
+            $content .= '\ls' . $style->getNumId();
+            $content .= '\tx' . $levels[$depth]->getTabPos();
+            $hanging = $levels[$depth]->getLeft() + $levels[$depth]->getHanging();
+            $left = 0 - $levels[$depth]->getHanging();
+            $content .= '\fi' . $left;
+            $content .= '\li' . $hanging;
+            $content .= '\lin' . $hanging;
+        }
         $content .= '{';
         $content .= $writer->write();
         $content .= '}';
