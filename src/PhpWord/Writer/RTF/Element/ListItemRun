@@ -43,9 +43,6 @@ class ListItemRun extends TextRun
         $depth = (int) $element->getDepth();
         $style = $element->getStyle();
 
-        echo $depth . '<br>';
-        print_r($style);
-
         $content = '';
         $content .= $this->writeOpening();
         if ($style instanceof \PhpOffice\PhpWord\Style\ListItem) {
