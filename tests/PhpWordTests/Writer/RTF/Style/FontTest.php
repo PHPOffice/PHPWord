@@ -53,6 +53,66 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $writer->setParentWriter(new RTF());
         $result = $writer->write();
 
-        self::assertEquals('\f0\fs22\c0', $result);
+        self::assertEquals('\f0\fs44\cf0 ', $result);
+    }
+
+    /**
+     * Test font style settings.
+     */
+    public function testFontStyle(): void
+    {
+        $font = new \PhpOffice\PhpWord\Style\Font();
+        $font->setBold(true);
+        $font->setItalic(true);
+        $font->setUnderline('dashLong');
+        $font->setStrikethrough(true);
+        $font->setDoubleStrikethrough(true);
+        $font->setSuperScript(true);
+        $font->setSubScript(true);
+        $font->setSmallCaps(true);
+        $font->setAllCaps(true);
+        $font->setFgColor('yellow');
+        $font->setBgColor('green');
+        $font->setHidden(true);
+
+        $writer = new RTF\Style\Font($font);
+        $writer->setParentWriter(new RTF());
+        $result = $writer->write();
+
+        self::assertEquals('\b\i\ulldash\strike\striked1\super\sub\scaps\caps\highlight0\cb1\v ', $result);
+    }
+
+    /**
+     * Test font spacing settings.
+     */
+    public function testFontSpacing(): void
+    {
+        $font = new \PhpOffice\PhpWord\Style\Font();
+        $font->setScale(5);
+        $font->setSpacing(4);
+        $font->setKerning(100);
+        $font->setPosition(10);
+
+        $writer = new RTF\Style\Font($font);
+        $writer->setParentWriter(new RTF());
+        $result = $writer->write();
+
+        self::assertEquals('\charscalex5\expnd4\kerning200\up10 ', $result);
+    }
+
+    /**
+     * Test general font settings.
+     */
+    public function testFontGeneral(): void
+    {
+        $font = new \PhpOffice\PhpWord\Style\Font();
+        $font->setRTL(true);
+        $font->setNoProof(true);
+
+        $writer = new RTF\Style\Font($font);
+        $writer->setParentWriter(new RTF());
+        $result = $writer->write();
+
+        self::assertEquals('\rtlch\noproof ', $result);
     }
 }
