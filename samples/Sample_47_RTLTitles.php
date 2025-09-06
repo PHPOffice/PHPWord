@@ -17,7 +17,6 @@ Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
 
 // Define styles for headers
 $phpWord->addTitleStyle(1, ['bold' => true, 'name' => 'Arial', 'size' => 16], []);
-//var_dump($x);
 $phpWord->addTitleStyle(2, ['bold' => true, 'name' => 'Arial', 'size' => 14], []);
 $phpWord->addTitleStyle(3, ['bold' => true, 'name' => 'Arial', 'size' => 12], []);
 $phpWord->addTitleStyle(4, ['bold' => true, 'name' => 'Arial', 'size' => 10], []);

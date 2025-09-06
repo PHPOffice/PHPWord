@@ -18,7 +18,7 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
-use Exception;
+use PhpOffice\PhpWord\Exception\Exception as WordException;
 
 /**
  * XMLWriter.
@@ -90,9 +90,14 @@ class XMLWriter extends \XMLWriter
         if (empty($this->tempFileName)) {
             return;
         }
-        if (PHP_OS != 'WINNT' && @unlink($this->tempFileName) === false) {
-            throw new Exception('The file ' . $this->tempFileName . ' could not be deleted.');
-        }
+        @unlink($this->tempFileName);
+    }
+
+    public function __wakeup(): void
+    {
+        $this->tempFileName = '';
+
+        throw new WordException('Unserialize not permitted');
     }
 
     /**

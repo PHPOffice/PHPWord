@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Shared;
 
+use PhpOffice\PhpWord\Exception\Exception as WordException;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -70,5 +71,13 @@ class XMLWriterTest extends \PHPUnit\Framework\TestCase
         self::assertSame('<element name="1.2"/>' . chr(10), $xmlWriter->getData());
 
         setlocale(LC_NUMERIC, $currentLocale);
+    }
+
+    public function testNoUnserialize(): void
+    {
+        $this->expectException(WordException::class);
+        $this->expectExceptionMessage('Unserialize not permitted');
+        $xmlWriter = new XMLWriter();
+        unserialize(serialize($xmlWriter));
     }
 }
