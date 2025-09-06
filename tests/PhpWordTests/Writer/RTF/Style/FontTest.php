@@ -49,7 +49,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testFontBasics(): void
     {
-        $font = new \PhpOffice\PhpWord\Style\Tab();
+        $font = new \PhpOffice\PhpWord\Style\Font();
         $font->setName('Times New Roman');
         $font->setSize(22);
         $font->setColor('yellow');
