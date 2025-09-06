@@ -25,8 +25,8 @@ use PhpOffice\PhpWord\Settings;
  */
 class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
 {
-    const HEADER = '\\pard\\nowidctlpar \ql{\\cf0\\f0 ';
-    const HEADER_RTL = '\\pard\\nowidctlpar \qr{\\rtlch\\cf0\\f0 ';
+    const HEADER = '\\pard\\nowidctlpar \ql{';
+    const HEADER_RTL = '\\pard\\nowidctlpar \qr{\\rtlch';
     const TRAILER = '}\\par';
 
     protected function tearDown(): void
