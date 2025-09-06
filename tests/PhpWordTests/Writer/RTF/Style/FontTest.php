@@ -66,20 +66,20 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $font->setItalic(true);
         $font->setUnderline('dashLong');
         $font->setStrikethrough(true);
-        $font->setDoubleStrikethrough(true);
+        $font->setDoubleStrikethrough(true); // cancels out strike
         $font->setSuperScript(true);
-        $font->setSubScript(true);
+        $font->setSubScript(true); // cancels out super
         $font->setSmallCaps(true);
-        $font->setAllCaps(true);
+        $font->setAllCaps(true); // cancels out smallcaps
         $font->setFgColor('yellow');
-        $font->setBgColor('green');
+        $font->setBgColor('yellow');
         $font->setHidden(true);
 
         $writer = new RTF\Style\Font($font);
         $writer->setParentWriter(new RTF());
         $result = $writer->write();
 
-        self::assertEquals('\b\i\ulldash\strike\striked1\super\sub\scaps\caps\highlight0\cb1\v ', $result);
+        self::assertEquals('\b\i\ulldash\striked1\sub\caps\highlight0\v\cb0 ', $result);
     }
 
     /**
