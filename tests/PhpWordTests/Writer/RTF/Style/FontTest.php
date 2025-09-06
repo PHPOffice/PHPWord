@@ -38,12 +38,6 @@ class FontTest extends \PHPUnit\Framework\TestCase
         Settings::setDefaultRtl(null);
     }
 
-    /** @param WriterTextRun|WriterTitle $field */
-    public function removeCr($field): string
-    {
-        return str_replace("\r\n", "\n", $field->write());
-    }
-
     /**
      * Test basic font settings.
      */
@@ -59,6 +53,6 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $writer->setParentWriter(new RTF());
         $result = $writer->write();
 
-        Assert::assertEquals('\f0\fs22\c0', $result);
+        self::assertEquals('\f0\fs22\c0', $result);
     }
 }
