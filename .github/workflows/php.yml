@@ -93,7 +93,7 @@ jobs:
           with:
               php-version: ${{ matrix.php }}
               extensions: dom, gd, mbstring, xml, zip
-              coverage: ${{ (matrix.php == '7.3') && 'xdebug' || 'none' }}
+              coverage: ${{ (matrix.php == '8.3') && 'xdebug' || 'none' }}
 
       -   uses: actions/checkout@v2
 

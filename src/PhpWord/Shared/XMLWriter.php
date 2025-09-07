@@ -101,14 +101,13 @@ class XMLWriter extends \XMLWriter
         @unlink($this->tempFileName);
     }
 
-    /*
+    /** @codeCoverageIgnore */
     public function __wakeup(): void
     {
         $this->tempFileName = '';
 
         throw new WordException('Unserialize not permitted2');
     }
-    */
 
     /**
      * Unserialization can cause security exploit - don't allow it.
