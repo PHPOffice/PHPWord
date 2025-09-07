@@ -58,12 +58,10 @@ class Paragraph extends AbstractStyle
         // Alignment
         $alignment = $style->getAlignment();
         if ('' !== $alignment) {
-            if (array_key_exists($alignment, self::ALIGNMENT_MAP)) {
-                $textAlign = self::ALIGNMENT_MAP[$alignment];
-            } elseif (Jc::END === $alignment) {
+            if (Jc::END === $alignment) {
                 $textAlign = $style->isBidi() ? 'left' : 'right';
-            } else { //all others, including Jc::START
-                $textAlign = $style->isBidi() ? 'right' : 'left';
+            } else {
+                $textAlign = self::ALIGNMENT_MAP[$alignment] ?? ($style->isBidi() ? 'right' : 'left');
             }
 
             $css['text-align'] = $textAlign;
