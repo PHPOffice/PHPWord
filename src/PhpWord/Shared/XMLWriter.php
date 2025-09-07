@@ -49,6 +49,9 @@ class XMLWriter extends \XMLWriter
      */
     private $tempFileName = '';
 
+    /** @var int */
+    private $hash;
+
     /**
      * Create a new \PhpOffice\PhpWord\Shared\XMLWriter instance.
      *
@@ -58,6 +61,7 @@ class XMLWriter extends \XMLWriter
      */
     public function __construct($pTemporaryStorage = self::STORAGE_MEMORY, $pTemporaryStorageDir = null, $compatibility = false)
     {
+        $this->hash = spl_object_id($this);
         // Open temporary storage
         if ($pTemporaryStorage == self::STORAGE_MEMORY) {
             $this->openMemory();
@@ -90,14 +94,34 @@ class XMLWriter extends \XMLWriter
         if (empty($this->tempFileName)) {
             return;
         }
+        // This is needed only for Php7.1/2/3.
+        if ($this->hash !== spl_object_id($this)) {
+            throw new WordException('Unserialize not permitted1'); // @codeCoverageIgnore
+        }
         @unlink($this->tempFileName);
     }
 
+    /*
     public function __wakeup(): void
     {
         $this->tempFileName = '';
 
-        throw new WordException('Unserialize not permitted');
+        throw new WordException('Unserialize not permitted2');
+    }
+    */
+
+    /**
+     * Unserialization can cause security exploit - don't allow it.
+     * __wakeup could also be used, but that's compile-time-deprecated for 8.5.
+     * But Php7.1/2/3 don't recognize unserialize. So, experiment for now.
+     *
+     * @param mixed[] $data
+     */
+    public function __unserialize(array $data): void
+    {
+        $this->tempFileName = '';
+
+        throw new WordException('Unserialize not permitted3');
     }
 
     /**
