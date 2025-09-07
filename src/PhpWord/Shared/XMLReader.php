@@ -91,12 +91,12 @@ class XMLReader
     public function getDomFromString($content)
     {
         if (\PHP_VERSION_ID < 80000) {
-            $originalLibXMLEntityValue = libxml_disable_entity_loader(true);
+            $originalLibXMLEntityValue = libxml_disable_entity_loader(true); //* @codeCoverageIgnore
         }
         $this->dom = new DOMDocument();
         $this->dom->loadXML($content);
         if (\PHP_VERSION_ID < 80000) {
-            libxml_disable_entity_loader($originalLibXMLEntityValue);
+            libxml_disable_entity_loader($originalLibXMLEntityValue); //* @codeCoverageIgnore
         }
 
         return $this->dom;

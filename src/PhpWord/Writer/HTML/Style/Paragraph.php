@@ -29,6 +29,19 @@ use PhpOffice\PhpWord\Writer\PDF\TCPDF;
  */
 class Paragraph extends AbstractStyle
 {
+    const ALIGNMENT_MAP = [
+        Jc::CENTER => 'center',
+        Jc::MEDIUM_KASHIDA => 'right',
+        Jc::HIGH_KASHIDA => 'right',
+        Jc::LOW_KASHIDA => 'right',
+        Jc::RIGHT => 'right',
+        Jc::BOTH => 'justify',
+        Jc::DISTRIBUTE => 'justify',
+        Jc::THAI_DISTRIBUTE => 'justify',
+        Jc::JUSTIFY => 'justify',
+        Jc::LEFT => 'left',
+    ];
+
     /**
      * Write style.
      *
@@ -43,40 +56,14 @@ class Paragraph extends AbstractStyle
         $css = [];
 
         // Alignment
-        if ('' !== $style->getAlignment()) {
-            $textAlign = '';
-
-            switch ($style->getAlignment()) {
-                case Jc::CENTER:
-                    $textAlign = 'center';
-
-                    break;
-                case Jc::END:
-                    $textAlign = $style->isBidi() ? 'left' : 'right';
-
-                    break;
-                case Jc::MEDIUM_KASHIDA:
-                case Jc::HIGH_KASHIDA:
-                case Jc::LOW_KASHIDA:
-                case Jc::RIGHT:
-                    $textAlign = 'right';
-
-                    break;
-                case Jc::BOTH:
-                case Jc::DISTRIBUTE:
-                case Jc::THAI_DISTRIBUTE:
-                case Jc::JUSTIFY:
-                    $textAlign = 'justify';
-
-                    break;
-                case Jc::LEFT:
-                    $textAlign = 'left';
-
-                    break;
-                default: //all others, including Jc::START
-                    $textAlign = $style->isBidi() ? 'right' : 'left';
-
-                    break;
+        $alignment = $style->getAlignment();
+        if ('' !== $alignment) {
+            if (array_key_exists($alignment, self::ALIGNMENT_MAP)) {
+                $textAlign = self::ALIGNMENT_MAP[$alignment];
+            } elseif (Jc::END === $alignment) {
+                $textAlign = $style->isBidi() ? 'left' : 'right';
+            } else { //all others, including Jc::START
+                $textAlign = $style->isBidi() ? 'right' : 'left';
             }
 
             $css['text-align'] = $textAlign;
