@@ -178,6 +178,7 @@ class Table extends AbstractElement
     const MAP_BORDER_TYPE = [
         Border::DOTTED => '\brdrdot',
     ];
+
     private function writeCellBorder(string $prefix, ?string $borderStyle, int $borderSize, ?string $borderColor): string
     {
         if ($borderSize == 0) {
@@ -214,7 +215,7 @@ class Table extends AbstractElement
          * \brdremboss 	Emboss border.
          * \brdrengrave 	Engrave border.
          */
-        $content = self::MAP_BORDER_TYPE[$borderStyle] ?? '\brdrs';
+        $content .= self::MAP_BORDER_TYPE[$borderStyle] ?? '\brdrs';
 
         // \brdrwN 	N is the width in twips (1/20 pt) of the pen used to draw the paragraph border line.
         //          N cannot be greater than 75.
