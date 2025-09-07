@@ -206,4 +206,36 @@ HTML;
         $substring2 = 'border-top-style: dotted; border-top-color: #ff0000; border-top-width: 1.75pt; border-left-style: dotted; border-left-color: #ff0000; border-left-width: 1.75pt; border-bottom-style: dotted; border-bottom-color: #ff0000; border-bottom-width: 1.75pt; border-right-style: dotted; border-right-color: #ff0000; border-right-width: 1.75pt;';
         self::assertSame(1, substr_count($content, $substring2));
     }
+
+    public function testParseTableStyleBorderBadType(): void
+    {
+        $html = <<<HTML
+<table align="center" style="width: 50%;border:2px xashed green;">
+                <thead>
+                    <tr>
+                        <th>header a</th>
+                        <th>header          b</th>
+                        <th><span style="background-color: #00FF00;">header c</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td style="border: thick dotted red;">1</td><td colspan="2">2</td></tr>
+                    <tr><td>This is <b>bold</b> text</td><td></td><td>6</td></tr>
+                </tbody>
+            </table>
+HTML;
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html, false, false);
+        $elements = $section->getElements();
+        $table = $elements[0];
+        self::assertInstanceOf(Table::class, $table);
+        $style = $table->getStyle();
+        self::assertInstanceOf(TableStyle::class, $style);
+        self::assertNull($style->getBorderBottomStyle());
+        self::assertSame('', $style->getBorderInsideHStyle());
+        self::assertSame('', $style->getBorderInsideVStyle());
+        self::assertNull($style->getBorderBottomSize());
+        self::assertNull($style->getBorderBottomColor());
+    }
 }
