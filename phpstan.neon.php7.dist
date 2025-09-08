@@ -36,12 +36,6 @@ parameters:
             message: '#Parameter \#1 \$function of function call_user_func_array expects callable\(\): mixed, array{PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer, string} given.#'
             path: src/PhpWord/Writer/PDF.php
         -
-            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Element\\AbstractElement is not subtype of native type .*#'
-            path: tests/PhpWordTests/Style/AbstractElementTest.php
-        -
-            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Element\\AbstractPart is not subtype of native type .*#'
-            path: tests/PhpWordTests/Style/AbstractPartTest.php
-        -
             message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Element\\AbstractStyle is not subtype of native type .*#'
             path: tests/PhpWordTests/Style/AbstractStyleTest.php
         -
