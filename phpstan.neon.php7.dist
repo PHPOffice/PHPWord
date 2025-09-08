@@ -30,6 +30,9 @@ parameters:
             message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class-string<T of object>\|T of object, string given.#'
             path: src/PhpWord/IOFactory.php
         -
+            message: '#Parameter \#1 \$function of function call_user_func_array expects callable\(\): mixed,#'
+            path: src/PhpWord/Shared/ZipArchive.php
+        -
             message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Writer\\HTML\\Part\\AbstractPart is not subtype of native type PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Body\|PhpOffice\\PhpWord\\Writer\\HTML\\Part\\Head.#'
             path: src/PhpWord/Writer/HTML.php
         -
@@ -45,8 +48,5 @@ parameters:
             message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class-string<object>\|object, class-string\|false given.#'
             path: tests/PhpWordTests/Style/AbstractStyleTest.php
         -
-            message: '#Parameter \#1 \$function of function call_user_func_array expects callable\(\): mixed, array\{\$this\(PhpOffice\\PhpWord\\Shared\\ZipArchive\)\|PclZip|\ZipArchive, mixed\} given.#'
-            path: tests/PhpWordTests/Style/AbstractStyleTest.php
-        -
-            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Word2007\\Part\\AbstractPart is not subtype of native type #'
+            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\AbstractPart is not subtype of native type #'
             path: tests/PhpWordTests/Writer/Word2007/Part/AbstractPartTest.php
