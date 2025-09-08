@@ -36,10 +36,10 @@ parameters:
             message: '#Parameter \#1 \$function of function call_user_func_array expects callable\(\): mixed, array{PhpOffice\\PhpWord\\Writer\\PDF\\AbstractRenderer, string} given.#'
             path: src/PhpWord/Writer/PDF.php
         -
-            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Element\\AbstractElement is not subtype of native type .*#'
+            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Element\\AbstractElement is not subtype of native type #'
             path: tests/PhpWordTests/Element/AbstractElementTest.php
         -
-            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Element\\AbstractStyle is not subtype of native type .*#'
+            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Element\\AbstractStyle is not subtype of native type #'
             path: tests/PhpWordTests/Style/AbstractStyleTest.php
         -
             message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class-string<object>\|object, class-string\|false given.#'
@@ -48,5 +48,5 @@ parameters:
             message: '#Parameter \#1 \$function of function call_user_func_array expects callable\(\): mixed, array\{\$this\(PhpOffice\\PhpWord\\Shared\\ZipArchive\)\|PclZip|\ZipArchive, mixed\} given.#'
             path: tests/PhpWordTests/Style/AbstractStyleTest.php
         -
-            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Element\\AbstractPart is not subtype of native type .*#'
+            message: '#PHPDoc tag @var with type PhpOffice\\PhpWord\\Element\\AbstractPart is not subtype of native type #'
             path: tests/PhpWordTests/Writer/Word2007/Part/AbstractPartTest.php
