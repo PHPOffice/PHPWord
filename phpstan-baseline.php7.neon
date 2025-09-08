@@ -466,11 +466,6 @@ parameters:
 			path: src/PhpWord/Shared/ZipArchive.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(PhpOffice\\\\PhpWord\\\\Shared\\\\ZipArchive\\)\\|PclZip\\|ZipArchive, mixed\\} given\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Shared\\\\ZipArchive\\:\\:\\$zip has unknown class PclZip as its type\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/ZipArchive.php
@@ -1357,11 +1352,6 @@ parameters:
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\AbstractStyleTest\\:\\:callProtectedMethod\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/AbstractStyleTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<object\\>\\|object, class\\-string\\|false given\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Style/AbstractStyleTest.php
 
