@@ -215,7 +215,7 @@ class Table extends AbstractElement
          * \brdremboss 	Emboss border.
          * \brdrengrave 	Engrave border.
          */
-        $content .= self::MAP_BORDER_TYPE[$borderStyle] ?? '\brdrs';
+        $content .= self::MAP_BORDER_TYPE[$borderStyle ?? ''] ?? '\brdrs';
 
         // \brdrwN 	N is the width in twips (1/20 pt) of the pen used to draw the paragraph border line.
         //          N cannot be greater than 75.
