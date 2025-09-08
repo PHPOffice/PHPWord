@@ -37,6 +37,9 @@ parameters:
             message: '#Parameter \#1 \$function of function call_user_func_array expects callable\(\): mixed,#'
             path: src/PhpWord/Shared/ZipArchive.php
         -
+            message: '#only iterables are supported#'
+            path: src/PhpWord/Writer/AbstractWriter.php
+        -
             message: '#Cannot call method getText#'
             path: src/PhpWord/Writer/ODText/Part/Content.php 
         -
