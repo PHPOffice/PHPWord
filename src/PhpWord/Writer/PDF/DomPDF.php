@@ -68,7 +68,7 @@ class DomPDF extends AbstractRenderer implements WriterInterface
         if (PHP_VERSION_ID >= self::$temporaryVersionCheck) {
             // @codeCoverageIgnoreStart
             $errhandler = [$this, 'specialErrorHandler'];
-            set_error_handler($errhandler); // @phpstan-ignore-line
+            set_error_handler($errhandler);
             $restoreHandler = true;
             // @codeCoverageIgnoreEnd
         }

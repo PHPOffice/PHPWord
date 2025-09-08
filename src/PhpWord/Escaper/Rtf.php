@@ -25,6 +25,7 @@ namespace PhpOffice\PhpWord\Escaper;
  */
 class Rtf extends AbstractEscaper
 {
+    /** @return string */
     protected function escapeAsciiCharacter($code)
     {
         if ($code == 9) {

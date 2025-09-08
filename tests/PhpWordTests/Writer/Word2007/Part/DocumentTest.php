@@ -410,7 +410,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         // @phpstan-ignore-next-line
         if (method_exists(self::class, 'assertMatchesRegularExpression')) {
             self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
-        } elseif (method_exists(self::class, 'assertRegExp')) { // @phpstan-ignore-line
+        } elseif (method_exists(self::class, 'assertRegExp')) {
             self::assertRegExp('/z\-index:\-[0-9]*/', $style);
         } else {
             self::fail('Unsure how to test regexp');
