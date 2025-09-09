@@ -76,7 +76,7 @@ class Paragraph extends AbstractStyle
 
         $content = '';
         if ($this->nestedLevel == 0) {
-            $content .= '\pard\nowidctlpar ';
+            $content .= '\pard ';
         }
         $alignment = $style->getAlignment();
         $bidi = $style->isBidi();
@@ -97,6 +97,7 @@ class Paragraph extends AbstractStyle
 
         // Pagination
         $content .= $this->getValueIf($style->hasWidowControl(), '\widctlpar');
+        $content .= $this->getValueIf(!$style->hasWidowControl(), '\nowidctlpar');
         $content .= $this->getValueIf($style->isKeepNext(), '\keepn');
         $content .= $this->getValueIf($style->isKeepLines(), '\keep');
         $content .= $this->getValueIf($style->hasPageBreakBefore(), '\pagebb');
