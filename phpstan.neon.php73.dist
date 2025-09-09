@@ -1,5 +1,5 @@
 includes:
-    - phpstan-baseline.php7.neon
+    - phpstan-baseline.php73.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
 parameters:
@@ -16,7 +16,7 @@ parameters:
         - src/PhpWord/Writer/PDF/MPDF.php
     bootstrapFiles:
         - tests/bootstrap.php
-    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: true
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
         -

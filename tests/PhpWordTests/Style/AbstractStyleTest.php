@@ -31,14 +31,23 @@ use ReflectionClass;
  */
 class AbstractStyleTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var string */
+    protected static $mockAbstract = 'getMockForAbstractClass';
+
+    /** @param string $method */
+    private function methodFound($method): bool
+    {
+        return method_exists($this, $method);
+    }
+
     /**
      * Test set style by array.
      */
     public function testSetStyleByArray(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractStyle::class);
+        $method = self::$mockAbstract;
+        if (self::methodFound($method)) {
+            $stub = $this->$method(AbstractStyle::class);
         } else {
             /** @var AbstractStyle $stub */
             $stub = new class() extends AbstractStyle {
@@ -70,9 +79,9 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValNormal(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractStyle::class);
+        $method = self::$mockAbstract;
+        if (self::methodFound($method)) {
+            $stub = $this->$method(AbstractStyle::class);
         } else {
             /** @var AbstractStyle $stub */
             $stub = new class() extends AbstractStyle {
@@ -91,9 +100,9 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValDefault(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractStyle::class);
+        $method = self::$mockAbstract;
+        if (self::methodFound($method)) {
+            $stub = $this->$method(AbstractStyle::class);
         } else {
             /** @var AbstractStyle $stub */
             $stub = new class() extends AbstractStyle {
@@ -112,9 +121,9 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
     public function testSetValEnumException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractStyle::class);
+        $method = self::$mockAbstract;
+        if (self::methodFound($method)) {
+            $stub = $this->$method(AbstractStyle::class);
         } else {
             /** @var AbstractStyle $stub */
             $stub = new class() extends AbstractStyle {

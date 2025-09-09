@@ -13,11 +13,20 @@ class AbstractPartTest extends TestCase
      */
     private $part;
 
+    /** @var string */
+    protected static $mockAbstract = 'getMockForAbstractClass';
+
+    /** @param string $method */
+    private function methodFound($method): bool
+    {
+        return method_exists($this, $method);
+    }
+
     protected function setUp(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $this->part = $this->getMockForAbstractClass(AbstractPart::class);
+        $mockAbstract = self::$mockAbstract;
+        if ($this->methodFound($mockAbstract)) {
+            $this->part = $this->$mockAbstract(AbstractPart::class);
         } else {
             $this->part = new class() extends AbstractPart {
                 public function write(): string

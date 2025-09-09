@@ -32,11 +32,20 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
      * covers   ::setParentWriter
      * covers   ::getParentWriter.
      */
+    /** @var string */
+    protected static $mockAbstract = 'getMockForAbstractClass';
+
+    /** @param string $method */
+    private function methodFound($method): bool
+    {
+        return method_exists($this, $method);
+    }
+
     public function testSetGetParentWriter(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $object = $this->getMockForAbstractClass(ODText\Part\AbstractPart::class);
+        $method = self::$mockAbstract;
+        if (self::methodFound($method)) {
+            $object = $this->$method(ODText\Part\AbstractPart::class);
         } else {
             /** @var ODText\Part\AbstractPart $object */
             $object = new class() extends ODText\Part\AbstractPart {
@@ -57,9 +66,9 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('No parent WriterInterface assigned.');
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $object = $this->getMockForAbstractClass(ODText\Part\AbstractPart::class);
+        $method = self::$mockAbstract;
+        if (self::methodFound($method)) {
+            $object = $this->$method(ODText\Part\AbstractPart::class);
         } else {
             /** @var ODText\Part\AbstractPart $object */
             $object = new class() extends ODText\Part\AbstractPart {

@@ -8,15 +8,24 @@ use PHPUnit\Framework\TestCase;
 
 class AbstractStyleTest extends TestCase
 {
+    /** @var string */
+    protected static $mockAbstract = 'getMockForAbstractClass';
+
+    /** @param string $method */
+    private function methodFound($method): bool
+    {
+        return method_exists($this, $method);
+    }
+
     /**
      * Test setParentWriter and getParentWriter methods.
      */
     public function testParentWriter(): void
     {
         $parentWriter = new EPub3();
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $style = $this->getMockForAbstractClass(AbstractStyle::class);
+        $mockAbstract = self::$mockAbstract;
+        if ($this->methodFound($mockAbstract)) {
+            $style = $this->$mockAbstract(AbstractStyle::class);
         } else {
             /** @var AbstractStyle $style */
             $style = new class() extends AbstractStyle {

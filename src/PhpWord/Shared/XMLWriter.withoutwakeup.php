@@ -91,7 +91,7 @@ class XMLWriter extends \XMLWriter
     public function __destruct()
     {
         if ($this->hash !== spl_object_id($this)) {
-            throw new WordException('Unserialize not permitted4');
+            throw new WordException('Unserialize not permitted4'); // @codeCoverageIgnore
         }
         // Unlink temporary files
         if (empty($this->tempFileName)) {
