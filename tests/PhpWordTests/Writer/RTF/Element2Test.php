@@ -47,7 +47,7 @@ class Element2Test extends \PHPUnit\Framework\TestCase
         $element->addText('Hello ');
         $element->addText('there.');
         $textrun = new WriterTextRun($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\ql{{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
+        $expect = "\\pard\\widctlpar \\ql{{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
         self::assertEquals($expect, $this->removeCr($textrun));
     }
 
@@ -59,7 +59,7 @@ class Element2Test extends \PHPUnit\Framework\TestCase
         $element->addText('Hello ');
         $element->addText('there.');
         $textrun = new WriterTextRun($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\ql\\sb0\\sa0{{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
+        $expect = "\\pard\\widctlpar \\ql\\sb0\\sa0{{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
         self::assertEquals($expect, $this->removeCr($textrun));
     }
 
@@ -72,7 +72,7 @@ class Element2Test extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $element = $section->addTitle('First Heading', 1);
         $elwrite = new WriterTitle($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\ql\\sb0\\sa0{\\outlinelevel0{\\cf0\\f0 First Heading}\\par\n}";
+        $expect = "\\pard\\widctlpar \\ql\\sb0\\sa0{\\outlinelevel0{\\cf0\\f0 First Heading}\\par\n}";
         self::assertEquals($expect, $this->removeCr($elwrite));
         Settings::setDefaultRtl(null);
     }
