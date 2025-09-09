@@ -67,7 +67,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
             '\\row',
             "\\trowd \\cellx$width \\cellx$width2 ",
             '\\intbl',
-            '\\ql{\\cf0\\f0 3}\\par',
+            '\\ql\\widctlpar {\\cf0\\f0 3}\\par',
             '\\cell',
             '\\intbl',
             '{\\cf0\\f0 4}\par',
