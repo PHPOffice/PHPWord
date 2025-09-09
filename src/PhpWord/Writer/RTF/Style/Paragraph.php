@@ -76,7 +76,7 @@ class Paragraph extends AbstractStyle
 
         $content = '';
         if ($this->nestedLevel == 0) {
-            $content .= '\pard ';
+            $content .= '\pard';
         }
         $alignment = $style->getAlignment();
         $bidi = $style->isBidi();
@@ -105,7 +105,7 @@ class Paragraph extends AbstractStyle
         $styles = $style->getStyleValues();
         $content .= $this->writeTabs($styles['tabs']);
 
-        return $content;
+        return $content . ' ';
     }
 
     /**
