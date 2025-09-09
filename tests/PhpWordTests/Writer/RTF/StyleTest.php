@@ -126,7 +126,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('אב גד', ['RTL' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
+        $expect = "\\pard\\widctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
@@ -136,7 +136,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('אב גד');
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\qr{\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
+        $expect = "\\pard\\widctlpar \\qr{\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
@@ -145,7 +145,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
+        $expect = "\\pard\\widctlpar \\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
@@ -155,7 +155,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\ql\\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
+        $expect = "\\pard\\widctlpar \\ql\\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
