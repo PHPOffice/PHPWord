@@ -136,7 +136,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('אב גד');
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\widctlpar \\qr{\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
+        $expect = "\\pard\\qr\\widctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
@@ -145,7 +145,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\widctlpar \\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
+        $expect = "\\pard\\sl259\\slmult1\\widctlpar\\pagebb {\\cf0\\f0 New page}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
@@ -155,7 +155,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\widctlpar \\ql\\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
+        $expect = "\\pard\\ql\\sl259\\slmult1\\widctlpar\\pagebb {\\cf0\\f0 New page}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
