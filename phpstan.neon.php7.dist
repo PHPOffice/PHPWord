@@ -9,8 +9,10 @@ parameters:
         - tests/
     excludePaths:
         - */pclzip.lib.php
-        - src/PhpWord/Shared/OLERead.php
         - src/PhpWord/Reader/MsDoc.php
+        - src/PhpWord/Shared/OLERead.php
+        - src/PhpWord/Shared/XMLWriter.php
+        - src/PhpWord/Shared/XMLWriter.withoutwakeup.php
         - src/PhpWord/Writer/PDF/MPDF.php
     bootstrapFiles:
         - tests/bootstrap.php

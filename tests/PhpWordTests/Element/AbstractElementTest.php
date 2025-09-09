@@ -25,14 +25,17 @@ use PhpOffice\PhpWord\Element\AbstractElement;
  */
 class AbstractElementTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var string */
+    protected static $method = 'getMockForAbstractClass';
+
     /**
      * Test set/get element index.
      */
     public function testElementIndex(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        $method = self::$method;
+        if (method_exists($this, $method)) {
+            $stub = $this->$method(AbstractElement::class);
         } else {
             /** @var AbstractElement $stub */
             $stub = new class() extends AbstractElement {
@@ -48,9 +51,9 @@ class AbstractElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementId(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractElement::class);
+        $method = self::$method;
+        if (method_exists($this, $method)) {
+            $stub = $this->$method(AbstractElement::class);
         } else {
             /** @var AbstractElement $stub */
             $stub = new class() extends AbstractElement {
