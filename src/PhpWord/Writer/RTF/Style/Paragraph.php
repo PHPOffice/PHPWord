@@ -94,9 +94,12 @@ class Paragraph extends AbstractStyle
             $lineHeightAdjusted = (int) ($lineHeight * 240);
             $content .= "\\sl$lineHeightAdjusted\\slmult1";
         }
-        if ($style->hasPageBreakBefore()) {
-            $content .= '\\page';
-        }
+
+        // Pagination
+        $content .= $this->getValueIf($style->hasWidowControl(), '\widctlpar');
+        $content .= $this->getValueIf($style->isKeepNext(), '\keepn');
+        $content .= $this->getValueIf($style->isKeepLines(), '\keep');
+        $content .= $this->getValueIf($style->hasPageBreakBefore(), '\pagebb');
 
         $styles = $style->getStyleValues();
         $content .= $this->writeTabs($styles['tabs']);
