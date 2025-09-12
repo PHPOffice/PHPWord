@@ -24,7 +24,6 @@ use InvalidArgumentException;
  * Language
  * A couple of predefined values are defined here, see the websites below for more values.
  *
- * @see https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a
  * @see http://www.datypic.com/sc/ooxml/t-w_CT_Language.html
  * @see https://technet.microsoft.com/en-us/library/cc287874(v=office.12).aspx
  */
