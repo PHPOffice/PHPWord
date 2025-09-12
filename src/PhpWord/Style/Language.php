@@ -161,7 +161,7 @@ final class Language extends AbstractStyle
     /**
      * Set the Language ID.
      *
-     * @param int $langId
+     * @param int|string $langId
      *            The value for the language ID
      *
      * @return self
