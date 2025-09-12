@@ -126,6 +126,7 @@ final class Language extends AbstractStyle
     {
         if (!empty($latin)) {
             $this->setLatin($latin);
+            $this->setLangId($latin);
         }
         if (!empty($eastAsia)) {
             $this->setEastAsia($eastAsia);
@@ -168,7 +169,11 @@ final class Language extends AbstractStyle
      */
     public function setLangId($langId)
     {
-        $this->langId = $langId;
+        if(is_string($langId)) {
+            $this->langId = $this->convertLocale($this->validateLocale($langId));
+        } else {
+            $this->langId = $langId;
+        }
 
         return $this;
     }
@@ -258,4 +263,28 @@ final class Language extends AbstractStyle
 
         return $locale;
     }
-}
+
+    /**
+     * Converts a language from the format xx-xx to decimal.
+     *
+     * @param string $latin
+     *            The value for the latin language
+     *
+     * @return int
+     */
+    private function convertLocale($latin)
+    {
+        if ($latin === null) {
+            return 1024;
+        }
+
+        $locale = strtoupper(str_replace('-', '_', $latin)) . '_ID';
+
+        if (defined($locale)) {
+            return constant($locale);
+        } elseif (defined("self::$locale")) {
+            return constant("self::$locale");
+        }
+
+        return 1024;
+    }}
