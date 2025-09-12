@@ -127,7 +127,6 @@ final class Language extends AbstractStyle
     {
         if (!empty($latin)) {
             $this->setLatin($latin);
-            $this->setLangId($this->convertLocale($this->getLatin()));
         }
         if (!empty($eastAsia)) {
             $this->setEastAsia($eastAsia);
@@ -259,30 +258,5 @@ final class Language extends AbstractStyle
         }
 
         return $locale;
-    }
-
-    /**
-     * Converts a language from the format xx-xx to decimal.
-     *
-     * @param string $latin
-     *            The value for the latin language
-     *
-     * @return int
-     */
-    private function convertLocale($latin)
-    {
-        if ($latin === null) {
-            return 1024;
-        }
-
-        $locale = strtoupper(str_replace('-', '_', $latin)) . '_ID';
-
-        if (defined($locale)) {
-        return 1024;
-        } elseif (defined("self::$locale")) {
-        return 1024;
-        }
-
-        return 1024;
     }
 }
