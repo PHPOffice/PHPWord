@@ -113,6 +113,10 @@ class Font extends AbstractStyle
 
         // General
         $content .= $this->getValueIf($style->isRTL(), '\rtlch');
+        $lang = $style->getLang();
+        if ($lang !== null && function_exists($lang->getLangId())) {
+            $content .= $this->getValueIf($lang->getLangId() !== null, '\lang' . $lang->getLangId());
+        }
 
         // Other (Font settings currently not included in getStyleValues() array)
         $content .= $this->getValueIf($style->isNoProof(), '\noproof');
