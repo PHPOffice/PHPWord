@@ -278,7 +278,7 @@ final class Language extends AbstractStyle
     private function convertLocale($latin)
     {
         if ($latin === null) {
-            return 0;
+            return 1024;
         }
 
         $locale = strtoupper(str_replace('-', '_', $latin)) . '_ID';
@@ -289,6 +289,6 @@ final class Language extends AbstractStyle
             return constant("self::$locale");
         }
 
-        return 0;
+        return 1024;
     }
 }
