@@ -170,7 +170,7 @@ final class Language extends AbstractStyle
      */
     public function setLangId($langId)
     {
-        if(is_string($langId)) {
+        if (is_string($langId)) {
             $this->langId = $this->convertLocale($this->validateLocale($langId));
         } else {
             $this->langId = $langId;
@@ -288,4 +288,5 @@ final class Language extends AbstractStyle
         }
 
         return 1024;
-    }}
+    }
+}
