@@ -24,6 +24,7 @@ use InvalidArgumentException;
  * Language
  * A couple of predefined values are defined here, see the websites below for more values.
  *
+ * @see https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a
  * @see http://www.datypic.com/sc/ooxml/t-w_CT_Language.html
  * @see https://technet.microsoft.com/en-us/library/cc287874(v=office.12).aspx
  */
@@ -126,6 +127,7 @@ final class Language extends AbstractStyle
     {
         if (!empty($latin)) {
             $this->setLatin($latin);
+            $this->setLangId();
         }
         if (!empty($eastAsia)) {
             $this->setEastAsia($eastAsia);
@@ -168,7 +170,7 @@ final class Language extends AbstractStyle
      */
     public function setLangId($langId)
     {
-        $this->langId = $langId;
+        $this->langId = $this->convertLocale();
 
         return $this;
     }
@@ -257,5 +259,27 @@ final class Language extends AbstractStyle
         }
 
         return $locale;
+    }
+
+    /**
+     * Converts a language from the format xx-xx to decimal.
+     *
+     * @return int
+     */
+    private function convertLocale()
+    {
+        if ($this->getLatin() === null) {
+            return 0;
+        }
+
+        $locale = strtoupper(str_replace('-', '_', $this->getLatin())) . '_ID';
+        
+        if (defined($locale)) {
+            return constant($locale);
+        } elseif (defined("self::$locale")) {
+            return constant("self::$locale");
+        }
+
+        return 0;
     }
 }
