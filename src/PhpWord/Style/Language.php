@@ -127,7 +127,7 @@ final class Language extends AbstractStyle
     {
         if (!empty($latin)) {
             $this->setLatin($latin);
-            $this->setLangId($this->convertLocale($this->getLang()));
+            $this->setLangId($this->convertLocale($this->getLatin()));
         }
         if (!empty($eastAsia)) {
             $this->setEastAsia($eastAsia);
