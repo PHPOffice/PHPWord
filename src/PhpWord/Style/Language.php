@@ -127,7 +127,7 @@ final class Language extends AbstractStyle
     {
         if (!empty($latin)) {
             $this->setLatin($latin);
-            $this->setLangId();
+            $this->setLangId($this->getLatin());
         }
         if (!empty($eastAsia)) {
             $this->setEastAsia($eastAsia);
@@ -142,6 +142,8 @@ final class Language extends AbstractStyle
      *
      * @param string $latin
      *            The value for the latin language
+     *
+     * @return self
      */
     public function setLatin(?string $latin): self
     {
@@ -161,13 +163,20 @@ final class Language extends AbstractStyle
     /**
      * Set the Language ID.
      *
+     * @param string|int $latin
+     *            The value for the latin language
+     *
      * @return self
      *
      * @see https://technet.microsoft.com/en-us/library/cc287874(v=office.12).aspx
      */
-    public function setLangId()
+    public function setLangId($latin)
     {
-        $this->langId = $this->convertLocale();
+        if(is_string($latin)) {
+            $this->langId = $this->convertLocale($latin);
+        } else {
+            $this->langId = $latin;
+        }
 
         return $this;
     }
@@ -261,15 +270,18 @@ final class Language extends AbstractStyle
     /**
      * Converts a language from the format xx-xx to decimal.
      *
+     * @param string $latin
+     *            The value for the latin language
+     *
      * @return int
      */
-    private function convertLocale()
+    private function convertLocale($latin)
     {
-        if ($this->getLatin() === null) {
+        if ($latin === null) {
             return 0;
         }
 
-        $locale = strtoupper(str_replace('-', '_', $this->getLatin())) . '_ID';
+        $locale = strtoupper(str_replace('-', '_', $latin)) . '_ID';
         
         if (defined($locale)) {
             return constant($locale);
