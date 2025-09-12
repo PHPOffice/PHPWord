@@ -142,8 +142,6 @@ final class Language extends AbstractStyle
      *
      * @param string $latin
      *            The value for the latin language
-     *
-     * @return self
      */
     public function setLatin(?string $latin): self
     {
@@ -163,7 +161,7 @@ final class Language extends AbstractStyle
     /**
      * Set the Language ID.
      *
-     * @param string|int $latin
+     * @param int|string $latin
      *            The value for the latin language
      *
      * @return self
@@ -172,11 +170,14 @@ final class Language extends AbstractStyle
      */
     public function setLangId($latin)
     {
+        $this->langId = $latin;
+
+        /*
         if(is_string($latin)) {
             $this->langId = $this->convertLocale($latin);
         } else {
             $this->langId = $latin;
-        }
+        } */
 
         return $this;
     }
