@@ -271,7 +271,7 @@ final class Language extends AbstractStyle
      */
     private function convertLocale($latin)
     {
-        if ($latin === null) {
+        if (empty($latin)) {
             return 1024;
         }
 
