@@ -161,14 +161,11 @@ final class Language extends AbstractStyle
     /**
      * Set the Language ID.
      *
-     * @param int $langId
-     *            The value for the language ID
-     *
      * @return self
      *
      * @see https://technet.microsoft.com/en-us/library/cc287874(v=office.12).aspx
      */
-    public function setLangId($langId)
+    public function setLangId()
     {
         $this->langId = $this->convertLocale();
 
