@@ -127,7 +127,7 @@ final class Language extends AbstractStyle
     {
         if (!empty($latin)) {
             $this->setLatin($latin);
-            $this->setLangId($latin);
+            $this->setLangId($this->convertLocale($this->validateLocale($latin)));
         }
         if (!empty($eastAsia)) {
             $this->setEastAsia($eastAsia);
@@ -161,7 +161,7 @@ final class Language extends AbstractStyle
     /**
      * Set the Language ID.
      *
-     * @param int|string $langId
+     * @param int $langId
      *            The value for the language ID
      *
      * @return self
@@ -170,11 +170,7 @@ final class Language extends AbstractStyle
      */
     public function setLangId($langId)
     {
-        if (is_string($langId)) {
-            $this->langId = $this->convertLocale($this->validateLocale($langId));
-        } else {
-            $this->langId = $langId;
-        }
+        $this->langId = $langId;
 
         return $this;
     }
