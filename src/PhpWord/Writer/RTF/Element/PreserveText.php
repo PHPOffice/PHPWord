@@ -44,13 +44,17 @@ class PreserveText extends AbstractElement
         $content .= $this->writeOpening();
         $content .= '{';
         $content .= $this->writeFontStyle();
-        foreach($element->getText() as $text) {
-            if (preg_match('/[{}]/', $text) == 1) {
-                $text = str_replace(array('{', '}'), '', $text);
-                $content .= '{\field {\*\fldinst {' . $text . '}}{\\fldrslt {}}}';
-            } else {
-                $content .= $this->writeText($text);
+        if(is_array($element->getText())) {
+            foreach ($element->getText() as $text) {
+                if (preg_match('/[{}]/', $text) == 1) {
+                    $text = str_replace(['{', '}'], '', $text);
+                    $content .= '{\field {\*\fldinst {' . $text . '}}{\\fldrslt {}}}';
+                } else {
+                    $content .= $this->writeText($text);
+                }
             }
+        } else {
+            $content .= $this->writeText($element->getText());
         }
         $content .= '}';
         $content .= $this->writeClosing();
