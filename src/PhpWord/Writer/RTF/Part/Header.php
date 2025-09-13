@@ -200,7 +200,6 @@ class Header extends AbstractPart
             'hybridMultilevel' => '\listhybrid',
         ];
 
-        // see page 31-34 of RTF 1.9.1 spec - unsure which code to use for commented out items
         $numberType = [
             \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL => '0',
             \PhpOffice\PhpWord\SimpleType\NumberFormat::UPPER_ROMAN => '1',
@@ -224,7 +223,7 @@ class Header extends AbstractPart
             \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_FULL_WIDTH2 => 'decimalFullWidth2', */
             \PhpOffice\PhpWord\SimpleType\NumberFormat::AIUEO_FULL_WIDTH => '20',
             \PhpOffice\PhpWord\SimpleType\NumberFormat::IROHA_FULL_WIDTH => '21',
-            /* \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_ZERO => 'decimalZero', */
+            // \PhpOffice\PhpWord\SimpleType\NumberFormat::DECIMAL_ZERO => 'decimalZero',
             \PhpOffice\PhpWord\SimpleType\NumberFormat::BULLET => '23',
             /* \PhpOffice\PhpWord\SimpleType\NumberFormat::GANADA => 'ganada',
             \PhpOffice\PhpWord\SimpleType\NumberFormat::CHOSUNG => 'chosung',
@@ -270,7 +269,6 @@ class Header extends AbstractPart
             'right' => '2',
         ];
 
-        // listtable
         $content .= '{';
         $content .= '\*\listtable' . PHP_EOL;
 
@@ -282,7 +280,6 @@ class Header extends AbstractPart
             }
             $content .= PHP_EOL;
             foreach ($list['listItems'] as $listItem) {
-
                 $content .= '{';
                 $content .= '\listlevel';
                 if (isset($numberType[$listItem['format']])) {
@@ -294,7 +291,9 @@ class Header extends AbstractPart
                     $content .= '\leveljcn' . $listAlignment[$listItem['alignment']];
                 }
                 $content .= '\levelstartat' . $listItem['start'];
-                if (isset($listItem['restart'])) { $content .= '\levelnorestart' . $listItem['restart']; }
+                if (isset($listItem['restart'])) {
+                    $content .= '\levelnorestart' . $listItem['restart'];
+                }
 
                 // Level Text and Numbers
                 $positions = [];
@@ -306,9 +305,9 @@ class Header extends AbstractPart
                     $offset = 0;
                     while (($pos = strpos($levelNumbers, 'X', $offset)) !== false) {
                         $positions[] = $pos;
-                        $offset = $pos + 1; 
+                        $offset = $pos + 1;
                     }
-                    $strLength = (string) sprintf("%02d", strlen($levelNumbers));
+                    $strLength = (string) sprintf('%02d', strlen($levelNumbers));
                 } else {
                     $level = '\\\'' . (string) strtoupper(dechex(ord(iconv('UTF-8', 'UCS-2', $listItem['text']))));
                     $strLength = '01';
@@ -320,20 +319,16 @@ class Header extends AbstractPart
                 $content .= '{';
                 $content .= '\levelnumbers ';
                 foreach ($positions as $position) {
-                    $position++;
+                    ++$position;
                     $content .= '\\\'0' . $position;
                 }
                 $content .= ';}';
 
-                print_r($listItem);
-                echo '<br>';
-                
                 // Font settings for Level Numbers
                 if (isset($listItem['font']) && !empty($listItem['font'])) {
                     $fontKey = array_search($listItem['font'], $this->fontTable);
-                    if ($fontKey !== FALSE) {
+                    if ($fontKey !== false) {
                         $content .= '\f' . $fontKey;
-
                     }
                 }
 
@@ -357,7 +352,7 @@ class Header extends AbstractPart
         $content .= '{';
         $content .= '\*\listoverridetable' . PHP_EOL;
         foreach ($this->listTable as $list) {
-           $content .= '{';
+            $content .= '{';
             $content .= '\listoverride\listid' . $list['numId'];
             $content .= '\listoverridecount0\ls' . $list['numId'];
             $content .= '}';
@@ -470,12 +465,27 @@ class Header extends AbstractPart
     }
 
     /**
+     * Register individual font and color.
+     *
+     * @param array &$table
+     * @param string $value
+     * @param string $default
+     */
+    private function registerTableItem(&$table, $value, $default = null): void
+    {
+        if (in_array($value, $table) === false && $value !== null && $value != $default) {
+            $table[] = $value;
+        }
+    }
+
+    /**
      * Register lists and fonts within lists.
      *
      * @param array &$table
-     * @param Style\Numbering $style
+     * @param Numbering $style
+     * @param string $defaultFont
      */
-    private function registerList(&$table, $style): void
+    private function registerList(&$table, $style, $defaultFont = null): void
     {
         $listItems = [];
 
@@ -515,11 +525,11 @@ class Header extends AbstractPart
      *
      * @param string $string
      */
-
     private function lowerDigitsByOne($string): string
     {
-        return preg_replace_callback('/\d/', function($matches) {
+        return preg_replace_callback('/\d/', function ($matches) {
             $digit = (int) $matches[0];
+
             return ($digit > 0) ? (string) ($digit - 1) : (string) $digit;
         }, $string);
     }
