@@ -53,3 +53,12 @@ parameters:
         -
             message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class-string<object>\|object, class-string\|false given.#'
             path: tests/PhpWordTests/Style/AbstractStyleTest.php
+        -
+            message: '#always exists and is not nullable#'
+            path: tests/PhpWordTests/Writer/HTML/Element/TableTest.php
+        -
+            message: '#always exists and is not nullable#'
+            path: tests/PhpWordTests/Writer/HTML/FontTest.php
+        -
+            message: '#always exists and is not nullable#'
+            path: tests/PhpWordTests/Writer/HTML/ParagraphTest.php
