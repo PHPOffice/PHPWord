@@ -34,34 +34,18 @@ class MPDF extends AbstractRenderer implements WriterInterface
     private const BODY_TAG = '<body>';
 
     /**
-     * Overridden to set the correct includefile, only needed for MPDF 5.
-     *
-     * @codeCoverageIgnore
-     */
-    public function __construct(PhpWord $phpWord)
-    {
-        if (file_exists(Settings::getPdfRendererPath() . '/mpdf.php')) {
-            // MPDF version 5.* needs this file to be included, later versions not
-            $this->includeFile = 'mpdf.php';
-        }
-        parent::__construct($phpWord);
-    }
-
-    /**
      * Gets the implementation of external PDF library that should be used.
      *
      * @return \Mpdf\Mpdf implementation
      */
     protected function createExternalWriterInstance()
     {
-        $mPdfClass = $this->getMPdfClassName();
-
         $options = [];
         if ($this->getFont()) {
             $options['default_font'] = $this->getFont();
         }
 
-        return new $mPdfClass($options);
+        return new \Mpdf\Mpdf($options);
     }
 
     /**
@@ -112,23 +96,5 @@ class MPDF extends AbstractRenderer implements WriterInterface
         fwrite($fileHandle, $pdf->output($filename, 'S'));
 
         parent::restoreStateAfterSave($fileHandle);
-    }
-
-    /**
-     * Return classname of MPDF to instantiate.
-     *
-     * @codeCoverageIgnore
-     *
-     * @return string
-     */
-    private function getMPdfClassName()
-    {
-        if ($this->includeFile != null) {
-            // MPDF version 5.*
-            return '\mpdf';
-        }
-
-        // MPDF version > 6.*
-        return '\Mpdf\Mpdf';
     }
 }

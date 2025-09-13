@@ -401,11 +401,6 @@ parameters:
 			path: src/PhpWord/Shared/Microsoft/PasswordEncoder.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLWriter\\:\\:getData\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/XMLWriter.php
-
-		-
 			message: "#^Call to method add\\(\\) on an unknown class PclZip\\.$#"
 			count: 2
 			path: src/PhpWord/Shared/ZipArchive.php
