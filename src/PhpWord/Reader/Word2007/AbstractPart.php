@@ -369,7 +369,11 @@ abstract class AbstractPart
                     }
                     $formField->setEntries($listEntries);
                     if (null !== $formField->getValue()) {
-                        $formField->setText($listEntries[$formField->getValue()]);
+                        /** @var int */
+                        $temp = $formField->getValue();
+                        $formField->setText(
+                            $listEntries[$temp]
+                        );
                     }
 
                     break;

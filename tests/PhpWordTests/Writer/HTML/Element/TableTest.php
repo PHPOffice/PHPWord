@@ -162,7 +162,7 @@ class TableTest extends TestCase
         self::assertEquals('tstyle', Helper::getTextContent($xpath, '/html/body/div/table[6]', 'class'));
         $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[.]tstyle[^\\r\\n]*/m', $style, $matches));
-        self::assertEquals(".tstyle {table-layout: auto; $cssnone}", $matches[0]);
+        self::assertEquals(".tstyle {table-layout: auto; $cssnone}", $matches[0] ?? '');
     }
 
     public function testWriteTableCellVAlign(): void
