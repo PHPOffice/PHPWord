@@ -310,7 +310,7 @@ class Header extends AbstractPart
                     }
                     $strLength = (string) sprintf('%02d', strlen($levelNumbers));
                 } else {
-                    $level = '\\\'' . (string) strtoupper(dechex(ord(iconv('UTF-8', 'UCS-2', $listText))));
+                    $level = '\\\'' . (string) strtoupper(dechex(ord((string) iconv('UTF-8', 'UCS-2', $listText))));
                     $strLength = '01';
                 }
 
