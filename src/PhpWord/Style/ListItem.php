@@ -124,7 +124,7 @@ class ListItem extends AbstractStyle
     public function getNumberingStyle()
     {
         $numStyleObject = Style::getStyle($this->numStyle);
-        if ($numStyleObject instanceof Numbering) {
+        if ($numStyleObject instanceof NumberingStyle) {
             return $numStyleObject;
         }
 
@@ -142,7 +142,7 @@ class ListItem extends AbstractStyle
     {
         $this->numStyle = $value;
         $numStyleObject = Style::getStyle($this->numStyle);
-        if ($numStyleObject instanceof Numbering) {
+        if ($numStyleObject instanceof NumberingStyle) {
             $this->numId = $numStyleObject->getIndex();
             $numStyleObject->setNumId($this->numId);
         }
