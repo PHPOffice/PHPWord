@@ -465,20 +465,6 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register individual font and color.
-     *
-     * @param array &$table
-     * @param string $value
-     * @param string $default
-     */
-    private function registerTableItem(&$table, $value, $default = null): void
-    {
-        if (in_array($value, $table) === false && $value !== null && $value != $default) {
-            $table[] = $value;
-        }
-    }
-
-    /**
      * Register lists and fonts within lists.
      *
      * @param array &$table
