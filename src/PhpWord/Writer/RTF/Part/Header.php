@@ -299,9 +299,10 @@ class Header extends AbstractPart
                 $positions = [];
                 $level = '';
                 $strLength = '';
-                if (strpos($listItem['text'], '%') !== false) {
-                    $level = $this->lowerDigitsByOne(str_replace('%', '\\\'0', $listItem['text']));
-                    $levelNumbers = (string) preg_replace('/\d/', 'X', str_replace('%', '', $listItem['text']));
+                $listText = (string) $listItem['text'];
+                if (strpos($listText, '%') !== false) {
+                    $level = $this->lowerDigitsByOne(str_replace('%', '\\\'0', $listText));
+                    $levelNumbers = preg_replace('/\d/', 'X', str_replace('%', '', $listText));
                     $offset = 0;
                     while (($pos = strpos($levelNumbers, 'X', $offset)) !== false) {
                         $positions[] = $pos;
@@ -309,7 +310,7 @@ class Header extends AbstractPart
                     }
                     $strLength = (string) sprintf('%02d', strlen($levelNumbers));
                 } else {
-                    $level = '\\\'' . (string) strtoupper(dechex(ord(iconv('UTF-8', 'UCS-2', $listItem['text']))));
+                    $level = '\\\'' . (string) strtoupper(dechex(ord(iconv('UTF-8', 'UCS-2', $listText))));
                     $strLength = '01';
                 }
 
