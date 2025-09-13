@@ -44,7 +44,7 @@ class PreserveText extends AbstractElement
         $content .= $this->writeOpening();
         $content .= '{';
         $content .= $this->writeFontStyle();
-        if(is_array($element->getText())) {
+        if (is_array($element->getText())) {
             foreach ($element->getText() as $text) {
                 if (preg_match('/[{}]/', $text) == 1) {
                     $text = str_replace(['{', '}'], '', $text);
