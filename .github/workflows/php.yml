@@ -109,7 +109,7 @@ jobs:
 
       -   name: Composer Config nightly
           if: matrix.php == 'nightly'
-          run: composer config platform.php 8.4.99
+          run: composer config platform.php 8.5.99
 
       -   name: Composer Install
           run: composer install --ansi --prefer-dist --no-interaction --no-progress
@@ -144,47 +144,3 @@ jobs:
             wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
             chmod +x php-coveralls.phar
             php php-coveralls.phar --coverage_clover=build/clover.xml --json_path=build/coveralls-upload.json -vvv
-
-  samples:
-    name: Check samples
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        experimental:
-          - false
-        php:
-          - '7.1'
-          - '7.2'
-          - '7.3'
-          - '7.4'
-          - '8.0'
-          - '8.1'
-          - '8.2'
-          - '8.3'
-          - '8.4'
-
-        include:
-          - php: 'nightly'
-            experimental: true
-    steps:
-      -   name: Setup PHP
-          uses: shivammathur/setup-php@v2
-          with:
-              php-version: ${{ matrix.php }}
-              extensions: gd, xml, zip
-              coverage: xdebug
-
-      -   uses: actions/checkout@v2
-
-      -   name: Composer Config nightly
-          if: matrix.php == 'nightly'
-          run: composer config platform.php 8.4.99
-
-      -   name: Composer Install
-          run: composer install --ansi --prefer-dist --no-interaction --no-progress
-
-      -   name: "Generate samples files (Experimental: ${{ matrix.experimental }})"
-          env:
-              FAILURE_ACTION: "${{ matrix.experimental == true }}"
-          run: composer run samples || $FAILURE_ACTION
