@@ -29,7 +29,6 @@ class SampleTest extends TestCase
     protected static $alwaysTrue = true;
 
     /**
-     *
      * @param string $sample
      *
      * @preserveGlobalState disabled
