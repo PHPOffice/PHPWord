@@ -25,16 +25,20 @@ use RuntimeException;
 
 class SampleTest extends TestCase
 {
-    protected static bool $alwaysTrue = true;
+    /** @var bool */
+    protected static $alwaysTrue = true;
 
     /**
+     *
+     * @param string $sample
+     *
      * @preserveGlobalState disabled
      *
      * @runInSeparateProcess
      *
      * @dataProvider providerSample
      */
-    public function testSample(string $sample): void
+    public function testSample($sample): void
     {
         ob_start();
         require $sample;
