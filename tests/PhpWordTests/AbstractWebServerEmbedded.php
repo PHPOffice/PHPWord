@@ -24,11 +24,19 @@ abstract class AbstractWebServerEmbedded extends \PHPUnit\Framework\TestCase
 {
     private static $httpServer;
 
+    /** @var int */
+    protected static $wakeupDeprecatedVersion = 80500;
+
     public static function setUpBeforeClass(): void
     {
         $commandLine = 'php -S localhost:8080 -t tests/PhpWordTests/_files';
 
-        self::$httpServer = Process::fromShellCommandline($commandLine);
+        // need Symfony/Process 7.3.4
+        if (PHP_VERSION_ID < self::$wakeupDeprecatedVersion) {
+            self::$httpServer = Process::fromShellCommandline($commandLine);
+        } else {
+            self::$httpServer = @Process::fromShellCommandline($commandLine);
+        }
         self::$httpServer->start();
         while (!self::$httpServer->isRunning()) {
             usleep(1000);
