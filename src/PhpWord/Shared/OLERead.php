@@ -24,6 +24,7 @@ define('IDENTIFIER_OLE', pack('CCCCCCCC', 0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x
 
 class OLERead
 {
+    /** @var string */
     private $data = '';
 
     // OLE identifier
@@ -55,32 +56,49 @@ class OLERead
     const START_BLOCK_POS = 0x74;
     const SIZE_POS = 0x78;
 
+    /** @var mixed */
     public $wrkdocument = null;
+    /** @var mixed */
     public $wrk1Table = null;
+    /** @var mixed */
     public $wrkData = null;
+    /** @var mixed */
     public $wrkObjectPool = null;
+    /** @var mixed */
     public $summaryInformation = null;
+    /** @var mixed */
     public $docSummaryInfos = null;
+    /** @var mixed */
     public $numBigBlockDepotBlocks = null;
+    /** @var mixed */
     public $rootStartBlock = null;
+    /** @var mixed */
     public $sbdStartBlock = null;
+    /** @var mixed */
     public $extensionBlock = null;
+    /** @var mixed */
     public $numExtensionBlocks = null;
+    /** @var mixed */
     public $bigBlockChain = null;
-    public $smallBlockChain = null;	
-    public $entry = null;	
+    /** @var mixed */
+    public $smallBlockChain = null;
+    /** @var mixed */
+    public $entry = null;
+    /** @var mixed */
     public $rootentry = null;
+    /** @var mixed */
     public $wrkObjectPoolelseif = null;
+    /** @var array */
     public $props = array();	
 
     /**
      * Read the file
      *
-     * @param $sFileName string Filename
+     * @param string $sFileName Filename
      *
      * @throws Exception
      */
-    public function read($sFileName)
+    public function read($sFileName): void
     {
         // Check if file exists and is readable
         if (!is_readable($sFileName)) {
@@ -89,7 +107,7 @@ class OLERead
 
         // Get the file identifier
         // Don't bother reading the whole file until we know it's a valid OLE file
-        $this->data = file_get_contents($sFileName, false, null, 0, 8);
+        $this->data = (string) file_get_contents($sFileName, false, null, 0, 8);
 
         // Check OLE identifier
         if ($this->data != self::IDENTIFIER_OLE) {
@@ -97,7 +115,7 @@ class OLERead
         }
 
         // Get the file data
-        $this->data = file_get_contents($sFileName);
+        $this->data = (string) file_get_contents($sFileName);
 
         // Total number of sectors used for the SAT
         $this->numBigBlockDepotBlocks = self::getInt4d($this->data, self::NUM_BIG_BLOCK_DEPOT_BLOCKS_POS);
@@ -180,7 +198,7 @@ class OLERead
      * Extract binary stream data
      *
      * @param mixed $stream
-     * @return string
+     * @return ?string
      */
     public function getStream($stream)
     {
@@ -248,7 +266,7 @@ class OLERead
     /**
      * Read entries in the directory stream.
      */
-    private function readPropertySets()
+    private function readPropertySets(): void
     {
         $offset = 0;
 

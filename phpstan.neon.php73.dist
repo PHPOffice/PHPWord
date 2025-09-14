@@ -9,7 +9,6 @@ parameters:
         - tests/
     excludePaths:
         - */pclzip.lib.php
-        - src/PhpWord/Shared/OLERead.php
     bootstrapFiles:
         - tests/bootstrap.php
     reportUnmatchedIgnoredErrors: true
