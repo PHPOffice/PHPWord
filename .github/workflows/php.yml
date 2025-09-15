@@ -109,7 +109,7 @@ jobs:
 
       -   name: Composer Config nightly
           if: matrix.php == 'nightly'
-          run: composer config platform.php 8.4.99
+          run: composer config platform.php 8.5.99
 
       -   name: Composer Install
           run: composer install --ansi --prefer-dist --no-interaction --no-progress
