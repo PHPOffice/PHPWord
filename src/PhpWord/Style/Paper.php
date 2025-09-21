@@ -100,13 +100,18 @@ class Paper extends AbstractStyle
      * @var array
      */
     private $sizes = [
+        'Letter' => [8.5, 11, 'in'],
+        'Tabloid' => [11, 17, 'in'],
+        'Ledger' => [17, 11, 'in'],
+        'Legal' => [8.5, 14, 'in'],
+        'Statement' => [5.5, 8.5, 'in'],
+        'Executive' => [7.25, 10.5, 'in'],
         'A3' => [297, 420, 'mm'],
         'A4' => [210, 297, 'mm'],
         'A5' => [148, 210, 'mm'],
+        'B4' => [250, 353, 'mm'],
         'B5' => [176, 250, 'mm'],
         'Folio' => [8.5, 13, 'in'],
-        'Legal' => [8.5, 14, 'in'],
-        'Letter' => [8.5, 11, 'in'],
     ];
 
     /**
