@@ -12,7 +12,7 @@
 - `LOW_KASHIDA`.
 - `THAI_DISTRIBUTE`.
 
-Depricated
+Deprecated
 - `LEFT`.
 - `RIGHT`.
 - `JUSTIFY`.
