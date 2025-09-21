@@ -28,3 +28,6 @@
 - `THREE_D_ENGRAVE`. A three-staged gradient like, getting darker away from the paragraph
 - `TRIPLE`. A triple line
 - `WAVE`. A wavy line
+
+## Used In
+- [`Style > Border`](../styles/border.md).
