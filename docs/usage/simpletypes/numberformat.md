@@ -1,4 +1,4 @@
-# NumberFormat
+# Number Format
 
 ## Constants
 - `NONE`. No Numbering.
