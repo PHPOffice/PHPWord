@@ -1,4 +1,4 @@
-# LineSpacingRule
+# Line Spacing Rule
 
 ## Constants
 - `AUTO`.
