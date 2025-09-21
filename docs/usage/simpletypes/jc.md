@@ -11,3 +11,8 @@
 - `HIGH_KASHIDA`.
 - `LOW_KASHIDA`.
 - `THAI_DISTRIBUTE`.
+
+Depricated
+- `LEFT`.
+- `RIGHT`.
+- `JUSTIFY`.
