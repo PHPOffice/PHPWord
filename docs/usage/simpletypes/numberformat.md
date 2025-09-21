@@ -3,7 +3,6 @@
 ## Constants
 - `NONE`. No Numbering.
 - `BULLET`. Bullet.
-- `DECIMAL`. Decimal Numbers.
 - `UPPER_ROMAN`. Uppercase Roman Numerals.
 - `LOWER_ROMAN`. Lowercase Roman Numerals.
 - `UPPER_LETTER`. Uppercase Latin Alphabet.
@@ -13,7 +12,9 @@
 - `CARDINAL_TEXT`. Cardinal Text.
 - `HEX`. Hexadecimal Numbering.
 - `CHICAGO`. Chicago Manual of Style.
-- `NUMBER_IN_DASH`. Number With Dashes.
+
+### Decimal
+- `DECIMAL`. Decimal Numbers.
 - `DECIMAL_ZERO`. Initial Zero Arabic Numerals.
 - `DECIMAL_FULL_WIDTH`. Double Byte Arabic Numerals.
 - `DECIMAL_FULL_WIDTH2`. Double Byte Arabic Numerals Alternate.
@@ -22,12 +23,17 @@
 - `DECIMAL_ENCLOSED_FULL_STOP`. Decimal Numbers Followed by a Period.
 - `DECIMAL_ENCLOSED_PAREN`. Decimal Numbers Enclosed in Parenthesis.
 - `DECIMAL_ENCLOSED_CIRCLE_CHINESE`. Decimal Numbers Enclosed in a Circle.
+- `NUMBER_IN_DASH`. Number With Dashes.
+
+### Ideograph
 - `IDEOGRAPH_DIGITAL`. Ideographs.
 - `IDEOGRAPHENCLOSEDCIRCLE`. Ideographs Enclosed in a Circle.
 - `IDEOGRAPH_TRADITIONAL`. Traditional Ideograph Format.
 - `IDEOGRAPH_ZODIAC`. Zodiac Ideograph Format.
 - `IDEOGRAPH_ZODIAC_TRADITIONAL`. Traditional Zodiac Ideograph Format.
 - `IDEOGRAPH_LEGAL_TRADITIONAL`. Traditional Legal Ideograph Format.
+
+### Non-Roman Systems
 - `AIUEO`. AIUEO Order Hiragana.
 - `AIUEO_FULL_WIDTH`. Full-Width AIUEO Order Hiragana.
 - `IROHA`. Iroha Ordered Katakana.
@@ -61,3 +67,6 @@
 - `TAIWANESE_COUNTING`. Taiwanese Counting System.
 - `TAIWANESE_COUNTING_THOUSAND`. Taiwanese Counting Thousand System.
 - `TAIWANESE_DIGITAL`. Taiwanese Digital Counting System.
+
+## Used In
+- [`Style > NumberingLevel`](../styles/numberinglevel.md).
