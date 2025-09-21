@@ -8,5 +8,3 @@
 ## Options
 - `size`. Page size. `A4` is default.
    * See sizes above for possible values.
-- `width`. Page width in *twip*.
-- `height`. Page height in *twip*.
