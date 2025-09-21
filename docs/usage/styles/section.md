@@ -1,6 +1,6 @@
 # Section
 - Extends Border
-   * See [`\PhpOffice\PhpWord\Style\Border`](/docs/usage/styles/border.md) for additional settings.
+   * See [`\PhpOffice\PhpWord\Style\Border`](/docs/usage/styles/border.md) for additional options.
 
 ## Constants
 - Orientation
