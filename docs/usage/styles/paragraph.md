@@ -1,9 +1,26 @@
 # Paragraph Styles
 
+``` php
+<?php
+
+$phpWord->addParagraphStyle('header', ['align' => 'center', 'spaceAfter' => 240]);
+
+```
+
+``` php
+<?php
+
+use PhpOffice\PhpWord\SimpleType\Jc as JcType;
+$paragraphStyle = ['align' => JcType::BOTH, 'keepNext' => true];
+$section->addText('Hello, world!', null, $paragraphStyle);
+
+```
+
 ## Constants
 - `LINE_HEIGHT` = `240`
 
 ## Options
+- `align`. Same as alignment.
 - `alignment`. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
    * See [`SimpleType > Jc`](../simpletypes/jc.md) for possible values.
 - `basedOn`. Parent style.
@@ -38,5 +55,19 @@
 - `textAlignment`. Vertical Character Alignment on Line.
    * See [`SimpleType > TextAlignment`](/docs/usage/simpletypes/textalignment.md) class constants for possible values.
 
-Extends Border
+### Extends Border
 - See [`Style > Border`](../styles/border.md) for additional options.
+
+## Used In
+- [`Element > CheckBox`](../elements/checkbox.md).
+- [`Element > Endnote`](../elements/endnote.md).
+- [`Element > Footnote`](../elements/footnote.md).
+- [`Element > FormField`](../elements/formfield.md).
+- [`Element > Link`](../elements/link.md).
+- [`Element > ListItem`](../elements/list.md).
+- [`Element > ListItemRun`](../elements/listitemrun.md).
+- [`Element > PreserveText`](../elements/preservetext.md).
+- [`Element > SDT`](../elements/sdt.md).
+- [`Element > Text`](../elements/text.md).
+- [`Element > TextBreak`](../elements/textbreak.md).
+- [`Element > TextRun`](../elements/textrun.md).
