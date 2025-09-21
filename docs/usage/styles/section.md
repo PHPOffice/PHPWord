@@ -1,6 +1,4 @@
-# Section
-- Extends Border
-   * See [`\PhpOffice\PhpWord\Style\Border`](/docs/usage/styles/border.md) for additional options.
+# Section Styles
 
 ## Constants
 - Orientation
@@ -15,13 +13,15 @@
 - `gutter`. Page gutter spacing. `0` is default.
 - `headerHeight`. Spacing to top of header. `720` is default.
 - `lineNumbering`. Line numbering.
-   * See [`\PhpOffice\PhpWord\Style\LineNumbering`](/docs/usage/styles/linenumbering.md) for possible values.
+   * See [`Style > LineNumbering`](/docs/usage/styles/linenumbering.md) for possible values.
 - `orientation`. Page orientation. `ORIENTATION_PORTRAIT` is default.
    * See constants above for possible values.
 - `pageNumberingStart`. Starting page number.
 - `pageSizeH`. Page height in *twip*. `16837.79527559` is default.
 - `pageSizeW`. Page width in *twip*. `11905.511811024` is default.
 - `paperSize`. Paper size.  `A4` is default.
-   * See [`\PhpOffice\PhpWord\Style\Paper`](/docs/usage/styles/paper.md) for possible values
+   * See [`Style > Paper`](/docs/usage/styles/paper.md) for possible values
 - `vAlign`. Vertical page alignment.
-   * See [`\PhpOffice\PhpWord\SimpleType\VerticalJc`](/docs/usage/simpletypes/verticaljc.md) for possible values.
+   * See [`SimpleType > VerticalJc`](/docs/usage/simpletypes/verticaljc.md) for possible values.
+- Extends Border
+   * See [`Style > Border`](/docs/usage/styles/border.md) for additional options.
