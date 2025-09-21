@@ -1,4 +1,4 @@
-# Jc
+# Justification
 
 ## Constants
 - `START`. Commonly known as *left*.
