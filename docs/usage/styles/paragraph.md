@@ -67,9 +67,9 @@ See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) for more code sa
 - [`Element > FormField`](../elements/formfield.md).
 - [`Element > Link`](../elements/link.md).
 - [`Element > ListItem`](../elements/list.md).
-- [`Element > ListItemRun`](../elements/listitemrun.md).
+- [`Element > ListItemRun`](../elements/list.md).
 - [`Element > PreserveText`](../elements/preservetext.md).
 - [`Element > SDT`](../elements/sdt.md).
 - [`Element > Text`](../elements/text.md).
 - [`Element > TextBreak`](../elements/textbreak.md).
-- [`Element > TextRun`](../elements/textrun.md).
+- [`Element > TextRun`](../elements/text.md).
