@@ -1,9 +1,26 @@
 # Font Styles
 
+``` php
+<?php
+
+$phpWord->addFontStyle('title', ['color' => '#FF0000', 'size' => 32]);
+
+```
+
+``` php
+<?php
+
+use PhpOffice\PhpWord\Style\Font as FontStyle;
+$fontStyle = ['name' => 'Arial', 'bold' => true, 'underline' => FontStyle::UNDERLINE_DASH];
+$section->addText('Hello, world!', $fontStyle);
+
+```
+
 ## Constants
 - Underline
    * `UNDERLINE_NONE`
-   * `UNDERLINE_DASH`, `UNDERLINE_DASHHEAVY`, `UNDERLINE_DASHLONG`, `UNDERLINE_DASHLONGHEAVY`
+   * `UNDERLINE_DASH`, `UNDERLINE_DASHHEAVY`,
+   * `UNDERLINE_DASHLONG`, `UNDERLINE_DASHLONGHEAVY`
    * `UNDERLINE_SINGLE`, `UNDERLINE_DOUBLE`, `UNDERLINE_HEAVY`
    * `UNDERLINE_DOTDASH`, `UNDERLINE_DOTDASHHEAVY`
    * `UNDERLINE_DOTDOTDASH`, `UNDERLINE_DOTDOTDASHHEAVY`
@@ -48,3 +65,15 @@
 - `underline`. Underline, *single*, *dash*, *dotted*, etc. `UNDERLINE_NONE` is default.
    * See constants above for possible values.
 - `whiteSpace`. How white space is handled when generating html/pdf. Possible values are *pre-wrap* and *normal* (other css values for white space are accepted, but are not expected to be useful).
+
+## Used In
+- [`Element > CheckBox`](../elements/checkbox.md).
+- [`Element > Field`](../elements/field.md).
+- [`Element > FormField`](../elements/formfield.md).
+- [`Element > Link`](../elements/link.md).
+- [`Element > ListItem`](../elements/listitem.md).
+- [`Element > PreserveText`](../elements/preservetext.md).
+- [`Element > SDT`](../elements/sdt.md).
+- [`Element > Text`](../elements/text.md).
+- [`Element > TextBreak`](../elements/textbreak.md).
+- [`Element > TOC`](../elements/toc.md).
