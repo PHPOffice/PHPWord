@@ -71,7 +71,7 @@ $section->addText('Hello, world!', $fontStyle);
 - [`Element > Field`](../elements/field.md).
 - [`Element > FormField`](../elements/formfield.md).
 - [`Element > Link`](../elements/link.md).
-- [`Element > ListItem`](../elements/listitem.md).
+- [`Element > ListItem`](../elements/list.md).
 - [`Element > PreserveText`](../elements/preservetext.md).
 - [`Element > SDT`](../elements/sdt.md).
 - [`Element > Text`](../elements/text.md).
