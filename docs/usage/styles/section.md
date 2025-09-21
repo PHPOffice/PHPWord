@@ -1,5 +1,15 @@
 # Section Styles
 
+``` php
+<?php
+
+use PhpOffice\PhpWord\SimpleTypes\VerticalJC as VerticalType;
+$sectionStyle = ['paperSize' => 'Letter', 'vAlign' => VerticalType::CENTER];
+$section = $phpWord->addSection([$sectionStyle]);
+```
+
+See [`Sample_03_Sections`](/samples/Sample_03_Sections.php) for more code samples.
+
 ## Constants
 - Orientation
    * `ORIENTATION_PORTRAIT`
@@ -24,5 +34,8 @@
 - `vAlign`. Vertical page alignment.
    * See [`SimpleType > VerticalJc`](../simpletypes/verticaljc.md) for possible values.
 
-Extends Border
+### Extends Border
 - See [`Style > Border`](../styles/border.md) for additional options.
+
+## Used In
+- [`Element > Section`](../elements/section.md).
