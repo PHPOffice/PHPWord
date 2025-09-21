@@ -1,19 +1,8 @@
 # Border
 
 ## Options
-- `borderTopSize`. Border top size in *twip*.
-- `borderTopColor`. Border top color.
-- `borderTopStyle`. Border top style.
-- `borderLeftSize`. Border left size in *twip*.
-- `borderLeftColor`. Border left color.
-- `borderLeftStyle`. Border left style.
-- `borderRightSize`. Border right size in *twip*.
-- `borderRightColor`. Border right color.
-- `borderRightStyle`. Border right style.
-- `borderBottomSize`. Border bottom size in *twip*.
-- `borderBottomColor`. Border bottom color.
-- `borderBottomStyle`. Border bottom style.
-- `marginTop`. Page margin top in *twip*. `1440` is default.
-- `marginLeft`. Page margin left in *twip*. `1440` is default.
-- `marginRight`. Page margin right in *twip*. `1440` is default.
-- `marginBottom`. Page margin bottom in *twip*. `1440` is default.
+- `border(Top|Right|Bottom|Left)Size`. Border size in *twip*.
+- `border(Top|Right|Bottom|Left)Color`. Border color, eg '9966CC'.
+- `border(Top|Right|Bottom|Left)Style`. Border style.
+  * See [`\PhpOffice\PhpWord\SimpleType\Border`](/docs/usage/simpletype/border.md) class constants for possible values.
+- `margin(Top|Right|Bottom|Left)`. Page margin in *twip*. `1440` is default.
