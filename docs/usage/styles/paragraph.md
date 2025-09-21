@@ -27,7 +27,7 @@
 - `next`. Style for next paragraph.
 - `numLevel`. Numbering level. `0` is default.
 - `numStyle`. Numbering style name
-   * See [`\PhpOffice\PhpWord\Style\Numnbering`](/docs/usage/styles/numbering.md).
+   * See [`\PhpOffice\PhpWord\Style\Numbering`](/docs/usage/styles/numbering.md).
 - `pageBreakBefore`. Start paragraph on next page, *true* or *false*.
 - `shading`. Paragraph Shading.
 - `spaceAfter`. Space after paragraph in *twip*.
