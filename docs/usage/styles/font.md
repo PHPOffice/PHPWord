@@ -4,6 +4,7 @@
 <?php
 
 $phpWord->addFontStyle('title', ['color' => '#FF0000', 'size' => 32]);
+$section->addText('Hello, World!', 'title');
 
 ```
 
@@ -12,7 +13,7 @@ $phpWord->addFontStyle('title', ['color' => '#FF0000', 'size' => 32]);
 
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 $fontStyle = ['name' => 'Arial', 'bold' => true, 'underline' => FontStyle::UNDERLINE_DASH];
-$section->addText('Hello, world!', $fontStyle);
+$section->addText('Hello, World!', $fontStyle);
 
 ```
 
