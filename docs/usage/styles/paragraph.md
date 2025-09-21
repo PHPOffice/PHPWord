@@ -4,6 +4,7 @@
 <?php
 
 $phpWord->addParagraphStyle('header', ['align' => 'center', 'spaceAfter' => 240]);
+$section->addText('Hello, World!', null, 'header');
 
 ```
 
@@ -12,7 +13,7 @@ $phpWord->addParagraphStyle('header', ['align' => 'center', 'spaceAfter' => 240]
 
 use PhpOffice\PhpWord\SimpleType\Jc as JcType;
 $paragraphStyle = ['align' => JcType::BOTH, 'keepNext' => true];
-$section->addText('Hello, world!', null, $paragraphStyle);
+$section->addText('Hello, World!', null, $paragraphStyle);
 
 ```
 
