@@ -1,28 +1,30 @@
 # Section
+- Extends Border
+   * See [`\PhpOffice\PhpWord\Style\Border`](/docs/usage/styles/border) for additional settings.
 
-Available Section style options:
+## Constants
+- Orientation
+   * `ORIENTATION_PORTRAIT`
+   * `ORIENTATION_LANDSCAPE`
 
-- ``borderBottomColor``. Border bottom color.
-- ``borderBottomSize``. Border bottom size in *twip*.
-- ``borderLeftColor``. Border left color.
-- ``borderLeftSize``. Border left size in *twip*.
-- ``borderRightColor``. Border right color.
-- ``borderRightSize``. Border right size in *twip*.
-- ``borderTopColor``. Border top color.
-- ``borderTopSize``. Border top size in *twip*.
-- ``breakType``. Section break type (nextPage, nextColumn, continuous, evenPage, oddPage).
-- ``colsNum``. Number of columns.
-- ``colsSpace``. Spacing between columns.
-- ``footerHeight``. Spacing to bottom of footer.
-- ``gutter``. Page gutter spacing.
-- ``headerHeight``. Spacing to top of header.
-- ``marginTop``. Page margin top in *twip*.
-- ``marginLeft``. Page margin left in *twip*.
-- ``marginRight``. Page margin right in *twip*.
-- ``marginBottom``. Page margin bottom in *twip*.
-- ``orientation``. Page orientation (``portrait``, which is default, or ``landscape``).
-   See ``\PhpOffice\PhpWord\Style\Section::ORIENTATION_...`` class constants for possible values
-- ``pageSizeH``. Page height in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
-- ``pageSizeW``. Page width in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
-- ``vAlign``. Vertical Page Alignment
-   See ``\PhpOffice\PhpWord\SimpleType\VerticalJc`` for possible values
+## Paper Setup
+- `orientation`. Page orientation. `ORIENTATION_PORTRAIT` is default.
+   * See constants above for possible values.
+- `paper`. Paper size.  `A4` is default.
+   * See `\PhpOffice\PhpWord\Style\Paper` for possible values
+- `pageSizeH`. Page height in *twip*. `16837.79527559` is default.
+- `pageSizeW`. Page width in *twip*. `11905.511811024` is default.
+
+## Section Setup
+- `headerHeight`. Spacing to top of header. `720` is default.
+- `footerHeight`. Spacing to bottom of footer. `720` is default.
+- `breakType`. Section break type (`nextPage`, `nextColumn`, `continuous`, `evenPage`, `oddPage`).
+- `pageNumberingStart`. Starting page number.
+- `lineNumbering`. Line numbering.
+   * See [`\PhpOffice\PhpWord\Style\LineNumbering`](/docs/usage/styles/linenumbering) for possible values.
+- `vAlign`. Vertical page alignment.
+   * See [`\PhpOffice\PhpWord\SimpleType\VerticalJc`](/docs/usage/simpletypes/verticaljc) for possible values.
+
+## Columns
+- `colsNum`. Number of columns. `1` is default.
+- `colsSpace`. Spacing between columns. `720` is default.
