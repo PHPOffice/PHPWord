@@ -15,7 +15,7 @@
 - `contextualSpacing`. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.
 - `hanging`. Hanging indentation in *half inches*.
 - `indentation`. An array of indentation key => value pairs in *twip*. Supports *left*, *right*, *firstLine*, *firstLineChars* and *hanging* indentation.
-   See `\PhpOffice\PhpWord\Style\Indentation` for possible identation types.
+   * See [`\PhpOffice\PhpWord\Style\Indentation`](/docs/usage/styles/indentation.md) for possible identation types.
 - `indentHanging`. Hanging indentation in *half inches*.
 - `indentFirstLine`. First line indentation in *half inches*.
 - `indentFirstLineChars`. First line character indentation in *half inches*.
