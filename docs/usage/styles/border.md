@@ -1,12 +1,6 @@
 # Border
 
-## Margins
-- `marginTop`. Page margin top in *twip*. `1440` is default.
-- `marginLeft`. Page margin left in *twip*. `1440` is default.
-- `marginRight`. Page margin right in *twip*. `1440` is default.
-- `marginBottom`. Page margin bottom in *twip*. `1440` is default.
-
-## Borders
+## Options
 - `borderTopSize`. Border top size in *twip*.
 - `borderTopColor`. Border top color.
 - `borderTopStyle`. Border top style.
@@ -19,3 +13,7 @@
 - `borderBottomSize`. Border bottom size in *twip*.
 - `borderBottomColor`. Border bottom color.
 - `borderBottomStyle`. Border bottom style.
+- `marginTop`. Page margin top in *twip*. `1440` is default.
+- `marginLeft`. Page margin left in *twip*. `1440` is default.
+- `marginRight`. Page margin right in *twip*. `1440` is default.
+- `marginBottom`. Page margin bottom in *twip*. `1440` is default.
