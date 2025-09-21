@@ -1,4 +1,4 @@
-# Font
+# Font Styles
 
 ## Constants
 - Underline
@@ -29,10 +29,10 @@
 - `italic`. Italic, *true* or *false*.
 - `kerning`. Font kerning: halfpoint.
 - `lang`. Language, either a language code like *en-US*, *fr-BE*, etc. or an object (or as an array) if you need to set eastAsian or bidirectional languages
-   * See [`\PhpOffice\PhpWord\Style\Language`](/docs/usage/styles/language.md) class for some language codes.
+   * See [`Style >Language`](../styles/language.md) class for some language codes.
 - `lineHeight`. Line height.
 - `paragraph`. Paragraph.
-   * See [`\PhpOffice\PhpWord\Style\Paragraph`](/docs/usage/styles/paragraph.md).
+   * See [`Style >Paragraph`](../styles/paragraph.md).
 - `name`. Font name, e.g. *Arial*.
 - `noProof`. Disable AutoCorrect, *true* or *false*.
 - `position`. The text position, raised or lowered, in half points
