@@ -11,3 +11,6 @@
 - `latin`.
 - `eastAsia`.
 - `bidirectional`.
+
+## Used In
+- [`Style > Font`](../styles/font.md).
