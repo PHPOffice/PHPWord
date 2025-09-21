@@ -1,4 +1,4 @@
-# Paragraph Style
+# Paragraph Styles
 
 ## Constants
 - `LINE_HEIGHT` = `240`
