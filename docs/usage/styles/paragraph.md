@@ -33,9 +33,9 @@
 - `spaceAfter`. Space after paragraph in *twip*.
 - `spaceBefore`. Space before paragraph in *twip*.
 - `spacing`. Space between lines in *twip*. If spacingLineRule is auto, 240 (height of 1 line) will be added, so if you want a double line height, set this to 240.
-   * See [`\PhpOffice\PhpWord\SimpleType\LineSpacingRule`](/docs/usage/simpletype/linespacingrule.md) class constants for possible values.
+   * See [`\PhpOffice\PhpWord\SimpleType\LineSpacingRule`](/docs/usage/simpletypes/linespacingrule.md) class constants for possible values.
 - `spacingLineRule`. Line Spacing Rule. *auto*, *exact*, *atLeast*
-   * See [`\PhpOffice\PhpWord\SimpleType\LineSpacingRule`](/docs/usage/simpletype/linespacingrule.md) class constants for possible values.
+   * See [`\PhpOffice\PhpWord\SimpleType\LineSpacingRule`](/docs/usage/simpletypes/linespacingrule.md) class constants for possible values.
 - `suppressAutoHyphens`. Hyphenation for paragraph, *true* or *false*.
 - `tabs`. Set of custom tab stops.
    * See [`\PhpOffice\PhpWord\Style\Tab`](/docs/usage/styles/tabs.md).
