@@ -1,4 +1,4 @@
-# Border
+# Border Type
 
 ## Constants
 - `SINGLE`. A single line.
