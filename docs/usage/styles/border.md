@@ -19,7 +19,7 @@ See [`Sample_03_Sections`](/samples/Sample_03_Sections.php) and [`Sample_09_Tabl
 - `margin(Top|Right|Bottom|Left)`. Page margin in *twip*. `1440` is default.
 
 ## Used In
-- [`Style > Cell`](../styles/cell.md).
+- [`Style > Cell`](../styles/table.md).
 - [`Style > Paragraph`](../styles/paragraph.md).
 - [`Style > Section`](../styles/section.md).
 - [`Style > Table`](../styles/table.md).
