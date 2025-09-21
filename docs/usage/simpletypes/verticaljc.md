@@ -1,4 +1,4 @@
-# VerticalJc
+# Vertical Justification
 
 ## Constants
 - `TOP`.
