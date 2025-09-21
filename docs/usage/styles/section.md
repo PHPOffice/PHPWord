@@ -5,7 +5,7 @@
 
 use PhpOffice\PhpWord\SimpleTypes\VerticalJC as VerticalType;
 $sectionStyle = ['paperSize' => 'Letter', 'vAlign' => VerticalType::CENTER];
-$section = $phpWord->addSection([$sectionStyle]);
+$section = $phpWord->addSection($sectionStyle);
 ```
 
 See [`Sample_03_Sections`](/samples/Sample_03_Sections.php) for more code samples.
