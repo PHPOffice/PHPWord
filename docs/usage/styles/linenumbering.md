@@ -1,4 +1,4 @@
-# LineNumbering
+# Line Numbering
 
 ## Constants
    * `LINE_NUMBERING_CONTINUOUS`
