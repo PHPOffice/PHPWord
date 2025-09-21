@@ -1,0 +1,63 @@
+# NumberFormat
+
+## Constants
+- `NONE`. No Numbering.
+- `BULLET`. Bullet.
+- `DECIMAL`. Decimal Numbers.
+- `UPPER_ROMAN`. Uppercase Roman Numerals.
+- `LOWER_ROMAN`. Lowercase Roman Numerals.
+- `UPPER_LETTER`. Uppercase Latin Alphabet.
+- `LOWER_LETTER`. Lowercase Latin Alphabet.
+- `ORDINAL`. Ordinal.
+- `ORDINAL_TEXT`. Ordinal Text.
+- `CARDINAL_TEXT`. Cardinal Text.
+- `HEX`. Hexadecimal Numbering.
+- `CHICAGO`. Chicago Manual of Style.
+- `NUMBER_IN_DASH`. Number With Dashes.
+- `DECIMAL_ZERO`. Initial Zero Arabic Numerals.
+- `DECIMAL_FULL_WIDTH`. Double Byte Arabic Numerals.
+- `DECIMAL_FULL_WIDTH2`. Double Byte Arabic Numerals Alternate.
+- `DECIMAL_HALF_WIDTH`. Single Byte Arabic Numerals.
+- `DECIMAL_ENCLOSED_CIRCLE`. Decimal Numbers Enclosed in a Circle.
+- `DECIMAL_ENCLOSED_FULL_STOP`. Decimal Numbers Followed by a Period.
+- `DECIMAL_ENCLOSED_PAREN`. Decimal Numbers Enclosed in Parenthesis.
+- `DECIMAL_ENCLOSED_CIRCLE_CHINESE`. Decimal Numbers Enclosed in a Circle.
+- `IDEOGRAPH_DIGITAL`. Ideographs.
+- `IDEOGRAPHENCLOSEDCIRCLE`. Ideographs Enclosed in a Circle.
+- `IDEOGRAPH_TRADITIONAL`. Traditional Ideograph Format.
+- `IDEOGRAPH_ZODIAC`. Zodiac Ideograph Format.
+- `IDEOGRAPH_ZODIAC_TRADITIONAL`. Traditional Zodiac Ideograph Format.
+- `IDEOGRAPH_LEGAL_TRADITIONAL`. Traditional Legal Ideograph Format.
+- `AIUEO`. AIUEO Order Hiragana.
+- `AIUEO_FULL_WIDTH`. Full-Width AIUEO Order Hiragana.
+- `IROHA`. Iroha Ordered Katakana.
+- `IROHA_FULL_WIDTH `. Full-Width Iroha Ordered Katakana.
+- `JAPANESE_COUNTING`. Japanese Counting System.
+- `JAPANESE_LEGAL`. Japanese Legal Numbering.
+- `JAPANESE_DIGITAL_TEN_THOUSAND`. Japanese Digital Ten Thousand Counting System.
+- `CHINESE_COUNTING`. Chinese Counting System.
+- `CHINESE_LEGAL_SIMPLIFIED`. Chinese Legal Simplified Format.
+- `CHINESE_COUNTING_THOUSAND`. Chinese Counting Thousand System.
+- `GANADA`. Korean Ganada Numbering.
+- `CHOSUNG`. Korean Chosung Numbering.
+- `KOREAN_DIGITAL`. Korean Digital Counting System.
+- `KOREAN_COUNTING`. Korean Counting System.
+- `KOREAN_LEGAL`. Korean Legal Numbering.
+- `KOREAN_DIGITAL2`. Korean Digital Counting System Alternate.
+- `VIETNAMESE_COUNTING`. Vietnamese Numerals.
+- `RUSSIAN_LOWER`. Lowercase Russian Alphabet.
+- `RUSSIAN_UPPER`. Uppercase Russian Alphabet.
+- `HEBREW1`. Hebrew Numerals.
+- `HEBREW2`. Hebrew Alphabet.
+- `ARABIC_ALPHA`. Arabic Alphabet.
+- `ARABIC_ABJAD`. Arabic Abjad Numerals.
+- `HINDI_VOWELS`. Hindi Vowels.
+- `HINDI_CONSONANTS`. Hindi Consonants.
+- `HINDI_NUMBERS`. Hindi Numbers.
+- `HINDI_COUNTING`. Hindi Counting System.
+- `THAI_LETTERS`. Thai Letters.
+- `THAI_NUMBERS`. Thai Numerals.
+- `THAI_COUNTING`. Thai Counting System.
+- `TAIWANESE_COUNTING`. Taiwanese Counting System.
+- `TAIWANESE_COUNTING_THOUSAND`. Taiwanese Counting Thousand System.
+- `TAIWANESE_DIGITAL`. Taiwanese Digital Counting System.
