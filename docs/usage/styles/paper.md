@@ -8,3 +8,6 @@
 ## Options
 - `size`. Page size. `A4` is default.
    * See sizes above for possible values.
+
+## Used In
+- [`Style > Section`](../styles/section.md).
