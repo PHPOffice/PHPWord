@@ -1,13 +1,9 @@
 # Paper
 
-## Constants
-- Sizes
+## Options
+- `size`. Page size. `A4` is default. Possible values include:
    * `A3`, `A4`, `A5`, `B5`
    * `Letter`, `Legal`, `Folio`
-
-## Options
-- `size`. Page size. `A4` is default.
-   * See sizes above for possible values.
 
 ## Used In
 - [`Style > Section`](../styles/section.md).
