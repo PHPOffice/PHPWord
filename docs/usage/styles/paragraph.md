@@ -3,9 +3,7 @@
    * See [`\PhpOffice\PhpWord\Style\Border`](/docs/usage/styles/border.md) for additional options.
 
 ## Constants
-- Orientation
-   * `LINE_HEIGHT` = `240`
-   * `ORIENTATION_LANDSCAPE`
+- `LINE_HEIGHT` = `240`
 
 ## Options
 - `alignment`. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
