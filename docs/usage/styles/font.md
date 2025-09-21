@@ -16,6 +16,8 @@ $section->addText('Hello, world!', $fontStyle);
 
 ```
 
+See [`Sample_013_SimpleText`](/samples/Sample_01_SimpleText.php) for more code samples.
+
 ## Constants
 - Underline
    * `UNDERLINE_NONE`
