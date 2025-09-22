@@ -4,9 +4,9 @@
 <?php
 
 $phpWord->addNumberingStyle(
-    $multilevelNumberingStyleName,
+    'numberssAndLetters',
     [
-        'type' => 'multilevel',
+        'type' => 'hybridMultilevel',
         'levels' => [
             ['format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360],
             ['format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720],
