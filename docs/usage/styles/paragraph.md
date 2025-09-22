@@ -53,7 +53,7 @@ See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) and [`Sample_08_
    * See [`SimpleType > LineSpacingRule`](../simpletypes/linespacingrule.md) class constants for possible values.
 - `suppressAutoHyphens`. Hyphenation for paragraph, *true* or *false*.
 - `tabs`. Set of custom tab stops.
-   * See [`Style > Tab`](../styles/tabs.md).
+   * See [`Style > Tab`](../styles/tab.md).
 - `widowControl`. Allow first/last line to display on a separate page, *true* or *false*.
 - `textAlignment`. Vertical Character Alignment on Line.
    * See [`SimpleType > TextAlignment`](/docs/usage/simpletypes/textalignment.md) class constants for possible values.
