@@ -58,7 +58,7 @@ class Ruby extends AbstractElement
         return $content;
     }
 
-    private const mapAlignment = [
+    private const MAP_ALIGNMENT = [
         RubyProperties::ALIGNMENT_CENTER => 'center',
         RubyProperties::ALIGNMENT_LEFT => 'start',
     ];
@@ -69,7 +69,7 @@ class Ruby extends AbstractElement
     private function getPropertyCssForRubyTag(RubyProperties $properties): string
     {
         // alignment CSS: https://developer.mozilla.org/en-US/docs/Web/CSS/ruby-align
-        $alignment = self::mapAlignment[$properties->getAlignment()] ?? 'space-between';
+        $alignment = self::MAP_ALIGNMENT[$properties->getAlignment()] ?? 'space-between';
 
         return
             'font-size:' . $properties->getFontSizeForBaseText() . 'pt' . ';' .
