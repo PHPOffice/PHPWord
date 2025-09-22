@@ -17,7 +17,7 @@ $section->addText('Hello, World!', null, $paragraphStyle);
 
 ```
 
-See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) for more code samples.
+See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) and [`Sample_08_ParagraphPagination`](/samples/Sample_08_ParagraphPagination.php) for more code samples.
 
 ## Constants
 - `LINE_HEIGHT` = `240`
