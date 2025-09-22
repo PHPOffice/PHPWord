@@ -282,9 +282,6 @@ class TemplateProcessor
     {
         $originalSearch = $search;
         $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
-        if ($elementName === 'Section') {
-            $elementName = 'Container';
-        }
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
