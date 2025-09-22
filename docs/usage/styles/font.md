@@ -49,10 +49,10 @@ See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) for more code sa
 - `italic`. Italic, *true* or *false*.
 - `kerning`. Font kerning: halfpoint.
 - `lang`. Language, either a language code like *en-US*, *fr-BE*, etc. or an object (or as an array) if you need to set eastAsian or bidirectional languages
-   * See [`Style >Language`](../styles/language.md) class for some language codes.
+   * See [`Style > Language`](../styles/language.md) class for some language codes.
 - `lineHeight`. Line height.
 - `paragraph`. Paragraph.
-   * See [`Style >Paragraph`](../styles/paragraph.md).
+   * See [`Style > Paragraph`](../styles/paragraph.md).
 - `name`. Font name, e.g. *Arial*.
 - `noProof`. Disable AutoCorrect, *true* or *false*.
 - `position`. The text position, raised or lowered, in half points
