@@ -47,6 +47,12 @@ class Html
 
     protected static $options;
 
+    protected static $rowIndex = 0;
+
+    protected static $columnIndex = 0;
+    
+    protected static $rowSpanArray = [];
+
     /**
      * @var Css
      */
@@ -424,6 +430,9 @@ class Html
             $newElement->getStyle()->setStyleName($elementStyles['className']);
         }
 
+        self::$rowIndex = 0;
+        self::$rowSpanArray = [];
+
         $attributes = $node->attributes;
         if ($attributes->getNamedItem('border')) {
             $border = (int) $attributes->getNamedItem('border')->nodeValue;
@@ -453,6 +462,9 @@ class Html
         $height = $rowStyles['height'] ?? null;
         unset($rowStyles['height']); // would not apply
 
+        self::$columnIndex = 0;
+        self::$rowIndex = self::$rowIndex + 1;
+
         return $element->addRow($height, $rowStyles);
     }
 
@@ -468,22 +480,99 @@ class Html
     protected static function parseCell($node, $element, &$styles)
     {
         $cellStyles = self::recursiveParseStylesInHierarchy($node, $styles['cell']);
+        $vMergeStyle = self::recursiveParseStylesInHierarchy($node, $styles['cell']);
+        self::$columnIndex = self::$columnIndex + 1;
+        $search_row_items = ["rowIndex" => self::$rowIndex];
+        $rowSpanCell = array_filter(self::$rowSpanArray, function ($item) use ($search_row_items) {
+		    return count(array_intersect_assoc($search_row_items, $item)) == count($search_row_items);
+	    });
 
         $colspan = $node->getAttribute('colspan');
         if (!empty($colspan)) {
             $cellStyles['gridSpan'] = $colspan - 0;
+            self::$columnIndex = self::$columnIndex + $colspan - 1;
         }
 
-        // set cell width to control column widths
-        $width = $cellStyles['width'] ?? null;
-        unset($cellStyles['width']); // would not apply
-        $cell = $element->addCell($width, $cellStyles);
-
-        if (self::shouldAddTextRun($node)) {
-            return $cell->addTextRun(self::filterOutNonInheritedStyles(self::parseInlineStyle($node, $styles['paragraph'])));
-        }
-
-        return $cell;
+        $rowspan = $node->getAttribute('rowspan');
+    	if (!empty($rowspan)) {
+    		$cellStyles['vMerge'] = 'restart';
+    		$gridSpan = 0;
+    		$colIndex = self::$columnIndex;
+    		if (!empty($colspan)){
+    			$gridSpan = $colspan;
+    			$colIndex = self::$columnIndex - $colspan + 1;
+    		}
+    		for ($x = 1; $x < $rowspan; $x++) {
+    		  array_push(self::$rowSpanArray, ['columnIndex'=>$colIndex, 'rowIndex'=>self::$rowIndex + $x, 'colspan'=>$gridSpan]);
+    		}
+    	}
+    	
+    	$search_column_item = ["columnIndex" => self::$columnIndex];
+    	$currentColumnRowSpan = array_filter($rowSpanCell, function ($item) use ($search_column_item) {
+    		return count(array_intersect_assoc($search_column_item, $item)) == count($search_column_item);
+    	});
+    	
+    	// set cell width to control column widths
+    	$width = $cellStyles['width'] ?? null;
+    	unset($cellStyles['width']); // would not apply
+    	$loop_check = self::$columnIndex;
+    	if (count($currentColumnRowSpan) == 0){
+    		$cell = $element->addCell($width, $cellStyles);
+    		$loop_check = self::$columnIndex + 1;
+    	}
+    	
+    	if (count($rowSpanCell) > 0) {
+    		unset($vMergeStyle['width']);
+    		foreach($rowSpanCell as $row) {
+    			if($row['columnIndex'] == $loop_check){
+    				$loop_check = $row['columnIndex'] + 1;
+    				
+    				if ($row['colspan'] > 0) {
+    					$vMergeStyle['gridSpan'] = $row['colspan'];
+    					self::$columnIndex = self::$columnIndex + $row['colspan'] + 1;
+    				} else {
+    					unset($vMergeStyle['gridSpan']);
+    					self::$columnIndex = self::$columnIndex + 1;
+    				}
+    				$vMergeStyle['vMerge'] = 'continue';
+    				$element->addCell($width, $vMergeStyle);
+    			}
+    		}
+    	}
+    	
+    	if (count($currentColumnRowSpan) > 0){
+    		$cell = $element->addCell($width, $cellStyles);
+    	}		
+    	
+    	$search_item = ["columnIndex" => self::$columnIndex + 1];
+    	$nextColumnRowSpan = array_filter($rowSpanCell, function ($item) use ($search_item) {
+    		return count(array_intersect_assoc($search_item, $item)) == count($search_item);
+    	});
+    	
+    	if (count($nextColumnRowSpan) > 0) {
+    		unset($vMergeStyle['width']);
+    		$loop_check = self::$columnIndex + 1;
+    		foreach($rowSpanCell as $row) {
+    			if($row['columnIndex'] == $loop_check){
+    				$loop_check = $row['columnIndex'] + 1;
+    				if ($row['colspan'] > 0) {
+    					$vMergeStyle['gridSpan'] = $row['colspan'];
+    					self::$columnIndex = self::$columnIndex + $row['colspan'] + 1;
+    				} else {
+    					unset($vMergeStyle['gridSpan']);
+    					self::$columnIndex = self::$columnIndex + 1;
+    				}
+    				$vMergeStyle['vMerge'] = 'continue';
+    				$element->addCell($width, $vMergeStyle);
+    			}
+    		}
+    	}
+    	
+    	if (self::shouldAddTextRun($node)) {
+    		return $cell->addTextRun(self::filterOutNonInheritedStyles(self::parseInlineStyle($node, $styles['paragraph'])));
+    	}
+    
+    	return $cell;
     }
 
     /**
