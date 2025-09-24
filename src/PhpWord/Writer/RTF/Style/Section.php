@@ -44,8 +44,13 @@ class Section extends AbstractStyle
         $content .= '\sectd ';
 
         // Size & margin
-        $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()));
-        $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
+        if($this->getParentWriter()->getPhpWord()->getSettings()->hasBookFoldPrinting()) {
+            $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pghsxn' . round($style->getPageSizeW()));
+            $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pgwsxn' . round($style->getPageSizeH())/2);
+        } else {
+            $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()));
+            $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
+        }
         $content .= ' ';
         $content .= $this->getValueIf($style->getMarginTop() !== null, '\margtsxn' . round($style->getMarginTop()));
         $content .= $this->getValueIf($style->getMarginRight() !== null, '\margrsxn' . round($style->getMarginRight()));
