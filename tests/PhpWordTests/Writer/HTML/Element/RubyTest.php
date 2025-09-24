@@ -49,17 +49,17 @@ class RubyTest extends TestCase
 
         $dom = Helper::getAsHTML($phpWord, '', '', ['ruby', 'rt', 'rp']);
         $xpath = new DOMXPath($dom);
-        self::assertEquals(1, $xpath->query('/html/body/div/ruby')->length);
+        self::assertSame(1, $xpath->query('/html/body/div/ruby')->length);
         // ensure text is right
         $rubyElement = $dom->getElementsByTagName('ruby')->item(0);
         $rtElement = $dom->getElementsByTagName('rt')->item(0);
         self::assertNotNull($rubyElement);
         self::assertNotNull($rtElement);
-        self::assertEquals($baseTextRun->getText() . ' (' . $rubyTextRun->getText() . ')', $rubyElement->textContent);
-        self::assertEquals($rubyTextRun->getText(), $rtElement->textContent);
+        self::assertSame($baseTextRun->getText() . ' (' . $rubyTextRun->getText() . ')', $rubyElement->textContent);
+        self::assertSame($rubyTextRun->getText(), $rtElement->textContent);
         // check style
-        self::assertEquals('font-size:20pt;ruby-align:center;', $rubyElement->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('font-size:10pt;', $rtElement->attributes->getNamedItem('style')->textContent);
+        self::assertSame('font-size:20pt;ruby-align:center;', $rubyElement->attributes->getNamedItem('style')->textContent);
+        self::assertSame('font-size:10pt;', $rtElement->attributes->getNamedItem('style')->textContent);
     }
 
     /**
@@ -94,28 +94,28 @@ class RubyTest extends TestCase
 
         $dom = Helper::getAsHTML($phpWord, '', '', ['ruby', 'rt', 'rp']);
         $xpath = new DOMXPath($dom);
-        self::assertEquals(2, $xpath->query('/html/body/div/ruby')->length);
+        self::assertSame(2, $xpath->query('/html/body/div/ruby')->length);
         // ensure text is right
         $rubyElement = $dom->getElementsByTagName('ruby')->item(0);
         $rtElement = $dom->getElementsByTagName('rt')->item(0);
         self::assertNotNull($rubyElement);
         self::assertNotNull($rtElement);
-        self::assertEquals($baseTextRun->getText() . ' (' . $rubyTextRun->getText() . ')', $rubyElement->textContent);
-        self::assertEquals($rubyTextRun->getText(), $rtElement->textContent);
+        self::assertSame($baseTextRun->getText() . ' (' . $rubyTextRun->getText() . ')', $rubyElement->textContent);
+        self::assertSame($rubyTextRun->getText(), $rtElement->textContent);
         // check style
-        self::assertEquals('line-height: 8;font-size:20pt;ruby-align:center;', $rubyElement->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('line-height: 4;font-size:10pt;', $rtElement->attributes->getNamedItem('style')->textContent);
+        self::assertSame('line-height: 8;font-size:20pt;ruby-align:center;', $rubyElement->attributes->getNamedItem('style')->textContent);
+        self::assertSame('line-height: 4;font-size:10pt;', $rtElement->attributes->getNamedItem('style')->textContent);
 
         // ensure text is right
         $rubyElement2 = $dom->getElementsByTagName('ruby')->item(1);
         $rtElement2 = $dom->getElementsByTagName('rt')->item(1);
         self::assertNotNull($rubyElement2);
         self::assertNotNull($rtElement2);
-        self::assertEquals($baseTextRun2->getText() . ' (' . $rubyTextRun2->getText() . ')', $rubyElement2->textContent);
-        self::assertEquals($rubyTextRun2->getText(), $rtElement2->textContent);
+        self::assertSame($baseTextRun2->getText() . ' (' . $rubyTextRun2->getText() . ')', $rubyElement2->textContent);
+        self::assertSame($rubyTextRun2->getText(), $rtElement2->textContent);
         // check style
-        self::assertEquals('font-size:24pt;ruby-align:space-between;', $rubyElement2->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('lineHeight10', $rubyElement2->attributes->getNamedItem('class')->textContent);
-        self::assertEquals('line-height: 4;font-size:10pt;', $rtElement->attributes->getNamedItem('style')->textContent);
+        self::assertSame('font-size:24pt;ruby-align:space-between;', $rubyElement2->attributes->getNamedItem('style')->textContent);
+        self::assertSame('lineHeight10', $rubyElement2->attributes->getNamedItem('class')->textContent);
+        self::assertSame('line-height: 4;font-size:10pt;', $rtElement->attributes->getNamedItem('style')->textContent);
     }
 }
