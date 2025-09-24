@@ -25,6 +25,7 @@ See [`Sample_03_Sections`](/samples/Sample_03_Sections.php) for more code sample
 - `lineNumbering`. Line numbering.
    * See [`Style > LineNumbering`](../styles/linenumbering.md) for possible values.
 - `orientation`. Page orientation. `ORIENTATION_PORTRAIT` is default.
+   * **IMPORTANT**: Orientation must be set *after* paperSize, pageSizeH, and pageSizeW to work.
    * See constants above for possible values.
 - `pageNumberingStart`. Starting page number.
 - `pageSizeH`. Page height in *twip*. `16837.79527559` is default.
