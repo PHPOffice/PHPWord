@@ -45,8 +45,11 @@ class Section extends AbstractStyle
 
         // Size & margin
         if ($this->getParentWriter() !== null && $this->getParentWriter()->getPhpWord()->getSettings()->hasBookFoldPrinting()) {
-            $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pghsxn' . round($style->getPageSizeW()));
-            $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pgwsxn' . round($style->getPageSizeH()) / 2);
+            if ($style->getOrientation() !== SectionStyle::ORIENTATION_LANDSCAPE) {
+                $style->setOrientation(SectionStyle::ORIENTATION_LANDSCAPE);
+            }
+            $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()) / 2);
+            $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
         } else {
             $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()));
             $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
