@@ -243,7 +243,7 @@ class TemplateProcessor
 
         $xsltProcessor->importStylesheet($xslDomDocument);
         if (false === $xsltProcessor->setParameter($xslOptionsUri, $xslOptions)) {
-            throw new Exception('Could not set values for the given XSL style sheet parameters.');
+            throw new Exception('Could not set values for the given XSL style sheet parameters.'); // @codeCoverageIgnore
         }
 
         $this->tempDocumentHeaders = $this->transformXml($this->tempDocumentHeaders, $xsltProcessor);
