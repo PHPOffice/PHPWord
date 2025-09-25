@@ -129,6 +129,8 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $phpWordWriter = new PhpWord();
         $zoomLevel = 75;
         $phpWordWriter->getSettings()->setZoom($zoomLevel);
+        $phpWordWriter->getSettings()->setConsecutiveHyphenLimit(3);
+        $phpWordWriter->getSettings()->setAutoHyphenation(true);
 
         $writer = new Word2007($phpWordWriter);
         $file = __DIR__ . '/../_files/temp.docx';
@@ -139,6 +141,8 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $phpWordReader = IOFactory::load($file, 'Word2007');
 
         self::assertEquals($zoomLevel, $phpWordReader->getSettings()->getZoom());
+        self::assertSame(3, $phpWordReader->getSettings()->getConsecutiveHyphenLimit());
+        self::assertTrue($phpWordReader->getSettings()->hasAutoHyphenation());
 
         unlink($file);
     }
