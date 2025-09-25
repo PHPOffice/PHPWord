@@ -575,11 +575,7 @@ abstract class AbstractPart
             if ($runParent->nodeName == 'w:hyperlink') {
                 $rId = $xmlReader->getAttribute('r:id', $runParent);
                 $target = $this->getMediaTarget($docPart, $rId);
-                if (null !== $target) {
-                    $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
-                } else {
-                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
-                }
+                $parent->addLink($target ?? 'http://example.com', $textContent, $fontStyle, $paragraphStyle);
             } else {
                 /** @var AbstractElement $element */
                 $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);

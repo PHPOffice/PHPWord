@@ -91,8 +91,9 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $oTable = new Table();
         $oTable->addRow();
-        $element = $oTable->addCell();
+        $element = $oTable->addCell(1234);
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
+        self::assertSame(1234, $element->getWidth());
     }
 
     /**

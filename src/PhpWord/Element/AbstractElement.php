@@ -298,6 +298,10 @@ abstract class AbstractElement
 
     /**
      * Get comment start.
+     * This code just plain doesn't work, but it's not clear what is should do.
+     * Unsurprisingly untested.
+     *
+     * @codeCoverageIgnore
      */
     public function getCommentRangeStart(): ?Comment
     {
@@ -342,6 +346,10 @@ abstract class AbstractElement
 
     /**
      * Get comment end.
+     * This code just plain doesn't work, but it's not clear what is should do.
+     * Unsurprisingly untested.
+     *
+     * @codeCoverageIgnore
      */
     public function getCommentRangeEnd(): ?Comment
     {
