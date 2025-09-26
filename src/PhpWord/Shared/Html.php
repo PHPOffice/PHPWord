@@ -694,35 +694,35 @@ class Html
             ++$data['listdepth'];
         } else {
             $data['listdepth'] = 0;
-            $styles['list'] = 'listStyle_' . self::$listIndex++;
-            $style = $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
+        }
+        $styles['list'] = 'listStyle_' . self::$listIndex++;
+        $style = $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
 
-            // extract attributes start & type e.g. <ol type="A" start="3">
-            $start = 0;
-            $type = '';
-            foreach ($node->attributes as $attribute) {
-                switch ($attribute->name) {
-                    case 'start':
-                        $start = (int) $attribute->value;
+        // extract attributes start & type e.g. <ol type="A" start="3">
+        $start = 0;
+        $type = '';
+        foreach ($node->attributes as $attribute) {
+            switch ($attribute->name) {
+                case 'start':
+                    $start = (int) $attribute->value;
 
-                        break;
-                    case 'type':
-                        $type = $attribute->value;
+                    break;
+                case 'type':
+                    $type = $attribute->value;
 
-                        break;
-                }
+                    break;
             }
+        }
 
-            $levels = $style->getLevels();
-            /** @var \PhpOffice\PhpWord\Style\NumberingLevel */
-            $level = $levels[0];
-            if ($start > 0) {
-                $level->setStart($start);
-            }
-            $type = $type ? self::mapListType($type) : null;
-            if ($type) {
-                $level->setFormat($type);
-            }
+        $levels = $style->getLevels();
+        /** @var \PhpOffice\PhpWord\Style\NumberingLevel */
+        $level = $levels[$data['listdepth']];
+        if ($start > 0) {
+            $level->setStart($start);
+        }
+        $type = $type ? self::mapListType($type) : null;
+        if ($type) {
+            $level->setFormat($type);
         }
         if ($node->parentNode->nodeName === 'li') {
             return $element->getParent();
