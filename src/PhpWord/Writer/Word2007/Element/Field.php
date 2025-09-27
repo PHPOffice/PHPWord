@@ -305,29 +305,22 @@ class Field extends Text
         $this->endElementP(); // w:p
     }
 
+    private const OPTION_VALUES = [
+        'IncrementAndInsertText' => '\\f',
+        'CreateHyperLink' => '\\h',
+        'NoTrailingPeriod' => '\\n',
+        'IncludeAboveOrBelow' => '\\p',
+        'InsertParagraphNumberRelativeContext' => '\\r',
+        'SuppressNonDelimiterNonNumericalText' => '\\t',
+        'InsertParagraphNumberFullContext' => '\\w',
+    ];
+
     private function convertRefOption(string $optionKey, string $optionValue): string
     {
         if ($optionKey === 'NumberSeperatorSequence') {
             return '\\d ' . $optionValue;
         }
 
-        switch ($optionValue) {
-            case 'IncrementAndInsertText':
-                return '\\f';
-            case 'CreateHyperLink':
-                return '\\h';
-            case 'NoTrailingPeriod':
-                return '\\n';
-            case 'IncludeAboveOrBelow':
-                return '\\p';
-            case 'InsertParagraphNumberRelativeContext':
-                return '\\r';
-            case 'SuppressNonDelimiterNonNumericalText':
-                return '\\t';
-            case 'InsertParagraphNumberFullContext':
-                return '\\w';
-            default:
-                return '';
-        }
+        return self::OPTION_VALUES[$optionValue] ?? '';
     }
 }
