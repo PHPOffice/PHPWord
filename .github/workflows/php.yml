@@ -133,7 +133,6 @@ jobs:
           run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage || $FAILURE_ACTION
 
       -   name: Test non-Composer Autoloader
-          if: matrix.php == 'nightly'
           env:
             FAILURE_ACTION: "${{ matrix.experimental == true }}"
           run: php samples/Sample_45_Autoloader.php
