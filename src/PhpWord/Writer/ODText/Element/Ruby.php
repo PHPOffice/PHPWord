@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Element\TextRun;
+
 /**
  * Ruby element writer.
  * NOTE: This class will write out a Ruby element in the format {baseText} ({rubyText})
@@ -37,28 +39,37 @@ class Ruby extends AbstractElement
         if (!$element instanceof \PhpOffice\PhpWord\Element\Ruby) {
             return;
         }
-        $paragraphStyle = $element->getBaseTextRun()->getParagraphStyle();
-
         if (!$this->withoutP) {
             $xmlWriter->startElement('text:p'); // text:p
         }
-        if (empty($paragraphStyle)) {
-            if (!$this->withoutP) {
-                $xmlWriter->writeAttribute('text:style-name', 'Normal');
-            }
-        } elseif (is_string($paragraphStyle)) {
-            if (!$this->withoutP) {
+        $xmlWriter->startElement('text:ruby');
+        $this->writeRuby($element->getBaseTextRun(), 'text:ruby-base');
+        $this->writeRuby($element->getRubyTextRun(), 'text:ruby-text');
+        $xmlWriter->endElement(); // text:ruby
+        if (!$this->withoutP) {
+            $xmlWriter->endElement(); // text:p
+        }
+    }
+
+    /**
+     * @param TextRun $textRun
+     * @param string $tag
+     */
+    private function writeRuby($textRun, $tag): void
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $paragraphStyle = $textRun->getParagraphStyle();
+
+        $xmlWriter->startElement($tag); // text:rubyBase or text:rubyText
+        if (is_string($paragraphStyle)) {
+            $paragraphStyle = trim($paragraphStyle);
+            if ($paragraphStyle !== '') {
                 $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
             }
         }
 
-        $this->replaceTabs($element->getBaseTextRun()->getText(), $xmlWriter);
-        $this->writeText(' (');
-        $this->replaceTabs($element->getRubyTextRun()->getText(), $xmlWriter);
-        $this->writeText(')');
+        $this->replaceTabs($textRun->getText(), $xmlWriter);
 
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // text:p
-        }
+        $xmlWriter->endElement(); // text:rubyBase or text:rubyText
     }
 }
