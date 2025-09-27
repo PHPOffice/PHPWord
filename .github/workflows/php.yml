@@ -132,6 +132,12 @@ jobs:
             FAILURE_ACTION: "${{ matrix.experimental == true }}"
           run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage || $FAILURE_ACTION
 
+      -   name: Test non-Composer Autoloader
+          if: matrix.php == 'nightly'
+          env:
+            FAILURE_ACTION: "${{ matrix.experimental == true }}"
+          run: php samples/Sample_45_Autoloader.php
+
       -   name: Run phpunit 8.3
           if: matrix.php == '8.3'
           run: ./vendor/bin/phpunit -c phpunit10.xml.dist --coverage-clover build/clover.xml
