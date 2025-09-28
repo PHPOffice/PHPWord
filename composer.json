@@ -114,7 +114,8 @@
         "ext-mbstring": "*",
         "ext-xml": "*",
         "ext-zip": "*",
-        "phpoffice/math": "^0.3"
+        "phpoffice/math": "^0.3",
+        "symfony/polyfill-php72": "^1.30"
     },
     "require-dev": {
         "ext-libxml": "*",
