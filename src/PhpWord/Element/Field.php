@@ -94,7 +94,12 @@ class Field extends AbstractElement
         ],
         'REF' => [
             'properties' => ['name' => ''],
-            'options' => ['f', 'h', 'n', 'p', 'r', 't', 'w'],
+            'options' => [
+                'f', 'h', 'n', 'p', 'r', 't', 'w',
+                'd' => [',', '.', ''],
+                'NumberSeperatorSequence' => [',', '.', ''],
+                'NumberSeparatorSequence' => [',', '.', ''],
+            ],
         ],
     ];
 

@@ -262,6 +262,8 @@ class Field extends Text
         $xmlWriter->endElement(); // w:instrText
         $xmlWriter->endElement(); // w:r
 
+        // I do not believe that REF allows for a text component.
+        /*
         if ($element->getText() != null) {
             if ($element->getText() instanceof TextRun) {
                 $containerWriter = new Container($xmlWriter, $element->getText(), true);
@@ -281,6 +283,7 @@ class Field extends Text
                 $xmlWriter->endElement(); // w:r
             }
         }
+        */
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
@@ -315,12 +318,14 @@ class Field extends Text
         'InsertParagraphNumberFullContext' => '\\w',
     ];
 
+    private const NUMBER_SEPARATOR_SEQUENCE = ['NumberSeperatorSequence', 'NumberSeparatorSequence', '\\d'];
+
     private function convertRefOption(string $optionKey, string $optionValue): string
     {
-        if ($optionKey === 'NumberSeperatorSequence') {
+        if (in_array($optionKey, self::NUMBER_SEPARATOR_SEQUENCE, true)) {
             return '\\d ' . $optionValue;
         }
 
-        return self::OPTION_VALUES[$optionValue] ?? '';
+        return self::OPTION_VALUES[$optionValue] ?? (in_array($optionValue, self::OPTION_VALUES, true) ? $optionValue : '');
     }
 }

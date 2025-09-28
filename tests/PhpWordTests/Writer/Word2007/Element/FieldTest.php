@@ -50,6 +50,7 @@ class FieldTest extends TestCase
             [
                 'InsertParagraphNumberRelativeContext',
                 'CreateHyperLink',
+                'NumberSeperatorSequence' => ',',
             ]
         );
 
@@ -65,7 +66,7 @@ class FieldTest extends TestCase
 
         $bookMarkElement = $doc->getElement($refFieldPath);
         self::assertNotNull($bookMarkElement);
-        self::assertEquals(' REF my-bookmark \r \h ', $bookMarkElement->textContent);
+        self::assertEquals(' REF my-bookmark \r \h \d , ', $bookMarkElement->textContent);
 
         $bookmarkPath = '/w:document/w:body/w:bookmarkStart';
         self::assertTrue($doc->elementExists($bookmarkPath));
