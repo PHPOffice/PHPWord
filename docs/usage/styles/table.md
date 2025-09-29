@@ -10,7 +10,7 @@ $table = $section->addTable('myTable');
 
 ```
 
-See [`Sample_09_Tables`](/samples/Sample_09_Tables.php) for more code samples.
+See [`Sample_09_Tables`](/samples/Sample_09_Tables.php)  and [`Sample_21_TableRowRules`](/samples/Sample_21_TableRowRules.php) for more code samples.
 
 ## Table Constants
 - Layout
