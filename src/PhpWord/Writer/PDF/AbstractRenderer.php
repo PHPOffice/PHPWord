@@ -31,13 +31,6 @@ use PhpOffice\PhpWord\Writer\HTML;
 abstract class AbstractRenderer extends HTML
 {
     /**
-     * Name of renderer include file.
-     *
-     * @var string
-     */
-    protected $includeFile;
-
-    /**
      * Temporary storage directory.
      *
      * @var string
@@ -83,18 +76,6 @@ abstract class AbstractRenderer extends HTML
     {
         parent::__construct($phpWord);
         $this->isPdf = true;
-        if ($this->includeFile != null) {
-            $includeFile = Settings::getPdfRendererPath() . '/' . $this->includeFile;
-            if (file_exists($includeFile)) {
-                /** @noinspection PhpIncludeInspection Dynamic includes */
-                require_once $includeFile;
-            } else {
-                // @codeCoverageIgnoreStart
-                // Can't find any test case. Uncomment when found.
-                throw new Exception('Unable to load PDF Rendering library');
-                // @codeCoverageIgnoreEnd
-            }
-        }
 
         // Configuration
         $options = Settings::getPdfRendererOptions();

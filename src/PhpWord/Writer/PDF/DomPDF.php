@@ -31,13 +31,6 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
 class DomPDF extends AbstractRenderer implements WriterInterface
 {
     /**
-     * Name of renderer include file.
-     *
-     * @var string
-     */
-    protected $includeFile;
-
-    /**
      * Gets the implementation of external PDF library that should be used.
      *
      * @return Dompdf implementation

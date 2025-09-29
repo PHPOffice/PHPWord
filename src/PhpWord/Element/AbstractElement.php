@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Collection\Comments;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\AbstractStyle;
 
 /**
  * Element abstract class.
@@ -481,7 +482,7 @@ abstract class AbstractElement
      * Set new style value.
      *
      * @param mixed $styleObject Style object
-     * @param null|array|string|Style $styleValue Style value
+     * @param null|AbstractStyle|array|string $styleValue Style value
      * @param bool $returnObject Always return object
      *
      * @return mixed

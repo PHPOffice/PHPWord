@@ -22,6 +22,7 @@ use BadMethodCallException;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Section as StyleSection;
 
 /**
  * PHPWord main class.
@@ -213,7 +214,7 @@ class PhpWord
     /**
      * Create new section.
      *
-     * @param null|array|string $style
+     * @param null|array|string|StyleSection $style
      *
      * @return Section
      */

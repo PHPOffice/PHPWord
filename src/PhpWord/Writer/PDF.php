@@ -26,6 +26,10 @@ use PhpOffice\PhpWord\Writer\PDF\AbstractRenderer;
 /**
  * PDF Writer.
  *
+ * @method string getFont()
+ * @method self setFont(string $font)
+ * @method string getContent()
+ *
  * @since 0.10.0
  */
 class PDF

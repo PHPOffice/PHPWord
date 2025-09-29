@@ -32,16 +32,51 @@ class PDFTest extends \PHPUnit\Framework\TestCase
     /**
      * Test normal construct.
      */
-    public function testConstruct(): void
+    public function testConstructDompdf(): void
     {
         define('DOMPDF_ENABLE_AUTOLOAD', false);
         $file = __DIR__ . '/../_files/temp.pdf';
 
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
+        self::assertNotFalse($rendererLibraryPath);
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         $writer = new PDF(new PhpWord());
-        $writer->setFont('xyz'); //* @phpstan-ignore-line
+        $writer->setFont('xyz');
+        $writer->save($file);
+
+        self::assertFileExists($file);
+
+        unlink($file);
+    }
+
+    public function testConstructMpdf(): void
+    {
+        $file = __DIR__ . '/../_files/temp.pdf';
+
+        $rendererName = Settings::PDF_RENDERER_MPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
+        self::assertNotFalse($rendererLibraryPath);
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+        $writer = new PDF(new PhpWord());
+        $writer->setFont('xyz');
+        $writer->save($file);
+
+        self::assertFileExists($file);
+
+        unlink($file);
+    }
+
+    public function testConstructTcpdf(): void
+    {
+        $file = __DIR__ . '/../_files/temp.pdf';
+
+        $rendererName = Settings::PDF_RENDERER_TCPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
+        self::assertNotFalse($rendererLibraryPath);
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+        $writer = new PDF(new PhpWord());
+        $writer->setFont('Helvetica');
         $writer->save($file);
 
         self::assertFileExists($file);

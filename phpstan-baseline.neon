@@ -11,19 +11,9 @@ parameters:
 			path: src/PhpWord/Element/AbstractContainer.php
 
 		-
-			message: "#^Parameter \\#2 \\$styleValue of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:setNewStyle\\(\\) expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, array\\|PhpOffice\\\\PhpWord\\\\Style\\\\Cell\\|null given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Cell.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Element\\\\Field\\:\\:\\$fontStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Font\\|string\\) does not accept null\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Field.php
-
-		-
-			message: "#^Parameter \\#2 \\$styleValue of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:setNewStyle\\(\\) expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, array\\|PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\|string\\|null given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Footnote.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Image\\:\\:getArchiveImageSize\\(\\) should return array\\|null but returns array<int\\|string, int\\|string>\\|false\\|null\\.$#"
@@ -57,11 +47,6 @@ parameters:
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Section\\:\\:addHeaderFooter\\(\\) should return PhpOffice\\\\PhpWord\\\\Element\\\\Footer but returns PhpOffice\\\\PhpWord\\\\Element\\\\AbstractContainer\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Section.php
-
-		-
-			message: "#^Parameter \\#2 \\$styleValue of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:setNewStyle\\(\\) expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, array\\|PhpOffice\\\\PhpWord\\\\Style\\|PhpOffice\\\\PhpWord\\\\Style\\\\Section\\|string given\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Section.php
 
@@ -1206,11 +1191,6 @@ parameters:
 			path: tests/PhpWordTests/Element/ImageTest.php
 
 		-
-			message: "#^Parameter \\#2 \\$style of class PhpOffice\\\\PhpWord\\\\Element\\\\Section constructor expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, PhpOffice\\\\PhpWord\\\\Style\\\\Section given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Element/SectionTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$text of class PhpOffice\\\\PhpWord\\\\Element\\\\Title constructor expects PhpOffice\\\\PhpWord\\\\Element\\\\TextRun\\|string, PhpOffice\\\\PhpWord\\\\Element\\\\PageBreak given\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Element/TitleTest.php
@@ -1484,56 +1464,6 @@ parameters:
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\ODText\\\\Style\\\\FontTest\\:\\:providerAllNamedColors\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/ODText/Style/FontTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getFont\\(\\)\\.$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getOrientation\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getPaperSize\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getTempDir\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:setFont\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:setOrientation\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:setPaperSize\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:setTempDir\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 3
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDFTest.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\ElementTest\\:\\:removeCr\\(\\) has no return type specified\\.$#"

@@ -44,7 +44,7 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section->addText('Test 2');
         $oSettings = new \PhpOffice\PhpWord\Style\Section();
         $oSettings->setSettingValue('orientation', 'landscape');
-        $section = $phpWord->addSection($oSettings); // @phpstan-ignore-line
+        $section = $phpWord->addSection($oSettings);
         $section->addText('Section 2 - landscape');
 
         $writer = new MPDF($phpWord);
@@ -67,7 +67,7 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section->addText('Test 2');
         $oSettings = new \PhpOffice\PhpWord\Style\Section();
         $oSettings->setSettingValue('orientation', 'landscape');
-        $section = $phpWord->addSection($oSettings); // @phpstan-ignore-line
+        $section = $phpWord->addSection($oSettings);
         $section->addText('Section 2 - landscape');
 
         $writer = new MPDF($phpWord);
@@ -113,6 +113,6 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
             'font' => 'Arial',
         ]);
         $writer = new PDF(new PhpWord());
-        self::assertEquals('Arial', $writer->getFont()); //* @phpstan-ignore-line
+        self::assertEquals('Arial', $writer->getFont());
     }
 }

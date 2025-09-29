@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\PDF;
 
+use Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\PDF;
@@ -41,11 +42,8 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addText('Test 1');
 
-        $rendererName = Settings::PDF_RENDERER_TCPDF;
-        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
-        self::assertNotFalse($rendererLibraryPath);
-        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
-        $writer = new PDF($phpWord);
+        $writer = new PDF\TCPDF($phpWord);
+        $writer->setFont('Helvetica');
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -66,7 +64,7 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
             'font' => 'Arial',
         ]);
         $writer = new PDF(new PhpWord());
-        self::assertEquals('Arial', $writer->getFont()); //* @phpstan-ignore-line
+        self::assertEquals('Arial', $writer->getFont());
     }
 
     public function testSectionPageBreak(): void
@@ -81,9 +79,26 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
         $section2 = $phpWord->addSection();
         $section2->addText('This is section 2.');
         $writer = new PDF($phpWord);
-        $writer->setFont('Helvetica'); //* @phpstan-ignore-line
-        $content = $writer->getContent(); //* @phpstan-ignore-line
+        $content = $writer->getContent();
         self::assertStringContainsString("<div style='page: page1'>", $content);
         self::assertStringContainsString('<div style="page: page2; page-break-before:always;">', $content);
+    }
+
+    /** @runInSeparateProcess */
+    public function testExcpetionRatherThanDie(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Could not include font definition file');
+        $file = __DIR__ . '/../../_files/tcpdf.pdf';
+        $phpWord = new PhpWord();
+        $section1 = $phpWord->addSection();
+        $section1->addText('This is section 1.');
+        $section2 = $phpWord->addSection();
+        $section2->addText('This is section 2.');
+        $writer = new PDF\TcpdfNoDie($phpWord);
+        $writer->setFont('xyz');
+        $writer->save($file);
+        self::assertFileExists($file);
+        unlink($file);
     }
 }
