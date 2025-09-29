@@ -23,7 +23,7 @@ use RecursiveRegexIterator;
 use RegexIterator;
 use RuntimeException;
 
-class SampleTest extends TestCase
+class ZampleTest extends TestCase
 {
     /** @var bool */
     protected static $alwaysTrue = true;

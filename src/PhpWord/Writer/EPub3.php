@@ -72,14 +72,12 @@ class EPub3 extends AbstractWriter implements WriterInterface
 
         // Add other files
         foreach ($this->parts as $partName => $fileName) {
-            if ($fileName === '') {
-                continue;
+            if ($fileName !== '') {
+                $part = $this->getWriterPart($partName);
+                if ($part instanceof AbstractPart) {
+                    $zip->addFromString($fileName, $part->write());
+                }
             }
-            $part = $this->getWriterPart($partName);
-            if (!$part instanceof AbstractPart) {
-                continue;
-            }
-            $zip->addFromString($fileName, $part->write());
         }
 
         // Close zip archive

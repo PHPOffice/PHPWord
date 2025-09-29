@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Shared;
 
+use PhpOffice\PhpWord\Exception\Exception as WordException;
 use PhpOffice\PhpWord\Shared\Text;
 
 /**
@@ -86,5 +87,12 @@ class TextTest extends \PHPUnit\Framework\TestCase
     public function testRemoveUnderscorePrefix(): void
     {
         self::assertEquals('item', Text::removeUnderscorePrefix('_item'));
+    }
+
+    public function testFailToUtf8(): void
+    {
+        $this->expectException(WordException::class);
+        $this->expectExceptionMessage('Unable to convert text to UTF-8');
+        Text2::toUTF8("\x80");
     }
 }

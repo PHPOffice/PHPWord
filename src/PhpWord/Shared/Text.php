@@ -18,11 +18,8 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
-use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Exception\Exception as WordException;
 
-/**
- * Text.
- */
 class Text
 {
     /**
@@ -37,6 +34,9 @@ class Text
      */
     private static function buildControlCharacters(): void
     {
+        if (!empty(self::$controlCharacters)) {
+            return;
+        }
         for ($i = 0; $i <= 19; ++$i) {
             if ($i != 9 && $i != 10 && $i != 13) {
                 $find = '_x' . sprintf('%04s', strtoupper(dechex($i))) . '_';
@@ -63,9 +63,7 @@ class Text
      */
     public static function controlCharacterPHP2OOXML($value = '')
     {
-        if (empty(self::$controlCharacters)) {
-            self::buildControlCharacters();
-        }
+        self::buildControlCharacters();
 
         return str_replace(array_values(self::$controlCharacters), array_keys(self::$controlCharacters), $value);
     }
@@ -119,9 +117,7 @@ class Text
      */
     public static function controlCharacterOOXML2PHP($value = '')
     {
-        if (empty(self::$controlCharacters)) {
-            self::buildControlCharacters();
-        }
+        self::buildControlCharacters();
 
         return str_replace(array_keys(self::$controlCharacters), array_values(self::$controlCharacters), $value);
     }
@@ -149,13 +145,24 @@ class Text
     {
         if (null !== $value && !self::isUTF8($value)) {
             // PHP8.2 : utf8_encode is deprecated, but mb_convert_encoding always usable
-            $value = (function_exists('mb_convert_encoding')) ? mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1') : utf8_encode($value);
+            $value = static::mbConvertEncoding($value);
             if ($value === false) {
-                throw new Exception('Unable to convert text to UTF-8');
+                throw new WordException('Unable to convert text to UTF-8');
             }
         }
 
         return $value;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return false|string
+     */
+    protected static function mbConvertEncoding($value)
+    {
+        // PHP8.2 : utf8_encode is deprecated, but mb_convert_encoding always usable
+        return (function_exists('mb_convert_encoding')) ? mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1') : utf8_encode($value);
     }
 
     /**
