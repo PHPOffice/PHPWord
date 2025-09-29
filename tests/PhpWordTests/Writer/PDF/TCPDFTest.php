@@ -43,6 +43,7 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
 
         $rendererName = Settings::PDF_RENDERER_TCPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
+        self::assertNotFalse($rendererLibraryPath);
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         $writer = new PDF($phpWord);
         $writer->save($file);
@@ -59,11 +60,30 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
     {
         $rendererName = Settings::PDF_RENDERER_TCPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
+        self::assertNotFalse($rendererLibraryPath);
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         Settings::setPdfRendererOptions([
             'font' => 'Arial',
         ]);
         $writer = new PDF(new PhpWord());
-        self::assertEquals('Arial', $writer->getFont());
+        self::assertEquals('Arial', $writer->getFont()); //* @phpstan-ignore-line
+    }
+
+    public function testSectionPageBreak(): void
+    {
+        $rendererName = Settings::PDF_RENDERER_TCPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
+        self::assertNotFalse($rendererLibraryPath);
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+        $phpWord = new PhpWord();
+        $section1 = $phpWord->addSection();
+        $section1->addText('This is section 1.');
+        $section2 = $phpWord->addSection();
+        $section2->addText('This is section 2.');
+        $writer = new PDF($phpWord);
+        $writer->setFont('Helvetica'); //* @phpstan-ignore-line
+        $content = $writer->getContent(); //* @phpstan-ignore-line
+        self::assertStringContainsString("<div style='page: page1'>", $content);
+        self::assertStringContainsString('<div style="page: page2; page-break-before:always;">', $content);
     }
 }

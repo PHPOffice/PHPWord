@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Shared\Microsoft;
 
+use PhpOffice\PhpWord\Exception\Exception as WordException;
 use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 
 /**
@@ -86,5 +87,17 @@ class PasswordEncoderTest extends \PHPUnit\Framework\TestCase
 
         //then
         self::assertEquals('rDV9sgdDsztoCQlvRCb1lF2wxNg=', $hashPassword);
+    }
+
+    /**
+     * Simulate failing mb_convert_encoding.
+     */
+    public function testFailWithNonUtf8Password(): void
+    {
+        $this->expectException(WordException::class);
+        $this->expectExceptionMessage('Failed to convert password to UCS-2LE');
+        $password = 'hello';
+        $salt = base64_decode('uq81pJRRGFIY5U+E9gt8tA==');
+        PasswordEncoder2::hashPassword($password, PasswordEncoder::ALGORITHM_MAC, $salt, 1);
     }
 }

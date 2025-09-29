@@ -89,4 +89,14 @@ class LanguageTest extends \PHPUnit\Framework\TestCase
         //then
         Assert::assertEquals('fr-FR', $language->getLatin());
     }
+
+    public function testUndefined(): void
+    {
+        //when
+        $language = new Language();
+        $language->setLatin('und');
+
+        //then
+        Assert::assertEquals('en-EN', $language->getLatin());
+    }
 }

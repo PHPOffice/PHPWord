@@ -48,6 +48,7 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section->addText('Section 2 - landscape');
 
         $writer = new MPDF($phpWord);
+        $writer->setFont('xyz');
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -106,11 +107,12 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
     {
         $rendererName = Settings::PDF_RENDERER_MPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
+        self::assertNotFalse($rendererLibraryPath);
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         Settings::setPdfRendererOptions([
             'font' => 'Arial',
         ]);
         $writer = new PDF(new PhpWord());
-        self::assertEquals('Arial', $writer->getFont());
+        self::assertEquals('Arial', $writer->getFont()); //* @phpstan-ignore-line
     }
 }

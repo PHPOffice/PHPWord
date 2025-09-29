@@ -1501,26 +1501,6 @@ parameters:
 			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
 
 		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getFont\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/PDF/TCPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getFont\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/TCPDFTest.php
-
-		-
 			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/PDFTest.php
