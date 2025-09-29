@@ -224,6 +224,7 @@ class Field extends Text
 
                     break;
                 default:
+                    $option = preg_replace('/^(.)$/', '\\\\$1', $option) ?? $option;
                     $propertiesAndOptions .= $option . ' ';
             }
         }
@@ -318,13 +319,14 @@ class Field extends Text
         'InsertParagraphNumberFullContext' => '\\w',
     ];
 
-    private const NUMBER_SEPARATOR_SEQUENCE = ['NumberSeperatorSequence', 'NumberSeparatorSequence', '\\d'];
+    private const NUMBER_SEPARATOR_SEQUENCE = ['NumberSeperatorSequence', 'NumberSeparatorSequence', '\\d', 'd'];
 
     private function convertRefOption(string $optionKey, string $optionValue): string
     {
         if (in_array($optionKey, self::NUMBER_SEPARATOR_SEQUENCE, true)) {
-            return '\\d ' . $optionValue;
+            return ($optionValue === '') ? '' : ('\\d ' . $optionValue);
         }
+        $optionValue = preg_replace('/^(.)$/', '\\\\$1', $optionValue) ?? $optionValue;
 
         return self::OPTION_VALUES[$optionValue] ?? (in_array($optionValue, self::OPTION_VALUES, true) ? $optionValue : '');
     }

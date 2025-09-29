@@ -49,7 +49,7 @@ class FieldTest extends TestCase
             ],
             [
                 'InsertParagraphNumberRelativeContext',
-                'CreateHyperLink',
+                'h', // could have been supplied as 'CreateHyperLink' or '\h'
                 'NumberSeperatorSequence' => ',',
             ]
         );
