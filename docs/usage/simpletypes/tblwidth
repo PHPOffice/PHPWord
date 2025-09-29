@@ -1,0 +1,10 @@
+# Table Width
+
+## Constants
+- `NIL`. No width.
+- `AUTO`. Automatically determined width.
+- `PERCENT`. Width in fiftieths of a percent.
+- `TWIP`. Width in twentieths of a point.
+
+## Used In
+- [`Style > Table`](../styles/table.md).
