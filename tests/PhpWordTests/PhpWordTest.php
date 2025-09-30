@@ -157,7 +157,14 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test save.
+     * Weird test - tries to save as if it were a browser even though that
+     * is not the case. This causes a problem for Phpunit 9 (Php 7.* or 8.0)
+     * if not run in separate process. So let it run separate. No harm
+     * for Php8.1+, except for a slight performance penalty.
+     *
+     * @runInSeparateProcess
+     *
+     * @preserveGlobalState disabled
      */
     public function testSave(): void
     {
