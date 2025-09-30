@@ -24,30 +24,30 @@ use PhpOffice\PhpWord\Writer\PDF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF.
- *
- * @runTestsInSeparateProcesses
  */
 class PDFTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test normal construct.
      */
     public function testConstructDompdf(): void
     {
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
-        $file = __DIR__ . '/../_files/temp.pdf';
-
+        Settings::restoreDefaults();
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
         self::assertNotFalse($rendererLibraryPath);
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         $writer = new PDF(new PhpWord());
         $writer->setFont('xyz');
-        $writer->save($file);
-
-        self::assertFileExists($file);
-
-        unlink($file);
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     public function testConstructMpdf(): void
@@ -60,11 +60,10 @@ class PDFTest extends \PHPUnit\Framework\TestCase
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         $writer = new PDF(new PhpWord());
         $writer->setFont('xyz');
-        $writer->save($file);
-
-        self::assertFileExists($file);
-
-        unlink($file);
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     public function testConstructTcpdf(): void
@@ -77,11 +76,10 @@ class PDFTest extends \PHPUnit\Framework\TestCase
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         $writer = new PDF(new PhpWord());
         $writer->setFont('Helvetica');
-        $writer->save($file);
-
-        self::assertFileExists($file);
-
-        unlink($file);
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     /**
@@ -89,6 +87,7 @@ class PDFTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructException(): void
     {
+        Settings::restoreDefaults();
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $this->expectExceptionMessage('PDF rendering library or library path has not been defined.');
         $writer = new PDF(new PhpWord());

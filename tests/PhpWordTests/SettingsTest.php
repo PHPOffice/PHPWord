@@ -24,69 +24,12 @@ use PHPUnit\Framework\TestCase;
  * Test class for PhpOffice\PhpWord\Settings.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Settings
- *
- * @runTestsInSeparateProcesses
  */
 class SettingsTest extends TestCase
 {
-    private $compatibility;
-
-    /** @var string */
-    private $defaultFontColor;
-
-    private $defaultFontSize;
-
-    private $defaultFontName;
-
-    private $defaultPaper;
-
-    private $measurementUnit;
-
-    private $outputEscapingEnabled;
-
-    private $pdfRendererName;
-
-    /**
-     * @var array
-     */
-    private $pdfRendererOptions;
-
-    private $pdfRendererPath;
-
-    private $tempDir;
-
-    private $zipClass;
-
-    protected function setUp(): void
-    {
-        $this->compatibility = Settings::hasCompatibility();
-        $this->defaultFontColor = Settings::getDefaultFontColor();
-        $this->defaultFontSize = Settings::getDefaultFontSize();
-        $this->defaultFontName = Settings::getDefaultFontName();
-        $this->defaultPaper = Settings::getDefaultPaper();
-        $this->measurementUnit = Settings::getMeasurementUnit();
-        $this->outputEscapingEnabled = Settings::isOutputEscapingEnabled();
-        $this->pdfRendererName = Settings::getPdfRendererName();
-        $this->pdfRendererOptions = Settings::getPdfRendererOptions();
-        $this->pdfRendererPath = Settings::getPdfRendererPath();
-        $this->tempDir = Settings::getTempDir();
-        $this->zipClass = Settings::getZipClass();
-    }
-
     protected function tearDown(): void
     {
-        Settings::setCompatibility($this->compatibility);
-        Settings::setDefaultFontColor($this->defaultFontColor);
-        Settings::setDefaultFontSize($this->defaultFontSize);
-        Settings::setDefaultFontName($this->defaultFontName);
-        Settings::setDefaultPaper($this->defaultPaper);
-        Settings::setMeasurementUnit($this->measurementUnit);
-        Settings::setOutputEscapingEnabled($this->outputEscapingEnabled);
-        Settings::setPdfRendererName($this->pdfRendererName);
-        Settings::setPdfRendererOptions($this->pdfRendererOptions);
-        Settings::setPdfRendererPath($this->pdfRendererPath);
-        Settings::setTempDir($this->tempDir);
-        Settings::setZipClass($this->zipClass);
+        Settings::restoreDefaults();
     }
 
     /**
@@ -94,6 +37,7 @@ class SettingsTest extends TestCase
      */
     public function testSetGetCompatibility(): void
     {
+        Settings::restoreDefaults();
         self::assertTrue(Settings::hasCompatibility());
         self::assertTrue(Settings::setCompatibility(false));
         self::assertFalse(Settings::hasCompatibility());
@@ -129,6 +73,7 @@ class SettingsTest extends TestCase
     public function testSetGetPdfRenderer(): void
     {
         $domPdfPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
+        self::assertNotFalse($domPdfPath);
 
         self::assertFalse(Settings::setPdfRenderer('FOO', 'dummy/path'));
         self::assertTrue(Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $domPdfPath));

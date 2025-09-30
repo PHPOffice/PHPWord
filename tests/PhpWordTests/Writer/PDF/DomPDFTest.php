@@ -24,11 +24,14 @@ use PhpOffice\PhpWord\Writer\PDF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF\DomPDF.
- *
- * @runTestsInSeparateProcesses
  */
 class DomPDFTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test construct.
      */
@@ -73,8 +76,6 @@ class DomPDFTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetAbstractRendererOptions(): void
     {
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
-
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
         self::assertNotFalse($rendererLibraryPath);

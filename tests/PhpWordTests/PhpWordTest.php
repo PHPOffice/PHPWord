@@ -27,16 +27,23 @@ use PhpOffice\PhpWord\Style;
 
 /**
  * Test class for PhpOffice\PhpWord\PhpWord.
- *
- * @runTestsInSeparateProcesses
  */
 class PhpWordTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * Executed after each method of the class.
+     */
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test object creation.
      */
     public function testConstruct(): void
     {
+        Settings::restoreDefaults();
         do {
             $dtStart = new DateTimeImmutable();
             $startSecond = $dtStart->format('s');

@@ -28,37 +28,17 @@ use PhpOffice\PhpWord\Style\Language;
  */
 class FontTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var string */
-    private $defaultFontName;
-
-    /** @var float|int */
-    private $defaultFontSize;
-
-    /** @var string */
-    private $defaultFontColor;
-
-    /**
-     * Executed before each method of the class.
-     */
-    protected function setUp(): void
-    {
-        $this->defaultFontName = Settings::getDefaultFontName();
-        $this->defaultFontSize = Settings::getDefaultFontSize();
-        $this->defaultFontColor = Settings::getDefaultFontColor();
-    }
-
     /**
      * Executed after each method of the class.
      */
     protected function tearDown(): void
     {
-        Settings::setDefaultFontName($this->defaultFontName);
-        Settings::setDefaultFontSize($this->defaultFontSize);
-        Settings::setDefaultFontColor($this->defaultFontColor);
+        Settings::restoreDefaults();
     }
 
     public function testDefaultDefaults(): void
     {
+        Settings::restoreDefaults();
         $phpWord = new PhpWord();
 
         $dom = Helper::getAsHTML($phpWord);
@@ -68,7 +48,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $prg = preg_match('/body {(.*?)}/', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
-        self::assertEquals('body {font-family: \'Arial\'; font-size: 12pt; color: #000000;}', $matches[0]);
+        self::assertEquals('body {font-family: \'Arial\'; font-size: 10pt; color: #000000;}', $matches[0]);
     }
 
     public function testSettingDefaultFontColor(): void
@@ -85,7 +65,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $prg = preg_match('/body {(.*?)}/', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
-        self::assertEquals('body {font-family: \'Arial\'; font-size: 12pt; color: #00FF00;}', $matches[0]);
+        self::assertEquals('body {font-family: \'Arial\'; font-size: 10pt; color: #00FF00;}', $matches[0]);
     }
 
     /**

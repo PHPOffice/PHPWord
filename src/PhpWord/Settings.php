@@ -529,4 +529,21 @@ class Settings
 
         return false;
     }
+
+    public static function restoreDefaults(): void
+    {
+        self::$defaultAsianFontName = self::DEFAULT_FONT_NAME;
+        self::$defaultFontColor = self::DEFAULT_FONT_COLOR;
+        self::$defaultFontName = self::DEFAULT_FONT_NAME;
+        self::$defaultFontSize = self::DEFAULT_FONT_SIZE;
+        self::$defaultPaper = self::DEFAULT_PAPER;
+        self::$measurementUnit = self::UNIT_TWIP;
+        self::$outputEscapingEnabled = false;
+        self::$pdfRendererName = null;
+        self::$pdfRendererOptions = [];
+        self::$pdfRendererPath = null;
+        self::$tempDir = '';
+        self::$xmlWriterCompatibility = true;
+        self::$zipClass = self::ZIPARCHIVE;
+    }
 }

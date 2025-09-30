@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -31,6 +32,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
+        Settings::restoreDefaults();
         TestHelperDOCX::clear();
     }
 

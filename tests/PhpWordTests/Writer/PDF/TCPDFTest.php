@@ -28,13 +28,16 @@ use PhpOffice\PhpWord\Writer\PDF;
  */
 class TCPDFTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test construct.
      */
     public function testConstruct(): void
     {
-        $file = __DIR__ . '/../../_files/tcpdf.pdf';
-
         $phpWord = new PhpWord();
         $phpWord->setDefaultParagraphStyle(['spaceBefore' => 0, 'spaceAfter' => 0]);
         $section = $phpWord->addSection();
@@ -42,11 +45,10 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
 
         $writer = new PDF\TCPDF($phpWord);
         $writer->setFont('Helvetica');
-        $writer->save($file);
-
-        self::assertFileExists($file);
-
-        unlink($file);
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     /**

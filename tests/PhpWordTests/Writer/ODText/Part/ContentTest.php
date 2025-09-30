@@ -30,20 +30,9 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  */
 class ContentTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var string */
-    private $defaultFontName;
-
-    /**
-     * Executed before each method of the class.
-     */
-    protected function setUp(): void
-    {
-        $this->defaultFontName = Settings::getDefaultFontName();
-    }
-
     protected function tearDown(): void
     {
-        Settings::setDefaultFontName($this->defaultFontName);
+        Settings::restoreDefaults();
         TestHelperDOCX::clear();
     }
 

@@ -25,18 +25,19 @@ use PhpOffice\PhpWord\Writer\PDF\MPDF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF\MPDF.
- *
- * @runTestsInSeparateProcesses
  */
 class MPDFTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test construct.
      */
     public function testConstruct(): void
     {
-        $file = __DIR__ . '/../../_files/mpdf.pdf';
-
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test 1');
@@ -49,17 +50,14 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
 
         $writer = new MPDF($phpWord);
         $writer->setFont('xyz');
-        $writer->save($file);
-
-        self::assertFileExists($file);
-
-        unlink($file);
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     public function testEditCallback(): void
     {
-        $file = __DIR__ . '/../../_files/mpdf.pdf';
-
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test 1');
@@ -74,11 +72,10 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         /** @var callable */
         $callback = [self::class, 'cbEditContent'];
         $writer->setEditCallback($callback);
-        $writer->save($file);
-
-        self::assertFileExists($file);
-
-        unlink($file);
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     // add a footer
