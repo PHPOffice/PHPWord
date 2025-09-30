@@ -25,6 +25,8 @@ use PhpOffice\PhpWord\Writer\PDF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF\TCPDF.
+ *
+ * @runTestsInSeparateProcesses
  */
 class TCPDFTest extends \PHPUnit\Framework\TestCase
 {
@@ -82,7 +84,6 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('<div style="page: page2; page-break-before:always;">', $content);
     }
 
-    /** @runInSeparateProcess */
     public function testExceptionRatherThanDie(): void
     {
         $this->expectException(Exception::class);
