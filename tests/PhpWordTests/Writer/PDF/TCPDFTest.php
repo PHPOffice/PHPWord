@@ -25,8 +25,6 @@ use PhpOffice\PhpWord\Writer\PDF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF\TCPDF.
- *
- * @runTestsInSeparateProcesses
  */
 class TCPDFTest extends \PHPUnit\Framework\TestCase
 {
@@ -85,11 +83,10 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
     }
 
     /** @runInSeparateProcess */
-    public function testExcpetionRatherThanDie(): void
+    public function testExceptionRatherThanDie(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Could not include font definition file');
-        $file = __DIR__ . '/../../_files/tcpdf.pdf';
         $phpWord = new PhpWord();
         $section1 = $phpWord->addSection();
         $section1->addText('This is section 1.');
@@ -97,8 +94,6 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
         $section2->addText('This is section 2.');
         $writer = new PDF\TcpdfNoDie($phpWord);
         $writer->setFont('xyz');
-        $writer->save($file);
-        self::assertFileExists($file);
-        unlink($file);
+        $writer->save('php://memory');
     }
 }

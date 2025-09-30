@@ -18,13 +18,6 @@
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
-/**
- * TCPDF writer.
- *
- * @deprecated 0.13.0 Use `DomPDF` or `MPDF` instead.
- * @see  http://www.tcpdf.org/
- * @since 0.11.0
- */
 class TcpdfNoDie extends TCPDF
 {
     /**
