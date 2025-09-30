@@ -144,7 +144,6 @@ class Text
     public static function toUTF8($value = '')
     {
         if (null !== $value && !self::isUTF8($value)) {
-            // PHP8.2 : utf8_encode is deprecated, but mb_convert_encoding always usable
             $value = static::mbConvertEncoding($value);
             if ($value === false) {
                 throw new WordException('Unable to convert text to UTF-8');
@@ -161,8 +160,7 @@ class Text
      */
     protected static function mbConvertEncoding($value)
     {
-        // PHP8.2 : utf8_encode is deprecated, but mb_convert_encoding always usable
-        return (function_exists('mb_convert_encoding')) ? mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1') : utf8_encode($value);
+        return mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1');
     }
 
     /**
