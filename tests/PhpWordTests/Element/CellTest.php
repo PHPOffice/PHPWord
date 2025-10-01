@@ -163,6 +163,9 @@ class CellTest extends AbstractWebServerEmbedded
 
     /**
      * Add image section by URL.
+     * Method getRemoteGifImageUrl seems to require separate process.
+     *
+     * @runInSeparateProcess
      */
     public function testAddImageSectionByUrl(): void
     {

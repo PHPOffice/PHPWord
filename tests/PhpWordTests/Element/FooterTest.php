@@ -113,6 +113,8 @@ class FooterTest extends AbstractWebServerEmbedded
 
     /**
      * Add image by URL.
+     *
+     * @runInSeparateProcess
      */
     public function testAddImageByUrl(): void
     {
