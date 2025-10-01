@@ -40,7 +40,7 @@ class TextBreakTest extends TestCase
     }
 
     /**
-     * Test a normal textBreak
+     * Test a normal textBreak.
      */
     public function testTextBreakParagraph(): void
     {
@@ -52,7 +52,7 @@ class TextBreakTest extends TestCase
     }
 
     /**
-     * Test a textBreak with two paragraph breaks
+     * Test a textBreak with two paragraph breaks.
      */
     public function testTextBreakTwoParagraphs(): void
     {
@@ -64,7 +64,7 @@ class TextBreakTest extends TestCase
     }
 
     /**
-     * Test a textBreak as a line break
+     * Test a textBreak as a line break.
      */
     public function testTextBreakLine(): void
     {
