@@ -28,8 +28,6 @@ use PHPUnit\Framework\TestCase;
  * Test class for PhpOffice\PhpWord\Settings.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Settings
- *
- * @runTestsInSeparateProcesses
  */
 class SettingsRtlTest extends TestCase
 {

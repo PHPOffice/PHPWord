@@ -25,39 +25,47 @@ use PhpOffice\PhpWord\Shared\ZipArchive;
  * Test class for PhpOffice\PhpWord\Shared\ZipArchive.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Shared\ZipArchive
- *
- * @runTestsInSeparateProcesses
  */
 class ZipArchiveTest extends \PHPUnit\Framework\TestCase
 {
-//     /**
-//      * Test close method exception: Working in local, not working in Travis
-//      *
-//      * expectedException \PhpOffice\PhpWord\Exception\Exception
-//      * expectedExceptionMessage Could not close zip file
-//      * covers ::close
-//      */
-//     public function testCloseException()
-//     {
-//         $zipFile = __DIR__ . "/../_files/documents/ziptest.zip";
+    /** @var string */
+    private $zipFile;
 
-//         $object = new ZipArchive();
-//         $object->open($zipFile, ZipArchive::CREATE);
-//         $object->addFromString('content/string.txt', 'Test');
+    protected function tearDown(): void
+    {
+        if (file_exists($this->zipFile)) {
+            unlink($this->zipFile);
+        }
+        Settings::restoreDefaults();
+    }
 
-//         // Lock the file
-//         $resource = fopen($zipFile, "w");
-//         flock($resource, LOCK_EX);
+    /**
+     * Test close method exception.
+     *
+     * covers ::close
+     */
+    public function testCloseException(): void
+    {
+        $this->zipFile = __DIR__ . '/../_files/documents/ziptest1.zip';
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectExceptionMessage('Could not close zip file');
 
-//         // Closing the file should throws an exception
-//         $object->close();
+        $object = new ZipArchive();
+        $object->open($this->zipFile, ZipArchive::CREATE);
+        $object->addFromString('content/string.txt', 'Test');
 
-//         // Unlock the file
-//         flock($resource, LOCK_UN);
-//         fclose($resource);
+        // Lock the file
+        $resource = fopen($this->zipFile, 'wb');
+        self::assertNotFalse($resource);
+        flock($resource, LOCK_EX);
 
-//         @unlink($zipFile);
-//     }
+        // Closing the file should throws an exception
+        $object->close();
+
+        // Unlock the file
+        flock($resource, LOCK_UN);
+        fclose($resource);
+    }
 
     /**
      * Test all methods.
@@ -68,7 +76,7 @@ class ZipArchiveTest extends \PHPUnit\Framework\TestCase
     {
         // Preparation
         $existingFile = __DIR__ . '/../_files/documents/sheet.xls';
-        $zipFile = __DIR__ . '/../_files/documents/ziptest.zip';
+        $this->zipFile = __DIR__ . '/../_files/documents/ziptest2.zip';
         $destination1 = __DIR__ . '/../_files/documents/extract1';
         $destination2 = __DIR__ . '/../_files/documents/extract2';
         @mkdir($destination1);
@@ -77,11 +85,11 @@ class ZipArchiveTest extends \PHPUnit\Framework\TestCase
         Settings::setZipClass($zipClass);
 
         $object = new ZipArchive();
-        $object->open($zipFile, ZipArchive::CREATE);
+        $object->open($this->zipFile, ZipArchive::CREATE);
         $object->addFile($existingFile, 'xls/new.xls');
         $object->addFromString('content/string.txt', 'Test');
         $object->close();
-        $object->open($zipFile);
+        $object->open($this->zipFile);
 
         // Run tests
         self::assertEquals(0, $object->locateName('xls/new.xls'));
@@ -101,7 +109,6 @@ class ZipArchiveTest extends \PHPUnit\Framework\TestCase
         // Cleanup
         $this->deleteDir($destination1);
         $this->deleteDir($destination2);
-        @unlink($zipFile);
     }
 
     /**

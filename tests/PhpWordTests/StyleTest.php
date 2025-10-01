@@ -25,8 +25,6 @@ use PhpOffice\PhpWord\Style;
  * Test class for PhpOffice\PhpWord\Style.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style
- *
- * @runTestsInSeparateProcesses
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {

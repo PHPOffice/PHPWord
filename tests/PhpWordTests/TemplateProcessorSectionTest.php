@@ -27,8 +27,6 @@ use PhpOffice\PhpWord\TemplateProcessor;
  * @covers \PhpOffice\PhpWord\TemplateProcessor
  *
  * @coversDefaultClass \PhpOffice\PhpWord\TemplateProcessor
- *
- * @runTestsInSeparateProcesses
  */
 final class TemplateProcessorSectionTest extends \PHPUnit\Framework\TestCase
 {
