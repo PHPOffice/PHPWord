@@ -33,18 +33,45 @@ class TextBreakTest extends TestCase
 
     /**
      * @param TextBreakWriter $field
-     */    
+     */
     public function removeCr($field): string
     {
         return str_replace("\r\n", "\n", $field->write());
     }
 
+    /**
+     * Test a normal textBreak
+     */
     public function testTextBreakParagraph(): void
     {
         $parentWriter = new RTF();
         $element = new TextBreakElement();
         $writer = new TextBreakWriter($parentWriter, $element);
         $expect = "\\pard\\par\n";
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
+
+    /**
+     * Test a textBreak with two paragraph breaks
+     */
+    public function testTextBreakTwoParagraphs(): void
+    {
+        $parentWriter = new RTF();
+        $element = new TextBreakElement(2);
+        $writer = new TextBreakWriter($parentWriter, $element);
+        $expect = "\\pard\\par\n\\pard\\par\n";
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
+
+    /**
+     * Test a textBreak as a line break
+     */
+    public function testTextBreakLine(): void
+    {
+        $parentWriter = new RTF();
+        $element = new TextBreakElement();
+        $writer = new TextBreakWriter($parentWriter, $element, true);
+        $expect = "\\line\n";
         self::assertEquals($expect, $this->removeCr($writer));
     }
 }
