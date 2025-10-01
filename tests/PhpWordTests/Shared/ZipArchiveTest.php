@@ -53,18 +53,10 @@ class ZipArchiveTest extends \PHPUnit\Framework\TestCase
         $object = new ZipArchive();
         $object->open($this->zipFile, ZipArchive::CREATE);
         $object->addFromString('content/string.txt', 'Test');
-
-        // Lock the file
-        $resource = fopen($this->zipFile, 'wb');
-        self::assertNotFalse($resource);
-        flock($resource, LOCK_EX);
-
-        // Closing the file should throws an exception
+        // Should not be able to add a directory like this
+        $object->addFile('.', '.');
+        // But error doesn't express itself till close is attempted
         $object->close();
-
-        // Unlock the file
-        flock($resource, LOCK_UN);
-        fclose($resource);
     }
 
     /**
