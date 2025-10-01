@@ -30,12 +30,15 @@ class TextBreakTest extends TestCase
     {
         Settings::setDefaultRtl(null);
     }
-    
-    public function removeCr($field)
+
+    /**
+     * @param TextBreakWriter $field
+     */    
+    public function removeCr($field): string
     {
         return str_replace("\r\n", "\n", $field->write());
     }
-    
+
     public function testTextBreakParagraph(): void
     {
         $parentWriter = new RTF();
@@ -44,5 +47,4 @@ class TextBreakTest extends TestCase
         $expect = "\\pard\\par\n";
         self::assertEquals($expect, $this->removeCr($writer));
     }
-
 }
