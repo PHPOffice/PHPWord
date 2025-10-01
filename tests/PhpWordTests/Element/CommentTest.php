@@ -26,8 +26,6 @@ use PhpOffice\PhpWord\Element\Text;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Header.
- *
- * @runTestsInSeparateProcesses
  */
 class CommentTest extends \PHPUnit\Framework\TestCase
 {

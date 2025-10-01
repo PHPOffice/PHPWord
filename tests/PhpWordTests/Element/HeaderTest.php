@@ -24,8 +24,6 @@ use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Header.
- *
- * @runTestsInSeparateProcesses
  */
 class HeaderTest extends AbstractWebServerEmbedded
 {

@@ -26,8 +26,6 @@ use PhpOffice\PhpWord\Style\Table as TableStyle;
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007\Styles.
  * Run in separate process because doc changes default font.
- *
- * @runTestsInSeparateProcesses
  */
 class StyleTableTest extends \PHPUnit\Framework\TestCase
 {

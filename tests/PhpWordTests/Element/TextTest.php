@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Style\Font;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Text.
- *
- * @runTestsInSeparateProcesses
  */
 class TextTest extends \PHPUnit\Framework\TestCase
 {

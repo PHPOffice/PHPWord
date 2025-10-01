@@ -23,8 +23,6 @@ use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Footer.
- *
- * @runTestsInSeparateProcesses
  */
 class FooterTest extends AbstractWebServerEmbedded
 {

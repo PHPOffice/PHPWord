@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Element\Table;
  * Test class for PhpOffice\PhpWord\Element\Table.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Table
- *
- * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit\Framework\TestCase
 {
