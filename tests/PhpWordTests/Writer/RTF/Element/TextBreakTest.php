@@ -41,6 +41,7 @@ class TextBreakTest extends TestCase
 
     /**
      * Test a normal textBreak.
+     * See page 142-143 of RTF Specification 1.9.1.
      */
     public function testTextBreakParagraph(): void
     {
@@ -53,6 +54,7 @@ class TextBreakTest extends TestCase
 
     /**
      * Test a textBreak as a line break.
+     * See page 142-143 of RTF Specification 1.9.1.
      */
     public function testTextBreakLine(): void
     {
