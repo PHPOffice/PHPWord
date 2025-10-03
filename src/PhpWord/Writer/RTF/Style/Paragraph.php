@@ -36,9 +36,9 @@ class Paragraph extends AbstractStyle
      */
     private $nestedLevel = 0;
 
-    private const LEFT = Jc::LEFT;
-    private const RIGHT = Jc::RIGHT;
-    private const JUSTIFY = Jc::JUSTIFY;
+    private const LEFT = Jc::START;
+    private const RIGHT = Jc::END;
+    private const JUSTIFY = Jc::BOTH;
 
     /**
      * Write style.
