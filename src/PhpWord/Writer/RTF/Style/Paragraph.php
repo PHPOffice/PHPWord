@@ -36,10 +36,6 @@ class Paragraph extends AbstractStyle
      */
     private $nestedLevel = 0;
 
-    private const LEFT = Jc::START;
-    private const RIGHT = Jc::END;
-    private const JUSTIFY = Jc::BOTH;
-
     /**
      * Write style.
      *
@@ -57,18 +53,28 @@ class Paragraph extends AbstractStyle
             Jc::END => '\qr',
             Jc::CENTER => '\qc',
             Jc::BOTH => '\qj',
-            self::LEFT => '\ql',
-            self::RIGHT => '\qr',
-            self::JUSTIFY => '\qj',
+            Jc::LEFT => '\ql',
+            Jc::RIGHT => '\qr',
+            Jc::JUSTIFY => '\qj',
+            Jc::DISTRIBUTE => '\qd',
+            Jc::THAI_DISTRIBUTE => '\qt',
+            Jc::HIGH_KASHIDA => '\qk20',
+            Jc::MEDIUM_KASHIDA => '\qk10',
+            Jc::LOW_KASHIDA => '\qk0',
         ];
         $bidiAlignments = [
             Jc::START => '\qr',
             Jc::END => '\ql',
             Jc::CENTER => '\qc',
             Jc::BOTH => '\qj',
-            self::LEFT => '\ql',
-            self::RIGHT => '\qr',
-            self::JUSTIFY => '\qj',
+            Jc::LEFT => '\ql',
+            Jc::RIGHT => '\qr',
+            Jc::JUSTIFY => '\qj',
+            Jc::DISTRIBUTE => '\qd',
+            Jc::THAI_DISTRIBUTE => '\qt',
+            Jc::HIGH_KASHIDA => '\qk20',
+            Jc::MEDIUM_KASHIDA => '\qk10',
+            Jc::LOW_KASHIDA => '\qk0',
         ];
 
         $spaceAfter = $style->getSpaceAfter();
