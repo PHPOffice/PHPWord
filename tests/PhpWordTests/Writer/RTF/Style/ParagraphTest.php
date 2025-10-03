@@ -47,7 +47,8 @@ class ParagraphTest extends TestCase
     public function testParagraphAlign(): void
     {
         $parentWriter = new RTF();
-        $style = new ParagraphStyle()->setAlignment(Jc::START);
+        $style = new ParagraphStyle();
+        $style->setAlignment(Jc::START);
         $writer = new ParagraphWriter($parentWriter, $style);
         $expect = "\\pard\\ql ";
         self::assertEquals($expect, $this->removeCr($writer));
