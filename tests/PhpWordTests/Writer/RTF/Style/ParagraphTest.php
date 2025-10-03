@@ -16,7 +16,7 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWordTests\Writer\RTF\Styke;
+namespace PhpOffice\PhpWordTests\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
@@ -49,7 +49,8 @@ class ParagraphTest extends TestCase
         $parentWriter = new RTF();
         $style = new ParagraphStyle();
         $style->setAlignment(Jc::START);
-        $writer = new ParagraphWriter($parentWriter, $style);
+        $writer = new ParagraphWriter($style);
+        $writer->setParentWriter($parentWriter);
         $expect = "\\pard\\ql ";
         self::assertEquals($expect, $this->removeCr($writer));
     }
