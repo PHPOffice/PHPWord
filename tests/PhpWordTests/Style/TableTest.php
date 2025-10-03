@@ -27,11 +27,14 @@ use PhpOffice\PhpWord\Style\TablePosition;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Table.
- *
- * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test class construction.
      *

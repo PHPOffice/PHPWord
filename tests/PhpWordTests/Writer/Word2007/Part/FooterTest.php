@@ -27,8 +27,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Footer.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\Footer
- *
- * @runTestsInSeparateProcesses
  */
 class FooterTest extends \PHPUnit\Framework\TestCase
 {

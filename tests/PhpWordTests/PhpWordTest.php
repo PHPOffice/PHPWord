@@ -35,6 +35,7 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
+        Style::resetStyles();
         Settings::restoreDefaults();
     }
 

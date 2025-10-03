@@ -27,8 +27,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Paragraph.
- *
- * @runTestsInSeparateProcesses
  */
 class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
@@ -37,6 +35,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
+        Settings::restoreDefaults();
         TestHelperDOCX::clear();
     }
 
@@ -379,7 +378,5 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         Settings::setDefaultRtl(false);
         $object = new Paragraph();
         self::assertFalse($object->isBidi());
-
-        Settings::setDefaultRtl(null);
     }
 }

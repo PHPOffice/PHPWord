@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWordTests\Writer\Word2007\Part;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
@@ -38,6 +39,7 @@ class StylesTest extends \PHPUnit\Framework\TestCase
     protected function tearDown(): void
     {
         Settings::restoreDefaults();
+        Style::resetStyles();
         TestHelperDOCX::clear();
     }
 

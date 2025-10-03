@@ -26,8 +26,6 @@ use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\HTML.
- *
- * @runTestsInSeparateProcesses
  */
 class HTMLTest extends AbstractWebServerEmbedded
 {
@@ -95,6 +93,9 @@ class HTMLTest extends AbstractWebServerEmbedded
 
     /**
      * Save.
+     * Method getRemoteGifImageUrl seems to require separate process.
+     *
+     * @runInSeparateProcess
      */
     public function testSave(): void
     {

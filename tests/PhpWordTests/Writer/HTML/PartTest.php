@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWordTests\Writer\HTML;
 use DOMXPath;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML\Part\Body;
 
 /**
@@ -28,6 +29,11 @@ use PhpOffice\PhpWord\Writer\HTML\Part\Body;
  */
 class PartTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Style::resetStyles();
+    }
+
     /**
      * Test get parent writer exception.
      */
@@ -44,7 +50,7 @@ class PartTest extends \PHPUnit\Framework\TestCase
     public function testWriteSections(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->getSettings()->setThemeFontLang(new \PhpOffice\PhpWord\Style\Language('en-US'));
+        $phpWord->getSettings()->setThemeFontLang(new Style\Language('en-US'));
         $section1 = $phpWord->addSection();
         $mtop = 0.5 * Converter::INCH_TO_TWIP;
         $mbot = 0.5 * Converter::INCH_TO_TWIP;
@@ -96,7 +102,7 @@ class PartTest extends \PHPUnit\Framework\TestCase
     public function testThemeFontEastAsian(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->getSettings()->setThemeFontLang(new \PhpOffice\PhpWord\Style\Language('', 'hi-IN'));
+        $phpWord->getSettings()->setThemeFontLang(new Style\Language('', 'hi-IN'));
         $section1 = $phpWord->addSection();
         $section1->addText('??? ????? ???');
 
@@ -112,7 +118,7 @@ class PartTest extends \PHPUnit\Framework\TestCase
     public function testThemeBidirecional(): void
     {
         $phpWord = new PhpWord();
-        $phpWord->getSettings()->setThemeFontLang(new \PhpOffice\PhpWord\Style\Language('', '', 'he-IL'));
+        $phpWord->getSettings()->setThemeFontLang(new Style\Language('', '', 'he-IL'));
         $section1 = $phpWord->addSection();
         $section1->addText('????');
 

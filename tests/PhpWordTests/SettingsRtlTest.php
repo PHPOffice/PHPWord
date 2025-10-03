@@ -31,17 +31,10 @@ use PHPUnit\Framework\TestCase;
  */
 class SettingsRtlTest extends TestCase
 {
-    /** @var bool */
-    private $defaultRtl;
-
-    protected function setUp(): void
-    {
-        $this->defaultRtl = Settings::isDefaultRtl();
-    }
-
     protected function tearDown(): void
     {
-        Settings::setDefaultRtl($this->defaultRtl);
+        Settings::restoreDefaults();
+        Style::resetStyles();
     }
 
     public function testSetGetDefaultRtl(): void

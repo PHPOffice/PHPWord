@@ -23,8 +23,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Paper.
- *
- * @runTestsInSeparateProcesses
  */
 class PaperTest extends \PHPUnit\Framework\TestCase
 {

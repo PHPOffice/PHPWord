@@ -28,8 +28,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document.
- *
- * @runTestsInSeparateProcesses
  */
 class DocumentTest extends \PHPUnit\Framework\TestCase
 {

@@ -123,6 +123,7 @@ class HeaderTest extends AbstractWebServerEmbedded
 
     /**
      * Add image by URL.
+     * Method getRemoteGifImageUrl seems to require separate process.
      *
      * @runInSeparateProcess
      */

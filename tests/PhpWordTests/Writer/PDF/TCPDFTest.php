@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWordTests\Writer\PDF;
 use Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\PDF;
 
 /**
@@ -31,6 +32,7 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
     protected function tearDown(): void
     {
         Settings::restoreDefaults();
+        Style::resetStyles();
     }
 
     /**

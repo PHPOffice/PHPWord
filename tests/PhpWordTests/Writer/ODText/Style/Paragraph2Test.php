@@ -25,6 +25,11 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 class Paragraph2Test extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Style::resetStyles();
+    }
+
     /**
      * Test textAlign.
      */

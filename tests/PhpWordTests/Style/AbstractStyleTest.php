@@ -26,8 +26,6 @@ use ReflectionClass;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\AbstractStyle.
- *
- * @runTestsInSeparateProcesses
  */
 class AbstractStyleTest extends \PHPUnit\Framework\TestCase
 {

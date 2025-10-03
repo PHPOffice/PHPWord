@@ -20,15 +20,21 @@ namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Reader\Word2007 as DocxReader;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007\Styles.
- * Run in separate process because doc changes default font.
  */
 class StyleTableTest extends \PHPUnit\Framework\TestCase
 {
+    // Reading this doc changes default font.
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test reading of table layout.
      */

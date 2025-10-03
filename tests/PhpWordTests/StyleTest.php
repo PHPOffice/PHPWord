@@ -28,6 +28,11 @@ use PhpOffice\PhpWord\Style;
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Style::resetStyles();
+    }
+
     /**
      * Add and get paragraph, font, link, title, and table styles.
      *
@@ -45,6 +50,8 @@ class StyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testStyles(): void
     {
+        Style::resetStyles();
+        self::assertCount(0, Style::getStyles());
         $paragraph = ['alignment' => Jc::CENTER];
         $font = ['italic' => true, '_bold' => true];
         $table = ['bgColor' => 'CCCCCC'];
@@ -63,13 +70,13 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         ];
 
         $styles = [
-            'Paragraph' => 'Paragraph',
-            'Font' => 'Font',
-            'Link' => 'Font',
-            'Table' => 'Table',
-            'Heading_1' => 'Font',
-            'Normal' => 'Paragraph',
-            'Numbering' => 'Numbering',
+            'Paragraph' => Style\Paragraph::class,
+            'Font' => Style\Font::class,
+            'Link' => Style\Font::class,
+            'Table' => Style\Table::class,
+            'Heading_1' => Style\Font::class,
+            'Normal' => Style\Paragraph::class,
+            'Numbering' => Style\Numbering::class,
         ];
 
         Style::addParagraphStyle('Paragraph', $paragraph);
@@ -82,12 +89,9 @@ class StyleTest extends \PHPUnit\Framework\TestCase
 
         self::assertCount(count($styles), Style::getStyles());
         foreach ($styles as $name => $style) {
-            self::assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$style}", Style::getStyle($name));
+            self::assertInstanceOf($style, Style::getStyle($name));
         }
         self::assertNull(Style::getStyle('Unknown'));
-
-        Style::resetStyles();
-        self::assertCount(0, Style::getStyles());
     }
 
     /**

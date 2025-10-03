@@ -21,9 +21,6 @@ namespace PhpOffice\PhpWordTests\Writer\Word2007\Part;
 use Exception;
 use PhpOffice\PhpWord\Writer\Word2007;
 
-/**
- * @runTestsInSeparateProcesses
- */
 class AbstractPartTest extends \PHPUnit\Framework\TestCase
 {
     /**

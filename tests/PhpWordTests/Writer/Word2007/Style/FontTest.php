@@ -26,8 +26,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Font.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Font
- *
- * @runTestsInSeparateProcesses
  */
 class FontTest extends \PHPUnit\Framework\TestCase
 {

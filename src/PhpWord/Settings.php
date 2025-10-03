@@ -537,6 +537,7 @@ class Settings
         self::$defaultFontName = self::DEFAULT_FONT_NAME;
         self::$defaultFontSize = self::DEFAULT_FONT_SIZE;
         self::$defaultPaper = self::DEFAULT_PAPER;
+        self::$defaultRtl = null;
         self::$measurementUnit = self::UNIT_TWIP;
         self::$outputEscapingEnabled = false;
         self::$pdfRendererName = null;
