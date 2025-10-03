@@ -51,7 +51,11 @@ class ParagraphTest extends TestCase
         $style->setAlignment(Jc::START);
         $writer = new ParagraphWriter($style);
         $writer->setParentWriter($parentWriter);
-        $expect = "\\pard\\ql ";
+        $expect = '\\pard\\ql\\widctlpar ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setAlignment(Jc::CENTER);
+        $expect = '\\pard\\qc\\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 }
