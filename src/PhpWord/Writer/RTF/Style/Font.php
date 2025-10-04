@@ -72,7 +72,7 @@ class Font extends AbstractStyle
         // Underline Keywords
         $underlines = [
             FontStyle::UNDERLINE_DASH => '\uldash',
-            FontStyle::UNDERLINE_DASHHEAVY => '\ulth',
+            FontStyle::UNDERLINE_DASHHEAVY => '\ulthdash',
             FontStyle::UNDERLINE_DASHLONG => '\ulldash',
             FontStyle::UNDERLINE_DASHLONGHEAVY => '\ulthldash',
             FontStyle::UNDERLINE_DOUBLE => '\uldb',
@@ -92,12 +92,15 @@ class Font extends AbstractStyle
 
         // Style
         $content .= $this->getValueIf($style->isBold(), '\b');
+        $content .= $this->getValueIf($style->isBold() === false, '\b0');
         $content .= $this->getValueIf($style->isItalic(), '\i');
+        $content .= $this->getValueIf($style->isItalic() === false, '\i0');
         if (isset($underlines[$style->getUnderline()])) {
             $content .= $underlines[$style->getUnderline()];
         }
         $content .= $this->getValueIf($style->isStrikethrough(), '\strike');
         $content .= $this->getValueIf($style->isDoubleStrikethrough(), '\striked1');
+        $content .= $this->getValueIf($style->isStrikethrough() === false && $style->isDoubleStrikethrough() === false, '\strike0');
         $content .= $this->getValueIf($style->isSuperScript(), '\super');
         $content .= $this->getValueIf($style->isSubScript(), '\sub');
         $content .= $this->getValueIf($style->isSmallCaps(), '\scaps');
@@ -113,12 +116,14 @@ class Font extends AbstractStyle
 
         // General
         $content .= $this->getValueIf($style->isRTL(), '\rtlch');
+        $content .= $this->getValueIf($style->isRTL() === false, '\ltrch');
         if ($style->getLang() !== null) {
             $content .= $this->getValueIf($style->getLang()->getLangId() !== null, '\lang' . $style->getLang()->getLangId());
         }
 
         // Other (Font settings currently not included in getStyleValues() array)
         $content .= $this->getValueIf($style->isNoProof(), '\noproof');
+        $content .= $this->getValueIf($style->isNoProof() === false, '\noproof0');
         $content .= $this->getValueIf($style->getBgColor() !== null, '\cb' . $this->bgColorIndex);
 
         if (empty($content)) {
