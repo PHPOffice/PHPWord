@@ -238,6 +238,7 @@ class Header extends AbstractPart
             $this->registerTableItem($this->fontTable, $style->getName(), $defaultFont);
             $this->registerTableItem($this->colorTable, $style->getColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getFgColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getBgColor(), $defaultColor);
 
             return;
         }
