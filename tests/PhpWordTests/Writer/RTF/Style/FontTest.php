@@ -19,67 +19,192 @@
 namespace PhpOffice\PhpWordTests\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
+use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\Writer\RTF;
+use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontWriter;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Test class for PhpOffice\PhpWord\Writer\RTF\Style\Font.
- *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\RTF\Style\Font
- *
- * @runTestsInSeparateProcesses
- */
-class FontTest extends \PHPUnit\Framework\TestCase
+class FontTest extends TestCase
 {
-    /**
-     * Executed before each method of the class.
-     */
     protected function tearDown(): void
     {
         Settings::setDefaultRtl(null);
     }
 
     /**
-     * Test basic font settings.
+     * @param FontWriter $field
      */
-    public function testFontBasics(): void
+    public function removeCr($field): string
     {
-        $font = new \PhpOffice\PhpWord\Style\Font();
-        $font->setName('Times New Roman');
-        $font->setSize(22);
-        $font->setColor('yellow');
-        // $font->setHint('test');
-
-        $writer = new RTF\Style\Font($font);
-        $writer->setParentWriter(new RTF());
-        $result = $writer->write();
-
-        self::assertEquals('\f0\fs44\cf0 ', $result);
+        return str_replace("\r\n", "\n", $field->write());
     }
 
     /**
-     * Test font style settings.
+     * Test font and color.
+     * See page 131 of RTF Specification 1.9.1 for Font (Character).
+     * See page 142 of RTF Specification 1.9.1 for Highlighting.
      */
-    public function testFontStyle(): void
+    public function testFontColor(): void
     {
-        $font = new \PhpOffice\PhpWord\Style\Font();
-        $font->setBold(true);
-        $font->setItalic(true);
-        $font->setUnderline('dashLong');
-        $font->setStrikethrough(true);
-        $font->setDoubleStrikethrough(true); // cancels out strike
-        $font->setSuperScript(true);
-        $font->setSubScript(true); // cancels out super
-        $font->setSmallCaps(true);
-        $font->setAllCaps(true); // cancels out smallcaps
-        $font->setFgColor('yellow');
-        $font->setBgColor('yellow');
-        $font->setHidden(true);
+        $parentWriter = new RTF();
+        $style = new FontStyle();
+        $writer = new FontWriter($style);
+        $writer->setParentWriter($parentWriter);
 
-        $writer = new RTF\Style\Font($font);
-        $writer->setParentWriter(new RTF());
-        $result = $writer->write();
+        $style->setName('Times New Roman');
+        $style->setFallbackFont('serif');
+        $style->setSize(24);
+        $style->setColor($style::FGCOLOR_YELLOW);
+        $style->setFgColor($style::FGCOLOR_RED);
+        $style->setBgColor('#123456');
+        $expect = '\f0\fs48\cf0\highlight0\cb0 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
 
-        self::assertEquals('\b\i\ulldash\striked1\sub\caps\highlight0\v\cb0 ', $result);
+    /**
+     * Test formatting.
+     * See page 130-133 of RTF Specification 1.9.1 for Font (Character).
+     */
+    public function testFontFormatting(): void
+    {
+        $parentWriter = new RTF();
+        $style = new FontStyle();
+        $writer = new FontWriter($style);
+        $writer->setParentWriter($parentWriter);
+
+        $style->setAllCaps(true);
+        $style->setBold(true);
+        $style->setdoubleStrikethrough(true);
+        $style->setHidden(true);
+        $style->setItalic(true);
+        $style->setNoProof(true);
+        $style->setSubScript(true);
+        $expect = '\b\i\striked1\sub\caps\v\noproof ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setSmallCaps(true);
+        $style->setStrikethrough(true);
+        $style->setSuperScript(true);
+        $expect = '\b\i\strike\super\scaps\v\noproof ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        // Disable styles (in case default is enabled)
+        $style->setBold(false);
+        $style->setHidden(false);
+        $style->setItalic(false);
+        $style->setSmallCaps(false);
+        $style->setStrikethrough(false);
+        $style->setSuperScript(false);
+        $style->setNoProof(false);
+        $expect = '\b0\i0\strike0\super0\scaps0\v0 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
+
+    /**
+     * Test underline.
+     * See page 132-133 of RTF Specification 1.9.1 for Formatting.
+     */
+    public function testFontUnderline(): void
+    {
+        $parentWriter = new RTF();
+        $style = new FontStyle();
+        $writer = new FontWriter($style);
+        $writer->setParentWriter($parentWriter);
+
+        $style->setUnderline($style::UNDERLINE_DASH);
+        $expect = '\uldash ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DASHHEAVY);
+        $expect = '\ulthdash ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DASHLONG);
+        $expect = '\ulldash ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DASHLONGHEAVY);
+        $expect = '\ulthldash ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DOUBLE);
+        $expect = '\uldb ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DOTDASH);
+        $expect = '\uldashd ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DOTDASHHEAVY);
+        $expect = '\ulthdashd ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DOTDOTDASH);
+        $expect = '\uldashdd ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DOTDOTDASHHEAVY);
+        $expect = '\ulthdashdd ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DOTTED);
+        $expect = '\uld ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_DOTTEDHEAVY);
+        $expect = '\ulthd ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_HEAVY);
+        $expect = '\ulth ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_SINGLE);
+        $expect = '\ul ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_WAVY);
+        $expect = '\ulwave ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_WAVYDOUBLE);
+        $expect = '\ululdbwave ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_WAVYHEAVY);
+        $expect = '\ulhwave ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_WORDS);
+        $expect = '\ulw ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setUnderline($style::UNDERLINE_NONE);
+        $expect = ' ';
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
+
+    /**
+     * Test language.
+     * See page 132 of RTF Specification 1.9.1 for Spacing.
+     */
+    public function testFontLang(): void
+    {
+        $parentWriter = new RTF();
+        $style = new FontStyle();
+        $writer = new FontWriter($style);
+        $writer->setParentWriter($parentWriter);
+
+        $style->setRTL(true);
+        $style->setLang(Language::KO_KR);
+        $expect = '\rtlch\lang0 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setRTL(false);
+        $style->setLang(Language::EN_US);
+        $expect = '\ltrch\lang0 ';
+        self::assertEquals($expect, $this->removeCr($writer));
     }
 
     /**
@@ -87,32 +212,16 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testFontSpacing(): void
     {
-        $font = new \PhpOffice\PhpWord\Style\Font();
-        $font->setScale(5);
-        $font->setSpacing(4);
-        $font->setKerning(100);
-        $font->setPosition(10);
-
-        $writer = new RTF\Style\Font($font);
-        $writer->setParentWriter(new RTF());
-        $result = $writer->write();
-
-        self::assertEquals('\charscalex5\expnd4\kerning200\up10 ', $result);
-    }
-
-    /**
-     * Test general font settings.
-     */
-    public function testFontGeneral(): void
-    {
-        $font = new \PhpOffice\PhpWord\Style\Font();
-        $font->setRTL(true);
-        $font->setNoProof(true);
-
-        $writer = new RTF\Style\Font($font);
-        $writer->setParentWriter(new RTF());
-        $result = $writer->write();
-
-        self::assertEquals('\rtlch\noproof ', $result);
+        $parentWriter = new RTF();
+        $style = new FontStyle();
+        $writer = new FontWriter($style);
+        $writer->setParentWriter($parentWriter);
+        
+        $style->setScale(5);
+        $style->setSpacing(4);
+        $style->setKerning(100);
+        $style->setPosition(10);
+        $expect = '\charscalex5\expnd4\kerning200\up10 ';
+        self::assertEquals($expect, $this->removeCr($writer));
     }
 }
