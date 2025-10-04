@@ -98,6 +98,7 @@ class Paragraph extends AbstractStyle
         if (isset($alignments[$alignment])) {
             $content .= $bidi ? $bidiAlignments[$alignment] : $alignments[$alignment];
         }
+        $content .= $this->getValueIf($style->isBidi(), '\rtlpar');
         $content .= $this->writeIndentation($style->getIndentation());
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore ?? 0));
         $content .= $this->getValueIf($spaceAfter !== null, '\sa' . round($spaceAfter ?? 0));
@@ -107,8 +108,8 @@ class Paragraph extends AbstractStyle
             $content .= "\\sl$lineHeightAdjusted";
         } else {
             $content .= $this->getValueIf($style->getSpacing() !== null, '\sl' . round($style->getSpacing() ?? 0));
-            $spacingRule = $style->getSpacingLineRule();
         }
+        $spacingRule = $style->getSpacingLineRule();
         if (isset($spacingRules[$spacingRule])) {
             $content .= $this->getValueIf($style->getSpacing() !== null, $spacingRules[$spacingRule]);
         }
