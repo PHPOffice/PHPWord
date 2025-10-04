@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Settings;
  */
 class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
 {
-    const HEADER = '\\pard\\nowidctlpar \ql{';
+    const HEADER = '\\pard\\nowidctlpar \ql{\ltrch ';
     const HEADER_RTL = '\\pard\\nowidctlpar \qr{\\rtlch ';
     const TRAILER = '}\\par';
 
