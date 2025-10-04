@@ -32,7 +32,7 @@ class IndentationTest extends TestCase
     }
 
     /**
-     * @param ParagraphWriter $field
+     * @param IndentationWriter $field
      */
     public function removeCr($field): string
     {
