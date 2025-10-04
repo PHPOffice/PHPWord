@@ -55,7 +55,7 @@ class FontTest extends TestCase
         $writer->setParentWriter($parentWriter);
 
         $style->setName('Times New Roman');
-        $style->setFallbackFont('serif');
+        $style->setFallbackFont('serif'); // currently does nothing in RTF, see pg. 18 of spec for implementation
         $style->setSize(24);
         $style->setColor($style::FGCOLOR_YELLOW);
         $style->setFgColor($style::FGCOLOR_RED);
@@ -76,7 +76,7 @@ class FontTest extends TestCase
         $writer = new TextWriter($parentWriter, $element, true);
 
         $style->setName('Times New Roman');
-        $style->setFallbackFont('serif');
+        $style->setFallbackFont('serif'); // currently does nothing in RTF, see pg. 18 of spec for implementation
         $style->setSize(24);
         $style->setColor($style::FGCOLOR_YELLOW);
         $style->setFgColor($style::FGCOLOR_RED);
@@ -88,7 +88,7 @@ class FontTest extends TestCase
         $element->setText('Test');
         $element->setFontStyle($style);
 
-        $expect = '\pard\nowidctlpar {\f1\fs48\cf1\highlight2\cb3 Test}';
+        $expect = '{\f1\fs48\cf1\highlight2\cb3 Test}';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
