@@ -41,25 +41,23 @@ class Element2Test extends \PHPUnit\Framework\TestCase
 
     public function testTextRun(): void
     {
-        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\TextRun();
         $element->addText('Hello ');
         $element->addText('there.');
         $textrun = new WriterTextRun($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\ql{{Hello }{there.}}\\par\n";
+        $expect = "\\pard\\nowidctlpar {{Hello }{there.}}\\par\n";
         self::assertEquals($expect, $this->removeCr($textrun));
     }
 
     public function testTextRunParagraphStyle(): void
     {
-        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\TextRun(['spaceBefore' => 0, 'spaceAfter' => 0]);
         $element->addText('Hello ');
         $element->addText('there.');
         $textrun = new WriterTextRun($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\ql\\sb0\\sa0{{Hello }{there.}}\\par\n";
+        $expect = "\\pard\\nowidctlpar \\sb0\\sa0{{Hello }{there.}}\\par\n";
         self::assertEquals($expect, $this->removeCr($textrun));
     }
 
@@ -67,12 +65,11 @@ class Element2Test extends \PHPUnit\Framework\TestCase
     {
         $parentWriter = new RTF();
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        Settings::setDefaultRtl(false);
         $phpWord->addTitleStyle(1, [], ['spaceBefore' => 0, 'spaceAfter' => 0]);
         $section = $phpWord->addSection();
         $element = $section->addTitle('First Heading', 1);
         $elwrite = new WriterTitle($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\ql\\sb0\\sa0{\\outlinelevel0{First Heading}\\par\n}";
+        $expect = "\\pard\\nowidctlpar \\sb0\\sa0{\\outlinelevel0{First Heading}\\par\n}";
         self::assertEquals($expect, $this->removeCr($elwrite));
         Settings::setDefaultRtl(null);
     }
