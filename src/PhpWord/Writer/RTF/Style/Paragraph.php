@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 
 /**
  * RTF paragraph style writer.
@@ -76,6 +77,11 @@ class Paragraph extends AbstractStyle
             Jc::MEDIUM_KASHIDA => '\qk10',
             Jc::LOW_KASHIDA => '\qk0',
         ];
+        $spacingRules = [
+            LineSpacingRule::AUTO => '\slmult1',
+            LineSpacingRule::EXACT => '\slmult0',
+            LineSpacingRule::AT_LEAST => '\slmult0',
+        ];
 
         $spaceAfter = $style->getSpaceAfter();
         $spaceBefore = $style->getSpaceBefore();
@@ -98,8 +104,15 @@ class Paragraph extends AbstractStyle
         $lineHeight = $style->getLineHeight();
         if ($lineHeight) {
             $lineHeightAdjusted = (int) ($lineHeight * 240);
-            $content .= "\\sl$lineHeightAdjusted\\slmult1";
+            $content .= "\\sl$lineHeightAdjusted";
+        } else {
+            $content .= $this->getValueIf($style->getSpacing() !== null, '\sl' . round($style->getSpacing() ?? 0));
+            $spacingRule = $style->getSpacingLineRule();
+            if (isset($spacingRules[$spacingRule])) {
+                $content .= $spacingRules[$spacingRule];
+            }
         }
+        
         $content .= $this->getValueIf($style->hasContextualSpacing(), '\contextualspace');
 
         // Pagination
