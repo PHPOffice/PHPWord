@@ -107,6 +107,7 @@ class Font extends AbstractStyle
         $content .= $this->getValueIf($style->isAllCaps(), '\caps');
         $content .= $this->getValueIf($style->getFgColor() !== null, '\highlight' . $this->fgColorIndex);
         $content .= $this->getValueIf($style->isHidden(), '\v');
+        $content .= $this->getValueIf($style->isHidden() === false, '\v0');
 
         // Spacing
         $content .= $this->getValueIf($style->getScale() !== null, '\charscalex' . $style->getScale());
@@ -117,13 +118,16 @@ class Font extends AbstractStyle
         // General
         $content .= $this->getValueIf($style->isRTL(), '\rtlch');
         $content .= $this->getValueIf($style->isRTL() === false, '\ltrch');
+        $content .= $this->getValueIf($style->isNoProof(), '\noproof\lang1024');
         if ($style->getLang() !== null) {
-            $content .= $this->getValueIf($style->getLang()->getLangId() !== null, '\lang' . $style->getLang()->getLangId());
+            if ($style->isNoProof()) {
+                $content .= $this->getValueIf($style->getLang()->getLangId() !== null, '\langnp' . $style->getLang()->getLangId());
+            } else {
+                $content .= $this->getValueIf($style->getLang()->getLangId() !== null, '\lang' . $style->getLang()->getLangId());
+            }
         }
 
         // Other (Font settings currently not included in getStyleValues() array)
-        $content .= $this->getValueIf($style->isNoProof(), '\noproof');
-        $content .= $this->getValueIf($style->isNoProof() === false, '\noproof0');
         $content .= $this->getValueIf($style->getBgColor() !== null, '\cb' . $this->bgColorIndex);
 
         if (empty($content)) {
