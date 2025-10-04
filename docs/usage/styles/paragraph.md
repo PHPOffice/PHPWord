@@ -51,7 +51,7 @@ See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) and [`Sample_08_
 - `spacing`. Space between lines in *twip*. If spacingLineRule is auto, 240 (height of 1 line) will be added, so if you want a double line height, set this to 240.
 - `spacingLineRule`. Line Spacing Rule. *auto*, *exact*, *atLeast*
    * See [`SimpleType > LineSpacingRule`](../simpletypes/linespacingrule.md) class constants for possible values.
-- `suppressAutoHyphens`. Hyphenation for paragraph, *true* or *false*.
+- `suppressAutoHyphens`. Hyphenation for paragraph, *true* or *false*. Only matters if [`Settings > AutoHyphenation](..settings.md) is *true*.
 - `tabs`. Set of custom tab stops.
    * See [`Style > Tab`](../styles/tab.md).
 - `widowControl`. Allow first/last line to display on a separate page, *true* or *false*.
