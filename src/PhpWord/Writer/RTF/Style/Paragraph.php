@@ -108,9 +108,9 @@ class Paragraph extends AbstractStyle
         } else {
             $content .= $this->getValueIf($style->getSpacing() !== null, '\sl' . round($style->getSpacing() ?? 0));
             $spacingRule = $style->getSpacingLineRule();
-            if (isset($spacingRules[$spacingRule])) {
-                $content .= $this->getValueIf($style->getSpacing() !== null$spacingRules[$spacingRule]);
-            }
+        }
+        if (isset($spacingRules[$spacingRule])) {
+            $content .= $this->getValueIf($style->getSpacing() !== null$spacingRules[$spacingRule]);
         }
 
         $content .= $this->getValueIf($style->hasContextualSpacing(), '\contextualspace');
