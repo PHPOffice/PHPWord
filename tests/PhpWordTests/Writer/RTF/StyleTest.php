@@ -151,7 +151,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
 
     public function testPageBreakLineHeight2(): void
     {
-        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
