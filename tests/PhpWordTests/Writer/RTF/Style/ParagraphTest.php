@@ -49,9 +49,10 @@ class ParagraphTest extends TestCase
     {
         $parentWriter = new RTF();
         $style = new ParagraphStyle();
-        $style->setAlignment(Jc::START);
         $writer = new ParagraphWriter($style);
         $writer->setParentWriter($parentWriter);
+
+        $style->setAlignment(Jc::START);
         $expect = '\\pard\\ql\\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
@@ -62,7 +63,7 @@ class ParagraphTest extends TestCase
         $style->setAlignment(Jc::END);
         $expect = '\\pard\\qr\\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
- 
+
         $style->setAlignment(Jc::BOTH);
         $expect = '\\pard\\qj\\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
@@ -96,11 +97,11 @@ class ParagraphTest extends TestCase
         $style->setBidi(true);
         $expect = '\\pard\\ql\\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
-   }
+    }
 
     /**
      * Test indentation.
-     * See PHPOFfice\Tests\Writer\RTF\Style\IndentationTest
+     * See PHPOFfice\Tests\Writer\RTF\Style\IndentationTest.
      */
 
     /**
@@ -111,14 +112,15 @@ class ParagraphTest extends TestCase
     {
         $parentWriter = new RTF();
         $style = new ParagraphStyle();
+        $writer = new ParagraphWriter($style);
+        $writer->setParentWriter($parentWriter);
+
         $style->setSuppressAutoHyphens(true);
         $style->setKeepLines(true);
         $style->setKeepNext(true);
         $style->setWidowControl(true);
         $style->setPageBreakBefore(true);
-        $writer = new ParagraphWriter($style);
-        $writer->setParentWriter($parentWriter);
-        $expect = '\\pard\\widctlpar\\keepn\\keep\\pagebb\\hyphpar ';
+        $expect = '\\pard\\widctlpar\\keepn\\keep\\pagebb\\hyphpar0 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setSuppressAutoHyphens(false);
@@ -128,7 +130,7 @@ class ParagraphTest extends TestCase
         $style->setPageBreakBefore(false);
         $expect = '\\pard\\nowidctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
-   }
+    }
 
     /**
      * Test spacing.
@@ -138,13 +140,14 @@ class ParagraphTest extends TestCase
     {
         $parentWriter = new RTF();
         $style = new ParagraphStyle();
+        $writer = new ParagraphWriter($style);
+        $writer->setParentWriter($parentWriter);
+
         $style->setSpaceBefore(240);
         $style->setSpaceAfter(120);
         $style->setLineHeight(1.5);
         $style->setContextualSpacing(false);
-        $writer = new ParagraphWriter($style);
-        $writer->setParentWriter($parentWriter);
-        $expect = '\\pard\\sb240\\sa120\\sl360\\simult1\\widctlpar ';
+        $expect = '\\pard\\sb240\\sa120\\sl360\\slmult1\\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setSpaceBefore(480);
@@ -152,13 +155,13 @@ class ParagraphTest extends TestCase
         $style->setSpacing(30);
         $style->setSpacingLineRule(LineSpacingRule::EXACT);
         $style->setContextualSpacing(true);
-        $expect = '\\pard\\sb480\\sa360\\sl30\\simult0\\contextualspace\\widctlpar ';
+        $expect = '\\pard\\sb480\\sa360\\sl30\\slmult0\\contextualspace\\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
-   }
+    }
 
     /**
      * Test tabs.
-     * See PHPOFfice\Tests\Writer\RTF\Style\TabTest
+     * See PHPOFfice\Tests\Writer\RTF\Style\TabTest.
      */
 
     /**
