@@ -73,7 +73,7 @@ class FontTest extends TestCase
         $parentWriter = new RTF($phpWord);
         $style = new FontStyle();
         $element = new TextElement();
-        $writer = new TextWriter($parentWriter, $element);
+        $writer = new TextWriter($parentWriter, $element, true);
 
         $style->setName('Times New Roman');
         $style->setFallbackFont('serif');
@@ -88,7 +88,7 @@ class FontTest extends TestCase
         $element->setText('Test');
         $element->setFontStyle($style);
 
-        $expect = '\pard\nowidctlpar {\f1\fs48\cf1\highlight2\cb0 Test}\par\n';
+        $expect = '\pard\nowidctlpar {\f1\fs48\cf1\highlight2\cb3 Test}';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
