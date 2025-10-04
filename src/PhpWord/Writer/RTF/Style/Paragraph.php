@@ -110,7 +110,7 @@ class Paragraph extends AbstractStyle
             $spacingRule = $style->getSpacingLineRule();
         }
         if (isset($spacingRules[$spacingRule])) {
-            $content .= $this->getValueIf($style->getSpacing() !== null$spacingRules[$spacingRule]);
+            $content .= $this->getValueIf($style->getSpacing() !== null, $spacingRules[$spacingRule]);
         }
 
         $content .= $this->getValueIf($style->hasContextualSpacing(), '\contextualspace');
