@@ -19,9 +19,11 @@
 namespace PhpOffice\PhpWordTests\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\Writer\RTF;
+use PhpOffice\PhpWord\Writer\RTF\Element\Text as TextWriter;
 use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontWriter;
 use PHPUnit\Framework\TestCase;
 
@@ -70,6 +72,8 @@ class FontTest extends TestCase
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $parentWriter = new RTF($phpWord);
         $style = new FontStyle();
+        $element = new TextElement();
+        $writer = new TextWriter($parentWriter, $element);
 
         $style->setName('Times New Roman');
         $style->setFallbackFont('serif');
@@ -81,8 +85,9 @@ class FontTest extends TestCase
         $phpWord->addFontStyle('style1', $style);
         $parentWriter->getWriterPart('Header')->write();
 
-        $writer = new FontWriter($style);
-        $writer->setParentWriter($parentWriter);
+        $element->setText('Test');
+        $element->setFontStyle($style);
+
         $expect = '\f0\fs48\cf0\highlight0\cb0 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
