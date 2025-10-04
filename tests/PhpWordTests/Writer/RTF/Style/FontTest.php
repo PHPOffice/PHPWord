@@ -70,8 +70,6 @@ class FontTest extends TestCase
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $parentWriter = new RTF($phpWord);
         $style = new FontStyle();
-        $writer = new FontWriter($style);
-        $writer->setParentWriter($parentWriter);
 
         $style->setName('Times New Roman');
         $style->setFallbackFont('serif');
@@ -83,6 +81,8 @@ class FontTest extends TestCase
         $phpWord->addFontStyle('style1', $style);
         $parentWriter->getWriterPart('Header')->write();
 
+        $writer = new FontWriter($style);
+        $writer->setParentWriter($parentWriter);
         $expect = '\f0\fs48\cf0\highlight0\cb0 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
