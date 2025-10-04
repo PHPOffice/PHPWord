@@ -63,6 +63,32 @@ class FontTest extends TestCase
     }
 
     /**
+     * Test font and color after registering header tables.
+     */
+    public function testFontColorRegistered(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $parentWriter = new RTF($phpWord);
+        $style = new FontStyle();
+        $writer = new FontWriter($style);
+        $writer->setParentWriter($parentWriter);
+        
+        $style->setName('Times New Roman');
+        $style->setFallbackFont('serif');
+        $style->setSize(24);
+        $style->setColor($style::FGCOLOR_YELLOW);
+        $style->setFgColor($style::FGCOLOR_RED);
+        $style->setBgColor('#123456');
+
+        $secton = $phpWord->addSection();
+        $section->addFontStyle('style1', $style);
+        $parentWriter->getWriterPart('Header')->write();
+        
+        $expect = '\f0\fs48\cf0\highlight0\cb0 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
+
+    /**
      * Test formatting.
      * See page 130-133 of RTF Specification 1.9.1 for Font (Character).
      */
