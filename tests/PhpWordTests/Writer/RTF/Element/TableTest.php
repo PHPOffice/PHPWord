@@ -39,7 +39,6 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
     public function testTable(): void
     {
-        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
         $element = new Table();
         $width = 100;
@@ -59,7 +58,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
             '\\pard',
             "\\trowd \\cellx$width \\cellx$width2 ",
             '\\intbl',
-            '\\ql{1}\\par',
+            '{1}\\par',
             '\\cell',
             '\\intbl',
             '{2}\\par',
@@ -67,7 +66,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
             '\\row',
             "\\trowd \\cellx$width \\cellx$width2 ",
             '\\intbl',
-            '\\ql{3}\\par',
+            '{3}\\par',
             '\\cell',
             '\\intbl',
             '{4}\par',
@@ -84,7 +83,6 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $width = 100;
 
-        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
 
         Style::addTableStyle('TableStyle', ['borderSize' => 6, 'borderColor' => '006699']);
@@ -102,7 +100,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
             '\\clbrdrr\\brdrs\\brdrw2\\brdrcf0',
             "\\cellx$width ",
             '\\intbl',
-            '\\ql{1}\\par',
+            '{1}\\par',
             '\\cell',
             '\\row',
             '\\pard',
@@ -116,7 +114,6 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $width = 100;
 
-        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
 
         $element = new Table('TableStyleNotExisting');
@@ -128,7 +125,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
             '\\pard',
             "\\trowd \\cellx$width ",
             '\\intbl',
-            '\\ql{1}\\par',
+            '{1}\\par',
             '\\cell',
             '\\row',
             '\\pard',
@@ -142,7 +139,6 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $width = 100;
 
-        Settings::setDefaultRtl(false);
         $parentWriter = new RTF();
 
         $element = new Table();
@@ -158,7 +154,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
             '\\clbrdrr\\brdrdot\\brdrw2\\brdrcf0',
             "\\cellx$width ",
             '\\intbl',
-            '\\ql{1}\\par',
+            '{1}\\par',
             '\\cell',
             '\\row',
             '\\pard',
