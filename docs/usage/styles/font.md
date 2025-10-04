@@ -41,7 +41,7 @@ See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) for more code sa
 - `bold`. Bold, *true* or *false*.
 - `color`. Font color, e.g. *FF0000*.
 - `doubleStrikethrough`. Double strikethrough, *true* or *false*.
-- `fallbackFont`. Fallback generic font for html/pdf. Possible values are *sans-serif*, *serif*, and *monospace* (other css values for generic fonts are accepted).
+- `fallbackFont`. Fallback generic font. Possible values are *serif*, *sans-serif*, *monospace*, *cursive*, *fantasy*, *system-ui*, *math*, *emoji*, and *fangsong*.
 - `fgColor`. Font highlight color, e.g. *yellow*, *green*, *blue*.
    * See constants above for possible values.
 - `hidden`. Hidden text, *true* or *false*.
