@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\Settings;
 class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
 {
     const HEADER = '\\pard\\ql\\widctlpar {\\cf0\\f0 ';
-    const HEADER_RTL = '\\pard\\qr\\widctlpar {\\rtlch\\cf0\\f0 ';
+    const HEADER_RTL = '\\pard\\qr\\rtlpar\\widctlpar {\\rtlch\\cf0\\f0 ';
     const TRAILER = '}\\par';
 
     protected function tearDown(): void
