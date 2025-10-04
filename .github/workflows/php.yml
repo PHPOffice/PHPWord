@@ -143,10 +143,9 @@ jobs:
 
       -   name: Upload coverage results to Coveralls
           if: matrix.php == '8.3'
-          env:
-            FAILURE_ACTION: "${{ matrix.php == '8.3' }}"
           uses: coverallsapp/github-action@v2
           with:
               github-token: ${{ secrets.GITHUB_TOKEN }}
               file: build/clover.xml
               format: clover
+              fail-on-error: false
