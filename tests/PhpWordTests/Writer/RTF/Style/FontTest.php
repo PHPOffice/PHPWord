@@ -97,7 +97,7 @@ class FontTest extends TestCase
         $style->setStrikethrough(false);
         $style->setSuperScript(false);
         $style->setNoProof(false);
-        $expect = '\b0\i0\strike0\super0\scaps0\v0 ';
+        $expect = '\b0\i0\strike0\scaps0\v0 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
@@ -198,12 +198,12 @@ class FontTest extends TestCase
 
         $style->setRTL(true);
         $style->setLang(Language::KO_KR);
-        $expect = '\rtlch\lang0 ';
+        $expect = '\rtlch\lang1042 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setRTL(false);
         $style->setLang(Language::EN_US);
-        $expect = '\ltrch\lang0 ';
+        $expect = '\ltrch\lang1033 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
@@ -216,7 +216,7 @@ class FontTest extends TestCase
         $style = new FontStyle();
         $writer = new FontWriter($style);
         $writer->setParentWriter($parentWriter);
-        
+
         $style->setScale(5);
         $style->setSpacing(4);
         $style->setKerning(100);
