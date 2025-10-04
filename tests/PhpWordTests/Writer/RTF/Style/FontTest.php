@@ -18,8 +18,8 @@
 
 namespace PhpOffice\PhpWordTests\Writer\RTF\Style;
 
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Element\Text as TextElement;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\Writer\RTF;
@@ -88,7 +88,7 @@ class FontTest extends TestCase
         $element->setText('Test');
         $element->setFontStyle($style);
 
-        $expect = '\f0\fs48\cf0\highlight0\cb0 ';
+        $expect = '\pard\nowidctlpar {\f1\fs48\cf1\highlight2\cb0 Test}\par\n';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
