@@ -136,7 +136,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('אב גד');
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\qr\\widctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
+        $expect = "\\pard\\qr\\rtlpar\\widctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
