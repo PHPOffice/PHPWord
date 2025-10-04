@@ -80,13 +80,14 @@ class FontTest extends TestCase
         $style->setItalic(true);
         $style->setNoProof(true);
         $style->setSubScript(true);
-        $expect = '\b\i\striked1\sub\caps\v\noproof ';
+        $expect = '\b\i\striked1\sub\caps\v\noproof\lang1024 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setSmallCaps(true);
         $style->setStrikethrough(true);
         $style->setSuperScript(true);
-        $expect = '\b\i\strike\super\scaps\v\noproof ';
+        $style->setNoProof(false);
+        $expect = '\b\i\strike\super\scaps\v ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         // Disable styles (in case default is enabled)
@@ -96,8 +97,7 @@ class FontTest extends TestCase
         $style->setSmallCaps(false);
         $style->setStrikethrough(false);
         $style->setSuperScript(false);
-        $style->setNoProof(false);
-        $expect = '\b0\i0\strike0\scaps0\v0 ';
+        $expect = '\b0\i0\strike0\v0 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
@@ -181,7 +181,7 @@ class FontTest extends TestCase
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setUnderline($style::UNDERLINE_NONE);
-        $expect = ' ';
+        $expect = '';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
