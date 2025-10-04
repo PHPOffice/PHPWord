@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Writer\RTF;
 use PhpOffice\PhpWord\Writer\RTF\Style\Indentation as IndentationWriter;
 use PHPUnit\Framework\TestCase;
 
-class ParagraphTest extends TestCase
+class IndentationTest extends TestCase
 {
     protected function tearDown(): void
     {
