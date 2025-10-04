@@ -96,7 +96,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
 
         $embeddingText = 'The quick Brown Fox jumped over the lazy^H^H^H^Htired unitTester';
-        $templateProcessor->zip()->AddFromString('word/embeddings/fox.bin', $embeddingText);
+        $templateProcessor->zip()->addFromString('word/embeddings/fox.bin', $embeddingText);
         $documentFqfn = $templateProcessor->save();
 
         self::assertNotEmpty($documentFqfn, 'FQFN of the saved document is empty.');
@@ -855,6 +855,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @covers ::setImageValue
+     * @covers \PhpOffice\PhpWord\Shared\ZipArchive::pclzipAddFile
      */
     public function testSetImageValue(): void
     {

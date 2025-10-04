@@ -376,11 +376,6 @@ parameters:
 			path: src/PhpWord/Shared/ZipArchive.php
 
 		-
-			message: "#^Call to method addFromString\\(\\) on an unknown class PclZip\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
 			message: "#^Call to method close\\(\\) on an unknown class PclZip\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/ZipArchive.php
@@ -1308,11 +1303,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:getText\\(\\)\\.$#"
 			count: 2
-			path: tests/PhpWordTests/TemplateProcessorTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Shared\\\\ZipArchive\\:\\:AddFromString\\(\\)\\.$#"
-			count: 1
 			path: tests/PhpWordTests/TemplateProcessorTest.php
 
 		-
