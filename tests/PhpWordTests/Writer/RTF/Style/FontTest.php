@@ -124,9 +124,9 @@ class FontTest extends TestCase
         $style->setBold(false);
         $style->setHidden(false);
         $style->setItalic(false);
-        $style->setSmallCaps(false);
+        $style->setSmallCaps(false); // should display \caps0\scaps0; currently doesn't work
         $style->setStrikethrough(false);
-        $style->setSuperScript(false);
+        $style->setSuperScript(false); // should display \nosupersub; currently doesn't work
         $expect = '\b0\i0\strike0\v0 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
@@ -210,7 +210,7 @@ class FontTest extends TestCase
         $expect = '\ulw ';
         self::assertEquals($expect, $this->removeCr($writer));
 
-        $style->setUnderline($style::UNDERLINE_NONE);
+        $style->setUnderline($style::UNDERLINE_NONE); // should display \ulnone\ul0; currently doesn't work
         $expect = '';
         self::assertEquals($expect, $this->removeCr($writer));
     }
