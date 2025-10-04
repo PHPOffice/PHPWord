@@ -72,7 +72,7 @@ class FontTest extends TestCase
         $style = new FontStyle();
         $writer = new FontWriter($style);
         $writer->setParentWriter($parentWriter);
-        
+
         $style->setName('Times New Roman');
         $style->setFallbackFont('serif');
         $style->setSize(24);
@@ -80,10 +80,10 @@ class FontTest extends TestCase
         $style->setFgColor($style::FGCOLOR_RED);
         $style->setBgColor('#123456');
 
-        $secton = $phpWord->addSection();
+        $section = $phpWord->addSection();
         $section->addFontStyle('style1', $style);
         $parentWriter->getWriterPart('Header')->write();
-        
+
         $expect = '\f0\fs48\cf0\highlight0\cb0 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
