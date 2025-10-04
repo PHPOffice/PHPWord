@@ -100,6 +100,7 @@ class Paragraph extends AbstractStyle
             $lineHeightAdjusted = (int) ($lineHeight * 240);
             $content .= "\\sl$lineHeightAdjusted\\slmult1";
         }
+        $content .= $this->getValueIf($style->hasContextualSpacing(), '\contextualspace');
 
         // Pagination
         $content .= $this->getValueIf($style->hasWidowControl(), '\widctlpar');
@@ -107,6 +108,7 @@ class Paragraph extends AbstractStyle
         $content .= $this->getValueIf($style->isKeepNext(), '\keepn');
         $content .= $this->getValueIf($style->isKeepLines(), '\keep');
         $content .= $this->getValueIf($style->hasPageBreakBefore(), '\pagebb');
+        $content .= $this->getValueIf($style->hasSuppressAutoHyphens(), '\hyphpar0');
 
         $styles = $style->getStyleValues();
         $content .= $this->writeTabs($styles['tabs']);
