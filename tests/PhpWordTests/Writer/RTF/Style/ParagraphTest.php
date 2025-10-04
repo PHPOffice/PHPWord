@@ -154,7 +154,7 @@ class ParagraphTest extends TestCase
         $style = new ParagraphStyle();
         $writer = new ParagraphWriter($style);
         $writer->setParentWriter($parentWriter);
-        
+
         $style->setSpaceBefore(480);
         $style->setSpaceAfter(360);
         $style->setSpacing(30);
