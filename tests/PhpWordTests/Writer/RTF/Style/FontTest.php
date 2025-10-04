@@ -80,8 +80,7 @@ class FontTest extends TestCase
         $style->setFgColor($style::FGCOLOR_RED);
         $style->setBgColor('#123456');
 
-        $section = $phpWord->addSection();
-        $section->addFontStyle('style1', $style);
+        $phpWord->addFontStyle('style1', $style);
         $parentWriter->getWriterPart('Header')->write();
 
         $expect = '\f0\fs48\cf0\highlight0\cb0 ';
