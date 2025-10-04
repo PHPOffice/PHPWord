@@ -17,5 +17,7 @@ See [`Sample_08_ParagraphPagination`](/samples/Sample_08_ParagraphPagination.php
 - `firstLineChars`. Additional first line chars indentation in *twip*.
 - `hanging`. Indentation removed from first line *twip*.
 
+*Warning*: `firstLine[Chars]` and `hanging` cannot be used together.
+
 ## Used In
 - [`Style > Paragraph`](../styles/paragraph.md).
