@@ -150,6 +150,7 @@ class ParagraphTest extends TestCase
         $expect = '\\pard\\sb240\\sa120\\sl360\\slmult1\\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
+        $style = new ParagraphStyle();
         $style->setSpaceBefore(480);
         $style->setSpaceAfter(360);
         $style->setSpacing(30);
