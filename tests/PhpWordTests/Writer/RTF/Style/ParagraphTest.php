@@ -43,7 +43,8 @@ class ParagraphTest extends TestCase
 
     /**
      * Test alignment.
-     * See page 79 of RTF Specification 1.9.1.
+     * See page 79 of RTF Specification 1.9.1 for Alignment.
+     * See page 81 of RTF Specification 1.9.1 for Bidirectional Controls.
      */
     public function testParagraphAlign(): void
     {
@@ -53,49 +54,49 @@ class ParagraphTest extends TestCase
         $writer->setParentWriter($parentWriter);
 
         $style->setAlignment(Jc::START);
-        $expect = '\\pard\\ql\\widctlpar ';
+        $expect = '\pard\ql\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::CENTER);
-        $expect = '\\pard\\qc\\widctlpar ';
+        $expect = '\pard\qc\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::END);
-        $expect = '\\pard\\qr\\widctlpar ';
+        $expect = '\pard\qr\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::BOTH);
-        $expect = '\\pard\\qj\\widctlpar ';
+        $expect = '\pard\qj\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::DISTRIBUTE);
-        $expect = '\\pard\\qd\\widctlpar ';
+        $expect = '\pard\qd\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::THAI_DISTRIBUTE);
-        $expect = '\\pard\\qt\\widctlpar ';
+        $expect = '\pard\qt\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::HIGH_KASHIDA);
-        $expect = '\\pard\\qk20\\widctlpar ';
+        $expect = '\pard\qk20\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::MEDIUM_KASHIDA);
-        $expect = '\\pard\\qk10\\widctlpar ';
+        $expect = '\pard\qk10\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::LOW_KASHIDA);
-        $expect = '\\pard\\qk0\\widctlpar ';
+        $expect = '\pard\qk0\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::START);
         $style->setBidi(true);
-        $expect = '\\pard\\qr\\widctlpar ';
+        $expect = '\pard\qr\rtlpar\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setAlignment(Jc::END);
         $style->setBidi(true);
-        $expect = '\\pard\\ql\\widctlpar ';
+        $expect = '\pard\ql\rtlpar\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
@@ -106,7 +107,7 @@ class ParagraphTest extends TestCase
 
     /**
      * Test formatting.
-     * See page 79 of RTF Specification 1.9.1.
+     * See page 78 of RTF Specification 1.9.1 for Formatting.
      */
     public function testParagraphFormatting(): void
     {
@@ -120,7 +121,7 @@ class ParagraphTest extends TestCase
         $style->setKeepNext(true);
         $style->setWidowControl(true);
         $style->setPageBreakBefore(true);
-        $expect = '\\pard\\widctlpar\\keepn\\keep\\pagebb\\hyphpar0 ';
+        $expect = '\pard\widctlpar\keepn\keep\pagebb\hyphpar0 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setSuppressAutoHyphens(false);
@@ -128,13 +129,13 @@ class ParagraphTest extends TestCase
         $style->setKeepNext(false);
         $style->setWidowControl(false);
         $style->setPageBreakBefore(false);
-        $expect = '\\pard\\nowidctlpar ';
+        $expect = '\pard\nowidctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
     /**
      * Test spacing.
-     * See page 80 of RTF Specification 1.9.1.
+     * See page 80 of RTF Specification 1.9.1 for Spacing.
      */
     public function testParagraphSpacing(): void
     {
@@ -147,16 +148,19 @@ class ParagraphTest extends TestCase
         $style->setSpaceAfter(120);
         $style->setLineHeight(1.5);
         $style->setContextualSpacing(false);
-        $expect = '\\pard\\sb240\\sa120\\sl360\\slmult1\\widctlpar ';
+        $expect = '\pard\sb240\sa120\sl360\slmult1\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style = new ParagraphStyle();
+        $writer = new ParagraphWriter($style);
+        $writer->setParentWriter($parentWriter);
+        
         $style->setSpaceBefore(480);
         $style->setSpaceAfter(360);
         $style->setSpacing(30);
         $style->setSpacingLineRule(LineSpacingRule::EXACT);
         $style->setContextualSpacing(true);
-        $expect = '\\pard\\sb480\\sa360\\sl30\\slmult0\\contextualspace\\widctlpar ';
+        $expect = '\pard\sb480\sa360\sl30\slmult0\contextualspace\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
