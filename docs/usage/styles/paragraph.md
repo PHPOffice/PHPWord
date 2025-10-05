@@ -29,7 +29,6 @@ See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) and [`Sample_08_
 - `basedOn`. Parent style.
 - `bidi`. Right to Left Paragraph Layout, *true* or *false*.
 - `contextualSpacing`. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.
-- `hanging`. Hanging indentation in *half inches*.
 - `indentation`. An array of indentation key => value pairs in *twip*. Supports *left*, *right*, *firstLine*, *firstLineChars* and *hanging* indentation.
    * See [`Style > Indentation`](../styles/indentation.md) for possible identation types.
 - `indentHanging`. Hanging indentation in *half inches*.
