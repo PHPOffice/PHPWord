@@ -82,7 +82,7 @@ class TabTest extends TestCase
 
     /**
      * Test tab leaders.
-     * See page 83 of RTF Specification 1.9.1 for Formatting.
+     * See page 83 of RTF Specification 1.9.1 for Tabs.
      */
     public function testTabLeader(): void
     {
