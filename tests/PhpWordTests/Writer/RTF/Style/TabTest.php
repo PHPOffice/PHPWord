@@ -60,7 +60,7 @@ class TabTest extends TestCase
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setType(TabStyle::TAB_STOP_CENTER);
-        $expect = '\tcq\tx3000';
+        $expect = '\tqc\tx3000';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setType(TabStyle::TAB_STOP_RIGHT);
