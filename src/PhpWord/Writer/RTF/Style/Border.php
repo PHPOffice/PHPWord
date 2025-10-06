@@ -56,8 +56,8 @@ class Border extends AbstractStyle
     private $spaces = [];
 
     /**
-     * Type
-     * 
+     * Type.
+     *
      * Can be page, header, footer, paragraph, character, row, or cell.
      *
      * @var string
@@ -101,10 +101,11 @@ class Border extends AbstractStyle
      * @param int $width
      * @param string $color
      * @param string $style
+     * @param int $space
      *
      * @return string
      */
-    private function writeSide($side, $width, $color = '', $style, $space)
+    private function writeSide($side, $width, $color, $style, $space)
     {
         $types = [
             'page' => '\pgbrdr',
@@ -159,7 +160,7 @@ class Border extends AbstractStyle
         $content = '';
         $type = 'paragraph';
         if (isset($types[$this->type])) {
-            if (in_array($types[$this->type], ['header', 'footer', 'character'])) {                
+            if (in_array($types[$this->type], ['header', 'footer', 'character'])) {
                 $content .= $types[$this->type]; // header, footer, and character borders cannot vary by side
             } else {
                 $content .= $types[$this->type] . substr($side, 0, 1);
