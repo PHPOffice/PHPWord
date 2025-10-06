@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
+use PhpOffice\PhpWord\SimpleType\Border as BorderType;
+
 /**
  * Border style writer.
  *
@@ -40,20 +42,44 @@ class Border extends AbstractStyle
     private $colors = [];
 
     /**
+     * Styles.
+     *
+     * @var array
+     */
+    private $styles = [];
+
+    /**
+     * Spaces.
+     *
+     * @var array
+     */
+    private $spaces = [];
+
+    /**
+     * Type
+     * 
+     * Can be page, header, footer, paragraph, character, row, or cell.
+     *
+     * @var string
+     */
+    private $type;
+
+    /**
      * Write style.
      *
      * @return string
      */
     public function write()
     {
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Border) {
+            return '';
+        }
+
         $content = '';
 
         $sides = ['top', 'left', 'right', 'bottom'];
         $sizeCount = count($this->sizes);
-
-        // Page border measure
-        // 8 = from text, infront off; 32 = from edge, infront on; 40 = from edge, infront off
-        $content .= '\pgbrdropt32';
 
         for ($i = 0; $i < $sizeCount; ++$i) {
             if ($this->sizes[$i] !== null) {
@@ -61,7 +87,7 @@ class Border extends AbstractStyle
                 if (isset($this->colors[$i])) {
                     $color = $this->colors[$i];
                 }
-                $content .= $this->writeSide($sides[$i], $this->sizes[$i], $color);
+                $content .= $this->writeSide($sides[$i], $this->sizes[$i], $color, $this->styles[$i], $this->spaces[$i]);
             }
         }
 
@@ -74,29 +100,94 @@ class Border extends AbstractStyle
      * @param string $side
      * @param int $width
      * @param string $color
+     * @param string $style
      *
      * @return string
      */
-    private function writeSide($side, $width, $color = '')
+    private function writeSide($side, $width, $color = '', $style, $space)
     {
-        /** @var \PhpOffice\PhpWord\Writer\RTF $rtfWriter */
-        $rtfWriter = $this->getParentWriter();
+        $types = [
+            'page' => '\pgbrdr',
+            'header' => '\pgbrdrhead',
+            'footer' => '\pgbrdrfoot',
+            'paragraph' => '\brdr',
+            'character' => '\chbrdr',
+            'row' => '\trbrdr',
+            'cell' => '\clbrdr',
+        ];
+
+        $styles = [
+            BorderType::SINGLE => '\brdrs',
+            BorderType::DASH_DOT_STROKED => '\brdrdashd', // no equivalent in RTF
+            BorderType::DASHED => '\brdrdash',
+            BorderType::DASH_SMALL_GAP => '\brdrdashsm',
+            BorderType::DOT_DASH => '\brdrdashd',
+            BorderType::DOT_DOT_DASH => '\brdrdashdd',
+            BorderType::DOTTED => '\brdrdot',
+            BorderType::DOUBLE => '\brdrdb',
+            BorderType::DOUBLE_WAVE => '\brdrwavydb',
+            BorderType::INSET => '\brdrinset',
+            BorderType::NIL => '\brdrnil',
+            BorderType::NONE => '\brdrnone',
+            BorderType::OUTSET => '\brdroutset',
+            BorderType::THICK => '\brdrth',
+            BorderType::THICK_THIN_LARGE_GAP => '\brdrtnthlg',
+            BorderType::THICK_THIN_MEDIUM_GAP => '\brdrtnthmg',
+            BorderType::THICK_THIN_SMALL_GAP => '\brdrtnthsg',
+            BorderType::THIN_THICK_LARGE_GAP => '\brdrthtnlg',
+            BorderType::THIN_THICK_MEDIUM_GAP => '\brdrthtnmg',
+            BorderType::THIN_THICK_SMALL_GAP => '\brdrthtnsg',
+            BorderType::THIN_THICK_THIN_LARGE_GAP => '\brdrtnthtnlg',
+            BorderType::THIN_THICK_THIN_MEDIUM_GAP => '\brdrtnthtnmg',
+            BorderType::THIN_THICK_THIN_SMALL_GAP => '\brdrtnthtnmg',
+            BorderType::THREE_D_EMBOSS => '\brdremboss',
+            BorderType::THREE_D_ENGRAVE => '\brdrengrave',
+            BorderType::TRIPLE => '\brdrtriple',
+            BorderType::WAVE => '\brdrwavy',
+        ];
+
+        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter */
+        $parentWriter = $this->getParentWriter();
         $colorIndex = 0;
-        if ($rtfWriter !== null) {
-            $colorTable = $rtfWriter->getColorTable();
-            $index = array_search($color, $colorTable);
+        if ($parentWriter !== null) {
+            $index = array_search($color, $parentWriter->getColorTable());
             if ($index !== false) {
                 $colorIndex = $index + 1;
             }
         }
 
         $content = '';
+        $type = 'paragraph';
+        if (isset($types[$this->type])) {
+            if (in_array($types[$this->type], ['header', 'footer', 'character'])) {                
+                $content .= $types[$this->type]; // header, footer, and character borders cannot vary by side
+            } else {
+                $content .= $types[$this->type] . substr($side, 0, 1);
+            }
+        } else {
+            return '';
+        }
 
-        $content .= '\pgbrdr' . substr($side, 0, 1);
-        $content .= '\brdrs'; // Single-thickness border; @todo Get other type of border
+        if (isset($styles[$style])) {
+            $content .= $styles[$style];
+        } else {
+            $content .= '\brdrs'; // default style
+        }
         $content .= '\brdrw' . round($width); // Width
         $content .= '\brdrcf' . $colorIndex; // Color
-        $content .= '\brsp480'; // Space in twips between borders and the paragraph (24pt, following OOXML)
+
+        // Space
+        if ($this->type == 'page') {
+            $space = $space !== null ? $space : '480';
+        } elseif ($this->type == 'paragraph') {
+            if ($side == 'top' || $side == 'bottom') {
+                $space = $space !== null ? $space : '20';
+            } elseif ($side == 'left' || $side == 'right') {
+                $space = $space !== null ? $space : '80';
+            }
+        }
+        $content .= $this->getValueIf($space !== null, '\brsp' . round($space ?? 0));
+
         $content .= ' ';
 
         return $content;
@@ -120,5 +211,35 @@ class Border extends AbstractStyle
     public function setColors($value): void
     {
         $this->colors = $value;
+    }
+
+    /**
+     * Set styles.
+     *
+     * @param string[] $value
+     */
+    public function setStyles($value): void
+    {
+        $this->styles = $value;
+    }
+
+    /**
+     * Set styles.
+     *
+     * @param string[] $value
+     */
+    public function setSpaces($value): void
+    {
+        $this->spaces = $value;
+    }
+
+    /**
+     * Set type.
+     *
+     * @param string $value
+     */
+    public function setType($value = 'paragraph'): void
+    {
+        $this->type = $value;
     }
 }
