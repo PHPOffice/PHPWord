@@ -48,7 +48,7 @@ final class Border extends AbstractEnum
     const THIN_THICK_LARGE_GAP = 'thinThickLargeGap'; //A thin line contained within a thick line with a large-sized intermediate gap
     const THIN_THICK_MEDIUM_GAP = 'thinThickMediumGap'; //A thick line contained within a thin line with a medium-sized intermediate gap
     const THIN_THICK_SMALL_GAP = 'thinThickSmallGap'; //A thick line contained within a thin line with a small intermediate gap
-    const THIN_THICK_THIN_LARGE_GAP = 'thinThickThinLargeGap'; //A thin-thick-thin line with a large gap
+    const THIN_THICK_THINLARGE_GAP = 'thinThickThinLargeGap'; //A thin-thick-thin line with a large gap
     const THIN_THICK_THIN_MEDIUM_GAP = 'thinThickThinMediumGap'; //A thin-thick-thin line with a medium gap
     const THIN_THICK_THIN_SMALL_GAP = 'thinThickThinSmallGap'; //A thin-thick-thin line with a small gap
     const THREE_D_EMBOSS = 'threeDEmboss'; //A three-staged gradient line, getting darker towards the paragraph
