@@ -21,7 +21,7 @@
 - `THIN_THICK_LARGE_GAP`. A thin line contained within a thick line with a large-sized intermediate gap
 - `THIN_THICK_MEDIUM_GAP`. A thick line contained within a thin line with a medium-sized intermediate gap
 - `THIN_THICK_SMALL_GAP`. A thick line contained within a thin line with a small intermediate gap
-- `THIN_THICK_THINLARGE_GAP`. A thin-thick-thin line with a large gap
+- `THIN_THICK_THIN_LARGE_GAP`. A thin-thick-thin line with a large gap
 - `THIN_THICK_THIN_MEDIUM_GAP`. A thin-thick-thin line with a medium gap
 - `THIN_THICK_THIN_SMALL_GAP`. A thin-thick-thin line with a small gap
 - `THREE_D_EMBOSS`. A three-staged gradient line, getting darker towards the paragraph
