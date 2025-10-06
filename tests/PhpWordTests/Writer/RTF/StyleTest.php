@@ -65,8 +65,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
 
         $content = $borderWriter->write();
 
-        $expected = '\pgbrdropt32';
-        $expected .= '\pgbrdrt\brdrs\brdrw20\brdrcf0\brsp480 ';
+        $expected = '\pgbrdrt\brdrs\brdrw20\brdrcf0\brsp480 ';
         $expected .= '\pgbrdrl\brdrs\brdrw20\brdrcf0\brsp480 ';
         $expected .= '\pgbrdrr\brdrs\brdrw20\brdrcf0\brsp480 ';
         $expected .= '\pgbrdrb\brdrs\brdrw20\brdrcf0\brsp480 ';
