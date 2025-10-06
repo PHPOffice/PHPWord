@@ -60,6 +60,8 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $borderWriter->setSizes([1, 2, 3, 4]);
         $borderWriter->setColors(['#FF0000', '#FF0000', '#FF0000', '#FF0000']);
         $borderWriter->setSizes([20, 20, 20, 20]);
+        $borderWriter->setStyles($border->getBorderStyle());
+        $borderWriter->setSpaces($border->getBorderSpace());
 
         $content = $borderWriter->write();
 
