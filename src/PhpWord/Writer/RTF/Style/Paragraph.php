@@ -101,6 +101,18 @@ class Paragraph extends AbstractStyle
         $styles = $style->getStyleValues();
         $content .= $this->writeTabs($styles['tabs']);
 
+        // Borders
+        if ($style->hasBorder()) {
+            $styleWriter = new Border($style);
+            $styleWriter->setParentWriter($this->getParentWriter());
+            $styleWriter->setType('paragraph');
+            $styleWriter->setSizes($style->getBorderSize());
+            $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->setStyles($style->getBorderStyle());
+            $styleWriter->setSpaces($style->getBorderSpace());
+            $content .= $styleWriter->write();
+        }
+
         return $content;
     }
 
