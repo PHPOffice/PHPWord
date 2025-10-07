@@ -58,7 +58,7 @@ class Font extends AbstractStyle
      * @const string
      */
     const FGCOLOR_YELLOW = 'yellow';
-    const FGCOLOR_LIGHTGREEN = 'green';
+    const FGCOLOR_LIGHTGREEN = 'lightGreen';
     const FGCOLOR_CYAN = 'cyan';
     const FGCOLOR_MAGENTA = 'magenta';
     const FGCOLOR_BLUE = 'blue';
