@@ -18,8 +18,8 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
-use PhpOffice\PhpWord\SimpleType\Color
-use PhpOffice\PhpWord\Style\Font as FontColor
+use PhpOffice\PhpWord\SimpleType\Color;
+use PhpOffice\PhpWord\Style\Font as FontColor;
 
 /**
  * Common converter functions.
