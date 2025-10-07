@@ -43,6 +43,7 @@ final class Color extends AbstractEnum
     const DARKORANGE = 'darkOrange';
     const DARKRED = 'darkRed'; // highlight color
     const DARKVIOLET = 'darkViolet';
+    const DARKYELLOW = 'darkYellow'; // highlight color
     const GRAY = 'gray';
     const GREEN = 'green'; // highlight color
     const LIGHTBLUE = 'lightBlue';
