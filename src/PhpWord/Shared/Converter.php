@@ -332,6 +332,8 @@ class Converter
                 return '8B0000';
            case Color::DARKVIOLET:
                 return '9400D3';
+           case Color::DARKYELLOW:
+                return '8B8B00';
            case Color::GRAY:
                 return '808080';
            case Color::GREEN:
