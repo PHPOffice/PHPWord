@@ -28,37 +28,9 @@ use PhpOffice\PhpWord\SimpleType\Border as BorderType;
 class Border extends AbstractStyle
 {
     /**
-     * Sizes.
-     *
-     * @var array
-     */
-    private $sizes = [];
-
-    /**
-     * Colors.
-     *
-     * @var array
-     */
-    private $colors = [];
-
-    /**
-     * Styles.
-     *
-     * @var array
-     */
-    private $styles = [];
-
-    /**
-     * Spaces.
-     *
-     * @var array
-     */
-    private $spaces = [];
-
-    /**
-     * Type.
-     *
-     * Can be page, header, footer, paragraph, character, row, or cell.
+     * Type
+     * 
+     * Can be section, header, footer, paragraph, font, row, or cell.
      *
      * @var string
      */
@@ -78,16 +50,27 @@ class Border extends AbstractStyle
 
         $content = '';
 
+        if ($this->type == 'section') {
+            // Page border measure
+            // 8 = from text, infront off; 32 = from edge, infront on; 40 = from edge, infront off
+            $content .= '\pgbrdropt32';
+        }
+        
         $sides = ['top', 'left', 'right', 'bottom'];
-        $sizeCount = count($this->sizes);
+        $sizeCount = 4;
+
+        if (in_array($this->type, ['header', 'footer', 'font'])) {
+            $sizeCount = 1;
+        }
+
+        $sizes = $style->getBorderSize();
+        $colors = $style->getBorderColor();
+        $styles = $style->getBorderStyle();
+        $spaces = $style->getBorderSpace();
 
         for ($i = 0; $i < $sizeCount; ++$i) {
-            if ($this->sizes[$i] !== null) {
-                $color = null;
-                if (isset($this->colors[$i])) {
-                    $color = $this->colors[$i];
-                }
-                $content .= $this->writeSide($sides[$i], $this->sizes[$i], $color, $this->styles[$i], $this->spaces[$i]);
+            if ($sides[$i] !== null) {
+                $content .= $this->writeSide($sides[$i], $sizes[$i], $colors[$i], $styles[$i], $spaces[$i]);
             }
         }
 
@@ -101,18 +84,17 @@ class Border extends AbstractStyle
      * @param int $width
      * @param string $color
      * @param string $style
-     * @param int $space
      *
      * @return string
      */
-    private function writeSide($side, $width, $color, $style, $space)
+    private function writeSide($side, $width, $color = '', $style, $space)
     {
         $types = [
-            'page' => '\pgbrdr',
+            'section' => '\pgbrdr',
             'header' => '\pgbrdrhead',
             'footer' => '\pgbrdrfoot',
             'paragraph' => '\brdr',
-            'character' => '\chbrdr',
+            'font' => '\chbrdr',
             'row' => '\trbrdr',
             'cell' => '\clbrdr',
         ];
@@ -160,7 +142,7 @@ class Border extends AbstractStyle
         $content = '';
         $type = 'paragraph';
         if (isset($types[$this->type])) {
-            if (in_array($types[$this->type], ['header', 'footer', 'character'])) {
+            if (in_array($types[$this->type], ['header', 'footer', 'font'])) {                
                 $content .= $types[$this->type]; // header, footer, and character borders cannot vary by side
             } else {
                 $content .= $types[$this->type] . substr($side, 0, 1);
@@ -178,7 +160,7 @@ class Border extends AbstractStyle
         $content .= '\brdrcf' . $colorIndex; // Color
 
         // Space
-        if ($this->type == 'page') {
+        if ($this->type == 'section') {
             $space = $space !== null ? $space : '480';
         } elseif ($this->type == 'paragraph') {
             if ($side == 'top' || $side == 'bottom') {
@@ -192,46 +174,6 @@ class Border extends AbstractStyle
         $content .= ' ';
 
         return $content;
-    }
-
-    /**
-     * Set sizes.
-     *
-     * @param int[] $value
-     */
-    public function setSizes($value): void
-    {
-        $this->sizes = $value;
-    }
-
-    /**
-     * Set colors.
-     *
-     * @param string[] $value
-     */
-    public function setColors($value): void
-    {
-        $this->colors = $value;
-    }
-
-    /**
-     * Set styles.
-     *
-     * @param string[] $value
-     */
-    public function setStyles($value): void
-    {
-        $this->styles = $value;
-    }
-
-    /**
-     * Set styles.
-     *
-     * @param string[] $value
-     */
-    public function setSpaces($value): void
-    {
-        $this->spaces = $value;
     }
 
     /**
