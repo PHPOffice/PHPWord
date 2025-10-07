@@ -53,6 +53,7 @@ class Font extends AbstractStyle
     /**
      * Foreground colors.
      *
+     * @deprecated 1.5 use \PhpOffice\PhpWord\SimpleType\Color instead
      * @const string
      */
     const FGCOLOR_YELLOW = 'yellow';
