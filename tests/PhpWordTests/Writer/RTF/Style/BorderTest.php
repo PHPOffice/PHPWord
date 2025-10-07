@@ -51,15 +51,15 @@ class BorderTest extends TestCase
         $writer = new BorderWriter($style);
         $writer->setParentWriter($parentWriter);
 
-        $border->setBorderSize(40);
-        $border->setBorderColor('#FF0000');
-        $border->setBorderStyle(BorderType::DASHED);
-        $border->setBorderSpace(20);
+        $style->setBorderSize(40);
+        $style->setBorderColor('#FF0000');
+        $style->setBorderStyle(BorderType::DASHED);
+        $style->setBorderSpace(20);
 
-        $expected .= '\brdrt\brdrdash\brdrw40\brdrcf0\brsp20 ';
-        $expected .= '\brdrl\brdrdash\brdrw40\brdrcf0\brsp20 ';
-        $expected .= '\brdrr\brdrdash\brdrw40\brdrcf0\brsp20 ';
-        $expected .= '\brdrb\brdrdash\brdrw40\brdrcf0\brsp20 ';
+        $expect = '\brdrt\brdrdash\brdrw40\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdrdash\brdrw40\brdrcf0\brsp20 ';
+        $expect .= '\brdrr\brdrdash\brdrw40\brdrcf0\brsp20 ';
+        $expect .= '\brdrb\brdrdash\brdrw40\brdrcf0\brsp20 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 }
