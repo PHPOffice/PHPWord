@@ -2,6 +2,7 @@
 When used in [`Styles > Font`](../styles/font.md) to set the `fgColor`, only certain colors may be used, as identified below.
 
 ## Constants
+- `AQUA`.
 - `BLACK`. Possible `fgColor` option.
 - `BLUE`. Possible `fgColor` option.
 - `BROWN`.
@@ -15,6 +16,8 @@ When used in [`Styles > Font`](../styles/font.md) to set the `fgColor`, only cer
 - `DARKRED`. Possible `fgColor` option.
 - `DARKVIOLET`.
 - `DARKYELLOW`. Possible `fgColor` option.
+- `FUCHSIA`.
+- `GOLD`.
 - `GRAY`.
 - `GREEN`. Possible `fgColor` option.
 - `LIGHTBLUE`.
@@ -23,11 +26,19 @@ When used in [`Styles > Font`](../styles/font.md) to set the `fgColor`, only cer
 - `LIGHTGREEN`.
 - `LIGHTPINK`.
 - `LIGHTYELLOW`.
+- `LIME`.
 - `MAGENTA`. Possible `fgColor` option.
+- `MAROON`.
+- `NAVY`.
+- `OLIVE`.
 - `ORANGE`.
 - `PINK`.
 - `PURPLE`.
 - `RED`. Possible `fgColor` option.
+- `SILVER`.
+- `TAN`.
+- `TEAL`.
+- `TURQUOISE`.
 - `VIOLET`.
 - `WHITE`. Possible `fgColor` option.
 - `YELLOW`. Possible `fgColor` option.
