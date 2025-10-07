@@ -32,7 +32,7 @@ class Border extends AbstractStyle
      *
      * @var string
      */
-    private $type;
+    private $type = 'paragraph';
 
     /**
      * Write style.
@@ -137,7 +137,6 @@ class Border extends AbstractStyle
         }
 
         $content = '';
-        $type = 'paragraph';
         if (isset($types[$this->type])) {
             if (in_array($types[$this->type], ['header', 'footer', 'font'])) {
                 $content .= $types[$this->type]; // header, footer, and character borders cannot vary by side
