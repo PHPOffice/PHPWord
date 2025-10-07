@@ -106,10 +106,6 @@ class Paragraph extends AbstractStyle
             $styleWriter = new Border($style);
             $styleWriter->setParentWriter($this->getParentWriter());
             $styleWriter->setType('paragraph');
-            $styleWriter->setSizes($style->getBorderSize());
-            $styleWriter->setColors($style->getBorderColor());
-            $styleWriter->setStyles($style->getBorderStyle());
-            $styleWriter->setSpaces($style->getBorderSpace());
             $content .= $styleWriter->write();
         }
 
