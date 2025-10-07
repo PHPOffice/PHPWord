@@ -367,7 +367,7 @@ class Converter
             case Color::YELLOW:
                 return 'FFFF00';
 
-            // deprecated constants
+                // deprecated constants
             case FontColor::FGCOLOR_YELLOW:
                 return 'FFFF00';
             case FontColor::FGCOLOR_LIGHTGREEN:
