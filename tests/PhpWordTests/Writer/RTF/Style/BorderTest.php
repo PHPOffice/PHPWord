@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
+ *
+ * @see         https://github.com/PHPOffice/PHPWord
+ *
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
+ */
+
+namespace PhpOffice\PhpWordTests\Writer\RTF\Style;
+
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Border as BorderType;
+use PhpOffice\PhpWord\Style\Border as BorderStyle;
+use PhpOffice\PhpWord\Writer\RTF;
+use PhpOffice\PhpWord\Writer\RTF\Style\Border as BorderWriter;
+use PHPUnit\Framework\TestCase;
+
+class BorderTest extends TestCase
+{
+    protected function tearDown(): void
+    {
+        Settings::setDefaultRtl(null);
+    }
+
+    /**
+     * @param BorderWriter $field
+     */
+    public function removeCr($field): string
+    {
+        return str_replace("\r\n", "\n", $field->write());
+    }
+
+    /**
+     * Test Border styles in paragraph.
+     * See page 89-90 of RTF Specification 1.9.1 for Paragraph Borders.
+     */
+    public function testBorderStyle(): void
+    {
+        $parentWriter = new RTF();
+        $style = new BorderStyle();
+        $writer = new BorderWriter($style);
+        $writer->setParentWriter($parentWriter);
+
+        $border->setBorderSize(40);
+        $border->setBorderColor('#FF0000');
+        $border->setBorderStyle(BorderType::DASHED);
+        $border->setBorderSpace(20);
+
+        $expected .= '\brdrt\brdrdash\brdrw40\brdrcf0\brsp20 ';
+        $expected .= '\brdrl\brdrdash\brdrw40\brdrcf0\brsp20 ';
+        $expected .= '\brdrr\brdrdash\brdrw40\brdrcf0\brsp20 ';
+        $expected .= '\brdrb\brdrdash\brdrw40\brdrcf0\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
+}
