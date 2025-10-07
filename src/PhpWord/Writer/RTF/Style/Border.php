@@ -29,7 +29,7 @@ class Border extends AbstractStyle
 {
     /**
      * Type
-     * 
+     *
      * Can be section, header, footer, paragraph, font, row, or cell.
      *
      * @var string
@@ -55,7 +55,7 @@ class Border extends AbstractStyle
             // 8 = from text, infront off; 32 = from edge, infront on; 40 = from edge, infront off
             $content .= '\pgbrdropt32';
         }
-        
+
         $sides = ['top', 'left', 'right', 'bottom'];
         $sizeCount = 4;
 
@@ -84,10 +84,11 @@ class Border extends AbstractStyle
      * @param int $width
      * @param string $color
      * @param string $style
+     * @param int $space
      *
      * @return string
      */
-    private function writeSide($side, $width, $color = '', $style, $space)
+    private function writeSide($side, $width, $color, $style, $space)
     {
         $types = [
             'section' => '\pgbrdr',
@@ -142,7 +143,7 @@ class Border extends AbstractStyle
         $content = '';
         $type = 'paragraph';
         if (isset($types[$this->type])) {
-            if (in_array($types[$this->type], ['header', 'footer', 'font'])) {                
+            if (in_array($types[$this->type], ['header', 'footer', 'font'])) {
                 $content .= $types[$this->type]; // header, footer, and character borders cannot vary by side
             } else {
                 $content .= $types[$this->type] . substr($side, 0, 1);
