@@ -28,9 +28,7 @@ use PhpOffice\PhpWord\SimpleType\Border as BorderType;
 class Border extends AbstractStyle
 {
     /**
-     * Type
-     *
-     * Can be section, header, footer, paragraph, font, row, or cell.
+     * Type. Can be section, header, footer, paragraph, font, row, or cell.
      *
      * @var string
      */
