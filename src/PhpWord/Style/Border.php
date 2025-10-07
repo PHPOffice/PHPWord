@@ -49,7 +49,7 @@ class Border extends AbstractStyle
     /**
      * Border Top Space. For section and paragraph borders only.
      *
-     * @var string
+     * @var float|int
      */
     protected $borderTopSpace;
 
@@ -77,7 +77,7 @@ class Border extends AbstractStyle
     /**
      * Border Left Space. For section and paragraph borders only.
      *
-     * @var string
+     * @var float|int
      */
     protected $borderLeftSpace;
 
@@ -105,7 +105,7 @@ class Border extends AbstractStyle
     /**
      * Border Right Space. For section and paragraph borders only.
      *
-     * @var string
+     * @var float|int
      */
     protected $borderRightSpace;
 
@@ -133,7 +133,7 @@ class Border extends AbstractStyle
     /**
      * Border Bottom Space. For section and paragraph borders only.
      *
-     * @var string
+     * @var float|int
      */
     protected $borderBottomSpace;
 
@@ -264,7 +264,7 @@ class Border extends AbstractStyle
     /**
      * Get border space.
      *
-     * @return string[]
+     * @return int[]
      */
     public function getBorderSpace()
     {
@@ -279,7 +279,7 @@ class Border extends AbstractStyle
     /**
      * Set border space.
      *
-     * @param string $value
+     * @param float|int $value
      *
      * @return self
      */
@@ -368,7 +368,7 @@ class Border extends AbstractStyle
     /**
      * Get border top space.
      *
-     * @return string
+     * @return float|int
      */
     public function getBorderTopSpace()
     {
@@ -378,7 +378,7 @@ class Border extends AbstractStyle
     /**
      * Set border top space.
      *
-     * @param string $value
+     * @param float|int $value
      *
      * @return self
      */
@@ -464,7 +464,7 @@ class Border extends AbstractStyle
     /**
      * Get border left space.
      *
-     * @return string
+     * @return float|int
      */
     public function getBorderLeftSpace()
     {
@@ -474,7 +474,7 @@ class Border extends AbstractStyle
     /**
      * Set border left space.
      *
-     * @param string $value
+     * @param float|int $value
      *
      * @return self
      */
@@ -560,7 +560,7 @@ class Border extends AbstractStyle
     /**
      * Get border right space.
      *
-     * @return string
+     * @return float|int
      */
     public function getBorderRightSpace()
     {
@@ -570,7 +570,7 @@ class Border extends AbstractStyle
     /**
      * Set border right space.
      *
-     * @param string $value
+     * @param float|int $value
      *
      * @return self
      */
@@ -656,7 +656,7 @@ class Border extends AbstractStyle
     /**
      * Get border bottom space.
      *
-     * @return string
+     * @return float|int
      */
     public function getBorderBottomSpace()
     {
@@ -666,7 +666,7 @@ class Border extends AbstractStyle
     /**
      * Set border bottom space.
      *
-     * @param string $value
+     * @param float|int $value
      *
      * @return self
      */
