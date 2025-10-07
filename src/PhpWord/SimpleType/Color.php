@@ -25,35 +25,38 @@ use PhpOffice\PhpWord\Shared\AbstractEnum;
  * See https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.drawing.presetcolor
  * See https://www.datypic.com/sc/ooxml/t-a_ST_PresetColorVal.html.
  * See https://c-rex.net/samples/ooxml/e1/Part4/OOXML_P4_DOCX_ST_PresetColorVal_topic_ID0ELA5NB.html.
+ *
+ * Highlight colors limited to certain select colors.
+ * See https://c-rex.net/samples/ooxml/e1/Part4/OOXML_P4_DOCX_ST_HighlightColor_topic_ID0E4PY2.html.
  */
 final class Color extends AbstractEnum
 {
-    const BLACK = 'black';
-    const BLUE = 'blue';
+    const BLACK = 'black'; // highlight color
+    const BLUE = 'blue'; // highlight color
     const BROWN = 'brown';
-    const CYAN = 'cyan';
-    const DARKBLUE = 'darkBlue';
-    const DARKCYAN = 'darkCyan';
+    const CYAN = 'cyan'; // highlight color
+    const DARKBLUE = 'darkBlue'; // highlight color
+    const DARKCYAN = 'darkCyan'; // highlight color
     const DARKGRAY = 'darkGray';
-    const DARKGREEN = 'darkGreen';
-    const DARKMAGENTA = 'darkMagenta';
+    const DARKGREEN = 'darkGreen'; // highlight color
+    const DARKMAGENTA = 'darkMagenta'; // highlight color
     const DARKORANGE = 'darkOrange';
-    const DARKRED = 'darkRed';
+    const DARKRED = 'darkRed'; // highlight color
     const DARKVIOLET = 'darkViolet';
     const GRAY = 'gray';
-    const GREEN = 'green';
+    const GREEN = 'green'; // highlight color
     const LIGHTBLUE = 'lightBlue';
     const LIGHTCYAN = 'lightCyan';
-    const LIGHTGRAY = 'lightGray';
+    const LIGHTGRAY = 'lightGray'; // highlight color
     const LIGHTGREEN = 'lightGreen';
     const LIGHTPINK = 'lightPink';
     const LIGHTYELLOW = 'lightYellow';
-    const MAGENTA = 'magenta';
+    const MAGENTA = 'magenta'; // highlight color
     const ORANGE = 'orange';
     const PINK = 'pink';
     const PURPLE = 'purple';
-    const RED = 'red';
+    const RED = 'red'; // highlight color
     const VIOLET = 'violet';
-    const WHITE = 'white';
-    const YELLOW = 'yellow';
+    const WHITE = 'white'; // highlight color
+    const YELLOW = 'yellow'; // highlight color
 }
