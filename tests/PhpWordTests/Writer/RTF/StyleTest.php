@@ -54,18 +54,17 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testBorderWithNonRegisteredColors(): void
     {
         $border = new \PhpOffice\PhpWord\Style\Border();
+        $border->setBorderSize(40);
+        $border->setBorderTopSize(20);
+        $border->setBorderColor('#FF0000');
         $borderWriter = new RTF\Style\Border($border);
         $borderWriter->setParentWriter(new RTF());
-        $borderWriter->setType('page');
-        $borderWriter->setSizes([1, 2, 3, 4]);
-        $borderWriter->setColors(['#FF0000', '#FF0000', '#FF0000', '#FF0000']);
-        $borderWriter->setSizes([20, 20, 20, 20]);
-        $borderWriter->setStyles($border->getBorderStyle());
-        $borderWriter->setSpaces($border->getBorderSpace());
-
+        $borderWriter->setType('section');
+        
         $content = $borderWriter->write();
 
-        $expected = '\pgbrdrt\brdrs\brdrw20\brdrcf0\brsp480 ';
+        $expected = '\pgbrdropt32';
+        $expected . = '\pgbrdrt\brdrs\brdrw40\brdrcf0\brsp480 ';
         $expected .= '\pgbrdrl\brdrs\brdrw20\brdrcf0\brsp480 ';
         $expected .= '\pgbrdrr\brdrs\brdrw20\brdrcf0\brsp480 ';
         $expected .= '\pgbrdrb\brdrs\brdrw20\brdrcf0\brsp480 ';
