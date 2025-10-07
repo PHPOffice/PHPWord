@@ -31,6 +31,7 @@ use PhpOffice\PhpWord\Shared\AbstractEnum;
  */
 final class Color extends AbstractEnum
 {
+    const AQUA = 'aqua';
     const BLACK = 'black'; // highlight color
     const BLUE = 'blue'; // highlight color
     const BROWN = 'brown';
@@ -44,6 +45,8 @@ final class Color extends AbstractEnum
     const DARKRED = 'darkRed'; // highlight color
     const DARKVIOLET = 'darkViolet';
     const DARKYELLOW = 'darkYellow'; // highlight color
+    const FUCHSIA = 'fuchsia';
+    const GOLD = 'gold';
     const GRAY = 'gray';
     const GREEN = 'green'; // highlight color
     const LIGHTBLUE = 'lightBlue';
@@ -52,11 +55,19 @@ final class Color extends AbstractEnum
     const LIGHTGREEN = 'lightGreen';
     const LIGHTPINK = 'lightPink';
     const LIGHTYELLOW = 'lightYellow';
+    const LIME = 'lime';
     const MAGENTA = 'magenta'; // highlight color
+    const MAROON = 'maroon';
+    const NAVY = 'navy';
+    const OLIVE = 'olive';
     const ORANGE = 'orange';
     const PINK = 'pink';
     const PURPLE = 'purple';
     const RED = 'red'; // highlight color
+    const SILVER = 'silver';
+    const TAN = 'tan';
+    const TEAL = 'teal';
+    const TURQUOISE = 'turqoise';
     const VIOLET = 'violet';
     const WHITE = 'white'; // highlight color
     const YELLOW = 'yellow'; // highlight color
