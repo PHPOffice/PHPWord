@@ -43,9 +43,9 @@ final class Color extends AbstractEnum
     const GRAY = 'gray';
     const GREEN = 'green';
     const LIGHTBLUE = 'lightBlue';
-    const LIGHTCYAN = 'lightcyan';
+    const LIGHTCYAN = 'lightCyan';
     const LIGHTGRAY = 'lightGray';
-    const LIGHTGREEN = 'lightgreen';
+    const LIGHTGREEN = 'lightGreen';
     const LIGHTPINK = 'lightPink';
     const LIGHTYELLOW = 'lightYellow';
     const MAGENTA = 'magenta';
