@@ -59,16 +59,9 @@ class Section extends AbstractStyle
 
         // Borders
         if ($style->hasBorder()) {
-            // Page border measure
-            // 8 = from text, infront off; 32 = from edge, infront on; 40 = from edge, infront off
-            $content .= '\pgbrdropt32';
             $styleWriter = new Border($style);
             $styleWriter->setParentWriter($this->getParentWriter());
-            $styleWriter->setType('page');
-            $styleWriter->setSizes($style->getBorderSize());
-            $styleWriter->setColors($style->getBorderColor());
-            $styleWriter->setStyles($style->getBorderStyle());
-            $styleWriter->setSpaces($style->getBorderSpace());
+            $styleWriter->setType('section');
             $content .= $styleWriter->write();
         }
 
