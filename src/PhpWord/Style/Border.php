@@ -168,7 +168,7 @@ class Border extends AbstractStyle
     /**
      * Get border size.
      *
-     * @return int[]
+     * @return float[]|int[]
      */
     public function getBorderSize()
     {
