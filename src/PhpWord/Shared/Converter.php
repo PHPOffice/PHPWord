@@ -310,61 +310,61 @@ class Converter
         switch ($value) {
             case Color::BLACK:
                 return '000000';
-           case Color::BLUE:
+            case Color::BLUE:
                 return '0000FF';
-           case Color::BROWN:
+            case Color::BROWN:
                 return 'A52A2A';
-           case Color::CYAN:
+            case Color::CYAN:
                 return '00FFFF';
-           case Color::DARKBLUE:
+            case Color::DARKBLUE:
                 return '00008B';
-           case Color::DARKCYAN:
+            case Color::DARKCYAN:
                 return '008B8B';
-           case Color::DARKGRAY:
+            case Color::DARKGRAY:
                 return 'A9A9A9';
-           case Color::DARKGREEN:
+            case Color::DARKGREEN:
                 return '006400';
-           case Color::DARKMAGENTA:
+            case Color::DARKMAGENTA:
                 return '8B008B';
-           case Color::DARKORANGE:
+            case Color::DARKORANGE:
                 return 'FF8C00';
-           case Color::DARKRED:
+            case Color::DARKRED:
                 return '8B0000';
-           case Color::DARKVIOLET:
+            case Color::DARKVIOLET:
                 return '9400D3';
-           case Color::DARKYELLOW:
+            case Color::DARKYELLOW:
                 return '8B8B00';
-           case Color::GRAY:
+            case Color::GRAY:
                 return '808080';
-           case Color::GREEN:
+            case Color::GREEN:
                 return '008000';
-           case Color::LIGHTBLUE:
+            case Color::LIGHTBLUE:
                 return 'ADD8E6';
-           case Color::LIGHTCYAN:
+            case Color::LIGHTCYAN:
                 return 'E0FFFF';
-           case Color::LIGHTGRAY:
+            case Color::LIGHTGRAY:
                 return 'D3D3D3';
-           case Color::LIGHTGREEN:
+            case Color::LIGHTGREEN:
                 return '90EE90';
-           case Color::LIGHTPINK:
+            case Color::LIGHTPINK:
                 return 'FFB6C1';
-           case Color::LIGHTYELLOW:
+            case Color::LIGHTYELLOW:
                 return 'FFFFE0';
-           case Color::MAGENTA:
+            case Color::MAGENTA:
                 return 'FF00FF';
-           case Color::ORANGE:
+            case Color::ORANGE:
                 return 'FFA500';
-           case Color::PINK:
+            case Color::PINK:
                 return 'FFC0CB';
-           case Color::PURPLE:
+            case Color::PURPLE:
                 return '800080';
-           case Color::RED:
+            case Color::RED:
                 return 'FF0000';
-           case Color::VIOLET:
+            case Color::VIOLET:
                 return 'EE82EE';
-           case Color::WHITE:
+            case Color::WHITE:
                 return 'FFFFFF';
-           case Color::YELLOW:
+            case Color::YELLOW:
                 return 'FFFF00';
 
             // deprecated constants
