@@ -77,10 +77,10 @@ class Border extends AbstractStyle
      * Write side.
      *
      * @param string $side
-     * @param int $width
+     * @param float|int $width
      * @param string $color
      * @param string $style
-     * @param int $space
+     * @param float|int $space
      *
      * @return string
      */
