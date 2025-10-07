@@ -264,7 +264,7 @@ class Border extends AbstractStyle
     /**
      * Get border space.
      *
-     * @return int[]
+     * @return float|int[]
      */
     public function getBorderSpace()
     {
