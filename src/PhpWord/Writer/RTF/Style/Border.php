@@ -67,9 +67,7 @@ class Border extends AbstractStyle
         $spaces = $style->getBorderSpace();
 
         for ($i = 0; $i < $sizeCount; ++$i) {
-            if ($sides[$i] !== null) {
-                $content .= $this->writeSide($sides[$i], $sizes[$i], $colors[$i], $styles[$i], $spaces[$i]);
-            }
+            $content .= $this->writeSide($sides[$i], $sizes[$i], $colors[$i], $styles[$i], $spaces[$i]);
         }
 
         return $content;
