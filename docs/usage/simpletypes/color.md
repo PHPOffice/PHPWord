@@ -1,34 +1,36 @@
 # Colors
+When used in [`Styles > Font`](../styles/font.md) to set the `fgColor`, only certain colors may be used, as identified below.
 
 ## Constants
-- `BLACK`.
-- `BLUE`.
+- `BLACK`. Possible `fgColor` option.
+- `BLUE`. Possible `fgColor` option.
 - `BROWN`.
-- `CYAN`.
-- `DARKBLUE`.
-- `DARKCYAN`.
-- `DARKGRAY`.
-- `DARKGREEN`.
-- `DARKMAGENTA`.
+- `CYAN`. Possible `fgColor` option.
+- `DARKBLUE`. Possible `fgColor` option.
+- `DARKCYAN`. Possible `fgColor` option.
+- `DARKGRAY`. Possible `fgColor` option.
+- `DARKGREEN`. Possible `fgColor` option.
+- `DARKMAGENTA`. Possible `fgColor` option.
 - `DARKORANGE`.
-- `DARKRED`.
+- `DARKRED`. Possible `fgColor` option.
 - `DARKVIOLET`.
+- `DARKYELLOW`. Possible `fgColor` option.
 - `GRAY`.
-- `GREEN`.
+- `GREEN`. Possible `fgColor` option.
 - `LIGHTBLUE`.
 - `LIGHTCYAN`.
-- `LIGHTGRAY`.
+- `LIGHTGRAY`. Possible `fgColor` option.
 - `LIGHTGREEN`.
 - `LIGHTPINK`.
 - `LIGHTYELLOW`.
-- `MAGENTA`.
+- `MAGENTA`. Possible `fgColor` option.
 - `ORANGE`.
 - `PINK`.
 - `PURPLE`.
-- `RED`.
+- `RED`. Possible `fgColor` option.
 - `VIOLET`.
-- `WHITE`.
-- `YELLOW`.
+- `WHITE`. Possible `fgColor` option.
+- `YELLOW`. Possible `fgColor` option.
 
 ## Used In
-- Anywhere a hexadecimal color can be specified.
+- Anywhere a hexadecimal color can be specified. e.g. *FF0000*.
