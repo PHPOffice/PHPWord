@@ -308,6 +308,8 @@ class Converter
     public static function stringToRgb($value)
     {
         switch ($value) {
+            case Color::AQUA:
+                return '00FFFF';
             case Color::BLACK:
                 return '000000';
             case Color::BLUE:
@@ -334,6 +336,10 @@ class Converter
                 return '9400D3';
             case Color::DARKYELLOW:
                 return '8B8B00';
+            case Color::FUCHSIA:
+                return 'FF00FF';
+            case Color::GOLD:
+                return 'FFD700';
             case Color::GRAY:
                 return '808080';
             case Color::GREEN:
@@ -350,8 +356,16 @@ class Converter
                 return 'FFB6C1';
             case Color::LIGHTYELLOW:
                 return 'FFFFE0';
+            case Color::LIME:
+                return '00FF00';
             case Color::MAGENTA:
                 return 'FF00FF';
+            case Color::MAROON:
+                return '800000';
+            case Color::NAVY:
+                return '000080';
+            case Color::OLIVE:
+                return '808000';
             case Color::ORANGE:
                 return 'FFA500';
             case Color::PINK:
@@ -360,6 +374,14 @@ class Converter
                 return '800080';
             case Color::RED:
                 return 'FF0000';
+            case Color::SILVER:
+                return 'C0C0C0';
+            case Color::TAN:
+                return 'D2B48C';
+            case Color::TEAL:
+                return '008080';
+            case Color::TURQUOISE:
+                return '40E0D0';
             case Color::VIOLET:
                 return 'EE82EE';
             case Color::WHITE:
