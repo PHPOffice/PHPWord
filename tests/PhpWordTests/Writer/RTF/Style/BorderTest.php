@@ -92,10 +92,10 @@ class BorderTest extends TestCase
         self::assertEquals($expect, $this->removeCr($writer));
 
         $writer->setType('row');
-        $expect = '\tdbrdrt\brdrs\brdrcf0 ';
-        $expect .= '\tdbrdrl\brdrs\brdrcf0 ';
-        $expect .= '\tdbrdrr\brdrs\brdrcf0 ';
-        $expect .= '\tdbrdrb\brdrs\brdrcf0 ';
+        $expect = '\trbrdrt\brdrs\brdrcf0 ';
+        $expect .= '\trbrdrl\brdrs\brdrcf0 ';
+        $expect .= '\trbrdrr\brdrs\brdrcf0 ';
+        $expect .= '\trbrdrb\brdrs\brdrcf0 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $writer->setType('cell');
@@ -111,35 +111,6 @@ class BorderTest extends TestCase
      * See page 89-90 of RTF Specification 1.9.1 for Paragraph Borders.
      */
     public function testBorderStyle(): void
-    {
-        $parentWriter = new RTF();
-        $style = new BorderStyle();
-        $writer = new BorderWriter($style);
-        $writer->setParentWriter($parentWriter);
-
-        $style->setBorderSize(100);
-        $expect = '\brdrt\brdrs\brdrw100\brdrcf0\brsp20 ';
-        $expect .= '\brdrl\brdrs\brdrw100\brdrcf0\brsp80 ';
-        $expect .= '\brdrr\brdrs\brdrw100\brdrcf0\brsp80 ';
-        $expect .= '\brdrb\brdrs\brdrw100\brdrcf0\brsp20 ';
-        self::assertEquals($expect, $this->removeCr($writer));
-
-        $style->setBorderTopSize(200);
-        $style->setBorderLeftSize(150);
-        $style->setBorderRightSize(50);
-        $style->setBorderBottomSize(20);
-        $expect = '\brdrt\brdrs\brdrw200\brdrcf0\brsp20 ';
-        $expect .= '\brdrl\brdrs\brdrw150\brdrcf0\brsp80 ';
-        $expect .= '\brdrr\brdrs\brdrw50\brdrcf0\brsp80 ';
-        $expect .= '\brdrb\brdrs\brdrw20\brdrcf0\brsp20 ';
-        self::assertEquals($expect, $this->removeCr($writer));
-    }
-
-    /**
-     * Test Border size.
-     * See page 89-90 of RTF Specification 1.9.1 for Paragraph Borders.
-     */
-    public function testBorderSize(): void
     {
         $parentWriter = new RTF();
         $style = new BorderStyle();
@@ -169,8 +140,8 @@ class BorderTest extends TestCase
         $style->setBorderBottomStyle(BorderType::INSET);
         $expect = '\brdrt\brdrdot\brdrcf0\brsp20 ';
         $expect .= '\brdrl\brdrdb\brdrcf0\brsp80 ';
-        $expect .= '\brdrr\brdrdashd\brdrwavydb\brsp80 ';
-        $expect .= '\brdrb\brdrdashdd\brdrinset\brsp20 ';
+        $expect .= '\brdrr\brdrwavydb\brdrcf0\brsp80 ';
+        $expect .= '\brdrb\brdrinset\brdrcf0\brsp20 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setBorderTopStyle(BorderType::NIL);
@@ -218,6 +189,35 @@ class BorderTest extends TestCase
         $expect .= '\brdrl\brdrwavy\brdrcf0\brsp80 ';
         $expect .= '\brdrr\brdrwavy\brdrcf0\brsp80 ';
         $expect .= '\brdrb\brdrwavy\brdrcf0\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
+
+    /**
+     * Test Border size.
+     * See page 89-90 of RTF Specification 1.9.1 for Paragraph Borders.
+     */
+    public function testBorderSize(): void
+    {
+        $parentWriter = new RTF();
+        $style = new BorderStyle();
+        $writer = new BorderWriter($style);
+        $writer->setParentWriter($parentWriter);
+
+        $style->setBorderSize(100);
+        $expect = '\brdrt\brdrs\brdrw100\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdrs\brdrw100\brdrcf0\brsp80 ';
+        $expect .= '\brdrr\brdrs\brdrw100\brdrcf0\brsp80 ';
+        $expect .= '\brdrb\brdrs\brdrw100\brdrcf0\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setBorderTopSize(200);
+        $style->setBorderLeftSize(150);
+        $style->setBorderRightSize(50);
+        $style->setBorderBottomSize(20);
+        $expect = '\brdrt\brdrs\brdrw200\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdrs\brdrw150\brdrcf0\brsp80 ';
+        $expect .= '\brdrr\brdrs\brdrw50\brdrcf0\brsp80 ';
+        $expect .= '\brdrb\brdrs\brdrw20\brdrcf0\brsp20 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
