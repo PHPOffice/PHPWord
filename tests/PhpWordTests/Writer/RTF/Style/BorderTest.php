@@ -44,22 +44,64 @@ class BorderTest extends TestCase
      * Test Border styles in paragraph.
      * See page 89-90 of RTF Specification 1.9.1 for Paragraph Borders.
      */
-    public function testBorderStyle(): void
+    public function testBorderBasic(): void
     {
         $parentWriter = new RTF();
         $style = new BorderStyle();
         $writer = new BorderWriter($style);
         $writer->setParentWriter($parentWriter);
 
-        $style->setBorderSize(40);
-        $style->setBorderColor('#FF0000');
-        $style->setBorderStyle(BorderType::DASHED);
-        $style->setBorderSpace(20);
+        $expect = '\brdrt\brdrs\brsp20 ';
+        $expect .= '\brdrl\brdrs\brsp80 ';
+        $expect .= '\brdrr\brdrs\brsp80 ';
+        $expect .= '\brdrb\brdrs\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
 
-        $expect = '\brdrt\brdrdash\brdrw40\brdrcf0\brsp20 ';
-        $expect .= '\brdrl\brdrdash\brdrw40\brdrcf0\brsp20 ';
-        $expect .= '\brdrr\brdrdash\brdrw40\brdrcf0\brsp20 ';
-        $expect .= '\brdrb\brdrdash\brdrw40\brdrcf0\brsp20 ';
+    /**
+     * Test Border styles in paragraph.
+     * See page 76 of RTF Specification 1.9.1 for Page Borders.
+     * See page 89-90 of RTF Specification 1.9.1 for Paragraph Borders.
+     * See page 103 of RTF Specification 1.9.1 for Row Borders and Cell Borders.
+     * See page 139 of RTF Specification 1.9.1 for Character Borders.
+     */
+    public function testBorderType(): void
+    {
+        $parentWriter = new RTF();
+        $style = new BorderStyle();
+        $writer = new BorderWriter($style);
+        $writer->setParentWriter($parentWriter);
+
+        $writer->setType('section');
+        $expect = '\pgbrdrt\brdrs\brsp480 ';
+        $expect .= '\pgbrdrl\brdrs\brsp480 ';
+        $expect .= '\pgbrdrr\brdrs\brsp480 ';
+        $expect .= '\pgbrdrb\brdrs\brsp480 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $writer->setType('paragraph');
+        $expect = '\brdrt\brdrs\brsp20 ';
+        $expect .= '\brdrl\brdrs\brsp80 ';
+        $expect .= '\brdrr\brdrs\brsp80 ';
+        $expect .= '\brdrb\brdrs\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $writer->setType('font');
+        $expect = '\chbrdr\brdrs ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $writer->setType('row');
+        $expect = '\tdbrdrt\brdrs ';
+        $expect .= '\tdbrdrl\brdrs ';
+        $expect .= '\tdbrdrr\brdrs ';
+        $expect .= '\tdbrdrb\brdrs ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $writer->setType('cell');
+        $expect = '\clbrdrt\brdrs ';
+        $expect .= '\clbrdrl\brdrs ';
+        $expect .= '\clbrdrr\brdrs ';
+        $expect .= '\clbrdrb\brdrs ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 }
