@@ -165,7 +165,9 @@ class Border extends AbstractStyle
                 $space = $space !== null ? $space : '80';
             }
         }
-        $content .= $this->getValueIf($space !== null, '\brsp' . round($space ?? 0));
+        if (in_array($types[$this->type], ['section', 'paragraph'])) {
+            $content .= $this->getValueIf($space !== null, '\brsp' . round($space ?? 0));
+        }
 
         $content .= ' ';
 
