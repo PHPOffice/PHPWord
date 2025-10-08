@@ -73,7 +73,7 @@ class BorderTest extends TestCase
         $writer->setParentWriter($parentWriter);
 
         $writer->setType('section');
-        $exoect = '\pgbrdropt32';
+        $expect = '\pgbrdropt32';
         $expect .= '\pgbrdrt\brdrs\brdrcf0\brsp480 ';
         $expect .= '\pgbrdrl\brdrs\brdrcf0\brsp480 ';
         $expect .= '\pgbrdrr\brdrs\brdrcf0\brsp480 ';
@@ -147,10 +147,10 @@ class BorderTest extends TestCase
         $writer->setParentWriter($parentWriter);
 
         $style->setBorderStyle(BorderType::DASH_DOT_STROKED);
-        $expect = '\brdrt\brdrdashd\brdrcf0\brsp20 ';
-        $expect .= '\brdrl\brdrdashd\brdrcf0\brsp80 ';
-        $expect .= '\brdrr\brdrdashd\brdrcf0\brsp80 ';
-        $expect .= '\brdrb\brdrdashd\brdrcf0\brsp20 ';
+        $expect = '\brdrt\brdrdashdotstr\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdrdashdotstr\brdrcf0\brsp80 ';
+        $expect .= '\brdrr\brdrdashdotstr\brdrcf0\brsp80 ';
+        $expect .= '\brdrb\brdrdashdotstr\brdrcf0\brsp20 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setBorderTopStyle(BorderType::DASHED);
@@ -162,6 +162,63 @@ class BorderTest extends TestCase
         $expect .= '\brdrr\brdrdashd\brdrcf0\brsp80 ';
         $expect .= '\brdrb\brdrdashdd\brdrcf0\brsp20 ';
         self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setBorderTopStyle(BorderType::DOTTED);
+        $style->setBorderLeftStyle(BorderType::DOUBLE);
+        $style->setBorderRightStyle(BorderType::DOUBLE_WAVE);
+        $style->setBorderBottomStyle(BorderType::INSET);
+        $expect = '\brdrt\brdrdot\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdrdb\brdrcf0\brsp80 ';
+        $expect .= '\brdrr\brdrdashd\brdrwavydb\brsp80 ';
+        $expect .= '\brdrb\brdrdashdd\brdrinset\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setBorderTopStyle(BorderType::NIL);
+        $style->setBorderLeftStyle(BorderType::NONE);
+        $style->setBorderRightStyle(BorderType::OUTSET);
+        $style->setBorderBottomStyle(BorderType::THICK);
+        $expect = '\brdrt\brdrnil\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdrnone\brdrcf0\brsp80 ';
+        $expect .= '\brdrr\brdroutset\brdrcf0\brsp80 ';
+        $expect .= '\brdrb\brdrth\brdrcf0\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setBorderTopStyle(BorderType::THICK_THIN_LARGE_GAP);
+        $style->setBorderLeftStyle(BorderType::THICK_THIN_MEDIUM_GAP);
+        $style->setBorderRightStyle(BorderType::THICK_THIN_SMALL_GAP);
+        $style->setBorderBottomStyle(BorderType::THIN_THICK_LARGE_GAP);
+        $expect = '\brdrt\brdrtnthlg\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdrtnthmg\brdrcf0\brsp80 ';
+        $expect .= '\brdrr\brdrtnthsg\brdrcf0\brsp80 ';
+        $expect .= '\brdrb\brdrthtnlg\brdrcf0\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setBorderTopStyle(BorderType::THIN_THICK_MEDIUM_GAP);
+        $style->setBorderLeftStyle(BorderType::THIN_THICK_SMALL_GAP);
+        $style->setBorderRightStyle(BorderType::THIN_THICK_THIN_LARGE_GAP);
+        $style->setBorderBottomStyle(BorderType::THIN_THICK_THIN_MEDIUM_GAP);
+        $expect = '\brdrt\brdrthtnmg\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdrthtnsg\brdrcf0\brsp80 ';
+        $expect .= '\brdrr\brdrtnthtnlg\brdrcf0\brsp80 ';
+        $expect .= '\brdrb\brdrtnthtnmg\brdrcf0\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setBorderTopStyle(BorderType::THIN_THICK_THIN_SMALL_GAP);
+        $style->setBorderLeftStyle(BorderType::THREE_D_EMBOSS);
+        $style->setBorderRightStyle(BorderType::THREE_D_ENGRAVE);
+        $style->setBorderBottomStyle(BorderType::TRIPLE);
+        $expect = '\brdrt\brdrtnthtnsg\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdremboss\brdrcf0\brsp80 ';
+        $expect .= '\brdrr\brdrengrave\brdrcf0\brsp80 ';
+        $expect .= '\brdrb\brdrtriple\brdrcf0\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setBorderStyle(BorderType::WAVE);
+        $expect = '\brdrt\brdrwavy\brdrcf0\brsp20 ';
+        $expect .= '\brdrl\brdrwavy\brdrcf0\brsp80 ';
+        $expect .= '\brdrr\brdrwavy\brdrcf0\brsp80 ';
+        $expect .= '\brdrb\brdrwavy\brdrcf0\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
     }
 
     /**
@@ -170,42 +227,6 @@ class BorderTest extends TestCase
      *
      * Create test when paragraph inherits border.
      */
-
-    /**
-    public function testBorderColor(): void
-    {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $parentWriter = new RTF($phpWord);
-
-        $style1 = new ParagraphStyle();
-        $style1->setBorderColor('FFFFFF');
-        $phpWord->addParagraphStyle('style1', $style1);
-
-        $style2 = new ParagraphStyle();
-        $style2->setBorderTopColor('FFFF00');
-        $style2->setBorderLeftColor('FF0000');
-        $style2->setBorderRightColor('000000');
-        $style2->setBorderBottomColor('0000FF');
-        $phpWord->addParagraphStyle('style2', $style2);
-
-        $parentWriter->getWriterPart('Header')->write();
-
-        $writer = new BorderWriter(new Border($style1));
-        $writer->setParentWriter($parentWriter);
-        $expect = '\brdrt\brdrs\brdrcf1\brsp20 ';
-        $expect .= '\brdrl\brdrs\brdrcf1\brsp80 ';
-        $expect .= '\brdrr\brdrs\brdrcf1\brsp80 ';
-        $expect .= '\brdrb\brdrs\brdrcf1\brsp20 ';
-        self::assertEquals($expect, $this->removeCr($writer));
-
-        $writer = new BorderWriter(new Border($style2));
-        $writer->setParentWriter($parentWriter);
-        $expect = '\brdrt\brdrs\brdrcf2\brsp20 ';
-        $expect .= '\brdrl\brdrs\brdrcf3\brsp80 ';
-        $expect .= '\brdrr\brdrs\brdrcf4\brsp80 ';
-        $expect .= '\brdrb\brdrs\brdrcf5\brsp20 ';
-        self::assertEquals($expect, $this->removeCr($writer));
-    } */
 
     /**
      * Test Border space.
@@ -239,15 +260,15 @@ class BorderTest extends TestCase
         $expect = '\chbrdr\brdrs\brdrcf0 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
-        // Technically rows can have \brspN, but it messes up the table drawing - margin/padding should be used instead.
+        // Technically rows can have space, but it messes up the table drawing - margin/padding should be used instead.
         $writer->setType('row');
-        $expect = '\tdbrdrt\brdrs\brdrcf0 ';
-        $expect .= '\tdbrdrl\brdrs\brdrcf0 ';
-        $expect .= '\tdbrdrr\brdrs\brdrcf0 ';
-        $expect .= '\tdbrdrb\brdrs\brdrcf0 ';
+        $expect = '\trbrdrt\brdrs\brdrcf0 ';
+        $expect .= '\trbrdrl\brdrs\brdrcf0 ';
+        $expect .= '\trbrdrr\brdrs\brdrcf0 ';
+        $expect .= '\trbrdrb\brdrs\brdrcf0 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
-        // Technically cells can have \brspN, but it messes up the table drawing - margin/padding should be used instead.
+        // Technically cells can have space, but it messes up the table drawing - margin/padding should be used instead.
         $writer->setType('cell');
         $expect = '\clbrdrt\brdrs\brdrcf0 ';
         $expect .= '\clbrdrl\brdrs\brdrcf0 ';
