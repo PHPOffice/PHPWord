@@ -117,7 +117,7 @@ class Border extends AbstractStyle
             BorderType::THIN_THICK_SMALL_GAP => '\brdrthtnsg',
             BorderType::THIN_THICK_THIN_LARGE_GAP => '\brdrtnthtnlg',
             BorderType::THIN_THICK_THIN_MEDIUM_GAP => '\brdrtnthtnmg',
-            BorderType::THIN_THICK_THIN_SMALL_GAP => '\brdrtnthtnmg',
+            BorderType::THIN_THICK_THIN_SMALL_GAP => '\brdrtnthtnsg',
             BorderType::THREE_D_EMBOSS => '\brdremboss',
             BorderType::THREE_D_ENGRAVE => '\brdrengrave',
             BorderType::TRIPLE => '\brdrtriple',
