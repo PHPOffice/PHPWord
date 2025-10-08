@@ -35,7 +35,7 @@ class FontTest extends TestCase
     }
 
     /**
-     * @param FontWriter $field
+     * @param FontWriter|TextWriter $field
      */
     public function removeCr($field): string
     {
