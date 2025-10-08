@@ -93,7 +93,7 @@ class Border extends AbstractStyle
                 return '';
             }
         }
-        
+
         $types = [
             'section' => '\pgbrdr',
             'paragraph' => '\brdr',
