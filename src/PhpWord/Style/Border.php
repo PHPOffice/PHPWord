@@ -684,10 +684,7 @@ class Border extends AbstractStyle
      */
     public function hasBorder()
     {
-        $borders = $this->getBorderSize();
-        array_push($borders, $this->getBorderColor());
-        array_push($borders, $this->getBorderStyle());
-        array_push($borders, $this->getBorderSpace());
+        $borders = array_merge($this->getBorderSize(), $this->getBorderColor(), $this->getBorderStyle(), $this->getBorderSpace());
 
         return $borders !== array_filter($borders, 'is_null');
     }
