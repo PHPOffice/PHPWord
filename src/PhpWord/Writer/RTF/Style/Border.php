@@ -96,7 +96,7 @@ class Border extends AbstractStyle
 
         $styles = [
             BorderType::SINGLE => '\brdrs',
-            BorderType::DASH_DOT_STROKED => '\brdrdashd', // no equivalent in RTF
+            BorderType::DASH_DOT_STROKED => '\brdrdashdotstr',
             BorderType::DASHED => '\brdrdash',
             BorderType::DASH_SMALL_GAP => '\brdrdashsm',
             BorderType::DOT_DASH => '\brdrdashd',
