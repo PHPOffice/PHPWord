@@ -136,7 +136,7 @@ class Border extends AbstractStyle
 
         $content = '';
         if (isset($types[$this->type])) {
-            if ($types[$this->type] == 'font') {
+            if ($this->type == 'font') {
                 $content .= $types[$this->type]; // character borders cannot vary by side
             } else {
                 $content .= $types[$this->type] . substr($side, 0, 1);
@@ -151,7 +151,7 @@ class Border extends AbstractStyle
             $content .= '\brdrs'; // default style
         }
         $content .= $this->getValueIf($width !== null, '\brdrw' . round($width)); // Width
-        $content .= $this->getValueIf($colorIndex !== 0, '\brdrcf' . $colorIndex); // Color
+        $content .= '\brdrcf' . $colorIndex; // Color
 
         // Space
         if ($this->type == 'section') {
@@ -163,7 +163,7 @@ class Border extends AbstractStyle
                 $space = $space !== null ? $space : '80';
             }
         }
-        if (in_array($types[$this->type], ['section', 'paragraph'])) {
+        if (in_array($this->type, ['section', 'paragraph'])) {
             $content .= $this->getValueIf($space !== null, '\brsp' . round($space ?? 0));
         }
 
