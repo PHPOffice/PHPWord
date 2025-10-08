@@ -86,6 +86,14 @@ class Border extends AbstractStyle
      */
     private function writeSide($side, $width, $color, $style, $space)
     {
+        if ($side === null && $width == null && $color === null && $style === null) {
+            if ($this->type == 'font' || $this->type == 'row' || $this->type == 'cell') {
+                return '';
+            } elseif ($space === null) {
+                return '';
+            }
+        }
+        
         $types = [
             'section' => '\pgbrdr',
             'paragraph' => '\brdr',
@@ -151,21 +159,21 @@ class Border extends AbstractStyle
             $content .= '\brdrs'; // default style
         }
         $content .= $this->getValueIf($width !== null, '\brdrw' . round($width ?? 0)); // Width
-        $content .= '\brdrcf' . $colorIndex; // Color
+        $content .= $this->getValueIf($color !== null, '\brdrcf' . $colorIndex); // Color
 
         // Space
         if ($this->type == 'section') {
-            $space = $space !== null ? $space : '480';
+            $space = $space !== null ? $space : '480'; // section default is 480
         } elseif ($this->type == 'paragraph') {
             if ($side == 'top' || $side == 'bottom') {
-                $space = $space !== null ? $space : '20';
+                $space = $space !== null ? $space : '20'; // paragraph top|bottom default is 20
             } elseif ($side == 'left' || $side == 'right') {
-                $space = $space !== null ? $space : '80';
+                $space = $space !== null ? $space : '80'; // paragraph left|rigth default is 80
             }
+        } else {
+            $space === null; // font|row|cell don't use space
         }
-        if (in_array($this->type, ['section', 'paragraph'])) {
-            $content .= $this->getValueIf($space !== null, '\brsp' . round($space ?? 0));
-        }
+        $content .= $this->getValueIf($space !== null, '\brsp' . round($space ?? 0));
 
         $content .= ' ';
 
