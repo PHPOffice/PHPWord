@@ -150,7 +150,7 @@ class Border extends AbstractStyle
         } else {
             $content .= '\brdrs'; // default style
         }
-        $content .= $this->getValueIf($width !== null, '\brdrw' . round($width)); // Width
+        $content .= $this->getValueIf($width !== null, '\brdrw' . round($width ?? 0)); // Width
         $content .= '\brdrcf' . $colorIndex; // Color
 
         // Space
