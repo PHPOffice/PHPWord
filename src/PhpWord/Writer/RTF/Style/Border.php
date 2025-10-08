@@ -28,7 +28,7 @@ use PhpOffice\PhpWord\SimpleType\Border as BorderType;
 class Border extends AbstractStyle
 {
     /**
-     * Type. Can be section, header, footer, paragraph, font, row, or cell.
+     * Type. Can be section, paragraph, font, row, or cell.
      *
      * @var string
      */
@@ -57,7 +57,7 @@ class Border extends AbstractStyle
         $sides = ['top', 'left', 'right', 'bottom'];
         $sizeCount = 4;
 
-        if (in_array($this->type, ['header', 'footer', 'font'])) {
+        if ($this->type == 'font') {
             $sizeCount = 1;
         }
 
@@ -88,8 +88,6 @@ class Border extends AbstractStyle
     {
         $types = [
             'section' => '\pgbrdr',
-            'header' => '\pgbrdrhead',
-            'footer' => '\pgbrdrfoot',
             'paragraph' => '\brdr',
             'font' => '\chbrdr',
             'row' => '\trbrdr',
@@ -138,8 +136,8 @@ class Border extends AbstractStyle
 
         $content = '';
         if (isset($types[$this->type])) {
-            if (in_array($types[$this->type], ['header', 'footer', 'font'])) {
-                $content .= $types[$this->type]; // header, footer, and character borders cannot vary by side
+            if ($types[$this->type] == 'font') {
+                $content .= $types[$this->type]; // character borders cannot vary by side
             } else {
                 $content .= $types[$this->type] . substr($side, 0, 1);
             }
