@@ -152,8 +152,8 @@ class Border extends AbstractStyle
         } else {
             $content .= '\brdrs'; // default style
         }
-        $content .= '\brdrw' . round($width); // Width
-        $content .= '\brdrcf' . $colorIndex; // Color
+        $content .= $this->getValueIf($width !== null, '\brdrw' . round($width)); // Width
+        $content .= $this->getValueIf($colorIndex !== 0, '\brdrcf' . $colorIndex); // Color
 
         // Space
         if ($this->type == 'section') {
