@@ -86,7 +86,7 @@ class Border extends AbstractStyle
      */
     private function writeSide($side, $width, $color, $style, $space)
     {
-        if ($side === null && $width == null && $color === null && $style === null) {
+        if ($width == null && $color === null && $style === null) {
             if ($this->type == 'font' || $this->type == 'row' || $this->type == 'cell') {
                 return '';
             } elseif ($space === null) {
