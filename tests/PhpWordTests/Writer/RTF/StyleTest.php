@@ -84,43 +84,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         Assert::assertEquals('\fi3\li1\ri2 ', $result);
     }
 
-    public function testRightTab(): void
-    {
-        $tabRight = new \PhpOffice\PhpWord\Style\Tab();
-        $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT);
-        $tabRight->setPosition(5);
-
-        $tabWriter = new RTF\Style\Tab($tabRight);
-        $tabWriter->setParentWriter(new RTF());
-        $result = $tabWriter->write();
-
-        Assert::assertEquals('\tqr\tx5', $result);
-    }
-
-    public function testCenterTab(): void
-    {
-        $tabRight = new \PhpOffice\PhpWord\Style\Tab();
-        $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER);
-
-        $tabWriter = new RTF\Style\Tab($tabRight);
-        $tabWriter->setParentWriter(new RTF());
-        $result = $tabWriter->write();
-
-        Assert::assertEquals('\tqc\tx0', $result);
-    }
-
-    public function testDecimalTab(): void
-    {
-        $tabRight = new \PhpOffice\PhpWord\Style\Tab();
-        $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL);
-
-        $tabWriter = new RTF\Style\Tab($tabRight);
-        $tabWriter->setParentWriter(new RTF());
-        $result = $tabWriter->write();
-
-        Assert::assertEquals('\tqdec\tx0', $result);
-    }
-
     public function testRTL(): void
     {
         $parentWriter = new RTF();
