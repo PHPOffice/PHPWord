@@ -170,8 +170,6 @@ class Border extends AbstractStyle
             } elseif ($side == 'left' || $side == 'right') {
                 $space = $space !== null ? $space : '80'; // paragraph left|rigth default is 80
             }
-        } else {
-            $space === null; // font|row|cell don't use space
         }
         $content .= $this->getValueIf($space !== null, '\brsp' . round($space ?? 0));
 
