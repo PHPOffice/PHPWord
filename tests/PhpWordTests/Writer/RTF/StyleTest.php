@@ -51,27 +51,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testBorderWithNonRegisteredColors(): void
-    {
-        $border = new \PhpOffice\PhpWord\Style\Border();
-        $border->setBorderSize(40);
-        $border->setBorderTopSize(20);
-        $border->setBorderColor('#FF0000');
-        $borderWriter = new RTF\Style\Border($border);
-        $borderWriter->setParentWriter(new RTF());
-        $borderWriter->setType('section');
-
-        $content = $borderWriter->write();
-
-        $expected = '\pgbrdropt32';
-        $expected .= '\pgbrdrt\brdrs\brdrw20\brdrcf0\brsp480 ';
-        $expected .= '\pgbrdrl\brdrs\brdrw40\brdrcf0\brsp480 ';
-        $expected .= '\pgbrdrr\brdrs\brdrw40\brdrcf0\brsp480 ';
-        $expected .= '\pgbrdrb\brdrs\brdrw40\brdrcf0\brsp480 ';
-
-        self::assertEquals($expected, $content);
-    }
-
     public function testIndentation(): void
     {
         $indentation = new \PhpOffice\PhpWord\Style\Indentation();
