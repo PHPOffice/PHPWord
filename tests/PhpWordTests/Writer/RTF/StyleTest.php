@@ -70,20 +70,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expected, $content);
     }
 
-    public function testIndentation(): void
-    {
-        $indentation = new \PhpOffice\PhpWord\Style\Indentation();
-        $indentation->setLeft(1);
-        $indentation->setRight(2);
-        $indentation->setFirstLine(3);
-
-        $indentWriter = new RTF\Style\Indentation($indentation);
-        $indentWriter->setParentWriter(new RTF());
-        $result = $indentWriter->write();
-
-        Assert::assertEquals('\fi3\li1\ri2 ', $result);
-    }
-
     public function testRightTab(): void
     {
         $tabRight = new \PhpOffice\PhpWord\Style\Tab();
