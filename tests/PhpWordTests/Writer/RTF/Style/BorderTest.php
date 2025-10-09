@@ -51,10 +51,35 @@ class BorderTest extends TestCase
         $writer = new BorderWriter($style);
         $writer->setParentWriter($parentWriter);
 
-        $expect = '\brdrt\brdrs\brsp20 ';
-        $expect .= '\brdrl\brdrs\brsp80 ';
-        $expect .= '\brdrr\brdrs\brsp80 ';
-        $expect .= '\brdrb\brdrs\brsp20 ';
+        $expect = '';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setBorderSize(1);
+        $expect = '\brdrt\brdrs\brdrw1\brsp20 ';
+        $expect .= '\brdrl\brdrs\brdrw1\brsp80 ';
+        $expect .= '\brdrr\brdrs\brdrw1\brsp80 ';
+        $expect .= '\brdrb\brdrs\brdrw1\brsp20 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+    }
+
+    /**
+     * Test Border not all all four sides.
+     * See page 89-90 of RTF Specification 1.9.1 for Paragraph Borders.
+     */
+    public function testBorderSide(): void
+    {
+        $parentWriter = new RTF();
+        $style = new BorderStyle();
+        $writer = new BorderWriter($style);
+        $writer->setParentWriter($parentWriter);
+
+        $style->setBorderLeftSize(1);
+        $expect = '\brdrl\brdrs\brdrw1\brsp80 ';
+        self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setBorderBottomSize(100);
+        $expect = '\brdrl\brdrs\brdrw1\brsp80 ';
+        $expect .= '\brdrb\brdrs\brdrw100\brsp20 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
@@ -72,37 +97,39 @@ class BorderTest extends TestCase
         $writer = new BorderWriter($style);
         $writer->setParentWriter($parentWriter);
 
+        $style->setBorderSize(1);
+
         $writer->setType('section');
         $expect = '\pgbrdropt32';
-        $expect .= '\pgbrdrt\brdrs\brsp480 ';
-        $expect .= '\pgbrdrl\brdrs\brsp480 ';
-        $expect .= '\pgbrdrr\brdrs\brsp480 ';
-        $expect .= '\pgbrdrb\brdrs\brsp480 ';
+        $expect .= '\pgbrdrt\brdrs\brdrw1\brsp480 ';
+        $expect .= '\pgbrdrl\brdrs\brdrw1\brsp480 ';
+        $expect .= '\pgbrdrr\brdrs\brdrw1\brsp480 ';
+        $expect .= '\pgbrdrb\brdrs\brdrw1\brsp480 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $writer->setType('paragraph');
-        $expect = '\brdrt\brdrs\brsp20 ';
-        $expect .= '\brdrl\brdrs\brsp80 ';
-        $expect .= '\brdrr\brdrs\brsp80 ';
-        $expect .= '\brdrb\brdrs\brsp20 ';
+        $expect = '\brdrt\brdrs\brdrw1\brsp20 ';
+        $expect .= '\brdrl\brdrs\brdrw1\brsp80 ';
+        $expect .= '\brdrr\brdrs\brdrw1\brsp80 ';
+        $expect .= '\brdrb\brdrs\brdrw1\brsp20 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $writer->setType('font');
-        $expect = '\chbrdr\brdrs ';
+        $expect = '\chbrdr\brdrs\brdrw1 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $writer->setType('row');
-        $expect = '\trbrdrt\brdrs ';
-        $expect .= '\trbrdrl\brdrs ';
-        $expect .= '\trbrdrr\brdrs ';
-        $expect .= '\trbrdrb\brdrs ';
+        $expect = '\trbrdrt\brdrs\brdrw1 ';
+        $expect .= '\trbrdrl\brdrs\brdrw1 ';
+        $expect .= '\trbrdrr\brdrs\brdrw1 ';
+        $expect .= '\trbrdrb\brdrs\brdrw1 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $writer->setType('cell');
-        $expect = '\clbrdrt\brdrs ';
-        $expect .= '\clbrdrl\brdrs ';
-        $expect .= '\clbrdrr\brdrs ';
-        $expect .= '\clbrdrb\brdrs ';
+        $expect = '\clbrdrt\brdrs\brdrw1 ';
+        $expect .= '\clbrdrl\brdrs\brdrw1 ';
+        $expect .= '\clbrdrr\brdrs\brdrw1 ';
+        $expect .= '\clbrdrb\brdrs\brdrw1 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
@@ -256,24 +283,19 @@ class BorderTest extends TestCase
         $expect .= '\brdrb\brdrs\brsp20 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
+        // Space doesn't matter for fonts.
         $writer->setType('font');
-        $expect = '\chbrdr\brdrs ';
+        $expect = '';
         self::assertEquals($expect, $this->removeCr($writer));
 
-        // Technically rows can have space, but it messes up the table drawing - margin/padding should be used instead.
+        // Space doesn't matter for rows.
         $writer->setType('row');
-        $expect = '\trbrdrt\brdrs ';
-        $expect .= '\trbrdrl\brdrs ';
-        $expect .= '\trbrdrr\brdrs ';
-        $expect .= '\trbrdrb\brdrs ';
+        $expect = '';
         self::assertEquals($expect, $this->removeCr($writer));
 
-        // Technically cells can have space, but it messes up the table drawing - margin/padding should be used instead.
+        // Space doesn't matter for cells.
         $writer->setType('cell');
-        $expect = '\clbrdrt\brdrs ';
-        $expect .= '\clbrdrl\brdrs ';
-        $expect .= '\clbrdrr\brdrs ';
-        $expect .= '\clbrdrb\brdrs ';
+        $expect = '';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 }
