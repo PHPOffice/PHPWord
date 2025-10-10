@@ -128,7 +128,8 @@ class Font extends AbstractStyle
         }
 
         // Other (Font settings currently not included in getStyleValues() array)
-        $content .= $this->getValueIf($style->getBgColor() !== null, '\cb' . $this->bgColorIndex);
+        // Shading needs to be set to make background color work in Word, see page 23 of RTF specification.
+        $content .= $this->getValueIf($style->getBgColor() !== null, '\chshdng0\chcbpat' . $this->bgColorIndex . '\cb' . $this->bgColorIndex);
 
         if (empty($content)) {
             return $content;
