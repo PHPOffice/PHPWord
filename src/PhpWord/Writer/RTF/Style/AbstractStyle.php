@@ -105,4 +105,25 @@ abstract class AbstractStyle
     {
         return $condition == true ? $value : '';
     }
+
+    /**
+     * Write child style.
+     *
+     * @param string $name
+     * @param null|\PhpOffice\PhpWord\Style\AbstractStyle
+     *
+     * @return string
+     */
+    protected function writeChildStyle($name, $style = null)
+    {
+        $stylePath = "\\PhpOffice\\PhpWord\\Style\\" . ucfirst($name);
+        if (isset($style) && $style instanceof $stylePath) {
+            $writerPath = "\\PhpOffice\\PhpWord\\Writer\\RTF\\Style\\" . ucfirst($name);
+            $writer = new $writerPath($style);
+
+            return $writer->write();
+        }
+
+        return '';
+    }
 }
