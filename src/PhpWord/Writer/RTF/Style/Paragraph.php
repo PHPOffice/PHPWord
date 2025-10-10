@@ -83,25 +83,31 @@ class Paragraph extends AbstractStyle
             LineSpacingRule::AT_LEAST => '\slmult0',
         ];
 
-        $spaceAfter = $style->getSpaceAfter();
-        $spaceBefore = $style->getSpaceBefore();
-
         $content = '';
         if ($this->nestedLevel == 0) {
             $content .= '\pard';
         }
+
+        // Alignment
         $alignment = $style->getAlignment();
         $bidi = $style->isBidi();
         if ($alignment === '' && $bidi !== null) {
             $alignment = Jc::START;
         }
+
+        // Right to left
         if (isset($alignments[$alignment])) {
             $content .= $bidi ? $bidiAlignments[$alignment] : $alignments[$alignment];
         }
         $content .= $this->getValueIf($style->isBidi(), '\rtlpar');
+
+        // Indentation - Future: Create writeChildStyle in AbstractStyle
         $content .= $this->writeIndentation($style->getIndentation());
-        $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore ?? 0));
-        $content .= $this->getValueIf($spaceAfter !== null, '\sa' . round($spaceAfter ?? 0));
+        // Future: Add Shading
+
+        // Spacing - Future: Replace with Spacing writer when built
+        $content .= $this->getValueIf($style->getSpaceBefore() !== null, '\sb' . round($style->getSpaceBefore() ?? 0));
+        $content .= $this->getValueIf($style->getSpaceAfter() !== null, '\sa' . round($style->getSpaceAfter() ?? 0));
         $lineHeight = $style->getLineHeight();
         if ($lineHeight) {
             $lineHeightAdjusted = (int) ($lineHeight * 240);
@@ -114,7 +120,9 @@ class Paragraph extends AbstractStyle
             $content .= $this->getValueIf($style->getSpacing() !== null, $spacingRules[$spacingRule]);
         }
 
+        // Contextual Spacing
         $content .= $this->getValueIf($style->hasContextualSpacing(), '\contextualspace');
+        // Future: Add Text Alignment
 
         // Pagination
         $content .= $this->getValueIf($style->hasWidowControl(), '\widctlpar');
@@ -122,8 +130,11 @@ class Paragraph extends AbstractStyle
         $content .= $this->getValueIf($style->isKeepNext(), '\keepn');
         $content .= $this->getValueIf($style->isKeepLines(), '\keep');
         $content .= $this->getValueIf($style->hasPageBreakBefore(), '\pagebb');
+
+        // Hyphenation
         $content .= $this->getValueIf($style->hasSuppressAutoHyphens(), '\hyphpar0');
 
+        // Tabs
         $styles = $style->getStyleValues();
         $content .= $this->writeTabs($styles['tabs']);
 
