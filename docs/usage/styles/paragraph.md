@@ -29,27 +29,32 @@ See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) and [`Sample_08_
 - `basedOn`. Parent style.
 - `bidi`. Right to Left Paragraph Layout, *true* or *false*.
 - `contextualSpacing`. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.
-- `indentation`. An array of indentation key => value pairs in *twip*. Supports *left*, *right*, *firstLine*, *firstLineChars* and *hanging* indentation.
-   * See [`Style > Indentation`](../styles/indentation.md) for possible identation types.
-- `indentHanging`. Hanging indentation in *half inches*.
-- `indentFirstLine`. First line indentation in *half inches*.
-- `indentFirstLineChars`. First line character indentation in *half inches*.
-- `indentLeft`. Left indentation in *half inches*.
-- `indentRight`. Right indentation in *half inches*.
+- `indentation`. An array of indentation [key => value] pairs.
+   * See [`Style > Indentation`](../styles/indentation.md) for indentation options.
+   * The following options in paragraph are shortcuts to the indentation options.
+   * `indentHanging`. Hanging indentation in *half inches*.
+   * `indentFirstLine`. First line indentation in *half inches*.
+   * `indentFirstLineChars`. First line character indentation in *half inches*.
+   * `indentLeft`. Left indentation in *half inches*.
+   * `indentRight`. Right indentation in *half inches*.
 - `keepLines`. Keep all lines on one page, *true* or *false*.
 - `keepNext`. Keep paragraph with next paragraph, *true* or *false*.
-- `lineHeight`. Text line height, e.g. *1.0*, *1.5*, etc.
 - `next`. Style for next paragraph.
 - `numLevel`. Numbering level. `0` is default.
 - `numStyle`. Numbering style name
    * See [`Style > Numbering`](../styles/numbering.md).
 - `pageBreakBefore`. Start paragraph on next page, *true* or *false*.
-- `shading`. Paragraph Shading.
-- `spaceAfter`. Space after paragraph in *twip*.
-- `spaceBefore`. Space before paragraph in *twip*.
-- `spacing`. Space between lines in *twip*. If spacingLineRule is auto, 240 (height of 1 line) will be added, so if you want a double line height, set this to 240.
-- `spacingLineRule`. Line Spacing Rule. *auto*, *exact*, *atLeast*
-   * See [`SimpleType > LineSpacingRule`](../simpletypes/linespacingrule.md) class constants for possible values.
+- `shading`. An array of shading [key => value] pairs.
+   * See [`Style > Shading`](../styles/shading.md) for shading options.
+- `space`. An array of spacing [key => value] pairs.
+   * See [`Style > Spacing`](../styles/spacing.md) for spacing options.
+   * The following options in paragraph are shortcuts to the spacing options.
+   * `lineHeight`. Text line height, e.g. *1.0*, *1.5*, etc.
+   * `spaceAfter`. Space after paragraph in *twip*.
+   * `spaceBefore`. Space before paragraph in *twip*.
+   * `spacing`. Space between lines within a paragraph in *twip*. If spacingLineRule is auto, 240 (height of 1 line) will be added, so if you want a double line height, set this to 240.
+   * `spacingLineRule`. Line Spacing Rule. *auto*, *exact*, *atLeast*
+     - See [`SimpleType > LineSpacingRule`](../simpletypes/linespacingrule.md) class constants for possible values.
 - `suppressAutoHyphens`. Hyphenation for paragraph, *true* or *false*. Only matters if [`Settings > AutoHyphenation](..settings.md) is *true*.
 - `tabs`. Set of custom tab stops.
    * See [`Style > Tab`](../styles/tab.md).
