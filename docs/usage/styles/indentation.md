@@ -3,8 +3,8 @@
 ``` php
 <?php
 
-$phpWord->addParagraphStyle('line', ['indentation' => ['left' => 240, 'right' => 120]]);
-$section->addText('Hello, World!', null, 'line');
+$phpWord->addParagraphStyle('pStyle', ['indentation' => ['left' => 240, 'right' => 120]]);
+$section->addText('Hello, World!', null, 'pStyle');
 
 ```
 
