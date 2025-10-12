@@ -3,8 +3,8 @@
 ``` php
 <?php
 
-$phpWord->addParagraphStyle('spacing', ['space' => ['before' => 120, 'after' => 240]]);
-$section->addText('Hello, World!', null, 'spacing');
+$phpWord->addParagraphStyle('pStyle', ['space' => ['before' => 120, 'after' => 240]]);
+$section->addText('Hello, World!', null, 'pStyle');
 
 ```
 
