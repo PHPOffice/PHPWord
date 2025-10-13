@@ -36,9 +36,22 @@ class ListItemRun extends TextRun
             return '';
         }
 
-        $writer = new Container($this->parentWriter, $this->element);
-        $content = $writer->write() . PHP_EOL;
+        $content = '<li>';
 
-        return $content;
+        foreach ($this->element->getElements() as $element) {
+            $namespace = 'PhpOffice\\PhpWord\\Writer\\HTML\\Element';
+            $elementClass = get_class($element);
+            $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $namespace, $elementClass);
+
+            if (!class_exists($writerClass)) {
+                continue;
+            }
+
+            /** @var AbstractElement $writer */
+            $writer = new $writerClass($this->parentWriter, $element, true);
+            $content .= $writer->write();
+        }
+
+        return "$content</li>";
     }
 }
