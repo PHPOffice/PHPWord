@@ -19,7 +19,6 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 
 /**
  * RTF paragraph style writer.
@@ -77,11 +76,6 @@ class Paragraph extends AbstractStyle
             Jc::MEDIUM_KASHIDA => '\qk10',
             Jc::LOW_KASHIDA => '\qk0',
         ];
-        $spacingRules = [
-            LineSpacingRule::AUTO => '\slmult1',
-            LineSpacingRule::EXACT => '\slmult0',
-            LineSpacingRule::AT_LEAST => '\slmult0',
-        ];
 
         $content = '';
         if ($this->nestedLevel == 0) {
@@ -102,23 +96,9 @@ class Paragraph extends AbstractStyle
         $content .= $this->getValueIf($style->isBidi(), '\rtlpar');
 
         // Indentation - Future: Create writeChildStyle in AbstractStyle
-        $content .= $this->writeIndentation($style->getIndentation());
+        $content .= $this->writeChildStyle('Indentation', $style->getIndentation());
+        $content .= $this->writeChildStyle('Spacing', $style->getSpace());
         // Future: Add Shading
-
-        // Spacing - Future: Replace with Spacing writer when built
-        $content .= $this->getValueIf($style->getSpaceBefore() !== null, '\sb' . round($style->getSpaceBefore() ?? 0));
-        $content .= $this->getValueIf($style->getSpaceAfter() !== null, '\sa' . round($style->getSpaceAfter() ?? 0));
-        $lineHeight = $style->getLineHeight();
-        if ($lineHeight) {
-            $lineHeightAdjusted = (int) ($lineHeight * 240);
-            $content .= "\\sl$lineHeightAdjusted";
-        } else {
-            $content .= $this->getValueIf($style->getSpacing() !== null, '\sl' . round($style->getSpacing() ?? 0));
-        }
-        $spacingRule = $style->getSpacingLineRule();
-        if (isset($spacingRules[$spacingRule])) {
-            $content .= $this->getValueIf($style->getSpacing() !== null, $spacingRules[$spacingRule]);
-        }
 
         // Contextual Spacing
         $content .= $this->getValueIf($style->hasContextualSpacing(), '\contextualspace');
@@ -139,24 +119,6 @@ class Paragraph extends AbstractStyle
         $content .= $this->writeTabs($styles['tabs']);
 
         return $content . ' ';
-    }
-
-    /**
-     * Writes an \PhpOffice\PhpWord\Style\Indentation.
-     *
-     * @param null|\PhpOffice\PhpWord\Style\Indentation $indent
-     *
-     * @return string
-     */
-    private function writeIndentation($indent = null)
-    {
-        if (isset($indent) && $indent instanceof \PhpOffice\PhpWord\Style\Indentation) {
-            $writer = new Indentation($indent);
-
-            return $writer->write();
-        }
-
-        return '';
     }
 
     /**
