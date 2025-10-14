@@ -121,7 +121,9 @@ abstract class AbstractStyle
             $writerPath = 'PhpOffice\\PhpWord\\Writer\\RTF\\Style\\' . ucfirst($name);
             $writer = new $writerPath($style);
 
-            return $writer->write();
+            if (method_exists($writer, 'write')) {
+                return $writer->write();
+            }
         }
 
         return '';
