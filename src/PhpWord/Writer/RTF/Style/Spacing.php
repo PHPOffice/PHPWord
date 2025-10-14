@@ -45,6 +45,8 @@ class Spacing extends AbstractStyle
             LineSpacingRule::AT_LEAST => '\slmult0',
         ];
 
+        $content = '';
+
         // Space Before and After
         $content .= $this->getValueIf($style->getBefore() !== null, '\sb' . round($style->getBefore() ?? 0));
         $content .= $this->getValueIf($style->getAfter() !== null, '\sa' . round($style->getAfter() ?? 0));
@@ -61,7 +63,7 @@ class Spacing extends AbstractStyle
         $content .= $this->getValueIf($line !== null, '\sl' . round($line ?? 0));
 
         // Spacing Multiple
-        $content .= $this->getValueIf($spacingRules[$style->getLineRule()] !== null, $spacingRules[$style->getLineRule()]);
+        $content .= $this->getValueIf(isset($spacingRules[$style->getLineRule()]), $spacingRules[$style->getLineRule()]);
 
         return $content . ' ';
     }
