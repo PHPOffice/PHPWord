@@ -63,8 +63,10 @@ class Spacing extends AbstractStyle
         $content .= $this->getValueIf($line !== null, '\sl' . round($line ?? 0));
 
         // Spacing Multiple
-        $content .= $this->getValueIf(isset($spacingRules[$style->getLineRule()]), $spacingRules[$style->getLineRule()]);
+        if ($line !== null) {
+            $content .= $this->getValueIf(isset($spacingRules[$style->getLineRule()]), $spacingRules[$style->getLineRule()]);
+        }
 
-        return $content . ' ';
+        return $content;
     }
 }
