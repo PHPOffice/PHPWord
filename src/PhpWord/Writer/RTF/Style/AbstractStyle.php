@@ -110,7 +110,7 @@ abstract class AbstractStyle
      * Write child style.
      *
      * @param string $name
-     * @param null|AbstractStyle $style
+     * @param null|PhpOffice\PhpWord\Style\AbstractStyle $style
      *
      * @return string
      */
