@@ -160,7 +160,7 @@ class ParagraphTest extends TestCase
         $style->setSpacing(30);
         $style->setSpacingLineRule(LineSpacingRule::EXACT);
         $style->setContextualSpacing(true);
-        $expect = '\pard\sb480\sa360\sl30\slmult0\contextualspace\widctlpar ';
+        $expect = '\pard\sb480\sa360\sl-30\slmult0\contextualspace\widctlpar ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
