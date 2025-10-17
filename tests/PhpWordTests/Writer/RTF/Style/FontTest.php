@@ -117,7 +117,7 @@ class FontTest extends TestCase
         $style->setStrikethrough(true);
         $style->setSuperScript(true);
         $style->setNoProof(false);
-        $expect = '\b\i\strike\super\scaps\v ';
+        $expect = '\b\i\strike\scaps\v\super ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         // Disable styles (in case default is enabled)
