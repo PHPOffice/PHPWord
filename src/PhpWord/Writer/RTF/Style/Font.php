@@ -61,14 +61,6 @@ class Font extends AbstractStyle
 
         $content = '';
 
-        // To make it easy to determine what's missing as new features are added,
-        // Everything below is in the same order as array found in PhpOffice\PhpWord\Style\Font\getStyleValues
-
-        // Basic
-        $content .= $this->getValueIf($style->getName() !== null, '\f' . $this->nameIndex);
-        $content .= $this->getValueIf($style->getSize() !== null, '\fs' . round($style->getSize() * 2));
-        $content .= $this->getValueIf($style->getColor() !== null, '\cf' . $this->colorIndex);
-
         // Underline Keywords
         $underlines = [
             FontStyle::UNDERLINE_DASH => '\uldash',
@@ -90,35 +82,12 @@ class Font extends AbstractStyle
             FontStyle::UNDERLINE_WORDS => '\ulw',
         ];
 
-        // Style
-        $content .= $this->getValueIf($style->isBold(), '\b');
-        $content .= $this->getValueIf($style->isBold() === false, '\b0');
-        $content .= $this->getValueIf($style->isItalic(), '\i');
-        $content .= $this->getValueIf($style->isItalic() === false, '\i0');
-        if (isset($underlines[$style->getUnderline()])) {
-            $content .= $underlines[$style->getUnderline()];
-        }
-        $content .= $this->getValueIf($style->isStrikethrough(), '\strike');
-        $content .= $this->getValueIf($style->isDoubleStrikethrough(), '\striked1');
-        $content .= $this->getValueIf($style->isStrikethrough() === false && $style->isDoubleStrikethrough() === false, '\strike0');
-        $content .= $this->getValueIf($style->isSuperScript(), '\super');
-        $content .= $this->getValueIf($style->isSubScript(), '\sub');
-        $content .= $this->getValueIf($style->isSmallCaps(), '\scaps');
-        $content .= $this->getValueIf($style->isAllCaps(), '\caps');
-        $content .= $this->getValueIf($style->getFgColor() !== null, '\highlight' . $this->fgColorIndex);
-        $content .= $this->getValueIf($style->isHidden(), '\v');
-        $content .= $this->getValueIf($style->isHidden() === false, '\v0');
+        // Style Name
 
-        // Spacing
-        $content .= $this->getValueIf($style->getScale() !== null, '\charscalex' . $style->getScale());
-        $content .= $this->getValueIf($style->getSpacing() !== null, '\expnd' . $style->getSpacing());
-        $content .= $this->getValueIf($style->getKerning() !== null, '\kerning' . $style->getKerning() * 2);
-        $content .= $this->getValueIf($style->getPosition() !== null, '\up' . $style->getPosition());
+        // Font name/family
+        $content .= $this->getValueIf($style->getName() !== null, '\f' . $this->nameIndex);
 
-        // General
-        $content .= $this->getValueIf($style->isRTL(), '\rtlch');
-        $content .= $this->getValueIf($style->isRTL() === false, '\ltrch');
-        $content .= $this->getValueIf($style->isNoProof(), '\noproof\lang1024');
+        // Language
         if ($style->getLang() !== null) {
             if ($style->isNoProof()) {
                 $content .= $this->getValueIf($style->getLang()->getLangId() !== null, '\langnp' . $style->getLang()->getLangId());
@@ -127,13 +96,61 @@ class Font extends AbstractStyle
             }
         }
 
-        // Other (Font settings currently not included in getStyleValues() array)
-        // Shading needs to be set to make background color work in Word, see page 23 of RTF specification.
+        // Color
+        $content .= $this->getValueIf($style->getColor() !== null, '\cf' . $this->colorIndex);
+
+        // Size
+        $content .= $this->getValueIf($style->getSize() !== null, '\fs' . round($style->getSize() * 2));
+
+        // Bold, italic
+        $content .= $this->getValueIf($style->isBold(), '\b');
+        $content .= $this->getValueIf($style->isBold() === false, '\b0');
+        $content .= $this->getValueIf($style->isItalic(), '\i');
+        $content .= $this->getValueIf($style->isItalic() === false, '\i0');
+
+        // Strikethrough, double strikethrough
+        $content .= $this->getValueIf($style->isStrikethrough(), '\strike');
+        $content .= $this->getValueIf($style->isDoubleStrikethrough(), '\striked1');
+        $content .= $this->getValueIf($style->isStrikethrough() === false && $style->isDoubleStrikethrough() === false, '\strike0');
+
+        // Small caps, all caps
+        $content .= $this->getValueIf($style->isSmallCaps(), '\scaps');
+        $content .= $this->getValueIf($style->isAllCaps(), '\caps');
+
+        // Hidden text
+        $content .= $this->getValueIf($style->isHidden(), '\v');
+        $content .= $this->getValueIf($style->isHidden() === false, '\v0');
+
+        // Underline
+        if (isset($underlines[$style->getUnderline()])) {
+            $content .= $underlines[$style->getUnderline()];
+        }
+
+        // Foreground color
+        $content .= $this->getValueIf($style->getFgColor() !== null, '\highlight' . $this->fgColorIndex);
+
+        // Superscript/subscript
+        $content .= $this->getValueIf($style->isSuperScript(), '\super');
+        $content .= $this->getValueIf($style->isSubScript(), '\sub');
+
+        // Spacing
+        $content .= $this->getValueIf($style->getScale() !== null, '\charscalex' . $style->getScale());
+        $content .= $this->getValueIf($style->getSpacing() !== null, '\expnd' . $style->getSpacing() * 0.2);
+        $content .= $this->getValueIf($style->getSpacing() !== null, '\expndtw' . $style->getSpacing());
+        $content .= $this->getValueIf($style->getKerning() !== null, '\kerning' . $style->getKerning() * 2);
+
+        // noProof
+        $content .= $this->getValueIf($style->isNoProof(), '\noproof\lang1024');
+
+        // Bakground-Color
         $content .= $this->getValueIf($style->getBgColor() !== null, '\chshdng0\chcbpat' . $this->bgColorIndex . '\cb' . $this->bgColorIndex);
 
-        if (empty($content)) {
-            return $content;
-        }
+        // RTL
+        $content .= $this->getValueIf($style->isRTL(), '\rtlch');
+        $content .= $this->getValueIf($style->isRTL() === false, '\ltrch');
+
+        // Position
+        $content .= $this->getValueIf($style->getPosition() !== null, '\up' . $style->getPosition());
 
         return $content . ' ';
     }
