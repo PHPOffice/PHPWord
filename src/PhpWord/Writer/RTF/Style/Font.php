@@ -134,9 +134,9 @@ class Font extends AbstractStyle
         $content .= $this->getValueIf($style->isSubScript(), '\sub');
 
         // Spacing
-        $content .= $this->getValueIf($style->getScale() !== null, '\charscalex' . round($style->getScale()));
+        $content .= $this->getValueIf($style->getScale() !== null, '\charscalex' . round($style->getScale() ?? 0));
         $content .= $this->getValueIf($style->getSpacing() !== null, '\expnd' . round($style->getSpacing() * 0.2));
-        $content .= $this->getValueIf($style->getSpacing() !== null, '\expndtw' . round($style->getSpacing()));
+        $content .= $this->getValueIf($style->getSpacing() !== null, '\expndtw' . round($style->getSpacing() ?? 0));
         $content .= $this->getValueIf($style->getKerning() !== null, '\kerning' . round($style->getKerning() * 2));
 
         // noProof
@@ -155,6 +155,7 @@ class Font extends AbstractStyle
         if (empty($content)) {
             return $content;
         }
+
         return $content . ' ';
     }
 
