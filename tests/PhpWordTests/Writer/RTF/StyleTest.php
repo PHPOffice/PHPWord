@@ -43,10 +43,27 @@ class StyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testEmptyStyles(): void
     {
-        $styles = ['Font', 'Paragraph', 'Section', 'Tab', 'Indentation'];
+        $styles = ['Font', 'Indentation', 'Paragraph', 'Section', 'Spacing', 'Tab'];
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Style\\' . $style;
             $object = new $objectClass();
+
+            self::assertEquals('', $object->write());
+        }
+    }
+
+    /**
+     * Test unmatched styles.
+     */
+    public function testUnmatchedStyles(): void
+    {
+        $elements = ['Font', 'Indentation', 'Paragraph', 'Section', 'Spacing', 'Tab'];
+        foreach ($elements as $element) {
+            $parentWriter = new RTF();
+            $writerClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Style\\' . $element;
+            $style = new \PhpOffice\PhpWord\Style\Border();
+            $writer = new $writerClass($style);
+            $writer->setParentWriter($parentWriter);
 
             self::assertEquals('', $object->write());
         }
