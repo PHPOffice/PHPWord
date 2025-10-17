@@ -213,7 +213,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = $section->addTitle($textRun, 1);
         $elwrite = new RTF\Element\Title($parentWriter, $element);
 
-        $expect = "\\pard\\nowidctlpar \\sb0\\sa2{\\outlinelevel0{\\fs48\\cf0\\b base text (ruby)}\\par\n}";
+        $expect = "\\pard\\nowidctlpar \\sb0\\sa2{\\outlinelevel0{\\cf0\\fs48\\b base text (ruby)}\\par\n}";
         self::assertEquals($expect, $this->removeCr($elwrite));
     }
 }
