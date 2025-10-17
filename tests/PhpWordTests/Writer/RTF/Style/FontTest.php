@@ -60,7 +60,7 @@ class FontTest extends TestCase
         $style->setColor($style::FGCOLOR_YELLOW);
         $style->setFgColor($style::FGCOLOR_RED);
         $style->setBgColor('#123456');
-        $expect = '\f0\fs48\cf0\highlight0\cb0 ';
+        $expect = '\f0\cf0\fs48\highlight0\chshdng0\chcbpat0\cb0 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
@@ -88,7 +88,7 @@ class FontTest extends TestCase
         $element->setText('Test');
         $element->setFontStyle($style);
 
-        $expect = '{\f1\fs48\cf1\highlight2\cb3 Test}';
+        $expect = '{\f1\cf1\fs48\highlight2\chshdng0\chcbpat3\cb3 Test}';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
@@ -110,7 +110,7 @@ class FontTest extends TestCase
         $style->setItalic(true);
         $style->setNoProof(true);
         $style->setSubScript(true);
-        $expect = '\b\i\striked1\sub\caps\v\noproof\lang1024 ';
+        $expect = '\b\i\striked1\caps\v\sub\noproof\lang1024 ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setSmallCaps(true);
@@ -228,12 +228,12 @@ class FontTest extends TestCase
 
         $style->setRTL(true);
         $style->setLang(Language::KO_KR);
-        $expect = '\rtlch\lang1042 ';
+        $expect = '\lang1042\rtlch ';
         self::assertEquals($expect, $this->removeCr($writer));
 
         $style->setRTL(false);
         $style->setLang(Language::EN_US);
-        $expect = '\ltrch\lang1033 ';
+        $expect = '\lang1033\ltrch ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
@@ -251,7 +251,7 @@ class FontTest extends TestCase
         $style->setSpacing(4);
         $style->setKerning(100);
         $style->setPosition(10);
-        $expect = '\charscalex5\expnd4\kerning200\up10 ';
+        $expect = '\charscalex5\expnd1\expndtw4\kerning200\up10 ';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 }
