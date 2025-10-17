@@ -134,10 +134,10 @@ class Font extends AbstractStyle
         $content .= $this->getValueIf($style->isSubScript(), '\sub');
 
         // Spacing
-        $content .= $this->getValueIf($style->getScale() !== null, '\charscalex' . $style->getScale());
-        $content .= $this->getValueIf($style->getSpacing() !== null, '\expnd' . $style->getSpacing() * 0.2);
-        $content .= $this->getValueIf($style->getSpacing() !== null, '\expndtw' . $style->getSpacing());
-        $content .= $this->getValueIf($style->getKerning() !== null, '\kerning' . $style->getKerning() * 2);
+        $content .= $this->getValueIf($style->getScale() !== null, '\charscalex' . round($style->getScale()));
+        $content .= $this->getValueIf($style->getSpacing() !== null, '\expnd' . round($style->getSpacing() * 0.2));
+        $content .= $this->getValueIf($style->getSpacing() !== null, '\expndtw' . round($style->getSpacing()));
+        $content .= $this->getValueIf($style->getKerning() !== null, '\kerning' . round($style->getKerning() * 2));
 
         // noProof
         $content .= $this->getValueIf($style->isNoProof(), '\noproof\lang1024');
@@ -152,6 +152,9 @@ class Font extends AbstractStyle
         // Position
         $content .= $this->getValueIf($style->getPosition() !== null, '\up' . $style->getPosition());
 
+        if (empty($content)) {
+            return $content;
+        }
         return $content . ' ';
     }
 
