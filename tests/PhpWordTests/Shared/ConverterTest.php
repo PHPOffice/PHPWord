@@ -117,7 +117,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         self::assertEquals([102, 119, 136], Converter::htmlToRgb('678')); // 3 characters
         self::assertEquals($flse, Converter::htmlToRgb('0F9D')); // 4 characters
         self::assertEquals([0, 0, 0], Converter::htmlToRgb('unknow')); // 6 characters, invalid
-        self::assertEquals([139, 0, 139], Converter::htmlToRgb(\PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKMAGENTA)); // Constant
+        self::assertEquals([139, 0, 139], Converter::htmlToRgb(\PhpOffice\PhpWord\SimpleType\Color::DARKMAGENTA)); // Constant
     }
 
     /**
