@@ -47,6 +47,9 @@ class ListItem extends Text
         $content .= $this->writeOpening();
         if ($style instanceof \PhpOffice\PhpWord\Style\ListItem) {
             $numStyle = $style->getNumberingStyle();
+            if ($numStyle->getType() == 'singleLevel') {
+                $depth = 0;
+            }
             $levels = $numStyle->getLevels();
             $content .= '\ilvl' . $element->getDepth();
             $content .= '\ls' . $style->getNumId();
