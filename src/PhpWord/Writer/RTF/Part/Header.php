@@ -310,13 +310,13 @@ class Header extends AbstractPart
                     }
                     $strLength = (string) sprintf('%02d', strlen($levelNumbers));
                 } else {
-                    $level = '\\\'' . (string) strtoupper(dechex(ord((string) iconv('UTF-8', 'UCS-2', $listText))));
-                    $strLength = '01';
+                    $level = $this->escaper->escape($listText);
+                    $strLength = (string) sprintf('%02d', mb_strlen($listText));
                 }
 
                 $content .= '{';
                 $content .= '\leveltext \\\'' . $strLength . $level;
-                $content .= ' ;}';
+                $content .= ';}';
                 $content .= '{';
                 $content .= '\levelnumbers ';
                 foreach ($positions as $position) {
