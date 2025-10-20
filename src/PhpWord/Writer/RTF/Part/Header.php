@@ -337,7 +337,7 @@ class Header extends AbstractPart
                 $content .= '\levelfollow' . '0';
                 $content .= '\jclisttab';
                 $content .= '\tx' . $listItem['tabPos'];
-                $content .= '\fi' . $listItem['hanging'] *-1;
+                $content .= '\fi' . $listItem['hanging'] * -1;
                 $content .= '\li' . $listItem['left'];
                 $content .= '\lin' . $listItem['left'];
                 $content .= '}';

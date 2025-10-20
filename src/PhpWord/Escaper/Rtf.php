@@ -43,7 +43,7 @@ class Rtf extends AbstractEscaper
     protected function escapeMultibyteCharacter($code)
     {
         if ($code > 32767) {
-            return '\\uc0\\u' . $code - 65536 . ' ';
+            return '\\uc0\\u' . ((int) $code - 65536) . ' ';
         }
 
         return '\\uc0\\u' . $code . ' ';
