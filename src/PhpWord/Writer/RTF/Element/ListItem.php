@@ -54,11 +54,9 @@ class ListItem extends Text
             $content .= '\ilvl' . $element->getDepth();
             $content .= '\ls' . $style->getNumId();
             $content .= '\tx' . $levels[$depth]->getTabPos();
-            $hanging = $levels[$depth]->getLeft() + $levels[$depth]->getHanging();
-            $left = 0 - $levels[$depth]->getHanging();
-            $content .= '\fi' . $left;
-            $content .= '\li' . $hanging;
-            $content .= '\lin' . $hanging;
+            $content .= '\fi' . $levels[$depth]->getHanging() * -1;
+            $content .= '\li' . $levels[$depth]->getLeft();
+            $content .= '\lin' . $levels[$depth]->getLeft();
         }
         $content .= $this->writeFontStyle(); // Doesn't work. Don't know why. Probalby something to do with \PphOffice\PhpWord\Element\ListItem storing styles in a textObject type \PphOffice\PhpWord\Element\Text rather than within the Element itself
         $content .= PHP_EOL;
