@@ -58,7 +58,7 @@ class RtfEscaper2Test extends \PHPUnit\Framework\TestCase
     public function testAccent(): void
     {
         $str = 'Voilà - string with accented char';
-        $expect = $this->expect('Voil\\uc0{\\u224} - string with accented char');
+        $expect = $this->expect('Voil\\uc0\\u224  - string with accented char');
         self::assertEquals($expect, $this->escapestring($str));
     }
 
@@ -68,7 +68,7 @@ class RtfEscaper2Test extends \PHPUnit\Framework\TestCase
     public function testHebrew(): void
     {
         $str = 'Hebrew - שלום';
-        $expect = $this->expect('Hebrew - \\uc0{\\u1513}\\uc0{\\u1500}\\uc0{\\u1493}\\uc0{\\u1501}');
+        $expect = $this->expect('Hebrew - \\uc0\\u1513 \\uc0\\u1500 \\uc0\\u1493 \\uc0\\u1501 }');
         self::assertEquals($expect, $this->escapestring($str));
     }
 
