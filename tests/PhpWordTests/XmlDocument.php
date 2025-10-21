@@ -142,7 +142,7 @@ class XmlDocument
     /**
      * Get node list.
      *
-     * @return DDOMNodeList<DOMNameSpaceNode|DOMNode>|false
+     * @return DOMNodeList<DOMNameSpaceNode|DOMNode>|false
      */
     public function getNodeList(string $path, string $file = ''): DOMNodeList
     {
