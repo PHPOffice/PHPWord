@@ -201,10 +201,11 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertInstanceOf(DOMNode::class, $query->item(0));
         self::assertEquals('3', $query->item(0)->attributes->getNamedItem('rowspan')->textContent);
 
-        $query = $xpath->query('/html/body/div/table/tr[2]/td');
+        $query = $xpath->query('/html/body/div/table/tr[2]/td[1]');
         self::assertNotFalse($query);
         self::assertCount(1, $query);
-        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[2]/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('3', $query->item(0)->attributes->getNamedItem('colspan')->textContent);
 
         $query = $xpath->query('/html/body/div/table/tr[3]/td');
         self::assertNotFalse($query);
