@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\HTML;
 
 use DateTime;
 use DOMDocument;
+use DOMNode;
 use DOMXPath;
 use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Element\TextRun;
@@ -107,16 +108,18 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $query = $xpath->query('/html/body/div/table/tr[1]/td');
         self::assertNotFalse($query);
-        self::assertEquals(1, $query->length);
-        self::assertEquals('2', $xpath->query('/html/body/div/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
+        self::assertCount(1, $query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('2', $query->item(0)->attributes->getNamedItem('colspan')->textContent);
+        self::assertEquals('#6086B8', $query->item(0)->attributes->getNamedItem('bgcolor')->textContent);
+        self::assertEquals('#ffffff', $query->item(0)->attributes->getNamedItem('color')->textContent);
+
         $query = $xpath->query('/html/body/div/table/tr[2]/td');
         self::assertNotFalse($query);
-        self::assertEquals(2, $query->length);
-
-        self::assertEquals('#6086B8', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertNull($xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('color'));
+        self::assertCount(2, $query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('#ffffff', $query->item(0)->attributes->getNamedItem('bgcolor')->textContent);
+        self::assertNull($query->item(0)->attributes->getNamedItem('color'));
     }
 
     /**
@@ -145,8 +148,15 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $query = $xpath->query('/html/body/div/table/tr[1]/td');
         self::assertNotFalse($query);
-        self::assertEquals(2, $query->length);
-        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
+        self::assertCount(2, $query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('2', $query->item(0)->attributes->getNamedItem('colspan')->textContent);
+
+        $query = $xpath->query('/html/body/div/table/tr[1]/td[1]');
+        self::assertNotFalse($query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('3', $query->item(0)->attributes->getNamedItem('rowspan')->textContent);
+
         $query = $xpath->query('/html/body/div/table/tr[2]/td');
         self::assertNotFalse($query);
         self::assertEquals(1, $query->length);

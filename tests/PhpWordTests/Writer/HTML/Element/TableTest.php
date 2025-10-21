@@ -200,7 +200,7 @@ class TableTest extends TestCase
         $cell3Query = $xpath->query('//table/tr/td[3]');
         self::assertNotFalse($cell3Query);
         self::assertCount(1, $cell3Query);
-        self::assertObjectHasProperty('attributes', $cell3Query->item(0));
+        self::assertInstanceOf(DOMNode::class, $cell3Query->item(0));
         $cell3Style = $cell3Query->item(0)->attributes->getNamedItem('style');
         self::assertNull($cell3Style);
     }
