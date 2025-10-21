@@ -20,7 +20,6 @@ namespace PhpOffice\PhpWordTests;
 
 use DOMDocument;
 use DOMElement;
-use DOMNameSpaceNode;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
@@ -142,7 +141,7 @@ class XmlDocument
     /**
      * Get node list.
      *
-     * @return DOMNodeList<DOMNameSpaceNode|DOMNode>|false
+     * @return DOMNodeList<DOMNode>
      */
     public function getNodeList(string $path, string $file = ''): DOMNodeList
     {
@@ -158,9 +157,7 @@ class XmlDocument
             $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 
-        $query = $this->xpath->query($path);
-
-        return $query;
+        return $this->xpath->query($path);
     }
 
     /**
@@ -168,13 +165,7 @@ class XmlDocument
      */
     public function getElement(string $path, string $file = ''): ?DOMElement
     {
-        $element = $this->getNodeList($path, $file)->item(0);
-
-        if ($element === false) {
-            return null;
-        }
-
-        return $element;
+        return $this->getNodeList($path, $file)->item(0);
     }
 
     /**
