@@ -274,7 +274,9 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $xpath = new DOMXPath($dom);
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
-        self::assertNotFalse(preg_match('/^[*][^\\r\\n]*/m', $style, $matches));
+        $prg = preg_match('/^[*][^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
+        self::assertNotFalse($prg);
         self::assertEquals('* {font-family: \'Arial\'; font-size: 12pt; color: #000000; white-space: pre-wrap;}', $matches[0]);
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
         self::assertNotEmpty($matches);

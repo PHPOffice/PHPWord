@@ -161,7 +161,9 @@ class TableTest extends TestCase
         self::assertEmpty(Helper::getNamedItem($xpath, '/html/body/div/table[6]', 'style'));
         self::assertEquals('tstyle', Helper::getTextContent($xpath, '/html/body/div/table[6]', 'class'));
         $style = Helper::getTextContent($xpath, '/html/head/style');
-        self::assertNotFalse(preg_match('/^[.]tstyle[^\\r\\n]*/m', $style, $matches));
+        $prg = preg_match('/^[.]tstyle[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
+        self::assertNotFalse($prg);
         self::assertEquals(".tstyle {table-layout: auto; $cssnone}", $matches[0]);
     }
 
