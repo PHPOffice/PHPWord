@@ -232,7 +232,7 @@ class TableTest extends TestCase
         $cell3Query = $xpath->query('//table/tr[3]/td[1]');
         self::assertNotFalse($cell3Query);
         self::assertCount(1, $cell3Query);
-        self::assertObjectHasAttribute('attributes', $cell3Query->item(0));
+        self::assertInstanceOf(DOMNode::class, $cell3Query->item(0));
         self::assertNull($cell3Query->item(0)->attributes->getNamedItem('rowspan'));
     }
 }
