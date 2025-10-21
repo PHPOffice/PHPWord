@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests;
 
 use DOMDocument;
 use DOMElement;
+use DOMNameSpaceNode;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
@@ -141,7 +142,7 @@ class XmlDocument
     /**
      * Get node list.
      *
-     * @return DOMNodeList<DOMNode>
+     * @return DDOMNodeList<DOMNameSpaceNode|DOMNode>|false
      */
     public function getNodeList(string $path, string $file = ''): DOMNodeList
     {
@@ -159,10 +160,6 @@ class XmlDocument
 
         $query = $this->xpath->query($path);
 
-        if ($query === false) {
-            self::fail('Unexpected false return from xpath query');
-        }
-
         return $query;
     }
 
@@ -171,7 +168,13 @@ class XmlDocument
      */
     public function getElement(string $path, string $file = ''): ?DOMElement
     {
-        return $this->getNodeList($path, $file)->item(0);
+        $element = $this->getNodeList($path, $file)->item(0);
+
+        if ($element === false) {
+            return null;
+        }
+
+        return $element;
     }
 
     /**
