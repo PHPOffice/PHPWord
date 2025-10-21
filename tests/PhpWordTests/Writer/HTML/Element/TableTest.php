@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\HTML\Element;
 
+use DOMNode;
 use DOMXPath;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
