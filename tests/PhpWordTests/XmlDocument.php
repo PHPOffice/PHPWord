@@ -141,7 +141,7 @@ class XmlDocument
     /**
      * Get node list.
      *
-     * @return DOMNodeList<DOMNameSpaceNode|DOMNode>|false
+     * @return DOMNodeList<DOMNode>
      */
     public function getNodeList(string $path, string $file = ''): DOMNodeList
     {
@@ -157,7 +157,13 @@ class XmlDocument
             $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 
-        return $this->xpath->query($path);
+        $query = $this->xpath->query($path);
+
+        if ($query === false) {
+            self::fail('Unexpected false return from xpath query');
+        }
+
+        return $query;
     }
 
     /**
