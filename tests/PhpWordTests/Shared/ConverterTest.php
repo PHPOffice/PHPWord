@@ -163,7 +163,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         self::assertEquals([192, 192, 192], Converter::htmlToRgb(Color::SILVER));
         self::assertEquals([210, 180, 140], Converter::htmlToRgb(Color::TAN));
         self::assertEquals([0, 128, 128], Converter::htmlToRgb(Color::TEAL));
-        self::assertEquals([64, 224, 208], Converter::htmlToRgb(Color::TURQUISE));
+        self::assertEquals([64, 224, 208], Converter::htmlToRgb(Color::TURQUOISE));
         self::assertEquals([238, 130, 238], Converter::htmlToRgb(Color::VIOLET));
         self::assertEquals([255, 255, 255], Converter::htmlToRgb(Color::WHITE));
         self::assertEquals([255, 255, 0], Converter::htmlToRgb(Color::YELLOW));
