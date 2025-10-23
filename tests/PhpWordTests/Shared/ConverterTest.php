@@ -123,7 +123,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test SimpleType::Color. Ensure all colors come out to correct values.
-     * Verified against https://c-rex.net/samples/ooxml/e1/Part4/OOXML_P4_DOCX_ST_PresetColorVal_topic_ID0ELA5NB.html
+     * Verified against https://c-rex.net/samples/ooxml/e1/Part4/OOXML_P4_DOCX_ST_PresetColorVal_topic_ID0ELA5NB.html.
      */
     public function testBuiltInColors(): void
     {
