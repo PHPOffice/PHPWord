@@ -123,7 +123,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             [Font::FGCOLOR_DARKGREEN, '006400'],
             [Font::FGCOLOR_DARKMAGENTA, '8B008B'],
             [Font::FGCOLOR_DARKRED, '8B0000'],
-            [Font::FGCOLOR_DARKYELLOW, '8B8B00'],
+            [Font::FGCOLOR_DARKYELLOW, '808000'],
             [Font::FGCOLOR_DARKGRAY, 'A9A9A9'],
             [Font::FGCOLOR_LIGHTGRAY, 'D3D3D3'],
             [Font::FGCOLOR_BLACK, '000000'],
