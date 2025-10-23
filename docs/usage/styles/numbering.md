@@ -61,6 +61,7 @@ For easy copying, here are some common bullet symbols using a standard unicode f
 - `‡` Double dagger
 - `#` Number sign
 - `§` Section sign
+- `˃` Rigth arrowhead
 - `›` Single right arrow
 - `»` Double right arrow
 - `►` Right arrow
@@ -68,6 +69,7 @@ For easy copying, here are some common bullet symbols using a standard unicode f
 - `□` Open square
 - `▪` Small square
 - `▫` Small open square
+- `♦` Black suit diamond
 
 ## Used In
 - [`Styles > ListItem`](../styles/list.md).
