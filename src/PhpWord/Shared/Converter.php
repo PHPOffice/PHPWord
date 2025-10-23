@@ -335,7 +335,7 @@ class Converter
             case Color::DARKVIOLET:
                 return '9400D3';
             case Color::DARKYELLOW:
-                return '8B8B00';
+                return '808000';
             case Color::FUCHSIA:
                 return 'FF00FF';
             case Color::GOLD:
