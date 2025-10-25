@@ -54,6 +54,7 @@ $pageHeading = IS_INDEX ? '' : "<h1>{$pageHeading}</h1>";
 
 // Populate samples
 $files = '';
+$testFiles = '';
 if ($handle = opendir('.')) {
     $sampleFiles = [];
     while (false !== ($sampleFile = readdir($handle))) {
@@ -66,6 +67,10 @@ if ($handle = opendir('.')) {
         if (preg_match('/^Sample_\d+_/', $file)) {
             $name = str_replace('_', ' ', preg_replace('/(Sample_|\.php)/', '', $file));
             $files .= "<li><a href='{$file}'>{$name}</a></li>";
+        }
+        if (preg_match('/^TestSuite_/', $file)) {
+            $name = str_replace('_', ' ', preg_replace('/(TestSuite_|\.php)/', '', $file));
+            $testFiles .= "<li><a href='{$file}'>{$name}</a></li>";
         }
     }
 }
@@ -162,6 +167,12 @@ function getEndingNotes(array $writers, string $filename): string
                 <li class="dropdown active">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-code fa-lg"></i>&nbsp;Samples<strong class="caret"></strong></a>
                     <ul class="dropdown-menu"><?php echo $files; ?></ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-code fa-lg"></i>&nbsp;Test Suite<strong class="caret"></strong></a>
+                    <ul class="dropdown-menu"><?php echo $testFiles; ?></ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
