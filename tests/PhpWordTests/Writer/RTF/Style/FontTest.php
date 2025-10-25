@@ -88,7 +88,7 @@ class FontTest extends TestCase
         $element->setText('Test');
         $element->setFontStyle($style);
 
-        $expect = '{\f1\cf2\fs48\highlight3\chshdng0\chcbpat3\cb4 Test}';
+        $expect = '{\f1\cf2\fs48\highlight3\chshdng0\chcbpat4\cb4 Test}';
         self::assertEquals($expect, $this->removeCr($writer));
     }
 
