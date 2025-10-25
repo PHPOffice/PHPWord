@@ -188,6 +188,7 @@ class Header extends AbstractPart
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
         $this->fontTable[] = Settings::getDefaultFontName();
+        $this->colorTable[] = Settings::getDefaultFontColor();
 
         // Search named styles
         $styles = Style::getStyles();
