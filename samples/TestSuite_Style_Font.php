@@ -67,7 +67,7 @@ $section->addText('24 point font', ['size' => 24]);
 $section->addTextBreak();
 
 // Bold, italic.
-$section->addTitle('FBold/Italic', 2);
+$section->addTitle('Bold/Italic', 2);
 $section->addText('Bold', ['bold' => true]);
 $section->addText('Italic', ['italic' => true]);
 $section->addTextBreak();
@@ -141,7 +141,12 @@ $section->addTextBreak();
 
 // Whitespace.
 $section->addTitle('For HTML Only', 2);
-$section->addText('Lots    of     whitespace     here.', ['whiteSpace' => 'pre-wrap']);
+$section->addText('Lots    of     whitespace      here.', ['whiteSpace' => 'pre-wrap']);
+$section->addTextBreak();
+
+// Contains Paragraph.
+$section->addTitle('Font with embedded Paragraph Style', 2);
+$section->addText('This text should be centered.', ['paragraph' => ['align' => 'center']]);
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
