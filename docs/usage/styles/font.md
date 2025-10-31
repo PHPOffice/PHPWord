@@ -58,7 +58,8 @@ See [`Sample_01_SimpleText`](/samples/Sample_01_SimpleText.php) for more code sa
 - `position`. The text position, raised or lowered, in half points
 - `rtl`. Right to Left language, *true* or *false*.
 - `scale`. Expande/compress text.
-- `shading`. Shading.
+- `shading`. An array of shading [key => value] pairs.
+   * See [`Style > Shading`](../styles/shading.md) for shading options.
 - `size`. Font size, e.g. *20*, *22*.
 - `smallCaps`. Small caps, *true* or *false*.
 - `spacing`. Characters spacing adjustment in *twip*.
