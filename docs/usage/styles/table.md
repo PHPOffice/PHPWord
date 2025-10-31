@@ -32,7 +32,8 @@ See [`Sample_09_Tables`](/samples/Sample_09_Tables.php)  and [`Sample_21_TableRo
 - `layout`. Table layout, either *fixed* or *autofit*. Defaults to *autofit*.
    * See constants above for possible values.
 - `position` Floating Table Positioning, see below for options
-- `shading`. Table Shading.
+- `shading`. An array of shading [key => value] pairs.
+   * See [`Style > Shading`](../styles/shading.md) for shading options.
 - `width`. Table width in Fiftieths of a Percent or Twentieths of a Point.
 - `unit`. The unit to use for the width. Defaults to *auto*.
    * See [`SimpleType > TblWidth`](../simpletypes/tblwidth.md) and [`SimpleType > TblWidth`](../simpletypes/tblwidth.md) for possible values.
@@ -76,7 +77,8 @@ See [`Sample_09_Tables`](/samples/Sample_09_Tables.php)  and [`Sample_21_TableRo
 - `gridSpan`. Number of columns spanned.
 - `noWrap`. Prevent text from wrapping in the cell. Default is *true*.
 - `padding(Top|Right|Bottom|Left)`. Cell padding in *twip*.
-- `shading`. Cell Shading.
+- `shading`. An array of shading [key => value] pairs.
+   * See [`Style > Shading`](../styles/shading.md) for shading options.
 - `textDirection`. Direction of text.
    * See constants above for possible values.
 - `valign`. Vertical alignment, *top*, *center*, *both*, *bottom*.
