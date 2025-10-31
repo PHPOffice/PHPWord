@@ -33,20 +33,20 @@ class Font extends AbstractStyle
      */
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
-    const UNDERLINE_DASHHEAVY = 'dashHeavy';
+    const UNDERLINE_DASHHEAVY = 'dashedHeavy';
     const UNDERLINE_DASHLONG = 'dashLong';
     const UNDERLINE_DASHLONGHEAVY = 'dashLongHeavy';
-    const UNDERLINE_DOUBLE = 'dbl';
+    const UNDERLINE_DOUBLE = 'double';
     const UNDERLINE_DOTDASH = 'dotDash';
-    const UNDERLINE_DOTDASHHEAVY = 'dotDashHeavy';
+    const UNDERLINE_DOTDASHHEAVY = 'dashDotHeavy';
     const UNDERLINE_DOTDOTDASH = 'dotDotDash';
-    const UNDERLINE_DOTDOTDASHHEAVY = 'dotDotDashHeavy';
+    const UNDERLINE_DOTDOTDASHHEAVY = 'dashDotDotHeavy';
     const UNDERLINE_DOTTED = 'dotted';
     const UNDERLINE_DOTTEDHEAVY = 'dottedHeavy';
-    const UNDERLINE_HEAVY = 'heavy';
+    const UNDERLINE_HEAVY = 'thick';
     const UNDERLINE_SINGLE = 'single';
-    const UNDERLINE_WAVY = 'wavy';
-    const UNDERLINE_WAVYDOUBLE = 'wavyDbl';
+    const UNDERLINE_WAVY = 'wave';
+    const UNDERLINE_WAVYDOUBLE = 'wavyDouble';
     const UNDERLINE_WAVYHEAVY = 'wavyHeavy';
     const UNDERLINE_WORDS = 'words';
 
