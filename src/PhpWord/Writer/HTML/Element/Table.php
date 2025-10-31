@@ -58,10 +58,13 @@ class Table extends AbstractElement
                     $cellBgColor = $cellStyle->getBgColor();
                     $cellFgColor = null;
                     if ($cellBgColor && $cellBgColor !== 'auto') {
-                        $red = hexdec(substr($cellBgColor, 0, 2));
-                        $green = hexdec(substr($cellBgColor, 2, 2));
-                        $blue = hexdec(substr($cellBgColor, 4, 2));
-                        $cellFgColor = (($red * 0.299 + $green * 0.587 + $blue * 0.114) > 186) ? null : 'ffffff';
+                        $cellBgColor = \PhpOffice\PhpWord\Shared\Converter::stringToRgb($cellBgColor);
+                        if ($cellBgColor !== false) {
+                            $red = hexdec(substr($cellBgColor, 0, 2));
+                            $green = hexdec(substr($cellBgColor, 2, 2));
+                            $blue = hexdec(substr($cellBgColor, 4, 2));
+                            $cellFgColor = (($red * 0.299 + $green * 0.587 + $blue * 0.114) > 186) ? null : 'ffffff';
+                        }
                     }
                     $cellColSpan = $cellStyle->getGridSpan();
                     $cellRowSpan = 1;
