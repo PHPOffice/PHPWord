@@ -25,4 +25,7 @@ $section->addText('Hello, World!', null, 'pStyle');
    * See constants above for possible values.
 
 ## Used In
+- [`Style > Cell`](../styles/cell.md).
+- [`Style > Font`](../styles/font.md).
 - [`Style > Paragraph`](../styles/paragraph.md).
+- [`Style > Table`](../styles/table.md).
