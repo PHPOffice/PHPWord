@@ -33,7 +33,7 @@ class Font extends AbstractStyle
     public function write(): void
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
+        if (!$style instanceof FontStyle) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
@@ -96,11 +96,11 @@ class Font extends AbstractStyle
 
         $underline = $style->getUnderline();
         if (isset($underlines[$underline])) {
-            $xmlWriter->writeAttributeIf($underline != 'none', 'style:text-underline-style', $underlines[$underline]);
-            $xmlWriter->writeAttributeIf(str_contains(strtolower($underline), 'heavy'), 'style:text-underline-width', 'bold');
-            $xmlWriter->writeAttributeIf(str_contains(strtolower($underline), 'thick'), 'style:text-underline-width', 'bold');
-            $xmlWriter->writeAttributeIf(str_contains(strtolower($underline), 'double'), 'style:text-underline-type', 'double');
-            $xmlWriter->writeAttributeIf(str_contains(strtolower($underline), 'words'), 'style:text-underline-mode', 'skip-white-space');
+            $xmlWriter->writeAttribute('style:text-underline-style', $underlines[$underline]);
+            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'heavy') !== false, 'style:text-underline-width', 'bold');
+            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'thick') !== false, 'style:text-underline-width', 'bold');
+            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'double') !== false, 'style:text-underline-type', 'double');
+            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'words') !== false, 'style:text-underline-mode', 'skip-white-space');
         }
 
         // Strikethrough, double strikethrough
