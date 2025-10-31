@@ -21,52 +21,52 @@ $section->addTextBreak();
 
 // Fill.
 $section->addTitle('Fill', 2);
-$section->addText("Paragraph. Color Yellow, Fill Red.", null, ['shading' => ['fill' => FontStyle::FGCOLOR_RED]]);
-$section->addText("Font. Color Yellow, Fill Red.", ['shading' => ['fill' => FontStyle::FGCOLOR_RED]]);
+$section->addText('Paragraph. Color Yellow, Fill Red.', null, ['shading' => ['fill' => FontStyle::FGCOLOR_RED]]);
+$section->addText('Font. Color Yellow, Fill Red.', ['shading' => ['fill' => FontStyle::FGCOLOR_RED]]);
 $section->addTextBreak();
 
 // Color.
 $section->addTitle('Color using Solid Pattern', 2);
-$section->addText("Paragraph. Color Yellow, Fill Red.", null, ['shading' => ['color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
-$section->addText("Font. Color Yellow, Fill Red.", ['shading' => ['color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
+$section->addText('Paragraph. Color Yellow, Fill Red.', null, ['shading' => ['color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
+$section->addText('Font. Color Yellow, Fill Red.', ['shading' => ['color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
 $section->addTextBreak();
 
 // Color and Fill.
 $section->addTitle('Color using Solid Pattern and Fill. Which will win?', 2);
-$section->addText("Paragraph. Color Yellow, Fill Red.", null, ['shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
-$section->addText("Font. Color Yellow, Fill Red.", ['shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
+$section->addText('Paragraph. Color Yellow, Fill Red.', null, ['shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
+$section->addText('Font. Color Yellow, Fill Red.', ['shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
 $section->addTextBreak();
 
 // Color and Fill.
 $section->addTitle('Color using Diagonal Cross Pattern and Fill', 2);
-$section->addText("Paragraph. Color Yellow, Fill Red.", null, ['shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_DCROSS]]);
-$section->addText("Font. Color Yellow, Fill Red.", ['shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_DCROSS]]);
+$section->addText('Paragraph. Color Yellow, Fill Red.', null, ['shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_DCROSS]]);
+$section->addText('Font. Color Yellow, Fill Red.', ['shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_YELLOW, 'pattern' => ShadingStyle::PATTERN_DCROSS]]);
 $section->addTextBreak();
 
 // Pattern.
 $section->addTitle('Patterns', 2);
 $textrun = $section->addTextRun();
-$textrun->addText("This text uses the patterns: ");
-$textrun->addText("Solid, ", ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
-$textrun->addText("Clear, ", ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_CLEAR]]);
-$textrun->addText("Horizontal Stripe, ", ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_HSTRIPE]]);
-$textrun->addText("Vertical Stripe, ", ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_VSTRIPE]]);
-$textrun->addText("Diagonal Stripe, ", ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_DSTRIPE]]);
-$textrun->addText("Horizontal Cross, ", ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_HCROSS]]);
-$textrun->addText("Diagonal Cross, ", ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_DCROSS]]);
+$textrun->addText('This text uses the patterns: ');
+$textrun->addText('Solid, ', ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
+$textrun->addText('Clear, ', ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_CLEAR]]);
+$textrun->addText('Horizontal Stripe, ', ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_HSTRIPE]]);
+$textrun->addText('Vertical Stripe, ', ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_VSTRIPE]]);
+$textrun->addText('Diagonal Stripe, ', ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_DSTRIPE]]);
+$textrun->addText('Horizontal Cross, ', ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_HCROSS]]);
+$textrun->addText('Diagonal Cross, ', ['size' => 24, 'shading' => ['color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_DCROSS]]);
 $section->addTextBreak();
 
 // Pattern.
 $section->addTitle('Patterns with Fill', 2);
 $textrun = $section->addTextRun();
-$textrun->addText("Same as previous, with red fill: ");
-$textrun->addText("Solid, ", ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
-$textrun->addText("Clear, ", ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_CLEAR]]);
-$textrun->addText("Horizontal Stripe, ", ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_HSTRIPE]]);
-$textrun->addText("Vertical Stripe, ", ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_VSTRIPE]]);
-$textrun->addText("Diagonal Stripe, ", ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_DSTRIPE]]);
-$textrun->addText("Horizontal Cross, ", ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_HCROSS]]);
-$textrun->addText("Diagonal Cross, ", ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_DCROSS]]);
+$textrun->addText('Same as previous, with red fill: ');
+$textrun->addText('Solid, ', ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_SOLID]]);
+$textrun->addText('Clear, ', ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_CLEAR]]);
+$textrun->addText('Horizontal Stripe, ', ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_HSTRIPE]]);
+$textrun->addText('Vertical Stripe, ', ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_VSTRIPE]]);
+$textrun->addText('Diagonal Stripe, ', ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_DSTRIPE]]);
+$textrun->addText('Horizontal Cross, ', ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_HCROSS]]);
+$textrun->addText('Diagonal Cross, ', ['size' => 24, 'shading' => ['fill' => FontStyle::FGCOLOR_RED, 'color' => FontStyle::FGCOLOR_BLUE, 'pattern' => ShadingStyle::PATTERN_DCROSS]]);
 $section->addTextBreak();
 
 // Table
