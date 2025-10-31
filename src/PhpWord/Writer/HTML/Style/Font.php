@@ -40,6 +40,26 @@ class Font extends AbstractStyle
         }
         $css = [];
 
+        $underlines = [
+            FontStyle::UNDERLINE_DASH => 'underline dashed ',
+            FontStyle::UNDERLINE_DASHHEAVY => 'underline dashed 2px ',
+            FontStyle::UNDERLINE_DASHLONG => 'underline dashed ',
+            FontStyle::UNDERLINE_DASHLONGHEAVY => 'underline dashed 2px ',
+            FontStyle::UNDERLINE_DOUBLE => 'underline double ',
+            FontStyle::UNDERLINE_DOTDASH => 'underline dotted ',
+            FontStyle::UNDERLINE_DOTDASHHEAVY => 'underline dotted 2px ',
+            FontStyle::UNDERLINE_DOTDOTDASH => 'underline dotted ',
+            FontStyle::UNDERLINE_DOTDOTDASHHEAVY => 'underline dotted 2px ',
+            FontStyle::UNDERLINE_DOTTED => 'underline dotted ',
+            FontStyle::UNDERLINE_DOTTEDHEAVY => 'underline dotted 2px ',
+            FontStyle::UNDERLINE_HEAVY => 'underline solid 2px ',
+            FontStyle::UNDERLINE_SINGLE => 'underline solid ',
+            FontStyle::UNDERLINE_WAVY => 'underline wavy ',
+            FontStyle::UNDERLINE_WAVYDOUBLE => 'underline wavy ',
+            FontStyle::UNDERLINE_WAVYHEAVY => 'underline wavy 2px ',
+            FontStyle::UNDERLINE_WORDS => 'underline solid ',
+        ];
+
         $font = $this->getFontFamily($style->getName(), $style->getFallbackFont());
         $size = $style->getSize();
         $color = $style->getColor();
@@ -57,7 +77,9 @@ class Font extends AbstractStyle
         $css['vertical-align'] .= $this->getValueIf($style->isSuperScript(), 'super');
         $css['vertical-align'] .= $this->getValueIf($style->isSubScript(), 'sub');
         $css['text-decoration'] = '';
-        $css['text-decoration'] .= $this->getValueIf($underline, 'underline ');
+        if (isset($underlines[$style->getUnderline()])) {
+            $css['text-decoration'] .= $this->getValueIf($underline, $underlines[$style->getUnderline()]);
+        }
         $css['text-decoration'] .= $this->getValueIf($lineThrough, 'line-through ');
         $css['text-transform'] = $this->getValueIf($style->isAllCaps(), 'uppercase');
         $css['font-variant'] = $this->getValueIf($style->isSmallCaps(), 'small-caps');
