@@ -49,7 +49,7 @@ class RubyTest extends TestCase
 
         $dom = Helper::getAsHTML($phpWord, '', '', ['ruby', 'rt', 'rp']);
         $xpath = new DOMXPath($dom);
-        self::assertSame(1, $xpath->query('/html/body/div/ruby')->length);
+        $this->checkLength(1, $xpath, '/html/body/div/ruby');
         // ensure text is right
         $rubyElement = $dom->getElementsByTagName('ruby')->item(0);
         $rtElement = $dom->getElementsByTagName('rt')->item(0);
@@ -94,7 +94,7 @@ class RubyTest extends TestCase
 
         $dom = Helper::getAsHTML($phpWord, '', '', ['ruby', 'rt', 'rp']);
         $xpath = new DOMXPath($dom);
-        self::assertSame(2, $xpath->query('/html/body/div/ruby')->length);
+        $this->checkLength(2, $xpath, '/html/body/div/ruby');
         // ensure text is right
         $rubyElement = $dom->getElementsByTagName('ruby')->item(0);
         $rtElement = $dom->getElementsByTagName('rt')->item(0);
@@ -117,5 +117,12 @@ class RubyTest extends TestCase
         self::assertSame('font-size:24pt;ruby-align:space-between;', $rubyElement2->attributes->getNamedItem('style')->textContent);
         self::assertSame('lineHeight10', $rubyElement2->attributes->getNamedItem('class')->textContent);
         self::assertSame('line-height: 4;font-size:10pt;', $rtElement->attributes->getNamedItem('style')->textContent);
+    }
+
+    private function checkLength(int $expected, DOMXPath $xpath, string $location): void
+    {
+        $temp = $xpath->query($location);
+        self::assertNotFalse($temp);
+        self::assertSame($expected, $temp->length);
     }
 }

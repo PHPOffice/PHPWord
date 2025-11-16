@@ -18,29 +18,8 @@
 
 namespace PhpOffice\PhpWordTests\Element;
 
-/**
- * Test class for PhpOffice\PhpWord\Element\AbstractElement.
- */
-class AbstractElementTest extends \PHPUnit\Framework\TestCase
-{
-    /**
-     * Test set/get element index.
-     */
-    public function testElementIndex(): void
-    {
-        $stub = new AbstractElementClass();
-        $ival = mt_rand(0, 100);
-        $stub->setElementIndex($ival);
-        self::assertEquals($ival, $stub->getElementIndex());
-    }
+use PhpOffice\PhpWord\Element\AbstractElement;
 
-    /**
-     * Test set/get element unique Id.
-     */
-    public function testElementId(): void
-    {
-        $stub = new AbstractElementClass();
-        $stub->setElementId();
-        self::assertEquals(6, strlen($stub->getElementId()));
-    }
+class AbstractElementClass extends AbstractElement
+{
 }

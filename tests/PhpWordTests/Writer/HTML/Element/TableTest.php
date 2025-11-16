@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\HTML\Element;
 
+use DOMElement;
 use DOMXPath;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
@@ -198,8 +199,9 @@ class TableTest extends TestCase
         self::assertNotFalse($cell3Query);
         self::assertCount(1, $cell3Query);
 
-        $cell3Style = $cell3Query->item(0)->attributes->getNamedItem('style');
-        self::assertNull($cell3Style);
+        $temp = $cell3Query->item(0);
+        self::assertInstanceOf(DOMElement::class, $temp);
+        self::assertNull($temp->attributes->getNamedItem('style'));
     }
 
     public function testWriteTableCellVMerge(): void
@@ -230,6 +232,8 @@ class TableTest extends TestCase
         $cell3Query = $xpath->query('//table/tr[3]/td[1]');
         self::assertNotFalse($cell3Query);
         self::assertCount(1, $cell3Query);
-        self::assertNull($cell3Query->item(0)->attributes->getNamedItem('rowspan'));
+        $temp = $cell3Query->item(0);
+        self::assertInstanceOf(DOMElement::class, $temp);
+        self::assertNull($temp->attributes->getNamedItem('rowspan'));
     }
 }

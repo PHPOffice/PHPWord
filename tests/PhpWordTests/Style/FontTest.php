@@ -83,7 +83,9 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'fallbackFont' => '',
         ];
         foreach ($attributes as $key => $default) {
-            $get = is_bool($default) ? "is{$key}" : "get{$key}";
+            $uckey = ucfirst($key);
+            $get = is_bool($default) ? "is{$uckey}" : "get{$uckey}";
+            self::assertTrue(method_exists($object, $get));
             self::assertEquals($default, $object->$get());
             $object->setStyleValue($key, null);
             self::assertEquals($default, $object->$get());
@@ -128,7 +130,9 @@ class FontTest extends \PHPUnit\Framework\TestCase
         ];
         $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {
-            $get = is_bool($value) ? "is{$key}" : "get{$key}";
+            $uckey = ucfirst($key);
+            $get = is_bool($value) ? "is{$uckey}" : "get{$uckey}";
+            self::assertTrue(method_exists($object, $get));
             self::assertEquals($value, $object->$get());
         }
     }

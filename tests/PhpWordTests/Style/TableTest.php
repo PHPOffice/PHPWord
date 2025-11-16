@@ -75,32 +75,42 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $object = new Table();
 
-        $attributes = [
+        $stringAttributes = [
             'bgColor' => 'FF0000',
-            'borderTopSize' => 4,
             'borderTopColor' => 'FF0000',
-            'borderLeftSize' => 4,
             'borderLeftColor' => 'FF0000',
-            'borderRightSize' => 4,
             'borderRightColor' => 'FF0000',
-            'borderBottomSize' => 4,
             'borderBottomColor' => 'FF0000',
-            'borderInsideHSize' => 4,
             'borderInsideHColor' => 'FF0000',
-            'borderInsideVSize' => 4,
             'borderInsideVColor' => 'FF0000',
+            'alignment' => JcTable::CENTER,
+            'unit' => 'pct',
+            'layout' => Table::LAYOUT_FIXED,
+        ];
+        $intAttributes = [
+            'borderTopSize' => 4,
+            'borderLeftSize' => 4,
+            'borderRightSize' => 4,
+            'borderBottomSize' => 4,
+            'borderInsideHSize' => 4,
+            'borderInsideVSize' => 4,
             'cellMarginTop' => 240,
             'cellMarginLeft' => 240,
             'cellMarginRight' => 240,
             'cellMarginBottom' => 240,
-            'alignment' => JcTable::CENTER,
             'width' => 100,
-            'unit' => 'pct',
-            'layout' => Table::LAYOUT_FIXED,
         ];
-        foreach ($attributes as $key => $value) {
-            $set = "set{$key}";
-            $get = "get{$key}";
+        foreach ($stringAttributes as $key => $value) {
+            $uckey = ucfirst($key);
+            $set = "set{$uckey}";
+            $get = "get{$uckey}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
+        foreach ($intAttributes as $key => $value) {
+            $uckey = ucfirst($key);
+            $set = "set{$uckey}";
+            $get = "get{$uckey}";
             $object->$set($value);
             self::assertEquals($value, $object->$get());
         }

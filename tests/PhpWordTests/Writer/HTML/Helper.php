@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWordTests\Writer\HTML;
 
 use DOMDocument;
+use DOMElement;
 use DOMXPath;
 use Exception;
 use LibXMLError;
@@ -41,6 +42,7 @@ class Helper extends \PHPUnit\Framework\TestCase
             if ($item2 === null) {
                 self::fail('Unexpected null return requesting item');
             } elseif ($namedItem !== '') {
+                self::assertInstanceOf(DOMElement::class, $item2);
                 $item3 = $item2->attributes->getNamedItem($namedItem);
                 if ($item3 === null) {
                     self::fail('Unexpected null return requesting namedItem');
@@ -48,6 +50,7 @@ class Helper extends \PHPUnit\Framework\TestCase
                     $returnVal = $item3->textContent;
                 }
             } else {
+                self::assertInstanceOf(DOMElement::class, $item2);
                 $returnVal = $item2->textContent;
             }
         }
@@ -67,6 +70,7 @@ class Helper extends \PHPUnit\Framework\TestCase
             if ($item2 === null) {
                 self::fail('Unexpected null return requesting item');
             } else {
+                self::assertInstanceOf(DOMElement::class, $item2);
                 $returnVal = $item2->attributes->getNamedItem($namedItem);
             }
         }

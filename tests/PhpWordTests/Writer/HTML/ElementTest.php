@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\HTML;
 
 use DateTime;
 use DOMDocument;
+use DOMElement;
 use DOMXPath;
 use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Element\TextRun;
@@ -80,8 +81,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/div/p[1]/ins')->length);
-        self::assertEquals(1, $xpath->query('/html/body/div/p[2]/del')->length);
+        $this->checkLength(1, $xpath, '/html/body/div/p[1]/ins');
+        $this->checkLength(1, $xpath, '/html/body/div/p[2]/del');
         $node = $xpath->query('/html/body/div/p[2]/del');
         self::assertNotFalse($node);
         $allAttributes = $node[0]->attributes;
@@ -129,14 +130,14 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[1]/td')->length);
-        self::assertEquals('2', $xpath->query('/html/body/div/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
-        self::assertEquals(2, $xpath->query('/html/body/div/table/tr[2]/td')->length);
+        $this->checkLength(1, $xpath, '/html/body/div/table/tr[1]/td');
+        $this->checkContent('2', $xpath, '/html/body/div/table/tr/td[1]', 0, 'colspan');
+        $this->checkLength(2, $xpath, '/html/body/div/table/tr[2]/td');
 
-        self::assertEquals('#6086B8', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertNull($xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('color'));
+        $this->checkContent('#6086B8', $xpath, '/html/body/div/table/tr[1]/td', 0, 'bgcolor');
+        $this->checkContent('#ffffff', $xpath, '/html/body/div/table/tr[1]/td', 0, 'color');
+        $this->checkContent('#ffffff', $xpath, '/html/body/div/table/tr[2]/td', 0, 'bgcolor');
+        $this->checkContent(null, $xpath, '/html/body/div/table/tr[2]/td', 0, 'color');
     }
 
     /**
@@ -163,9 +164,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(2, $xpath->query('/html/body/div/table/tr[1]/td')->length);
-        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
-        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[2]/td')->length);
+        $this->checkLength(2, $xpath, '/html/body/div/table/tr[1]/td');
+        $this->checkContent('3', $xpath, '/html/body/div/table/tr[1]/td[1]', 0, 'rowspan');
+        $this->checkLength(1, $xpath, '/html/body/div/table/tr[2]/td');
     }
 
     /**
@@ -195,14 +196,14 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(3, $xpath->query('/html/body/div/table/tr[1]/td')->length);
-        self::assertEquals('2', $xpath->query('/html/body/div/table/tr[1]/td[2]')->item(0)->attributes->getNamedItem('colspan')->textContent);
-        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[1]/td[3]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
+        $this->checkLength(3, $xpath, '/html/body/div/table/tr[1]/td');
+        $this->checkContent('2', $xpath, '/html/body/div/table/tr[1]/td[2]', 0, 'colspan');
+        $this->checkContent('3', $xpath, '/html/body/div/table/tr[1]/td[3]', 0, 'rowspan');
 
-        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[2]/td')->length);
-        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[2]/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
+        $this->checkLength(1, $xpath, '/html/body/div/table/tr[2]/td');
+        $this->checkContent('3', $xpath, '/html/body/div/table/tr[2]/td[1]', 0, 'colspan');
 
-        self::assertEquals(3, $xpath->query('/html/body/div/table/tr[3]/td')->length);
+        $this->checkLength(3, $xpath, '/html/body/div/table/tr[3]/td');
     }
 
     public function testWriteTitleTextRun(): void
@@ -268,7 +269,28 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals('table-layout: fixed;', $xpath->query('/html/body/div/table[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('table-layout: auto;', $xpath->query('/html/body/div/table[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+        $this->checkContent('table-layout: fixed;', $xpath, '/html/body/div/table[1]', 0, 'style');
+        $this->checkContent('table-layout: auto;', $xpath, '/html/body/div/table[2]', 0, 'style');
+    }
+
+    private function checkContent(?string $expected, DOMXPath $xpath, string $location, int $index, string $namedItem): void
+    {
+        $temp = $xpath->query($location);
+        self::assertNotFalse($temp);
+        $temp = $temp->item($index);
+        self::assertInstanceOf(DOMElement::class, $temp);
+        $temp = $temp->attributes->getNamedItem($namedItem);
+        if ($temp === null) {
+            self::assertNull($expected);
+        } else {
+            self::assertSame($expected, $temp->textContent);
+        }
+    }
+
+    private function checkLength(int $expected, DOMXPath $xpath, string $location): void
+    {
+        $temp = $xpath->query($location);
+        self::assertNotFalse($temp);
+        self::assertSame($expected, $temp->length);
     }
 }

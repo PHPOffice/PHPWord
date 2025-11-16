@@ -35,29 +35,39 @@ class TextBoxTest extends TestCase
     {
         $object = new TextBox();
 
-        $properties = [
-            'width' => 200,
-            'height' => 200,
+        $stringProperties = [
             'alignment' => Jc::START,
-            'marginTop' => 240,
-            'marginLeft' => 240,
             'wrappingStyle' => 'inline',
             'positioning' => 'absolute',
             'posHorizontal' => 'center',
             'posVertical' => 'top',
             'posHorizontalRel' => 'margin',
             'posVerticalRel' => 'page',
-            'innerMarginTop' => '5',
-            'innerMarginRight' => '5',
-            'innerMarginBottom' => '5',
-            'innerMarginLeft' => '5',
-            'borderSize' => '2',
             'borderColor' => 'red',
             'bgColor' => 'blue',
         ];
-        foreach ($properties as $key => $value) {
-            $set = "set{$key}";
-            $get = "get{$key}";
+        foreach ($stringProperties as $key => $value) {
+            $uckey = ucfirst($key);
+            $set = "set{$uckey}";
+            $get = "get{$uckey}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
+        $intProperties = [
+            'width' => 200,
+            'height' => 200,
+            'marginTop' => 240,
+            'marginLeft' => 240,
+            'innerMarginTop' => 5,
+            'innerMarginRight' => 5,
+            'innerMarginBottom' => 5,
+            'innerMarginLeft' => 5,
+            'borderSize' => 2,
+        ];
+        foreach ($intProperties as $key => $value) {
+            $uckey = ucfirst($key);
+            $set = "set{$uckey}";
+            $get = "get{$uckey}";
             $object->$set($value);
             self::assertEquals($value, $object->$get());
         }

@@ -1266,11 +1266,6 @@ parameters:
 			path: tests/PhpWordTests/Shared/XMLWriterTest.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\AbstractStyleTest\\:\\:callProtectedMethod\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/AbstractStyleTest.php
-
-		-
 			message: "#^Cannot call method setLineHeight\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Font\\|string\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Style/FontTest.php
@@ -1349,11 +1344,6 @@ parameters:
 			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
 			count: 9
 			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
-			
-		-
-			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/HTML/Element/RubyTest.php
 
 		-
 			message: "#^Cannot call method item\\(\\) on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
