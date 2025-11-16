@@ -373,7 +373,9 @@ class Image extends AbstractElement
 
         // Read image binary data and convert to hex/base64 string
         if ($this->sourceType == self::SOURCE_GD) {
-            $imageResource = call_user_func($this->imageCreateFunc, $actualSource);
+            /** @var callable */
+            $callable = $this->imageCreateFunc;
+            $imageResource = call_user_func($callable, $actualSource);
             if ($this->imageType === 'image/png') {
                 // PNG images need to preserve alpha channel information
                 imagesavealpha($imageResource, true);

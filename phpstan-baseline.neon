@@ -26,11 +26,6 @@ parameters:
 			path: src/PhpWord/Element/Image.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, string given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Image.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Element\\\\Image\\:\\:\\$source \\(string\\) does not accept string\\|false\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Image.php
@@ -453,11 +448,6 @@ parameters:
 		-
 			message: "#^PHPDoc tag @var for variable \\$zip contains unknown class PclZip\\.$#"
 			count: 6
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(PhpOffice\\\\PhpWord\\\\Shared\\\\ZipArchive\\)\\|PclZip\\|ZipArchive, mixed\\} given\\.$#"
-			count: 1
 			path: src/PhpWord/Shared/ZipArchive.php
 
 		-
@@ -889,11 +879,6 @@ parameters:
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Part\\\\Styles\\:\\:cvttwiptostr\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/ODText/Part/Styles.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\\\AbstractRenderer, string\\} given\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/PDF.php
 
 		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:\\$renderer \\(PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\\\AbstractRenderer\\) does not accept object\\.$#"

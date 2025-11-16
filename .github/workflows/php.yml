@@ -61,16 +61,12 @@ jobs:
         -   name: Composer Install
             run: composer install --ansi --prefer-dist --no-interaction --no-progress
 
-        -   name: Run phpstan Php7
+        -   name: Run phpstan Php7.2/Php7.3
             if: matrix.php == '7.2' || matrix.php == '7.3'
             run: ./vendor/bin/phpstan analyse -c phpstan.neon.php73.dist
 
-        -   name: Run phpstan Php7.4
-            if: matrix.php == '7.44'
-            run: ./vendor/bin/phpstan analyse -c phpstan.neon.php7.dist
-
-        -   name: Run phpstan Php8
-            if: matrix.php == '8.0' || matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.3' || matrix.php == '8.4' || matrix.php == '7.4'
+        -   name: Run phpstan Php8/Php7.4
+            if: matrix.php == '7.4' || matrix.php == '8.0' || matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.3' || matrix.php == '8.4'
             run: ./vendor/bin/phpstan analyse -c phpstan.neon.dist
 
   phpunit:

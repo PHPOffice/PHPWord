@@ -116,7 +116,9 @@ class ZipArchive
         // Run function
         $result = false;
         if (method_exists($zipObject, $zipFunction)) {
-            $result = @call_user_func_array([$zipObject, $zipFunction], $args);
+            /** @var callable */
+            $callable = [$zipObject, $zipFunction];
+            $result = @call_user_func_array($callable, $args);
         }
 
         return $result;
