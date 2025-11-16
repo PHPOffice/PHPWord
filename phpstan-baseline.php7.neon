@@ -1341,16 +1341,6 @@ parameters:
 			path: tests/PhpWordTests/TestableTemplateProcesor.php
 
 		-
-			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
-			count: 9
-			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
-
-		-
-			message: "#^Cannot call method item\\(\\) on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
-			count: 11
-			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
-
-		-
 			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
 			count: 3
 			path: tests/PhpWordTests/Writer/HTML/Element/PageBreakTest.php
@@ -1386,22 +1376,7 @@ parameters:
 			path: tests/PhpWordTests/Writer/Word2007/Element/ChartTest.php
 
 		-
-			message: "#^Call to an undefined method object\\:\\:write\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/Word2007/ElementTest.php
-
-		-
-			message: "#^Call to an undefined method object\\:\\:write\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/Word2007/StyleTest.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\XmlDocument\\:\\:getElement\\(\\) should return DOMElement\\|null but returns DOMNode\\|null\\.$#"
-			count: 1
-			path: tests/PhpWordTests/XmlDocument.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\XmlDocument\\:\\:getNodeList\\(\\) should return DOMNodeList\\<DOMNode\\> but returns DOMNodeList\\<DOMNode\\>\\|false\\.$#"
 			count: 1
 			path: tests/PhpWordTests/XmlDocument.php
 
