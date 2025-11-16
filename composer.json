@@ -123,7 +123,7 @@
         "friendsofphp/php-cs-fixer": "^3.3",
         "mpdf/mpdf": "^7.0 || ^8.0",
         "phpmd/phpmd": "^2.13",
-        "phpstan/phpstan": "^0.12.88 || ^1.0.0 || ^2.0.0",
+        "phpstan/phpstan": "<=2.1.32",
         "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
         "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0 || ^10.0",
         "symfony/process": "^4.4 || ^5.0 || ^6.0 || ^7.0 || 7.4.x-dev",
