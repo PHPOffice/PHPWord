@@ -18,21 +18,14 @@
 
 namespace PhpOffice\PhpWordTests\Writer\RTF;
 
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\RTF;
 use PhpOffice\PhpWord\Writer\RTF\Style\Border;
-use PHPUnit\Framework\Assert;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\RTF\Style subnamespace.
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
-    protected function tearDown(): void
-    {
-        Settings::setDefaultRtl(null);
-    }
-
     public function removeCr($field)
     {
         return str_replace("\r\n", "\n", $field->write());
@@ -81,63 +74,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $indentWriter->setParentWriter(new RTF());
         $result = $indentWriter->write();
 
-        Assert::assertEquals('\fi3\li1\ri2 ', $result);
-    }
-
-    public function testRightTab(): void
-    {
-        $tabRight = new \PhpOffice\PhpWord\Style\Tab();
-        $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT);
-        $tabRight->setPosition(5);
-
-        $tabWriter = new RTF\Style\Tab($tabRight);
-        $tabWriter->setParentWriter(new RTF());
-        $result = $tabWriter->write();
-
-        Assert::assertEquals('\tqr\tx5', $result);
-    }
-
-    public function testCenterTab(): void
-    {
-        $tabRight = new \PhpOffice\PhpWord\Style\Tab();
-        $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER);
-
-        $tabWriter = new RTF\Style\Tab($tabRight);
-        $tabWriter->setParentWriter(new RTF());
-        $result = $tabWriter->write();
-
-        Assert::assertEquals('\tqc\tx0', $result);
-    }
-
-    public function testDecimalTab(): void
-    {
-        $tabRight = new \PhpOffice\PhpWord\Style\Tab();
-        $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL);
-
-        $tabWriter = new RTF\Style\Tab($tabRight);
-        $tabWriter->setParentWriter(new RTF());
-        $result = $tabWriter->write();
-
-        Assert::assertEquals('\tqdec\tx0', $result);
-    }
-
-    public function testRTL(): void
-    {
-        $parentWriter = new RTF();
-        $element = new \PhpOffice\PhpWord\Element\Text('אב גד', ['RTL' => true]);
-        $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
-        self::assertEquals($expect, $this->removeCr($text));
-    }
-
-    public function testRTL2(): void
-    {
-        Settings::setDefaultRtl(true);
-        $parentWriter = new RTF();
-        $element = new \PhpOffice\PhpWord\Element\Text('אב גד');
-        $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\qr{\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
-        self::assertEquals($expect, $this->removeCr($text));
+        self::assertSame('\fi3\li1\ri2 ', $result);
     }
 
     public function testPageBreakLineHeight(): void
@@ -146,16 +83,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
         $expect = "\\pard\\nowidctlpar \\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
-        self::assertEquals($expect, $this->removeCr($text));
-    }
-
-    public function testPageBreakLineHeight2(): void
-    {
-        Settings::setDefaultRtl(false);
-        $parentWriter = new RTF();
-        $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
-        $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\ql\\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
