@@ -29,14 +29,32 @@ use InvalidArgumentException;
  */
 final class Language extends AbstractStyle
 {
-    const EN_US = 'en-US';
-    const EN_US_ID = 1033;
+    const AR_SA = 'ar-SA';
+    const AR_SA_ID = 1025;
+
+    const BG_BG = 'bg-BG';
+    const BG_BG_ID = 1026;
+
+    const CS_CZ = 'cs-CZ';
+    const CS_CZ_ID = 1029;
+
+    const DA_DK = 'da-DK';
+    const DA_DK_ID = 1030;
+
+    const DE_CH = 'de-CH';
+    const DE_CH_ID = 2055;
+
+    const DE_DE = 'de-DE';
+    const DE_DE_ID = 1031;
 
     const EN_GB = 'en-GB';
     const EN_GB_ID = 2057;
 
-    const FR_FR = 'fr-FR';
-    const FR_FR_ID = 1036;
+    const EN_US = 'en-US';
+    const EN_US_ID = 1033;
+
+    const ES_ES = 'es-ES';
+    const ES_ES_ID = 3082;
 
     const FR_BE = 'fr-BE';
     const FR_BE_ID = 2060;
@@ -44,50 +62,98 @@ final class Language extends AbstractStyle
     const FR_CH = 'fr-CH';
     const FR_CH_ID = 4108;
 
-    const ES_ES = 'es-ES';
-    const ES_ES_ID = 3082;
-
-    const DE_DE = 'de-DE';
-    const DE_DE_ID = 1031;
-
-    const DE_CH = 'de-CH';
-    const DE_CH_ID = 2055;
+    const FR_FR = 'fr-FR';
+    const FR_FR_ID = 1036;
 
     const HE_IL = 'he-IL';
     const HE_IL_ID = 1037;
 
-    const IT_IT = 'it-IT';
-    const IT_IT_ID = 1040;
+    const HI_IN = 'hi-IN';
+    const HI_IN_ID = 1081;
+
+    const HR_HR = 'hr-HR';
+    const HR_HR_ID = 1050;
+
+    const HU_HU = 'hu-HU';
+    const HU_HU_ID = 1038;
+
+    const ID_ID = 'id-ID';
+    const ID_ID_ID = 1057;
 
     const IT_CH = 'it-CH';
     const IT_CH_ID = 2064;
 
+    const IT_IT = 'it-IT';
+    const IT_IT_ID = 1040;
+
     const JA_JP = 'ja-JP';
     const JA_JP_ID = 1041;
+
+    const KK_KZ = 'kk-KZ';
+    const KK_KK_ID = 1087;
 
     const KO_KR = 'ko-KR';
     const KO_KR_ID = 1042;
 
-    const ZH_CN = 'zh-CN';
-    const ZH_CN_ID = 2052;
+    const LT_LT = 'lt-LT';
+    const LT_LT_ID = 1063;
 
-    const HI_IN = 'hi-IN';
-    const HI_IN_ID = 1081;
+    const LV_LV = 'lv-LV';
+    const LV_LV_ID = 1062;
 
-    const PT_BR = 'pt-BR';
-    const PT_BR_ID = 1046;
+    const MS_MY = 'ms-MY';
+    const MS_MY_ID = 1086;
+
+    const NB_NO = 'nb-NO';
+    const NB_NO_ID = 1044;
 
     const NL_NL = 'nl-NL';
     const NL_NL_ID = 1043;
 
+    const PL_PL = 'pl-PL';
+    const PL_PL_ID = 1045;
+
+    const PT_BR = 'pt-BR';
+    const PT_BR_ID = 1046;
+
+    const PT_PT = 'pt-PT';
+    const PT_PT_ID = 2070;
+
+    const RO_RO = 'ro-RO';
+    const RO_RO_ID = 1048;
+
+    const SL_SI = 'sl-SI';
+    const SL_SI_ID = 1046;
+
+    const SK_SK = 'sk-SK';
+    const SK_SK_ID = 1051;
+
+    const SR_LATN_RS = 'sr-latn-RS';
+    const SR_LATN_RS_ID = 2074;
+
     const SV_SE = 'sv-SE';
     const SV_SE_ID = 1053;
+
+    const TH_TH = 'th-TH';
+    const TH_TH_ID = 1054;
+
+    const TR_TR = 'tr-TR';
+    const TR_TR_ID = 1055;
 
     const UK_UA = 'uk-UA';
     const UK_UA_ID = 1058;
 
     const RU_RU = 'ru-RU';
     const RU_RU_ID = 1049;
+
+    const VI_VN = 'vi-VN';
+    const VI_VN_ID = 1066;
+
+    const ZH_CN = 'zh-CN';
+    const ZH_CN_ID = 2052;
+
+    const ZH_TW = 'zh-TW';
+    const ZH_TW_ID = 1028;
 
     /**
      * Language ID, used for RTF document generation.
@@ -122,16 +188,20 @@ final class Language extends AbstractStyle
     /**
      * Constructor.
      */
-    public function __construct(?string $latin = null, ?string $eastAsia = null, ?string $bidirectional = null)
+    public function __construct(string $latin = '', string $eastAsia = '', string $bidirectional = '', int $langId = 0)
     {
+        $this->langId = $langId;
         if (!empty($latin)) {
             $this->setLatin($latin);
+            $this->convertLangId($latin);
         }
         if (!empty($eastAsia)) {
             $this->setEastAsia($eastAsia);
+            $this->convertLangId($eastAsia);
         }
         if (!empty($bidirectional)) {
             $this->setBidirectional($bidirectional);
+            $this->convertLangId($bidirectional);
         }
     }
 
@@ -141,7 +211,7 @@ final class Language extends AbstractStyle
      * @param string $latin
      *            The value for the latin language
      */
-    public function setLatin(?string $latin): self
+    public function setLatin(string $latin): self
     {
         $this->latin = $this->validateLocale($latin);
 
@@ -236,26 +306,39 @@ final class Language extends AbstractStyle
     /**
      * Validates that the language passed is in the format xx-xx.
      *
-     * @param string $locale
+     * @param ?string $locale
+     * @param bool $throw
      *
-     * @return string
+     * @return ?string
      */
-    private function validateLocale($locale)
+    private function validateLocale($locale, $throw = true)
     {
-        if ($locale !== null) {
-            $locale = str_replace('_', '-', $locale);
+        if ($locale === null) {
+            return null;
         }
+        $locale = str_replace('_', '-', $locale);
 
-        if ($locale !== null && strlen($locale) === 2) {
+        if (strlen($locale) === 2) {
             return strtolower($locale) . '-' . strtoupper($locale);
         }
         if ($locale === 'und') {
-            return 'en-EN';
+            return 'en-GB';
         }
-        if ($locale !== null && $locale !== 'zxx' && strstr($locale, '-') === false) {
+        if ($throw && $locale !== 'zxx' && strstr($locale, '-') === false) {
             throw new InvalidArgumentException($locale . ' is not a valid language code');
         }
 
         return $locale;
+    }
+
+    private function convertLangId(string $locale): void
+    {
+        if ($this->langId === 0 && $locale !== '') {
+            $locale = $this->validateLocale($locale, false);
+            $locale = strtoupper(str_replace('-', '_', $locale)) . '_ID';
+            if (defined("self::$locale")) {
+                $this->langId = constant("self::$locale");
+            }
+        }
     }
 }

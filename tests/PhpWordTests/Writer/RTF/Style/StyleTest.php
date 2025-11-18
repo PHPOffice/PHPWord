@@ -26,6 +26,11 @@ use PhpOffice\PhpWord\Writer\RTF\Style\Border;
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @param RTF\Element\Text|RTF\Style\Section $field
+     *
+     * @return string
+     */
     public function removeCr($field)
     {
         return str_replace("\r\n", "\n", $field->write());
@@ -82,7 +87,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
+        $expect = "\\pard\\nowidctlpar \\sl259\\slmult1\\page{New page}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 

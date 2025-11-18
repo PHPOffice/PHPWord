@@ -20,7 +20,6 @@ namespace PhpOffice\PhpWordTests\Style;
 
 use InvalidArgumentException;
 use PhpOffice\PhpWord\Style\Language;
-use PHPUnit\Framework\Assert;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Language.
@@ -31,39 +30,39 @@ class LanguageTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetSetPropertiesInt(): void
     {
-        $object = new Language();
         foreach ([
-            'langId' => [null, 1036],
+            'LangId' => [0, 1036],
         ] as $property => $value) {
+            $object = new Language();
             [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";
 
-            self::assertEquals($default, $object->$get()); // Default value
+            self::assertSame($default, $object->$get()); // Default value
 
             $object->$set($expected);
 
-            self::assertEquals($expected, $object->$get()); // New value
+            self::assertSame($expected, $object->$get()); // New value
         }
     }
 
     public function testGetSetPropertiesString(): void
     {
-        $object = new Language();
         foreach ([
-            'latin' => [null, 'fr-BE'],
-            'eastAsia' => [null, 'ja-JP'],
-            'bidirectional' => [null, 'ar-SA'],
+            'Latin' => [null, 'fr-BE'],
+            'EastAsia' => [null, 'ja-JP'],
+            'Bidirectional' => [null, 'ar-SA'],
         ] as $property => $value) {
+            $object = new Language();
             [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";
 
-            self::assertEquals($default, $object->$get()); // Default value
+            self::assertSame($default, $object->$get()); // Default value
 
             $object->$set($expected);
 
-            self::assertEquals($expected, $object->$get()); // New value
+            self::assertSame($expected, $object->$get()); // New value
         }
     }
 
@@ -73,6 +72,7 @@ class LanguageTest extends \PHPUnit\Framework\TestCase
     public function testWrongLanguage(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('not a valid language code');
         $language = new Language();
         $language->setLatin('fra');
     }
@@ -83,20 +83,34 @@ class LanguageTest extends \PHPUnit\Framework\TestCase
     public function testShortLanguage(): void
     {
         //when
-        $language = new Language();
-        $language->setLatin('fr');
+        $language = new Language('fr');
 
         //then
-        Assert::assertEquals('fr-FR', $language->getLatin());
+        self::assertSame('fr-FR', $language->getLatin());
+        self::assertSame(1036, $language->getLangId());
     }
 
     public function testUndefined(): void
     {
         //when
-        $language = new Language();
-        $language->setLatin('und');
+        $language = new Language('und');
 
         //then
-        Assert::assertEquals('en-EN', $language->getLatin());
+        self::assertSame('en-GB', $language->getLatin());
+        self::assertSame(2057, $language->getLangId());
+    }
+
+    public function testLangId(): void
+    {
+        $language = new Language('it-IT');
+        self::assertSame(1040, $language->getLangId());
+        $language = new Language('xt-IT');
+        self::assertSame(0, $language->getLangId());
+        $language = new Language('xt-IT', '', '', 1234);
+        self::assertSame(1234, $language->getLangId());
+        $language = new Language('', 'hi-IN');
+        self::assertSame(1081, $language->getLangId());
+        $language = new Language('', '', 'he-IL');
+        self::assertSame(1037, $language->getLangId());
     }
 }

@@ -34,9 +34,9 @@ class Sample11Test extends \PHPUnit\Framework\TestCase
         $phpWord = IOFactory::load($source);
         $writer = new RTF($phpWord);
         $content = $writer->getContent();
-        $expected = '{\colortbl;\red255\green0\blue0;\red0\green0\blue0;\red0\green0\blue255;\red0\green176\blue80;\red255\green255\blue0;}';
+        $expected = '{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue0;\red0\green0\blue255;\red0\green176\blue80;\red255\green255\blue0;}';
         self::assertStringContainsString($expected, $content);
-        $expected = '\highlight5 highlighted';
+        $expected = '\highlight6 highlighted';
         self::assertStringContainsString($expected, $content);
         $expected = '\strike even ';
         self::assertStringContainsString($expected, $content);
@@ -51,7 +51,9 @@ class Sample11Test extends \PHPUnit\Framework\TestCase
             ->setBorderColor('FF00FF');
         $writer = new RTF($phpWord);
         $content = $writer->getContent();
-        $expected = '{\colortbl;\red255\green0\blue255;}';
+        $expected = '{\colortbl;\red0\green0\blue0;\red255\green0\blue255;}';
+        self::assertStringContainsString($expected, $content);
+        $expected = '\brdrcf2';
         self::assertStringContainsString($expected, $content);
     }
 
@@ -81,11 +83,11 @@ class Sample11Test extends \PHPUnit\Framework\TestCase
         $section->addText('This should be page 5');
         $writer = new RTF($phpWord);
         $content = $writer->getContent();
-        $expected = '{\footerf\pard\nowidctlpar {{\cf0\f0 First Footer}}\par';
+        $expected = '{\footerf\pard\nowidctlpar {{First Footer}}\par';
         self::assertStringContainsString($expected, $content);
-        $expected = '{\footerl\pard\nowidctlpar {{\cf0\f0 Even Footer}}\par';
+        $expected = '{\footerl\pard\nowidctlpar {{Even Footer}}\par';
         self::assertStringContainsString($expected, $content);
-        $expected = '{\footerr\pard\nowidctlpar {{\cf0\f0 Odd Footer}}\par';
+        $expected = '{\footerr\pard\nowidctlpar {{Odd Footer}}\par';
         self::assertStringContainsString($expected, $content);
     }
 
@@ -105,9 +107,9 @@ class Sample11Test extends \PHPUnit\Framework\TestCase
         $textRun3->addText('Section 2 Paragraph 2');
         $writer = new RTF($phpWord);
         $content = $writer->getContent();
-        $expected = '\pard\nowidctlpar {{\cf0\f0 Section 2 Paragraph 1}}\par';
+        $expected = '\pard\nowidctlpar {{Section 2 Paragraph 1}}\par';
         self::assertStringContainsString($expected, $content, 'no page break');
-        $expected = '\pard\nowidctlpar \page{{\cf0\f0 Section 2 Paragraph 2}}\par';
+        $expected = '\pard\nowidctlpar \page{{Section 2 Paragraph 2}}\par';
         self::assertStringContainsString($expected, $content, 'page break');
     }
 
@@ -128,9 +130,9 @@ class Sample11Test extends \PHPUnit\Framework\TestCase
         $section2->addTitle('Heading1 with pbb not first element in section', 1);
         $writer = new RTF($phpWord);
         $content = $writer->getContent();
-        $expected = '\pard\nowidctlpar {\outlinelevel0{\cf0\f0\b Heading1 with pbb first element in section}';
+        $expected = '\pard\nowidctlpar {\outlinelevel0{\b Heading1 with pbb first element in section}';
         self::assertStringContainsString($expected, $content, 'no page break');
-        $expected = '\pard\nowidctlpar \page{\outlinelevel0{\cf0\f0\b Heading1 with pbb not first element in section}';
+        $expected = '\pard\nowidctlpar \page{\outlinelevel0{\b Heading1 with pbb not first element in section}';
         self::assertStringContainsString($expected, $content, 'page break');
     }
 }

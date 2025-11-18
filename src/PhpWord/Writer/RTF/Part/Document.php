@@ -78,12 +78,14 @@ class Document extends AbstractPart
             $method = 'get' . $propertyMethod;
 
             $value = $docProps->$method();
-            if (!in_array($property, $dateFields) && Settings::isOutputEscapingEnabled()) {
+            if (!in_array($property, $dateFields)) {
                 $value = $this->escaper->escape($value);
             }
 
             $value = in_array($property, $dateFields) ? $this->getDateValue($value) : $value;
-            $content .= "{\\{$property} {$value}}";
+            if ($value !== '') {
+                $content .= "{\\{$property} {$value}}";
+            }
         }
         $content .= '}';
         $content .= PHP_EOL;

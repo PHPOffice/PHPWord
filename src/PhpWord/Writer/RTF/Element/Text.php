@@ -51,15 +51,6 @@ class Text extends AbstractElement
                 $content .= '\strike ';
             }
         }
-        if ($this->fontStyle !== null && method_exists($this->fontStyle, 'getFgColor')) {
-            $fgColor = $this->fontStyle->getFgColor();
-            if ($fgColor !== null) {
-                $fgColorIndex = array_search($fgColor, $this->parentWriter->getColorTable());
-                if ($fgColorIndex !== false) {
-                    $content .= '\highlight' . ++$fgColorIndex . ' ';
-                }
-            }
-        }
         $content .= $this->writeText($element->getText());
         $content .= '}';
         $content .= $this->writeClosing();

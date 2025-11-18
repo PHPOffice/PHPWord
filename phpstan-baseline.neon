@@ -916,41 +916,6 @@ parameters:
 			path: src/PhpWord/Writer/PDF/DomPDF.php
 
 		-
-			message: "#^Binary operation \"\\+\" between int\\|string and 1 results in an error\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of method PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Style\\\\Font\\:\\:setNameIndex\\(\\) expects int, int\\|string given\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$fontStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Font\\) does not accept PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\|null\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$fontStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Font\\) does not accept PhpOffice\\\\PhpWord\\\\Style\\\\Font\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$paragraphStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\) does not accept PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\|null\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$paragraphStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\) does not accept PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$paragraphStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\) does not accept null\\.$#"
-			count: 2
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\Field\\:\\:write\\(\\) should return string but empty return statement found\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/RTF/Element/Field.php
@@ -1364,26 +1329,6 @@ parameters:
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\ODText\\\\Style\\\\FontTest\\:\\:providerAllNamedColors\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/ODText/Style/FontTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\ElementTest\\:\\:removeCr\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/RTF/ElementTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\ElementTest\\:\\:removeCr\\(\\) has parameter \\$field with no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/RTF/ElementTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\StyleTest\\:\\:removeCr\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/RTF/StyleTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\StyleTest\\:\\:removeCr\\(\\) has parameter \\$field with no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/RTF/StyleTest.php
 
 		-
 			message: "#^Property PhpOffice\\\\PhpWordTests\\\\Writer\\\\Word2007\\\\Element\\\\ChartTest\\:\\:\\$outputEscapingEnabled has no type specified\\.$#"

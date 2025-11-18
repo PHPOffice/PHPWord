@@ -16,7 +16,7 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWordTests\Writer\RTF;
+namespace PhpOffice\PhpWordTests\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Writer\RTF;
 
@@ -25,6 +25,11 @@ use PhpOffice\PhpWord\Writer\RTF;
  */
 class ElementTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @param RTF\Element\Field|RTF\Element\Table|RTF\Element\TextRun|RTF\Element\Title $field
+     *
+     * @return string
+     */
     public function removeCr($field)
     {
         return str_replace("\r\n", "\n", $field->write());
@@ -121,25 +126,25 @@ class ElementTest extends \PHPUnit\Framework\TestCase
             '\\pard',
             "\\trowd \\cellx$width \\cellx$width2 ",
             '\\intbl',
-            '{\\cf0\\f0 1}\\par',
+            '{1}\\par',
             '\\cell',
             '\\intbl',
-            '{\\cf0\\f0 2}\\par',
+            '{2}\\par',
             '\\cell',
             '\\row',
             "\\trowd \\cellx$width \\cellx$width2 ",
             '\\intbl',
-            '{\\cf0\\f0 3}\\par',
+            '{3}\\par',
             '\\cell',
             '\\intbl',
-            '{\\cf0\\f0 4}\par',
+            '{4}\\par',
             '\\cell',
             '\\row',
             '\\pard',
             '',
         ]);
 
-        self::assertEquals($expect, $this->removeCr($table));
+        self::assertSame($expect, $this->removeCr($table));
     }
 
     public function testTextRun(): void
@@ -149,8 +154,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element->addText('Hello ');
         $element->addText('there.');
         $textrun = new RTF\Element\TextRun($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar {{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
-        self::assertEquals($expect, $this->removeCr($textrun));
+        $expect = "\\pard\\nowidctlpar {{Hello }{there.}}\\par\n";
+        self::assertSame($expect, $this->removeCr($textrun));
     }
 
     public function testTextRunParagraphStyle(): void
@@ -160,8 +165,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element->addText('Hello ');
         $element->addText('there.');
         $textrun = new RTF\Element\TextRun($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\sb0\\sa0{{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
-        self::assertEquals($expect, $this->removeCr($textrun));
+        $expect = "\\pard\\nowidctlpar \\sb0\\sa0{{Hello }{there.}}\\par\n";
+        self::assertSame($expect, $this->removeCr($textrun));
     }
 
     public function testTitle(): void
@@ -172,8 +177,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $element = $section->addTitle('First Heading', 1);
         $elwrite = new RTF\Element\Title($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\sb0\\sa0{\\outlinelevel0{\\cf0\\f0 First Heading}\\par\n}";
-        self::assertEquals($expect, $this->removeCr($elwrite));
+        $expect = "\\pard\\nowidctlpar \\sb0\\sa0{\\outlinelevel0{First Heading}\\par\n}";
+        self::assertSame($expect, $this->removeCr($elwrite));
     }
 
     public function testRuby(): void
@@ -189,7 +194,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $textrun = new RTF\Element\TextRun($parentWriter, $element);
         $expect = "\\pard\\nowidctlpar {{base text (ruby)}}\\par\n";
-        self::assertEquals($expect, $this->removeCr($textrun));
+        self::assertSame($expect, $this->removeCr($textrun));
     }
 
     public function testRubyTitle(): void
@@ -213,7 +218,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = $section->addTitle($textRun, 1);
         $elwrite = new RTF\Element\Title($parentWriter, $element);
 
-        $expect = "\\pard\\nowidctlpar \\sb0\\sa2{\\outlinelevel0{\\cf0\\f0\\fs48\\b base text (ruby)}\\par\n}";
-        self::assertEquals($expect, $this->removeCr($elwrite));
+        $expect = "\\pard\\nowidctlpar \\sb0\\sa2{\\outlinelevel0{\\cf0\\fs48\\b base text (ruby)}\\par\n}";
+        self::assertSame($expect, $this->removeCr($elwrite));
     }
 }
