@@ -31,6 +31,9 @@ class Rtf extends AbstractEscaper
         if ($code == 9) {
             return '{\\tab}';
         }
+        if ($code === 10) {
+            return ''; // or maybe '\par'
+        }
         if (0x20 > $code || $code >= 0x80) {
             return '{\\u' . $code . '}';
         }

@@ -19,53 +19,47 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 /**
- * ListItem element RTF writer; extends from text.
+ * ListItem element HTML writer.
  *
- * @since 0.11.0
+ * @since 0.10.0
  */
-class ListItem extends Text
+class ListItemRun extends TextRun
 {
     /**
-     * Write list item element.
+     * Write list item.
+     *
+     * @return string
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
-        if (!$element instanceof \PhpOffice\PhpWord\Element\ListItem) {
+        if (!$element instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
             return '';
         }
 
+        $writer = new Container($this->parentWriter, $element);
         $this->getStyles();
 
         $depth = (int) $element->getDepth();
         $style = $element->getStyle();
-        $text = $element->getTextObject();
 
-        // Bullet List
         $content = '';
         $content .= $this->writeOpening();
         if ($style instanceof \PhpOffice\PhpWord\Style\ListItem) {
             $numStyle = $style->getNumbering();
-            if ($numStyle->getType() == 'singleLevel') {
-                $depth = 0;
-            }
             $levels = $numStyle->getLevels();
             $content .= '\ilvl' . $element->getDepth();
             $content .= '\ls' . $style->getNumId();
             $content .= '\tx' . $levels[$depth]->getTabPos();
-            $content .= '\fi' . $levels[$depth]->getHanging() * -1;
-            $content .= '\li' . $levels[$depth]->getLeft();
-            $content .= '\lin' . $levels[$depth]->getLeft();
+            $hanging = $levels[$depth]->getLeft() + $levels[$depth]->getHanging();
+            $left = 0 - $levels[$depth]->getHanging();
+            $content .= '\fi' . $left;
+            $content .= '\li' . $hanging;
+            $content .= '\lin' . $hanging;
         }
-        $content .= $this->writeFontStyle(); // Doesn't work. Don't know why. Probalby something to do with \PphOffice\PhpWord\Element\ListItem storing styles in a textObject type \PphOffice\PhpWord\Element\Text rather than within the Element itself
-        $content .= PHP_EOL;
-        /* $content .= '{\listtext\f2 \\\'b7\tab }'; // Not sure if needed for listItemRun
-        $content .= PHP_EOL; */
         $content .= '{';
-        $content .= $this->writeText($element->getText());
+        $content .= $writer->write();
         $content .= '}';
-        $content .= PHP_EOL;
         $content .= $this->writeClosing();
 
         return $content;
