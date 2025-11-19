@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
+use PhpOffice\PhpWord\Element\ListItem as Li;
+
 /**
  * ListItem element RTF writer; extends from text.
  *
@@ -30,12 +32,16 @@ class ListItem extends Text
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
-        if (!$element instanceof \PhpOffice\PhpWord\Element\ListItem) {
-            return '';
-        }
 
+        return ($element instanceof Li) ? $this->writeElement($element) : '';
+    }
+
+    /**
+     * @return string
+     */
+    private function writeElement(Li $element)
+    {
         $this->getStyles();
 
         $depth = (int) $element->getDepth();
@@ -58,7 +64,7 @@ class ListItem extends Text
             $content .= '\li' . $levels[$depth]->getLeft();
             $content .= '\lin' . $levels[$depth]->getLeft();
         }
-        $content .= $this->writeFontStyle(); // Doesn't work. Don't know why. Probalby something to do with \PphOffice\PhpWord\Element\ListItem storing styles in a textObject type \PphOffice\PhpWord\Element\Text rather than within the Element itself
+        $content .= $this->writeFontStyle(); // Doesn't work. Don't know why. Probably something to do with \PhpOffice\PhpWord\Element\ListItem storing styles in a textObject type \PhpOffice\PhpWord\Element\Text rather than within the Element itself
         $content .= PHP_EOL;
         /* $content .= '{\listtext\f2 \\\'b7\tab }'; // Not sure if needed for listItemRun
         $content .= PHP_EOL; */

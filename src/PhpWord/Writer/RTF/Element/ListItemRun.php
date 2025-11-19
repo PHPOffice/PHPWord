@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
+use PhpOffice\PhpWord\Element\ListItemRun as Lir;
+
 /**
  * ListItem element HTML writer.
  *
@@ -33,10 +35,15 @@ class ListItemRun extends TextRun
     public function write()
     {
         $element = $this->element;
-        if (!$element instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
-            return '';
-        }
 
+        return ($element instanceof Lir) ? $this->writeElement($element) : '';
+    }
+
+    /**
+     * @return string
+     */
+    private function writeElement(Lir $element)
+    {
         $writer = new Container($this->parentWriter, $element);
         $this->getStyles();
 

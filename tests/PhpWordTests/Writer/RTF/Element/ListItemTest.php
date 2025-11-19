@@ -50,4 +50,45 @@ class ListItemTest extends TestCase
         $expected = implode("\n", $expectedArray);
         self::assertStringContainsString($expected, $content);
     }
+
+    public function testListItemSingleLevel(): void
+    {
+        $phpWord = new PhpWord();
+        $singlelevelNumberingStyleName = 'singleLevel';
+        $phpWord->addNumberingStyle(
+            $singlelevelNumberingStyleName,
+            [
+                'type' => 'singleLevel',
+                'levels' => [
+                    ['format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360, 'restart' => 1],
+                ],
+            ]
+        );
+        $section = $phpWord->addSection();
+        $section->addText('SingleLevel formatted list.');
+        $section->addListItem('List Item 1', 0, null, $singlelevelNumberingStyleName);
+        $section->addListItem('List Item 2', 0, null, $singlelevelNumberingStyleName);
+        $section->addListItem('List Item 3', 0, null, $singlelevelNumberingStyleName);
+        $writer = new RtfWriter($phpWord);
+        $content = $writer->getContent();
+        $content = str_replace("\r\n", "\n", $content);
+        $expectedArray = [
+            '\pard\nowidctlpar {SingleLevel formatted list.}\par',
+            '\ilvl0\ls1\tx360\fi-360\li360\lin360',
+            '{List Item 1}',
+            '\par',
+            '\ilvl0\ls1\tx360\fi-360\li360\lin360',
+            '{List Item 2}',
+            '\par',
+            '\ilvl0\ls1\tx360\fi-360\li360\lin360',
+            '{List Item 3}',
+            '\par',
+        ];
+        $expected = implode("\n", $expectedArray);
+        self::assertStringContainsString($expected, $content);
+        self::assertStringContainsString('\levelnorestart1', $content);
+        $table = $writer->getListTable();
+        self::assertCount(1, $table);
+        self::assertSame('singleLevel', $table[0]['type']);
+    }
 }

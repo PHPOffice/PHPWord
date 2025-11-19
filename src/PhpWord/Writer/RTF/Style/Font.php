@@ -138,7 +138,8 @@ class Font extends AbstractStyle
 
         // noProof
         // This is also specified above as \\langnp{$langId}
-        // Not sure why, or if, both are needed.
+        // RTF spec suggests using this for backwards compatibility.
+        // So perhaps earlier can be omitted, but it seems harmless regardless.
         $content .= $this->getValueIf($style->isNoProof(), '\noproof\lang1024');
 
         // Background-Color

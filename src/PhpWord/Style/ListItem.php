@@ -123,11 +123,8 @@ class ListItem extends AbstractStyle
     public function getNumbering()
     {
         $numStyleObject = Style::getStyle($this->numStyle);
-        if ($numStyleObject instanceof Numbering) {
-            return $numStyleObject;
-        }
 
-        return null;
+        return ($numStyleObject instanceof Numbering) ? $numStyleObject : null;
     }
 
     /**
