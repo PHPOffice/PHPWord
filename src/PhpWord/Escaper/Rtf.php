@@ -56,7 +56,7 @@ class Rtf extends AbstractEscaper
     protected function escapeSingleValue($input)
     {
         $escapedValue = '';
-        $utf16 = mb_convert_encoding($input, 'UTF-16BE', 'UTF-8');
+        $utf16 = (string) mb_convert_encoding($input, 'UTF-16BE', 'UTF-8');
         $utf16len = strlen($utf16);
         for ($i = 0; $i < $utf16len; $i += 2) {
             $code = (ord($utf16[$i]) << 8) | ord($utf16[$i + 1]);

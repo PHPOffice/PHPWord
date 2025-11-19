@@ -137,6 +137,8 @@ class Font extends AbstractStyle
         $content .= $this->getValueIf($style->getKerning() !== null, '\kerning' . round($style->getKerning() * 2));
 
         // noProof
+        // This is also specified above as \\langnp{$langId}
+        // Not sure why, or if, both are needed.
         $content .= $this->getValueIf($style->isNoProof(), '\noproof\lang1024');
 
         // Background-Color

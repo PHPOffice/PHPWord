@@ -235,6 +235,12 @@ class FontTest extends TestCase
         $style->setLang(Language::EN_US);
         $expect = '\lang1033\ltrch ';
         self::assertEquals($expect, $this->removeCr($writer));
+
+        $style->setRTL(false);
+        $style->setLang(Language::EN_US);
+        $style->setNoProof(true);
+        $expect = '\langnp1033\noproof\lang1024\ltrch ';
+        self::assertEquals($expect, $this->removeCr($writer));
     }
 
     /**
