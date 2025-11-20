@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Element\ListItem as Li;
+use PhpOffice\PhpWord\Style;
 
 /**
  * ListItem element RTF writer; extends from text.
@@ -51,7 +52,7 @@ class ListItem extends Text
         // Bullet List
         $content = '';
         $content .= $this->writeOpening();
-        if ($style instanceof \PhpOffice\PhpWord\Style\ListItem) {
+        if ($style instanceof Style\ListItem) {
             $numStyle = $style->getNumbering();
             if ($numStyle->getType() == 'singleLevel') {
                 $depth = 0;
@@ -64,13 +65,34 @@ class ListItem extends Text
             $content .= '\li' . $levels[$depth]->getLeft();
             $content .= '\lin' . $levels[$depth]->getLeft();
         }
-        $content .= $this->writeFontStyle(); // Doesn't work. Don't know why. Probably something to do with \PhpOffice\PhpWord\Element\ListItem storing styles in a textObject type \PhpOffice\PhpWord\Element\Text rather than within the Element itself
+        $content .= $this->writeFontStyle(); // ListItem Text has its own font style applied later.
         $content .= PHP_EOL;
         /* $content .= '{\listtext\f2 \\\'b7\tab }'; // Not sure if needed for listItemRun
         $content .= PHP_EOL; */
         $content .= '{';
-        $content .= $this->writeText($element->getText());
+
+        $textStart = $textStyle = $textEnd = '';
+        $textFontStyle = null;
+        $textObject = $element->getTextObject();
+        if ($textObject !== null) {
+            $textFontStyle = $textObject->getFontStyle();
+            if (is_string($textFontStyle)) {
+                $textFontStyle = Style::getStyle($textFontStyle);
+            }
+        }
+        if ($textFontStyle instanceof Style\Font) {
+            $this->fontStyle = $textFontStyle;
+            $textStyle = $this->writeFontStyle();
+            if ($textStyle !== '') {
+                $textStart = '{';
+                $textEnd = '}';
+            }
+        }
+
+        $content .= $textStart . $textStyle . $this->writeText($element->getText()) . $textEnd;
+
         $content .= '}';
+
         $content .= PHP_EOL;
         $content .= $this->writeClosing();
 
