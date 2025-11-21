@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
+use PhpOffice\PhpWord\Element\PreserveText as PreserveTextElement;
+
 /**
  * Text element RTF writer.
  *
@@ -32,12 +34,11 @@ class PreserveText extends AbstractElement
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Element\PreserveText $element Type hint */
-        $element = $this->element;
-        if (!$element instanceof \PhpOffice\PhpWord\Element\PreserveText) {
-            return '';
-        }
+        return ($this->element instanceof PreserveTextElement) ? $this->writeElement($this->element) : '';
+    }
 
+    private function writeElement(PreserveTextElement $element): string
+    {
         $this->getStyles();
 
         $content = '';

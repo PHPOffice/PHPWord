@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+use PhpOffice\PhpWord\Style\Spacing as SpacingStyle;
 
 /**
  * RTF Spacing style writer.
@@ -35,10 +36,12 @@ class Spacing extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Spacing) {
-            return '';
-        }
 
+        return ($style instanceof SpacingStyle) ? $this->writeStyle($style) : '';
+    }
+
+    private function writeStyle(SpacingStyle $style): string
+    {
         $spacingRules = [
             LineSpacingRule::AUTO => '\slmult1',
             LineSpacingRule::EXACT => '\slmult0',
