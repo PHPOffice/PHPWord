@@ -83,11 +83,11 @@ class Sample11Test extends \PHPUnit\Framework\TestCase
         $section->addText('This should be page 5');
         $writer = new RTF($phpWord);
         $content = $writer->getContent();
-        $expected = '{\footerf\pard\nowidctlpar {{First Footer}}\par';
+        $expected = '{\footerf\pard\widctlpar {{First Footer}}\par';
         self::assertStringContainsString($expected, $content);
-        $expected = '{\footerl\pard\nowidctlpar {{Even Footer}}\par';
+        $expected = '{\footerl\pard\widctlpar {{Even Footer}}\par';
         self::assertStringContainsString($expected, $content);
-        $expected = '{\footerr\pard\nowidctlpar {{Odd Footer}}\par';
+        $expected = '{\footerr\pard\widctlpar {{Odd Footer}}\par';
         self::assertStringContainsString($expected, $content);
     }
 
@@ -107,9 +107,9 @@ class Sample11Test extends \PHPUnit\Framework\TestCase
         $textRun3->addText('Section 2 Paragraph 2');
         $writer = new RTF($phpWord);
         $content = $writer->getContent();
-        $expected = '\pard\nowidctlpar {{Section 2 Paragraph 1}}\par';
+        $expected = '\pard\widctlpar {{Section 2 Paragraph 1}}\par';
         self::assertStringContainsString($expected, $content, 'no page break');
-        $expected = '\pard\nowidctlpar \page{{Section 2 Paragraph 2}}\par';
+        $expected = '\pard\widctlpar\pagebb {{Section 2 Paragraph 2}}\par';
         self::assertStringContainsString($expected, $content, 'page break');
     }
 
@@ -130,9 +130,9 @@ class Sample11Test extends \PHPUnit\Framework\TestCase
         $section2->addTitle('Heading1 with pbb not first element in section', 1);
         $writer = new RTF($phpWord);
         $content = $writer->getContent();
-        $expected = '\pard\nowidctlpar {\outlinelevel0{\b Heading1 with pbb first element in section}';
+        $expected = '\pard\widctlpar {\outlinelevel0{\b Heading1 with pbb first element in section}';
         self::assertStringContainsString($expected, $content, 'no page break');
-        $expected = '\pard\nowidctlpar \page{\outlinelevel0{\b Heading1 with pbb not first element in section}';
+        $expected = '\pard\widctlpar\pagebb {\outlinelevel0{\b Heading1 with pbb not first element in section}';
         self::assertStringContainsString($expected, $content, 'page break');
     }
 }

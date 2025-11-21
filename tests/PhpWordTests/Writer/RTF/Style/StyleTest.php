@@ -87,7 +87,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\sl259\\slmult1\\page{New page}\\par\n";
+        $expect = "\\pard\\sl259\\slmult1\\widctlpar\\pagebb {New page}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 

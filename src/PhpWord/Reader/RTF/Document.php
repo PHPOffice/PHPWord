@@ -344,6 +344,8 @@ class Document
                 array_shift($directives); // remove the function variable; we won't need it
                 $this->$function($directives);
             }
+        } elseif ($control === 'widowctrl') {
+            $this->phpWord->getSettings()->setRtfWidowControl(true);
         }
     }
 
@@ -389,7 +391,9 @@ class Document
     {
         $text = $this->textrun->addText($this->text);
         if (isset($this->flags['styles']['font'])) {
-            $text->getFontStyle()->setStyleByArray($this->flags['styles']['font']);
+            /** @var \PhpOffice\PhpWord\Style\Font */
+            $temp = $text->getFontStyle();
+            $temp->setStyleByArray($this->flags['styles']['font']);
         }
     }
 }

@@ -36,7 +36,7 @@ class ListItemTest extends TestCase
         $content = $writer->getContent();
         $content = str_replace("\r\n", "\n", $content);
         $expectedArray = [
-            '\pard\nowidctlpar {Basic simple bulleted list.}\par',
+            '\pard\widctlpar {Basic simple bulleted list.}\par',
             '\ilvl0\ls1\tx720\fi-360\li720\lin720',
             '{List Item 1}',
             '\par',
@@ -73,7 +73,7 @@ class ListItemTest extends TestCase
         $content = $writer->getContent();
         $content = str_replace("\r\n", "\n", $content);
         $expectedArray = [
-            '\pard\nowidctlpar {SingleLevel formatted list.}\par',
+            '\pard\widctlpar {SingleLevel formatted list.}\par',
             '\ilvl0\ls1\tx360\fi-360\li360\lin360',
             '{List Item 1}',
             '\par',

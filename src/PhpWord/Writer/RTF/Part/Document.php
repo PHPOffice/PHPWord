@@ -110,8 +110,9 @@ class Document extends AbstractPart
         $content .= '\viewkind1'; // Set the view mode of the document
 
         $content .= '\uc1'; // Set the numberof bytes that follows a unicode character
-        $content .= '\pard'; // Resets to default paragraph properties.
-        $content .= '\nowidctlpar'; // No widow/orphan control
+        if ($docSettings->hasRtfWidowControl()) {
+            $content .= '\widowctrl';
+        }
         $content .= '\lang' . $langId;
         $content .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
         $content .= '\fs' . (Settings::getDefaultFontSize() * 2); // Set the font size in half-points

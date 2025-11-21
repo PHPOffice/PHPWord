@@ -96,26 +96,6 @@ parameters:
 			path: src/PhpWord/Reader/ODText/Content.php
 
 		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Reader\\\\RTF\\\\Document\\:\\:\\$rtf \\(string\\) does not accept string\\|false\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/RTF.php
-
-		-
-			message: "#^Cannot call method setStyleByArray\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Font\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/RTF/Document.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Reader\\\\RTF\\\\Document\\:\\:\\$phpWord is never read, only written\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/RTF/Document.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Reader\\\\ReaderInterface\\:\\:load\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/ReaderInterface.php
-
-		-
 			message: "#^Binary operation \"/\" between string\\|null and 2 results in an error\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php

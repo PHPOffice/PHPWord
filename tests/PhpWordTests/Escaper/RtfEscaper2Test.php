@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWordTests\Escaper;
  */
 class RtfEscaper2Test extends \PHPUnit\Framework\TestCase
 {
-    const HEADER = '\\pard\\nowidctlpar {';
+    const HEADER = '\\pard\\widctlpar {';
     const TRAILER = '}\\par';
 
     public function escapestring($str)
