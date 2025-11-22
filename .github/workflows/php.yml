@@ -48,8 +48,7 @@ jobs:
       fail-fast: false
       matrix:
         # Disabled PHPStan in '7.1'
-        php: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
-        #php: ['8.4']
+        php: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
         -   name: Setup PHP
             uses: shivammathur/setup-php@v2
@@ -66,7 +65,7 @@ jobs:
             run: ./vendor/bin/phpstan analyse -c phpstan.neon.php73.dist
 
         -   name: Run phpstan Php8/Php7.4
-            if: matrix.php == '7.4' || matrix.php == '8.0' || matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.3' || matrix.php == '8.4'
+            if: matrix.php == '7.4' || matrix.php == '8.0' || matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.3' || matrix.php == '8.4' || matrix.php == '8.5'
             run: ./vendor/bin/phpstan analyse -c phpstan.neon.dist
 
   phpunit:
@@ -86,6 +85,7 @@ jobs:
           - '8.2'
           - '8.3'
           - '8.4'
+          - '8.5'
 
         include:
           - php: 'nightly'
@@ -118,8 +118,8 @@ jobs:
           if: matrix.php == '7.3' || matrix.php == '7.4' || matrix.php == '8.0'
           run: ./vendor/bin/phpunit -c phpunit9.xml.dist --no-coverage
 
-      -   name: Run phpunit 8.1 8.2 8.4
-          if: matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.4'
+      -   name: Run phpunit 8.1 8.2 8.4 8.5
+          if: matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.4' || matrix.php == '8.5'
           run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage
 
       -   name: Run phpunit nightly experimental
