@@ -116,8 +116,14 @@ class Document extends AbstractPart
         $content .= '\lang' . $langId;
         $content .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
         $content .= '\fs' . (Settings::getDefaultFontSize() * 2); // Set the font size in half-points
-        if ($docSettings->hasEvenAndOddHeaders()) {
+        if ($docSettings->hasEvenAndOddHeaders() || $docSettings->hasMirrorMargins()) {
             $content .= '\\facingp';
+        }
+        if ($docSettings->hasMirrorMargins()) {
+            $content .= '\\margmirror';
+        }
+        if ($docSettings->hasBookFoldPrinting()) {
+            $content .= '\\bookfold\\landscape';
         }
         $content .= PHP_EOL;
 
