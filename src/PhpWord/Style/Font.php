@@ -33,42 +33,59 @@ class Font extends AbstractStyle
      */
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
-    const UNDERLINE_DASHHEAVY = 'dashHeavy';
+    const UNDERLINE_DASHDOTHEAVY = 'dashDotHeavy';
+    const UNDERLINE_DASHDOTDOTHEAVY = 'dashDotDotHeavy';
+    const UNDERLINE_DASHEDHEAVY = 'dashedHeavy';
     const UNDERLINE_DASHLONG = 'dashLong';
     const UNDERLINE_DASHLONGHEAVY = 'dashLongHeavy';
-    const UNDERLINE_DOUBLE = 'dbl';
+    const UNDERLINE_DOUBLE = 'double';
     const UNDERLINE_DOTDASH = 'dotDash';
-    const UNDERLINE_DOTDASHHEAVY = 'dotDashHeavy';
     const UNDERLINE_DOTDOTDASH = 'dotDotDash';
-    const UNDERLINE_DOTDOTDASHHEAVY = 'dotDotDashHeavy';
     const UNDERLINE_DOTTED = 'dotted';
     const UNDERLINE_DOTTEDHEAVY = 'dottedHeavy';
-    const UNDERLINE_HEAVY = 'heavy';
+    const UNDERLINE_HEAVY = 'thick';
     const UNDERLINE_SINGLE = 'single';
-    const UNDERLINE_WAVY = 'wavy';
-    const UNDERLINE_WAVYDOUBLE = 'wavyDbl';
+    const UNDERLINE_WAVY = 'wave';
+    const UNDERLINE_WAVYDOUBLE = 'wavyDouble';
     const UNDERLINE_WAVYHEAVY = 'wavyHeavy';
     const UNDERLINE_WORDS = 'words';
+    /** @deprecated 2.0 use UNDERLINE_DASHEDHEAVY */
+    const UNDERLINE_DASHHEAVY = self::UNDERLINE_DASHEDHEAVY;
+    /** @deprecated 2.0 use UNDERLINE_DASHDOTHEAVY */
+    const UNDERLINE_DOTDASHHEAVY = self::UNDERLINE_DASHDOTHEAVY;
+    /** @deprecated 2.0 use UNDERLINE_DASHDOTHEAVY */
+    const UNDERLINE_DOTDOTDASHHEAVY = self::UNDERLINE_DASHDOTDOTHEAVY;
 
-    /**
-     * Foreground colors.
-     *
-     * @const string
-     */
+    // Foreground colors.
+    /** @deprecated 2.0 use SimpleType\Color::YELLOW */
     const FGCOLOR_YELLOW = 'yellow';
-    const FGCOLOR_LIGHTGREEN = 'green';
+    /** @deprecated 2.0 use SimpleType\Color::LIGHTGREEN */
+    const FGCOLOR_LIGHTGREEN = 'lightGreen';
+    /** @deprecated 2.0 use SimpleType\Color::CYAN */
     const FGCOLOR_CYAN = 'cyan';
+    /** @deprecated 2.0 use SimpleType\Color::MAGENTA */
     const FGCOLOR_MAGENTA = 'magenta';
+    /** @deprecated 2.0 use SimpleType\Color::BLUE */
     const FGCOLOR_BLUE = 'blue';
+    /** @deprecated 2.0 use SimpleType\Color::RED */
     const FGCOLOR_RED = 'red';
+    /** @deprecated 2.0 use SimpleType\Color::DARKBLUE */
     const FGCOLOR_DARKBLUE = 'darkBlue';
+    /** @deprecated 2.0 use SimpleType\Color::DARKCYAN */
     const FGCOLOR_DARKCYAN = 'darkCyan';
+    /** @deprecated 2.0 use SimpleType\Color::DARKGREEN */
     const FGCOLOR_DARKGREEN = 'darkGreen';
+    /** @deprecated 2.0 use SimpleType\Color::DARKMAGENTA */
     const FGCOLOR_DARKMAGENTA = 'darkMagenta';
+    /** @deprecated 2.0 use SimpleType\Color::DARKRED */
     const FGCOLOR_DARKRED = 'darkRed';
+    /** @deprecated 2.0 use SimpleType\Color::DARKYELLOW */
     const FGCOLOR_DARKYELLOW = 'darkYellow';
+    /** @deprecated 2.0 use SimpleType\Color::DARKGRAY */
     const FGCOLOR_DARKGRAY = 'darkGray';
+    /** @deprecated 2.0 use SimpleType\Color::LIGHTGRAY */
     const FGCOLOR_LIGHTGRAY = 'lightGray';
+    /** @deprecated 2.0 use SimpleType\Color::BLACK */
     const FGCOLOR_BLACK = 'black';
 
     /**

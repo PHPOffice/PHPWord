@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -195,5 +196,27 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($styelem));
         self::assertTrue($doc->elementExists($styelem . '/w:color'));
         self::assertSame('A7D9C1', $doc->getElementAttribute($styelem . '/w:color', 'w:val'));
+    }
+
+    public function testUnderline(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle('underlineStyle', [
+            'underline' => Font::UNDERLINE_DOTDOTDASH,
+        ]);
+        $section = $phpWord->addSection();
+        $section->addText('Sample text.', 'underlineStyle');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $doc->setDefaultFile('word/styles.xml');
+        $s2a = '/w:styles/w:style[3]';
+        self::assertTrue($doc->elementExists($s2a));
+        self::assertSame('character', $doc->getElementAttribute($s2a, 'w:type'));
+        $name = "$s2a/w:name";
+        self::assertTrue($doc->elementExists($name));
+        self::assertSame('underlineStyle', $doc->getElementAttribute($name, 'w:val'));
+        $u = "$s2a/w:rPr/w:u";
+        self::assertTrue($doc->elementExists($u));
+        self::assertSame('dotDotDash', $doc->getElementAttribute($u, 'w:val'));
     }
 }

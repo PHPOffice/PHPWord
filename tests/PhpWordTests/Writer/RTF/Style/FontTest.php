@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Color;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\Writer\RTF;
@@ -57,8 +58,8 @@ class FontTest extends TestCase
         $style->setName('Times New Roman');
         $style->setFallbackFont('serif'); // currently does nothing in RTF, see pg. 18 of spec for implementation
         $style->setSize(24);
-        $style->setColor($style::FGCOLOR_YELLOW);
-        $style->setFgColor($style::FGCOLOR_RED);
+        $style->setColor(Color::YELLOW);
+        $style->setFgColor(Color::RED);
         $style->setBgColor('#123456');
         $expect = '\f0\cf0\fs48\highlight0\chshdng0\chcbpat0\cb0 ';
         self::assertEquals($expect, $this->removeCr($writer));
@@ -78,8 +79,8 @@ class FontTest extends TestCase
         $style->setName('Times New Roman');
         $style->setFallbackFont('serif'); // currently does nothing in RTF, see pg. 18 of spec for implementation
         $style->setSize(24);
-        $style->setColor($style::FGCOLOR_YELLOW);
-        $style->setFgColor($style::FGCOLOR_RED);
+        $style->setColor(Color::YELLOW);
+        $style->setFgColor(Color::RED);
         $style->setBgColor('#123456');
 
         $phpWord->addFontStyle('style1', $style);
@@ -146,7 +147,7 @@ class FontTest extends TestCase
         $expect = '\uldash ';
         self::assertEquals($expect, $this->removeCr($writer));
 
-        $style->setUnderline($style::UNDERLINE_DASHHEAVY);
+        $style->setUnderline($style::UNDERLINE_DASHEDHEAVY);
         $expect = '\ulthdash ';
         self::assertEquals($expect, $this->removeCr($writer));
 
@@ -166,7 +167,7 @@ class FontTest extends TestCase
         $expect = '\uldashd ';
         self::assertEquals($expect, $this->removeCr($writer));
 
-        $style->setUnderline($style::UNDERLINE_DOTDASHHEAVY);
+        $style->setUnderline($style::UNDERLINE_DASHDOTHEAVY);
         $expect = '\ulthdashd ';
         self::assertEquals($expect, $this->removeCr($writer));
 
@@ -174,7 +175,7 @@ class FontTest extends TestCase
         $expect = '\uldashdd ';
         self::assertEquals($expect, $this->removeCr($writer));
 
-        $style->setUnderline($style::UNDERLINE_DOTDOTDASHHEAVY);
+        $style->setUnderline($style::UNDERLINE_DASHDOTDOTHEAVY);
         $expect = '\ulthdashdd ';
         self::assertEquals($expect, $this->removeCr($writer));
 

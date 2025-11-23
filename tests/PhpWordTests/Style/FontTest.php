@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Style;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Color;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Language;
@@ -115,7 +116,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'doubleStrikethrough' => false,
             'smallCaps' => true,
             'allCaps' => false,
-            'fgColor' => Font::FGCOLOR_YELLOW,
+            'fgColor' => Color::YELLOW,
             'bgColor' => 'FFFF00',
             'lineHeight' => 2,
             'scale' => 150,
