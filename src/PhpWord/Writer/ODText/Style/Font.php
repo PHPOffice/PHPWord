@@ -88,8 +88,8 @@ class Font extends AbstractStyle
         $xmlWriter->writeAttributeIf(is_numeric($size), 'style:font-size-complex', $size . 'pt');
 
         // Color
-        $color = $style->getColor();
-        $xmlWriter->writeAttributeIf($color != '', 'fo:color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($color));
+        $color = (string) $style->getColor();
+        $xmlWriter->writeAttributeIf($color !== '', 'fo:color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($color));
 
         // Bold & italic
         $xmlWriter->writeAttributeIf($style->isBold(), 'fo:font-weight', 'bold');
@@ -133,8 +133,8 @@ class Font extends AbstractStyle
         }
 
         // Foreground-Color (which is really background color)
-        $fgColor = $style->getFgColor();
-        $xmlWriter->writeAttributeIf($fgColor != '', 'fo:background-color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($fgColor));
+        $fgColor = (string) $style->getFgColor();
+        $xmlWriter->writeAttributeIf($fgColor !== '', 'fo:background-color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($fgColor));
 
         $xmlWriter->endElement(); // style:text-properties
         $xmlWriter->endElement(); // style:style
