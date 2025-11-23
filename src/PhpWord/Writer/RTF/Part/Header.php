@@ -442,7 +442,7 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register fonts and colors.
+     * Register both fonts and colors.
      *
      * @param Style\AbstractStyle $style
      */
