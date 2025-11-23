@@ -75,9 +75,7 @@ class Section extends AbstractStyle
             'evenPage' => '\sbkeven',
             'oddPage' => '\sbkodd',
         ];
-        if (isset($breakTypes[$style->getBreakType()])) {
-            $content .= $breakTypes[$style->getBreakType()];
-        }
+        $content .= $breakTypes[(string) $style->getBreakType()] ?? '';
 
         // Vertical Align
         $verticalAlign = [
