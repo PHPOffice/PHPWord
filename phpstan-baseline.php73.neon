@@ -471,11 +471,6 @@ parameters:
 			path: src/PhpWord/Style/AbstractStyle.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\Border\\:\\:getBorderSize\\(\\) should return array\\<int\\> but returns array\\<int, float\\|int\\>\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Border.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\Cell\\:\\:getBgColor\\(\\) should return string but returns null\\.$#"
 			count: 1
 			path: src/PhpWord/Style/Cell.php

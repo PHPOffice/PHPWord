@@ -83,6 +83,19 @@ class CommentTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($text->getCommentsRangeEnd()->getItem(1)->getElementId(), $comment2->getElementId());
     }
 
+    public function testElementId(): void
+    {
+        $section = new Section(0);
+        $text = $section->addText('Text');
+
+        $comment1 = new Comment('Author1', new DateTime(), 'A1');
+        $comment1->addText('Comment1');
+        $temp1 = $comment1->getElementId();
+        self::assertNull($temp1);
+        $text->setCommentRangeEnd($comment1);
+        self::assertNotNull($comment1->getElementId());
+    }
+
     /**
      * Add text.
      */

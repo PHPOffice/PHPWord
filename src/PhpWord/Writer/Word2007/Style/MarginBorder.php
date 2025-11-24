@@ -30,7 +30,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Sizes.
      *
-     * @var int[]
+     * @var array<float|int>
      */
     private $sizes = [];
 
@@ -78,7 +78,7 @@ class MarginBorder extends AbstractStyle
      * Write side.
      *
      * @param string $side
-     * @param ?int $width
+     * @param float|int $width
      * @param ?string $color
      * @param string $borderStyle
      */
@@ -109,7 +109,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Set sizes.
      *
-     * @param int[] $value
+     * @param array<float|int> $value
      */
     public function setSizes($value): void
     {

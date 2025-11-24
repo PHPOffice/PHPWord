@@ -100,9 +100,6 @@ class Paragraph extends AbstractStyle
         $content .= $this->writeChildStyle('Spacing', $style->getSpace());
         // Future: Add Shading
 
-        $styles = $style->getStyleValues();
-        $content .= $this->writeTabs($styles['tabs']);
-
         // Contextual Spacing
         $content .= $this->getValueIf($style->hasContextualSpacing(), '\contextualspace');
         // Future: Add Text Alignment
@@ -120,6 +117,14 @@ class Paragraph extends AbstractStyle
         // Tabs
         $styles = $style->getStyleValues();
         $content .= $this->writeTabs($styles['tabs']);
+
+        // Borders
+        if ($style->hasBorder()) {
+            $styleWriter = new Border($style);
+            $styleWriter->setParentWriter($this->getParentWriter());
+            $styleWriter->setType('paragraph');
+            $content .= $styleWriter->write();
+        }
 
         return $content . ' ';
     }
