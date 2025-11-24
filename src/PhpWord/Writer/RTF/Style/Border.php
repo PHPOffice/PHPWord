@@ -148,30 +148,28 @@ class Border extends AbstractStyle
             } else {
                 $content .= $types[$this->type] . substr($side, 0, 1);
             }
-        } else {
-            return '';
-        }
 
-        if (isset($styles[$style])) {
-            $content .= $styles[$style];
-        } else {
-            $content .= '\brdrs'; // default style
-        }
-        $content .= $this->getValueIf($width !== null, '\brdrw' . round($width ?? 0)); // Width
-        $content .= $this->getValueIf($color !== null, '\brdrcf' . $colorIndex); // Color
-
-        // Space
-        if ($this->type == 'section') {
-            $space = $space !== null ? $space : '480'; // section default is 480
-        } elseif ($this->type == 'paragraph') {
-            if ($side == 'top' || $side == 'bottom') {
-                $space = $space !== null ? $space : '20'; // paragraph top|bottom default is 20
-            } elseif ($side == 'left' || $side == 'right') {
-                $space = $space !== null ? $space : '80'; // paragraph left|rigth default is 80
+            if (isset($style, $styles[$style])) {
+                $content .= $styles[$style];
+            } else {
+                $content .= '\brdrs'; // default style
             }
+            $content .= $this->getValueIf($width !== null, '\brdrw' . round($width ?? 0)); // Width
+            $content .= $this->getValueIf($color !== null, '\brdrcf' . $colorIndex); // Color
+
+            // Space
+            if ($this->type == 'section') {
+                $space = $space !== null ? $space : '480'; // section default is 480
+            } elseif ($this->type == 'paragraph') {
+                if ($side == 'top' || $side == 'bottom') {
+                    $space = $space !== null ? $space : '20'; // paragraph top|bottom default is 20
+                } elseif ($side == 'left' || $side == 'right') {
+                    $space = $space !== null ? $space : '80'; // paragraph left|rigth default is 80
+                }
+            }
+            $content .= $this->getValueIf($space !== null, '\brsp' . round($space ?? 0));
+            $content .= ' ';
         }
-        $content .= $this->getValueIf($space !== null, '\brsp' . round($space ?? 0));
-        $content .= ' ';
 
         return $content;
     }

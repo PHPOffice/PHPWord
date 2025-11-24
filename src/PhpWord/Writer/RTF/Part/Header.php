@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Numbering;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
 
 /**
@@ -467,6 +468,9 @@ class Header extends AbstractPart
         }
         if ($style instanceof Numbering) {
             $this->registerList($this->listTable, $style, $defaultFont);
+        }
+        if ($style instanceof Paragraph) {
+            $this->registerBorderColor($style);
         }
     }
 
