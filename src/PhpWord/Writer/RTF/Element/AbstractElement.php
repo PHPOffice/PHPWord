@@ -150,6 +150,7 @@ abstract class AbstractElement
         }
 
         $styleWriter = new ParagraphStyleWriter($this->paragraphStyle);
+        $styleWriter->setParentWriter($this->parentWriter);
         $styleWriter->setNestedLevel($this->element->getNestedLevel());
 
         return $styleWriter->write();

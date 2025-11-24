@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\RTF\Style;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Border as BorderType;
 use PhpOffice\PhpWord\Style\Border as BorderStyle;
 use PhpOffice\PhpWord\Writer\RTF;
@@ -291,5 +292,34 @@ class BorderTest extends TestCase
         $writer->setType('cell');
         $expect = '';
         self::assertEquals($expect, $this->removeCr($writer));
+    }
+
+    public function testBorderColor(): void
+    {
+        $phpWord = new PhpWord();
+
+        $paragraphStyleName = 'P-Style';
+        $pstyle = $phpWord->addParagraphStyle($paragraphStyleName, [
+            'spaceAfter' => 95,
+            'borderTopSize' => 12,
+            'borderTopColor' => 'FF0000',
+            'borderBottomSize' => 12,
+            'borderBottomColor' => '00FF00',
+            'borderLeftSize' => 12,
+            'borderLeftColor' => '0000FF',
+            'borderRightSize' => 12,
+            'borderRightColor' => 'FFFF00',
+        ]);
+
+        $section = $phpWord->addSection();
+        $section->addText('Hello', null, $pstyle);
+        $section->addText('Goodbye');
+
+        $writer = new RTF($phpWord);
+        $content = $writer->getContent();
+        $expected = '{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue255;\red255\green255\blue0;\red0\green255\blue0;}';
+        self::assertStringContainsString($expected, $content);
+        $expected = '\pard\sa95\widctlpar\brdrt\brdrs\brdrw12\brdrcf2\brsp20 \brdrl\brdrs\brdrw12\brdrcf3\brsp80 \brdrr\brdrs\brdrw12\brdrcf4\brsp80 \brdrb\brdrs\brdrw12\brdrcf5\brsp20  {Hello}\par';
+        self::assertStringContainsString($expected, $content);
     }
 }
