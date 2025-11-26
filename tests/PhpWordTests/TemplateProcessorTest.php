@@ -22,6 +22,7 @@ use DOMDocument;
 use Exception;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Exception\Exception as PhpWordException;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
@@ -177,7 +178,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $this->expectException(TypeError::class);
             $this->expectExceptionMessage('must contain only string keys');
         } else {
-            $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+            $this->expectException(PhpWordException::class);
             $this->expectExceptionMessage('Could not set values for the given XSL style sheet parameters.');
         }
 
@@ -200,7 +201,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectException(PhpWordException::class);
         $this->expectExceptionMessage('Could not load the given XML document.');
         $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/corrupted_main_document_part.docx');
 
@@ -229,6 +230,29 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
 
         $docName = 'delete-row-test-result.docx';
+        $templateProcessor->deleteRow('deleteMe');
+        self::assertEquals(
+            [],
+            $templateProcessor->getVariables()
+        );
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+        self::assertTrue($docFound);
+    }
+
+    public function testNoPhar(): void
+    {
+        $this->expectException(PhpWordException::class);
+        $this->expectExceptionMessage('Invalid protocol');
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/delete-row.docx');
+
+        self::assertEquals(
+            ['deleteMe', 'deleteMeToo'],
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'phar://poc.docx';
         $templateProcessor->deleteRow('deleteMe');
         self::assertEquals(
             [],

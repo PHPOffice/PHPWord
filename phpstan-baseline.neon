@@ -81,11 +81,6 @@ parameters:
 			path: src/PhpWord/IOFactory.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\PhpWord\\:\\:getDefaultFontSize\\(\\) should return int but returns float\\|int\\.$#"
-			count: 1
-			path: src/PhpWord/PhpWord.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Reader\\\\AbstractReader\\:\\:openFile\\(\\) should return resource but return statement is missing\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/AbstractReader.php

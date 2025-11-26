@@ -58,6 +58,7 @@ class RTF extends AbstractWriter implements WriterInterface
      */
     public function save(string $filename): void
     {
+        PhpWord::noPhar($filename);
         $this->writeFile($this->openFile($filename), $this->getContent());
     }
 

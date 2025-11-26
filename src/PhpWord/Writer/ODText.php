@@ -72,6 +72,7 @@ class ODText extends AbstractWriter implements WriterInterface
      */
     public function save(string $filename): void
     {
+        PhpWord::noPhar($filename);
         $filename = $this->getTempFile($filename);
         $zip = $this->getZipArchive($filename);
 

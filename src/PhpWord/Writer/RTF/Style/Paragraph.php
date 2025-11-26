@@ -142,6 +142,7 @@ class Paragraph extends AbstractStyle
         if (!empty($tabs)) {
             foreach ($tabs as $tab) {
                 $styleWriter = new Tab($tab);
+                $styleWriter->setParentWriter($this->getParentWriter());
                 $content .= $styleWriter->write();
             }
         }

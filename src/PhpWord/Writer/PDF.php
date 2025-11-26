@@ -84,6 +84,7 @@ class PDF
 
     public function save(string $filename): void
     {
+        PhpWord::noPhar($filename);
         $this->getRenderer()->save($filename);
     }
 

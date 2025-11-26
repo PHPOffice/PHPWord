@@ -120,7 +120,9 @@ abstract class AbstractStyle
         if (isset($style) && $style instanceof $stylePath) {
             $writerPath = 'PhpOffice\\PhpWord\\Writer\\RTF\\Style\\' . ucfirst($name);
             $writer = new $writerPath($style);
-
+            if (method_exists($writer, 'setParentWriter')) {
+                $writer->setParentWriter($this->parentWriter);
+            }
             if (method_exists($writer, 'write')) {
                 return $writer->write();
             }

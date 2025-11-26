@@ -1046,6 +1046,7 @@ class TemplateProcessor
      */
     public function saveAs($fileName): void
     {
+        PhpWord::noPhar($fileName);
         $tempFileName = $this->save();
 
         if (file_exists($fileName)) {

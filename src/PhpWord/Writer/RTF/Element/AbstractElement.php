@@ -198,6 +198,7 @@ abstract class AbstractElement
 
         // Create style writer and set color/name index
         $styleWriter = new FontStyleWriter($this->fontStyle);
+        $styleWriter->setParentWriter($this->parentWriter);
         if ($this->fontStyle->getColor() != null) {
             $colorIndex = array_search($this->fontStyle->getColor(), $parentWriter->getColorTable());
             if ($colorIndex !== false) {

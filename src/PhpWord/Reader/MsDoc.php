@@ -77,7 +77,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
     private $arrayFib = [];
 
     /**
-     * @var string[]
+     * @var array<array<string, string>>
      */
     private $arrayFonts = [];
 
@@ -1263,7 +1263,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         $xszAlt .= mb_chr($char, 'UTF-8');
                     } while ($char != 0);
                 }
-                $this->arrayFonts[] = [ //* @phpstan-ignore-line
+                $this->arrayFonts[] = [
                     'main' => $xszFfn,
                     'alt' => $xszAlt,
                 ];
@@ -1936,7 +1936,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         case 0x4F:
                             $oStylePrl->styleFont['name'] = '';
                             if (isset($this->arrayFonts[$operand])) {
-                                $oStylePrl->styleFont['name'] = $this->arrayFonts[$operand]['main']; //* @phpstan-ignore-line
+                                $oStylePrl->styleFont['name'] = $this->arrayFonts[$operand]['main'];
                             }
 
                             break;
