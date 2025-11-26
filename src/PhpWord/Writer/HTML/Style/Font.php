@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 
 /**
@@ -69,7 +70,9 @@ class Font extends AbstractStyle
 
         $css['font-family'] = $this->getValueIf(!empty($font), $font);
         $css['font-size'] = $this->getValueIf($size !== null, "{$size}pt");
-        $css['color'] = $this->getValueIf($color !== null, "#{$color}");
+        if ($color !== null) {
+            $css['color'] = Converter::validStringColor($color) ? $color : "#$color";
+        }
         $css['background'] = $this->getValueIf($fgColor != '', $fgColor);
         $css['font-weight'] = $this->getValueIf($style->isBold(), 'bold');
         $css['font-style'] = $this->getValueIf($style->isItalic(), 'italic');

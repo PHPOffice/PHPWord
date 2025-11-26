@@ -340,6 +340,11 @@ class Converter
         Color::YELLOW => 'FFFF00',
     ];
 
+    public static function validStringColor(string $value): bool
+    {
+        return (self::STRING_TO_RGB[$value] ?? null) !== null;
+    }
+
     /**
      * Convert colorname as string to RGB.
      *

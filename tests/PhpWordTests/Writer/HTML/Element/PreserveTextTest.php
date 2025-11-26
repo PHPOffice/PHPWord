@@ -39,4 +39,25 @@ class PreserveTextTest extends TestCase
         $expected = "<p>$text2</p>";
         self::assertStringContainsString($expected, $content);
     }
+
+    public function testPreserveTextStyle(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $text1 = 'This text is missing in the HTML output.';
+        $fontStyle = ['color' => 'red'];
+        $section->addPreserveText($text1, $fontStyle);
+        $paragraphStyle = ['align' => 'center'];
+        $text2 = 'Likewise page {PAGE} of {NUMPAGES}';
+        $section->addPreserveText($text2, null, $paragraphStyle);
+        $section->addPreserveText('');
+        $writer = new HTML($phpWord);
+        $content = $writer->getContent();
+        $expected = "<p><span style=\"color: red;\">$text1</span></p>";
+        self::assertStringContainsString($expected, $content);
+        $expected = "<p style=\"text-align: center;\">$text2</p>";
+        self::assertStringContainsString($expected, $content);
+        $expected = '<p>&nbsp;</p>';
+        self::assertStringContainsString($expected, $content);
+    }
 }

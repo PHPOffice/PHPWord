@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Element\PreserveText as PreserveTextElement;
+use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
@@ -52,14 +54,14 @@ class Text extends AbstractElement
      *
      * @var string
      */
-    private $openingTags = '';
+    protected $openingTags = '';
 
     /**
      * Closing tag.
      *
      * @var string
      */
-    private $closingTags = '';
+    protected $closingTags = '';
 
     /**
      * Write text.
@@ -70,7 +72,7 @@ class Text extends AbstractElement
     {
         $this->processFontStyle();
 
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        /** @var TextElement */
         $element = $this->element;
 
         $text = $this->parentWriter->escapeHTML($element->getText() ?? '');
@@ -213,9 +215,9 @@ class Text extends AbstractElement
      *
      * @return string
      */
-    private function getParagraphStyle()
+    protected function getParagraphStyle()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        /** @var PreserveTextElement|TextElement */
         $element = $this->element;
         $style = '';
         if (!method_exists($element, 'getParagraphStyle')) {
@@ -242,9 +244,9 @@ class Text extends AbstractElement
     /**
      * Get font style.
      */
-    private function processFontStyle(): void
+    protected function processFontStyle(): void
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        /** @var PreserveTextElement|TextElement */
         $element = $this->element;
 
         $attributeStyle = $attributeLang = '';
