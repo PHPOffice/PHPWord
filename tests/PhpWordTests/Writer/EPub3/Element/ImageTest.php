@@ -42,7 +42,7 @@ class ImageTest extends TestCase
     public function testWriteWithInvalidElement(): void
     {
         $xmlWriter = new XMLWriter();
-        $invalidElement = $this->createMock(\PhpOffice\PhpWord\Element\AbstractElement::class);
+        $invalidElement = new FakeElement();
         $writer = new ImageWriter($xmlWriter, $invalidElement);
 
         $writer->write();
