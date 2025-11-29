@@ -49,6 +49,17 @@ class CellTest extends AbstractWebServerEmbedded
     }
 
     /**
+     * Test if the style object passed to the constructor is actually used.
+     */
+    public function testConstructWithStyleObject(): void
+    {
+        $style = new \PhpOffice\PhpWord\Style\Cell();
+        $oCell = new Cell(null, $style);
+
+        self::assertSame($style, $oCell->getStyle());
+    }
+
+    /**
      * Add text.
      */
     public function testAddText(): void

@@ -479,7 +479,7 @@ abstract class AbstractElement
     }
 
     /**
-     * Set new style value.
+     * Set new style value. PR #2685.
      *
      * @param mixed $styleObject Style object
      * @param null|AbstractStyle|array|string $styleValue Style value
@@ -489,14 +489,16 @@ abstract class AbstractElement
      */
     protected function setNewStyle($styleObject, $styleValue = null, $returnObject = false)
     {
-        if (null !== $styleValue && is_array($styleValue)) {
+        if ($styleValue instanceof AbstractStyle && get_class($styleValue) === get_class($styleObject)) {
+            return $styleValue;
+        }
+        if (is_array($styleValue)) {
             $styleObject->setStyleByArray($styleValue);
-            $style = $styleObject;
-        } else {
-            $style = $returnObject ? $styleObject : $styleValue;
+
+            return $styleObject;
         }
 
-        return $style;
+        return $returnObject ? $styleObject : $styleValue;
     }
 
     /**
