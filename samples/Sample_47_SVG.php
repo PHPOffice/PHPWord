@@ -2,12 +2,18 @@
 
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 
 include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new PhpWord();
+
+// dompdf has deprecation problem for svg with Php8.5
+$rendererName = Settings::PDF_RENDERER_MPDF;
+$rendererLibraryPath = $vendorDirPath . '/mpdf/mpdf';
+Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
 
 $section = $phpWord->addSection();
 $section->addText('SVG image without any styles:');
