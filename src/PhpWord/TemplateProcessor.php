@@ -575,17 +575,17 @@ class TemplateProcessor
         if ($mime !== 'image/svg+xml') {
             $imageData = @getimagesize($imgPath);
             if (!is_array($imageData)) {
-                throw new Exception(sprintf('Invalid image: %s', $imgPath));
+                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
             }
             [$actualWidth, $actualHeight, $imageType] = $imageData;
         } else {
             $content = file_get_contents($imgPath);
             if (!$content) {
-                throw new Exception(sprintf('Invalid image: %s', $imgPath));
+                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
             }
             $svgXml = simplexml_load_string($content);
             if (!$svgXml) {
-                throw new Exception(sprintf('Invalid image: %s', $imgPath));
+                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
             }
             $svgAttributes = $svgXml->attributes();
             $actualWidth = $svgAttributes->width;
@@ -637,7 +637,7 @@ class TemplateProcessor
             if (isset($extTransform[$imageMimeType])) {
                 $imgExt = $extTransform[$imageMimeType];
             } else {
-                throw new Exception("Unsupported image type $imageMimeType");
+                throw new Exception("Unsupported image type $imageMimeType"); // @codeCoverageIgnore
             }
 
             // add image to document
@@ -771,47 +771,19 @@ class TemplateProcessor
                         $width = Converter::cssToEmu($preparedImageAttrs['width']);
                         $height = Converter::cssToEmu($preparedImageAttrs['height']);
                         if ($width === null) {
+                            $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']);
                             if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['width'], $matches)) {
-                                $size = (float) ($matches[1]);
                                 $unit = $matches[2];
-                                switch ($unit) {
-                                    case 'ex':
-                                        $size = $size * 2;
-
-                                        // no break
-                                    case 'em':
-                                        $width = $size * 152400;
-
-                                        break;
-                                    case '%':
-                                        $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size;
-
-                                        break;
-                                }
-                            } else {
-                                $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']);
+                                $size = (float) ($matches[1]) * (($unit === 'ex') ? 2 : 1);
+                                $width = ($unit === '%') ? (Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size) : ($size * 152400);
                             }
                         }
                         if ($height === null) {
+                            $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']);
                             if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['height'], $matches)) {
-                                $size = (float) ($matches[1]);
                                 $unit = $matches[2];
-                                switch ($unit) {
-                                    case 'ex':
-                                        $size *= 2;
-
-                                        // no break
-                                    case 'em':
-                                        $height = $size * 152400;
-
-                                        break;
-                                    case '%':
-                                        $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size;
-
-                                        break;
-                                }
-                            } else {
-                                $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']);
+                                $size = (float) ($matches[1]) * (($unit === 'ex') ? 2 : 1);
+                                $height = ($unit === '%') ? (Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size) : ($size * 152400);
                             }
                         }
                         $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, (string) $width, (string) $height, $imgIndex, 'graphic'], $svgTpl);
