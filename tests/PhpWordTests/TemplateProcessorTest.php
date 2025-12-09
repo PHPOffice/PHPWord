@@ -884,14 +884,17 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSetImageValue(): void
     {
         $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
-        $imagePath = __DIR__ . '/_files/images/earth.jpg';
+        $imageJpg = __DIR__ . '/_files/images/earth.jpg';
+        $imageGif = __DIR__ . '/_files/images/mario.gif';
+        $imagePng = __DIR__ . '/_files/images/firefox.png';
+        $imageSvg = __DIR__ . '/_files/images/phpword.svg';
 
         $variablesReplace = [
-            'headerValue' => function () use ($imagePath) {
-                return $imagePath;
+            'headerValue' => function () use ($imageJpg) {
+                return $imageJpg;
             },
-            'documentContent' => ['path' => $imagePath, 'width' => 500, 'height' => 500],
-            'footerValue' => ['path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false],
+            'documentContent' => ['path' => $imageJpg, 'width' => 500, 'height' => 500],
+            'footerValue' => ['path' => $imageJpg, 'width' => 100, 'height' => 50, 'ratio' => false],
         ];
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 
@@ -931,7 +934,16 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $testFileName = 'images-test-sample.docx';
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('${Test:width=100:ratio=true}');
+        $section->addText('${Test0:width=100:ratio=true}');
+        $section->addText('${Test1::50:true}');
+        $section->addText('${Test2}');
+        $section->addText('${Test3:size=10cmx7cm:ratio=false}');
+        $section->addText('${Test4:size=100mmx70mm:ratio=true}');
+        $section->addText('${Test5:4in::true}');
+        $section->addText('${Test6:300pt:200pt}');
+        $section->addText('${Test7:25pc:}');
+        $section->addText('${Test8:50%:50%}');
+        $section->addText('${Test9::5ex}');
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
@@ -939,9 +951,8 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $resultFileName = 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
-        $templateProcessor->setImageValue('Test', $imagePath);
-        $templateProcessor->setImageValue('Test1', $imagePath);
-        $templateProcessor->setImageValue('Test2', $imagePath);
+        $templateProcessor->setImageValue('Test0', $imageJpg);
+        $templateProcessor->setImageValue(['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6', 'Test7', 'Test8', 'Test9'], [$imageGif, $imagePng, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg]);
         $templateProcessor->saveAs($resultFileName);
         self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
 
@@ -953,7 +964,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
         unlink($resultFileName);
 
-        self::assertStringNotContainsString('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
+        self::assertStringNotContainsString('${Test', $expectedMainPartXml, 'word/document.xml has not inserted all images.');
     }
 
     /**
