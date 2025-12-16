@@ -73,7 +73,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $legendPosition = "r";
+    private $legendPosition = 'r';
 
     /**
      * A list of display options for data labels.
@@ -81,13 +81,13 @@ class Chart extends AbstractStyle
      * @var array
      */
     private $dataLabelOptions = [
-        "showVal" => true, // value
-        "showCatName" => true, // category name
-        "showLegendKey" => false, //show the cart legend
-        "showSerName" => false, // series name
-        "showPercent" => false,
-        "showLeaderLines" => false,
-        "showBubbleSize" => false,
+        'showVal' => true, // value
+        'showCatName' => true, // category name
+        'showLegendKey' => false, //show the cart legend
+        'showSerName' => false, // series name
+        'showPercent' => false,
+        'showLeaderLines' => false,
+        'showBubbleSize' => false,
     ];
 
     /**
@@ -98,7 +98,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $categoryLabelPosition = "nextTo";
+    private $categoryLabelPosition = 'nextTo';
 
     /**
      * A string that tells the writer where to write chart labels or to skip
@@ -108,7 +108,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $valueLabelPosition = "nextTo";
+    private $valueLabelPosition = 'nextTo';
 
     /**
      * @var string
@@ -126,7 +126,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $majorTickMarkPos = "none";
+    private $majorTickMarkPos = 'none';
 
     /**
      * Show labels for axis.
@@ -151,11 +151,11 @@ class Chart extends AbstractStyle
 
     /**
      * How to display blank values (nulls) in series data.
-     * Options: 'gap' (break line), 'span' (connect line), 'zero' (plot as zero)
+     * Options: 'gap' (break line), 'span' (connect line), 'zero' (plot as zero).
      *
      * @var string
      */
-    private $displayBlanksAs = "gap"; // Default to gap
+    private $displayBlanksAs = 'gap'; // Default to gap
 
     /**
      * Create a new instance.
@@ -335,14 +335,10 @@ class Chart extends AbstractStyle
      *
      * @return self
      */
-    public function setLegendPosition($legendPosition = "r")
+    public function setLegendPosition($legendPosition = 'r')
     {
-        $enum = ["r", "b", "t", "l", "tr"];
-        $this->legendPosition = $this->setEnumVal(
-            $legendPosition,
-            $enum,
-            $this->legendPosition,
-        );
+        $enum = ['r', 'b', 't', 'l', 'tr'];
+        $this->legendPosition = $this->setEnumVal($legendPosition, $enum, $this->legendPosition);
 
         return $this;
     }
@@ -366,10 +362,7 @@ class Chart extends AbstractStyle
      */
     public function setShowAxisLabels($value = true)
     {
-        $this->showAxisLabels = $this->setBoolVal(
-            $value,
-            $this->showAxisLabels,
-        );
+        $this->showAxisLabels = $this->setBoolVal($value, $this->showAxisLabels);
 
         return $this;
     }
@@ -396,7 +389,7 @@ class Chart extends AbstractStyle
             if (isset($values[$option])) {
                 $this->dataLabelOptions[$option] = $this->setBoolVal(
                     $values[$option],
-                    $this->dataLabelOptions[$option],
+                    $this->dataLabelOptions[$option]
                 );
             }
         }
@@ -449,12 +442,8 @@ class Chart extends AbstractStyle
      */
     public function setCategoryLabelPosition($labelPosition)
     {
-        $enum = ["nextTo", "low", "high"];
-        $this->categoryLabelPosition = $this->setEnumVal(
-            $labelPosition,
-            $enum,
-            $this->categoryLabelPosition,
-        );
+        $enum = ['nextTo', 'low', 'high'];
+        $this->categoryLabelPosition = $this->setEnumVal($labelPosition, $enum, $this->categoryLabelPosition);
 
         return $this;
     }
@@ -478,12 +467,8 @@ class Chart extends AbstractStyle
      */
     public function setValueLabelPosition(string $labelPosition)
     {
-        $enum = ["nextTo", "low", "high"];
-        $this->valueLabelPosition = $this->setEnumVal(
-            $labelPosition,
-            $enum,
-            $this->valueLabelPosition,
-        );
+        $enum = ['nextTo', 'low', 'high'];
+        $this->valueLabelPosition = $this->setEnumVal($labelPosition, $enum, $this->valueLabelPosition);
 
         return $this;
     }
@@ -544,12 +529,8 @@ class Chart extends AbstractStyle
      */
     public function setMajorTickPosition($position): void
     {
-        $enum = ["in", "out", "cross", "none"];
-        $this->majorTickMarkPos = $this->setEnumVal(
-            $position,
-            $enum,
-            $this->majorTickMarkPos,
-        );
+        $enum = ['in', 'out', 'cross', 'none'];
+        $this->majorTickMarkPos = $this->setEnumVal($position, $enum, $this->majorTickMarkPos);
     }
 
     /**
@@ -580,14 +561,16 @@ class Chart extends AbstractStyle
      * Set display blanks as option.
      *
      * @param string $value 'gap', 'span', or 'zero'
+     *
      * @return self
      */
     public function setDisplayBlanksAs($value)
     {
-        $validValues = ["gap", "span", "zero"];
+        $validValues = ['gap', 'span', 'zero'];
         if (in_array($value, $validValues)) {
             $this->displayBlanksAs = $value;
         }
+
         return $this;
     }
 
