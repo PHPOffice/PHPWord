@@ -31,6 +31,12 @@ class ChartNullHandlingTest extends TestCase
         self::assertEquals('span', $style->getDisplayBlanksAs());
     }
 
+    /** @var int */
+    protected $php85 = 80500;
+
+    /** @var int */
+    protected $php73 = 70300;
+
     public function testWriteChartHandlesNullsAndGaps(): void
     {
         // 1. Setup Data
@@ -52,12 +58,16 @@ class ChartNullHandlingTest extends TestCase
         // 4. Inject Chart into Writer
         $reflectionWriter = new ReflectionClass(ChartWriter::class);
         $elementProperty = $reflectionWriter->getProperty('element');
-        $elementProperty->setAccessible(true);
+        if (PHP_VERSION_ID < $this->php85) {
+            $elementProperty->setAccessible(true);
+        }
         $elementProperty->setValue($chartWriter, $chart);
 
         // 5. Run
         $method = $reflectionWriter->getMethod('writeChart');
-        $method->setAccessible(true);
+        if (PHP_VERSION_ID < $this->php85) {
+            $method->setAccessible(true);
+        }
         $method->invokeArgs($chartWriter, [$xmlWriter]);
 
         $xml = $xmlWriter->getData();
@@ -65,13 +75,22 @@ class ChartNullHandlingTest extends TestCase
         // --- ASSERTIONS ---
         self::assertStringContainsString('<c:dispBlanksAs val="gap"/>', $xml);
 
-        // Check for the empty point (null value)
-        self::assertMatchesRegularExpression('/<c:pt idx="1"\s*\/?>/', $xml);
-
-        // Ensure no zero value was written for index 1
-        self::assertDoesNotMatchRegularExpression(
-            '/<c:pt idx="1"[^>]*>.*?<c:v>0<\/c:v>.*?<\/c:pt>/s',
-            $xml
-        );
+        if (PHP_VERSION_ID >= $this->php73) {
+            // Check for the empty point (null value)
+            self::assertMatchesRegularExpression('/<c:pt idx="1"\s*\/?>/', $xml);
+            // Ensure no zero value was written for index 1
+            self::assertDoesNotMatchRegularExpression(
+                '/<c:pt idx="1"[^>]*>.*?<c:v>0<\/c:v>.*?<\/c:pt>/s',
+                $xml
+            );
+        } else {
+            // Check for the empty point (null value)
+            self::assertRegExp('/<c:pt idx="1"\s*\/?>/', $xml);
+            // Ensure no zero value was written for index 1
+            self::assertNotRegExp(
+                '/<c:pt idx="1"[^>]*>.*?<c:v>0<\/c:v>.*?<\/c:pt>/s',
+                $xml
+            );
+        }
     }
 }
