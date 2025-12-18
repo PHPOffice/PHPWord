@@ -32,10 +32,13 @@ class ChartNullHandlingTest extends TestCase
     }
 
     /** @var int */
-    protected $php85 = 80500;
+    protected static $php85 = 80500;
 
-    /** @var int */
-    protected $php73 = 70300;
+    /** @var string[] */
+    protected static $possibleMethods = ['assertMatchesRegularExpression', 'assertRegExp'];
+
+    /** @var string[] */
+    protected static $possibleMethodsNot = ['assertDoesNotMatchRegularExpression', 'assertNotRegExp'];
 
     public function testWriteChartHandlesNullsAndGaps(): void
     {
@@ -53,19 +56,23 @@ class ChartNullHandlingTest extends TestCase
         $chartWriter = new ChartWriter();
 
         // Mock the parent writer
-        $chartWriter->setParentWriter($this->createMock(\PhpOffice\PhpWord\Writer\Word2007::class));
+        $chartWriter->setParentWriter(
+            $this->createMock(
+                \PhpOffice\PhpWord\Writer\Word2007::class
+            )
+        );
 
         // 4. Inject Chart into Writer
         $reflectionWriter = new ReflectionClass(ChartWriter::class);
         $elementProperty = $reflectionWriter->getProperty('element');
-        if (PHP_VERSION_ID < $this->php85) {
+        if (PHP_VERSION_ID < self::$php85) {
             $elementProperty->setAccessible(true);
         }
         $elementProperty->setValue($chartWriter, $chart);
 
         // 5. Run
         $method = $reflectionWriter->getMethod('writeChart');
-        if (PHP_VERSION_ID < $this->php85) {
+        if (PHP_VERSION_ID < self::$php85) {
             $method->setAccessible(true);
         }
         $method->invokeArgs($chartWriter, [$xmlWriter]);
@@ -75,22 +82,34 @@ class ChartNullHandlingTest extends TestCase
         // --- ASSERTIONS ---
         self::assertStringContainsString('<c:dispBlanksAs val="gap"/>', $xml);
 
-        if (PHP_VERSION_ID >= $this->php73) {
-            // Check for the empty point (null value)
-            self::assertMatchesRegularExpression('/<c:pt idx="1"\s*\/?>/', $xml);
-            // Ensure no zero value was written for index 1
-            self::assertDoesNotMatchRegularExpression(
-                '/<c:pt idx="1"[^>]*>.*?<c:v>0<\/c:v>.*?<\/c:pt>/s',
-                $xml
-            );
-        } else {
-            // Check for the empty point (null value)
-            self::assertRegExp('/<c:pt idx="1"\s*\/?>/', $xml);
-            // Ensure no zero value was written for index 1
-            self::assertNotRegExp(
-                '/<c:pt idx="1"[^>]*>.*?<c:v>0<\/c:v>.*?<\/c:pt>/s',
-                $xml
-            );
+        $found = false;
+        foreach (self::$possibleMethods as $method) {
+            if (method_exists(self::class, $method)) {
+                // Check for the empty point (null value)
+                self::$method(
+                    '/<c:pt idx="1"\s*\/?>/',
+                    $xml
+                );
+                $found = true;
+
+                break;
+            }
         }
+        self::assertTrue($found);
+
+        $found = false;
+        foreach (self::$possibleMethodsNot as $method) {
+            if (method_exists(self::class, $method)) {
+                // Ensure no zero value was written for index 1
+                self::$method(
+                    '/<c:pt idx="1"[^>]*>.*?<c:v>0<\/c:v>.*?<\/c:pt>/s',
+                    $xml
+                );
+                $found = true;
+
+                break;
+            }
+        }
+        self::assertTrue($found);
     }
 }
