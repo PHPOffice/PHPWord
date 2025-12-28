@@ -98,7 +98,7 @@ jobs:
           uses: shivammathur/setup-php@v2
           with:
               php-version: ${{ matrix.php }}
-              extensions: dom, gd, mbstring, xml, zip
+              extensions: ctype, dom, fileinfo, filter, gd, libxml, mbstring, SimpleXML, xml, xmlwriter, xsl, zip, zlib
               coverage: ${{ (matrix.php == '8.3') && 'xdebug' || 'none' }}
 
       -   uses: actions/checkout@v2

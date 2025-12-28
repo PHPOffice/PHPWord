@@ -115,10 +115,15 @@
         "ext-xml": "*",
         "ext-zip": "*",
         "phpoffice/math": "^0.3",
-        "symfony/polyfill-php72": "^1.30"
+        "symfony/polyfill-php72": "^1.30",
+        "ext-zlib": "*",
+        "ext-filter": "*",
+        "ext-ctype": "*",
+        "ext-fileinfo": "*",
+        "ext-SimpleXML": "*",
+        "ext-libxml": "*"
     },
     "require-dev": {
-        "ext-libxml": "*",
         "dompdf/dompdf": "^2.0 || ^3.0",
         "friendsofphp/php-cs-fixer": "^3.3",
         "mpdf/mpdf": "^7.0 || ^8.0",
@@ -127,12 +132,16 @@
         "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
         "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0 || ^10.0",
         "symfony/process": "^4.4 || ^5.0 || ^6.0 || ^7.0 || 7.4.x-dev",
-        "tecnickcom/tcpdf": "^6.5"
+        "tecnickcom/tcpdf": "^6.5",
+        "ext-xmlwriter": "*",
+        "ext-xsl": "*"
     },
     "suggest": {
         "ext-xmlwriter": "Allows writing OOXML and ODF",
         "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
-        "dompdf/dompdf": "Allows writing PDF"
+        "dompdf/dompdf": "Allows writing PDF",
+        "mpdf/mpdf": "Allows writing PDF",
+        "tecnickcom/tcpdf": "Allows writing PDF"
     },
     "autoload": {
         "psr-4": {
