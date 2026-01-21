@@ -230,7 +230,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     public function testListItemRun(): void
     {
         $expected1 = 'List item run 1';
-        $expected2 = 'List item run 1 in bold';
+        $expected2 = ' in bold';
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -241,12 +241,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $htmlWriter = new HTML($phpWord);
         $content = $htmlWriter->getContent();
+        self::assertStringContainsString('<p>List item run 1<span style="font-weight: bold;"> in bold</span></p>', $content);
 
         $dom = new DOMDocument();
         $dom->loadHTML($content);
 
-        self::assertEquals($expected1, $dom->getElementsByTagName('p')->item(0)->textContent);
-        self::assertEquals($expected2, $dom->getElementsByTagName('p')->item(1)->textContent);
+        self::assertSame("$expected1$expected2", $dom->getElementsByTagName('p')->item(0)->textContent);
     }
 
     /**
