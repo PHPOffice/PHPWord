@@ -106,9 +106,13 @@ class Font extends AbstractStyle
         $content .= $this->getValueIf($style->isItalic() === false, '\i0');
 
         // Strikethrough, double strikethrough
-        $content .= $this->getValueIf($style->isStrikethrough(), '\strike');
-        $content .= $this->getValueIf($style->isDoubleStrikethrough(), '\striked1');
-        $content .= $this->getValueIf($style->isStrikethrough() === false && $style->isDoubleStrikethrough() === false, '\strike0');
+        if ($style->isDoubleStrikethrough()) {
+            $content .= '\striked1';
+        } elseif ($style->isStrikethrough()) {
+            $content .= '\strike';
+        } elseif ($style->isStrikethrough() === false || $style->isDoubleStrikethrough() === false) {
+            $content .= '\strike0';
+        }
 
         // Small caps, all caps
         $content .= $this->getValueIf($style->isSmallCaps(), '\scaps');

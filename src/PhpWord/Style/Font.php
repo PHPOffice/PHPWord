@@ -133,14 +133,14 @@ class Font extends AbstractStyle
     /**
      * Bold.
      *
-     * @var bool
+     * @var ?bool
      */
     private $bold;
 
     /**
      * Italic.
      *
-     * @var bool
+     * @var ?bool
      */
     private $italic;
 
@@ -154,35 +154,35 @@ class Font extends AbstractStyle
     /**
      * Superscript.
      *
-     * @var bool
+     * @var ?bool
      */
-    private $superScript = false;
+    private $superScript;
 
     /**
      * Subscript.
      *
-     * @var bool
+     * @var ?bool
      */
-    private $subScript = false;
+    private $subScript;
 
     /**
      * Strikethrough.
      *
-     * @var bool
+     * @var ?bool
      */
     private $strikethrough;
 
     /**
      * Double strikethrough.
      *
-     * @var bool
+     * @var ?bool
      */
     private $doubleStrikethrough;
 
     /**
      * Small caps.
      *
-     * @var bool
+     * @var ?bool
      *
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
      */
@@ -191,7 +191,7 @@ class Font extends AbstractStyle
     /**
      * All caps.
      *
-     * @var bool
+     * @var ?bool
      *
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
      */
@@ -258,7 +258,7 @@ class Font extends AbstractStyle
     /**
      * noProof (disables AutoCorrect).
      *
-     * @var bool
+     * @var ?bool
      * http://www.datypic.com/sc/ooxml/e-w_noProof-1.html
      */
     private $noProof;
@@ -273,7 +273,7 @@ class Font extends AbstractStyle
     /**
      * Hidden text.
      *
-     * @var bool
+     * @var ?bool
      *
      * @see  http://www.datypic.com/sc/ooxml/e-w_vanish-1.html
      */
@@ -466,7 +466,7 @@ class Font extends AbstractStyle
     /**
      * Get bold.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isBold()
     {
@@ -490,7 +490,7 @@ class Font extends AbstractStyle
     /**
      * Get italic.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isItalic()
     {
@@ -538,7 +538,7 @@ class Font extends AbstractStyle
     /**
      * Get superscript.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isSuperScript()
     {
@@ -560,7 +560,7 @@ class Font extends AbstractStyle
     /**
      * Get subscript.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isSubScript()
     {
@@ -618,7 +618,7 @@ class Font extends AbstractStyle
     /**
      * Get small caps.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isSmallCaps()
     {
@@ -640,7 +640,7 @@ class Font extends AbstractStyle
     /**
      * Get all caps.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isAllCaps()
     {
@@ -780,7 +780,7 @@ class Font extends AbstractStyle
     /**
      * Get noProof (disables autocorrect).
      *
-     * @return bool
+     * @return ?bool
      */
     public function isNoProof()
     {
@@ -927,7 +927,7 @@ class Font extends AbstractStyle
     /**
      * Get hidden text.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isHidden()
     {

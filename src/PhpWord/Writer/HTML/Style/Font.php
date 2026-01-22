@@ -84,6 +84,7 @@ class Font extends AbstractStyle
             $css['text-decoration'] .= $this->getValueIf($underline, self::UNDERLINES[$style->getUnderline()]);
         }
         $css['text-decoration'] .= $this->getValueIf($lineThrough, 'line-through ');
+        $css['text-decoration-style'] = $this->getValueIf($style->isDoubleStrikethrough(), 'double');
         $css['text-transform'] = $this->getValueIf($style->isAllCaps(), 'uppercase');
         $css['font-variant'] = $this->getValueIf($style->isSmallCaps(), 'small-caps');
         $css['display'] = $this->getValueIf($style->isHidden(), 'none');

@@ -121,8 +121,8 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->isDoubleStrikethrough(), 'w:dstrike', 'w:val', $this->writeOnOf($style->isDoubleStrikethrough()));
 
         // Small caps, all caps
-        $xmlWriter->writeElementIf($style->isSmallCaps() !== null, 'w:smallCaps', 'w:val', $this->writeOnOf($style->isSmallCaps()));
-        $xmlWriter->writeElementIf($style->isAllCaps() !== null, 'w:caps', 'w:val', $this->writeOnOf($style->isAllCaps()));
+        $xmlWriter->writeElementIf($style->isSmallCaps(), 'w:smallCaps', 'w:val', $this->writeOnOf($style->isSmallCaps()));
+        $xmlWriter->writeElementIf($style->isAllCaps(), 'w:caps', 'w:val', $this->writeOnOf($style->isAllCaps()));
 
         //Hidden text
         $xmlWriter->writeElementIf($style->isHidden(), 'w:vanish', 'w:val', $this->writeOnOf($style->isHidden()));
