@@ -486,8 +486,13 @@ abstract class AbstractPart
             if ($attributeIdentifier) {
                 $id = $attributeIdentifier->nodeValue;
 
-                $this->setCommentReference('start', $id, $parent->getElement($parent->countElements() - 1));
-                $this->setCommentReference('end', $id, $parent->getElement($parent->countElements() - 1));
+                if ($parent->countElements() > 0) {
+                    $this->setCommentReference('start', $id, $parent->getElement($parent->countElements() - 1));
+                    $this->setCommentReference('end', $id, $parent->getElement($parent->countElements() - 1));
+                } else {
+                    $this->setCommentReference('start', $id, $parent);
+                    $this->setCommentReference('end', $id, $parent);
+                }
             }
         }
     }
