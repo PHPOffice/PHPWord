@@ -353,4 +353,138 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('nolang', Helper::getTextContent($xpath, '/html/body/div/p[7]/span', 'class'));
         self::assertEmpty(Helper::getNamedItem($xpath, '/html/body/div/p[7]/span', 'lang'));
     }
+
+	/**
+	 * Tests underline color in font style.
+	 */
+	public function testUnderlineColor(): void
+	{
+		$phpWord = new PhpWord();
+
+		// Set default font to ensure consistent baseline
+		$phpWord->setDefaultFontName('Arial');
+		$phpWord->setDefaultFontSize(12);
+
+		// Define a font style with underline color
+		$phpWord->addFontStyle('underlineRed', [
+			'name' => 'Arial',
+			'size' => 10,
+			'color' => '000000',
+			'underline' => true,
+			'underlineColor' => 'FF0000' // Red underline
+		]);
+
+		$phpWord->addFontStyle('underlineBlue', [
+			'name' => 'Arial',
+			'size' => 10,
+			'color' => '000000',
+			'underline' => true,
+			'underlineColor' => '0000FF' // Blue underline
+		]);
+
+		$phpWord->addFontStyle('underlineNoColor', [
+			'name' => 'Arial',
+			'size' => 10,
+			'color' => '000000',
+			'underline' => true,
+			'underlineColor' => '' // Empty color (should not generate CSS)
+		]);
+
+		$section = $phpWord->addSection();
+		$section->addText('Red underline', 'underlineRed');
+		$section->addText('Blue underline', 'underlineBlue');
+		$section->addText('No underline color', 'underlineNoColor');
+
+		$dom = Helper::getAsHTML($phpWord);
+		$xpath = new DOMXPath($dom);
+
+		// Check that the correct classes are applied
+		self::assertEquals('underlineRed', Helper::getTextContent($xpath, '/html/body/div/p[1]/span', 'class'));
+		self::assertEquals('underlineBlue', Helper::getTextContent($xpath, '/html/body/div/p[2]/span', 'class'));
+		self::assertEquals('underlineNoColor', Helper::getTextContent($xpath, '/html/body/div/p[3]/span', 'class'));
+
+		// Extract the CSS styles
+		$style = Helper::getTextContent($xpath, '/html/head/style');
+
+		// Check that underlineRed has text-decoration-color: #FF0000
+		$prg = preg_match('/\.underlineRed[^\\r\\n]*{[^}]*text-decoration-color: #FF0000[^}]*}/m', $style, $matches);
+		self::assertNotEmpty($matches);
+		self::assertNotFalse($prg);
+		self::assertEquals('.underlineRed {font-family: \'Arial\'; font-size: 10pt; color: #000000; text-decoration: underline; text-decoration-color: #FF0000;}', $matches[0]);
+
+		// Check that underlineBlue has text-decoration-color: #0000FF
+		$prg = preg_match('/\.underlineBlue[^\\r\\n]*{[^}]*text-decoration-color: #0000FF[^}]*}/m', $style, $matches);
+		self::assertNotEmpty($matches);
+		self::assertNotFalse($prg);
+		self::assertEquals('.underlineBlue {font-family: \'Arial\'; font-size: 10pt; color: #000000; text-decoration: underline; text-decoration-color: #0000FF;}', $matches[0]);
+
+		// Check that underlineNoColor does NOT have text-decoration-color (because color is empty)
+		$prg = preg_match('/\.underlineNoColor[^\\r\\n]*{[^}]*text-decoration-color: #[^}]*}/m', $style, $matches);
+		self::assertFalse($prg, 'underlineNoColor should not have text-decoration-color in CSS');
+	}
+
+	/**
+	 * Tests underline color with default font and no explicit underline.
+	 */
+	public function testUnderlineColorWithoutUnderline(): void
+	{
+		$phpWord = new PhpWord();
+
+		$phpWord->setDefaultFontName('Arial');
+		$phpWord->setDefaultFontSize(12);
+
+		// Font style with underlineColor but no underline
+		$phpWord->addFontStyle('noUnderlineColor', [
+			'name' => 'Arial',
+			'size' => 10,
+			'color' => '000000',
+			'underlineColor' => 'FF0000' // Should not affect output if underline is not set
+		]);
+
+		$section = $phpWord->addSection();
+		$section->addText('No underline, but color set', 'noUnderlineColor');
+
+		$dom = Helper::getAsHTML($phpWord);
+		$xpath = new DOMXPath($dom);
+
+		$style = Helper::getTextContent($xpath, '/html/head/style');
+
+		// Check that text-decoration-color is NOT present (no underline)
+		$prg = preg_match('/\.noUnderlineColor[^\\r\\n]*{[^}]*text-decoration-color: #[^}]*}/m', $style, $matches);
+		self::assertFalse($prg, 'text-decoration-color should not be present when underline is not set');
+	}
+
+	/**
+	 * Tests underline color with invalid color format.
+	 */
+	public function testUnderlineColorInvalidFormat(): void
+	{
+		$phpWord = new PhpWord();
+
+		$phpWord->setDefaultFontName('Arial');
+		$phpWord->setDefaultFontSize(12);
+
+		// Invalid color format (not 6 hex digits)
+		$phpWord->addFontStyle('invalidColor', [
+			'name' => 'Arial',
+			'size' => 10,
+			'color' => '000000',
+			'underline' => true,
+			'underlineColor' => 'FF00' // Invalid: only 4 digits
+		]);
+
+		$section = $phpWord->addSection();
+		$section->addText('Invalid underline color', 'invalidColor');
+
+		$dom = Helper::getAsHTML($phpWord);
+		$xpath = new DOMXPath($dom);
+
+		$style = Helper::getTextContent($xpath, '/html/head/style');
+
+		// The writer should still output it as-is (no validation in current code)
+		$prg = preg_match('/\.invalidColor[^\\r\\n]*{[^}]*text-decoration-color: #FF00[^}]*}/m', $style, $matches);
+		self::assertNotEmpty($matches);
+		self::assertNotFalse($prg);
+		self::assertEquals('.invalidColor {font-family: \'Arial\'; font-size: 10pt; color: #000000; text-decoration: underline; text-decoration-color: #FF00;}', $matches[0]);
+	}
 }
