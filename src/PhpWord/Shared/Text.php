@@ -82,7 +82,7 @@ class Text
     }
 
     /**
-     * @param int $dec
+     * @param non-negative-int $dec
      *
      * @see http://stackoverflow.com/a/7153133/2235790
      *
