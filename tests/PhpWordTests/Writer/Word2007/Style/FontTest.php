@@ -18,8 +18,10 @@
 
 namespace PhpOffice\PhpWordTests\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -198,4 +200,70 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($styelem . '/w:color'));
         self::assertSame('A7D9C1', $doc->getElementAttribute($styelem . '/w:color', 'w:val'));
     }
+
+	/**
+	 * Test writing underline color.
+	 *
+	 * @throws CreateTemporaryFileException
+*/
+	public function testUnderlineColor(): void
+	{
+		$phpWord = new PhpWord();
+		$section = $phpWord->addSection();
+		$text = 'This text has an underline color';
+
+		// Test with a valid color (hex)
+		$fontStyle = [
+			'underline' => Font::UNDERLINE_SINGLE,
+			'underlineColor' => 'FF0000', // Red
+		];
+		$section->addText($text, $fontStyle);
+
+		$doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+		$element = '/w:document/w:body/w:p/w:r';
+		$styelem = $element . '/w:rPr';
+		$underlineElem = $styelem . '/w:u';
+		$colorElem = $styelem . '/w:u/w:color';
+
+		// Check that underline is present
+		self::assertTrue($doc->elementExists($underlineElem));
+		self::assertEquals('single', $doc->getElementAttribute($underlineElem, 'w:val'));
+
+		// Check that underline color is written
+		self::assertTrue($doc->elementExists($colorElem));
+		self::assertEquals('FF0000', $doc->getElementAttribute($colorElem, 'w:val'));
+	}
+
+	/**
+	 * Test that underline color is not written when empty.
+	 *
+	 * @throws CreateTemporaryFileException
+	 */
+	public function testUnderlineColorEmpty(): void
+	{
+		$phpWord = new PhpWord();
+		$section = $phpWord->addSection();
+		$text = 'This text has underline but no color';
+
+		$fontStyle = [
+			'underline' => Font::UNDERLINE_SINGLE,
+			'underlineColor' => '', // Empty → should not generate w:color
+		];
+		$section->addText($text, $fontStyle);
+
+		$doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+		$element = '/w:document/w:body/w:p/w:r';
+		$styelem = $element . '/w:rPr';
+		$underlineElem = $styelem . '/w:u';
+		$colorElem = $styelem . '/w:u/w:color';
+
+		// Check underline is present
+		self::assertTrue($doc->elementExists($underlineElem));
+		self::assertEquals('single', $doc->getElementAttribute($underlineElem, 'w:val'));
+
+		// Check that w:color is NOT present (because value is empty)
+		self::assertFalse($doc->elementExists($colorElem));
+	}
 }
