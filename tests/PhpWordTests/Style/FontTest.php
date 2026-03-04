@@ -62,6 +62,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             ['bold', false],
             ['italic', false],
             ['underline', Font::UNDERLINE_NONE],
+            ['underlineColor', ''],
             ['superScript', false],
             ['subScript', false],
             ['strikethrough', false],
@@ -109,6 +110,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             ['bold', true],
             ['italic', true],
             ['underline', Font::UNDERLINE_HEAVY],
+            ['underlineColor', '000000'],
             ['superScript', true],
             ['subScript', false],
             ['strikethrough', true],
@@ -141,6 +143,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
     {
         $object = new Font();
         $object->setStyleValue($key, $value);
+        $key = ucfirst($key);  // correction for CamelCase isAllCaps or getAllCaps
         $get = is_bool($value) ? "is{$key}" : "get{$key}";
         self::assertEquals($value, $object->$get());
     }
