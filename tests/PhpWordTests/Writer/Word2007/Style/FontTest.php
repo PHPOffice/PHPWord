@@ -219,4 +219,59 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($u));
         self::assertSame('dotDotDash', $doc->getElementAttribute($u, 'w:val'));
     }
+
+    /**
+     * Test writing underline color.
+     */
+    public function testUnderlineColor(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $text = 'This text has an underline color';
+
+        // Test with a valid color (hex)
+        $fontStyle = [
+            'underline' => Font::UNDERLINE_SINGLE,
+            'underlineColor' => 'FF0000', // Red
+        ];
+        $section->addText($text, $fontStyle);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $element = '/w:document/w:body/w:p/w:r';
+        $styelem = $element . '/w:rPr';
+        $underlineElem = $styelem . '/w:u';
+
+        // Check that underline is present
+        self::assertTrue($doc->elementExists($underlineElem));
+        self::assertEquals('single', $doc->getElementAttribute($underlineElem, 'w:val'));
+        self::assertEquals('FF0000', $doc->getElementAttribute($underlineElem, 'w:color'));
+    }
+
+    /**
+     * Test that underline color is not written when empty.
+     */
+    public function testUnderlineColorEmpty(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $text = 'This text has underline but no color';
+
+        $fontStyle = [
+            'underline' => Font::UNDERLINE_SINGLE,
+            'underlineColor' => '', // Empty → should not generate w:color
+        ];
+        $section->addText($text, $fontStyle);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $element = '/w:document/w:body/w:p/w:r';
+        $styelem = $element . '/w:rPr';
+        $underlineElem = $styelem . '/w:u';
+
+        // Check underline is present
+        self::assertTrue($doc->elementExists($underlineElem));
+        self::assertEquals('single', $doc->getElementAttribute($underlineElem, 'w:val'));
+        self::assertEquals('', $doc->getElementAttribute($underlineElem, 'w:color'));
+    }
 }

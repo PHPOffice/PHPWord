@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 
@@ -89,7 +90,7 @@ class Font extends AbstractStyle
 
         // Color
         $color = (string) $style->getColor();
-        $xmlWriter->writeAttributeIf($color !== '', 'fo:color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($color));
+        $xmlWriter->writeAttributeIf($color !== '', 'fo:color', '#' . Converter::stringToRgb($color));
 
         // Bold & italic
         $xmlWriter->writeAttributeIf($style->isBold(), 'fo:font-weight', 'bold');
@@ -101,11 +102,36 @@ class Font extends AbstractStyle
         // Underline
         $underline = $style->getUnderline();
         if (isset(self::UNDERLINES[$underline])) {
-            $xmlWriter->writeAttribute('style:text-underline-style', self::UNDERLINES[$underline]);
-            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'heavy') !== false, 'style:text-underline-width', 'bold');
-            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'thick') !== false, 'style:text-underline-width', 'bold');
-            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'double') !== false, 'style:text-underline-type', 'double');
-            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'words') !== false, 'style:text-underline-mode', 'skip-white-space');
+            $xmlWriter->writeAttribute(
+                'style:text-underline-style',
+                self::UNDERLINES[$underline]
+            );
+            $xmlWriter->writeAttributeIf(
+                strpos(strtolower($underline), 'heavy') !== false,
+                'style:text-underline-width',
+                'bold'
+            );
+            $xmlWriter->writeAttributeIf(
+                strpos(strtolower($underline), 'thick') !== false,
+                'style:text-underline-width',
+                'bold'
+            );
+            $xmlWriter->writeAttributeIf(
+                strpos(strtolower($underline), 'double') !== false,
+                'style:text-underline-type',
+                'double'
+            );
+            $xmlWriter->writeAttributeIf(
+                strpos(strtolower($underline), 'words') !== false,
+                'style:text-underline-mode',
+                'skip-white-space'
+            );
+            $underlineColor = $style->getunderlineColor();
+            $xmlWriter->writeAttributeIf(
+                $underlineColor !== '',
+                'style:text-underline-color',
+                '#' . Converter::stringToRgb($underlineColor)
+            );
         }
 
         // Strikethrough, double strikethrough
@@ -134,7 +160,7 @@ class Font extends AbstractStyle
 
         // Foreground-Color (which is really background color)
         $fgColor = (string) $style->getFgColor();
-        $xmlWriter->writeAttributeIf($fgColor !== '', 'fo:background-color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($fgColor));
+        $xmlWriter->writeAttributeIf($fgColor !== '', 'fo:background-color', '#' . Converter::stringToRgb($fgColor));
 
         $xmlWriter->endElement(); // style:text-properties
         $xmlWriter->endElement(); // style:style

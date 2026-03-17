@@ -66,6 +66,7 @@ class Font extends AbstractStyle
         $color = $style->getColor();
         $fgColor = $style->getFgColor();
         $underline = $style->getUnderline() != FontStyle::UNDERLINE_NONE;
+        $underlineColor = $style->getUnderlineColor();
         $lineThrough = $style->isStrikethrough() || $style->isDoubleStrikethrough();
 
         $css['font-family'] = $this->getValueIf(!empty($font), $font);
@@ -81,7 +82,14 @@ class Font extends AbstractStyle
         $css['vertical-align'] .= $this->getValueIf($style->isSubScript(), 'sub');
         $css['text-decoration'] = '';
         if (isset(self::UNDERLINES[$style->getUnderline()])) {
-            $css['text-decoration'] .= $this->getValueIf($underline, self::UNDERLINES[$style->getUnderline()]);
+            $css['text-decoration'] .= self::UNDERLINES[$style->getUnderline()];
+            if ($underlineColor !== '') {
+                $ulColor = $underlineColor;
+                if (preg_match('/^[0-9a-fA-F]{6}$/', $ulColor)) {
+                    $ulColor = "#$ulColor";
+                }
+                $css['text-decoration-color'] = $ulColor;
+            }
         }
         $css['text-decoration'] .= $this->getValueIf($lineThrough, 'line-through ');
         $css['text-decoration-style'] = $this->getValueIf($style->isDoubleStrikethrough(), 'double');

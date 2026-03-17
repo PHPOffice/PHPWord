@@ -151,6 +151,9 @@ class Font extends AbstractStyle
      */
     private $underline = self::UNDERLINE_NONE;
 
+    /** @var string */
+    private $underlineColor = '';
+
     /**
      * Superscript.
      *
@@ -335,6 +338,7 @@ class Font extends AbstractStyle
                 'bold' => $this->isBold(),
                 'italic' => $this->isItalic(),
                 'underline' => $this->getUnderline(),
+                'underlineColor' => $this->getUnderlineColor(),
                 'strike' => $this->isStrikethrough(),
                 'dStrike' => $this->isDoubleStrikethrough(),
                 'super' => $this->isSuperScript(),
@@ -524,13 +528,29 @@ class Font extends AbstractStyle
     /**
      * Set underline.
      *
-     * @param string $value
+     * @param bool|string $value
      *
      * @return self
      */
     public function setUnderline($value = self::UNDERLINE_NONE)
     {
+        if (is_bool($value)) {
+            $value = $value ? self::UNDERLINE_SINGLE : self::UNDERLINE_NONE;
+        }
         $this->underline = $this->setNonEmptyVal($value, self::UNDERLINE_NONE);
+
+        return $this;
+    }
+
+    public function getUnderlineColor(): string
+    {
+        return $this->underlineColor;
+    }
+
+    /** @return self */
+    public function setUnderlineColor(string $value = '')
+    {
+        $this->underlineColor = $value;
 
         return $this;
     }

@@ -66,6 +66,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'bold' => false,
             'italic' => false,
             'underline' => Font::UNDERLINE_NONE,
+            'underlineColor' => '',
             'superScript' => false,
             'subScript' => false,
             'strikethrough' => false,
@@ -88,8 +89,10 @@ class FontTest extends \PHPUnit\Framework\TestCase
             $get = is_bool($default) ? "is{$uckey}" : "get{$uckey}";
             self::assertTrue(method_exists($object, $get));
             self::assertEquals($default, $object->$get());
-            $object->setStyleValue($key, null);
-            self::assertEquals($default, $object->$get());
+            if ($key !== 'underlineColor') { // underlineColor must be string
+                $object->setStyleValue($key, null);
+                self::assertEquals($default, $object->$get());
+            }
             $object->setStyleValue($key, '');
             self::assertEquals($default, $object->$get());
         }
@@ -110,6 +113,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'bold' => true,
             'italic' => true,
             'underline' => Font::UNDERLINE_HEAVY,
+            'underlineColor' => '999999',
             'superScript' => true,
             'subScript' => false,
             'strikethrough' => true,

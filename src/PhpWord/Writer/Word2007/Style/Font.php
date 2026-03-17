@@ -18,6 +18,9 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style as StyleStyle;
+use PhpOffice\PhpWord\Style\Font as StyleFont;
+
 /**
  * Font style writer.
  *
@@ -44,8 +47,8 @@ class Font extends AbstractStyle
             $xmlWriter->startElement('w:rStyle');
             $xmlWriter->writeAttribute('w:val', $this->style);
             $xmlWriter->endElement();
-            $style = \PhpOffice\PhpWord\Style::getStyle($this->style);
-            if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
+            $style = StyleStyle::getStyle($this->style);
+            if ($style instanceof StyleFont) {
                 $xmlWriter->writeElementIf($style->isRTL(), 'w:rtl');
             }
             $xmlWriter->endElement();
@@ -60,7 +63,7 @@ class Font extends AbstractStyle
     private function writeStyle(): void
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
+        if (!$style instanceof StyleFont) {
             return;
         }
 
@@ -128,7 +131,15 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->isHidden(), 'w:vanish', 'w:val', $this->writeOnOf($style->isHidden()));
 
         // Underline
-        $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
+        $underline = $style->getUnderline();
+        if ($underline !== StyleFont::UNDERLINE_NONE) {
+            $xmlWriter->startElement('w:u');
+            $xmlWriter->writeAttribute('w:val', $underline);
+            if ($style->getUnderlineColor() !== '') {
+                $xmlWriter->writeAttribute('w:color', $style->getUnderlineColor());
+            }
+            $xmlWriter->endElement(); // w:u
+        }
 
         // Foreground-Color
         $xmlWriter->writeElementIf($style->getFgColor() !== null, 'w:highlight', 'w:val', $style->getFgColor());

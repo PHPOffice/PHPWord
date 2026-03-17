@@ -766,6 +766,7 @@ abstract class AbstractPart
             'size' => [self::READ_SIZE,  ['w:sz', 'w:szCs']],
             'color' => [self::READ_VALUE, 'w:color'],
             'underline' => [self::READ_VALUE, 'w:u'],
+            'underlineColor' => [self::READ_VALUE, 'w:u', 'w:color'],
             'bold' => [self::READ_TRUE,  'w:b'],
             'italic' => [self::READ_TRUE,  'w:i'],
             'strikethrough' => [self::READ_TRUE,  'w:strike'],

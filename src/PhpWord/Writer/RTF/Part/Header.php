@@ -457,6 +457,7 @@ class Header extends AbstractPart
             $this->registerTableItem($this->colorTable, $style->getColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getFgColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getBgColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getUnderlineColor(), $defaultColor);
 
             return;
         }
@@ -483,7 +484,7 @@ class Header extends AbstractPart
      */
     private function registerTableItem(&$table, $value, $default = null): void
     {
-        if (in_array($value, $table) === false && $value !== null && $value != $default) {
+        if (in_array($value, $table) === false && $value != '' && $value != $default) {
             $table[] = $value;
         }
     }

@@ -20,6 +20,8 @@ namespace PhpOffice\PhpWord\Reader\RTF;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Language;
 
 /**
  * RTF document reader.
@@ -319,7 +321,24 @@ class Document
             'par' => [self::PARA,    'paragraph',    true],
             'b' => [self::STYL,    'font',         'bold',          true],
             'i' => [self::STYL,    'font',         'italic',        true],
-            'u' => [self::STYL,    'font',         'underline',     true],
+            'uldashdd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTDOTDASH],
+            'uldashd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTDASH],
+            'uldash' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASH],
+            'uldb' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOUBLE],
+            'uld' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTTED],
+            'ulhwave' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_WAVYHEAVY],
+            'ulldash' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASHLONG],
+            'ultdashd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASHHEAVY],
+            'ulthdashdd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTDOTDASHHEAVY],
+            'ulthdashd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTDASHHEAVY],
+            'ulthdash' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASHHEAVY],
+            'ulthd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTTEDHEAVY],
+            'ulthldash' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASHLONGHEAVY],
+            'ulth' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_HEAVY],
+            'ululdbwave' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_WAVYDOUBLE],
+            'ulwave' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_WAVY],
+            'ulw' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_WORDS],
+            'ul' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_SINGLE],
             'strike' => [self::STYL,    'font',         'strikethrough', true],
             'fs' => [self::STYL,    'font',         'size',          $parameter],
             'qc' => [self::STYL,    'paragraph',    'alignment',     Jc::CENTER],
@@ -346,6 +365,9 @@ class Document
             }
         } elseif ($control === 'widowctrl') {
             $this->phpWord->getSettings()->setRtfWidowControl(true);
+        } elseif ($control === 'lang') {
+            $this->phpWord->getSettings()
+                ->setThemeFontLang(new Language('', '', '', (int) $parameter));
         }
     }
 
@@ -391,7 +413,7 @@ class Document
     {
         $text = $this->textrun->addText($this->text);
         if (isset($this->flags['styles']['font'])) {
-            /** @var \PhpOffice\PhpWord\Style\Font */
+            /** @var Font */
             $temp = $text->getFontStyle();
             $temp->setStyleByArray($this->flags['styles']['font']);
         }

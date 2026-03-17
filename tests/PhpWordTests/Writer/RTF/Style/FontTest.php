@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWordTests\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\Element\Text as TextElement;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Color;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
@@ -70,7 +71,7 @@ class FontTest extends TestCase
      */
     public function testFontColorRegistered(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $parentWriter = new RTF($phpWord);
         $style = new FontStyle();
         $element = new TextElement();
@@ -260,5 +261,21 @@ class FontTest extends TestCase
         $style->setPosition(10);
         $expect = '\charscalex5\expnd1\expndtw4\kerning200\up10 ';
         self::assertEquals($expect, $this->removeCr($writer));
+    }
+
+    public function testUnderlineColor(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $text = 'This text has an underline color';
+
+        $fontStyle = [
+            'underline' => FontStyle::UNDERLINE_SINGLE,
+            'underlineColor' => 'FF4030',
+        ];
+        $section->addText($text, $fontStyle);
+        $rtf = new RTF($phpWord);
+        $content = $rtf->getContent();
+        self::assertStringContainsString('{\ul\ulc2 This text has an underline color}', $content);
     }
 }

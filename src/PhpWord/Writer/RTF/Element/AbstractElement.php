@@ -217,6 +217,12 @@ abstract class AbstractElement
                 $styleWriter->setBgColorIndex((int) $colorIndex + 1);
             }
         }
+        if ($this->fontStyle->getUnderlineColor() != '') {
+            $colorIndex = array_search($this->fontStyle->getUnderlineColor(), $parentWriter->getColorTable());
+            if ($colorIndex !== false) {
+                $styleWriter->setUnderlineColorIndex((int) $colorIndex + 1);
+            }
+        }
         if ($this->fontStyle->getName() != null) {
             $fontIndex = array_search($this->fontStyle->getName(), $parentWriter->getFontTable());
             if ($fontIndex !== false) {

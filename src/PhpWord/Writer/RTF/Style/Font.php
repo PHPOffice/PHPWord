@@ -48,6 +48,11 @@ class Font extends AbstractStyle
     private $bgColorIndex = 0;
 
     /**
+     * @var int Font underline color index
+     */
+    private $underlineColorIndex = 0;
+
+    /**
      * Write style.
      *
      * @return string
@@ -125,6 +130,9 @@ class Font extends AbstractStyle
         // Underline
         if (isset($underlines[$style->getUnderline()])) {
             $content .= $underlines[$style->getUnderline()];
+            if ($this->underlineColorIndex !== 0) {
+                $content .= '\ulc' . $this->underlineColorIndex;
+            }
         }
 
         // Foreground color
@@ -197,5 +205,15 @@ class Font extends AbstractStyle
     public function setBgColorIndex($value = 0): void
     {
         $this->bgColorIndex = $value;
+    }
+
+    /**
+     * Set font underline color index.
+     *
+     * @param int $value
+     */
+    public function setUnderlineColorIndex($value = 0): void
+    {
+        $this->underlineColorIndex = $value;
     }
 }

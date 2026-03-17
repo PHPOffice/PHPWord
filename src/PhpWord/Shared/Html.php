@@ -34,13 +34,14 @@ use PhpOffice\PhpWord\SimpleType\Border;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\SimpleType\TextDirection;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph;
 use Throwable;
 
 /**
  * Common Html functions.
  *
- * @SuppressWarnings("PHPMD.UnusedPrivateMethod") For readWPNode
+ * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
  */
 class Html
 {
@@ -66,6 +67,27 @@ class Html
      * @var Css
      */
     protected static $css;
+
+    private const UNDERLINES = [ // defaults to UNDERLINE_SINGLE if not in this list
+        'none' => FontStyle::UNDERLINE_NONE,
+        'dashed' => FontStyle::UNDERLINE_DASH,
+        //'dotted 2px' => FontStyle::UNDERLINE_DASHDOTDOTHEAVY,
+        //'dotted 2px' => FontStyle::UNDERLINE_DASHDOTHEAVY,
+        'dashed 2px' => FontStyle::UNDERLINE_DASHEDHEAVY,
+        //'dashed 2px' => FontStyle::UNDERLINE_DASHLONGHEAVY,
+        //'dashed' => FontStyle::UNDERLINE_DASHLONG,
+        //'dotted' => FontStyle::UNDERLINE_DOTDASH,
+        //'dotted' => FontStyle::UNDERLINE_DOTDOTDASH,
+        'dotted' => FontStyle::UNDERLINE_DOTTED,
+        'dotted 2px' => FontStyle::UNDERLINE_DOTTEDHEAVY,
+        'double' => FontStyle::UNDERLINE_DOUBLE,
+        'solid 2px' => FontStyle::UNDERLINE_HEAVY,
+        'wavy' => FontStyle::UNDERLINE_WAVY,
+        //'wavy' => FontStyle::UNDERLINE_WAVYDOUBLE,
+        'wavy 2px' => FontStyle::UNDERLINE_WAVYHEAVY,
+        //'solid' => FontStyle::UNDERLINE_SINGLE,
+        //'solid' => FontStyle::UNDERLINE_WORDS,
+    ];
 
     /**
      * Add HTML parts.
@@ -815,16 +837,16 @@ class Html
         foreach ($selectors as $property => $value) {
             switch ($property) {
                 case 'text-decoration':
-                    switch ($value) {
-                        case 'underline':
-                            $styles['underline'] = 'single';
-
-                            break;
-                        case 'line-through':
-                            $styles['strikethrough'] = true;
-
-                            break;
+                    if ($value === 'line-through') {
+                        $styles['strikethrough'] = true;
+                    } elseif (preg_match('/^underline(.*)$/', $value, $matches) === 1) {
+                        $underlineStyle = trim($matches[1]);
+                        $styles['underline'] = self::UNDERLINES[$underlineStyle] ?? FontStyle::UNDERLINE_SINGLE;
                     }
+
+                    break;
+                case 'text-decoration-color':
+                    HtmlColours::setArrayColour($styles, 'underlineColor', self::convertRgb($value));
 
                     break;
                 case 'text-align':
