@@ -42,6 +42,7 @@ class Document
     const SKIP = 'readSkip';
     const COLOR = 'readColor';
     const APPLY_COLOR = 'applyColor';
+    const APPLY_FONTNAME = 'applyFontName';
 
     /**
      * PhpWord object.
@@ -133,6 +134,12 @@ class Document
     /** @var int */
     private $colorIndex = 0;
 
+    /** @var bool */
+    private $readingFontTable = false;
+
+    /** @var string[] */
+    private $fontTable = [];
+
     /**
      * Parse RTF content.
      *
@@ -207,6 +214,9 @@ class Document
     {
         $this->flush(true);
         $this->flags = array_pop($this->groups);
+        if ($this->readingFontTable && !isset($this->flags['skipped'])) {
+            $this->readingFontTable = false;
+        }
     }
 
     /**
@@ -281,6 +291,10 @@ class Document
             }
 
             // Add text if it's not flagged as skipped
+            if ($this->readingFontTable) {
+                $fontName = substr($this->text, 0, -1); // remove semicolon
+                $this->fontTable[] = $fontName;
+            }
             if (!isset($this->flags['skipped'])) {
                 $this->readText();
             }
@@ -367,6 +381,7 @@ class Document
             'cf' => [self::APPLY_COLOR, 'font', 'color', $parameter],
             'ulc' => [self::APPLY_COLOR, 'font', 'underlineColor', $parameter],
             'highlight' => [self::APPLY_COLOR, 'font', 'fgColor', $parameter],
+            'f' => [self::APPLY_FONTNAME, $parameter],
         ];
 
         if (isset($controls[$control])) {
@@ -404,6 +419,9 @@ class Document
     private function readStyle($directives): void
     {
         [$style, $property, $value] = $directives;
+        if ($style === 'font' && $property === 'size' && is_numeric($value)) {
+            $value /= 2;
+        }
         $this->flags['styles'][$style][$property] = $value;
     }
 
@@ -436,6 +454,17 @@ class Document
         $this->flags['styles'][$style][$property] = $value;
     }
 
+    /** @param list<null|bool|string> $directives */
+    private function applyFontName($directives): void
+    {
+        if (!$this->readingFontTable) {
+            $index = (int) $directives[0];
+            if (isset($this->fontTable[$index])) {
+                $this->flags['styles']['font']['name'] = $this->fontTable[$index];
+            }
+        }
+    }
+
     /**
      * Read skip.
      *
@@ -446,6 +475,9 @@ class Document
         [$property] = $directives;
         $this->flags['property'] = $property;
         $this->flags['skipped'] = true;
+        if ($property === 'fonttbl') {
+            $this->readingFontTable = true;
+        }
     }
 
     /**
