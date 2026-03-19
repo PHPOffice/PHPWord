@@ -37,10 +37,11 @@ use PhpOffice\PhpWord\Style\Language;
  */
 class Document
 {
-    /** @const int */
     const PARA = 'readParagraph';
     const STYL = 'readStyle';
     const SKIP = 'readSkip';
+    const COLOR = 'readColor';
+    const APPLY_COLOR = 'applyColor';
 
     /**
      * PhpWord object.
@@ -125,6 +126,12 @@ class Document
      * @var array
      */
     private $flags = [];
+
+    /** @var array<int, array{'blue'?: int, 'green'?: int, 'red'?: int}> */
+    private $colorTable = [['blue' => 0, 'green' => 0, 'red' => 0]];
+
+    /** @var int */
+    private $colorIndex = 0;
 
     /**
      * Parse RTF content.
@@ -354,6 +361,12 @@ class Document
             'comment' => [self::SKIP,    'comment',      null],
             'shppict' => [self::SKIP,    'pic',          null],
             'fldinst' => [self::SKIP,    'link',         null],
+            'red' => [self::COLOR, 'red', $parameter],
+            'green' => [self::COLOR, 'green', $parameter],
+            'blue' => [self::COLOR, 'blue', $parameter],
+            'cf' => [self::APPLY_COLOR, 'font', 'color', $parameter],
+            'ulc' => [self::APPLY_COLOR, 'font', 'underlineColor', $parameter],
+            'highlight' => [self::APPLY_COLOR, 'font', 'fgColor', $parameter],
         ];
 
         if (isset($controls[$control])) {
@@ -391,6 +404,35 @@ class Document
     private function readStyle($directives): void
     {
         [$style, $property, $value] = $directives;
+        $this->flags['styles'][$style][$property] = $value;
+    }
+
+    /**
+     * Read style.
+     *
+     * @param list<null|bool|string> $directives
+     */
+    private function readColor($directives): void
+    {
+        /** @var 'blue'|'green'|'red' */
+        $color = (string) $directives[0];
+        $value = (int) $directives[1];
+        if (isset($this->colorTable[$this->colorIndex][$color])) {
+            ++$this->colorIndex;
+        }
+        $this->colorTable[$this->colorIndex][$color] = $value;
+    }
+
+    /** @param list<null|bool|string> $directives */
+    private function applyColor($directives): void
+    {
+        $style = (string) $directives[0];
+        $property = (string) $directives[1];
+        $index = (int) $directives[2];
+        $red = $this->colorTable[$index]['red'] ?? 0;
+        $green = $this->colorTable[$index]['green'] ?? 0;
+        $blue = $this->colorTable[$index]['blue'] ?? 0;
+        $value = sprintf('%02X%02X%02X', $red, $green, $blue);
         $this->flags['styles'][$style][$property] = $value;
     }
 
