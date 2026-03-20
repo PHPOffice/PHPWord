@@ -394,8 +394,10 @@ class Document
         } elseif ($control === 'widowctrl') {
             $this->phpWord->getSettings()->setRtfWidowControl(true);
         } elseif ($control === 'lang') {
+            $langId = (int) $parameter;
+            $lang = Language::idToLang($langId);
             $this->phpWord->getSettings()
-                ->setThemeFontLang(new Language('', '', '', (int) $parameter));
+                ->setThemeFontLang(new Language($lang, '', '', $langId));
         }
     }
 

@@ -123,7 +123,7 @@ final class Language extends AbstractStyle
     const RO_RO_ID = 1048;
 
     const SL_SI = 'sl-SI';
-    const SL_SI_ID = 1046;
+    const SL_SI_ID = 1060;
 
     const SK_SK = 'sk-SK';
     const SK_SK_ID = 1051;
@@ -340,5 +340,56 @@ final class Language extends AbstractStyle
                 $this->langId = constant("self::$locale");
             }
         }
+    }
+
+    private const ID_TO_LANG = [
+        self::AR_SA_ID => self::AR_SA,
+        self::BG_BG_ID => self::BG_BG,
+        self::CS_CZ_ID => self::CS_CZ,
+        self::DA_DK_ID => self::DA_DK,
+        self::DE_CH_ID => self::DE_CH,
+        self::DE_DE_ID => self::DE_DE,
+        self::EN_GB_ID => self::EN_GB,
+        self::EN_US_ID => self::EN_US,
+        self::ES_ES_ID => self::ES_ES,
+        self::FR_BE_ID => self::FR_BE,
+        self::FR_CH_ID => self::FR_CH,
+        self::FR_FR_ID => self::FR_FR,
+        self::HE_IL_ID => self::HE_IL,
+        self::HI_IN_ID => self::HI_IN,
+        self::HR_HR_ID => self::HR_HR,
+        self::HU_HU_ID => self::HU_HU,
+        self::ID_ID_ID => self::ID_ID,
+        self::IT_CH_ID => self::IT_CH,
+        self::IT_IT_ID => self::IT_IT,
+        self::JA_JP_ID => self::JA_JP,
+        self::KK_KK_ID => self::KK_KZ,
+        self::KO_KR_ID => self::KO_KR,
+        self::LT_LT_ID => self::LT_LT,
+        self::LV_LV_ID => self::LV_LV,
+        self::MS_MY_ID => self::MS_MY,
+        self::NB_NO_ID => self::NB_NO,
+        self::NL_NL_ID => self::NL_NL,
+        self::PL_PL_ID => self::PL_PL,
+        self::PT_BR_ID => self::PT_BR,
+        self::PT_PT_ID => self::PT_PT,
+        self::RO_RO_ID => self::RO_RO,
+        self::SL_SI_ID => self::SL_SI,
+        self::SK_SK_ID => self::SK_SK,
+        self::SR_LATN_RS_ID => self::SR_LATN_RS,
+        self::SV_SE_ID => self::SV_SE,
+        self::TH_TH_ID => self::TH_TH,
+        self::TR_TR_ID => self::TR_TR,
+        self::UK_UA_ID => self::UK_UA,
+        self::RU_RU_ID => self::RU_RU,
+        self::VI_VN_ID => self::VI_VN,
+        self::ZH_CN_ID => self::ZH_CN,
+        self::ZH_TW_ID => self::ZH_TW,
+    ];
+
+    /** @param int $langId */
+    public static function idToLang($langId): string
+    {
+        return self::ID_TO_LANG[$langId] ?? '';
     }
 }

@@ -31,17 +31,23 @@ class LanguageTest extends AbstractTestReader
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()
-            ->setThemeFontLang(new Language('', '', '', 1234));
+            ->setThemeFontLang(new Language('', '', '', Language::DA_DK_ID));
         $section = $phpWord->addSection();
 
         $text = 'Some random text.';
 
         $newWord = $this->writeAndReload($phpWord, 'RTF');
         self::assertSame(
-            1234,
+            Language::DA_DK_ID,
             $newWord->getSettings()
                 ->getThemeFontLang()
                 ->getLangId()
+        );
+        self::assertSame(
+            Language::DA_DK,
+            $newWord->getSettings()
+                ->getThemeFontLang()
+                ->getLatin()
         );
     }
 }
