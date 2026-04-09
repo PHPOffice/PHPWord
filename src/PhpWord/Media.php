@@ -47,7 +47,7 @@ class Media
      *
      * @return int
      */
-    public static function addElement($container, $mediaType, $source, Image $image = null)
+    public static function addElement($container, $mediaType, $source, ?Image $image = null)
     {
         // Assign unique media Id and initiate media container if none exists
         $mediaId = md5($container . $source);
@@ -214,7 +214,7 @@ class Media
      *
      * @codeCoverageIgnore
      */
-    public static function addSectionMediaElement($src, $type, Image $image = null)
+    public static function addSectionMediaElement($src, $type, ?Image $image = null)
     {
         return self::addElement('section', $type, $src, $image);
     }
@@ -280,7 +280,7 @@ class Media
      *
      * @codeCoverageIgnore
      */
-    public static function addHeaderMediaElement($headerCount, $src, Image $image = null)
+    public static function addHeaderMediaElement($headerCount, $src, ?Image $image = null)
     {
         return self::addElement("header{$headerCount}", 'image', $src, $image);
     }
@@ -328,7 +328,7 @@ class Media
      *
      * @codeCoverageIgnore
      */
-    public static function addFooterMediaElement($footerCount, $src, Image $image = null)
+    public static function addFooterMediaElement($footerCount, $src, ?Image $image = null)
     {
         return self::addElement("footer{$footerCount}", 'image', $src, $image);
     }

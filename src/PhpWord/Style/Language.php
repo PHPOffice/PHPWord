@@ -232,7 +232,7 @@ final class Language extends AbstractStyle
             $locale = str_replace('_', '-', $locale);
         }
 
-        if (strlen($locale) === 2) {
+        if ($locale !== null && strlen($locale) === 2) {
             return strtolower($locale) . '-' . strtoupper($locale);
         }
 
