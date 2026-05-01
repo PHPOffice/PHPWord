@@ -528,15 +528,17 @@ abstract class AbstractPart
             $xmlReader->registerNamespace('a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
 
             $name = $xmlReader->getAttribute('name', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
+            $altText = $xmlReader->getAttribute('descr', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
             $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:inline/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
-            if ($name === null && $embedId === null) { // some Converters puts images on a different path
+            if ($name === null && $altText === null && $embedId === null) { // some Converters puts images on a different path
                 $name = $xmlReader->getAttribute('name', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
+                $altText = $xmlReader->getAttribute('descr', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
                 $embedId = $xmlReader->getAttribute('r:embed', $node, 'wp:anchor/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
             }
             $target = $this->getMediaTarget($docPart, $embedId);
             if ($this->hasImageLoading() && null !== $target) {
                 $imageSource = "zip://{$this->docFile}#{$target}";
-                $parent->addImage($imageSource, null, false, $name);
+                $parent->addImage($imageSource, null, false, $name, $altText);
             }
         } elseif ($node->nodeName == 'w:object') {
             // Object

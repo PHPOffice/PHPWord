@@ -36,5 +36,4 @@ $textrun = $section->addTextRun();
 $textrun->addImage('http://php.net/logo.jpg', null, false, null, 'PHP logo');
 $source = file_get_contents('/path/to/my/images/earth.jpg');
 $image = $textrun->addImage($source);
-$image->setAltText('Picture of the entire earth taken from space');
 ```
