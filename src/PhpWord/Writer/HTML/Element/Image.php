@@ -45,8 +45,15 @@ class Image extends Text
             $style = $styleWriter->write();
             $imageData = 'data:' . $this->element->getImageType() . ';base64,' . $imageData;
 
+            $altText = $this->element->getAltText();
+            if ($altText) {
+                $altAttribute = " alt=\"{$altText}\"";
+            } else {
+                $altAttribute = '';
+            }
+
             $content .= $this->writeOpening();
-            $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
+            $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"{$altAttribute}/>";
             $content .= $this->writeClosing();
         }
 
