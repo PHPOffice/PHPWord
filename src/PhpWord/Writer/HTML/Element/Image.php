@@ -46,10 +46,9 @@ class Image extends Text
             $imageData = 'data:' . $this->element->getImageType() . ';base64,' . $imageData;
 
             $altText = $this->element->getAltText();
+            $altAttribute = '';
             if ($altText) {
                 $altAttribute = " alt=\"{$altText}\"";
-            } else {
-                $altAttribute = '';
             }
 
             $content .= $this->writeOpening();

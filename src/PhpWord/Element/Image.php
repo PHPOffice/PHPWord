@@ -211,7 +211,7 @@ class Image extends AbstractElement
      *
      * @return null|string
      */
-    public function getAltText()
+    public function getAltText(): ?string 
     {
         return $this->altText;
     }
@@ -221,7 +221,7 @@ class Image extends AbstractElement
      *
      * @param null|string $value
      */
-    public function setAltText($value): void
+    public function setAltText(?string $value): void
     {
         $this->altText = $value;
     }
