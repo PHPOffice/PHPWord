@@ -627,6 +627,7 @@ class Html
         return [
             'type' => 'hybridMultilevel',
             'levels' => [
+                // Hexadecmimal representation of what is used for the default bulleted list style in Word.
                 ['format' => NumberFormat::BULLET, 'text' => "\xEF\x82\xB7", 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'],
                 ['format' => NumberFormat::BULLET, 'text' => "\x6F",         'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'],
                 ['format' => NumberFormat::BULLET, 'text' => "\xEF\x82\xA7", 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'],
