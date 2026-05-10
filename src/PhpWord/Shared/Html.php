@@ -775,18 +775,25 @@ class Html
             ];
         }
 
+        $l3bullet = "\u{f0a7}"; // note Private Use Area character requiring specific font
+        $l3font = 'Wingdings';
+        $l2bullet = "\x6f"; // note "Latin small letter o" in all fonts
+        $l2font = 'Courier New';
+        $l1bullet = "\u{f0b7}"; // note Private Use Area character requiring specific font
+        $l1font = 'Symbol';
+
         return [
             'type' => 'hybridMultilevel',
             'levels' => [
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '◦',  'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '◦',  'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '◦',  'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l1bullet, 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => $l1font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l2bullet, 'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => $l2font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l3bullet, 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => $l3font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l1bullet, 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360, 'font' => $l1font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l2bullet,  'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360, 'font' => $l2font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l3bullet, 'alignment' => 'left', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 360, 'font' => $l3font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l1bullet, 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360, 'font' => $l1font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l2bullet,  'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360, 'font' => $l2font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l3bullet, 'alignment' => 'left', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 360, 'font' => $l3font, 'hint' => 'default'],
             ],
         ];
     }
@@ -1094,6 +1101,21 @@ class Html
                     break;
                 case 'page-break-after':
                     if ($value == 'always') {
+                        $styles['isPageBreak'] = true;
+                    }
+
+                    break;
+
+                case 'break-inside':
+                    if ($value == 'avoid' || $value == 'avoid-page') {
+                        $styles['keepLines'] = true;
+                    }
+
+                    break;
+                case 'break-after':
+                    if ($value == 'avoid' || $value == 'avoid-page') {
+                        $styles['keepNext'] = true;
+                    } elseif ($value == 'always') {
                         $styles['isPageBreak'] = true;
                     }
 

@@ -323,7 +323,11 @@ class TemplateProcessor
         $elementWriter = new $objectClass($xmlWriter, $complexType, false);
         $elementWriter->write();
 
-        $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:p');
+        $search = static::ensureMacroCompleted($search);
+        $block = $xmlWriter->getData();
+        while (is_array($this->findContainingXmlBlockForMacro($search, 'w:p'))) {
+            $this->replaceXmlBlock($search, $block, 'w:p');
+        }
     }
 
     /**
