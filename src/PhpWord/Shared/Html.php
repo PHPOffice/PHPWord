@@ -1138,10 +1138,15 @@ class Html
     {
         $style = [];
         $src = null;
+        $altText = null;
         foreach ($node->attributes as $attribute) {
             switch ($attribute->name) {
                 case 'src':
                     $src = $attribute->value;
+
+                    break;
+                case 'alt':
+                    $altText = $attribute->value;
 
                     break;
                 case 'width':
@@ -1230,7 +1235,7 @@ class Html
         }
 
         if (is_file($src)) {
-            $newElement = $element->addImage($src, $style);
+            $newElement = $element->addImage($src, $style, false, null, $altText);
         } else {
             throw new Exception("Could not load image $originSrc");
         }
