@@ -169,6 +169,7 @@ abstract class AbstractRenderer extends HTML
      */
     protected function prepareForSave($filename = null)
     {
+        PhpWord::noPhar($filename);
         $fileHandle = fopen($filename, 'wb');
         // @codeCoverageIgnoreStart
         // Can't find any test case. Uncomment when found.

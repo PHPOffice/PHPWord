@@ -68,7 +68,7 @@ class XMLWriter extends \XMLWriter
         if ($pTemporaryStorage == self::STORAGE_MEMORY) {
             $this->openMemory();
         } else {
-            if (!$pTemporaryStorageDir || !is_dir($pTemporaryStorageDir)) {
+            if (!$pTemporaryStorageDir || realpath($pTemporaryStorageDir) === false || !is_dir($pTemporaryStorageDir)) {
                 $pTemporaryStorageDir = sys_get_temp_dir();
             }
             // Create temporary filename

@@ -22,6 +22,7 @@ use DOMDocument;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
@@ -158,6 +159,7 @@ class Image extends AbstractElement
      */
     public function __construct($source, $style = null, $watermark = false, $name = null, $altText = null)
     {
+        PhpWord::noPhar($source);
         $this->source = $source;
         $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
         $this->setIsWatermark($watermark);
@@ -493,7 +495,7 @@ class Image extends AbstractElement
             $supportedTypes = array_merge($supportedTypes, [IMAGETYPE_BMP, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM]);
         }
         if (!in_array($imageType, $supportedTypes)) {
-            throw new UnsupportedImageTypeException();
+            throw new UnsupportedImageTypeException("Unsupported image type $imageType");
         }
 
         // Define image functions

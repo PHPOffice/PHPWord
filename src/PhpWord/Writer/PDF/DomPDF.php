@@ -51,7 +51,6 @@ class DomPDF extends AbstractRenderer implements WriterInterface
      */
     public function save(string $filename): void
     {
-        PhpWord::noPhar($filename);
         $fileHandle = parent::prepareForSave($filename);
 
         //  PDF settings

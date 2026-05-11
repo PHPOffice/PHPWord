@@ -571,6 +571,7 @@ class TemplateProcessor
         } else {
             $imgPath = $replaceImage;
         }
+        PhpWord::noPhar($imgPath);
 
         $width = $this->chooseImageDimension($width, $varInlineArgs['width'] ?? null, 115);
         $height = $this->chooseImageDimension($height, $varInlineArgs['height'] ?? null, 70);

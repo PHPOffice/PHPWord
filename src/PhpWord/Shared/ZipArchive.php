@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PclZip;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use Throwable;
 
@@ -88,7 +89,7 @@ class ZipArchive
             if (!defined('PCLZIP_TEMPORARY_DIR')) {
                 define('PCLZIP_TEMPORARY_DIR', Settings::getTempDir() . '/');
             }
-            require_once 'PCLZip/pclzip.lib.php';
+            require_once __DIR__ . '/PCLZip/pclzip.lib.php';
         }
     }
 
@@ -195,6 +196,7 @@ class ZipArchive
      */
     public function extractTo($destination, $entries = null)
     {
+        PhpWord::noPhar($destination);
         if (!is_dir($destination)) {
             return false;
         }
@@ -238,6 +240,7 @@ class ZipArchive
      */
     public function pclzipAddFile($filename, $localname = null)
     {
+        PhpWord::noPhar($filename);
         $zip = $this->zip;
 
         // Bugfix GH-261 https://github.com/PHPOffice/PHPWord/pull/261

@@ -1208,14 +1208,14 @@ class Html
         }
         $src = urldecode($src);
 
-        if (!is_file($src)
+        if ((realpath($src) === false || !is_file($src))
             && null !== self::$options
             && isset(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'])
         ) {
             $src = str_replace(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'], $src);
         }
 
-        if (!is_file($src)) {
+        if (substr($src, 0, 7) !== 'phar://' && !is_file($src)) {
             if ($imgBlob = @file_get_contents($src)) {
                 $tmpDir = Settings::getTempDir() . '/';
                 $match = [];
@@ -1234,7 +1234,7 @@ class Html
             }
         }
 
-        if (is_file($src)) {
+        if (realpath($src) !== false && is_file($src)) {
             $newElement = $element->addImage($src, $style, false, null, $altText);
         } else {
             throw new Exception("Could not load image $originSrc");

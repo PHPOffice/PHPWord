@@ -186,11 +186,6 @@ parameters:
 			path: src/PhpWord/Reader/Word2007/Settings.php
 
 		-
-			message: "#^Parameter \\#1 \\$filename of function parse_ini_file expects string, string\\|false given\\.$#"
-			count: 1
-			path: src/PhpWord/Settings.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\AbstractEnum\\:\\:getConstants\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/AbstractEnum.php

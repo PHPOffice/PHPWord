@@ -282,7 +282,7 @@ class Settings
      */
     public static function setPdfRendererPath(?string $libraryBaseDir): bool
     {
-        if (!$libraryBaseDir || false === file_exists($libraryBaseDir) || false === is_readable($libraryBaseDir)) {
+        if (!$libraryBaseDir || false === realpath($libraryBaseDir) || false === is_readable($libraryBaseDir)) {
             return false;
         }
         self::$pdfRendererPath = $libraryBaseDir;
@@ -479,8 +479,9 @@ class Settings
             $files = ["{$configPath}phpword.ini", "{$configPath}phpword.ini.dist"];
         }
         foreach ($files as $file) {
-            if (file_exists($file)) {
-                $configFile = realpath($file);
+            $temp = realpath($file);
+            if ($temp !== false) {
+                $configFile = $temp;
 
                 break;
             }

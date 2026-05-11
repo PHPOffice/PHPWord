@@ -57,7 +57,7 @@ class XMLReader
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
-        if (file_exists($zipFile) === false) {
+        if (realpath($zipFile) === false) {
             throw new Exception('Cannot find archive file.');
         }
 
