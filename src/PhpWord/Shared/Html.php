@@ -1215,7 +1215,8 @@ class Html
             $src = str_replace(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'], $src);
         }
 
-        if (substr($src, 0, 7) !== 'phar://' && !is_file($src)) {
+        PhpWord::noPhar($src);
+        if (!is_file($src)) {
             if ($imgBlob = @file_get_contents($src)) {
                 $tmpDir = Settings::getTempDir() . '/';
                 $match = [];

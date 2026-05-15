@@ -252,7 +252,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->getVariables()
         );
 
-        $docName = 'phar://poc.docx';
+        $docName = 'Phar://poc.docx'; // should catch mixed case
         $templateProcessor->deleteRow('deleteMe');
         self::assertEquals(
             [],

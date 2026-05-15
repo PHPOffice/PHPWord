@@ -365,7 +365,7 @@ class PhpWord
 
     public static function noPhar(string $path): void
     {
-        if (preg_match('~^phar://~', $path) || (preg_match('/^([\w\s\x00-\x1f]+):/u', $path) && !preg_match('/^([\w]+):/u', $path))) {
+        if (preg_match('~^phar://~i', $path) || (preg_match('/^([\w\s\x00-\x1f]+):/u', $path) && !preg_match('/^([\w]+):/u', $path))) {
             throw new Exception('Invalid protocol used in filename');
         }
     }

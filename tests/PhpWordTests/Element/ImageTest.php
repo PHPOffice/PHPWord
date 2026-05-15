@@ -272,6 +272,7 @@ class ImageTest extends AbstractWebServerEmbedded
     {
         return [
             'normal phar' => ['phar://anything'],
+            'mixed case phar' => ['PHAR://anything'],
             'phar with 3 slashes' => ['phar:///anything'],
             'leading space' => [' phar:///anything'],
             'control character' => ["ph\x14ar:///anything"],
