@@ -90,6 +90,10 @@ class Image extends AbstractElement
             $xmlWriter->writeAttribute('alt', $element->getAltText());
         }
 
+        if ($element->getAltText() != null) {
+            $xmlWriter->writeAttribute('alt', $element->getAltText());
+        }
+
         $styleWriter->write();
 
         $xmlWriter->startElement('v:imagedata');
