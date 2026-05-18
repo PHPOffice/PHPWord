@@ -1281,6 +1281,16 @@ Search.appendIndex(
             "summary": "Sets\u0020the\u0020image\u0020name.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_setName"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetAltText\u0028\u0029",
+            "name": "getAltText",
+            "summary": "Get\u0020image\u0020alt\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getAltText"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AsetAltText\u0028\u0029",
+            "name": "setAltText",
+            "summary": "Sets\u0020the\u0020image\u0020alt\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_setAltText"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetName\u0028\u0029",
             "name": "getName",
             "summary": "Get\u0020image\u0020name.",
@@ -1430,6 +1440,11 @@ Search.appendIndex(
             "name": "name",
             "summary": "Name\u0020of\u0020image.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_name"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024altText",
+            "name": "altText",
+            "summary": "Image\u0020alt\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#property_altText"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003A\u0024imageType",
             "name": "imageType",
