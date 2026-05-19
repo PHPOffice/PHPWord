@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Language;
 
 /**
@@ -79,7 +80,8 @@ class Settings extends AbstractPart
         if ($settingValue == '') {
             $xmlWriter->writeElement($settingKey);
         } elseif (is_array($settingValue) && !empty($settingValue)) {
-            $xmlWriter->startElement($settingKey);
+            $keyToWrite = preg_replace('/^compatSetting\d+$/', 'compatSetting', $settingKey) ?? $settingKey;
+            $xmlWriter->startElement($keyToWrite);
 
             /** @var array $settingValue Type hint */
             foreach ($settingValue as $childKey => $childValue) {
@@ -310,13 +312,29 @@ class Settings extends AbstractPart
      */
     private function setCompatibility(): void
     {
-        $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
-        if ($compatibility->getOoxmlVersion() !== null) {
+        $version = $this->getParentWriter()
+            ->getPhpWord()
+            ->getCompatibility()
+            ->getOoxmlVersion();
+        $usesOpenType = Style::getUsesOpenType();
+        if ($usesOpenType && ($version === null || $version < 15)) {
+            $version = 15;
+        }
+        if ($version !== null) {
             $this->settings['w:compat']['w:compatSetting'] = [
                 '@attributes' => [
                     'w:name' => 'compatibilityMode',
                     'w:uri' => 'http://schemas.microsoft.com/office/word',
-                    'w:val' => $compatibility->getOoxmlVersion(),
+                    'w:val' => "$version",
+                ],
+            ];
+        }
+        if ($usesOpenType) {
+            $this->settings['w:compat']['w:compatSetting99'] = [
+                '@attributes' => [
+                    'w:name' => 'enableOpenTypeFeatures',
+                    'w:uri' => 'http://schemas.microsoft.com/office/word',
+                    'w:val' => '1',
                 ],
             ];
         }

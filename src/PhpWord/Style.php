@@ -145,6 +145,7 @@ class Style
     public static function resetStyles(): void
     {
         self::$styles = [];
+        self::setUsesOpenType(false);
     }
 
     /**
@@ -249,5 +250,20 @@ class Style
         }
 
         return $name;
+    }
+
+    /** @var bool */
+    private static $usesOpenType = false;
+
+    /** @internal */
+    public static function getUsesOpenType(): bool
+    {
+        return self::$usesOpenType;
+    }
+
+    /** @internal */
+    public static function setUsesOpenType(bool $usesOpenType): void
+    {
+        self::$usesOpenType = $usesOpenType;
     }
 }

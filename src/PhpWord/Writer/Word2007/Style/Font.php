@@ -169,6 +169,14 @@ class Font extends AbstractStyle
         // Position
         $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
 
+        $numberSpacing = $style->getNumberSpacing();
+        $xmlWriter->writeElementIf($numberSpacing === StyleFont::NUMBER_SPACING_PROPORTIONAL, 'w14:numSpacing', 'w14:val', 'proportional');
+        $xmlWriter->writeElementIf($numberSpacing === StyleFont::NUMBER_SPACING_TABULAR, 'w14:numSpacing', 'w14:val', 'tabular');
+
+        $numberForms = $style->getNumberForms();
+        $xmlWriter->writeElementIf($numberForms === StyleFont::NUMBER_FORMS_LINING, 'w14:numForm', 'w14:val', 'lining');
+        $xmlWriter->writeElementIf($numberForms === StyleFont::NUMBER_FORMS_OLDSTYLE, 'w14:numForm', 'w14:val', 'oldStyle');
+
         $xmlWriter->endElement();
     }
 

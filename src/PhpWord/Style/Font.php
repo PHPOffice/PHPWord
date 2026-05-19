@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Validate;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Font style.
@@ -87,6 +88,17 @@ class Font extends AbstractStyle
     const FGCOLOR_LIGHTGRAY = 'lightGray';
     /** @deprecated 2.0 use SimpleType\Color::BLACK */
     const FGCOLOR_BLACK = 'black';
+
+    const NUMBER_SPACING_PROPORTIONAL = 'proportional';
+    const NUMBER_SPACING_TABULAR = 'tabular';
+    const NUMBER_FORMS_LINING = 'lining';
+    const NUMBER_FORMS_OLDSTYLE = 'oldStyle';
+
+    /** @var string */
+    private $numberSpacing = '';
+
+    /** @var string */
+    private $numberForms = '';
 
     /**
      * Aliases.
@@ -1030,5 +1042,31 @@ class Font extends AbstractStyle
     public function getFallbackFont(): string
     {
         return $this->fallbackFont;
+    }
+
+    public function setNumberSpacing(string $numberSpacing): self
+    {
+        Style::setUsesOpenType(true);
+        $this->numberSpacing = $numberSpacing;
+
+        return $this;
+    }
+
+    public function getNumberSpacing(): string
+    {
+        return $this->numberSpacing;
+    }
+
+    public function setNumberForms(string $numberForms): self
+    {
+        Style::setUsesOpenType(true);
+        $this->numberForms = $numberForms;
+
+        return $this;
+    }
+
+    public function getNumberForms(): string
+    {
+        return $this->numberForms;
     }
 }

@@ -782,6 +782,8 @@ abstract class AbstractPart
             'lang' => [self::READ_VALUE, 'w:lang'],
             'position' => [self::READ_VALUE, 'w:position'],
             'hidden' => [self::READ_TRUE,  'w:vanish'],
+            'numberSpacing' => [self::READ_VALUE, 'w14:numSpacing', 'w14:val'],
+            'numberForms' => [self::READ_VALUE, 'w14:numForm', 'w14:val'],
         ];
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);

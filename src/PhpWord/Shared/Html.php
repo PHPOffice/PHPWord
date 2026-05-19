@@ -879,8 +879,15 @@ class Html
 
                     break;
                 case 'font-family':
-                    $value = array_map('trim', explode(',', $value));
-                    $styles['name'] = ucwords($value[0]);
+                    $valueArray = array_map('trim', explode(',', $value));
+                    $value0 = trim($valueArray[0], '\'"');
+                    $styles['name'] = ucwords($value0);
+                    if (count($valueArray) > 1) {
+                        $genericFont = $valueArray[count($valueArray) - 1];
+                        if (in_array($genericFont, ['serif', 'sans-serif', 'monospace'], true)) {
+                            $styles['fallbackFont'] = $genericFont;
+                        }
+                    }
 
                     break;
                 case 'color':
@@ -1117,6 +1124,19 @@ class Html
                         $styles['keepNext'] = true;
                     } elseif ($value == 'always') {
                         $styles['isPageBreak'] = true;
+                    }
+
+                    break;
+                case 'font-variant-numeric':
+                    if (preg_match('/\blining-nums\b/', $value) === 1) {
+                        $styles['numberForms'] = FontStyle::NUMBER_FORMS_LINING;
+                    } elseif (preg_match('/\boldstyle-nums\b/', $value) === 1) {
+                        $styles['numberForms'] = FontStyle::NUMBER_FORMS_OLDSTYLE;
+                    }
+                    if (preg_match('/\bproportional-nums\b/', $value) === 1) {
+                        $styles['numberSpacing'] = FontStyle::NUMBER_SPACING_PROPORTIONAL;
+                    } elseif (preg_match('/\btabular-nums\b/', $value) === 1) {
+                        $styles['numberSpacing'] = FontStyle::NUMBER_SPACING_TABULAR;
                     }
 
                     break;

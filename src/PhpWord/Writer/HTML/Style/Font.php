@@ -116,6 +116,26 @@ class Font extends AbstractStyle
             }
         }
 
+        $openType = '';
+        $space = '';
+        $numberSpacing = $style->getNumberSpacing();
+        if ($numberSpacing === FontStyle::NUMBER_SPACING_PROPORTIONAL) {
+            $openType = 'proportional-nums';
+            $space = ' ';
+        } elseif ($numberSpacing === FontStyle::NUMBER_SPACING_TABULAR) {
+            $openType = 'tabular-nums';
+            $space = ' ';
+        }
+        $numberForms = $style->getNumberForms();
+        if ($numberForms === FontStyle::NUMBER_FORMS_LINING) {
+            $openType .= $space . 'lining-nums';
+        } elseif ($numberForms === FontStyle::NUMBER_FORMS_OLDSTYLE) {
+            $openType .= $space . 'oldstyle-nums';
+        }
+        if ($openType !== '') {
+            $css['font-variant-numeric'] = $openType;
+        }
+
         return $this->assembleCss($css);
     }
 
