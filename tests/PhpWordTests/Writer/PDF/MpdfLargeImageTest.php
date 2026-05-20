@@ -71,7 +71,6 @@ class MpdfLargeImageTest extends \PHPUnit\Framework\TestCase
         ob_start();
         self::assertTrue(imagejpeg($img, null, 95));
         $imageData = ob_get_clean();
-        imagedestroy($img);
 
         $tmpImage = $this->jpegName = tempnam(sys_get_temp_dir(), 'tmp_');
         file_put_contents($tmpImage, $imageData);

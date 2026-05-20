@@ -60,6 +60,13 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $orientation = strtoupper('portrait');
 
         //  Create PDF
+        $restoreHandler = false;
+        if (PHP_VERSION_ID >= self::$temporaryVersionCheck) {
+            // @codeCoverageIgnoreStart
+            set_error_handler(self::specialErrorHandler(...));
+            $restoreHandler = true;
+            // @codeCoverageIgnoreEnd
+        }
         $pdf = $this->createExternalWriterInstance();
         $pdf->_setPageSize($paperSize, $orientation);
         $pdf->addPage($orientation);
@@ -102,7 +109,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
                 $pdf->WriteHTML("$line\n");
             }
         } finally {
-            if ($pcreBacktrackLimit !== $origLimit) {
+            if ($pcreBacktrackLimit !== $origLimit && is_string($pcreBacktrackLimitString)) {
                 ini_set('pcre.backtrack_limit', $pcreBacktrackLimitString);
             }
         }
@@ -110,6 +117,27 @@ class MPDF extends AbstractRenderer implements WriterInterface
         //  Write to file
         fwrite($fileHandle, $pdf->output($filename, 'S'));
 
+        if ($restoreHandler) {
+            restore_error_handler(); // @codeCoverageIgnore
+        }
         parent::restoreStateAfterSave($fileHandle);
+    }
+
+    protected static int $temporaryVersionCheck = 80600;
+
+    /**
+     * Temporary handler for Php8.6 mb_regex_encoding deprecation.
+     *
+     * @codeCoverageIgnore
+     */
+    public function specialErrorHandler(int $errno, string $errstr, string $filename, int $lineno): bool
+    {
+        if ($errno === E_DEPRECATED) {
+            if (preg_match('/Function mb_\w+[(][)] is deprecated since 8[.]6/', $errstr) === 1) {
+                return true;
+            }
+        }
+
+        return false; // continue error handling
     }
 }
