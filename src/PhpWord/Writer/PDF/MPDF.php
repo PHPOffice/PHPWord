@@ -125,7 +125,8 @@ class MPDF extends AbstractRenderer implements WriterInterface
         parent::restoreStateAfterSave($fileHandle);
     }
 
-    protected static int $temporaryVersionCheck = 80600;
+    /** @var int */
+    protected static $temporaryVersionCheck = 80600;
 
     /**
      * Temporary handler for Php8.6 mb_regex_encoding deprecation.
