@@ -63,7 +63,9 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $restoreHandler = false;
         if (PHP_VERSION_ID >= self::$temporaryVersionCheck) {
             // @codeCoverageIgnoreStart
-            set_error_handler(self::specialErrorHandler(...));
+            /** @var callable */
+            $callable = [$this, 'specialErrorHandler'];
+            set_error_handler($callable);
             $restoreHandler = true;
             // @codeCoverageIgnoreEnd
         }
