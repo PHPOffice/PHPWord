@@ -39,6 +39,7 @@ class ImageTest extends AbstractWebServerEmbedded
         self::assertEquals(md5($src), $oImage->getMediaId());
         self::assertFalse($oImage->isWatermark());
         self::assertEquals(Image::SOURCE_LOCAL, $oImage->getSourceType());
+        self::assertNull($oImage->getAltText());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
@@ -109,6 +110,16 @@ class ImageTest extends AbstractWebServerEmbedded
         );
 
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
+    }
+
+    /**
+     * Get alt text.
+     */
+    public function testAltText(): void {
+        $source = __DIR__ . '/../_files/images/earth.jpg';
+        $altText = 'Picture of the earth from space';
+        $image = new Image($source, null, false, null, $altText);
+        self::assertEquals($altText, $image->getAltText());
     }
 
     /**
