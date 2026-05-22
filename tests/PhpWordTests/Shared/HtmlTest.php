@@ -966,7 +966,7 @@ HTML;
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/><img src="' . $src . '" style="float: left;"/></p>';
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/><img src="' . $src . '" style="float: left;" alt="Firefox logo"/></p>';
         Html::addHtml($section, $html);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
@@ -977,6 +977,7 @@ HTML;
         self::assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
         self::assertStringMatchesFormat('%Smso-position-horizontal:right%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
         self::assertStringMatchesFormat('%Smso-position-horizontal:left%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
+        self::assertStringMatchesFormat('%SFirefox logo%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'alt'));
     }
 
     /**
