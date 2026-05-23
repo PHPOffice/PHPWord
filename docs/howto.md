@@ -1,5 +1,7 @@
 # How to
 
+See [`Samples`](https://github.com/PHPOffice/PHPWord/tree/master/samples/) for many more how to examples.
+
 ## Create float left image
 
 Use absolute positioning relative to margin horizontally and to line vertically.

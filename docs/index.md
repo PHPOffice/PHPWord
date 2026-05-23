@@ -43,31 +43,31 @@ Below are the supported features for each file formats.
 
 | Features                  |                      | OOXML  | ODF   | RTF   | HTML   | PDF   |
 |---------------------------|----------------------|--------|-------|-------|--------|--------|
-| **Document Properties**   | Standard             | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
-|                           | Custom               | :material-check: | :material-check: |       |        |       |
-| **Element Type**          | Text                 | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
-|                           | Text Run             | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
-|                           | Title                | :material-check: | :material-check: |       | :material-check: | :material-check: |
-|                           | Link                 | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
-|                           | Preserve Text        | :material-check: |       |       |        |       |
-|                           | Text Break           | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
-|                           | Page Break           | :material-check: |       |  :material-check:    |        |       |
-|                           | List                 | :material-check: | :material-check: |       |        |       |
-|                           | Table                | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
-|                           | Image                | :material-check: | :material-check: | :material-check: | :material-check: |       |
-|                           | Object               | :material-check: |       |       |        |       |
-|                           | Watermark            | :material-check: |       |       |        |       |
-|                           | Table of Contents    | :material-check: |       |       |        |       |
-|                           | Header               | :material-check: |       |       |        |       |
-|                           | Footer               | :material-check: |       |       |        |       |
-|                           | Footnote             | :material-check: |       |       | :material-check: |       |
-|                           | Endnote              | :material-check: |       |       | :material-check: |       |
-|                           | Comments             | :material-check: |       |       |        |       |
-| **Graphs**                | 2D basic graphs      | :material-check: |       |       |        |       |
+| **Document Properties**   | Standard             | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+|                           | Custom               | :white_check_mark: | :white_check_mark: |       |        |       |
+| **Element Type**          | Text                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+|                           | Text Run             | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+|                           | Title                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+|                           | Link                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+|                           | Preserve Text        | :white_check_mark: |       |       |        |       |
+|                           | Text Break           | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+|                           | Page Break           | :white_check_mark: |       |  :white_check_mark:    |        |       |
+|                           | List                 | :white_check_mark: | :white_check_mark: |       |        |       |
+|                           | Table                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+|                           | Image                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |       |
+|                           | Object               | :white_check_mark: |       |       |        |       |
+|                           | Watermark            | :white_check_mark: |       |       |        |       |
+|                           | Table of Contents    | :white_check_mark: |       |       |        |       |
+|                           | Header               | :white_check_mark: |       |       |        |       |
+|                           | Footer               | :white_check_mark: |       |       |        |       |
+|                           | Footnote             | :white_check_mark: |       |       | :white_check_mark: |       |
+|                           | Endnote              | :white_check_mark: |       |       | :white_check_mark: |       |
+|                           | Comments             | :white_check_mark: |       |       |        |       |
+| **Graphs**                | 2D basic graphs      | :white_check_mark: |       |       |        |       |
 |                           | 2D advanced graphs   |        |       |       |        |       |
-|                           | 3D graphs            | :material-check: |       |       |        |       |
-| **Math**                  | OMML support         | :material-check: |       |       |        |       |
-|                           | MathML support       |        | :material-check: |       |        |       |
+|                           | 3D graphs            | :white_check_mark: |       |       |        |       |
+| **Math**                  | OMML support         | :white_check_mark: |       |       |        |       |
+|                           | MathML support       |        | :white_check_mark: |       |        |       |
 | **Bonus**                 | Encryption           |        |       |       |        |       |
 |                           | Protection           |        |       |       |        |       |
 
@@ -76,31 +76,31 @@ Below are the supported features for each file formats.
 
 | Features                  |                      | OOXML  | DOC   | ODF   | RTF   | HTML  |
 |---------------------------|----------------------|--------|-------|-------|-------|-------|
-| **Document Properties**   | Standard             | :material-check: |       |       |       |       |
-|                           | Custom               | :material-check: |       |       |       |       |
-| **Element Type**          | Text                 | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
-|                           | Text Run             | :material-check: |       |       |       |       |
-|                           | Title                | :material-check: |       | :material-check: |       |       |
-|                           | Link                 | :material-check: | :material-check: |       |       |       |
-|                           | Preserve Text        | :material-check: |       |       |       |       |
-|                           | Text Break           | :material-check: | :material-check: |       |       |       |
-|                           | Page Break           | :material-check: |       |       |       |       |
-|                           | List                 | :material-check: |       | :material-check: |       | :material-check: |
-|                           | Table                | :material-check: |       |       |       | :material-check: |
-|                           | Image                | :material-check: | :material-check: |       |       |       |
+| **Document Properties**   | Standard             | :white_check_mark: |       |       |       |       |
+|                           | Custom               | :white_check_mark: |       |       |       |       |
+| **Element Type**          | Text                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+|                           | Text Run             | :white_check_mark: |       |       |       |       |
+|                           | Title                | :white_check_mark: |       | :white_check_mark: |       |       |
+|                           | Link                 | :white_check_mark: | :white_check_mark: |       |       |       |
+|                           | Preserve Text        | :white_check_mark: |       |       |       |       |
+|                           | Text Break           | :white_check_mark: | :white_check_mark: |       |       |       |
+|                           | Page Break           | :white_check_mark: |       |       |       |       |
+|                           | List                 | :white_check_mark: |       | :white_check_mark: |       | :white_check_mark: |
+|                           | Table                | :white_check_mark: |       |       |       | :white_check_mark: |
+|                           | Image                | :white_check_mark: | :white_check_mark: |       |       |       |
 |                           | Object               |        |       |       |       |       |
 |                           | Watermark            |        |       |       |       |       |
 |                           | Table of Contents    |        |       |       |       |       |
-|                           | Header               | :material-check: |       |       |       |       |
-|                           | Footer               | :material-check: |       |       |       |       |
-|                           | Footnote             | :material-check: |       |       |       |       |
-|                           | Endnote              | :material-check: |       |       |       |       |
-|                           | Comments             | :material-check: |       |       |       |       |
+|                           | Header               | :white_check_mark: |       |       |       |       |
+|                           | Footer               | :white_check_mark: |       |       |       |       |
+|                           | Footnote             | :white_check_mark: |       |       |       |       |
+|                           | Endnote              | :white_check_mark: |       |       |       |       |
+|                           | Comments             | :white_check_mark: |       |       |       |       |
 | **Graphs**                | 2D basic graphs      |        |       |       |       |       |
 |                           | 2D advanced graphs   |        |       |       |       |       |
 |                           | 3D graphs            |        |       |       |       |       |
-| **Math**                  | OMML support         | :material-check: |       |       |       |       |
-|                           | MathML support       |        | :material-check: |       |       |       |
+| **Math**                  | OMML support         | :white_check_mark: |       |       |       |       |
+|                           | MathML support       |        | :white_check_mark: |       |       |       |
 | **Bonus**                 | Encryption           |        |       |       |       |       |
 |                           | Protection           |        |       |       |       |       |
 
