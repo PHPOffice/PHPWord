@@ -58,6 +58,7 @@ class Table extends AbstractElement
                     $cellBgColor = $cellStyle->getBgColor();
                     $cellFgColor = null;
                     if ($cellBgColor && $cellBgColor !== 'auto') {
+                        $cellBgColor = \PhpOffice\PhpWord\Shared\Converter::stringToRgb($cellBgColor);
                         $red = hexdec(substr($cellBgColor, 0, 2));
                         $green = hexdec(substr($cellBgColor, 2, 2));
                         $blue = hexdec(substr($cellBgColor, 4, 2));
