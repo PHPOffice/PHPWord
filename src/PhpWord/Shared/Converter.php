@@ -18,6 +18,9 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
+use PhpOffice\PhpWord\SimpleType\Color;
+use PhpOffice\PhpWord\Style\Font as FontColor;
+
 /**
  * Common converter functions.
  */
@@ -305,35 +308,117 @@ class Converter
     public static function stringToRgb($value)
     {
         switch ($value) {
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_YELLOW:
-                return 'FFFF00';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_LIGHTGREEN:
-                return '90EE90';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_CYAN:
+            case Color::AQUA:
                 return '00FFFF';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_MAGENTA:
-                return 'FF00FF';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_BLUE:
+            case Color::BLACK:
+                return '000000';
+            case Color::BLUE:
                 return '0000FF';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_RED:
-                return 'FF0000';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKBLUE:
+            case Color::BROWN:
+                return 'A52A2A';
+            case Color::CYAN:
+                return '00FFFF';
+            case Color::DARKBLUE:
                 return '00008B';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKCYAN:
+            case Color::DARKCYAN:
                 return '008B8B';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKGREEN:
-                return '006400';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKMAGENTA:
-                return '8B008B';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKRED:
-                return '8B0000';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKYELLOW:
-                return '8B8B00';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKGRAY:
+            case Color::DARKGRAY:
                 return 'A9A9A9';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_LIGHTGRAY:
+            case Color::DARKGREEN:
+                return '006400';
+            case Color::DARKMAGENTA:
+                return '8B008B';
+            case Color::DARKORANGE:
+                return 'FF8C00';
+            case Color::DARKRED:
+                return '8B0000';
+            case Color::DARKVIOLET:
+                return '9400D3';
+            case Color::DARKYELLOW:
+                return '808000';
+            case Color::FUCHSIA:
+                return 'FF00FF';
+            case Color::GOLD:
+                return 'FFD700';
+            case Color::GRAY:
+                return '808080';
+            case Color::GREEN:
+                return '008000';
+            case Color::LIGHTBLUE:
+                return 'ADD8E6';
+            case Color::LIGHTCYAN:
+                return 'E0FFFF';
+            case Color::LIGHTGRAY:
                 return 'D3D3D3';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_BLACK:
+            case Color::LIGHTGREEN:
+                return '90EE90';
+            case Color::LIGHTPINK:
+                return 'FFB6C1';
+            case Color::LIGHTYELLOW:
+                return 'FFFFE0';
+            case Color::LIME:
+                return '00FF00';
+            case Color::MAGENTA:
+                return 'FF00FF';
+            case Color::MAROON:
+                return '800000';
+            case Color::NAVY:
+                return '000080';
+            case Color::OLIVE:
+                return '808000';
+            case Color::ORANGE:
+                return 'FFA500';
+            case Color::PINK:
+                return 'FFC0CB';
+            case Color::PURPLE:
+                return '800080';
+            case Color::RED:
+                return 'FF0000';
+            case Color::SILVER:
+                return 'C0C0C0';
+            case Color::TAN:
+                return 'D2B48C';
+            case Color::TEAL:
+                return '008080';
+            case Color::TURQUOISE:
+                return '40E0D0';
+            case Color::VIOLET:
+                return 'EE82EE';
+            case Color::WHITE:
+                return 'FFFFFF';
+            case Color::YELLOW:
+                return 'FFFF00';
+
+                // deprecated constants
+            case FontColor::FGCOLOR_YELLOW:
+                return 'FFFF00';
+            case FontColor::FGCOLOR_LIGHTGREEN:
+                return '90EE90';
+            case FontColor::FGCOLOR_CYAN:
+                return '00FFFF';
+            case FontColor::FGCOLOR_MAGENTA:
+                return 'FF00FF';
+            case FontColor::FGCOLOR_BLUE:
+                return '0000FF';
+            case FontColor::FGCOLOR_RED:
+                return 'FF0000';
+            case FontColor::FGCOLOR_DARKBLUE:
+                return '00008B';
+            case FontColor::FGCOLOR_DARKCYAN:
+                return '008B8B';
+            case FontColor::FGCOLOR_DARKGREEN:
+                return '006400';
+            case FontColor::FGCOLOR_DARKMAGENTA:
+                return '8B008B';
+            case FontColor::FGCOLOR_DARKRED:
+                return '8B0000';
+            case FontColor::FGCOLOR_DARKYELLOW:
+                return '8B8B00';
+            case FontColor::FGCOLOR_DARKGRAY:
+                return 'A9A9A9';
+            case FontColor::FGCOLOR_LIGHTGRAY:
+                return 'D3D3D3';
+            case FontColor::FGCOLOR_BLACK:
                 return '000000';
         }
 

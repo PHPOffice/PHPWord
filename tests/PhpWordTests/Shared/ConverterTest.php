@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWordTests\Shared;
 
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\Color;
 
 /**
  * Test class for PhpOffice\PhpWord\Shared\Converter.
@@ -117,7 +118,55 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         self::assertEquals([102, 119, 136], Converter::htmlToRgb('678')); // 3 characters
         self::assertEquals($flse, Converter::htmlToRgb('0F9D')); // 4 characters
         self::assertEquals([0, 0, 0], Converter::htmlToRgb('unknow')); // 6 characters, invalid
-        self::assertEquals([139, 0, 139], Converter::htmlToRgb(\PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKMAGENTA)); // Constant
+        self::assertEquals([139, 0, 139], Converter::htmlToRgb(Color::DARKMAGENTA)); // Constant
+    }
+
+    /**
+     * Test SimpleType::Color. Ensure all colors come out to correct values.
+     * Verified against https://c-rex.net/samples/ooxml/e1/Part4/OOXML_P4_DOCX_ST_PresetColorVal_topic_ID0ELA5NB.html.
+     */
+    public function testBuiltInColors(): void
+    {
+        self::assertEquals([0, 255, 255], Converter::htmlToRgb(Color::AQUA));
+        self::assertEquals([0, 0, 0], Converter::htmlToRgb(Color::BLACK));
+        self::assertEquals([0, 0, 255], Converter::htmlToRgb(Color::BLUE));
+        self::assertEquals([165, 42, 42], Converter::htmlToRgb(Color::BROWN));
+        self::assertEquals([0, 255, 255], Converter::htmlToRgb(Color::CYAN));
+        self::assertEquals([0, 0, 139], Converter::htmlToRgb(Color::DARKBLUE));
+        self::assertEquals([0, 139, 139], Converter::htmlToRgb(Color::DARKCYAN));
+        self::assertEquals([169, 169, 169], Converter::htmlToRgb(Color::DARKGRAY));
+        self::assertEquals([0, 100, 0], Converter::htmlToRgb(Color::DARKGREEN));
+        self::assertEquals([139, 0, 139], Converter::htmlToRgb(Color::DARKMAGENTA));
+        self::assertEquals([255, 140, 0], Converter::htmlToRgb(Color::DARKORANGE));
+        self::assertEquals([139, 0, 0], Converter::htmlToRgb(Color::DARKRED));
+        self::assertEquals([148, 0, 211], Converter::htmlToRgb(Color::DARKVIOLET));
+        self::assertEquals([128, 128, 0], Converter::htmlToRgb(Color::DARKYELLOW));
+        self::assertEquals([255, 0, 255], Converter::htmlToRgb(Color::FUCHSIA));
+        self::assertEquals([255, 215, 0], Converter::htmlToRgb(Color::GOLD));
+        self::assertEquals([128, 128, 128], Converter::htmlToRgb(Color::GRAY));
+        self::assertEquals([0, 128, 0], Converter::htmlToRgb(Color::GREEN));
+        self::assertEquals([173, 216, 230], Converter::htmlToRgb(Color::LIGHTBLUE));
+        self::assertEquals([224, 255, 255], Converter::htmlToRgb(Color::LIGHTCYAN));
+        self::assertEquals([211, 211, 211], Converter::htmlToRgb(Color::LIGHTGRAY));
+        self::assertEquals([144, 238, 144], Converter::htmlToRgb(Color::LIGHTGREEN));
+        self::assertEquals([255, 182, 193], Converter::htmlToRgb(Color::LIGHTPINK));
+        self::assertEquals([255, 255, 224], Converter::htmlToRgb(Color::LIGHTYELLOW));
+        self::assertEquals([0, 255, 0], Converter::htmlToRgb(Color::LIME));
+        self::assertEquals([255, 0, 255], Converter::htmlToRgb(Color::MAGENTA));
+        self::assertEquals([128, 0, 0], Converter::htmlToRgb(Color::MAROON));
+        self::assertEquals([0, 0, 128], Converter::htmlToRgb(Color::NAVY));
+        self::assertEquals([128, 128, 0], Converter::htmlToRgb(Color::OLIVE));
+        self::assertEquals([255, 165, 0], Converter::htmlToRgb(Color::ORANGE));
+        self::assertEquals([255, 192, 203], Converter::htmlToRgb(Color::PINK));
+        self::assertEquals([128, 0, 128], Converter::htmlToRgb(Color::PURPLE));
+        self::assertEquals([255, 0, 0], Converter::htmlToRgb(Color::RED));
+        self::assertEquals([192, 192, 192], Converter::htmlToRgb(Color::SILVER));
+        self::assertEquals([210, 180, 140], Converter::htmlToRgb(Color::TAN));
+        self::assertEquals([0, 128, 128], Converter::htmlToRgb(Color::TEAL));
+        self::assertEquals([64, 224, 208], Converter::htmlToRgb(Color::TURQUOISE));
+        self::assertEquals([238, 130, 238], Converter::htmlToRgb(Color::VIOLET));
+        self::assertEquals([255, 255, 255], Converter::htmlToRgb(Color::WHITE));
+        self::assertEquals([255, 255, 0], Converter::htmlToRgb(Color::YELLOW));
     }
 
     /**
