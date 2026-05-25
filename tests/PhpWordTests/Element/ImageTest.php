@@ -287,7 +287,10 @@ class ImageTest extends AbstractWebServerEmbedded
             'mixed case phar' => ['PHAR://anything'],
             'phar with 3 slashes' => ['phar:///anything'],
             'leading space' => [' phar:///anything'],
+            'embedded space' => ['ph ar:///anything'],
             'control character' => ["ph\x14ar:///anything"],
+            'filter with phar' => ['php://filter/read=convert.base64-encode/resource=phar:///tmp/x.Phar'],
+            'filter with phar and newline' => ["php://filter/read=convert.base64-encode/\nresource=phar:///tmp/x.Phar"],
         ];
     }
 }
