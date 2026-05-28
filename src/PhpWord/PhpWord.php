@@ -367,8 +367,9 @@ class PhpWord
     {
         if (
             preg_match('~^phar://~i', $path)
-            || (preg_match('/^([\w\s\x00-\x1f]+):/', $path) && !preg_match('/^([\w]+):/', $path))
+            || (preg_match('/^([\w.\s\x00-\x1f]+):/', $path) && !preg_match('/^([\w.]+):/', $path))
             || preg_match('~^php://.*phar:~is', $path)
+            || preg_match('~^[\w.]+://.*phar:~is', $path)
         ) {
             throw new Exception('Invalid protocol used in filename');
         }

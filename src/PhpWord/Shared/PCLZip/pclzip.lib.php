@@ -5131,8 +5131,9 @@ class PclZip
     {
         if (
             preg_match('~^phar://~i', $path)
-            || (preg_match('/^([\w\s\x00-\x1f]+):/u', $path) && !preg_match('/^([\w]+):/u', $path))
+            || (preg_match('/^([\w.\s\x00-\x1f]+):/u', $path) && !preg_match('/^([\w.]+):/u', $path))
             || preg_match('~^php://.*phar:~is', $path)
+            || preg_match('~^[\w.]+://.*phar:~is', $path)
         ) {
             throw new Exception('Invalid protocol used in filename');
         }

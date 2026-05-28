@@ -272,11 +272,11 @@ class ImageTest extends AbstractWebServerEmbedded
      *
      * @dataProvider providerInvalidProtocol
      */
-    public function testInvalidProtocol(): void
+    public function testInvalidProtocol(string $url): void
     {
         $this->expectException(WordException::class);
-        $this->expectExceptionMessage('Invalid image');
-        $object = new Image('this_is-a_non_valid_image');
+        $this->expectExceptionMessage('Invalid protocol');
+        $object = new Image($url);
         $source = $object->getSource();
     }
 
@@ -291,6 +291,8 @@ class ImageTest extends AbstractWebServerEmbedded
             'control character' => ["ph\x14ar:///anything"],
             'filter with phar' => ['php://filter/read=convert.base64-encode/resource=phar:///tmp/x.Phar'],
             'filter with phar and newline' => ["php://filter/read=convert.base64-encode/\nresource=phar:///tmp/x.Phar"],
+            'protocol with period followed by phar' => ['compress.zlib://phar:///x.phar'],
+            'protocol with period and embedded space' => ['comp ress.zlib://anything'],
         ];
     }
 }
