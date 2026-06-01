@@ -1207,7 +1207,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$value of method PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\:\\:setStyleValue\\(\\) expects array\\|int\\|string, null given\\.$#"
-			count: 1
+			count: 2
 			path: tests/PhpWordTests/Style/FontTest.php
 
 		-

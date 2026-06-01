@@ -59,14 +59,24 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $object = new Font();
 
         $attributes = [
-            'name' => null,
+            'name' => '',
             'size' => null,
             'hint' => null,
             'color' => null,
-            'bold' => false,
-            'italic' => false,
             'underline' => Font::UNDERLINE_NONE,
             'underlineColor' => '',
+            'fgColor' => null,
+            'bgColor' => null,
+            'scale' => null,
+            'spacing' => null,
+            'kerning' => null,
+            'lang' => null,
+            'whiteSpace' => '',
+            'fallbackFont' => '',
+        ];
+        $boolAttributes = [
+            'bold' => false,
+            'italic' => false,
             'superScript' => false,
             'subScript' => false,
             'strikethrough' => false,
@@ -74,27 +84,29 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'smallCaps' => false,
             'allCaps' => false,
             'rtl' => false,
-            'fgColor' => null,
-            'bgColor' => null,
-            'scale' => null,
-            'spacing' => null,
-            'kerning' => null,
-            'lang' => null,
             'hidden' => false,
-            'whiteSpace' => '',
-            'fallbackFont' => '',
         ];
         foreach ($attributes as $key => $default) {
             $uckey = ucfirst($key);
-            $get = is_bool($default) ? "is{$uckey}" : "get{$uckey}";
-            self::assertTrue(method_exists($object, $get));
-            self::assertEquals($default, $object->$get());
+            $get = "get{$uckey}";
+            self::assertTrue(method_exists($object, $get), $key);
+            self::assertEquals($default, $object->$get(), $key);
             if ($key !== 'underlineColor') { // underlineColor must be string
                 $object->setStyleValue($key, null);
-                self::assertEquals($default, $object->$get());
+                self::assertEquals($default, $object->$get(), $key);
             }
             $object->setStyleValue($key, '');
-            self::assertEquals($default, $object->$get());
+            self::assertEquals($default, $object->$get(), $key);
+        }
+        foreach ($boolAttributes as $key => $default) {
+            $uckey = ucfirst($key);
+            $get = "is{$uckey}";
+            self::assertTrue(method_exists($object, $get), $key);
+            self::assertEquals($default, $object->$get(), $key);
+            $object->setStyleValue($key, null);
+            self::assertEquals($default, $object->$get(), $key);
+            $object->setStyleValue($key, '');
+            self::assertEquals($default, $object->$get(), $key);
         }
     }
 

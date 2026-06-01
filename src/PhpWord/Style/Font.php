@@ -398,13 +398,13 @@ class Font extends AbstractStyle
     /**
      * Set font name.
      *
-     * @param string $value
+     * @param ?string $value
      *
      * @return self
      */
     public function setName($value = null)
     {
-        $this->name = $value;
+        $this->name = "$value";
 
         return $this;
     }

@@ -62,6 +62,9 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /** @var mixed */
+    private $indentHangingKey = 1;
+
     /**
      * Test setting style values with normal value.
      */
@@ -72,8 +75,8 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $attributes = [
             'spaceAfter' => 240,
             'spaceBefore' => 240,
-            'indent' => 1,
-            'hanging' => 1,
+            'indent' => $this->indentHangingKey,
+            'hanging' => $this->indentHangingKey,
             'spacing' => 120,
             'spacingLineRule' => LineSpacingRule::AT_LEAST,
             'basedOn' => 'Normal',
