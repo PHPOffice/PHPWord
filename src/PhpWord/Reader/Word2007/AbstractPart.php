@@ -78,7 +78,7 @@ abstract class AbstractPart
     /**
      * Comment references.
      *
-     * @var array<string, array<string, AbstractElement>>
+     * @var array<int|string, array<int|string, AbstractElement>>
      */
     protected $commentRefs = [];
 
@@ -131,7 +131,7 @@ abstract class AbstractPart
     /**
      * Get comment references.
      *
-     * @return array<string, array<string, null|AbstractElement>>
+     * @return array<int|string, array<int|string, null|AbstractElement>>
      */
     public function getCommentReferences(): array
     {
@@ -141,7 +141,7 @@ abstract class AbstractPart
     /**
      * Set comment references.
      *
-     * @param array<string, array<string, null|AbstractElement>> $commentRefs
+     * @param array<int|string, array<int|string, null|AbstractElement>> $commentRefs
      */
     public function setCommentReferences(array $commentRefs): self
     {
@@ -173,7 +173,7 @@ abstract class AbstractPart
     /**
      * Get comment reference.
      *
-     * @return array<string, null|AbstractElement>
+     * @return array<int|string, null|AbstractElement>
      */
     protected function getCommentReference(string $id): array
     {

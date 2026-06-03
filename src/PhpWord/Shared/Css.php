@@ -27,7 +27,7 @@ class Css
     private $cssContent;
 
     /**
-     * @var array<string, array<string, string>>
+     * @var array<int|string, array<int|string, string>>
      */
     private $styles = [];
 

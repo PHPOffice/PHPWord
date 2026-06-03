@@ -12,6 +12,7 @@ parameters:
     bootstrapFiles:
         - tests/bootstrap.php
     treatPhpDocTypesAsCertain: false
+    reportUnsafeArrayStringKeyCasting: prevent
     ignoreErrors:
         -
             identifier: missingType.iterableValue
