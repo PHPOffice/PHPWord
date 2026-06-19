@@ -10,7 +10,7 @@ jobs:
         with:
           php-version: '8.3'
           extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       -   name: Validate composer config
           run: composer validate --strict
@@ -33,7 +33,7 @@ jobs:
             with:
                 php-version: '8.4'
                 extensions: gd, xml, zip
-        -   uses: actions/checkout@v6
+        -   uses: actions/checkout@v7
 
         -   name: Composer Install
             run: composer install --ansi --prefer-dist --no-interaction --no-progress
@@ -55,7 +55,7 @@ jobs:
             with:
                 php-version: ${{ matrix.php }}
                 extensions: gd, xml, zip
-        -   uses: actions/checkout@v6
+        -   uses: actions/checkout@v7
 
         -   name: Composer Install
             run: composer install --ansi --prefer-dist --no-interaction --no-progress
@@ -101,7 +101,7 @@ jobs:
               extensions: ctype, dom, fileinfo, filter, gd, libxml, mbstring, SimpleXML, xml, xmlwriter, xsl, zip, zlib
               coverage: ${{ (matrix.php == '8.3') && 'xdebug' || 'none' }}
 
-      -   uses: actions/checkout@v6
+      -   uses: actions/checkout@v7
 
       -   name: Composer Config nightly
           if: matrix.php == 'nightly'
