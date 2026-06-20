@@ -178,7 +178,7 @@ class Style
      */
     public static function getStyle($styleName)
     {
-        if (isset(self::$styles[$styleName])) {
+        if (!empty($styleName) && array_key_exists($styleName, self::$styles) && isset(self::$styles[$styleName])) {
             return self::$styles[$styleName];
         }
 
