@@ -44,8 +44,16 @@ class Section extends AbstractStyle
         $content .= '\sectd ';
 
         // Size & margin
-        $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()));
-        $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
+        if ($this->getParentWriter() !== null && $this->getParentWriter()->getPhpWord()->getSettings()->hasBookFoldPrinting()) {
+            if ($style->getOrientation() !== SectionStyle::ORIENTATION_LANDSCAPE) {
+                $style->setOrientation(SectionStyle::ORIENTATION_LANDSCAPE);
+            }
+            $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()) / 2);
+            $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
+        } else {
+            $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()));
+            $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
+        }
         $content .= ' ';
         $content .= $this->getValueIf($style->getMarginTop() !== null, '\margtsxn' . round($style->getMarginTop()));
         $content .= $this->getValueIf($style->getMarginRight() !== null, '\margrsxn' . round($style->getMarginRight()));
