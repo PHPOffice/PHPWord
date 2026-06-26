@@ -1066,6 +1066,7 @@ abstract class AbstractPart
 
         if (isset($this->rels[$docPart], $this->rels[$docPart][$rId])) {
             $target = $this->rels[$docPart][$rId]['target'];
+            $target = preg_replace('~^word//~', '', $target) ?? $target;
         }
 
         return $target;
