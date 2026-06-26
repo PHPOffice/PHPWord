@@ -20,6 +20,8 @@ namespace PhpOffice\PhpWordTests\Writer\HTML;
 
 use DateTime;
 use DOMDocument;
+use DOMNode;
+use DOMNodeList;
 use DOMXPath;
 use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Element\TextRun;
@@ -200,15 +202,35 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testListItemRun(): void
     {
-        $expected1 = 'List item run 1';
-        $expected2 = 'List item run 1 in bold';
+        $expected11 = 'List item run 1.1';
+        $expected11InBold = 'List item run 1.1 in bold';
+        $expected12 = 'List item run 1.2';
+        $expected21 = 'List item run 2.1';
+        $expected22 = 'List item run 2.2';
+        $expected31 = 'List item run 3.1';
+        $expected13 = 'List item run 1.3';
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $listItemRun = $section->addListItemRun(0, null, 'MyParagraphStyle');
-        $listItemRun->addText($expected1);
-        $listItemRun->addText($expected2, ['bold' => true]);
+        $listItemRun11 = $section->addListItemRun(0, null, 'MyParagraphStyle');
+        $listItemRun11->addText($expected11);
+        $listItemRun11->addText($expected11InBold, ['bold' => true]);
+
+        $listItemRun12 = $section->addListItemRun(0);
+        $listItemRun12->addText($expected12);
+
+        $listItemRun21 = $section->addListItemRun(1);
+        $listItemRun21->addText($expected21);
+
+        $listItemRun22 = $section->addListItemRun(1);
+        $listItemRun22->addText($expected22);
+
+        $listItemRun31 = $section->addListItemRun(2);
+        $listItemRun31->addText($expected31);
+
+        $listItemRun13 = $section->addListItemRun(0);
+        $listItemRun13->addText($expected13);
 
         $htmlWriter = new HTML($phpWord);
         $content = $htmlWriter->getContent();
@@ -216,8 +238,32 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = new DOMDocument();
         $dom->loadHTML($content);
 
-        self::assertEquals($expected1, $dom->getElementsByTagName('p')->item(0)->textContent);
-        self::assertEquals($expected2, $dom->getElementsByTagName('p')->item(1)->textContent);
+        $xpath = new DOMXPath($dom);
+
+        /** @var DOMNodeList<DOMNode> $list */
+        $list = $xpath->query('//body/div/ul/li');
+
+        $item11 = $list->item(0);
+        $item12 = $list->item(1);
+        $item13 = $list->item(2);
+
+        self::assertEquals($expected11, $item11->childNodes->item(0)->textContent);
+        self::assertEquals('span', $item11->childNodes->item(1)->nodeName);
+        self::assertEquals($expected11InBold, $item11->childNodes->item(1)->textContent);
+
+        self::assertEquals($expected12, $item12->childNodes->item(0)->textContent);
+        self::assertEquals('ul', $item12->childNodes->item(1)->nodeName);
+
+        self::assertEquals($expected21, $item12->childNodes->item(1)->childNodes->item(0)->textContent);
+
+        $item22 = $item12->childNodes->item(1)->childNodes->item(1);
+
+        self::assertEquals($expected22, $item22->childNodes->item(0)->textContent);
+        self::assertEquals('ul', $item22->childNodes->item(1)->nodeName);
+
+        self::assertEquals($expected31, $item22->childNodes->item(1)->childNodes->item(0)->textContent);
+
+        self::assertEquals($expected13, $item13->childNodes->item(0)->textContent);
     }
 
     /**

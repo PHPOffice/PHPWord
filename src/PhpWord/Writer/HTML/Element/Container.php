@@ -50,13 +50,42 @@ class Container extends AbstractElement
         $content = '';
 
         $elements = $container->getElements();
-        foreach ($elements as $element) {
+        foreach ($elements as $index => $element) {
+            if ($element instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
+                $prevElement = $elements[$index - 1] ?? null;
+
+                if ($prevElement === null) {
+                    $content .= '<ul>';
+                } elseif (!$prevElement instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
+                    $content .= '<ul>';
+                } elseif ($prevElement->getDepth() < $element->getDepth()) {
+                    if (str_ends_with($content, '</li>')) {
+                        $content = substr($content, 0, -5);
+                    }
+                    $content .= '<ul>';
+                }
+            }
+
             $elementClass = get_class($element);
             $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, $elementClass);
             if (class_exists($writerClass)) {
                 /** @var AbstractElement $writer Type hint */
                 $writer = new $writerClass($this->parentWriter, $element, $withoutP);
                 $content .= $writer->write();
+            }
+
+            if ($element instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
+                $nextElement = $elements[$index + 1] ?? null;
+
+                if ($nextElement === null) {
+                    $content .= '</ul>';
+                } elseif (!$nextElement instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
+                    $content .= '</ul>';
+                } elseif ($nextElement->getDepth() < $element->getDepth()) {
+                    for ($i = $element->getDepth() - $nextElement->getDepth(); $i !== 0; --$i) {
+                        $content .= '</ul></li>';
+                    }
+                }
             }
         }
 
