@@ -1056,7 +1056,7 @@ abstract class AbstractPart
      * Returns the target of image, object, or link as stored in ::readMainRels.
      *
      * @param string $docPart
-     * @param string $rId
+     * @param ?string $rId
      *
      * @return null|string
      */
@@ -1064,7 +1064,7 @@ abstract class AbstractPart
     {
         $target = null;
 
-        if (isset($this->rels[$docPart], $this->rels[$docPart][$rId])) {
+        if (isset($this->rels[$docPart], $this->rels[$docPart]["$rId"])) {
             $target = $this->rels[$docPart][$rId]['target'];
             $target = preg_replace('~^word//~', '', $target) ?? $target;
         }
