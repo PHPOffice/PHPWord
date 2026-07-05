@@ -29,6 +29,14 @@ use PhpOffice\PhpWord\Writer\PDF;
  */
 class TCPDFTest extends \PHPUnit\Framework\TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        //Reset setting for default
+        Settings::setPdfRenderer(null, null);
+        Settings::setPdfRendererOptions([]);
+    }
+
     /**
      * Test construct.
      */
