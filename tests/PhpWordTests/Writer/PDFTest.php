@@ -33,7 +33,7 @@ class PDFTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
         //Reset setting for default
-        Settings::setPdfRenderer(null, null);
+        Settings::setPdfRenderer('', '');
         Settings::setPdfRendererOptions([]);
     }
 
