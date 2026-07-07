@@ -228,7 +228,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->getVariables()
         );
 
-        $docName = 'delete-row-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'delete-row-test-result.docx';
         $templateProcessor->deleteRow('deleteMe');
         self::assertEquals(
             [],
@@ -254,7 +254,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->getVariables()
         );
 
-        $docName = 'clone-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'clone-test-result.docx';
         $templateProcessor->setValue('tableHeader', 'ééé');
         $templateProcessor->cloneRow('userId', 1);
         $templateProcessor->setValue('userId#1', 'Test');
@@ -281,7 +281,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->getVariables()
         );
 
-        $docName = 'clone-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'clone-test-result.docx';
         $templateProcessor->setValue('tableHeader', 'ééé');
         $templateProcessor->cloneRow('userId', 1);
         $templateProcessor->setValue('userId#1', 'Test');
@@ -436,7 +436,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $macroValues = ['Header Value', 'Document text.', 'Footer Value'];
         $templateProcessor->setValue($macroNames, $macroValues);
 
-        $docName = 'header-footer-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'header-footer-test-result.docx';
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
@@ -459,7 +459,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $macroValues = ['Header Value', 'Document text.', 'Footer Value'];
         $templateProcessor->setValue($macroNames, $macroValues);
 
-        $docName = 'header-footer-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'header-footer-test-result.docx';
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
@@ -870,7 +870,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         ];
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 
-        $docName = 'header-footer-images-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'header-footer-images-test-result.docx';
         $templateProcessor->saveAs($docName);
 
         self::assertFileExists($docName, "Generated file '{$docName}' not found!");
@@ -903,7 +903,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         unlink($docName);
 
         // dynamic generated doc
-        $testFileName = 'images-test-sample.docx';
+        $testFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-test-sample.docx';
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('${Test:width=100:ratio=true}');
@@ -911,7 +911,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
 
-        $resultFileName = 'images-test-result.docx';
+        $resultFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
         $templateProcessor->setImageValue('Test', $imagePath);
@@ -945,7 +945,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->getVariables()
         );
 
-        $docName = 'clone-delete-block-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'clone-delete-block-result.docx';
         $templateProcessor->cloneBlock('CLONEME', 3);
         $templateProcessor->deleteBlock('DELETEME');
         $templateProcessor->setValue('blockVariable#3', 'Test');
@@ -975,7 +975,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
                    ${a_field_that_is_present_three_times}
         ');
         $objWriter = IOFactory::createWriter($phpWord);
-        $templatePath = 'test.docx';
+        $templatePath = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.docx';
         $objWriter->save($templatePath);
 
         $templateProcessor = $this->getTemplateProcessor($templatePath);
@@ -1012,7 +1012,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
                    {{a_field_that_is_present_three_times}}
         ');
         $objWriter = IOFactory::createWriter($phpWord);
-        $templatePath = 'test.docx';
+        $templatePath = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.docx';
         $objWriter->save($templatePath);
 
         $templateProcessor = $this->getTemplateProcessor($templatePath);
@@ -1049,7 +1049,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
 
         $objWriter = IOFactory::createWriter($phpWord);
-        $templatePath = 'test.docx';
+        $templatePath = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.docx';
         $objWriter->save($templatePath);
 
         // replace placeholders and save the file
@@ -1102,7 +1102,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
 
         $objWriter = IOFactory::createWriter($phpWord);
-        $templatePath = 'test.docx';
+        $templatePath = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.docx';
         $objWriter->save($templatePath);
 
         // replace placeholders and save the file

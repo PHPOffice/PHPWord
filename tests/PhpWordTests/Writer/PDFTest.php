@@ -43,7 +43,7 @@ class PDFTest extends \PHPUnit\Framework\TestCase
     public function testConstruct(): void
     {
         define('DOMPDF_ENABLE_AUTOLOAD', false);
-        $file = __DIR__ . '/../_files/temp.pdf';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.pdf';
 
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
@@ -61,9 +61,16 @@ class PDFTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructException(): void
     {
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'unknown.file';
+
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $this->expectExceptionMessage('PDF rendering library or library path has not been defined.');
         $writer = new PDF(new PhpWord());
-        $writer->save('unknown.file');
+        $writer->save($file);
+
+        //If no exception and file created
+        if (file_exists($file)) {
+            unlink($file);
+        }
     }
 }

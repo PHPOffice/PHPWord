@@ -42,7 +42,7 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstruct(): void
     {
-        $file = __DIR__ . '/../../_files/tcpdf.pdf';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'tcpdf.pdf';
 
         $phpWord = new PhpWord();
         $phpWord->setDefaultParagraphStyle(['spaceBefore' => 0, 'spaceAfter' => 0]);

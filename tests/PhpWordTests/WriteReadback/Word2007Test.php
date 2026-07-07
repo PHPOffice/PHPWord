@@ -43,7 +43,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $phpWordWriter->setDefaultFontName($testDefaultFontName);
 
         $writer = new Word2007($phpWordWriter);
-        $file = __DIR__ . '/../_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -65,7 +65,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $phpWordWriter->setDefaultAsianFontName($testDefaultFontName);
 
         $writer = new Word2007($phpWordWriter);
-        $file = __DIR__ . '/../_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -87,7 +87,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $phpWordWriter->setDefaultFontSize($testDefaultFontSize);
 
         $writer = new Word2007($phpWordWriter);
-        $file = __DIR__ . '/../_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -109,7 +109,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $phpWordWriter->setDefaultFontColor($testDefaultFontColor);
 
         $writer = new Word2007($phpWordWriter);
-        $file = __DIR__ . '/../_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -131,7 +131,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $phpWordWriter->getSettings()->setZoom($zoomLevel);
 
         $writer = new Word2007($phpWordWriter);
-        $file = __DIR__ . '/../_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -154,7 +154,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $sectionWriter->addText($testText);
 
         $writer = new Word2007($phpWordWriter);
-        $file = __DIR__ . '/../_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
