@@ -76,6 +76,9 @@ class Font extends AbstractStyle
         $underline = $style->getUnderline();
         $xmlWriter->writeAttributeIf($underline != 'none', 'style:text-underline-style', 'solid');
 
+		$underlineColor = $style->getunderlineColor();
+		$xmlWriter->writeAttributeIf($underlineColor != '', 'style:text-underline-color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($underlineColor));
+
         // Strikethrough, double strikethrough
         $xmlWriter->writeAttributeIf($style->isStrikethrough(), 'style:text-line-through-type', 'single');
         $xmlWriter->writeAttributeIf($style->isDoubleStrikethrough(), 'style:text-line-through-type', 'double');

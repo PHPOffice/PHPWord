@@ -131,6 +131,9 @@ class Font extends AbstractStyle
         // Underline
         $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
 
+		// UnderlineColor
+		$xmlWriter->writeElementIf($style->getUnderlineColor() !== null, 'w:u', 'w:color', $style->getUnderlineColor());
+
         // Foreground-Color
         $xmlWriter->writeElementIf($style->getFgColor() !== null, 'w:highlight', 'w:val', $style->getFgColor());
 
