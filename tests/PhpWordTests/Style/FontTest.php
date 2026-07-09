@@ -52,87 +52,97 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertIsArray($object->getStyleValues());
     }
 
+    public static function providerStyleValueEmpty(): array
+    {
+        return [
+            ['name', null],
+            ['size', null],
+            ['hint', null],
+            ['color', null],
+            ['bold', false],
+            ['italic', false],
+            ['underline', Font::UNDERLINE_NONE],
+            ['superScript', false],
+            ['subScript', false],
+            ['strikethrough', false],
+            ['doubleStrikethrough', false],
+            ['smallCaps', false],
+            ['allCaps', false],
+            ['rtl', false],
+            ['fgColor', null],
+            ['bgColor', null],
+            ['scale', null],
+            ['spacing', null],
+            ['kerning', null],
+            ['lang', null],
+            ['hidden', false],
+            ['whiteSpace', ''],
+            ['fallbackFont', ''],
+        ];
+    }
+
     /**
      * Test setting style values with null or empty value.
+     *
+     * @dataProvider providerStyleValueEmpty
+     *
+     * @phpstan-ignore missingType.parameter
      */
-    public function testSetStyleValueWithNullOrEmpty(): void
+    public function testSetStyleValueWithNullOrEmpty(string $key, $default): void
     {
         $object = new Font();
+        $get = is_bool($default) ? "is{$key}" : "get{$key}";
+        self::assertEquals($default, $object->$get());
+        $object->setStyleValue($key, null);
+        self::assertEquals($default, $object->$get());
+        $object->setStyleValue($key, '');
+        self::assertEquals($default, $object->$get());
+    }
 
-        $attributes = [
-            'name' => null,
-            'size' => null,
-            'hint' => null,
-            'color' => null,
-            'bold' => false,
-            'italic' => false,
-            'underline' => Font::UNDERLINE_NONE,
-            'superScript' => false,
-            'subScript' => false,
-            'strikethrough' => false,
-            'doubleStrikethrough' => false,
-            'smallCaps' => false,
-            'allCaps' => false,
-            'rtl' => false,
-            'fgColor' => null,
-            'bgColor' => null,
-            'scale' => null,
-            'spacing' => null,
-            'kerning' => null,
-            'lang' => null,
-            'hidden' => false,
-            'whiteSpace' => '',
-            'fallbackFont' => '',
+    public static function providerStyleValueNormal(): array
+    {
+        return [
+            ['name', 'Times New Roman'],
+            ['size', 9],
+            ['color', '999999'],
+            ['hint', 'eastAsia'],
+            ['bold', true],
+            ['italic', true],
+            ['underline', Font::UNDERLINE_HEAVY],
+            ['superScript', true],
+            ['subScript', false],
+            ['strikethrough', true],
+            ['doubleStrikethrough', false],
+            ['smallCaps', true],
+            ['allCaps', false],
+            ['fgColor', Font::FGCOLOR_YELLOW],
+            ['bgColor', 'FFFF00'],
+            ['lineHeight', 2],
+            ['scale', 150],
+            ['spacing', 240],
+            ['kerning', 10],
+            ['rtl', true],
+            ['noProof', true],
+            ['lang', new Language(Language::EN_US)],
+            ['hidden', true],
+            ['whiteSpace', 'pre-wrap'],
+            ['fallbackFont', 'serif'],
         ];
-        foreach ($attributes as $key => $default) {
-            $get = is_bool($default) ? "is{$key}" : "get{$key}";
-            self::assertEquals($default, $object->$get());
-            $object->setStyleValue($key, null);
-            self::assertEquals($default, $object->$get());
-            $object->setStyleValue($key, '');
-            self::assertEquals($default, $object->$get());
-        }
     }
 
     /**
      * Test setting style values with normal value.
+     *
+     * @dataProvider providerStyleValueNormal
+     *
+     * @phpstan-ignore missingType.parameter
      */
-    public function testSetStyleValueNormal(): void
+    public function testSetStyleValueNormal(string $key, $value): void
     {
         $object = new Font();
-
-        $attributes = [
-            'name' => 'Times New Roman',
-            'size' => 9,
-            'color' => '999999',
-            'hint' => 'eastAsia',
-            'bold' => true,
-            'italic' => true,
-            'underline' => Font::UNDERLINE_HEAVY,
-            'superScript' => true,
-            'subScript' => false,
-            'strikethrough' => true,
-            'doubleStrikethrough' => false,
-            'smallCaps' => true,
-            'allCaps' => false,
-            'fgColor' => Font::FGCOLOR_YELLOW,
-            'bgColor' => 'FFFF00',
-            'lineHeight' => 2,
-            'scale' => 150,
-            'spacing' => 240,
-            'kerning' => 10,
-            'rtl' => true,
-            'noProof' => true,
-            'lang' => new Language(Language::EN_US),
-            'hidden' => true,
-            'whiteSpace' => 'pre-wrap',
-            'fallbackFont' => 'serif',
-        ];
-        $object->setStyleByArray($attributes);
-        foreach ($attributes as $key => $value) {
-            $get = is_bool($value) ? "is{$key}" : "get{$key}";
-            self::assertEquals($value, $object->$get());
-        }
+        $object->setStyleValue($key, $value);
+        $get = is_bool($value) ? "is{$key}" : "get{$key}";
+        self::assertEquals($value, $object->$get());
     }
 
     /**
