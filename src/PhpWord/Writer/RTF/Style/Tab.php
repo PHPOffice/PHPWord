@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
+use PhpOffice\PhpWord\Style\Tab as TabStyle;
+
 /**
  * Line numbering style writer.
  *
@@ -31,19 +33,31 @@ class Tab extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Tab) {
+        if (!$style instanceof TabStyle) {
             return;
         }
         $tabs = [
-            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT => '\tqr',
-            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER => '\tqc',
-            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL => '\tqdec',
+            TabStyle::TAB_STOP_RIGHT => '\tqr',
+            TabStyle::TAB_STOP_CENTER => '\tqc',
+            TabStyle::TAB_STOP_DECIMAL => '\tqdec',
+            TabStyle::TAB_LEADER_DOT => '\tldot',
+            TabStyle::TAB_LEADER_HYPHEN => '\tlhyph',
+            TabStyle::TAB_LEADER_UNDERSCORE => '\tlul',
+            TabStyle::TAB_LEADER_HEAVY => '\tlth',
+            TabStyle::TAB_LEADER_MIDDLEDOT => '\tlmdot',
         ];
         $content = '';
         if (isset($tabs[$style->getType()])) {
             $content .= $tabs[$style->getType()];
         }
-        $content .= '\tx' . round($style->getPosition());
+        if (isset($tabs[$style->getLeader()]) && $style->getType() != TabStyle::TAB_STOP_BAR) {
+            $content .= $tabs[$style->getLeader()];
+        }
+        if ($style->getType() == TabStyle::TAB_STOP_BAR) {
+            $content .= '\tb' . round($style->getPosition());
+        } else {
+            $content .= '\tx' . round($style->getPosition());
+        }
 
         return $content;
     }
