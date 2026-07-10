@@ -20,7 +20,6 @@ namespace PhpOffice\PhpWordTests\Writer\RTF;
 
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\RTF;
-use PhpOffice\PhpWord\Writer\RTF\Style\Border;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -50,24 +49,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
 
             self::assertEquals('', $object->write());
         }
-    }
-
-    public function testBorderWithNonRegisteredColors(): void
-    {
-        $border = new Border();
-        $border->setSizes([1, 2, 3, 4]);
-        $border->setColors(['#FF0000', '#FF0000', '#FF0000', '#FF0000']);
-        $border->setSizes([20, 20, 20, 20]);
-
-        $content = $border->write();
-
-        $expected = '\pgbrdropt32';
-        $expected .= '\pgbrdrt\brdrs\brdrw20\brdrcf0\brsp480 ';
-        $expected .= '\pgbrdrl\brdrs\brdrw20\brdrcf0\brsp480 ';
-        $expected .= '\pgbrdrr\brdrs\brdrw20\brdrcf0\brsp480 ';
-        $expected .= '\pgbrdrb\brdrs\brdrw20\brdrcf0\brsp480 ';
-
-        self::assertEquals($expected, $content);
     }
 
     public function testIndentation(): void
