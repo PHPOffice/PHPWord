@@ -25,4 +25,49 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  */
 class ListItem extends Text
 {
+    /**
+     * Write list item element.
+     */
+    public function write()
+    {
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->element;
+        if (!$element instanceof \PhpOffice\PhpWord\Element\ListItem) {
+            return '';
+        }
+
+        $this->getStyles();
+
+        $depth = (int) $element->getDepth();
+        $style = $element->getStyle();
+        $text = $element->getTextObject();
+
+        // Bullet List
+        $content = '';
+        $content .= $this->writeOpening();
+        if ($style instanceof \PhpOffice\PhpWord\Style\ListItem) {
+            $numStyle = $style->getNumberingStyle();
+            if ($numStyle->getType() == 'singleLevel') {
+                $depth = 0;
+            }
+            $levels = $numStyle->getLevels();
+            $content .= '\ilvl' . $element->getDepth();
+            $content .= '\ls' . $style->getNumId();
+            $content .= '\tx' . $levels[$depth]->getTabPos();
+            $content .= '\fi' . $levels[$depth]->getHanging() * -1;
+            $content .= '\li' . $levels[$depth]->getLeft();
+            $content .= '\lin' . $levels[$depth]->getLeft();
+        }
+        $content .= $this->writeFontStyle(); // Doesn't work. Don't know why. Probalby something to do with \PphOffice\PhpWord\Element\ListItem storing styles in a textObject type \PphOffice\PhpWord\Element\Text rather than within the Element itself
+        $content .= PHP_EOL;
+        /* $content .= '{\listtext\f2 \\\'b7\tab }'; // Not sure if needed for listItemRun
+        $content .= PHP_EOL; */
+        $content .= '{';
+        $content .= $this->writeText($element->getText());
+        $content .= '}';
+        $content .= PHP_EOL;
+        $content .= $this->writeClosing();
+
+        return $content;
+    }
 }

@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Numbering as NumberingStyle;
 
 /**
  * List item style.
@@ -116,6 +117,21 @@ class ListItem extends AbstractStyle
     }
 
     /**
+     * Get numbering style.
+     *
+     * @return ?NumberingStyle
+     */
+    public function getNumberingStyle()
+    {
+        $numStyleObject = Style::getStyle($this->numStyle);
+        if ($numStyleObject instanceof NumberingStyle) {
+            return $numStyleObject;
+        }
+
+        return null;
+    }
+
+    /**
      * Set numbering style name.
      *
      * @param string $value
@@ -126,7 +142,7 @@ class ListItem extends AbstractStyle
     {
         $this->numStyle = $value;
         $numStyleObject = Style::getStyle($this->numStyle);
-        if ($numStyleObject instanceof Numbering) {
+        if ($numStyleObject instanceof NumberingStyle) {
             $this->numId = $numStyleObject->getIndex();
             $numStyleObject->setNumId($this->numId);
         }

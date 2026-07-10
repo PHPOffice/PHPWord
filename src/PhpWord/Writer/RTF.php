@@ -102,6 +102,16 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
+     * Get list table.
+     *
+     * @return array
+     */
+    public function getListTable()
+    {
+        return $this->getWriterPart('Header')->getListTable();
+    }
+
+    /**
      * Get last paragraph style.
      *
      * @return mixed

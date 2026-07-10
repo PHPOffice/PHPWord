@@ -68,7 +68,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
     {
         Settings::setDefaultRtl(false);
         $str = 'Voilà - string with accented char';
-        $expect = $this->expect('Voil\\uc0{\\u224} - string with accented char');
+        $expect = $this->expect('Voil\\uc0\\u224  - string with accented char');
         self::assertEquals($expect, $this->escapestring($str));
     }
 
@@ -79,7 +79,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
     {
         Settings::setDefaultRtl(true);
         $str = 'Hebrew - שלום';
-        $expect = $this->expect('Hebrew - \\uc0{\\u1513}\\uc0{\\u1500}\\uc0{\\u1493}\\uc0{\\u1501}', true);
+        $expect = $this->expect('Hebrew - \\uc0\\u1513 \\uc0\\u1500 \\uc0\\u1493 \\uc0\\u1501 ', true);
         self::assertEquals($expect, $this->escapestring($str));
     }
 
