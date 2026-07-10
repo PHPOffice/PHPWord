@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Style\Font as FontStyle;
+
 /**
  * Font style writer.
  *
@@ -31,7 +33,7 @@ class Font extends AbstractStyle
     public function write(): void
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
+        if (!$style instanceof FontStyle) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
@@ -72,9 +74,34 @@ class Font extends AbstractStyle
         $xmlWriter->writeAttributeIf($style->isItalic(), 'style:font-style-complex', 'italic');
 
         // Underline
-        // @todo Various mode of underline
+        $underlines = [
+            FontStyle::UNDERLINE_DASH => 'dash',
+            FontStyle::UNDERLINE_DASHHEAVY => 'dash',
+            FontStyle::UNDERLINE_DASHLONG => 'long-dash',
+            FontStyle::UNDERLINE_DASHLONGHEAVY => 'long-dash',
+            FontStyle::UNDERLINE_DOUBLE => 'solid',
+            FontStyle::UNDERLINE_DOTDASH => 'dot-dash',
+            FontStyle::UNDERLINE_DOTDASHHEAVY => 'dot-dash',
+            FontStyle::UNDERLINE_DOTDOTDASH => 'dot-dot-dash',
+            FontStyle::UNDERLINE_DOTDOTDASHHEAVY => 'dot-dot-dash',
+            FontStyle::UNDERLINE_DOTTED => 'dotted',
+            FontStyle::UNDERLINE_DOTTEDHEAVY => 'dotted',
+            FontStyle::UNDERLINE_HEAVY => 'solid',
+            FontStyle::UNDERLINE_SINGLE => 'solid',
+            FontStyle::UNDERLINE_WAVY => 'wave',
+            FontStyle::UNDERLINE_WAVYDOUBLE => 'wave',
+            FontStyle::UNDERLINE_WAVYHEAVY => 'wave',
+            FontStyle::UNDERLINE_WORDS => 'solid',
+        ];
+
         $underline = $style->getUnderline();
-        $xmlWriter->writeAttributeIf($underline != 'none', 'style:text-underline-style', 'solid');
+        if (isset($underlines[$underline])) {
+            $xmlWriter->writeAttribute('style:text-underline-style', $underlines[$underline]);
+            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'heavy') !== false, 'style:text-underline-width', 'bold');
+            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'thick') !== false, 'style:text-underline-width', 'bold');
+            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'double') !== false, 'style:text-underline-type', 'double');
+            $xmlWriter->writeAttributeIf(strpos(strtolower($underline), 'words') !== false, 'style:text-underline-mode', 'skip-white-space');
+        }
 
         // Strikethrough, double strikethrough
         $xmlWriter->writeAttributeIf($style->isStrikethrough(), 'style:text-line-through-type', 'single');
