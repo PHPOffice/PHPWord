@@ -188,6 +188,7 @@ class Header extends AbstractPart
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
         $this->fontTable[] = Settings::getDefaultFontName();
+        $this->colorTable[] = Settings::getDefaultFontColor();
 
         // Search named styles
         $styles = Style::getStyles();
@@ -238,6 +239,7 @@ class Header extends AbstractPart
             $this->registerTableItem($this->fontTable, $style->getName(), $defaultFont);
             $this->registerTableItem($this->colorTable, $style->getColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getFgColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getBgColor(), $defaultColor);
 
             return;
         }
