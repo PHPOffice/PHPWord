@@ -77,8 +77,10 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/div/p[1]/ins')->length);
-        self::assertEquals(1, $xpath->query('/html/body/div/p[2]/del')->length);
+        $element1 = $xpath->query('/html/body/div/p[1]/ins');
+        $element2 = $xpath->query('/html/body/div/p[2]/del');
+        self::assertEquals(1, is_object($element1) ? $element1->length : 0);
+        self::assertEquals(1, is_object($element2) ? $element2->length : 0);
     }
 
     /**

@@ -369,6 +369,7 @@ abstract class AbstractPart
                     }
                     $formField->setEntries($listEntries);
                     if (null !== $formField->getValue()) {
+                        /** @phpstan-ignore offsetAccess.notFound */
                         $formField->setText($listEntries[$formField->getValue()]);
                     }
 

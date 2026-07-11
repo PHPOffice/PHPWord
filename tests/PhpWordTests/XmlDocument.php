@@ -157,6 +157,7 @@ class XmlDocument
             $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 
+        /** @phpstan-ignore return.type */
         return $this->xpath->query($path);
     }
 
