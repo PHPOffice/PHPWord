@@ -37,9 +37,13 @@ class Indentation extends AbstractStyle
             return '';
         }
 
-        $content = '\fi' . round($style->getFirstLine());
-        $content .= '\li' . round($style->getLeft());
-        $content .= '\ri' . round($style->getRight());
+        $content = '';
+
+        $content .= $this->getValueIf($style->getFirstLine() != 0, '\fi' . round($style->getFirstLine()));
+        $content .= $this->getValueIf($style->getFirstLineChars() != 0, '\cufi' . round($style->getFirstLineChars()));
+        $content .= $this->getValueIf($style->getHanging() != 0, '\fi-' . round($style->getHanging()));
+        $content .= $this->getValueIf($style->getLeft() != 0, '\li' . round($style->getLeft()));
+        $content .= $this->getValueIf($style->getRight() != 0, '\ri' . round($style->getRight()));
 
         return $content . ' ';
     }
