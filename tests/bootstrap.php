@@ -25,6 +25,14 @@ if (!defined('PHPWORD_TESTS_BASE_DIR')) {
     define('PHPWORD_TESTS_BASE_DIR', realpath(__DIR__));
 }
 
+if (!defined('PHPWORD_TESTS_TEMP_DIR')) {
+    define('PHPWORD_TEST_TEMP_DIR', PHPWORD_TESTS_BASE_DIR . DIRECTORY_SEPARATOR . 'PhpWordTests' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'tmp');
+}
+if (!is_dir(PHPWORD_TEST_TEMP_DIR) && !mkdir(PHPWORD_TEST_TEMP_DIR)) {
+    printf("Error: Not exists temp directory: %s\n", PHPWORD_TEST_TEMP_DIR);
+    exit(1);
+}
+
 function phpunit10ErrorHandler(int $errno, string $errstr, string $filename, int $lineno): bool
 {
     $x = error_reporting() & $errno;

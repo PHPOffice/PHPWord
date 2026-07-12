@@ -115,7 +115,8 @@ class ImageTest extends AbstractWebServerEmbedded
     /**
      * Get alt text.
      */
-    public function testAltText(): void {
+    public function testAltText(): void
+    {
         $source = __DIR__ . '/../_files/images/earth.jpg';
         $altText = 'Picture of the earth from space';
         $image = new Image($source, null, false, null, $altText);

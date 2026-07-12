@@ -208,18 +208,14 @@ class Image extends AbstractElement
 
     /**
      * Get image alt text.
-     *
-     * @return null|string
      */
-    public function getAltText(): ?string 
+    public function getAltText(): ?string
     {
         return $this->altText;
     }
 
     /**
      * Sets the image alt text.
-     *
-     * @param null|string $value
      */
     public function setAltText(?string $value): void
     {
