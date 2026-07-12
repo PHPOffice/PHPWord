@@ -24,8 +24,6 @@ parameters:
         ## <=PHP7.3
         -
             identifier: nullCoalesce.offset
-        -
-            identifier: assignOp.invalid
 
         ## <=PHP7.4
         -
