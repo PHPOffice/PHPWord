@@ -134,7 +134,6 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
     {
         $class = new ReflectionClass(get_class($object));
         $method = $class->getMethod($method);
-        $method->setAccessible(true);
 
         return $method->invokeArgs($object, $args);
     }
