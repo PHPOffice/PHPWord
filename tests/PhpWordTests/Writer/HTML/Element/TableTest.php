@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Writer\HTML\Element;
 
+use DOMNode;
 use DOMXPath;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
@@ -161,7 +162,9 @@ class TableTest extends TestCase
         self::assertEmpty(Helper::getNamedItem($xpath, '/html/body/div/table[6]', 'style'));
         self::assertEquals('tstyle', Helper::getTextContent($xpath, '/html/body/div/table[6]', 'class'));
         $style = Helper::getTextContent($xpath, '/html/head/style');
-        self::assertNotFalse(preg_match('/^[.]tstyle[^\\r\\n]*/m', $style, $matches));
+        $prg = preg_match('/^[.]tstyle[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
+        self::assertNotFalse($prg);
         self::assertEquals(".tstyle {table-layout: auto; $cssnone}", $matches[0]);
     }
 
@@ -197,7 +200,7 @@ class TableTest extends TestCase
         $cell3Query = $xpath->query('//table/tr/td[3]');
         self::assertNotFalse($cell3Query);
         self::assertCount(1, $cell3Query);
-
+        self::assertInstanceOf(DOMNode::class, $cell3Query->item(0));
         $cell3Style = $cell3Query->item(0)->attributes->getNamedItem('style');
         self::assertNull($cell3Style);
     }
@@ -230,6 +233,7 @@ class TableTest extends TestCase
         $cell3Query = $xpath->query('//table/tr[3]/td[1]');
         self::assertNotFalse($cell3Query);
         self::assertCount(1, $cell3Query);
+        self::assertInstanceOf(DOMNode::class, $cell3Query->item(0));
         self::assertNull($cell3Query->item(0)->attributes->getNamedItem('rowspan'));
     }
 }

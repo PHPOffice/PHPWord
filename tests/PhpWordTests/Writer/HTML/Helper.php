@@ -41,14 +41,26 @@ class Helper extends \PHPUnit\Framework\TestCase
             if ($item2 === null) {
                 self::fail('Unexpected null return requesting item');
             } elseif ($namedItem !== '') {
-                $item3 = $item2->attributes->getNamedItem($namedItem);
-                if ($item3 === null) {
-                    self::fail('Unexpected null return requesting namedItem');
+                if (!property_exists($item2, 'attributes')) {
+                    self::fail('Unexpected incorrect object');
                 } else {
-                    $returnVal = $item3->textContent;
+                    $item3 = $item2->attributes->getNamedItem($namedItem);
+                    if ($item3 === null) {
+                        self::fail('Unexpected null return requesting namedItem');
+                    } else {
+                        if (!property_exists($item3, 'textContent')) {
+                            self::fail('Unexpected incorrect object');
+                        } else {
+                            $returnVal = $item3->textContent;
+                        }
+                    }
                 }
             } else {
-                $returnVal = $item2->textContent;
+                if (!property_exists($item2, 'textContent')) {
+                    self::fail('Unexpected incorrect object');
+                } else {
+                    $returnVal = $item2->textContent;
+                }
             }
         }
 
@@ -66,6 +78,8 @@ class Helper extends \PHPUnit\Framework\TestCase
             $item2 = $item->item($itemNumber);
             if ($item2 === null) {
                 self::fail('Unexpected null return requesting item');
+            } elseif (!property_exists($item2, 'attributes')) {
+                self::fail('Unexpected incorrect object');
             } else {
                 $returnValue = $item2->attributes->getNamedItem($namedItem);
             }

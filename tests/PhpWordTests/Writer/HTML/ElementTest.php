@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\HTML;
 
 use DateTime;
 use DOMDocument;
+use DOMNode;
 use DOMXPath;
 use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Element\TextRun;
@@ -77,8 +78,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/div/p[1]/ins')->length);
-        self::assertEquals(1, $xpath->query('/html/body/div/p[2]/del')->length);
+        $query = $xpath->query('/html/body/div/p[1]/ins');
+        self::assertNotFalse($query);
+        self::assertEquals(1, $query->length);
+        $query = $xpath->query('/html/body/div/p[2]/del');
+        self::assertNotFalse($query);
+        self::assertEquals(1, $query->length);
     }
 
     /**
@@ -101,14 +106,20 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[1]/td')->length);
-        self::assertEquals('2', $xpath->query('/html/body/div/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
-        self::assertEquals(2, $xpath->query('/html/body/div/table/tr[2]/td')->length);
+        $query = $xpath->query('/html/body/div/table/tr[1]/td');
+        self::assertNotFalse($query);
+        self::assertCount(1, $query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('2', $query->item(0)->attributes->getNamedItem('colspan')->textContent);
+        self::assertEquals('#6086B8', $query->item(0)->attributes->getNamedItem('bgcolor')->textContent);
+        self::assertEquals('#ffffff', $query->item(0)->attributes->getNamedItem('color')->textContent);
 
-        self::assertEquals('#6086B8', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
-        self::assertEquals('#ffffff', $xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        self::assertNull($xpath->query('/html/body/div/table/tr[2]/td')->item(0)->attributes->getNamedItem('color'));
+        $query = $xpath->query('/html/body/div/table/tr[2]/td');
+        self::assertNotFalse($query);
+        self::assertCount(2, $query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('#ffffff', $query->item(0)->attributes->getNamedItem('bgcolor')->textContent);
+        self::assertNull($query->item(0)->attributes->getNamedItem('color'));
     }
 
     /**
@@ -135,9 +146,18 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(2, $xpath->query('/html/body/div/table/tr[1]/td')->length);
-        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
-        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[2]/td')->length);
+        $query = $xpath->query('/html/body/div/table/tr[1]/td');
+        self::assertNotFalse($query);
+        self::assertCount(2, $query);
+
+        $query = $xpath->query('/html/body/div/table/tr[1]/td[1]');
+        self::assertNotFalse($query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('3', $query->item(0)->attributes->getNamedItem('rowspan')->textContent);
+
+        $query = $xpath->query('/html/body/div/table/tr[2]/td');
+        self::assertNotFalse($query);
+        self::assertCount(1, $query);
     }
 
     /**
@@ -167,14 +187,29 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals(3, $xpath->query('/html/body/div/table/tr[1]/td')->length);
-        self::assertEquals('2', $xpath->query('/html/body/div/table/tr[1]/td[2]')->item(0)->attributes->getNamedItem('colspan')->textContent);
-        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[1]/td[3]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
+        $query = $xpath->query('/html/body/div/table/tr[1]/td');
+        self::assertNotFalse($query);
+        self::assertCount(3, $query);
 
-        self::assertEquals(1, $xpath->query('/html/body/div/table/tr[2]/td')->length);
-        self::assertEquals('3', $xpath->query('/html/body/div/table/tr[2]/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
+        $query = $xpath->query('/html/body/div/table/tr[1]/td[2]');
+        self::assertNotFalse($query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('2', $query->item(0)->attributes->getNamedItem('colspan')->textContent);
 
-        self::assertEquals(3, $xpath->query('/html/body/div/table/tr[3]/td')->length);
+        $query = $xpath->query('/html/body/div/table/tr[1]/td[3]');
+        self::assertNotFalse($query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('3', $query->item(0)->attributes->getNamedItem('rowspan')->textContent);
+
+        $query = $xpath->query('/html/body/div/table/tr[2]/td[1]');
+        self::assertNotFalse($query);
+        self::assertCount(1, $query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('3', $query->item(0)->attributes->getNamedItem('colspan')->textContent);
+
+        $query = $xpath->query('/html/body/div/table/tr[3]/td');
+        self::assertNotFalse($query);
+        self::assertCount(3, $query);
     }
 
     public function testWriteTitleTextRun(): void
@@ -240,7 +275,14 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = Helper::getAsHTML($phpWord);
         $xpath = new DOMXPath($dom);
 
-        self::assertEquals('table-layout: fixed;', $xpath->query('/html/body/div/table[1]')->item(0)->attributes->getNamedItem('style')->textContent);
-        self::assertEquals('table-layout: auto;', $xpath->query('/html/body/div/table[2]')->item(0)->attributes->getNamedItem('style')->textContent);
+        $query = $xpath->query('/html/body/div/table[1]');
+        self::assertNotFalse($query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('table-layout: fixed;', $query->item(0)->attributes->getNamedItem('style')->textContent);
+
+        $query = $xpath->query('/html/body/div/table[2]');
+        self::assertNotFalse($query);
+        self::assertInstanceOf(DOMNode::class, $query->item(0));
+        self::assertEquals('table-layout: auto;', $query->item(0)->attributes->getNamedItem('style')->textContent);
     }
 }

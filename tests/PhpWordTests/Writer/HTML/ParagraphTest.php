@@ -54,7 +54,9 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('indented', Helper::getTextContent($xpath, '/html/body/div/p[2]', 'class'));
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
-        self::assertNotFalse(preg_match('/^[.]indented[^\\r\\n]*/m', $style, $matches));
+        $prg = preg_match('/^[.]indented[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
+        self::assertNotFalse($prg);
         self::assertEquals('.indented {margin-left: 0.5in; margin-right: 0.6in;}', $matches[0]);
     }
 
@@ -87,9 +89,13 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('font-family: \'Verdana\'; font-size: 12pt;', Helper::getTextContent($xpath, '/html/body/div/p[2]/span', 'style'));
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
-        self::assertNotFalse(preg_match('/^[.]indented[^\\r\\n]*/m', $style, $matches));
+        $prg = preg_match('/^[.]indented[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
+        self::assertNotFalse($prg);
         self::assertEquals('.indented {margin-left: 0.5in; margin-right: 0.6in;}', $matches[0]);
-        self::assertNotFalse(preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches));
+        $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
+        self::assertNotEmpty($matches);
+        self::assertNotFalse($prg);
         self::assertEquals('.style1 {font-family: \'Courier New\', monospace; font-size: 10pt; white-space: pre-wrap;}', $matches[0]);
     }
 

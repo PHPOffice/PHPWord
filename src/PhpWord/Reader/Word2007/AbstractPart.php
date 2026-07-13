@@ -368,7 +368,7 @@ abstract class AbstractPart
                         }
                     }
                     $formField->setEntries($listEntries);
-                    if (null !== $formField->getValue()) {
+                    if (null !== $formField->getValue() && isset($listEntries[$formField->getValue()])) {
                         $formField->setText($listEntries[$formField->getValue()]);
                     }
 
