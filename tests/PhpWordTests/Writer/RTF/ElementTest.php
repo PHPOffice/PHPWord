@@ -121,7 +121,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
             '\\pard',
             "\\trowd \\cellx$width \\cellx$width2 ",
             '\\intbl',
-            '{\\cf0\\f0 1}\\par',
+            '\\widctlpar {\\cf0\\f0 1}\\par',
             '\\cell',
             '\\intbl',
             '{\\cf0\\f0 2}\\par',
@@ -129,7 +129,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
             '\\row',
             "\\trowd \\cellx$width \\cellx$width2 ",
             '\\intbl',
-            '{\\cf0\\f0 3}\\par',
+            '\\widctlpar {\\cf0\\f0 3}\\par',
             '\\cell',
             '\\intbl',
             '{\\cf0\\f0 4}\par',
@@ -149,7 +149,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element->addText('Hello ');
         $element->addText('there.');
         $textrun = new RTF\Element\TextRun($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar {{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
+        $expect = "\\pard\\widctlpar {{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
         self::assertEquals($expect, $this->removeCr($textrun));
     }
 
@@ -160,7 +160,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element->addText('Hello ');
         $element->addText('there.');
         $textrun = new RTF\Element\TextRun($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\sb0\\sa0{{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
+        $expect = "\\pard\\sb0\\sa0\\widctlpar {{\\cf0\\f0 Hello }{\\cf0\\f0 there.}}\\par\n";
         self::assertEquals($expect, $this->removeCr($textrun));
     }
 
@@ -172,7 +172,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $element = $section->addTitle('First Heading', 1);
         $elwrite = new RTF\Element\Title($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\sb0\\sa0{\\outlinelevel0{\\cf0\\f0 First Heading}\\par\n}";
+        $expect = "\\pard\\sb0\\sa0\\widctlpar {\\outlinelevel0{\\cf0\\f0 First Heading}\\par\n}";
         self::assertEquals($expect, $this->removeCr($elwrite));
     }
 
@@ -188,7 +188,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element->addRuby($baseTextRun, $rubyTextRun, $properties);
 
         $textrun = new RTF\Element\TextRun($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar {{base text (ruby)}}\\par\n";
+        $expect = "\\pard\\widctlpar {{base text (ruby)}}\\par\n";
         self::assertEquals($expect, $this->removeCr($textrun));
     }
 
@@ -213,7 +213,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = $section->addTitle($textRun, 1);
         $elwrite = new RTF\Element\Title($parentWriter, $element);
 
-        $expect = "\\pard\\nowidctlpar \\sb0\\sa2{\\outlinelevel0{\\cf0\\f0\\fs48\\b base text (ruby)}\\par\n}";
+        $expect = "\\pard\\sb0\\sa2\\widctlpar {\\outlinelevel0{\\cf0\\f0\\fs48\\b base text (ruby)}\\par\n}";
         self::assertEquals($expect, $this->removeCr($elwrite));
     }
 }

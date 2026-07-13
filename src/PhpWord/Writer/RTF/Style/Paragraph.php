@@ -36,10 +36,6 @@ class Paragraph extends AbstractStyle
      */
     private $nestedLevel = 0;
 
-    private const LEFT = Jc::LEFT;
-    private const RIGHT = Jc::RIGHT;
-    private const JUSTIFY = Jc::JUSTIFY;
-
     /**
      * Write style.
      *
@@ -57,69 +53,72 @@ class Paragraph extends AbstractStyle
             Jc::END => '\qr',
             Jc::CENTER => '\qc',
             Jc::BOTH => '\qj',
-            self::LEFT => '\ql',
-            self::RIGHT => '\qr',
-            self::JUSTIFY => '\qj',
+            Jc::LEFT => '\ql',
+            Jc::RIGHT => '\qr',
+            Jc::JUSTIFY => '\qj',
+            Jc::DISTRIBUTE => '\qd',
+            Jc::THAI_DISTRIBUTE => '\qt',
+            Jc::HIGH_KASHIDA => '\qk20',
+            Jc::MEDIUM_KASHIDA => '\qk10',
+            Jc::LOW_KASHIDA => '\qk0',
         ];
         $bidiAlignments = [
             Jc::START => '\qr',
             Jc::END => '\ql',
             Jc::CENTER => '\qc',
             Jc::BOTH => '\qj',
-            self::LEFT => '\ql',
-            self::RIGHT => '\qr',
-            self::JUSTIFY => '\qj',
+            Jc::LEFT => '\ql',
+            Jc::RIGHT => '\qr',
+            Jc::JUSTIFY => '\qj',
+            Jc::DISTRIBUTE => '\qd',
+            Jc::THAI_DISTRIBUTE => '\qt',
+            Jc::HIGH_KASHIDA => '\qk20',
+            Jc::MEDIUM_KASHIDA => '\qk10',
+            Jc::LOW_KASHIDA => '\qk0',
         ];
-
-        $spaceAfter = $style->getSpaceAfter();
-        $spaceBefore = $style->getSpaceBefore();
 
         $content = '';
         if ($this->nestedLevel == 0) {
-            $content .= '\pard\nowidctlpar ';
+            $content .= '\pard';
         }
+
+        // Alignment
         $alignment = $style->getAlignment();
         $bidi = $style->isBidi();
         if ($alignment === '' && $bidi !== null) {
             $alignment = Jc::START;
         }
+
+        // Right to left
         if (isset($alignments[$alignment])) {
             $content .= $bidi ? $bidiAlignments[$alignment] : $alignments[$alignment];
         }
-        $content .= $this->writeIndentation($style->getIndentation());
-        $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore ?? 0));
-        $content .= $this->getValueIf($spaceAfter !== null, '\sa' . round($spaceAfter ?? 0));
-        $lineHeight = $style->getLineHeight();
-        if ($lineHeight) {
-            $lineHeightAdjusted = (int) ($lineHeight * 240);
-            $content .= "\\sl$lineHeightAdjusted\\slmult1";
-        }
-        if ($style->hasPageBreakBefore()) {
-            $content .= '\\page';
-        }
+        $content .= $this->getValueIf($style->isBidi(), '\rtlpar');
 
+        // Indentation - Future: Create writeChildStyle in AbstractStyle
+        $content .= $this->writeChildStyle('Indentation', $style->getIndentation());
+        $content .= $this->writeChildStyle('Spacing', $style->getSpace());
+        // Future: Add Shading
+
+        // Contextual Spacing
+        $content .= $this->getValueIf($style->hasContextualSpacing(), '\contextualspace');
+        // Future: Add Text Alignment
+
+        // Pagination
+        $content .= $this->getValueIf($style->hasWidowControl(), '\widctlpar');
+        $content .= $this->getValueIf(!$style->hasWidowControl(), '\nowidctlpar');
+        $content .= $this->getValueIf($style->isKeepNext(), '\keepn');
+        $content .= $this->getValueIf($style->isKeepLines(), '\keep');
+        $content .= $this->getValueIf($style->hasPageBreakBefore(), '\pagebb');
+
+        // Hyphenation
+        $content .= $this->getValueIf($style->hasSuppressAutoHyphens(), '\hyphpar0');
+
+        // Tabs
         $styles = $style->getStyleValues();
         $content .= $this->writeTabs($styles['tabs']);
 
-        return $content;
-    }
-
-    /**
-     * Writes an \PhpOffice\PhpWord\Style\Indentation.
-     *
-     * @param null|\PhpOffice\PhpWord\Style\Indentation $indent
-     *
-     * @return string
-     */
-    private function writeIndentation($indent = null)
-    {
-        if (isset($indent) && $indent instanceof \PhpOffice\PhpWord\Style\Indentation) {
-            $writer = new Indentation($indent);
-
-            return $writer->write();
-        }
-
-        return '';
+        return $content . ' ';
     }
 
     /**

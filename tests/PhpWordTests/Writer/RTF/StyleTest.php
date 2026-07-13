@@ -43,12 +43,29 @@ class StyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testEmptyStyles(): void
     {
-        $styles = ['Font', 'Paragraph', 'Section', 'Tab', 'Indentation'];
+        $styles = ['Font', 'Indentation', 'Paragraph', 'Section', 'Spacing', 'Tab'];
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Style\\' . $style;
             $object = new $objectClass();
 
             self::assertEquals('', $object->write());
+        }
+    }
+
+    /**
+     * Test unmatched styles.
+     */
+    public function testUnmatchedStyles(): void
+    {
+        $styles = ['Font', 'Indentation', 'Paragraph', 'Section', 'Spacing', 'Tab'];
+        foreach ($styles as $style) {
+            $parentWriter = new RTF();
+            $writerClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Style\\' . $style;
+            $newStyle = new \PhpOffice\PhpWord\Style\Border();
+            $writer = new $writerClass($newStyle);
+            $writer->setParentWriter($parentWriter);
+
+            self::assertEquals('', $writer->write());
         }
     }
 
@@ -126,7 +143,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('אב גד', ['RTL' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
+        $expect = "\\pard\\widctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
@@ -136,7 +153,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('אב גד');
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\qr{\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
+        $expect = "\\pard\\qr\\rtlpar\\widctlpar {\\rtlch\\cf0\\f0 \\uc0{\\u1488}\\uc0{\\u1489} \\uc0{\\u1490}\\uc0{\\u1491}}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
@@ -145,7 +162,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
+        $expect = "\\pard\\sl259\\slmult1\\widctlpar\\pagebb {\\cf0\\f0 New page}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
@@ -155,7 +172,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $parentWriter = new RTF();
         $element = new \PhpOffice\PhpWord\Element\Text('New page', null, ['lineHeight' => 1.08, 'pageBreakBefore' => true]);
         $text = new RTF\Element\Text($parentWriter, $element);
-        $expect = "\\pard\\nowidctlpar \\ql\\sl259\\slmult1\\page{\\cf0\\f0 New page}\\par\n";
+        $expect = "\\pard\\ql\\sl259\\slmult1\\widctlpar\\pagebb {\\cf0\\f0 New page}\\par\n";
         self::assertEquals($expect, $this->removeCr($text));
     }
 
