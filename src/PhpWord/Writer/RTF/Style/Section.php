@@ -53,8 +53,23 @@ class Section extends AbstractStyle
         $content .= $this->getValueIf($style->getMarginLeft() !== null, '\marglsxn' . round($style->getMarginLeft()));
         $content .= $this->getValueIf($style->getHeaderHeight() !== null, '\headery' . round($style->getHeaderHeight()));
         $content .= $this->getValueIf($style->getFooterHeight() !== null, '\footery' . round($style->getFooterHeight()));
-        $content .= $this->getValueIf($style->getGutter() !== null, '\guttersxn' . round($style->getGutter()));
+        $content .= $this->getValueIf($style->getGutter() !== null && $style->getGutter() !== SectionStyle::DEFAULT_GUTTER, '\guttersxn' . round($style->getGutter()));
         $content .= $this->getValueIf($style->getPageNumberingStart() !== null, '\pgnstarts' . $style->getPageNumberingStart() . '\pgnrestart');
+        $content .= $this->getValueIf($style->getColsNum() !== null && $style->getColsNum() !== SectionStyle::DEFAULT_COLUMN_COUNT, '\cols' . $style->getColsNum());
+        $content .= $this->getValueIf($style->getColsSpace() !== null && $style->getColsNum() !== SectionStyle::DEFAULT_COLUMN_COUNT, '\colsx' . round($style->getColsSpace()));
+
+        // Break Type
+        $breakTypes = [
+            'nextPage' => '\sbkpage',
+            'nextColumn' => '\sbkcol',
+            'continuous' => '\sbknone',
+            'evenPage' => '\sbkeven',
+            'oddPage' => '\sbkodd',
+        ];
+        if (isset($breakTypes[$style->getBreakType()])) {
+            $content .= $breakTypes[$style->getBreakType()];
+        }
+
         $content .= ' ';
 
         // Borders
