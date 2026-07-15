@@ -95,7 +95,7 @@ class Text
     public static function chr($dec)
     {
         if ($dec <= 0x7F) {
-            return chr($dec);
+            return chr($dec & 0xFF);
         }
         if ($dec <= 0x7FF) {
             return chr(($dec >> 6) + 192) . chr(($dec & 63) + 128);
