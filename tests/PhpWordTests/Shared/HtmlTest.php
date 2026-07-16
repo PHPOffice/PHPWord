@@ -506,6 +506,46 @@ class HtmlTest extends AbstractWebServerEmbedded
     }
 
     /**
+     * Test parsing paragraph with `break-inside: avoid` style.
+     */
+    public function testParseParagraphWithBreakInsideAvoid(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="break-inside: avoid;"></p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:keepLines'));
+    }
+
+    /**
+     * Test parsing paragraph with `break-after: avoid` style.
+     */
+    public function testParseParagraphWithBreakAfterAvoid(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="break-after: avoid;"></p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:keepNext'));
+    }
+
+    /**
+     * Test parsing paragraph with `break-after: always` style.
+     */
+    public function testParseParagraphWithBreakAfterAlways(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="break-after: always;"></p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:br'));
+        self::assertEquals('page', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:br', 'w:type'));
+    }
+
+    /**
      * Test parsing table.
      */
     public function testParseTable(): void

@@ -929,6 +929,20 @@ class Html
                     }
 
                     break;
+                case 'break-inside':
+                    if ($value == 'avoid' || $value == 'avoid-page') {
+                        $styles['keepLines'] = true;
+                    }
+
+                    break;
+                case 'break-after':
+                    if ($value == 'avoid' || $value == 'avoid-page') {
+                        $styles['keepNext'] = true;
+                    } elseif ($value == 'always') {
+                        $styles['isPageBreak'] = true;
+                    }
+
+                    break;
             }
         }
 
