@@ -21,6 +21,10 @@ parameters:
         -
             identifier: missingType.iterableValue
         
+        ## <=PHP7.3
+        -
+            identifier: nullCoalesce.offset
+
         ## <=PHP7.4
         -
             message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class-string<T of object>\|T of object, string given.#'

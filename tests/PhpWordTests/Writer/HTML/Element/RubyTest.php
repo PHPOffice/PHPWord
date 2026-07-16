@@ -49,7 +49,8 @@ class RubyTest extends TestCase
 
         $dom = Helper::getAsHTML($phpWord, '', '', ['ruby', 'rt', 'rp']);
         $xpath = new DOMXPath($dom);
-        self::assertEquals(1, $xpath->query('/html/body/div/ruby')->length);
+        $element = $xpath->query('/html/body/div/ruby');
+        self::assertEquals(1, $element === false ? 0 : $element->length);
         // ensure text is right
         $rubyElement = $dom->getElementsByTagName('ruby')->item(0);
         $rtElement = $dom->getElementsByTagName('rt')->item(0);
@@ -84,7 +85,8 @@ class RubyTest extends TestCase
 
         $dom = Helper::getAsHTML($phpWord, '', '', ['ruby', 'rt', 'rp']);
         $xpath = new DOMXPath($dom);
-        self::assertEquals(1, $xpath->query('/html/body/div/ruby')->length);
+        $element = $xpath->query('/html/body/div/ruby');
+        self::assertEquals(1, $element === false ? 0 : $element->length);
         // ensure text is right
         $rubyElement = $dom->getElementsByTagName('ruby')->item(0);
         $rtElement = $dom->getElementsByTagName('rt')->item(0);
