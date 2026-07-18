@@ -30,7 +30,7 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class MPDF extends AbstractRenderer implements WriterInterface
 {
-    public const SIMULATED_BODY_START = '<!-- simulated body start -->';
+    public const SIMULATED_BODY_START = '';
     private const BODY_TAG = '<body>';
 
     /**
@@ -104,8 +104,26 @@ class MPDF extends AbstractRenderer implements WriterInterface
             $pdf->WriteHTML(substr($html, 0, $bodyLocation));
             $html = substr($html, $bodyLocation);
         }
-        foreach (explode("\n", $html) as $line) {
-            $pdf->WriteHTML("$line\n");
+        $pcreBacktrackLimitString = ini_get('pcre.backtrack_limit');
+        if (!is_string($pcreBacktrackLimitString)) {
+            $pcreBacktrackLimitString = '1000000';
+        }
+        $pcreBacktrackLimit = (int) $pcreBacktrackLimitString;
+        $origLimit = $pcreBacktrackLimit;
+
+        try {
+            foreach (explode("\n", $html) as $line) {
+                $lineLen = strlen($line);
+                if ($lineLen > $pcreBacktrackLimit) {
+                    $pcreBacktrackLimit = $lineLen + 1;
+                    ini_set('pcre.backtrack_limit', (string) $pcreBacktrackLimit);
+                }
+                $pdf->WriteHTML("$line\n");
+            }
+        } finally {
+            if ($pcreBacktrackLimit !== $origLimit) {
+                ini_set('pcre.backtrack_limit', $pcreBacktrackLimitString);
+            }
         }
 
         //  Write to file
