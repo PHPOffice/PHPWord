@@ -30,7 +30,7 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class MPDF extends AbstractRenderer implements WriterInterface
 {
-    public const SIMULATED_BODY_START = '<!-- simulated body start -->';
+    public const SIMULATED_BODY_START = '';
     private const BODY_TAG = '<body>';
 
     /**
@@ -104,9 +104,8 @@ class MPDF extends AbstractRenderer implements WriterInterface
             $pdf->WriteHTML(substr($html, 0, $bodyLocation));
             $html = substr($html, $bodyLocation);
         }
-        foreach (explode("\n", $html) as $line) {
-            $pdf->WriteHTML("$line\n");
-        }
+        // Pass the full HTML string directly to WriteHTML
+        $pdf->WriteHTML($html);
 
         //  Write to file
         fwrite($fileHandle, $pdf->output($filename, 'S'));

@@ -11,9 +11,9 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @see         https://github.com/PHPOffice/PHPWord
+ * @see        https://github.com/PHPOffice/PHPWord
  *
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
+ * @license    http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWordTests\Writer\PDF;
@@ -112,5 +112,39 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         ]);
         $writer = new PDF(new PhpWord());
         self::assertEquals('Arial', $writer->getFont());
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\Writer\PDF\MPDF
+     *
+     * Regression test for #2876: large inline Base64 images used to exhaust
+     * pcre.backtrack_limit when the Mpdf writer split the HTML line-by-line.
+     */
+    public function testWriteLargeEmbeddedImageDoesNotExhaustBacktrackLimit(): void
+    {
+        Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
+        Settings::setPdfRendererPath('');
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        // Generate a dummy PNG and embed it to simulate the issue
+        $imagePath = tempnam(sys_get_temp_dir(), 'phpword_') . '.png';
+        $gd = imagecreatetruecolor(100, 100);
+        imagepng($gd, $imagePath);
+        imagedestroy($gd);
+
+        $section->addImage($imagePath);
+
+        $writer = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'PDF');
+        $outputPath = tempnam(sys_get_temp_dir(), 'phpword_') . '.pdf';
+
+        $writer->save($outputPath);
+
+        self::assertFileExists($outputPath);
+        self::assertGreaterThan(0, filesize($outputPath));
+
+        unlink($imagePath);
+        unlink($outputPath);
     }
 }
