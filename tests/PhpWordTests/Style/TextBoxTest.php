@@ -28,10 +28,38 @@ use PHPUnit\Framework\TestCase;
  */
 class TextBoxTest extends TestCase
 {
+    public static function providerSetGetNormal(): array
+    {
+        return [
+            ['width', 200],
+            ['height', 200],
+            ['alignment', Jc::START],
+            ['marginTop', 240],
+            ['marginLeft', 240],
+            ['wrappingStyle', 'inline'],
+            ['positioning', 'absolute'],
+            ['posHorizontal', 'center'],
+            ['posVertical', 'top'],
+            ['posHorizontalRel', 'margin'],
+            ['posVerticalRel', 'page'],
+            ['innerMarginTop', '5'],
+            ['innerMarginRight', '5'],
+            ['innerMarginBottom', '5'],
+            ['innerMarginLeft', '5'],
+            ['borderSize', '2'],
+            ['borderColor', 'red'],
+            ['bgColor', 'blue'],
+        ];
+    }
+
     /**
      * Test setting style with normal value.
+     *
+     * @dataProvider providerSetGetNormal
+     *
+     * @phpstan-ignore missingType.parameter
      */
-    public function testSetGetNormal(): void
+    public function testSetGetNormal(string $key, $value): void
     {
         $object = new TextBox();
 

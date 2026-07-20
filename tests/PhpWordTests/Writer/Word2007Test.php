@@ -100,7 +100,7 @@ class Word2007Test extends AbstractWebServerEmbedded
         $footer->addImage($remoteImage);
 
         $writer = new Word2007($phpWord);
-        $file = __DIR__ . '/../_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -125,7 +125,7 @@ class Word2007Test extends AbstractWebServerEmbedded
             self::fail('Unable to create temp directory');
         }
         $writer->setUseDiskCaching(true, $dir);
-        $file = __DIR__ . '/../_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -213,7 +213,7 @@ class Word2007Test extends AbstractWebServerEmbedded
         $section->addText('Test 1');
 
         $writer = new Word2007($phpWord);
-        $file = __DIR__ . '/../_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $writer->save($file);
 
         $finfo = new finfo(FILEINFO_MIME_TYPE);

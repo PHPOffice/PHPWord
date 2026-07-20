@@ -92,6 +92,9 @@ class Text
      */
     public static function chr($dec)
     {
+        if ($dec < 0) {
+            return '';
+        }
         if ($dec <= 0x7F) {
             return chr($dec);
         }

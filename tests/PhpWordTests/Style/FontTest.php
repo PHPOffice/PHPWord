@@ -51,12 +51,52 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertIsArray($object->getStyleValues());
     }
 
+    public static function providerStyleValueEmpty(): array
+    {
+        return [
+            ['name', null],
+            ['size', null],
+            ['hint', null],
+            ['color', null],
+            ['bold', false],
+            ['italic', false],
+            ['underline', Font::UNDERLINE_NONE],
+            ['superScript', false],
+            ['subScript', false],
+            ['strikethrough', false],
+            ['doubleStrikethrough', false],
+            ['smallCaps', false],
+            ['allCaps', false],
+            ['rtl', false],
+            ['fgColor', null],
+            ['bgColor', null],
+            ['scale', null],
+            ['spacing', null],
+            ['kerning', null],
+            ['lang', null],
+            ['hidden', false],
+            ['whiteSpace', ''],
+            ['fallbackFont', ''],
+        ];
+    }
+
     /**
      * Test setting style values with null or empty value.
+     *
+     * @dataProvider providerStyleValueEmpty
+     *
+     * @phpstan-ignore missingType.parameter
      */
-    public function testSetStyleValueWithNullOrEmpty(): void
+    public function testSetStyleValueWithNullOrEmpty(string $key, $default): void
     {
         $object = new Font();
+        $get = is_bool($default) ? "is{$key}" : "get{$key}";
+        self::assertEquals($default, $object->$get());
+        $object->setStyleValue($key, null);
+        self::assertEquals($default, $object->$get());
+        $object->setStyleValue($key, '');
+        self::assertEquals($default, $object->$get());
+    }
 
         $attributes = [
             'name' => '',
@@ -112,8 +152,12 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test setting style values with normal value.
+     *
+     * @dataProvider providerStyleValueNormal
+     *
+     * @phpstan-ignore missingType.parameter
      */
-    public function testSetStyleValueNormal(): void
+    public function testSetStyleValueNormal(string $key, $value): void
     {
         $object = new Font();
 
