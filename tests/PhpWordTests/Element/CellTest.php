@@ -36,7 +36,6 @@ class CellTest extends AbstractWebServerEmbedded
     {
         $oCell = new Cell();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $oCell);
         self::assertNull($oCell->getWidth());
     }
 

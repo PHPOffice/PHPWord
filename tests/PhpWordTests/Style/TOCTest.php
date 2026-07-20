@@ -27,18 +27,31 @@ use PhpOffice\PhpWord\Style\TOC;
  */
 class TOCTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test get/set.
-     */
-    public function testGetSet(): void
+    public function testGetSetInt(): void
     {
         $object = new TOC();
-        $properties = [
-            'tabLeader' => [TOC::TAB_LEADER_DOT, TOC::TAB_LEADER_UNDERSCORE],
+        foreach ([
             'tabPos' => [9062, 10],
             'indent' => [200, 10],
-        ];
-        foreach ($properties as $property => $value) {
+        ] as $property => $value) {
+            [$default, $expected] = $value;
+            $get = "get{$property}";
+            $set = "set{$property}";
+
+            self::assertEquals($default, $object->$get()); // Default value
+
+            $object->$set($expected);
+
+            self::assertEquals($expected, $object->$get()); // New value
+        }
+    }
+
+    public function testGetSetString(): void
+    {
+        $object = new TOC();
+        foreach ([
+            'tabLeader' => [TOC::TAB_LEADER_DOT, TOC::TAB_LEADER_UNDERSCORE],
+        ] as $property => $value) {
             [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";

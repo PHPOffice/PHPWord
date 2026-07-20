@@ -28,7 +28,7 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Shape as ShapeStyleWriter;
  *
  * @since 0.12.0
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+ * @SuppressWarnings("PHPMD.UnusedPrivateMethod")
  */
 class Shape extends AbstractElement
 {

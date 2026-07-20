@@ -36,14 +36,10 @@ class RubyTest extends \PHPUnit\Framework\TestCase
     {
         $ruby = new Ruby(new TextRun(), new TextRun(), new RubyProperties());
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Ruby', $ruby);
         self::assertEquals('', $ruby->getBaseTextRun()->getText());
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $ruby->getBaseTextRun());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $ruby->getBaseTextRun()->getParagraphStyle());
         self::assertEquals('', $ruby->getRubyTextRun()->getText());
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $ruby->getRubyTextRun());
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $ruby->getRubyTextRun()->getParagraphStyle());
-        self::assertInstanceOf('PhpOffice\\PhpWord\\ComplexType\\RubyProperties', $ruby->getProperties());
         self::assertEquals(RubyProperties::ALIGNMENT_DISTRIBUTE_SPACE, $ruby->getProperties()->getAlignment());
     }
 
@@ -58,7 +54,6 @@ class RubyTest extends \PHPUnit\Framework\TestCase
         $tr = new TextRun();
         $tr->addText('Hello, world');
         $ruby->setBaseTextRun($tr);
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $ruby->getBaseTextRun());
         self::assertEquals('Hello, world', $ruby->getBaseTextRun()->getText());
     }
 
@@ -73,7 +68,6 @@ class RubyTest extends \PHPUnit\Framework\TestCase
         $tr = new TextRun();
         $tr->addText('Hello, ruby');
         $ruby->setRubyTextRun($tr);
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $ruby->getRubyTextRun());
         self::assertEquals('Hello, ruby', $ruby->getRubyTextRun()->getText());
     }
 
@@ -94,7 +88,6 @@ class RubyTest extends \PHPUnit\Framework\TestCase
         $properties->setLanguageId('en-US');
         $ruby->setProperties($properties);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\ComplexType\\RubyProperties', $ruby->getProperties());
         self::assertEquals(RubyProperties::ALIGNMENT_RIGHT_VERTICAL, $ruby->getProperties()->getAlignment());
         self::assertEquals(1, $ruby->getProperties()->getFontFaceSize());
         self::assertEquals(2, $ruby->getProperties()->getFontPointsAboveBaseText());

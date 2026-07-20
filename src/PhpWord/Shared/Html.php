@@ -18,7 +18,6 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
-use DOMAttr;
 use DOMDocument;
 use DOMNode;
 use DOMXPath;
@@ -36,7 +35,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Common Html functions.
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For readWPNode
+ * @SuppressWarnings("PHPMD.UnusedPrivateMethod") For readWPNode
  */
 class Html
 {
@@ -670,14 +669,11 @@ class Html
     /**
      * Parse style.
      *
-     * @param DOMAttr $attribute
-     * @param array $styles
-     *
-     * @return array
+     * @param DOMNode $attribute
      */
-    protected static function parseStyle($attribute, $styles)
+    protected static function parseStyle($attribute, array $styles): array
     {
-        $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
+        $properties = explode(';', trim($attribute->nodeValue, " \t\n\r\0\x0B;"));
 
         $selectors = [];
         foreach ($properties as $property) {
@@ -688,7 +684,7 @@ class Html
         return self::parseStyleDeclarations($selectors, $styles);
     }
 
-    protected static function parseStyleDeclarations(array $selectors, array $styles)
+    protected static function parseStyleDeclarations(array $selectors, array $styles): array
     {
         $bidi = ($selectors['direction'] ?? '') === 'rtl';
         foreach ($selectors as $property => $value) {
@@ -955,10 +951,15 @@ class Html
     {
         $style = [];
         $src = null;
+        $altText = null;
         foreach ($node->attributes as $attribute) {
             switch ($attribute->name) {
                 case 'src':
                     $src = $attribute->value;
+
+                    break;
+                case 'alt':
+                    $altText = $attribute->value;
 
                     break;
                 case 'width':
@@ -1047,7 +1048,7 @@ class Html
         }
 
         if (is_file($src)) {
-            $newElement = $element->addImage($src, $style);
+            $newElement = $element->addImage($src, $style, false, null, $altText);
         } else {
             throw new Exception("Could not load image $originSrc");
         }

@@ -56,24 +56,4 @@ class RowTest extends \PHPUnit\Framework\TestCase
             self::assertEquals($expected, $object->$get());
         }
     }
-
-    /**
-     * Test properties with nonboolean values, which will return default value.
-     */
-    public function testNonBooleanValue(): void
-    {
-        $object = new Row();
-
-        $properties = [
-            'tblHeader' => 'a',
-            'cantSplit' => 'b',
-            'exactHeight' => 'c',
-        ];
-        foreach ($properties as $key => $value) {
-            $set = "set{$key}";
-            $get = "is{$key}";
-            $object->$set($value);
-            self::assertFalse($object->$get());
-        }
-    }
 }

@@ -7,7 +7,7 @@ Available Paragraph style options:
 - ``basedOn``. Parent style.
 - ``hanging``. Hanging indentation in *half inches*.
 - ``indent``. Indent (left indentation) in *half inches*.
-- ``indentation``. An array of indentation key => value pairs in *twip*. Supports *left*, *right*, *firstLine* and *hanging* indentation.
+- ``indentation``. An array of indentation key => value pairs in *twip*. Supports *left*, *right*, *firstLine*, *firstLineChars* and *hanging* indentation.
    See ``\PhpOffice\PhpWord\Style\Indentation`` for possible identation types.
 - ``keepLines``. Keep all lines on one page, *true* or *false*.
 - ``keepNext``. Keep paragraph with next paragraph, *true* or *false*.

@@ -15,7 +15,17 @@ class AbstractPartTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->part = $this->getMockForAbstractClass(AbstractPart::class);
+        // @phpstan-ignore-next-line
+        if (method_exists($this, 'getMockForAbstractClass')) {
+            $this->part = $this->getMockForAbstractClass(AbstractPart::class);
+        } else {
+            $this->part = new class() extends AbstractPart {
+                public function write(): string
+                {
+                    return '';
+                }
+            };
+        }
     }
 
     public function testParentWriter(): void

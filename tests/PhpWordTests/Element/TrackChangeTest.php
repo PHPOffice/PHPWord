@@ -41,7 +41,6 @@ class TrackChangeTest extends \PHPUnit\Framework\TestCase
         $oText = new Text('dummy text');
         $oText->setTrackChange($oTrackChange);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TrackChange', $oTrackChange);
         self::assertEquals($author, $oTrackChange->getAuthor());
         self::assertEquals($date, $oTrackChange->getDate());
         self::assertEquals(TrackChange::INSERTED, $oTrackChange->getChangeType());
@@ -59,7 +58,6 @@ class TrackChangeTest extends \PHPUnit\Framework\TestCase
         $oText = new Text('dummy text');
         $oText->setTrackChange($oTrackChange);
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\TrackChange', $oTrackChange);
         self::assertEquals($author, $oTrackChange->getAuthor());
         self::assertEquals($date, null);
         self::assertEquals(TrackChange::INSERTED, $oTrackChange->getChangeType());

@@ -29,12 +29,20 @@ use PhpOffice\PhpWord\Writer\PDF;
  */
 class TCPDFTest extends \PHPUnit\Framework\TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        //Reset setting for default
+        Settings::setPdfRenderer('', '');
+        Settings::setPdfRendererOptions([]);
+    }
+
     /**
      * Test construct.
      */
     public function testConstruct(): void
     {
-        $file = __DIR__ . '/../../_files/tcpdf.pdf';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'tcpdf.pdf';
 
         $phpWord = new PhpWord();
         $phpWord->setDefaultParagraphStyle(['spaceBefore' => 0, 'spaceAfter' => 0]);

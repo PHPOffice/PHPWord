@@ -30,15 +30,34 @@ class TabTest extends \PHPUnit\Framework\TestCase
     /**
      * Test get/set.
      */
-    public function testGetSetProperties(): void
+    public function testGetSetPropertiesInt(): void
     {
         $object = new Tab();
-        $properties = [
+        foreach ([
+            'position' => [0, 10],
+        ] as $property => $value) {
+            [$default, $expected] = $value;
+            $get = "get{$property}";
+            $set = "set{$property}";
+
+            self::assertEquals($default, $object->$get()); // Default value
+
+            $object->$set($expected);
+
+            self::assertEquals($expected, $object->$get()); // New value
+        }
+    }
+
+    /**
+     * Test get/set.
+     */
+    public function testGetSetPropertiesString(): void
+    {
+        $object = new Tab();
+        foreach ([
             'type' => [Tab::TAB_STOP_CLEAR, Tab::TAB_STOP_RIGHT],
             'leader' => [Tab::TAB_LEADER_NONE, Tab::TAB_LEADER_DOT],
-            'position' => [0, 10],
-        ];
-        foreach ($properties as $property => $value) {
+        ] as $property => $value) {
             [$default, $expected] = $value;
             $get = "get{$property}";
             $set = "set{$property}";

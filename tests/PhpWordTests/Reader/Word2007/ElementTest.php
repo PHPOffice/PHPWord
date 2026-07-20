@@ -338,7 +338,7 @@ class ElementTest extends AbstractTestReader
                             <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
                                 <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
                                     <pic:nvPicPr>
-                                        <pic:cNvPr id="1" name="file_name.jpg"/>
+                                        <pic:cNvPr id="1" name="file_name.jpg" descr="file description" />
                                         <pic:cNvPicPr/>
                                     </pic:nvPicPr>
                                     <pic:blipFill>

@@ -25,6 +25,14 @@ if (!defined('PHPWORD_TESTS_BASE_DIR')) {
     define('PHPWORD_TESTS_BASE_DIR', realpath(__DIR__));
 }
 
+if (!defined('PHPWORD_TESTS_TEMP_DIR')) {
+    define('PHPWORD_TEST_TEMP_DIR', PHPWORD_TESTS_BASE_DIR . DIRECTORY_SEPARATOR . 'PhpWordTests' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'tmp');
+}
+if (!is_dir(PHPWORD_TEST_TEMP_DIR) && !mkdir(PHPWORD_TEST_TEMP_DIR)) {
+    printf("Error: Not exists temp directory: %s\n", PHPWORD_TEST_TEMP_DIR);
+    exit(1);
+}
+
 function phpunit10ErrorHandler(int $errno, string $errstr, string $filename, int $lineno): bool
 {
     $x = error_reporting() & $errno;
@@ -54,9 +62,12 @@ function phpunit10ErrorHandler(int $errno, string $errstr, string $filename, int
 
 function utf8decode(string $value, string $toEncoding = 'ISO-8859-1'): string
 {
-    return function_exists('mb_convert_encoding') ? mb_convert_encoding($value, $toEncoding, 'UTF-8') : utf8_decode($value);
+    $result = function_exists('mb_convert_encoding') ? mb_convert_encoding($value, $toEncoding, 'UTF-8') : utf8_decode($value);
+
+    return $result === false ? '' : $result;
 }
 
+// @phpstan-ignore-next-line
 if (!method_exists(PHPUnit\Framework\TestCase::class, 'setOutputCallback')) {
     ini_set('error_reporting', (string) E_ALL);
     set_error_handler('phpunit10ErrorHandler');

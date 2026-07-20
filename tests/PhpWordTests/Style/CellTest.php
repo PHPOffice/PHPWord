@@ -30,29 +30,42 @@ use PhpOffice\PhpWord\Style\Cell;
  */
 class CellTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test setting style with normal value.
-     */
-    public function testSetGetNormal(): void
+    public function testSetGetNormalInt(): void
     {
         $object = new Cell();
 
-        $attributes = [
+        foreach ([
+            'borderTopSize' => 120,
+            'borderLeftSize' => 120,
+            'borderRightSize' => 120,
+            'borderBottomSize' => 120,
+            'gridSpan' => 2,
+        ] as $key => $value) {
+            $set = "set{$key}";
+            $get = "get{$key}";
+
+            self::assertNull($object->$get()); // Init with null value
+
+            $object->$set($value);
+
+            self::assertEquals($value, $object->$get());
+        }
+    }
+
+    public function testSetGetNormalString(): void
+    {
+        $object = new Cell();
+
+        foreach ([
             'valign' => VerticalJc::TOP,
             'textDirection' => Cell::TEXT_DIR_BTLR,
             'bgColor' => 'FFFF00',
-            'borderTopSize' => 120,
             'borderTopColor' => 'FFFF00',
-            'borderLeftSize' => 120,
             'borderLeftColor' => 'FFFF00',
-            'borderRightSize' => 120,
             'borderRightColor' => 'FFFF00',
-            'borderBottomSize' => 120,
             'borderBottomColor' => 'FFFF00',
-            'gridSpan' => 2,
             'vMerge' => Cell::VMERGE_RESTART,
-        ];
-        foreach ($attributes as $key => $value) {
+        ] as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
 

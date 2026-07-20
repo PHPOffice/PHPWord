@@ -392,9 +392,11 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $styles = ['alignment' => Jc::START, 'width' => 40, 'height' => 40, 'marginTop' => -1, 'marginLeft' => -1];
         $wraps = ['inline', 'behind', 'infront', 'square', 'tight'];
         $section = $phpWord->addSection();
+        $source = __DIR__ . '/../../../_files/images/earth.jpg';
+        $altText = 'Picture of the earth from space';
         foreach ($wraps as $wrap) {
             $styles['wrappingStyle'] = $wrap;
-            $section->addImage(__DIR__ . '/../../../_files/images/earth.jpg', $styles);
+            $section->addImage($source, $styles, false, null, $altText);
         }
 
         $archiveFile = realpath(__DIR__ . '/../../../_files/documents/reader.docx');
@@ -404,12 +406,17 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
+        // alt text
+        $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
+        self::assertEquals($altText, $element->getAttribute('alt'));
+
         // behind
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
         $style = $element->getAttribute('style');
+        // @phpstan-ignore-next-line
         if (method_exists(self::class, 'assertMatchesRegularExpression')) {
             self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
-        } elseif (method_exists(self::class, 'assertRegExp')) {
+        } elseif (method_exists(self::class, 'assertRegExp')) { // @phpstan-ignore-line
             self::assertRegExp('/z\-index:\-[0-9]*/', $style);
         } else {
             self::fail('Unsure how to test regexp');

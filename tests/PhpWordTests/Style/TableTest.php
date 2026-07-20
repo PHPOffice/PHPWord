@@ -65,42 +65,48 @@ class TableTest extends \PHPUnit\Framework\TestCase
         self::assertNull($object->getIndent());
     }
 
+    public static function providerSetGetNormal(): array
+    {
+        return [
+            ['bgColor', 'FF0000'],
+            ['borderTopSize', 4],
+            ['borderTopColor', 'FF0000'],
+            ['borderLeftSize', 4],
+            ['borderLeftColor', 'FF0000'],
+            ['borderRightSize', 4],
+            ['borderRightColor', 'FF0000'],
+            ['borderBottomSize', 4],
+            ['borderBottomColor', 'FF0000'],
+            ['borderInsideHSize', 4],
+            ['borderInsideHColor', 'FF0000'],
+            ['borderInsideVSize', 4],
+            ['borderInsideVColor', 'FF0000'],
+            ['cellMarginTop', 240],
+            ['cellMarginLeft', 240],
+            ['cellMarginRight', 240],
+            ['cellMarginBottom', 240],
+            ['alignment', JcTable::CENTER],
+            ['width', 100],
+            ['unit', 'pct'],
+            ['layout', Table::LAYOUT_FIXED],
+        ];
+    }
+
     /**
      * Test setting style with normal value.
+     *
+     * @dataProvider providerSetGetNormal
+     *
+     * @phpstan-ignore missingType.parameter
      */
-    public function testSetGetNormal(): void
+    public function testSetGetNormal(string $key, $value): void
     {
         $object = new Table();
 
-        $attributes = [
-            'bgColor' => 'FF0000',
-            'borderTopSize' => 4,
-            'borderTopColor' => 'FF0000',
-            'borderLeftSize' => 4,
-            'borderLeftColor' => 'FF0000',
-            'borderRightSize' => 4,
-            'borderRightColor' => 'FF0000',
-            'borderBottomSize' => 4,
-            'borderBottomColor' => 'FF0000',
-            'borderInsideHSize' => 4,
-            'borderInsideHColor' => 'FF0000',
-            'borderInsideVSize' => 4,
-            'borderInsideVColor' => 'FF0000',
-            'cellMarginTop' => 240,
-            'cellMarginLeft' => 240,
-            'cellMarginRight' => 240,
-            'cellMarginBottom' => 240,
-            'alignment' => JcTable::CENTER,
-            'width' => 100,
-            'unit' => 'pct',
-            'layout' => Table::LAYOUT_FIXED,
-        ];
-        foreach ($attributes as $key => $value) {
-            $set = "set{$key}";
-            $get = "get{$key}";
-            $object->$set($value);
-            self::assertEquals($value, $object->$get());
-        }
+        $set = "set{$key}";
+        $get = "get{$key}";
+        $object->$set($value);
+        self::assertEquals($value, $object->$get());
     }
 
     public function testBidiVisual(): void

@@ -209,7 +209,7 @@ class ZipArchive
      *
      * @param  string $filename Filename for the file in zip archive
      *
-     * @return string $contents File string contents
+     * @return bool|string $contents File string contents
      */
     public function getFromName($filename)
     {
@@ -245,22 +245,24 @@ class ZipArchive
             $filename = $realpathFilename;
         }
 
-        $filenameParts = pathinfo($filename);
-        $localnameParts = pathinfo($localname);
+        $filenamePartsBaseName = pathinfo($filename, PATHINFO_BASENAME);
+        $filenamePartsDirName = pathinfo($filename, PATHINFO_DIRNAME);
+        $localnamePartsBaseName = pathinfo($localname, PATHINFO_BASENAME);
+        $localnamePartsDirName = pathinfo($localname, PATHINFO_DIRNAME);
 
         // To Rename the file while adding it to the zip we
         //   need to create a temp file with the correct name
         $tempFile = false;
-        if ($filenameParts['basename'] != $localnameParts['basename']) {
+        if ($filenamePartsBaseName != $localnamePartsBaseName) {
             $tempFile = true; // temp file created
-            $temppath = $this->tempDir . DIRECTORY_SEPARATOR . $localnameParts['basename'];
+            $temppath = $this->tempDir . DIRECTORY_SEPARATOR . $localnamePartsBaseName;
             copy($filename, $temppath);
             $filename = $temppath;
-            $filenameParts = pathinfo($temppath);
+            $filenamePartsDirName = pathinfo($temppath, PATHINFO_DIRNAME);
         }
 
-        $pathRemoved = $filenameParts['dirname'];
-        $pathAdded = $localnameParts['dirname'];
+        $pathRemoved = $filenamePartsDirName;
+        $pathAdded = $localnamePartsDirName;
 
         if (!$this->usePclzip) {
             $pathAdded = $pathAdded . '/' . ltrim(str_replace('\\', '/', substr($filename, strlen($pathRemoved))), '/');
@@ -272,7 +274,7 @@ class ZipArchive
 
         if ($tempFile) {
             // Remove temp file, if created
-            unlink($this->tempDir . DIRECTORY_SEPARATOR . $localnameParts['basename']);
+            unlink($this->tempDir . DIRECTORY_SEPARATOR . $localnamePartsBaseName);
         }
 
         return $res != 0;
@@ -290,24 +292,25 @@ class ZipArchive
     {
         /** @var PclZip $zip Type hint */
         $zip = $this->zip;
-        $filenameParts = pathinfo($localname);
+        $filenamePartsBaseName = pathinfo($localname, PATHINFO_BASENAME);
+        $filenamePartsDirName = pathinfo($localname, PATHINFO_DIRNAME);
 
         // Write $contents to a temp file
-        $handle = fopen($this->tempDir . DIRECTORY_SEPARATOR . $filenameParts['basename'], 'wb');
+        $handle = fopen($this->tempDir . DIRECTORY_SEPARATOR . $filenamePartsBaseName, 'wb');
         if ($handle) {
             fwrite($handle, $contents);
             fclose($handle);
         }
 
         // Add temp file to zip
-        $filename = $this->tempDir . DIRECTORY_SEPARATOR . $filenameParts['basename'];
+        $filename = $this->tempDir . DIRECTORY_SEPARATOR . $filenamePartsBaseName;
         $pathRemoved = $this->tempDir;
-        $pathAdded = $filenameParts['dirname'];
+        $pathAdded = $filenamePartsDirName;
 
         $res = $zip->add($filename, PCLZIP_OPT_REMOVE_PATH, $pathRemoved, PCLZIP_OPT_ADD_PATH, $pathAdded);
 
         // Remove temp file
-        @unlink($this->tempDir . DIRECTORY_SEPARATOR . $filenameParts['basename']);
+        @unlink($this->tempDir . DIRECTORY_SEPARATOR . $filenamePartsBaseName);
 
         return $res != 0;
     }
@@ -370,7 +373,7 @@ class ZipArchive
             $listIndex = $this->pclzipLocateName($filename);
             $extracted = $zip->extractByIndex($listIndex, PCLZIP_OPT_EXTRACT_AS_STRING);
         }
-        if ((is_array($extracted)) && ($extracted != 0)) {
+        if (is_array($extracted) && count($extracted) != 0) {
             $contents = $extracted[0]['content'];
         }
 

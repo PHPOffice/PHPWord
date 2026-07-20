@@ -36,7 +36,6 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $oTable = new Table();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $oTable);
         self::assertNull($oTable->getStyle());
         self::assertNull($oTable->getWidth());
         self::assertEquals([], $oTable->getRows());

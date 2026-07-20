@@ -138,8 +138,15 @@ class Word2007 extends AbstractReader implements ReaderInterface
         if ($zip->open($docFile) === true) {
             for ($i = 0; $i < $zip->numFiles; ++$i) {
                 $xmlFile = $zip->getNameIndex($i);
+                if (!is_string($xmlFile)) {
+                    continue;
+                }
                 if ((substr($xmlFile, 0, strlen($wordRelsPath))) == $wordRelsPath && (substr($xmlFile, -1)) != '/') {
-                    $docPart = str_replace('.xml.rels', '', str_replace($wordRelsPath, '', $xmlFile));
+                    $docPart = str_replace(
+                        '.xml.rels',
+                        '',
+                        str_replace($wordRelsPath, '', $xmlFile)
+                    );
                     $relationships[$docPart] = $this->getRels($docFile, $xmlFile, 'word/');
                 }
             }

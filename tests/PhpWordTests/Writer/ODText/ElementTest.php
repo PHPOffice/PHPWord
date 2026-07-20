@@ -113,8 +113,10 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $p2s = '/office:document-content/office:automatic-styles';
         $tableStyleNum = 1;
-        $tableStyleName = '';
-        while ($tableStyleName === '') {
+        /** @var null|string $tableStyleName */
+        $tableStyleName = null;
+        $element = '';
+        while ($tableStyleName === null) {
             $element = "$p2s/style:style[$tableStyleNum]";
             if (!$doc->elementExists($element)) {
                 break;
@@ -126,7 +128,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
             }
             ++$tableStyleNum;
         }
-        self::AssertNotEquals('', $tableStyleName);
+        self::assertNotNull($tableStyleName);
         $element = "$element/style:table-properties";
         self::assertTrue($doc->elementExists($element));
         self::assertEquals(\PhpOffice\PhpWord\SimpleType\JcTable::CENTER, $doc->getElementAttribute($element, 'table:align'));

@@ -35,7 +35,6 @@ class PreserveTextTest extends \PHPUnit\Framework\TestCase
     {
         $oPreserveText = new PreserveText();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $oPreserveText);
         self::assertNull($oPreserveText->getText());
         self::assertNull($oPreserveText->getFontStyle());
         self::assertNull($oPreserveText->getParagraphStyle());

@@ -36,7 +36,6 @@ class LineTest extends \PHPUnit\Framework\TestCase
     {
         $oLine = new Line();
 
-        self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Line', $oLine);
         self::assertNull($oLine->getStyle());
     }
 

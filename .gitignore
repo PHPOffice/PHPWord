@@ -26,3 +26,4 @@ phpword.ini
 /.php_cs.cache
 /.phpunit.result.cache
 /public
+tests/PhpWordTests/_files/tmp

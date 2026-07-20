@@ -70,7 +70,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     public function testTheConstruct(): void
     {
         $object = $this->getTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
-        self::assertInstanceOf('PhpOffice\\PhpWord\\TemplateProcessor', $object);
         self::assertEquals([], $object->getVariables());
         $object->save();
 
@@ -229,7 +228,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->getVariables()
         );
 
-        $docName = 'delete-row-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'delete-row-test-result.docx';
         $templateProcessor->deleteRow('deleteMe');
         self::assertEquals(
             [],
@@ -255,7 +254,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->getVariables()
         );
 
-        $docName = 'clone-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'clone-test-result.docx';
         $templateProcessor->setValue('tableHeader', 'ééé');
         $templateProcessor->cloneRow('userId', 1);
         $templateProcessor->setValue('userId#1', 'Test');
@@ -282,7 +281,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->getVariables()
         );
 
-        $docName = 'clone-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'clone-test-result.docx';
         $templateProcessor->setValue('tableHeader', 'ééé');
         $templateProcessor->cloneRow('userId', 1);
         $templateProcessor->setValue('userId#1', 'Test');
@@ -437,7 +436,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $macroValues = ['Header Value', 'Document text.', 'Footer Value'];
         $templateProcessor->setValue($macroNames, $macroValues);
 
-        $docName = 'header-footer-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'header-footer-test-result.docx';
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
@@ -460,7 +459,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $macroValues = ['Header Value', 'Document text.', 'Footer Value'];
         $templateProcessor->setValue($macroNames, $macroValues);
 
-        $docName = 'header-footer-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'header-footer-test-result.docx';
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
@@ -615,12 +614,53 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             <w:r>
                 <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
             </w:r>
-        </w:p>';
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>
+        ';
 
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->setValues(['firstname' => 'John', 'lastname' => 'Doe']);
-
         self::assertStringContainsString('Hello John Doe', $templateProcessor->getMainPart());
+        self::assertStringNotContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+
+        // test with a specific limit that is lower than the number of replacements
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(['firstname' => 'Jane', 'lastname' => 'Smith'], 2);
+        $variablesCounts = $templateProcessor->getVariableCount();
+
+        self::assertStringContainsString('Hello Jane Smith', $templateProcessor->getMainPart());
+        self::assertStringContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+        self::assertEquals(1, $variablesCounts['firstname']);
+        self::assertEquals(1, $variablesCounts['lastname']);
+
+        // test with a limit for only one replacement
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(['firstname' => 'Alice', 'lastname' => 'Wonderland'], 1);
+        $variablesCounts = $templateProcessor->getVariableCount();
+
+        self::assertStringContainsString('Hello Alice Wonderland', $templateProcessor->getMainPart());
+        self::assertStringContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+        self::assertEquals(2, $variablesCounts['firstname']);
+        self::assertEquals(2, $variablesCounts['lastname']);
+
+        // Test with a limit of 0 for a result with no replacements
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(['firstname' => 'Test', 'lastname' => 'User'], 0);
+        $variablesCounts = $templateProcessor->getVariableCount();
+
+        self::assertStringContainsString('Hello ${firstname} ${lastname}', $templateProcessor->getMainPart());
+        self::assertStringNotContainsString('Hello Test User', $templateProcessor->getMainPart());
+        self::assertEquals(3, $variablesCounts['firstname']);
+        self::assertEquals(3, $variablesCounts['lastname']);
     }
 
     /**
@@ -830,7 +870,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         ];
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 
-        $docName = 'header-footer-images-test-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'header-footer-images-test-result.docx';
         $templateProcessor->saveAs($docName);
 
         self::assertFileExists($docName, "Generated file '{$docName}' not found!");
@@ -863,7 +903,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         unlink($docName);
 
         // dynamic generated doc
-        $testFileName = 'images-test-sample.docx';
+        $testFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-test-sample.docx';
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('${Test:width=100:ratio=true}');
@@ -871,7 +911,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
 
-        $resultFileName = 'images-test-result.docx';
+        $resultFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
         $templateProcessor->setImageValue('Test', $imagePath);
@@ -905,7 +945,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->getVariables()
         );
 
-        $docName = 'clone-delete-block-result.docx';
+        $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'clone-delete-block-result.docx';
         $templateProcessor->cloneBlock('CLONEME', 3);
         $templateProcessor->deleteBlock('DELETEME');
         $templateProcessor->setValue('blockVariable#3', 'Test');
@@ -935,7 +975,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
                    ${a_field_that_is_present_three_times}
         ');
         $objWriter = IOFactory::createWriter($phpWord);
-        $templatePath = 'test.docx';
+        $templatePath = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.docx';
         $objWriter->save($templatePath);
 
         $templateProcessor = $this->getTemplateProcessor($templatePath);
@@ -972,7 +1012,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
                    {{a_field_that_is_present_three_times}}
         ');
         $objWriter = IOFactory::createWriter($phpWord);
-        $templatePath = 'test.docx';
+        $templatePath = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.docx';
         $objWriter->save($templatePath);
 
         $templateProcessor = $this->getTemplateProcessor($templatePath);
@@ -1009,7 +1049,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
 
         $objWriter = IOFactory::createWriter($phpWord);
-        $templatePath = 'test.docx';
+        $templatePath = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.docx';
         $objWriter->save($templatePath);
 
         // replace placeholders and save the file
@@ -1062,7 +1102,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
 
         $objWriter = IOFactory::createWriter($phpWord);
-        $templatePath = 'test.docx';
+        $templatePath = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.docx';
         $objWriter->save($templatePath);
 
         // replace placeholders and save the file
@@ -1640,5 +1680,102 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $templateProcessor->setUpdateFields(false);
         self::assertStringContainsString('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
+    }
+
+    public function testEnsureUtf8Encoded(): void
+    {
+        $mainPart = '<w:tbl>
+            <w:tr>
+                <w:tc>
+                    <w:tcPr>
+                        <w:vMerge w:val="restart"/>
+                    </w:tcPr>
+                    <w:p>
+                        <w:r>
+                            <w:t t=1>${stringZero}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=2>${intZero}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=3>${stringTest}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=4>${null}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=5>${floatZero}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=6>${intTen}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=7>${boolFalse}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t t=8>${boolTrue}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+        </w:tbl>';
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+
+        self::assertEquals(
+            ['stringZero', 'intZero', 'stringTest', 'null', 'floatZero', 'intTen', 'boolFalse', 'boolTrue'],
+            $templateProcessor->getVariables()
+        );
+
+        $templateProcessor->setValue('stringZero', '0');
+        self::assertStringContainsString('<w:t t=1>0</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('intZero', 0);
+        self::assertStringContainsString('<w:t t=2>0</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('stringTest', 'test');
+        self::assertStringContainsString('<w:t t=3>test</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('null', null);
+        self::assertStringContainsString('<w:t t=4></w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('floatZero', 0.00);
+        self::assertStringContainsString('<w:t t=5>0</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('intTen', 10);
+        self::assertStringContainsString('<w:t t=6>10</w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('boolFalse', false);
+        self::assertStringContainsString('<w:t t=7></w:t>', $templateProcessor->getMainPart());
+
+        $templateProcessor->setValue('boolTrue', true);
+        self::assertStringContainsString('<w:t t=8>1</w:t>', $templateProcessor->getMainPart());
     }
 }
