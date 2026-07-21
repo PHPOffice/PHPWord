@@ -42,6 +42,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     protected function setUp(): void
     {
+        Settings::setDefaultFontSize(Settings::DEFAULT_FONT_SIZE);
         $this->defaultFontName = Settings::getDefaultFontName();
         $this->defaultFontSize = Settings::getDefaultFontSize();
         $this->defaultFontColor = Settings::getDefaultFontColor();
@@ -68,7 +69,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $prg = preg_match('/body {(.*?)}/', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
-        self::assertEquals('body {font-family: \'Arial\'; font-size: 12pt; color: #000000;}', $matches[0]);
+        self::assertEquals('body {font-family: \'Arial\'; font-size: 10pt; color: #000000;}', $matches[0]);
     }
 
     public function testSettingDefaultFontColor(): void
@@ -85,7 +86,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $prg = preg_match('/body {(.*?)}/', $style, $matches);
         self::assertNotEmpty($matches);
         self::assertNotFalse($prg);
-        self::assertEquals('body {font-family: \'Arial\'; font-size: 12pt; color: #00FF00;}', $matches[0]);
+        self::assertEquals('body {font-family: \'Arial\'; font-size: 10pt; color: #00FF00;}', $matches[0]);
     }
 
     /**
@@ -262,7 +263,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
         $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^body[^\\r\\n]*/m', $style, $matches));
-        self::assertEquals('body {font-family: \'Arial\'; font-size: 12pt; color: #000000; white-space: pre-wrap;}', $matches[0]);
+        self::assertEquals('body {font-family: \'Arial\'; font-size: 12pt; color: #000000; white-space: pre-wrap;}', $matches[0] ?? '');
         $prg = preg_match('/^[.]style1[^\\r\\n]*/m', $style, $matches);
         self::assertSame(1, $prg);
         self::assertEquals('.style1 {font-family: \'Courier New\'; font-size: 10pt; white-space: pre-wrap;}', $matches[0]);
