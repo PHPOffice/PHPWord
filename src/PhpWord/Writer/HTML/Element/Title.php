@@ -54,7 +54,7 @@ class Title extends AbstractElement
             $text = $writer->write();
         }
         $css = '';
-        $write1 = $write2 = $write3 = '';
+        $write1 = $write3 = '';
         $style = Style::getStyle('Heading_' . $this->element->getDepth());
         if ($style !== null) {
             $styleWriter = new Font($style);
@@ -63,10 +63,8 @@ class Title extends AbstractElement
         if (is_object($paragraphStyle)) {
             $styleWriter = new Paragraph($paragraphStyle);
             $write3 = $styleWriter->write();
-            if ($write1 !== '' && $write3 !== '') {
-                $write2 = ' ';
-            }
         }
+        $write2 = ($write1 !== '' && $write3 !== '') ? ' ' : '';
         $css = "$write1$write2$write3";
         if ($css !== '') {
             $css = " style=\"$css\"";
