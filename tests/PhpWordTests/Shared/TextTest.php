@@ -53,7 +53,9 @@ class TextTest extends \PHPUnit\Framework\TestCase
     {
         self::assertSame($expectedResult, Text::chr($ord)); // @phpstan-ignore argument.type (we test with some nominally illegal negative numbers to verify run-time works with them)
         if ($expectedResult === '') {
-            self::assertFalse(mb_chr($ord));
+            if (PHP_VERSION_ID >= 70300) {
+                self::assertFalse(mb_chr($ord));
+            }
         } else {
             self::assertSame($expectedResult, mb_chr($ord));
         }
