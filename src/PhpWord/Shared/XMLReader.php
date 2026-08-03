@@ -111,16 +111,19 @@ class XMLReader
      */
     public function getElements($path, ?DOMElement $contextNode = null)
     {
+        /** @var DOMNodeList<DOMElement> */
+        $empty = new DOMNodeList();
         if ($this->dom === null) {
-            return new DOMNodeList(); // @phpstan-ignore-line
+            return $empty;
         }
         if ($this->xpath === null) {
             $this->xpath = new DOMXpath($this->dom);
         }
 
+        /** @var DOMNodeList<DOMElement> */
         $result = @$this->xpath->query($path, $contextNode);
 
-        return empty($result) ? new DOMNodeList() : $result; // @phpstan-ignore-line
+        return empty($result) ? $empty : $result;
     }
 
     /**
