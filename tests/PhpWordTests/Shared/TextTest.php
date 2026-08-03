@@ -48,17 +48,28 @@ class TextTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('1234.0', Text::numberFormat(1234, 1));
     }
 
-    public function testChr(): void
+    /** @dataProvider providerTestChr */
+    public function testChr(string $expectedResult, int $ord): void
     {
-        self::assertEquals('A', Text::chr(65));
-        self::assertEquals('A', Text::chr(0x41));
-        self::assertEquals('é', Text::chr(233));
-        self::assertEquals('é', Text::chr(0xE9));
-        self::assertEquals('⼳', Text::chr(12083));
-        self::assertEquals('⼳', Text::chr(0x2F33));
-        self::assertEquals('🌃', Text::chr(127747));
-        self::assertEquals('🌃', Text::chr(0x1F303));
-        self::assertEquals('', Text::chr(2097152));
+        self::assertSame($expectedResult, Text::chr($ord)); // @phpstan-ignore argument.type (we test with some nominally illegal negative numbers to verify run-time works with them)
+        if ($expectedResult === '') {
+            self::assertFalse(mb_chr($ord));
+        } else {
+            self::assertSame($expectedResult, mb_chr($ord));
+        }
+    }
+
+    public static function providerTestChr(): array
+    {
+        return [
+            'ascii range' => ['A', 65],
+            'latin-1 supplement' => ['é', 233],
+            'Kangxi Radicals' => ['⼳', 12083],
+            'miscellaneous symbols and pictographs' => ['🌃', 0x1F303],
+            'too high' => ['', 0x200000],
+            'negative' => ['', -1],
+            'null character' => ["\0", 0],
+        ];
     }
 
     /**
