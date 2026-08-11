@@ -74,7 +74,8 @@ class XMLWriterTest extends \PHPUnit\Framework\TestCase
         setlocale(LC_NUMERIC, $currentLocale);
     }
 
-    protected static int $versionCheck = 80600;
+    /** @var int */
+    protected static $versionCheck = 80600;
 
     public function testNoUnserialize(): void
     {
