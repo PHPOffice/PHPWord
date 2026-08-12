@@ -263,6 +263,32 @@ abstract class AbstractPart
             $parent->addPreserveText(htmlspecialchars($textContent, ENT_QUOTES, 'UTF-8'), $fontStyle, $paragraphStyle);
 
             return;
+        } elseif ($xmlReader->elementExists('w:r/w:pict/v:shape/v:textbox', $domNode)) {
+            //textbox
+            $shapeStyle=null;
+            $styleVal = $xmlReader->getAttribute('style', $domNode, 'w:r/w:pict/v:shape');
+            if ($styleVal!=null){
+                $shapeStyle=[];
+                foreach (explode(';', $styleVal) as $attribute){
+                    if (!empty($attribute)){
+                        [$attributeKey,$attributeVal] = explode(':',$attribute);
+                        $attributeKey = str_replace('-', ' ', $attributeKey);
+                        $attributeKey = ucwords($attributeKey);
+                        $attributeKey = str_replace(' ', '', $attributeKey);
+                        $attributeVal = preg_replace('/\s*pt\s*/', '', $attributeVal);
+                        $shapeStyle[$attributeKey]=$attributeVal;
+                    }
+                }
+            }
+            if (is_array($paragraphStyle) && count($paragraphStyle)>0){
+                $shapeStyle = array_merge($shapeStyle, $paragraphStyle);
+            }
+            $textBox = $parent->addTextBox($shapeStyle);
+            $nodes = $xmlReader->getElements('w:r/w:pict/v:shape/v:textbox/w:txbxContent/*', $domNode);
+            foreach ($nodes as $node){
+                $this->readParagraph($xmlReader,$node,$textBox,$docPart);
+            }
+            return;
         }
 
         // Formula
@@ -510,6 +536,21 @@ abstract class AbstractPart
             $endnote = $parent->addEndnote();
             $endnote->setRelationId($wId);
         } elseif ($node->nodeName == 'w:pict') {
+            $shapeStyle=null;
+            $styleVal = $xmlReader->getAttribute('style', $node, 'v:shape');
+            if ($styleVal!=null){
+                $shapeStyle=[];
+                foreach (explode(';', $styleVal) as $attribute){
+                    if (!empty($attribute)){
+                        [$attributeKey,$attributeVal] = explode(':',$attribute);
+                        $attributeKey = str_replace('-', ' ', $attributeKey);
+                        $attributeKey = ucwords($attributeKey);
+                        $attributeKey = str_replace(' ', '', $attributeKey);
+                        $attributeVal = preg_replace('/\s*pt\s*/', '', $attributeVal);
+                        $shapeStyle[$attributeKey]=$attributeVal;
+                    }
+                }
+            }
             // Image
             $rId = $xmlReader->getAttribute('r:id', $node, 'v:shape/v:imagedata');
             $target = $this->getMediaTarget($docPart, $rId);
@@ -519,7 +560,7 @@ abstract class AbstractPart
                 } else {
                     $imageSource = "zip://{$this->docFile}#{$target}";
                 }
-                $parent->addImage($imageSource);
+                $parent->addImage($imageSource,$shapeStyle);
             }
         } elseif ($node->nodeName == 'w:drawing') {
             // Office 2011 Image
