@@ -550,6 +550,45 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(preg_replace('/>\s+</', '><', $result), preg_replace('/>\s+</', '><', $templateProcessor->getMainPart()));
     }
 
+    public function testSetComplexBlockReplacesMultipleMatchingMacros(): void
+    {
+        $title = new TextRun();
+        $title->addText('This is my repeated title');
+
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">${document-title}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">${document-title}</w:t>
+            </w:r>
+        </w:p>';
+
+        $result = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:pPr/>
+            <w:r>
+                <w:rPr/>
+                <w:t xml:space="preserve">This is my repeated title</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:pPr/>
+            <w:r>
+                <w:rPr/>
+                <w:t xml:space="preserve">This is my repeated title</w:t>
+            </w:r>
+        </w:p>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setComplexBlock('document-title', $title);
+
+        self::assertEquals(trim(preg_replace('/>\s+</', '><', $result)), trim(preg_replace('/>\s+</', '><', $templateProcessor->getMainPart())));
+    }
+
     public function testSetComplexValueWithCustomMacro(): void
     {
         $title = new TextRun();
