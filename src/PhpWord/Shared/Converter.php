@@ -447,10 +447,15 @@ class Converter
      *
      * @param string $value
      *
-     * @return float
+     * @return ?float
      */
     public static function cssToEmu($value)
     {
-        return self::pointToEmu(self::cssToPoint($value));
+        $point = self::cssToPoint($value);
+        if ($point === null) {
+            return null;
+        }
+
+        return self::pointToEmu($point);
     }
 }
