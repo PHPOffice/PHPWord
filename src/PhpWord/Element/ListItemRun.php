@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
 
 /**
@@ -62,6 +63,15 @@ class ListItemRun extends TextRun
             $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
         }
         parent::__construct($paragraphStyle);
+    }
+
+    /**
+     * Set PhpWord as reference.
+     */
+    public function setPhpWord(?PhpWord $phpWord = null): void
+    {
+        parent::setPhpWord($phpWord);
+        $this->style->setPhpWord($phpWord);
     }
 
     /**

@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Text as SharedText;
 use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
 
@@ -67,6 +68,15 @@ class ListItem extends AbstractElement
         } else {
             $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
         }
+    }
+
+    /**
+     * Set PhpWord as reference.
+     */
+    public function setPhpWord(?PhpWord $phpWord = null): void
+    {
+        parent::setPhpWord($phpWord);
+        $this->style->setPhpWord($phpWord);
     }
 
     /**

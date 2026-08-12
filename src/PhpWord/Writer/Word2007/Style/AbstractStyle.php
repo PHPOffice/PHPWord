@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
@@ -43,6 +44,13 @@ abstract class AbstractStyle
     protected $style;
 
     /**
+     * PhpWord object.
+     *
+     * @var ?PhpWord
+     */
+    private $phpWord;
+
+    /**
      * Write style.
      */
     abstract public function write();
@@ -52,10 +60,11 @@ abstract class AbstractStyle
      *
      * @param \PhpOffice\PhpWord\Style\AbstractStyle|string $style
      */
-    public function __construct(XMLWriter $xmlWriter, $style = null)
+    public function __construct(XMLWriter $xmlWriter, $style = null, ?PhpWord $phpWord = null)
     {
         $this->xmlWriter = $xmlWriter;
         $this->style = $style;
+        $this->phpWord = $phpWord;
     }
 
     /**
@@ -76,6 +85,22 @@ abstract class AbstractStyle
     protected function getStyle()
     {
         return $this->style;
+    }
+    
+    /**
+     * Get style by name.
+     *
+     * @param string $styleName
+     *
+     * @return ?AbstractStyle Paragraph|Font|Table|Numbering
+     */
+    protected function getGlobalStyle($styleName)
+    {
+        if (isset($this->phpWord)) {
+            return $this->phpWord->getStyle($styleName);
+        }
+
+        return \PhpOffice\PhpWord\Style::getStyle($styleName);
     }
 
     /**
@@ -116,7 +141,7 @@ abstract class AbstractStyle
             $class = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $name;
 
             /** @var AbstractStyle $writer */
-            $writer = new $class($xmlWriter, $value);
+            $writer = new $class($xmlWriter, $value, $this->phpWord);
             $writer->write();
         }
     }

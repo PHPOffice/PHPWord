@@ -180,7 +180,8 @@ class Content extends AbstractPart
      */
     private function writeTextStyles(XMLWriter $xmlWriter): void
     {
-        $styles = Style::getStyles();
+        $phpWord = $this->getParentWriter()->getPhpWord();
+        $styles = $phpWord->getStyles();
         $paragraphStyleCount = 0;
 
         $style = new Paragraph();
@@ -189,7 +190,7 @@ class Content extends AbstractPart
         $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
         $styleWriter->write();
 
-        $sects = $this->getParentWriter()->getPhpWord()->getSections();
+        $sects = $phpWord->getSections();
         $countsects = count($sects);
         for ($i = 0; $i < $countsects; ++$i) {
             $iplus1 = $i + 1;
@@ -266,6 +267,7 @@ class Content extends AbstractPart
      */
     private function getContainerStyle($container, &$paragraphStyleCount, &$fontStyleCount): void
     {
+        $phpWord = $this->getParentWriter()->getPhpWord();
         $elements = $container->getElements();
         foreach ($elements as $element) {
             if ($element instanceof TextRun) {
@@ -287,7 +289,7 @@ class Content extends AbstractPart
             } elseif ($element instanceof Table) {
                 $style = $element->getStyle();
                 if (is_string($style)) {
-                    $style = Style::getStyle($style);
+                    $style = $phpWord->getStyle($style);
                 }
                 if ($style === null) {
                     $style = new TableStyle();
