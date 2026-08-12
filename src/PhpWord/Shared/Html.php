@@ -607,9 +607,15 @@ class Html
      */
     protected static function getListStyle($isOrderedList)
     {
+        $type = $isOrderedList ? 'multilevel' : 'hybridMultilevel';
+
+        if (isset(self::$options['LIST_STYLES'][$type])) {
+            return self::$options['LIST_STYLES'][$type];
+        }
+
         if ($isOrderedList) {
             return [
-                'type' => 'multilevel',
+                'type' => $type,
                 'levels' => [
                     ['format' => NumberFormat::DECIMAL,      'text' => '%1.', 'alignment' => 'left',  'tabPos' => 720,  'left' => 720,  'hanging' => 360],
                     ['format' => NumberFormat::LOWER_LETTER, 'text' => '%2.', 'alignment' => 'left',  'tabPos' => 1440, 'left' => 1440, 'hanging' => 360],
@@ -625,7 +631,7 @@ class Html
         }
 
         return [
-            'type' => 'hybridMultilevel',
+            'type' => $type,
             'levels' => [
                 ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'],
                 ['format' => NumberFormat::BULLET, 'text' => '◦',  'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'],
