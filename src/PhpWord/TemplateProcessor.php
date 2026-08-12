@@ -898,7 +898,7 @@ class TemplateProcessor
      *
      * @return null|string
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null)
+    public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null, int $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
         $xmlBlock = null;
         $matches = [];
@@ -926,11 +926,31 @@ class TemplateProcessor
             }
 
             if ($replace) {
-                $this->tempDocumentMainPart = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
-                    implode('', $cloned),
-                    $this->tempDocumentMainPart
-                );
+                if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
+                    $this->tempDocumentMainPart = str_replace(
+                        $matches[2] . $matches[3] . $matches[4],
+                        implode('', $cloned),
+                        $this->tempDocumentMainPart
+                    );
+                } else {
+                    $regExpEscaper = new RegExp();
+
+                    // Process each match individually to avoid a single large regex
+                    foreach ($matches as $key => $match) {
+                        if (isset($matches[2][$key], $matches[3][$key], $matches[4][$key])) {
+                            $escapedPattern = $regExpEscaper->escape(
+                                $matches[2][$key] . $matches[3][$key] . $matches[4][$key]
+                            );
+
+                            $this->tempDocumentMainPart = preg_replace(
+                                $escapedPattern,
+                                is_array($cloned) ? implode('', $cloned) : $cloned,
+                                $this->tempDocumentMainPart,
+                                $limit
+                            );
+                        }
+                    }
+                }
             }
         }
 
