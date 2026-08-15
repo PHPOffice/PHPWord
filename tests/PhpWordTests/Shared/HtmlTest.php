@@ -506,6 +506,22 @@ class HtmlTest extends AbstractWebServerEmbedded
     }
 
     /**
+     * A <p> wrapping a block element (e.g. <ul>) must not be turned into a TextRun,
+     * since a TextRun cannot contain a ListItemRun.
+     */
+    public function testParseParagraphWrappingList(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p><ul><li>Item 1</li><li>Item 2</li></ul></p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:numPr'));
+        self::assertEquals('Item 1', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->textContent);
+        self::assertEquals('Item 2', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->textContent);
+    }
+
+    /**
      * Test parsing table.
      */
     public function testParseTable(): void
