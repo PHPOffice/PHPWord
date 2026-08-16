@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\PDF;
 use PhpOffice\PhpWord\Writer\PDF\MPDF;
+use ReflectionMethod;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF\MPDF.
@@ -111,5 +112,30 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         ]);
         $writer = new PDF(new PhpWord());
         self::assertEquals('Arial', $writer->getFont());
+    }
+
+    /**
+     * Test that the mPDF temporary directory can be set via the renderer options.
+     */
+    public function testSetTempDir(): void
+    {
+        $rendererName = Settings::PDF_RENDERER_MPDF;
+        $rendererLibraryPath = (string) realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+
+        $writer = new MPDF(new PhpWord());
+        $method = new ReflectionMethod(MPDF::class, 'createExternalWriterInstance');
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+
+        // Defaults to the system temporary directory.
+        self::assertSame(sys_get_temp_dir() . '/mpdf', $method->invoke($writer)->tempDir);
+
+        // Can be overridden via the PDF renderer options.
+        Settings::setPdfRendererOptions([
+            'tempDir' => sys_get_temp_dir() . '/phpword-mpdf',
+        ]);
+        self::assertSame(sys_get_temp_dir() . '/phpword-mpdf', $method->invoke($writer)->tempDir);
     }
 }

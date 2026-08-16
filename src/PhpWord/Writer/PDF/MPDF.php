@@ -45,6 +45,8 @@ class MPDF extends AbstractRenderer implements WriterInterface
             $options['default_font'] = $this->getFont();
         }
 
+        $options['tempDir'] = Settings::getPdfRendererOptions()['tempDir'] ?? sys_get_temp_dir() . '/mpdf';
+
         return new \Mpdf\Mpdf($options);
     }
 

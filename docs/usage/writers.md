@@ -71,6 +71,7 @@ function cbEditHTML(string $inputHTML): string
 
 You can define options like :
 * `font`: default font
+* `tempDir`: writable directory for mPDF's temporary files (MPDF renderer only, defaults to the system temporary directory)
 
 Options must be defined before creating the writer.
 
