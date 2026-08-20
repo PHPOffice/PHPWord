@@ -482,6 +482,18 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @covers ::macroExists
+     */
+    public function testMacroExists(): void
+    {
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+
+        self::assertTrue($templateProcessor->macroExists('tableHeader'));
+        self::assertTrue($templateProcessor->macroExists('userId'));
+        self::assertFalse($templateProcessor->macroExists('nonexistentMacro'));
+    }
+
+    /**
      * @covers ::setValue
      */
     public function testSetValueWithCustomMacro(): void
