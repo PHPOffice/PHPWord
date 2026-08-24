@@ -51,6 +51,24 @@ class Html
 
     private const DECLARES_CHARSET = '/ charset=/i';
 
+    /**
+     * CSS border-style keywords mapped to their Word/OOXML equivalent.
+     *
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_Border.html
+     */
+    private const BORDER_STYLE_MAP = [
+        'none' => Border::NONE,
+        'hidden' => Border::NONE,
+        'dotted' => Border::DOTTED,
+        'dashed' => Border::DASHED,
+        'solid' => Border::SINGLE,
+        'double' => Border::DOUBLE,
+        'groove' => Border::THREE_D_ENGRAVE,
+        'ridge' => Border::THREE_D_EMBOSS,
+        'inset' => Border::INSET,
+        'outset' => Border::OUTSET,
+    ];
+
     protected static $listIndex = 0;
 
     protected static $xpath;
@@ -1027,7 +1045,14 @@ class Html
 
                     break;
                 case 'border-width':
-                    $styles['borderSize'] = Converter::cssToPoint(self::SPECIAL_BORDER_WIDTHS[$value] ?? $value);
+                    //$styles['borderSize'] = Converter::cssToPoint(self::SPECIAL_BORDER_WIDTHS[$value] ?? $value);
+                    $borderSize = self::SPECIAL_BORDER_WIDTHS[$value] ?? $value;
+                    if ($borderSize !== null) {
+                        $size = Converter::cssToTwip($borderSize);
+                        $size = (int) ($size / 2);
+                        // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
+                        $styles['borderSize'] = $size; // twips
+                    }
 
                     break;
                 case 'border-style':
@@ -1273,17 +1298,7 @@ class Html
      */
     protected static function mapBorderStyle($cssBorderStyle)
     {
-        switch ($cssBorderStyle) {
-            case 'none':
-            case 'dashed':
-            case 'dotted':
-            case 'double':
-                return $cssBorderStyle;
-            case 'hidden':
-                return 'none';
-            default:
-                return 'single';
-        }
+        return self::BORDER_STYLE_MAP[strtolower($cssBorderStyle)] ?? Border::SINGLE;
     }
 
     protected static function mapBorderColor(&$styles, $cssBorderColor): void
