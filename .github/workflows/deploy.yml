@@ -18,9 +18,9 @@ jobs:
         with:
           python-version: 3.x
       - name: Install Python Dependencies
-        run: pip install mkdocs-material
+        run: pip install zensical
       - name: Build documentation
-        run: mkdocs build --site-dir public
+        run: zensical build
       ### PHPUnit
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

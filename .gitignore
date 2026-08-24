@@ -27,5 +27,8 @@ phpword.ini
 /.phpunit.result.cache
 /.phpunit.cache
 /public
-/site
 tests/PhpWordTests/_files/tmp
+
+# used by mkdocs, zensical
+/site
+/public

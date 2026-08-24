@@ -1,6 +1,7 @@
 [project]
 site_url = "https://phpoffice.github.io/PHPWord"
 site_name = "PHPWord"
+site_dir = "public"
 # site_description = "Your project description"
 # site_author = "Your name"
 
