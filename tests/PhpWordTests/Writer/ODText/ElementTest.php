@@ -56,6 +56,23 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * Test drawing elements are dispatched by the ODText container writer.
+     */
+    public function testDrawingElementsAreDispatched(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addShape('rect', ['frame' => ['width' => 100, 'height' => 50]]);
+        $section->addTextBox(['width' => 100, 'height' => 50]);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $path = '/office:document-content/office:body/office:text/text:section';
+        self::assertTrue($doc->elementExists($path . '/draw:rect'));
+        self::assertTrue($doc->elementExists($path . '/draw:frame/draw:text-box'));
+    }
+
     // ODT Line Element not yet implemented
     // ODT Bookmark not yet implemented
     // ODT Table with style name not yet implemented (Word test defective)
