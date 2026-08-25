@@ -2598,12 +2598,12 @@
 <span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setFontFaceSize</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
 <span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setFontPointsAboveBaseText</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setFontSizeForBaseText</span><span class="p">(</span><span class="mi">18</span><span class="p">);</span>
-<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setLanguageId</span><span class="p">(</span><span class="s1">&#39;ja-JP&#39;</span><span class="p">);</span>
+<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setLanguageId</span><span class="p">(</span><span class="s1">'ja-JP'</span><span class="p">);</span>
 
 <span class="nv">$baseTextRun</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TextRun</span><span class="p">(</span><span class="k">null</span><span class="p">);</span>
-<span class="nv">$baseTextRun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;私&#39;</span><span class="p">);</span>
+<span class="nv">$baseTextRun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'私'</span><span class="p">);</span>
 <span class="nv">$rubyTextRun</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TextRun</span><span class="p">(</span><span class="k">null</span><span class="p">);</span>
-<span class="nv">$rubyTextRun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;わたし&#39;</span><span class="p">);</span>
+<span class="nv">$rubyTextRun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'わたし'</span><span class="p">);</span>
 
 <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addRuby</span><span class="p">(</span><span class="nv">$baseTextRun</span><span class="p">,</span> <span class="nv">$rubyTextRun</span><span class="p">,</span> <span class="nv">$properties</span><span class="p">);</span>
 </code></pre></div>
@@ -2618,7 +2618,7 @@
 <span class="x">$fontStyle-&gt;setAllCaps(true);</span>
 <span class="x">$fontStyle-&gt;setBold(true);</span>
 <span class="x">$fontStyle-&gt;setSize(24);</span>
-<span class="x">$phpWord-&gt;addTitleStyle(1, [&#39;name&#39; =&gt; &#39;Arial&#39;, &#39;size&#39; =&gt; 24, &#39;bold&#39; =&gt; true, &#39;color&#39; =&gt; &#39;990000&#39;]);</span>
+<span class="x">$phpWord-&gt;addTitleStyle(1, ['name' =&gt; 'Arial', 'size' =&gt; 24, 'bold' =&gt; true, 'color' =&gt; '990000']);</span>
 
 <span class="x">$section = $phpWord-&gt;addSection();</span>
 <span class="x">$properties = new RubyProperties();</span>
@@ -2626,12 +2626,12 @@
 <span class="x">$properties-&gt;setFontFaceSize(10);</span>
 <span class="x">$properties-&gt;setFontPointsAboveBaseText(4);</span>
 <span class="x">$properties-&gt;setFontSizeForBaseText(18);</span>
-<span class="x">$properties-&gt;setLanguageId(&#39;ja-JP&#39;);</span>
+<span class="x">$properties-&gt;setLanguageId('ja-JP');</span>
 
 <span class="x">$baseTextRun = new TextRun(null);</span>
-<span class="x">$baseTextRun-&gt;addText(&#39;私&#39;);</span>
+<span class="x">$baseTextRun-&gt;addText('私');</span>
 <span class="x">$rubyTextRun = new TextRun(null);</span>
-<span class="x">$rubyTextRun-&gt;addText(&#39;わたし&#39;);</span>
+<span class="x">$rubyTextRun-&gt;addText('わたし');</span>
 
 <span class="x">$textRun = new TextRun();</span>
 <span class="x">$textRun-&gt;addRuby($baseTextRun, $rubyTextRun, $properties);</span>

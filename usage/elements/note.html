@@ -2592,23 +2592,23 @@
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$textrun</span> <span class="o">=</span> <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addTextRun</span><span class="p">();</span>
-<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Lead text.&#39;</span><span class="p">);</span>
+<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Lead text.'</span><span class="p">);</span>
 <span class="nv">$footnote</span> <span class="o">=</span> <span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addFootnote</span><span class="p">();</span>
-<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Footnote text can have &#39;</span><span class="p">);</span>
-<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addLink</span><span class="p">(</span><span class="s1">&#39;http://test.com&#39;</span><span class="p">,</span> <span class="s1">&#39;links&#39;</span><span class="p">);</span>
-<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">);</span>
+<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Footnote text can have '</span><span class="p">);</span>
+<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addLink</span><span class="p">(</span><span class="s1">'http://test.com'</span><span class="p">,</span> <span class="s1">'links'</span><span class="p">);</span>
+<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'.'</span><span class="p">);</span>
 <span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addTextBreak</span><span class="p">();</span>
-<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;And text break.&#39;</span><span class="p">);</span>
-<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Trailing text.&#39;</span><span class="p">);</span>
+<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'And text break.'</span><span class="p">);</span>
+<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Trailing text.'</span><span class="p">);</span>
 <span class="nv">$endnote</span> <span class="o">=</span> <span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addEndnote</span><span class="p">();</span>
-<span class="nv">$endnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Endnote put at the end&#39;</span><span class="p">);</span>
+<span class="nv">$endnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Endnote put at the end'</span><span class="p">);</span>
 </code></pre></div>
 <p>On text:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Lead text.&#39;</span><span class="p">);</span>
+<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Lead text.'</span><span class="p">);</span>
 <span class="nv">$footnote</span> <span class="o">=</span> <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addFootnote</span><span class="p">();</span>
-<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Footnote text.&#39;</span><span class="p">);</span>
+<span class="nv">$footnote</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Footnote text.'</span><span class="p">);</span>
 </code></pre></div>
 <p>By default the footnote reference number will be displayed with decimal number
 starting from 1. This number uses the <code>FooterReference</code> style which you can

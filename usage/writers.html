@@ -2846,48 +2846,48 @@
 <p>The name of the writer is <code>HTML</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;HTML&#39;</span><span class="p">);</span>
-<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.html&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">'HTML'</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.html'</span><span class="p">);</span>
 </code></pre></div>
 <p>When generating html/pdf, you can alter the default handling of white space (normal), and/or supply a fallback generic font as follows:</p>
-<div class="highlight"><pre><span></span><code><span class="x">$writer = IOFactory::createWriter($oPhpWord, &#39;HTML&#39;);</span>
-<span class="x">$writer-&gt;setDefaultGenericFont(&#39;serif&#39;);</span>
-<span class="x">$writer-&gt;setDefaultWhiteSpace(&#39;pre-wrap&#39;);</span>
-<span class="x">$writer-&gt;save(__DIR__ . &#39;/sample.html&#39;);</span>
+<div class="highlight"><pre><span></span><code><span class="x">$writer = IOFactory::createWriter($oPhpWord, 'HTML');</span>
+<span class="x">$writer-&gt;setDefaultGenericFont('serif');</span>
+<span class="x">$writer-&gt;setDefaultWhiteSpace('pre-wrap');</span>
+<span class="x">$writer-&gt;save(__DIR__ . '/sample.html');</span>
 </code></pre></div>
 <h2 id="odtext">ODText</h2>
 <p>The name of the writer is <code>ODText</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;ODText&#39;</span><span class="p">);</span>
-<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.docx&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">'ODText'</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.docx'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="pdf">PDF</h2>
 <p>The name of the writer is <code>PDF</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;PDF&#39;</span><span class="p">);</span>
-<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.pdf&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">'PDF'</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.pdf'</span><span class="p">);</span>
 </code></pre></div>
 <p>To generate a PDF, the PhpWord object passes through HTML before generating the PDF.
 This HTML can be modified using a callback.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;PDF&#39;</span><span class="p">);</span>
-<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">setEditCallback</span><span class="p">(</span><span class="s1">&#39;cbEditHTML&#39;</span><span class="p">);</span>
-<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.pdf&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">'PDF'</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">setEditCallback</span><span class="p">(</span><span class="s1">'cbEditHTML'</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.pdf'</span><span class="p">);</span>
 
 <span class="sd">/**</span>
 <span class="sd"> * Add a meta tag generator</span>
 <span class="sd"> */</span>
 <span class="k">function</span> <span class="nf">cbEditHTML</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$inputHTML</span><span class="p">)</span><span class="o">:</span> <span class="nx">string</span>
 <span class="p">{</span>
-    <span class="nv">$beforeBody</span> <span class="o">=</span> <span class="s1">&#39;&lt;meta name=&quot;generator&quot; content=&quot;PHPWord&quot; /&gt;&#39;</span><span class="p">;</span>
-    <span class="nv">$needle</span> <span class="o">=</span> <span class="s1">&#39;&lt;/head&gt;&#39;</span><span class="p">;</span>
+    <span class="nv">$beforeBody</span> <span class="o">=</span> <span class="s1">'&lt;meta name="generator" content="PHPWord" /&gt;'</span><span class="p">;</span>
+    <span class="nv">$needle</span> <span class="o">=</span> <span class="s1">'&lt;/head&gt;'</span><span class="p">;</span>
 
     <span class="nv">$pos</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$inputHTML</span><span class="p">,</span> <span class="nv">$needle</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="nv">$pos</span> <span class="o">!==</span> <span class="k">false</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$inputHTML</span> <span class="o">=</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="nb">substr_replace</span><span class="p">(</span><span class="nv">$inputHTML</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">$beforeBody</span><span class="se">\n</span><span class="si">$needle</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$pos</span><span class="p">,</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$needle</span><span class="p">));</span>
+        <span class="nv">$inputHTML</span> <span class="o">=</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="nb">substr_replace</span><span class="p">(</span><span class="nv">$inputHTML</span><span class="p">,</span> <span class="s2">"</span><span class="si">$beforeBody</span><span class="se">\n</span><span class="si">$needle</span><span class="s2">"</span><span class="p">,</span> <span class="nv">$pos</span><span class="p">,</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$needle</span><span class="p">));</span>
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="nv">$inputHTML</span><span class="p">;</span>
@@ -2903,11 +2903,11 @@ This HTML can be modified using a callback.</p>
 <span class="k">use</span> <span class="nx">PhpOffice\PhpWord\Settings</span><span class="p">;</span>
 
 <span class="nx">Settings</span><span class="o">::</span><span class="na">setPdfRendererOptions</span><span class="p">([</span>
-    <span class="s1">&#39;font&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Arial&#39;</span>
+    <span class="s1">'font'</span> <span class="o">=&gt;</span> <span class="s1">'Arial'</span>
 <span class="p">]);</span>
 
-<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;PDF&#39;</span><span class="p">);</span>
-<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.pdf&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">'PDF'</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.pdf'</span><span class="p">);</span>
 </code></pre></div>
 <h4 id="specify-the-pdf-renderer">Specify the PDF Renderer</h4>
 <p>Before PHPWord can write a PDF, you <strong>must</strong> specify the renderer to use and the path to it.
@@ -2926,7 +2926,7 @@ Currently, three renderers are supported: </p>
 </ul>
 <p>In the code below, you can see an example of setting MPDF as the desired PDF renderer.</p>
 <div class="highlight"><pre><span></span><code><span class="x">Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);</span>
-<span class="x">Settings::setPdfRendererPath(__DIR__ . &#39;/../vendor/mpdf/mpdf&#39;);</span>
+<span class="x">Settings::setPdfRendererPath(__DIR__ . '/../vendor/mpdf/mpdf');</span>
 </code></pre></div>
 <p>or you can edit settings in phpword.ini ( or phpword.ini.dist) file.</p>
 <div class="highlight"><pre><span></span><code><span class="na">pdfRendererName</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s">MPDF</span><span class="w">    </span><span class="c1">;DomPDF, TCPDF, MPDF</span>
@@ -2936,15 +2936,15 @@ Currently, three renderers are supported: </p>
 <p>The name of the writer is <code>RTF</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;RTF&#39;</span><span class="p">);</span>
-<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.rtf&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">'RTF'</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.rtf'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="word2007">Word2007</h2>
 <p>The name of the writer is <code>Word2007</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;Word2007&#39;</span><span class="p">);</span>
-<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.docx&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">'Word2007'</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.docx'</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="zip-adapter">ZIP Adapter</h3>
 <p>You can change the ZIP Adapter for the writer. By default, the ZIP Adapter is <code>ZipArchiveAdapter</code>.</p>
@@ -2953,9 +2953,9 @@ Currently, three renderers are supported: </p>
 <span class="k">use</span> <span class="nx">PhpOffice\Common\Adapter\Zip\PclZipAdapter</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">PhpOffice\Common\Adapter\Zip\ZipArchiveAdapter</span><span class="p">;</span>
 
-<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">&#39;Word2007&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">'Word2007'</span><span class="p">);</span>
 <span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">setZipAdapter</span><span class="p">(</span><span class="k">new</span> <span class="nx">PclZipAdapter</span><span class="p">());</span>
-<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/sample.docx&#39;</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.docx'</span><span class="p">);</span>
 </code></pre></div>
 
 

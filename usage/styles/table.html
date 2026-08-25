@@ -2622,6 +2622,9 @@
 <li><code>exactHeight</code>. Row height is exact or at least.</li>
 <li><code>tblHeader</code>. Repeat table row on every new page, <em>true</em> or <em>false</em>.</li>
 </ul>
+<p>The ODText writer serializes row heights as native ODF table-row styles. An
+exact height uses <code>style:row-height</code>; an at-least height uses
+<code>style:min-row-height</code>.</p>
 <p>Available Cell style options:</p>
 <ul>
 <li><code>bgColor</code>. Background color, e.g. '9966CC'.</li>

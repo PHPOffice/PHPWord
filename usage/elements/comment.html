@@ -2592,18 +2592,18 @@ The comment can contain formatted text. Once the comment has been added, it can 
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// first create a comment</span>
-<span class="nv">$comment</span><span class="o">=</span> <span class="k">new</span> <span class="nx">\PhpOffice\PhpWord\Element\Comment</span><span class="p">(</span><span class="s1">&#39;Authors name&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">\DateTime</span><span class="p">(),</span> <span class="s1">&#39;my_initials&#39;</span><span class="p">);</span>
-<span class="nv">$comment</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Test&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">));</span>
+<span class="nv">$comment</span><span class="o">=</span> <span class="k">new</span> <span class="nx">\PhpOffice\PhpWord\Element\Comment</span><span class="p">(</span><span class="s1">'Authors name'</span><span class="p">,</span> <span class="k">new</span> <span class="nx">\DateTime</span><span class="p">(),</span> <span class="s1">'my_initials'</span><span class="p">);</span>
+<span class="nv">$comment</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Test'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'bold'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">));</span>
 
 <span class="c1">// add it to the document</span>
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addComment</span><span class="p">(</span><span class="nv">$comment</span><span class="p">);</span>
 
 <span class="nv">$textrun</span> <span class="o">=</span> <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addTextRun</span><span class="p">();</span>
-<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;This &#39;</span><span class="p">);</span>
-<span class="nv">$text</span> <span class="o">=</span> <span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;is&#39;</span><span class="p">);</span>
+<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'This '</span><span class="p">);</span>
+<span class="nv">$text</span> <span class="o">=</span> <span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'is'</span><span class="p">);</span>
 <span class="c1">// link the comment to the text you just created</span>
 <span class="nv">$text</span><span class="o">-&gt;</span><span class="na">setCommentRangeStart</span><span class="p">(</span><span class="nv">$comment</span><span class="p">);</span>
-<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39; a test&#39;</span><span class="p">);</span>
+<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">' a test'</span><span class="p">);</span>
 </code></pre></div>
 <p>If no end is set for a comment using the <code>setCommentRangeEnd</code>, the comment will be ended automatically at the end of the element it is started on.</p>
 

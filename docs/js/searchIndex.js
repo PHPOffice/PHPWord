@@ -14331,6 +14331,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Paragraph.html#constant_NON_BIDI_MAP"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Row",
+            "name": "Row",
+            "summary": "Table\u0020row\u0020style\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Row.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Row\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020style.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Row.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Row\u003A\u003AconvertHeight\u0028\u0029",
+            "name": "convertHeight",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Row.html#method_convertHeight"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Section",
             "name": "Section",
             "summary": "Section\u0020style\u0020writer.",

@@ -2604,20 +2604,20 @@
 
 <span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">();</span>
 <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span>
-    <span class="s1">&#39;mars.jpg&#39;</span><span class="p">,</span>
+    <span class="s1">'mars.jpg'</span><span class="p">,</span>
     <span class="k">array</span><span class="p">(</span>
-        <span class="s1">&#39;width&#39;</span>         <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="s1">&#39;height&#39;</span>        <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="s1">&#39;marginTop&#39;</span>     <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;marginLeft&#39;</span>    <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;wrappingStyle&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;behind&#39;</span>
+        <span class="s1">'width'</span>         <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="s1">'height'</span>        <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="s1">'marginTop'</span>     <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="s1">'marginLeft'</span>    <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="s1">'wrappingStyle'</span> <span class="o">=&gt;</span> <span class="s1">'behind'</span>
     <span class="p">)</span>
 <span class="p">);</span>
 <span class="nv">$footer</span> <span class="o">=</span> <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addFooter</span><span class="p">();</span>
-<span class="nv">$footer</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span><span class="s1">&#39;http://example.com/image.php&#39;</span><span class="p">);</span>
+<span class="nv">$footer</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span><span class="s1">'http://example.com/image.php'</span><span class="p">);</span>
 <span class="nv">$textrun</span> <span class="o">=</span> <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addTextRun</span><span class="p">();</span>
-<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span><span class="s1">&#39;http://php.net/logo.jpg&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;PHP logo&#39;</span><span class="p">);</span>
-<span class="nv">$source</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;/path/to/my/images/earth.jpg&#39;</span><span class="p">);</span>
+<span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span><span class="s1">'http://php.net/logo.jpg'</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">'PHP logo'</span><span class="p">);</span>
+<span class="nv">$source</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'/path/to/my/images/earth.jpg'</span><span class="p">);</span>
 <span class="nv">$image</span> <span class="o">=</span> <span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span><span class="nv">$source</span><span class="p">);</span>
 </code></pre></div>
 

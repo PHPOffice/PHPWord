@@ -3031,7 +3031,7 @@ By default Macros are defined like this: <code>${search-pattern}</code> but you 
 To load a template file, create a new instance of the TemplateProcessor.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TemplateProcessor</span><span class="p">(</span><span class="s1">&#39;Template.docx&#39;</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TemplateProcessor</span><span class="p">(</span><span class="s1">'Template.docx'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="setvalue">setValue</h2>
 <p>Given a template containing</p>
@@ -3041,14 +3041,14 @@ To load a template file, create a new instance of the TemplateProcessor.</p>
 The resulting document will now contain <code>Hello John Doe!</code></p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="s1">&#39;firstname&#39;</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">);</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="s1">&#39;lastname&#39;</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="s1">'firstname'</span><span class="p">,</span> <span class="s1">'John'</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="s1">'lastname'</span><span class="p">,</span> <span class="s1">'Doe'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="setvalues">setValues</h2>
 <p>You can also set multiple values by passing all of them in an array.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValues</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;firstname&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;lastname&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Doe&#39;</span><span class="p">));</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValues</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'firstname'</span> <span class="o">=&gt;</span> <span class="s1">'John'</span><span class="p">,</span> <span class="s1">'lastname'</span> <span class="o">=&gt;</span> <span class="s1">'Doe'</span><span class="p">));</span>
 </code></pre></div>
 <h2 id="setcheckbox">setCheckbox</h2>
 <p>Given a template containing a checkbox control with the title or tag named:</p>
@@ -3057,7 +3057,7 @@ The resulting document will now contain <code>Hello John Doe!</code></p>
 The following will check the checkbox:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setCheckbox</span><span class="p">(</span><span class="s1">&#39;checkbox&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setCheckbox</span><span class="p">(</span><span class="s1">'checkbox'</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
 </code></pre></div>
 <div class="admonition note annotate">
 <p class="admonition-title">To add a checkbox and set its title or tag in a template</p>
@@ -3074,19 +3074,19 @@ The following will check the checkbox:</p>
 <p>You can define a custom opening macro. The following will set <code>{#</code> as the opening search pattern.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setMacroOpeningChars</span><span class="p">(</span><span class="s1">&#39;{#&#39;</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setMacroOpeningChars</span><span class="p">(</span><span class="s1">'{#'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="setmacroclosingchars">setMacroClosingChars</h2>
 <p>You can define a custom closing macro. The following will set <code>#}</code> as the closing search pattern.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setMacroClosingChars</span><span class="p">(</span><span class="s1">&#39;#}&#39;</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setMacroClosingChars</span><span class="p">(</span><span class="s1">'#}'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="setmacrochars">setMacroChars</h2>
 <p>You can define a custom opening and closing macro at the same time . The following will set the search-pattern like this: <code>{#search-pattern#}</code> .</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setMacroChars</span><span class="p">(</span><span class="s1">&#39;{#&#39;</span><span class="p">,</span> <span class="s1">&#39;#}&#39;</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setMacroChars</span><span class="p">(</span><span class="s1">'{#'</span><span class="p">,</span> <span class="s1">'#}'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="setimagevalue">setImageValue</h2>
 <p>The search-pattern model for images can be like:
@@ -3104,16 +3104,16 @@ The following will check the checkbox:</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TemplateProcessor</span><span class="p">(</span><span class="s1">&#39;Template.docx&#39;</span><span class="p">);</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;John Doe&#39;</span><span class="p">);</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;City&#39;</span><span class="p">,</span> <span class="s1">&#39;Street&#39;</span><span class="p">),</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;Detroit&#39;</span><span class="p">,</span> <span class="s1">&#39;12th Street&#39;</span><span class="p">));</span>
+<span class="nv">$templateProcessor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TemplateProcessor</span><span class="p">(</span><span class="s1">'Template.docx'</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="s1">'Name'</span><span class="p">,</span> <span class="s1">'John Doe'</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'City'</span><span class="p">,</span> <span class="s1">'Street'</span><span class="p">),</span> <span class="k">array</span><span class="p">(</span><span class="s1">'Detroit'</span><span class="p">,</span> <span class="s1">'12th Street'</span><span class="p">));</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setImageValue</span><span class="p">(</span><span class="s1">&#39;CompanyLogo&#39;</span><span class="p">,</span> <span class="s1">&#39;path/to/company/logo.png&#39;</span><span class="p">);</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setImageValue</span><span class="p">(</span><span class="s1">&#39;UserLogo&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;path&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;path/to/logo.png&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;ratio&#39;</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">));</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setImageValue</span><span class="p">(</span><span class="s1">&#39;FeatureImage&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setImageValue</span><span class="p">(</span><span class="s1">'CompanyLogo'</span><span class="p">,</span> <span class="s1">'path/to/company/logo.png'</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setImageValue</span><span class="p">(</span><span class="s1">'UserLogo'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'path'</span> <span class="o">=&gt;</span> <span class="s1">'path/to/logo.png'</span><span class="p">,</span> <span class="s1">'width'</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">'height'</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">'ratio'</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">));</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setImageValue</span><span class="p">(</span><span class="s1">'FeatureImage'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
     <span class="c1">// Closure will only be executed if the replacement tag is found in the template</span>
 
-    <span class="k">return</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;path&#39;</span> <span class="o">=&gt;</span> <span class="nx">SlowFeatureImageGenerator</span><span class="o">::</span><span class="na">make</span><span class="p">(),</span> <span class="s1">&#39;width&#39;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;ratio&#39;</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">array</span><span class="p">(</span><span class="s1">'path'</span> <span class="o">=&gt;</span> <span class="nx">SlowFeatureImageGenerator</span><span class="o">::</span><span class="na">make</span><span class="p">(),</span> <span class="s1">'width'</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">'height'</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">'ratio'</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">);</span>
 <span class="p">});</span>
 </code></pre></div>
 <h2 id="cloneblock">cloneBlock</h2>
@@ -3127,7 +3127,7 @@ See <code>Sample_23_TemplateBlock.php</code> for an example.</p>
 <p>The following will duplicate everything between <code>${block_name}</code> and <code>${/block_name}</code> 3 times.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">cloneBlock</span><span class="p">(</span><span class="s1">&#39;block_name&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">cloneBlock</span><span class="p">(</span><span class="s1">'block_name'</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
 </code></pre></div>
 <p>The last parameter will rename any macro defined inside the block and add #1, #2, #3 ... to the macro name.
 The result will be</p>
@@ -3145,10 +3145,10 @@ If an array with replacements is passed, the <code>count</code> argument is igno
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$replacements</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;customer_name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Batman&#39;</span><span class="p">,</span> <span class="s1">&#39;customer_address&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Gotham City&#39;</span><span class="p">),</span>
-    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;customer_name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Superman&#39;</span><span class="p">,</span> <span class="s1">&#39;customer_address&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Metropolis&#39;</span><span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">'customer_name'</span> <span class="o">=&gt;</span> <span class="s1">'Batman'</span><span class="p">,</span> <span class="s1">'customer_address'</span> <span class="o">=&gt;</span> <span class="s1">'Gotham City'</span><span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">'customer_name'</span> <span class="o">=&gt;</span> <span class="s1">'Superman'</span><span class="p">,</span> <span class="s1">'customer_address'</span> <span class="o">=&gt;</span> <span class="s1">'Metropolis'</span><span class="p">),</span>
 <span class="p">);</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">cloneBlock</span><span class="p">(</span><span class="s1">&#39;block_name&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="nv">$replacements</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">cloneBlock</span><span class="p">(</span><span class="s1">'block_name'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="nv">$replacements</span><span class="p">);</span>
 </code></pre></div>
 <p>The result will then be</p>
 <div class="highlight"><pre><span></span><code><span class="nc">Customer</span><span class="o">:</span><span class="w"> </span><span class="nc">Batman</span>
@@ -3166,13 +3166,13 @@ If an array with replacements is passed, the <code>count</code> argument is igno
 <p>The following will replace everything between <code>${block_name}</code> and <code>${/block_name}</code> with the value passed.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">replaceBlock</span><span class="p">(</span><span class="s1">&#39;block_name&#39;</span><span class="p">,</span> <span class="s1">&#39;This is the replacement text.&#39;</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">replaceBlock</span><span class="p">(</span><span class="s1">'block_name'</span><span class="p">,</span> <span class="s1">'This is the replacement text.'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="deleteblock">deleteBlock</h2>
 <p>Same as previous, but it deletes the block</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">deleteBlock</span><span class="p">(</span><span class="s1">&#39;block_name&#39;</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">deleteBlock</span><span class="p">(</span><span class="s1">'block_name'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="clonerow">cloneRow</h2>
 <p>Clones a table row in a template document.
@@ -3185,7 +3185,7 @@ See <code>Sample_07_TemplateCloneRow.php</code> for an example.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">cloneRow</span><span class="p">(</span><span class="s1">&#39;userId&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">cloneRow</span><span class="p">(</span><span class="s1">'userId'</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
 </code></pre></div>
 <p>Will result in</p>
 <div class="highlight"><pre><span></span><code><span class="w"> </span><span class="o">+-------------+------------------+</span>
@@ -3209,10 +3209,10 @@ See <code>Sample_07_TemplateCloneRow.php</code> for an example.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$values</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span><span class="s1">&#39;userId&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;userName&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Batman&#39;</span><span class="p">,</span> <span class="s1">&#39;userAddress&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Gotham City&#39;</span><span class="p">],</span>
-    <span class="p">[</span><span class="s1">&#39;userId&#39;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;userName&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Superman&#39;</span><span class="p">,</span> <span class="s1">&#39;userAddress&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Metropolis&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">'userId'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'userName'</span> <span class="o">=&gt;</span> <span class="s1">'Batman'</span><span class="p">,</span> <span class="s1">'userAddress'</span> <span class="o">=&gt;</span> <span class="s1">'Gotham City'</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">'userId'</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'userName'</span> <span class="o">=&gt;</span> <span class="s1">'Superman'</span><span class="p">,</span> <span class="s1">'userAddress'</span> <span class="o">=&gt;</span> <span class="s1">'Metropolis'</span><span class="p">],</span>
 <span class="p">];</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">cloneRowAndSetValues</span><span class="p">(</span><span class="s1">&#39;userId&#39;</span><span class="p">,</span> <span class="nv">$values</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">cloneRowAndSetValues</span><span class="p">(</span><span class="s1">'userId'</span><span class="p">,</span> <span class="nv">$values</span><span class="p">);</span>
 </code></pre></div>
 <p>Will result in</p>
 <div class="highlight"><pre><span></span><code><span class="o">+---+-------------+</span>
@@ -3230,7 +3230,7 @@ See <code>Sample_07_TemplateCloneRow.php</code> for an example.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$xslDomDocument</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DOMDocument</span><span class="p">();</span>
-<span class="nv">$xslDomDocument</span><span class="o">-&gt;</span><span class="na">load</span><span class="p">(</span><span class="s1">&#39;/path/to/my/stylesheet.xsl&#39;</span><span class="p">);</span>
+<span class="nv">$xslDomDocument</span><span class="o">-&gt;</span><span class="na">load</span><span class="p">(</span><span class="s1">'/path/to/my/stylesheet.xsl'</span><span class="p">);</span>
 <span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">applyXslStyleSheet</span><span class="p">(</span><span class="nv">$xslDomDocument</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="setcomplexvalue">setComplexValue</h2>
@@ -3239,33 +3239,33 @@ See <code>Sample_40_TemplateSetComplexValue.php</code> for examples.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$inline</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TextRun</span><span class="p">();</span>
-<span class="nv">$inline</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;by a red italic text&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;italic&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;red&#39;</span><span class="p">));</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setComplexValue</span><span class="p">(</span><span class="s1">&#39;inline&#39;</span><span class="p">,</span> <span class="nv">$inline</span><span class="p">);</span>
+<span class="nv">$inline</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'by a red italic text'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'italic'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span> <span class="s1">'color'</span> <span class="o">=&gt;</span> <span class="s1">'red'</span><span class="p">));</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setComplexValue</span><span class="p">(</span><span class="s1">'inline'</span><span class="p">,</span> <span class="nv">$inline</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="setcomplexblock">setComplexBlock</h2>
 <p>Replaces a ${macro} with the ComplexType passed.
 See <code>Sample_40_TemplateSetComplexValue.php</code> for examples.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$table</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Table</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;borderSize&#39;</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;borderColor&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span> <span class="o">=&gt;</span> <span class="mi">6000</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span> <span class="o">=&gt;</span> <span class="nx">TblWidth</span><span class="o">::</span><span class="na">TWIP</span><span class="p">));</span>
+<span class="nv">$table</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Table</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'borderSize'</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">'borderColor'</span> <span class="o">=&gt;</span> <span class="s1">'green'</span><span class="p">,</span> <span class="s1">'width'</span> <span class="o">=&gt;</span> <span class="mi">6000</span><span class="p">,</span> <span class="s1">'unit'</span> <span class="o">=&gt;</span> <span class="nx">TblWidth</span><span class="o">::</span><span class="na">TWIP</span><span class="p">));</span>
 <span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addRow</span><span class="p">();</span>
-<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Cell A1&#39;</span><span class="p">);</span>
-<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Cell A2&#39;</span><span class="p">);</span>
-<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Cell A3&#39;</span><span class="p">);</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Cell A1'</span><span class="p">);</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Cell A2'</span><span class="p">);</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Cell A3'</span><span class="p">);</span>
 <span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addRow</span><span class="p">();</span>
-<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Cell B1&#39;</span><span class="p">);</span>
-<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Cell B2&#39;</span><span class="p">);</span>
-<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;Cell B3&#39;</span><span class="p">);</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setComplexBlock</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">,</span> <span class="nv">$table</span><span class="p">);</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Cell B1'</span><span class="p">);</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Cell B2'</span><span class="p">);</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addCell</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'Cell B3'</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setComplexBlock</span><span class="p">(</span><span class="s1">'table'</span><span class="p">,</span> <span class="nv">$table</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="setchartvalue">setChartValue</h2>
 <p>Replace a variable by a chart.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$categories</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">);</span>
+<span class="nv">$categories</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">,</span> <span class="s1">'C'</span><span class="p">,</span> <span class="s1">'D'</span><span class="p">,</span> <span class="s1">'E'</span><span class="p">);</span>
 <span class="nv">$series1</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
-<span class="nv">$chart</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Chart</span><span class="p">(</span><span class="s1">&#39;doughnut&#39;</span><span class="p">,</span> <span class="nv">$categories</span><span class="p">,</span> <span class="nv">$series1</span><span class="p">);</span>
-<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setChartValue</span><span class="p">(</span><span class="s1">&#39;myChart&#39;</span><span class="p">,</span> <span class="nv">$chart</span><span class="p">);</span>
+<span class="nv">$chart</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Chart</span><span class="p">(</span><span class="s1">'doughnut'</span><span class="p">,</span> <span class="nv">$categories</span><span class="p">,</span> <span class="nv">$series1</span><span class="p">);</span>
+<span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">setChartValue</span><span class="p">(</span><span class="s1">'myChart'</span><span class="p">,</span> <span class="nv">$chart</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="save">save</h2>
 <p>Saves the loaded template within the current directory. Returns the file path.</p>
@@ -3277,7 +3277,7 @@ See <code>Sample_40_TemplateSetComplexValue.php</code> for examples.</p>
 <p>Saves a copy of the loaded template in the indicated path.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$pathToSave</span> <span class="o">=</span> <span class="s1">&#39;path/to/save/file.ext&#39;</span><span class="p">;</span>
+<span class="nv">$pathToSave</span> <span class="o">=</span> <span class="s1">'path/to/save/file.ext'</span><span class="p">;</span>
 <span class="nv">$templateProcessor</span><span class="o">-&gt;</span><span class="na">saveAs</span><span class="p">(</span><span class="nv">$pathToSave</span><span class="p">);</span>
 </code></pre></div>
 

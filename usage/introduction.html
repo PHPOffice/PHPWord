@@ -3208,13 +3208,13 @@ are provided in the <a href="https://github.com/PHPOffice/PHPWord/tree/master/sa
 <span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">();</span>
 <span class="c1">// Adding Text element to the Section having font styled by default...</span>
 <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span>
-    <span class="s1">&#39;&quot;Learn from yesterday, live for today, hope for tomorrow. &#39;</span>
-        <span class="o">.</span> <span class="s1">&#39;The important thing is not to stop questioning.&quot; &#39;</span>
-        <span class="o">.</span> <span class="s1">&#39;(Albert Einstein)&#39;</span>
+    <span class="s1">'"Learn from yesterday, live for today, hope for tomorrow. '</span>
+        <span class="o">.</span> <span class="s1">'The important thing is not to stop questioning." '</span>
+        <span class="o">.</span> <span class="s1">'(Albert Einstein)'</span>
 <span class="p">);</span>
 
 <span class="cm">/*</span>
-<span class="cm"> * Note: it&#39;s possible to customize font style of the Text element you add in three ways:</span>
+<span class="cm"> * Note: it's possible to customize font style of the Text element you add in three ways:</span>
 <span class="cm"> * - inline;</span>
 <span class="cm"> * - using named font style (new font style object will be implicitly created);</span>
 <span class="cm"> * - using explicitly created font style object.</span>
@@ -3222,47 +3222,47 @@ are provided in the <a href="https://github.com/PHPOffice/PHPWord/tree/master/sa
 
 <span class="c1">// Adding Text element with font customized inline...</span>
 <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span>
-    <span class="s1">&#39;&quot;Great achievement is usually born of great sacrifice, &#39;</span>
-        <span class="o">.</span> <span class="s1">&#39;and is never the result of selfishness.&quot; &#39;</span>
-        <span class="o">.</span> <span class="s1">&#39;(Napoleon Hill)&#39;</span><span class="p">,</span>
-    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tahoma&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="s1">'"Great achievement is usually born of great sacrifice, '</span>
+        <span class="o">.</span> <span class="s1">'and is never the result of selfishness." '</span>
+        <span class="o">.</span> <span class="s1">'(Napoleon Hill)'</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Tahoma'</span><span class="p">,</span> <span class="s1">'size'</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">)</span>
 <span class="p">);</span>
 
 <span class="c1">// Adding Text element with font customized using named font style...</span>
-<span class="nv">$fontStyleName</span> <span class="o">=</span> <span class="s1">&#39;oneUserDefinedStyle&#39;</span><span class="p">;</span>
+<span class="nv">$fontStyleName</span> <span class="o">=</span> <span class="s1">'oneUserDefinedStyle'</span><span class="p">;</span>
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addFontStyle</span><span class="p">(</span>
     <span class="nv">$fontStyleName</span><span class="p">,</span>
-    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tahoma&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;1B2232&#39;</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">)</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Tahoma'</span><span class="p">,</span> <span class="s1">'size'</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">'color'</span> <span class="o">=&gt;</span> <span class="s1">'1B2232'</span><span class="p">,</span> <span class="s1">'bold'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">)</span>
 <span class="p">);</span>
 <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span>
-    <span class="s1">&#39;&quot;The greatest accomplishment is not in never falling, &#39;</span>
-        <span class="o">.</span> <span class="s1">&#39;but in rising again after you fall.&quot; &#39;</span>
-        <span class="o">.</span> <span class="s1">&#39;(Vince Lombardi)&#39;</span><span class="p">,</span>
+    <span class="s1">'"The greatest accomplishment is not in never falling, '</span>
+        <span class="o">.</span> <span class="s1">'but in rising again after you fall." '</span>
+        <span class="o">.</span> <span class="s1">'(Vince Lombardi)'</span><span class="p">,</span>
     <span class="nv">$fontStyleName</span>
 <span class="p">);</span>
 
 <span class="c1">// Adding Text element with font customized using explicitly created font style object...</span>
 <span class="nv">$fontStyle</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\PhpOffice\PhpWord\Style\Font</span><span class="p">();</span>
 <span class="nv">$fontStyle</span><span class="o">-&gt;</span><span class="na">setBold</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
-<span class="nv">$fontStyle</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;Tahoma&#39;</span><span class="p">);</span>
+<span class="nv">$fontStyle</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">'Tahoma'</span><span class="p">);</span>
 <span class="nv">$fontStyle</span><span class="o">-&gt;</span><span class="na">setSize</span><span class="p">(</span><span class="mi">13</span><span class="p">);</span>
-<span class="nv">$myTextElement</span> <span class="o">=</span> <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;&quot;Believe you can and you\&#39;re halfway there.&quot; (Theodor Roosevelt)&#39;</span><span class="p">);</span>
+<span class="nv">$myTextElement</span> <span class="o">=</span> <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'"Believe you can and you\'re halfway there." (Theodor Roosevelt)'</span><span class="p">);</span>
 <span class="nv">$myTextElement</span><span class="o">-&gt;</span><span class="na">setFontStyle</span><span class="p">(</span><span class="nv">$fontStyle</span><span class="p">);</span>
 
 <span class="c1">// Saving the document as OOXML file...</span>
-<span class="nv">$objWriter</span> <span class="o">=</span> <span class="nx">\PhpOffice\PhpWord\IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$phpWord</span><span class="p">,</span> <span class="s1">&#39;Word2007&#39;</span><span class="p">);</span>
-<span class="nv">$objWriter</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;helloWorld.docx&#39;</span><span class="p">);</span>
+<span class="nv">$objWriter</span> <span class="o">=</span> <span class="nx">\PhpOffice\PhpWord\IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$phpWord</span><span class="p">,</span> <span class="s1">'Word2007'</span><span class="p">);</span>
+<span class="nv">$objWriter</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">'helloWorld.docx'</span><span class="p">);</span>
 
 <span class="c1">// Saving the document as ODF file...</span>
-<span class="nv">$objWriter</span> <span class="o">=</span> <span class="nx">\PhpOffice\PhpWord\IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$phpWord</span><span class="p">,</span> <span class="s1">&#39;ODText&#39;</span><span class="p">);</span>
-<span class="nv">$objWriter</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;helloWorld.odt&#39;</span><span class="p">);</span>
+<span class="nv">$objWriter</span> <span class="o">=</span> <span class="nx">\PhpOffice\PhpWord\IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$phpWord</span><span class="p">,</span> <span class="s1">'ODText'</span><span class="p">);</span>
+<span class="nv">$objWriter</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">'helloWorld.odt'</span><span class="p">);</span>
 
 <span class="c1">// Saving the document as HTML file...</span>
-<span class="nv">$objWriter</span> <span class="o">=</span> <span class="nx">\PhpOffice\PhpWord\IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$phpWord</span><span class="p">,</span> <span class="s1">&#39;HTML&#39;</span><span class="p">);</span>
-<span class="nv">$objWriter</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">&#39;helloWorld.html&#39;</span><span class="p">);</span>
+<span class="nv">$objWriter</span> <span class="o">=</span> <span class="nx">\PhpOffice\PhpWord\IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$phpWord</span><span class="p">,</span> <span class="s1">'HTML'</span><span class="p">);</span>
+<span class="nv">$objWriter</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">'helloWorld.html'</span><span class="p">);</span>
 
-<span class="cm">/* Note: we skip RTF, because it&#39;s not XML-based and requires a different example. */</span>
-<span class="cm">/* Note: we skip PDF, because &quot;HTML-to-PDF&quot; approach is used to create PDF documents. */</span>
+<span class="cm">/* Note: we skip RTF, because it's not XML-based and requires a different example. */</span>
+<span class="cm">/* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */</span>
 </code></pre></div>
 <h2 id="phpword-settings">PHPWord Settings</h2>
 <p>The <code>PhpOffice\PhpWord\Settings</code> class provides some options that will
@@ -3294,21 +3294,21 @@ To turn it on set <code>outputEscapingEnabled</code> option to <code>true</code>
 You can alter the default paper by using the following function:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nx">\PhpOffice\PhpWord\Settings</span><span class="o">::</span><span class="na">setDefaultPaper</span><span class="p">(</span><span class="s1">&#39;Letter&#39;</span><span class="p">);</span>
+<span class="nx">\PhpOffice\PhpWord\Settings</span><span class="o">::</span><span class="na">setDefaultPaper</span><span class="p">(</span><span class="s1">'Letter'</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="default-font">Default font</h3>
 <p>By default, every text appears in Arial 10 point in the color black (000000).
 You can alter the default font by using the following functions:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultFontName</span><span class="p">(</span><span class="s1">&#39;Times New Roman&#39;</span><span class="p">);</span>
-<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultFontColor</span><span class="p">(</span><span class="s1">&#39;FF0000&#39;</span><span class="p">);</span>
+<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultFontName</span><span class="p">(</span><span class="s1">'Times New Roman'</span><span class="p">);</span>
+<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultFontColor</span><span class="p">(</span><span class="s1">'FF0000'</span><span class="p">);</span>
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultFontSize</span><span class="p">(</span><span class="mi">12</span><span class="p">);</span>
 </code></pre></div>
 <p>Or you can specify Asian Font</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultAsianFontName</span><span class="p">(</span><span class="s1">&#39;標楷體&#39;</span><span class="p">);</span>
+<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">setDefaultAsianFontName</span><span class="p">(</span><span class="s1">'標楷體'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="document-settings">Document settings</h2>
 <p>Settings for the generated document can be set using <code>$phpWord-&gt;getSettings()</code></p>
@@ -3338,10 +3338,10 @@ You can alter the default font by using the following functions:</p>
 
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">getSettings</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setMirrorMargins</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">([</span>
-    <span class="s1">&#39;paperSize&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;A4&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;orientation&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;landscape&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;pageSizeW&#39;</span> <span class="o">=&gt;</span> <span class="nx">Converter</span><span class="o">::</span><span class="na">cmToTwip</span><span class="p">(</span><span class="mf">14.85</span><span class="p">),</span>
-    <span class="s1">&#39;pageSizeH&#39;</span> <span class="o">=&gt;</span> <span class="nx">Converter</span><span class="o">::</span><span class="na">cmToTwip</span><span class="p">(</span><span class="mi">21</span><span class="p">),</span>
+    <span class="s1">'paperSize'</span> <span class="o">=&gt;</span> <span class="s1">'A4'</span><span class="p">,</span>
+    <span class="s1">'orientation'</span> <span class="o">=&gt;</span> <span class="s1">'landscape'</span><span class="p">,</span>
+    <span class="s1">'pageSizeW'</span> <span class="o">=&gt;</span> <span class="nx">Converter</span><span class="o">::</span><span class="na">cmToTwip</span><span class="p">(</span><span class="mf">14.85</span><span class="p">),</span>
+    <span class="s1">'pageSizeH'</span> <span class="o">=&gt;</span> <span class="nx">Converter</span><span class="o">::</span><span class="na">cmToTwip</span><span class="p">(</span><span class="mi">21</span><span class="p">),</span>
 <span class="p">]);</span>
 </code></pre></div>
 </div>
@@ -3384,7 +3384,7 @@ For big documents this can slow down the opening of the document. You can hide t
 <p>The default symbol to represent a decimal figure is the <code>.</code> in english. In french you might want to change it to <code>,</code> for instance.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">getSettings</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setDecimalSymbol</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">);</span>
+<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">getSettings</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setDecimalSymbol</span><span class="p">(</span><span class="s1">','</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="document-language">Document Language</h3>
 <p>The default language of the document can be change with the following.</p>
@@ -3407,16 +3407,16 @@ name. Use the following functions:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$properties</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">getDocInfo</span><span class="p">();</span>
-<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setCreator</span><span class="p">(</span><span class="s1">&#39;My name&#39;</span><span class="p">);</span>
-<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setCompany</span><span class="p">(</span><span class="s1">&#39;My factory&#39;</span><span class="p">);</span>
-<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setTitle</span><span class="p">(</span><span class="s1">&#39;My title&#39;</span><span class="p">);</span>
-<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="s1">&#39;My description&#39;</span><span class="p">);</span>
-<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setCategory</span><span class="p">(</span><span class="s1">&#39;My category&#39;</span><span class="p">);</span>
-<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setLastModifiedBy</span><span class="p">(</span><span class="s1">&#39;My name&#39;</span><span class="p">);</span>
+<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setCreator</span><span class="p">(</span><span class="s1">'My name'</span><span class="p">);</span>
+<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setCompany</span><span class="p">(</span><span class="s1">'My factory'</span><span class="p">);</span>
+<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setTitle</span><span class="p">(</span><span class="s1">'My title'</span><span class="p">);</span>
+<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="s1">'My description'</span><span class="p">);</span>
+<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setCategory</span><span class="p">(</span><span class="s1">'My category'</span><span class="p">);</span>
+<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setLastModifiedBy</span><span class="p">(</span><span class="s1">'My name'</span><span class="p">);</span>
 <span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setCreated</span><span class="p">(</span><span class="nb">mktime</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">2014</span><span class="p">));</span>
 <span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setModified</span><span class="p">(</span><span class="nb">mktime</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">2014</span><span class="p">));</span>
-<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setSubject</span><span class="p">(</span><span class="s1">&#39;My subject&#39;</span><span class="p">);</span>
-<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setKeywords</span><span class="p">(</span><span class="s1">&#39;my, key, word&#39;</span><span class="p">);</span>
+<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setSubject</span><span class="p">(</span><span class="s1">'My subject'</span><span class="p">);</span>
+<span class="nv">$properties</span><span class="o">-&gt;</span><span class="na">setKeywords</span><span class="p">(</span><span class="s1">'my, key, word'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="measurement-units">Measurement units</h2>
 <p>The base length unit in Open Office XML is twip. Twip means "TWentieth
@@ -3426,8 +3426,8 @@ points to twip.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// Paragraph with 6 points space after</span>
-<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addParagraphStyle</span><span class="p">(</span><span class="s1">&#39;My Style&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s1">&#39;spaceAfter&#39;</span> <span class="o">=&gt;</span> <span class="nx">\PhpOffice\PhpWord\Shared\Converter</span><span class="o">::</span><span class="na">pointToTwip</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addParagraphStyle</span><span class="p">(</span><span class="s1">'My Style'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'spaceAfter'</span> <span class="o">=&gt;</span> <span class="nx">\PhpOffice\PhpWord\Shared\Converter</span><span class="o">::</span><span class="na">pointToTwip</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
 <span class="p">);</span>
 
 <span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">();</span>
@@ -3443,7 +3443,7 @@ points to twip.</p>
 
 <span class="nv">$documentProtection</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">getSettings</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getDocumentProtection</span><span class="p">();</span>
 <span class="nv">$documentProtection</span><span class="o">-&gt;</span><span class="na">setEditing</span><span class="p">(</span><span class="nx">DocProtect</span><span class="o">::</span><span class="na">READ_ONLY</span><span class="p">);</span>
-<span class="nv">$documentProtection</span><span class="o">-&gt;</span><span class="na">setPassword</span><span class="p">(</span><span class="s1">&#39;myPassword&#39;</span><span class="p">);</span>
+<span class="nv">$documentProtection</span><span class="o">-&gt;</span><span class="na">setPassword</span><span class="p">(</span><span class="s1">'myPassword'</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="automatically-recalculate-fields-on-open">Automatically Recalculate Fields on Open</h2>
 <p>To force an update of the fields present in the document, set updateFields to true</p>

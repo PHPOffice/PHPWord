@@ -2610,24 +2610,24 @@ Options which are not specifically defined can be added. Those must start with a
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// the $fieldText can be either a simple string</span>
-<span class="nv">$fieldText</span> <span class="o">=</span> <span class="s1">&#39;The index value&#39;</span><span class="p">;</span>
+<span class="nv">$fieldText</span> <span class="o">=</span> <span class="s1">'The index value'</span><span class="p">;</span>
 
-<span class="c1">// or a &#39;TextRun&#39;, to be able to format the text you want in the index</span>
+<span class="c1">// or a 'TextRun', to be able to format the text you want in the index</span>
 <span class="nv">$fieldText</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TextRun</span><span class="p">();</span>
-<span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;My &#39;</span><span class="p">);</span>
-<span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39;bold index&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;bold&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">]);</span>
-<span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">&#39; entry&#39;</span><span class="p">);</span>
-<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addField</span><span class="p">(</span><span class="s1">&#39;XE&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(),</span> <span class="k">array</span><span class="p">(),</span> <span class="nv">$fieldText</span><span class="p">);</span>
+<span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'My '</span><span class="p">);</span>
+<span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">'bold index'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'bold'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">]);</span>
+<span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addText</span><span class="p">(</span><span class="s1">' entry'</span><span class="p">);</span>
+<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addField</span><span class="p">(</span><span class="s1">'XE'</span><span class="p">,</span> <span class="k">array</span><span class="p">(),</span> <span class="k">array</span><span class="p">(),</span> <span class="nv">$fieldText</span><span class="p">);</span>
 
 <span class="c1">// this actually adds the index</span>
-<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addField</span><span class="p">(</span><span class="s1">&#39;INDEX&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;\\e &quot;   &quot; \\h &quot;A&quot; \\c &quot;3&quot;&#39;</span><span class="p">),</span> <span class="s1">&#39;right click to update index&#39;</span><span class="p">);</span>
+<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addField</span><span class="p">(</span><span class="s1">'INDEX'</span><span class="p">,</span> <span class="k">array</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span><span class="s1">'\\e "   " \\h "A" \\c "3"'</span><span class="p">),</span> <span class="s1">'right click to update index'</span><span class="p">);</span>
 
 <span class="c1">// Adding reference to a bookmark</span>
-<span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addField</span><span class="p">(</span><span class="s1">&#39;REF&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;bookmark&#39;</span>
+<span class="nv">$fieldText</span><span class="o">-&gt;</span><span class="na">addField</span><span class="p">(</span><span class="s1">'REF'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'bookmark'</span>
 <span class="p">],</span> <span class="p">[</span>
-    <span class="s1">&#39;InsertParagraphNumberRelativeContext&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;CreateHyperLink&#39;</span><span class="p">,</span>
+    <span class="s1">'InsertParagraphNumberRelativeContext'</span><span class="p">,</span>
+    <span class="s1">'CreateHyperLink'</span><span class="p">,</span>
 <span class="p">]);</span>
 </code></pre></div>
 

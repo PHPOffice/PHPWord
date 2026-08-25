@@ -2819,9 +2819,9 @@
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$sectionStyle</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s1">&#39;orientation&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;landscape&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;marginTop&#39;</span> <span class="o">=&gt;</span> <span class="mi">600</span><span class="p">,</span>
-    <span class="s1">&#39;colsNum&#39;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s1">'orientation'</span> <span class="o">=&gt;</span> <span class="s1">'landscape'</span><span class="p">,</span>
+    <span class="s1">'marginTop'</span> <span class="o">=&gt;</span> <span class="mi">600</span><span class="p">,</span>
+    <span class="s1">'colsNum'</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span>
 <span class="p">);</span>
 </code></pre></div>
 <h3 id="page-number">Page number</h3>
@@ -2830,7 +2830,7 @@ style of the section.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// Method 1</span>
-<span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;pageNumberingStart&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">));</span>
+<span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'pageNumberingStart'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">));</span>
 
 <span class="c1">// Method 2</span>
 <span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">();</span>
@@ -2842,11 +2842,11 @@ using the <code>breakType</code> and <code>colsNum</code> style of the section.<
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// Method 1</span>
-<span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;breakType&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;continuous&#39;</span><span class="p">,</span> <span class="s1">&#39;colsNum&#39;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">));</span>
+<span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'breakType'</span> <span class="o">=&gt;</span> <span class="s1">'continuous'</span><span class="p">,</span> <span class="s1">'colsNum'</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">));</span>
 
 <span class="c1">// Method 2</span>
 <span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">();</span>
-<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">getStyle</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setBreakType</span><span class="p">(</span><span class="s1">&#39;continuous&#39;</span><span class="p">);</span>
+<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">getStyle</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setBreakType</span><span class="p">(</span><span class="s1">'continuous'</span><span class="p">);</span>
 <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">getStyle</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setColsNum</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="line-numbering">Line numbering</h3>
@@ -2855,7 +2855,7 @@ style of the section.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// Method 1</span>
-<span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;lineNumbering&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">()));</span>
+<span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'lineNumbering'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">()));</span>
 
 <span class="c1">// Method 2</span>
 <span class="nv">$section</span> <span class="o">=</span> <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">addSection</span><span class="p">();</span>
