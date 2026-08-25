@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWord\Writer\ODText\Part;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Field;
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
@@ -48,7 +49,7 @@ class Content extends AbstractPart
      *
      * @var array
      */
-    private $autoStyles = ['Section' => [], 'Image' => [], 'Table' => []];
+    private $autoStyles = ['Section' => [], 'Image' => [], 'Table' => [], 'Row' => []];
 
     private $imageParagraphStyles = [];
 
@@ -295,6 +296,15 @@ class Content extends AbstractPart
                 $style->setStyleName($element->getElementId());
                 $style->setColumnWidths($element->findFirstDefinedCellWidths());
                 $this->autoStyles['Table'][] = $style;
+                foreach ($element->getRows() as $row) {
+                    if ($row instanceof RowElement && $row->getHeight() !== null) {
+                        if (!$row->getElementId()) {
+                            $row->setElementId();
+                        }
+                        $row->getStyle()->setStyleName($row->getElementId());
+                        $this->autoStyles['Row'][] = $row;
+                    }
+                }
             }
         }
     }

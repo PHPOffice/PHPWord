@@ -78,6 +78,9 @@ class Table extends AbstractElement
     private function writeRow(XMLWriter $xmlWriter, RowElement $row): void
     {
         $xmlWriter->startElement('table:table-row');
+        if ($row->getHeight() !== null) {
+            $xmlWriter->writeAttribute('table:style-name', $row->getElementId());
+        }
         /** @var RowElement $row Type hint */
         foreach ($row->getCells() as $cell) {
             $xmlWriter->startElement('table:table-cell');
