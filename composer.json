@@ -108,7 +108,6 @@
     "require": {
         "php": "^7.1|^8.0",
         "ext-dom": "*",
-        "ext-gd": "*",  
         "ext-zip": "*",
         "ext-json": "*",
         "ext-xml": "*",
@@ -127,6 +126,7 @@
         "tecnickcom/tcpdf": "^6.5"
     },
     "suggest": {
+        "ext-gd": "Allows adding images from remote HTTP URLs and GD-generated images",
         "ext-xmlwriter": "Allows writing OOXML and ODF",
         "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
         "dompdf/dompdf": "Allows writing PDF"
