@@ -103,6 +103,11 @@ You can pass an optional parameter to specify where the header/footer should be 
 -  ``Footer::FIRST`` each first page of the section
 -  ``Footer::EVEN`` each even page of the section. Will only be applied if the evenAndOddHeaders is set to true in phpWord->settings
 
+The ODText writer preserves these variants in the ODF master page: default
+containers use `style:header` or `style:footer`, first-page containers use
+`style:header-first` or `style:footer-first`, and even-page containers use
+`style:header-left` or `style:footer-left`.
+
 To change the evenAndOddHeaders use the ``getSettings`` method to return the Settings object, and then call the ``setEvenAndOddHeaders`` method:
 
 ``` php

@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
+use PhpOffice\PhpWord\Element\Footer;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\XMLWriter;
@@ -261,39 +262,38 @@ class Styles extends AbstractPart
             $xmlWriter->startElement('style:master-page');
             $xmlWriter->writeAttribute('style:name', "Standard$iplus1");
             $xmlWriter->writeAttribute('style:page-layout-name', "Mpm$iplus1");
-            // Multiple headers and footers probably not supported,
-            //   and, even if they are, I'm not sure how,
-            //   so quit after generating one.
             foreach ($sections[$i]->getHeaders() as $hdr) {
-                $xmlWriter->startElement('style:header');
-                foreach ($hdr->getElements() as $elem) {
-                    $cl1 = get_class($elem);
-                    $cl2 = str_replace('\\Element\\', '\\Writer\\ODText\\Element\\', $cl1);
-                    if (class_exists($cl2)) {
-                        $wtr = new $cl2($xmlWriter, $elem);
-                        $wtr->write();
-                    }
-                }
-                $xmlWriter->endElement(); // style:header
-
-                break;
+                $this->writeHeaderFooter($xmlWriter, $hdr, true);
             }
             foreach ($sections[$i]->getFooters() as $hdr) {
-                $xmlWriter->startElement('style:footer');
-                foreach ($hdr->getElements() as $elem) {
-                    $cl1 = get_class($elem);
-                    $cl2 = str_replace('\\Element\\', '\\Writer\\ODText\\Element\\', $cl1);
-                    if (class_exists($cl2)) {
-                        $wtr = new $cl2($xmlWriter, $elem);
-                        $wtr->write();
-                    }
-                }
-                $xmlWriter->endElement(); // style:footer
-
-                break;
+                $this->writeHeaderFooter($xmlWriter, $hdr, false);
             }
             $xmlWriter->endElement(); // style:master-page
         }
         $xmlWriter->endElement(); // office:master-styles
+    }
+
+    private function writeHeaderFooter(XMLWriter $xmlWriter, Footer $container, bool $header): void
+    {
+        $type = $container->getType();
+        $variants = [
+            'default' => $header ? 'style:header' : 'style:footer',
+            'first' => $header ? 'style:header-first' : 'style:footer-first',
+            'even' => $header ? 'style:header-left' : 'style:footer-left',
+        ];
+        $elementName = $variants[$type] ?? $variants['default'];
+
+        $xmlWriter->startElement($elementName);
+        foreach ($container->getElements() as $element) {
+            if (!$element instanceof \PhpOffice\PhpWord\Element\AbstractElement) {
+                continue;
+            }
+            $writerClass = str_replace('\\Element\\', '\\Writer\\ODText\\Element\\', get_class($element));
+            if (class_exists($writerClass)) {
+                $writer = new $writerClass($xmlWriter, $element);
+                $writer->write();
+            }
+        }
+        $xmlWriter->endElement();
     }
 }
