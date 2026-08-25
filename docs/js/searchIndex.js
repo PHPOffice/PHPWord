@@ -14171,6 +14171,21 @@ Search.appendIndex(
             "summary": "Get\u0020all\u0020styles\u0020of\u0020each\u0020elements\u0020in\u0020container\u0020recursively.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_getContainerStyle"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AhasCellStyle\u0028\u0029",
+            "name": "hasCellStyle",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_hasCellStyle"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AapplyTableStyleToCell\u0028\u0029",
+            "name": "applyTableStyleToCell",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_applyTableStyleToCell"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AsetCellBorderIfUnset\u0028\u0029",
+            "name": "setCellBorderIfUnset",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_setCellBorderIfUnset"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AgetElementStyle\u0028\u0029",
             "name": "getElementStyle",
             "summary": "Get\u0020style\u0020of\u0020individual\u0020element.",
@@ -14280,6 +14295,26 @@ Search.appendIndex(
             "name": "AbstractStyle",
             "summary": "Style\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-AbstractStyle.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Cell",
+            "name": "Cell",
+            "summary": "Table\u0020cell\u0020style\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Cell.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Cell\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020style.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Cell.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Cell\u003A\u003AwriteBorder\u0028\u0029",
+            "name": "writeBorder",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Cell.html#method_writeBorder"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Cell\u003A\u003AconvertBorderStyle\u0028\u0029",
+            "name": "convertBorderStyle",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Cell.html#method_convertBorderStyle"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Font",
             "name": "Font",

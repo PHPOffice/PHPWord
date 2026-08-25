@@ -2638,6 +2638,13 @@ exact height uses <code>style:row-height</code>; an at-least height uses
 <li><code>vMerge</code>. <em>restart</em> or <em>continue</em>.</li>
 <li><code>width</code>. Cell width in <em>twip</em>.</li>
 </ul>
+<p>The ODText writer serializes cell borders as native ODF table-cell styles. Each
+configured side is written independently, so asymmetric cell borders and
+different border definitions on cells in the same row are preserved.</p>
+<p>The ODText writer also serializes table and cell <code>bgColor</code> values as native
+ODF background colors. Cell padding, vertical alignment, text direction,
+wrapping, column spans, table alignment, and table width are mapped when the
+corresponding PHPWord style options are present.</p>
 
 
 
