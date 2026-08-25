@@ -166,7 +166,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     // ODT Table with style name not yet implemented (Word test defective)
     // ODT Shape Elements not yet implemented
     // ODT Chart Elements not yet implemented
-    // ODT adding Field to Section not yet implemented
     // ODT List not yet implemented
     // ODT Macro Button not yet implemented
     // ODT Form Field not yet implemented
