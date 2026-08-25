@@ -85,6 +85,12 @@ class Table extends AbstractElement
         foreach ($row->getCells() as $cell) {
             $xmlWriter->startElement('table:table-cell');
             $xmlWriter->writeAttribute('office:value-type', 'string');
+            if ($cell->getStyle()->getStyleName()) {
+                $xmlWriter->writeAttribute('table:style-name', $cell->getStyle()->getStyleName());
+            }
+            if ($cell->getStyle()->getGridSpan() !== null) {
+                $xmlWriter->writeAttribute('table:number-columns-spanned', $cell->getStyle()->getGridSpan());
+            }
 
             $containerWriter = new Container($xmlWriter, $cell);
             $containerWriter->write();

@@ -51,3 +51,12 @@ Available Cell style options:
 - ``valign``. Vertical alignment, *top*, *center*, *both*, *bottom*.
 - ``vMerge``. *restart* or *continue*.
 - ``width``. Cell width in *twip*.
+
+The ODText writer serializes cell borders as native ODF table-cell styles. Each
+configured side is written independently, so asymmetric cell borders and
+different border definitions on cells in the same row are preserved.
+
+The ODText writer also serializes table and cell ``bgColor`` values as native
+ODF background colors. Cell padding, vertical alignment, text direction,
+wrapping, column spans, table alignment, and table width are mapped when the
+corresponding PHPWord style options are present.

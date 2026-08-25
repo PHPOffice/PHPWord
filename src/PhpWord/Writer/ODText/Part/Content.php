@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\Cell as CellElement;
 use PhpOffice\PhpWord\Element\Field;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Row as RowElement;
@@ -29,6 +30,7 @@ use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Cell as CellStyle;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
@@ -49,7 +51,7 @@ class Content extends AbstractPart
      *
      * @var array
      */
-    private $autoStyles = ['Section' => [], 'Image' => [], 'Table' => [], 'Row' => []];
+    private $autoStyles = ['Section' => [], 'Image' => [], 'Table' => [], 'Row' => [], 'Cell' => []];
 
     private $imageParagraphStyles = [];
 
@@ -296,7 +298,9 @@ class Content extends AbstractPart
                 $style->setStyleName($element->getElementId());
                 $style->setColumnWidths($element->findFirstDefinedCellWidths());
                 $this->autoStyles['Table'][] = $style;
-                foreach ($element->getRows() as $row) {
+                $rows = $element->getRows();
+                $rowCount = count($rows);
+                foreach ($rows as $rowIndex => $row) {
                     if ($row instanceof RowElement && $row->getHeight() !== null) {
                         if (!$row->getElementId()) {
                             $row->setElementId();
@@ -304,9 +308,85 @@ class Content extends AbstractPart
                         $row->getStyle()->setStyleName($row->getElementId());
                         $this->autoStyles['Row'][] = $row;
                     }
+                    $cells = $row->getCells();
+                    $cellCount = count($cells);
+                    foreach ($cells as $cellIndex => $cell) {
+                        if ($cell instanceof CellElement) {
+                            if ($style instanceof TableStyle) {
+                                $this->applyTableStyleToCell($cell, $style, $rowIndex, $cellIndex, $rowCount, $cellCount);
+                            }
+                        }
+                        if ($cell instanceof CellElement && $this->hasCellStyle($cell)) {
+                            if (!$cell->getElementId()) {
+                                $cell->setElementId();
+                            }
+                            $cell->getStyle()->setStyleName($cell->getElementId());
+                            $this->autoStyles['Cell'][] = $cell->getStyle();
+                        }
+                        if ($cell instanceof CellElement) {
+                            $this->getContainerStyle($cell, $paragraphStyleCount, $fontStyleCount);
+                        }
+                    }
                 }
             }
         }
+    }
+
+    private function hasCellStyle(CellElement $cell): bool
+    {
+        $style = $cell->getStyle();
+
+        return $style !== null && (
+            $style->hasBorder()
+            || $style->getBgColor() !== null
+            || $style->getVAlign() !== null
+            || $style->getTextDirection() !== null
+            || $style->getPaddingTop() !== null
+            || $style->getPaddingBottom() !== null
+            || $style->getPaddingLeft() !== null
+            || $style->getPaddingRight() !== null
+            || $style->getNoWrap() === false
+        );
+    }
+
+    private function applyTableStyleToCell(CellElement $cell, TableStyle $tableStyle, int $rowIndex, int $cellIndex, int $rowCount, int $cellCount): void
+    {
+        $style = $cell->getStyle();
+        if ($style === null) {
+            return;
+        }
+
+        $this->setCellBorderIfUnset($style, 'Top', $rowIndex === 0 ? $tableStyle->getBorderTopSize() : $tableStyle->getBorderInsideHSize(), $rowIndex === 0 ? $tableStyle->getBorderTopColor() : $tableStyle->getBorderInsideHColor());
+        $this->setCellBorderIfUnset($style, 'Bottom', $rowIndex === $rowCount - 1 ? $tableStyle->getBorderBottomSize() : null, $tableStyle->getBorderBottomColor());
+        $this->setCellBorderIfUnset($style, 'Left', $cellIndex === 0 ? $tableStyle->getBorderLeftSize() : $tableStyle->getBorderInsideVSize(), $cellIndex === 0 ? $tableStyle->getBorderLeftColor() : $tableStyle->getBorderInsideVColor());
+        $this->setCellBorderIfUnset($style, 'Right', $cellIndex === $cellCount - 1 ? $tableStyle->getBorderRightSize() : null, $tableStyle->getBorderRightColor());
+
+        if ($style->getPaddingTop() === null && $tableStyle->getCellMarginTop() !== null) {
+            $style->setPaddingTop($tableStyle->getCellMarginTop());
+        }
+        if ($style->getPaddingBottom() === null && $tableStyle->getCellMarginBottom() !== null) {
+            $style->setPaddingBottom($tableStyle->getCellMarginBottom());
+        }
+        if ($style->getPaddingLeft() === null && $tableStyle->getCellMarginLeft() !== null) {
+            $style->setPaddingLeft($tableStyle->getCellMarginLeft());
+        }
+        if ($style->getPaddingRight() === null && $tableStyle->getCellMarginRight() !== null) {
+            $style->setPaddingRight($tableStyle->getCellMarginRight());
+        }
+    }
+
+    /**
+     * @param null|float|int $size
+     */
+    private function setCellBorderIfUnset(CellStyle $style, string $side, $size, ?string $color): void
+    {
+        $getSize = 'getBorder' . $side . 'Size';
+        if ($style->$getSize() !== null || $size === null) {
+            return;
+        }
+
+        $style->{'setBorder' . $side . 'Size'}($size);
+        $style->{'setBorder' . $side . 'Color'}($color);
     }
 
     /**
