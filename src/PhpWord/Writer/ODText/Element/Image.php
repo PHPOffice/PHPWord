@@ -51,6 +51,7 @@ class Image extends AbstractElement
             $xmlWriter->writeAttribute('text:style-name', 'IM' . $mediaIndex);
         }
 
+        $this->writeCommentRangeStart();
         $xmlWriter->startElement('draw:frame');
         $xmlWriter->writeAttribute('draw:style-name', 'fr' . $mediaIndex);
         $xmlWriter->writeAttributeIf($this->withoutP, 'draw:text-style-name', 'IM' . $mediaIndex);
@@ -68,6 +69,7 @@ class Image extends AbstractElement
         $xmlWriter->endElement(); // draw:image
 
         $xmlWriter->endElement(); // draw:frame
+        $this->writeCommentRangeEnd();
 
         if (!$this->withoutP) {
             $xmlWriter->endElement(); // text:p

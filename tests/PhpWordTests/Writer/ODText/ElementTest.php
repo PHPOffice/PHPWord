@@ -66,7 +66,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     // ODT Macro Button not yet implemented
     // ODT Form Field not yet implemented
     // ODT SDT not yet implemented
-    // ODT Comment not yet implemented
     // ODT Track Changes implemented, possibly not correctly
     // ODT List Item not yet implemented
 
@@ -92,6 +91,140 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = "$p2t/text:p[3]/text:a";
         self::assertTrue($doc->elementExists($element));
         self::assertEquals("#$intlink", $doc->getElementAttribute($element, 'xlink:href'));
+    }
+
+    /**
+     * Test comments as native ODF annotations.
+     */
+    public function testCommentElement(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $comment = new \PhpOffice\PhpWord\Element\Comment('Ada', new DateTime('2024-01-02 03:04:05 UTC'), 'AD');
+        $comment->addText('Review this', ['bold' => true]);
+        $phpWord->addComment($comment);
+        $text = $section->addText('This text');
+        $text->setCommentRangeStart($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[2]';
+        $annotation = $path . '/office:annotation';
+
+        self::assertTrue($doc->elementExists($annotation));
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($annotation, 'office:name'));
+        self::assertSame('Ada', $doc->getElement($annotation . '/dc:creator')->nodeValue);
+        self::assertSame('2024-01-02T03:04:05Z', $doc->getElement($annotation . '/dc:date')->nodeValue);
+        self::assertSame('Review this', $doc->getElement($annotation . '/text:p/text:span')->nodeValue);
+        self::assertTrue($doc->elementExists($path . '/office:annotation-end'));
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation-end', 'office:name'));
+    }
+
+    /**
+     * Test explicit comment ranges and multiple comments on one element.
+     */
+    public function testCommentRangesAndMultipleComments(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $comment = new \PhpOffice\PhpWord\Element\Comment('Ada');
+        $comment->addText('Across two runs');
+        $secondComment = new \PhpOffice\PhpWord\Element\Comment('Grace');
+        $secondComment->addText('Only the first run');
+        $phpWord->addComment($comment);
+        $phpWord->addComment($secondComment);
+        $run = $section->addTextRun();
+        $first = $run->addText('First');
+        $last = $run->addText(' last');
+        $first->setCommentRangeStart($comment);
+        $first->setCommentRangeStart($secondComment);
+        $last->setCommentRangeEnd($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[2]';
+        $annotations = $path . '/office:annotation';
+        self::assertTrue($doc->elementExists($annotations . '[1]'));
+        self::assertTrue($doc->elementExists($annotations . '[2]'));
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($annotations . '[1]', 'office:name'));
+        self::assertSame($secondComment->getElementId(), $doc->getElementAttribute($annotations . '[2]', 'office:name'));
+        self::assertSame($secondComment->getElementId(), $doc->getElementAttribute($path . '/office:annotation-end[1]', 'office:name'));
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation-end[2]', 'office:name'));
+    }
+
+    /**
+     * Test comments on image elements.
+     */
+    public function testCommentOnImageElement(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $comment = new \PhpOffice\PhpWord\Element\Comment('Ada');
+        $phpWord->addComment($comment);
+        $image = $section->addImage(__DIR__ . '/../../_files/images/earth.jpg');
+        $image->setCommentRangeStart($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[2]';
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation', 'office:name'));
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation-end', 'office:name'));
+    }
+
+    /**
+     * Test comments on link elements.
+     */
+    public function testCommentOnLinkElement(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $comment = new \PhpOffice\PhpWord\Element\Comment('Ada');
+        $phpWord->addComment($comment);
+        $link = $section->addLink('https://example.com', 'Example');
+        $link->setCommentRangeStart($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[2]';
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation', 'office:name'));
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation-end', 'office:name'));
+    }
+
+    /**
+     * Test comments on ruby elements.
+     */
+    public function testCommentOnRubyElement(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $comment = new \PhpOffice\PhpWord\Element\Comment('Ada');
+        $phpWord->addComment($comment);
+        $baseTextRun = new TextRun(null);
+        $baseTextRun->addText('私');
+        $rubyTextRun = new TextRun(null);
+        $rubyTextRun->addText('わたし');
+        $ruby = $section->addRuby($baseTextRun, $rubyTextRun, new RubyProperties());
+        $ruby->setCommentRangeStart($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[2]';
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation', 'office:name'));
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation-end', 'office:name'));
+    }
+
+    /**
+     * Test comments on title elements.
+     */
+    public function testCommentOnTitleElement(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addTitleStyle(1, []);
+        $section = $phpWord->addSection();
+        $comment = new \PhpOffice\PhpWord\Element\Comment('Ada');
+        $phpWord->addComment($comment);
+        $title = $section->addTitle('Commented title', 1);
+        $title->setCommentRangeStart($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $path = '/office:document-content/office:body/office:text/text:section/text:h[1]/text:span';
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation', 'office:name'));
+        self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation-end', 'office:name'));
     }
 
     /**

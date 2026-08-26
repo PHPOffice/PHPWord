@@ -53,6 +53,7 @@ class Title extends AbstractElement
         } else {
             $xmlWriter->writeAttribute('text:style-name', 'Title');
         }
+        $this->writeCommentRangeStart();
         $text = $element->getText();
         if (is_string($text)) {
             $this->writeText($text);
@@ -61,6 +62,7 @@ class Title extends AbstractElement
             $containerWriter = new Container($xmlWriter, $text);
             $containerWriter->write();
         }
+        $this->writeCommentRangeEnd();
         $xmlWriter->endElement(); // text:span
         $xmlWriter->endElement(); // text:h
     }
