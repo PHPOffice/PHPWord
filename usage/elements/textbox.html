@@ -2587,7 +2587,20 @@
 
 
 <h1 id="textbox">TextBox</h1>
-<p>To Be Completed... </p>
+<p>The ODText writer serializes text boxes as native ODF drawing frames. The
+frame preserves supported dimensions, background and border colors, inner
+margins, and rich text content:</p>
+<div class="highlight"><pre><span></span><code><span class="x">$textBox = $section-&gt;addTextBox([</span>
+<span class="x">    'width' =&gt; 400,</span>
+<span class="x">    'height' =&gt; 150,</span>
+<span class="x">    'bgColor' =&gt; '#eeeeee',</span>
+<span class="x">    'borderSize' =&gt; 1,</span>
+<span class="x">    'borderColor' =&gt; '#333333',</span>
+<span class="x">]);</span>
+<span class="x">$textBox-&gt;addText('Text box content.');</span>
+</code></pre></div>
+<p>The generated ODF uses <code>draw:frame</code> with a nested <code>draw:text-box</code>. Positioning
+options that have no direct standard ODF equivalent are not approximated.</p>
 
 
 

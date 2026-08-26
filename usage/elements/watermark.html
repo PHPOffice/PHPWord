@@ -2596,6 +2596,10 @@ header reference. After creating a header, you can use the
 <span class="nv">$header</span> <span class="o">=</span> <span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addHeader</span><span class="p">();</span>
 <span class="nv">$header</span><span class="o">-&gt;</span><span class="na">addWatermark</span><span class="p">(</span><span class="s1">'resources/_earth.jpg'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'marginTop'</span> <span class="o">=&gt;</span> <span class="mi">200</span><span class="p">,</span> <span class="s1">'marginLeft'</span> <span class="o">=&gt;</span> <span class="mi">55</span><span class="p">));</span>
 </code></pre></div>
+<p>The ODText writer preserves the watermark image in the section's ODF master
+page header as a page-anchored drawing frame, including its size and margins.
+ODF master-page headers provide the native background-like placement; exact
+WordprocessingML layering semantics are not portable across ODF consumers.</p>
 
 
 

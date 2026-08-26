@@ -14046,6 +14046,16 @@ Search.appendIndex(
             "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Ruby.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Shape",
+            "name": "Shape",
+            "summary": "Basic\u0020ODF\u0020shape\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Shape.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Shape\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Shape.html#method_write"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Table",
             "name": "Table",
             "summary": "Table\u0020element\u0020writer.",
@@ -14080,6 +14090,16 @@ Search.appendIndex(
             "name": "writeChangeInsertion",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Text.html#method_writeChangeInsertion"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\TextBox",
+            "name": "TextBox",
+            "summary": "ODF\u0020text\u0020box\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-TextBox.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\TextBox\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-TextBox.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\TextBreak",
             "name": "TextBreak",
@@ -14341,6 +14361,21 @@ Search.appendIndex(
             "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Font.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Graphic",
+            "name": "Graphic",
+            "summary": "Shared\u0020ODF\u0020graphic\u0020property\u0020helpers.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Graphic.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Graphic\u003A\u003AwriteFrameProperties\u0028\u0029",
+            "name": "writeFrameProperties",
+            "summary": "Write\u0020the\u0020ODF\u0020geometry\u0020for\u0020a\u0020frame\u002Dlike\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Graphic.html#method_writeFrameProperties"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Graphic\u003A\u003AwriteFillAndStroke\u0028\u0029",
+            "name": "writeFillAndStroke",
+            "summary": "Write\u0020standard\u0020ODF\u0020fill\u0020and\u0020stroke\u0020properties.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Graphic.html#method_writeFillAndStroke"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Image",
             "name": "Image",
             "summary": "Image\u0020style\u0020writer.",
@@ -14406,6 +14441,16 @@ Search.appendIndex(
             "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Section.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Shape",
+            "name": "Shape",
+            "summary": "Shape\u0020graphic\u0020style\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Shape.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Shape\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020style.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Shape.html#method_write"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Table",
             "name": "Table",
             "summary": "Table\u0020style\u0020writer.",
@@ -14415,6 +14460,16 @@ Search.appendIndex(
             "name": "write",
             "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Table.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\TextBox",
+            "name": "TextBox",
+            "summary": "Text\u0020box\u0020graphic\u0020style\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-TextBox.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\TextBox\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020style.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-TextBox.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText",
             "name": "ODText",
