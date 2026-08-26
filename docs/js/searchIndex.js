@@ -13936,6 +13936,21 @@ Search.appendIndex(
             "summary": "Abstract\u0020element\u0020writer.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-AbstractElement.html"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\AbstractElement\u003A\u003AwriteCommentRangeStart\u0028\u0029",
+            "name": "writeCommentRangeStart",
+            "summary": "Writes\u0020the\u0020w\u003AcommentRangeStart\u0020DOM\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-AbstractElement.html#method_writeCommentRangeStart"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\AbstractElement\u003A\u003AwriteCommentRangeEnd\u0028\u0029",
+            "name": "writeCommentRangeEnd",
+            "summary": "Writes\u0020the\u0020w\u003AcommentRangeEnd\u0020DOM\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-AbstractElement.html#method_writeCommentRangeEnd"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\AbstractElement\u003A\u003AwriteCommentRangeEndElement\u0028\u0029",
+            "name": "writeCommentRangeEndElement",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-AbstractElement.html#method_writeCommentRangeEndElement"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\AbstractElement\u003A\u003AreplaceTabs\u0028\u0029",
             "name": "replaceTabs",
             "summary": "",
