@@ -197,6 +197,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     // ODT List not yet implemented
     // ODT Macro Button not yet implemented
     // ODT Form Field not yet implemented
+    // ODT SDT not yet implemented
     // ODT Track Changes implemented, possibly not correctly
     // ODT List Item not yet implemented
 
