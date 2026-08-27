@@ -20,7 +20,9 @@ namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Cell as CellElement;
+use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Element\Field;
+use PhpOffice\PhpWord\Element\FormField;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Shape;
@@ -85,6 +87,12 @@ class Content extends AbstractPart
         // Body
         $xmlWriter->startElement('office:body');
         $xmlWriter->startElement('office:text');
+
+        $formControls = [];
+        foreach ($phpWord->getSections() as $section) {
+            $this->collectFormControls($section, $formControls);
+        }
+        $this->writeForms($xmlWriter, $formControls);
 
         // Tracked changes declarations
         $trackedChanges = [];
@@ -518,5 +526,102 @@ class Content extends AbstractPart
                 $this->collectTrackedChanges($element, $trackedChanges);
             }
         }
+    }
+
+    /**
+     * Collect form controls from the document containers.
+     *
+     * @param array<int, CheckBox|FormField> $controls
+     */
+    private function collectFormControls(AbstractContainer $container, array &$controls): void
+    {
+        foreach ($container->getElements() as $element) {
+            if ($element instanceof CheckBox || $element instanceof FormField) {
+                if (!$element->getElementId()) {
+                    $element->setElementId();
+                }
+                $controls[] = $element;
+            }
+            if ($element instanceof AbstractContainer) {
+                $this->collectFormControls($element, $controls);
+            }
+        }
+    }
+
+    /**
+     * Write the document-level form controls referenced by draw:control.
+     *
+     * @param array<int, CheckBox|FormField> $controls
+     */
+    private function writeForms(XMLWriter $xmlWriter, array $controls): void
+    {
+        if ($controls === []) {
+            return;
+        }
+
+        $xmlWriter->startElement('office:forms');
+        $xmlWriter->startElement('form:form');
+        $xmlWriter->writeAttribute('form:name', 'Standard');
+
+        foreach ($controls as $control) {
+            $id = 'control-' . $control->getElementId();
+            $name = $control->getName();
+            $name = $name ?: (($control instanceof CheckBox ? 'checkbox' : $control->getType()) . $id);
+
+            if ($control instanceof CheckBox) {
+                $xmlWriter->startElement('form:checkbox');
+                $xmlWriter->writeAttribute('xml:id', $id);
+                $xmlWriter->writeAttribute('form:name', $name);
+                $xmlWriter->writeAttribute('form:label', (string) $control->getText());
+                $xmlWriter->writeAttribute('form:current-state', 'unchecked');
+                $xmlWriter->endElement();
+
+                continue;
+            }
+
+            switch ($control->getType()) {
+                case 'textinput':
+                    $xmlWriter->startElement('form:text');
+                    $xmlWriter->writeAttribute('xml:id', $id);
+                    $xmlWriter->writeAttribute('form:name', $name);
+                    if ($control->getDefault() !== null) {
+                        $xmlWriter->writeAttribute('form:value', (string) $control->getDefault());
+                    }
+                    if ($control->getValue() !== null) {
+                        $xmlWriter->writeAttribute('form:current-value', (string) $control->getValue());
+                    }
+                    $xmlWriter->endElement();
+
+                    break;
+                case 'checkbox':
+                    $xmlWriter->startElement('form:checkbox');
+                    $xmlWriter->writeAttribute('xml:id', $id);
+                    $xmlWriter->writeAttribute('form:name', $name);
+                    $state = $control->getValue() ?? $control->getDefault();
+                    $xmlWriter->writeAttribute('form:current-state', $state ? 'checked' : 'unchecked');
+                    $xmlWriter->endElement();
+
+                    break;
+                case 'dropdown':
+                    $xmlWriter->startElement('form:listbox');
+                    $xmlWriter->writeAttribute('xml:id', $id);
+                    $xmlWriter->writeAttribute('form:name', $name);
+                    $selected = $control->getValue() ?? $control->getDefault();
+                    foreach ($control->getEntries() as $index => $entry) {
+                        $xmlWriter->startElement('form:option');
+                        $xmlWriter->writeAttribute('form:label', (string) $entry);
+                        $xmlWriter->writeAttribute('form:value', (string) $entry);
+                        $xmlWriter->writeAttributeIf((int) $selected === (int) $index, 'form:current-selected', 'true');
+                        $xmlWriter->text((string) $entry);
+                        $xmlWriter->endElement();
+                    }
+                    $xmlWriter->endElement();
+
+                    break;
+            }
+        }
+
+        $xmlWriter->endElement(); // form:form
+        $xmlWriter->endElement(); // office:forms
     }
 }
