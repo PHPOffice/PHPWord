@@ -63,6 +63,7 @@ Below are the supported features for each file formats.
 |                           | Footnote             | :material-check: |       |       | :material-check: |       |
 |                           | Endnote              | :material-check: |       |       | :material-check: |       |
 |                           | Comments             | :material-check: | :material-check: |       |        |       |
+|                           | Form fields          | :material-check: | :material-check: |       |        |       |
 | **Graphs**                | 2D basic graphs      | :material-check: |       |       |        |       |
 |                           | 2D advanced graphs   |        |       |       |        |       |
 |                           | 3D graphs            | :material-check: |       |       |        |       |
