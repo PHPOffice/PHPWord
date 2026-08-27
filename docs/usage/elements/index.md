@@ -21,10 +21,11 @@ Below are the matrix of element availability in each container. The column shows
 | 15    | [Endnote](note.md) | :white_check_mark: | :red_circle: | :red_circle: | :material-check-decagram: | :material-check-decagram: | :red_circle: |
 | 16    | [CheckBox](checkbox.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: |
 | 17    | [Form fields](formfield.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: |
-| 18    | [TextBox](textbox.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: | :red_circle: |
-| 19    | [Field](field.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| 20    | [Line](line.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| 21    | [Chart](chart.md) | :white_check_mark: | | | :white_check_mark: | | |
+| 18    | [SDT/content controls](sdt.md) | :white_check_mark: | :white_check_mark: | :red_circle: | :red_circle: | :red_circle: | :red_circle: |
+| 19    | [TextBox](textbox.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: | :red_circle: |
+| 20    | [Field](field.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 21    | [Line](line.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 22    | [Chart](chart.md) | :white_check_mark: | | | :white_check_mark: | | |
 
 Legend:
 
