@@ -127,7 +127,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -273,6 +273,13 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_collectFormControls">collectFormControls()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Collect form controls from the document containers.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_collectTrackedChanges">collectTrackedChanges()</a>
     <span>
                                 &nbsp;: void    </span>
@@ -332,6 +339,13 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Write automatic styles other than fonts and paragraphs.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_writeForms">writeForms()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Write the document-level form controls referenced by draw:control.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_writeTextStyles">writeTextStyles()</a>
@@ -484,7 +498,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">58</span>
 
     </aside>
 
@@ -539,7 +553,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">60</span>
 
     </aside>
 
@@ -799,7 +813,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">65</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
@@ -1022,7 +1036,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">363</span>
+    <span class="phpdocumentor-element-found-in__line">371</span>
 
     </aside>
 
@@ -1093,6 +1107,58 @@
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_collectFormControls">
+        collectFormControls()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_collectFormControls" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">536</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Collect form controls from the document containers.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">collectFormControls</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/PhpOffice-PhpWord-Element-AbstractContainer.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractContainer">AbstractContainer</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$container</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, <a href="classes/PhpOffice-PhpWord-Element-CheckBox.html"><abbr title="\PhpOffice\PhpWord\Element\CheckBox">CheckBox</abbr></a>|<a href="classes/PhpOffice-PhpWord-Element-FormField.html"><abbr title="\PhpOffice\PhpWord\Element\FormField">FormField</abbr></a>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$controls</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$container</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/PhpOffice-PhpWord-Element-AbstractContainer.html"><abbr title="\PhpOffice\PhpWord\Element\AbstractContainer">AbstractContainer</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$controls</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, <a href="classes/PhpOffice-PhpWord-Element-CheckBox.html"><abbr title="\PhpOffice\PhpWord\Element\CheckBox">CheckBox</abbr></a>|<a href="classes/PhpOffice-PhpWord-Element-FormField.html"><abbr title="\PhpOffice\PhpWord\Element\FormField">FormField</abbr></a>&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_collectTrackedChanges">
         collectTrackedChanges()
         <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_collectTrackedChanges" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1101,7 +1167,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">510</span>
+    <span class="phpdocumentor-element-found-in__line">518</span>
 
     </aside>
 
@@ -1153,7 +1219,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">248</span>
+    <span class="phpdocumentor-element-found-in__line">256</span>
 
     </aside>
 
@@ -1198,7 +1264,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">272</span>
+    <span class="phpdocumentor-element-found-in__line">280</span>
 
     </aside>
 
@@ -1274,7 +1340,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">410</span>
+    <span class="phpdocumentor-element-found-in__line">418</span>
 
     </aside>
 
@@ -1333,7 +1399,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">455</span>
+    <span class="phpdocumentor-element-found-in__line">463</span>
 
     </aside>
 
@@ -1385,7 +1451,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">480</span>
+    <span class="phpdocumentor-element-found-in__line">488</span>
 
     </aside>
 
@@ -1437,7 +1503,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">346</span>
+    <span class="phpdocumentor-element-found-in__line">354</span>
 
     </aside>
 
@@ -1485,7 +1551,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">392</span>
+    <span class="phpdocumentor-element-found-in__line">400</span>
 
     </aside>
 
@@ -1550,7 +1616,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">166</span>
+    <span class="phpdocumentor-element-found-in__line">174</span>
 
     </aside>
 
@@ -1601,6 +1667,58 @@
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_writeForms">
+        writeForms()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_writeForms" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">556</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Write the document-level form controls referenced by draw:control.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">writeForms</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/PhpOffice-PhpWord-Shared-XMLWriter.html"><abbr title="\PhpOffice\PhpWord\Shared\XMLWriter">XMLWriter</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$xmlWriter</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, <a href="classes/PhpOffice-PhpWord-Element-CheckBox.html"><abbr title="\PhpOffice\PhpWord\Element\CheckBox">CheckBox</abbr></a>|<a href="classes/PhpOffice-PhpWord-Element-FormField.html"><abbr title="\PhpOffice\PhpWord\Element\FormField">FormField</abbr></a>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$controls</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$xmlWriter</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/PhpOffice-PhpWord-Shared-XMLWriter.html"><abbr title="\PhpOffice\PhpWord\Shared\XMLWriter">XMLWriter</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$controls</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, <a href="classes/PhpOffice-PhpWord-Element-CheckBox.html"><abbr title="\PhpOffice\PhpWord\Element\CheckBox">CheckBox</abbr></a>|<a href="classes/PhpOffice-PhpWord-Element-FormField.html"><abbr title="\PhpOffice\PhpWord\Element\FormField">FormField</abbr></a>&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_writeTextStyles">
         writeTextStyles()
         <a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_writeTextStyles" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1609,7 +1727,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Part/Content.php"><a href="files/src-phpword-writer-odtext-part-content.html"><abbr title="src/PhpWord/Writer/ODText/Part/Content.php">Content.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">186</span>
+    <span class="phpdocumentor-element-found-in__line">194</span>
 
     </aside>
 
@@ -1684,6 +1802,7 @@
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-AbstractPart.html#method_writeFontFaces">writeFontFaces()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-Word2007-Part-AbstractPart.html#method_writeText">writeText()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_applyTableStyleToCell">applyTableStyleToCell()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_collectFormControls">collectFormControls()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_collectTrackedChanges">collectTrackedChanges()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_getAutoStyles">getAutoStyles()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_getContainerStyle">getContainerStyle()</a></li>
@@ -1693,6 +1812,7 @@
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_hasCellStyle">hasCellStyle()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_setCellBorderIfUnset">setCellBorderIfUnset()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_writeAutoStyles">writeAutoStyles()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_writeForms">writeForms()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_writeTextStyles">writeTextStyles()</a></li>
                                     </ul>
             </li>

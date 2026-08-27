@@ -13956,6 +13956,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-AbstractElement.html#method_replaceTabs"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\CheckBox",
+            "name": "CheckBox",
+            "summary": "CheckBox\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-CheckBox.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\CheckBox\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-CheckBox.html#method_write"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Container",
             "name": "Container",
             "summary": "Container\u0020element\u0020writer\u0020\u0028section,\u0020textrun,\u0020header,\u0020footnote,\u0020cell,\u0020etc.\u0029.",
@@ -13971,6 +13981,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Container.html#property_containerWithoutP"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Control",
+            "name": "Control",
+            "summary": "Base\u0020writer\u0020for\u0020inline\u0020ODF\u0020form\u0020controls.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Control.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Control\u003A\u003AwriteControlAnchor\u0028\u0029",
+            "name": "writeControlAnchor",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Control.html#method_writeControlAnchor"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Control\u003A\u003AwriteControlText\u0028\u0029",
+            "name": "writeControlText",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Control.html#method_writeControlText"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field",
             "name": "Field",
             "summary": "Field\u0020element\u0020writer.",
@@ -13985,6 +14010,16 @@ Search.appendIndex(
             "name": "writeDefault",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeDefault"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\FormField",
+            "name": "FormField",
+            "summary": "FormField\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-FormField.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\FormField\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-FormField.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Formula",
             "name": "Formula",
@@ -14240,6 +14275,16 @@ Search.appendIndex(
             "name": "collectTrackedChanges",
             "summary": "Finds\u0020all\u0020tracked\u0020changes.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_collectTrackedChanges"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AcollectFormControls\u0028\u0029",
+            "name": "collectFormControls",
+            "summary": "Collect\u0020form\u0020controls\u0020from\u0020the\u0020document\u0020containers.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_collectFormControls"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003AwriteForms\u0028\u0029",
+            "name": "writeForms",
+            "summary": "Write\u0020the\u0020document\u002Dlevel\u0020form\u0020controls\u0020referenced\u0020by\u0020draw\u003Acontrol.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Content.html#method_writeForms"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Content\u003A\u003A\u0024autoStyles",
             "name": "autoStyles",
