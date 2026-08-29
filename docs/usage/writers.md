@@ -151,3 +151,22 @@ $writer = IOFactory::createWriter($oPhpWord, 'Word2007');
 $writer->setZipAdapter(new PclZipAdapter());
 $writer->save(__DIR__ . '/sample.docx');
 ```
+
+## WPS
+The name of the writer is `WPS`. It writes documents for the word processor of
+Microsoft Works 7 and 8, ie an OLE compound file whose `CONTENTS` stream holds
+the chunks (`CHNKWKS`) of the document.
+
+``` php
+<?php
+
+$writer = IOFactory::createWriter($oPhpWord, 'WPS');
+$writer->save(__DIR__ . '/sample.wps');
+```
+
+The writer outputs the text of the document, one paragraph per element, and the
+page breaks. The text of the cells of a table is written as consecutive
+paragraphs. The following features are not supported yet: character and
+paragraph styles, tables and lists structure, images, objects, headers,
+footers, footnotes, endnotes, comments, table of contents, document properties
+and form fields. The elements which are not supported are ignored.
