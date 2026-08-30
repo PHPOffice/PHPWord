@@ -304,13 +304,20 @@ class Html
      * @param AbstractContainer $element
      * @param array &$styles
      *
-     * @return \PhpOffice\PhpWord\Element\PageBreak|TextRun
+     * @return AbstractContainer|\PhpOffice\PhpWord\Element\PageBreak|TextRun
      */
     protected static function parseParagraph($node, $element, &$styles)
     {
         $styles['paragraph'] = self::recursiveParseStylesInHierarchy($node, $styles['paragraph']);
         if (isset($styles['paragraph']['isPageBreak']) && $styles['paragraph']['isPageBreak']) {
             return $element->addPageBreak();
+        }
+
+        // A <p> wrapping a block element (e.g. <ul>, <table>) cannot become a TextRun,
+        // since a TextRun cannot contain a ListItemRun or a Table. Leave it transparent
+        // so its children are added directly to the parent container instead.
+        if (!self::shouldAddTextRun($node)) {
+            return $element;
         }
 
         return $element->addTextRun($styles['paragraph']);
