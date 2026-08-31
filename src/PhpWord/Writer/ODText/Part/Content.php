@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Element\Field;
 use PhpOffice\PhpWord\Element\FormField;
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Line;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Shape;
 use PhpOffice\PhpWord\Element\Table;
@@ -36,6 +37,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Line as LineStyle;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\ODText\Element\Container;
@@ -43,6 +45,8 @@ use PhpOffice\PhpWord\Writer\ODText\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * ODText content part writer: content.xml.
+ *
+ * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
  */
 class Content extends AbstractPart
 {
@@ -55,7 +59,7 @@ class Content extends AbstractPart
      *
      * @var array
      */
-    private $autoStyles = ['Section' => [], 'Image' => [], 'Table' => [], 'Row' => [], 'Cell' => [], 'Shape' => [], 'TextBox' => []];
+    private $autoStyles = ['Section' => [], 'Image' => [], 'Line' => [], 'Table' => [], 'Row' => [], 'Cell' => [], 'Shape' => [], 'TextBox' => []];
 
     private $imageParagraphStyles = [];
 
@@ -306,6 +310,13 @@ class Content extends AbstractPart
                 $style->setStyleName('tb' . $element->getElementId());
                 $this->autoStyles['TextBox'][] = $style;
                 $this->getContainerStyle($element, $paragraphStyleCount, $fontStyleCount);
+            } elseif ($element instanceof Line) {
+                if (!$element->getElementId()) {
+                    $element->setElementId();
+                }
+                $style = $element->getStyle() ?: new LineStyle();
+                $style->setStyleName($element->getElementId());
+                $this->autoStyles['Line'][] = $style;
             } elseif ($element instanceof Table) {
                 $style = $element->getStyle();
                 if (is_string($style)) {

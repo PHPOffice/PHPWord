@@ -55,6 +55,7 @@ Below are the supported features for each file formats.
 |                           | List                 | :material-check: | :material-check: |       |        |       |
 |                           | Table                | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
 |                           | Image                | :material-check: | :material-check: | :material-check: | :material-check: |       |
+|                           | Line                 | :material-check: | :material-check: |       |        |       |
 |                           | Object               | :material-check: |       |       |        |       |
 |                           | Watermark            | :material-check: | :material-check: |       |        |       |
 |                           | Table of Contents    | :material-check: |       |       |        |       |
