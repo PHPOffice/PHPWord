@@ -234,6 +234,31 @@ class HtmlTest extends AbstractWebServerEmbedded
     }
 
     /**
+     * Test strikethrough tags.
+     *
+     * @dataProvider providerParseStrikethroughTags
+     */
+    public function testParseStrikethroughTags(string $tag): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, "<{$tag}>test</{$tag}>");
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:strike'));
+        self::assertEquals('1', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:strike', 'w:val'));
+    }
+
+    public static function providerParseStrikethroughTags(): array
+    {
+        return [
+            ['s'],
+            ['strike'],
+            ['del'],
+        ];
+    }
+
+    /**
      * Test width.
      *
      * @dataProvider providerParseWidth
@@ -250,6 +275,24 @@ class HtmlTest extends AbstractWebServerEmbedded
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals($docxSize, $doc->getElement($xpath)->getAttribute('w:w'));
         self::assertEquals($docxUnit, $doc->getElement($xpath)->getAttribute('w:type'));
+    }
+
+    /**
+     * The CSS `width` percentage regex had no decimal point, so a value like "49.85%" matched
+     * only the digits immediately before the "%" (here "85"), silently truncating it to 85%.
+     */
+    public function testParseDecimalPercentageWidth(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<table style="width: 49.85%;"><tr><td>A</td></tr></table>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $xpath = '/w:document/w:body/w:tbl/w:tblPr/w:tblW';
+        self::assertTrue($doc->elementExists($xpath));
+        // 49.85% = round(49.85 * 50) = 2493 fiftieths-of-a-percent
+        self::assertEquals(2493, $doc->getElement($xpath)->getAttribute('w:w'));
+        self::assertEquals(TblWidth::PERCENT, $doc->getElement($xpath)->getAttribute('w:type'));
     }
 
     /**

@@ -226,6 +226,9 @@ class Html
             'u' => ['Property',    null,   null,       $styles,    null,   'underline',    'single'],
             'sup' => ['Property',    null,   null,       $styles,    null,   'superScript',  true],
             'sub' => ['Property',    null,   null,       $styles,    null,   'subScript',    true],
+            's' => ['Property',    null,   null,       $styles,    null,   'strikethrough', true],
+            'strike' => ['Property', null,   null,       $styles,    null,   'strikethrough', true],
+            'del' => ['Property',    null,   null,       $styles,    null,   'strikethrough', true],
             'span' => ['Span',        $node,  null,       $styles,    null,   null,           null],
             'font' => ['Span',        $node,  null,       $styles,    null,   null,           null],
             'table' => ['Table',       $node,  $element,   $styles,    null,   null,           null],
@@ -872,8 +875,8 @@ class Html
                     if (preg_match('/([0-9]+[a-z]+)/', $value, $matches)) {
                         $styles['width'] = Converter::cssToTwip($matches[1]);
                         $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP;
-                    } elseif (preg_match('/([0-9]+)%/', $value, $matches)) {
-                        $styles['width'] = $matches[1] * 50;
+                    } elseif (preg_match('/([0-9]*\.?[0-9]+)%/', $value, $matches)) {
+                        $styles['width'] = (int) round((float) $matches[1] * 50);
                         $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
                     } elseif (preg_match('/([0-9]+)/', $value, $matches)) {
                         $styles['width'] = $matches[1];
