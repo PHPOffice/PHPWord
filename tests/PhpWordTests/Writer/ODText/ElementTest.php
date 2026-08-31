@@ -73,8 +73,44 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($path . '/draw:frame/draw:text-box'));
     }
 
+    /**
+     * Test bookmark element.
+     */
+    public function testBookmarkElement(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addBookmark('test_bookmark');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $path = '/office:document-content/office:body/office:text/text:section/text:p/text:bookmark';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('test_bookmark', $doc->getElementAttribute($path, 'text:name'));
+    }
+
+    /**
+     * Test multiple bookmarks and bookmarks in text runs.
+     */
+    public function testMultipleBookmarksAndNestedBookmarkElement(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addBookmark('first_bookmark');
+        $section->addBookmark('bookmark_with_&');
+        $textRun = $section->addTextRun();
+        $textRun->addBookmark('nested_bookmark');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $path = '/office:document-content/office:body/office:text/text:section//text:bookmark';
+        self::assertTrue($doc->elementExists("($path)[3]"));
+        self::assertEquals('first_bookmark', $doc->getElementAttribute("($path)[1]", 'text:name'));
+        self::assertEquals('bookmark_with_&', $doc->getElementAttribute("($path)[2]", 'text:name'));
+        self::assertEquals('nested_bookmark', $doc->getElementAttribute("($path)[3]", 'text:name'));
+    }
+
     // ODT Line Element not yet implemented
-    // ODT Bookmark not yet implemented
     // ODT Table with style name not yet implemented (Word test defective)
     // ODT Shape Elements not yet implemented
     // ODT Chart Elements not yet implemented
