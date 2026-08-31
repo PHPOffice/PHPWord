@@ -13956,6 +13956,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-AbstractElement.html#method_replaceTabs"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Bookmark",
+            "name": "Bookmark",
+            "summary": "Bookmark\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Bookmark.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Bookmark\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020bookmark\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Bookmark.html#method_write"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\CheckBox",
             "name": "CheckBox",
             "summary": "CheckBox\u0020element\u0020writer.",
