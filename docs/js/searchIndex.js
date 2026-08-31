@@ -14041,6 +14041,16 @@ Search.appendIndex(
             "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Image.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Line",
+            "name": "Line",
+            "summary": "Line\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Line.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Line\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Line.html#method_write"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Link",
             "name": "Link",
             "summary": "Text\u0020element\u0020writer.",
@@ -14430,6 +14440,16 @@ Search.appendIndex(
             "name": "write",
             "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Image.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Line",
+            "name": "Line",
+            "summary": "Line\u0020style\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Line.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Line\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020style.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Line.html#method_write"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Numbering",
             "name": "Numbering",
