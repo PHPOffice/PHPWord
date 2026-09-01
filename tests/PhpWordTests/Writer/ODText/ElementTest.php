@@ -110,6 +110,58 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('nested_bookmark', $doc->getElementAttribute("($path)[3]", 'text:name'));
     }
 
+    /**
+     * Test footnote element.
+     */
+    public function testFootnoteElement(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $footnote = $section->addFootnote();
+        $footnote->addText('Footnote text.');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $path = '/office:document-content/office:body/office:text/text:section/text:p/text:note';
+        self::assertTrue($doc->elementExists($path));
+        self::assertEquals('footnote', $doc->getElementAttribute($path, 'text:note-class'));
+        self::assertEquals('ftn1', $doc->getElementAttribute($path, 'text:id'));
+        self::assertEquals('1', $doc->getElement($path . '/text:note-citation')->textContent);
+        self::assertEquals('Footnote text.', $doc->getElement($path . '/text:note-body/text:p')->textContent);
+    }
+
+    /**
+     * Test endnotes, multiple notes, and rich note content.
+     */
+    public function testEndnoteAndMultipleNotes(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addFootnote()->addText('First footnote.');
+        $textRun = $section->addTextRun();
+        $footnote = $textRun->addFootnote();
+        $footnote->addText('Rich footnote with ');
+        $footnote->addLink('https://example.com', 'a link');
+        $endnote = $textRun->addEndnote();
+        $endnote->addText('Endnote text.');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $path = '/office:document-content/office:body/office:text/text:section//text:note';
+        self::assertTrue($doc->elementExists("($path)[3]"));
+        self::assertEquals('footnote', $doc->getElementAttribute("($path)[1]", 'text:note-class'));
+        self::assertEquals('ftn1', $doc->getElementAttribute("($path)[1]", 'text:id'));
+        self::assertEquals('1', $doc->getElement("($path)[1]/text:note-citation")->textContent);
+        self::assertEquals('footnote', $doc->getElementAttribute("($path)[2]", 'text:note-class'));
+        self::assertEquals('ftn2', $doc->getElementAttribute("($path)[2]", 'text:id'));
+        self::assertEquals('Rich footnote with', $doc->getElement("($path)[2]/text:note-body/text:p[1]")->textContent);
+        self::assertEquals('a link', $doc->getElement("($path)[2]/text:note-body/text:p[2]")->textContent);
+        self::assertEquals('endnote', $doc->getElementAttribute("($path)[3]", 'text:note-class'));
+        self::assertEquals('end1', $doc->getElementAttribute("($path)[3]", 'text:id'));
+        self::assertEquals('1', $doc->getElement("($path)[3]/text:note-citation")->textContent);
+        self::assertEquals('Endnote text.', $doc->getElement("($path)[3]/text:note-body/text:p")->textContent);
+    }
+
     // ODT Line Element not yet implemented
     // ODT Table with style name not yet implemented (Word test defective)
     // ODT Shape Elements not yet implemented
