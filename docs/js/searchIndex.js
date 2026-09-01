@@ -14006,6 +14006,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Control.html#method_writeControlText"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Endnote",
+            "name": "Endnote",
+            "summary": "Endnote\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Endnote.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Endnote\u003A\u003A\u0024noteClass",
+            "name": "noteClass",
+            "summary": "ODF\u0020note\u0020class.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Endnote.html#property_noteClass"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Endnote\u003A\u003A\u0024idPrefix",
+            "name": "idPrefix",
+            "summary": "ODF\u0020note\u0020ID\u0020prefix.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Endnote.html#property_idPrefix"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field",
             "name": "Field",
             "summary": "Field\u0020element\u0020writer.",
@@ -14020,6 +14035,26 @@ Search.appendIndex(
             "name": "writeDefault",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeDefault"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Footnote",
+            "name": "Footnote",
+            "summary": "Footnote\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Footnote.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Footnote\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020footnote\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Footnote.html#method_write"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Footnote\u003A\u003A\u0024noteClass",
+            "name": "noteClass",
+            "summary": "ODF\u0020note\u0020class.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Footnote.html#property_noteClass"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Footnote\u003A\u003A\u0024idPrefix",
+            "name": "idPrefix",
+            "summary": "ODF\u0020note\u0020ID\u0020prefix.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Footnote.html#property_idPrefix"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\FormField",
             "name": "FormField",
