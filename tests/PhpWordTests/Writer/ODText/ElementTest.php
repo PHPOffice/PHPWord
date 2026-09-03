@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\ComplexType\RubyProperties;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -492,6 +493,28 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = "$p2t/text:p[2]";
         self::assertTrue($doc->elementExists($element));
         $span = "$element/text:span";
+        self::assertTrue($doc->elementExists($span));
+        self::assertEquals($txt, $doc->getElement($span)->nodeValue);
+    }
+
+    /**
+     * Test correct writing of an ampersand coming from HTML.
+     *
+     * @see https://github.com/PHPOffice/PHPWord/issues/2884
+     */
+    public function testHtmlAmpersandWithoutOutputEscaping(): void
+    {
+        $esc = \PhpOffice\PhpWord\Settings::isOutputEscapingEnabled();
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(false);
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $txt = 'Prepared By / Record & Return To:';
+        Html::addHtml($section, $txt);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled($esc);
+        $p2t = '/office:document-content/office:body/office:text/text:section';
+        $span = "$p2t/text:p[2]/text:span";
         self::assertTrue($doc->elementExists($span));
         self::assertEquals($txt, $doc->getElement($span)->nodeValue);
     }

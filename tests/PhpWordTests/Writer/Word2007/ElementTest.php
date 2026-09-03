@@ -517,6 +517,26 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test that valid entities and raw markup survive untouched when output escaping is disabled.
+     *
+     * @see https://github.com/PHPOffice/PHPWord/issues/2884
+     */
+    public function testRawTextWithoutOutputEscaping(): void
+    {
+        $esc = \PhpOffice\PhpWord\Settings::isOutputEscapingEnabled();
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(false);
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('a &amp; b & c <b/> "d"');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled($esc);
+        $xml = (string) file_get_contents($doc->getPath() . '/word/document.xml');
+        self::assertStringContainsString('a &amp; b &amp; c <b/> "d"', $xml);
+        self::assertStringNotContainsString('&amp;amp;', $xml);
+    }
+
+    /**
      * Test ListItemRun paragraph style writing.
      */
     public function testListItemRunStyleWriting(): void
