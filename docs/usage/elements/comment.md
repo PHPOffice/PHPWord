@@ -22,3 +22,5 @@ $textrun->addText(' a test');
 ```
 
 If no end is set for a comment using the ``setCommentRangeEnd``, the comment will be ended automatically at the end of the element it is started on.
+
+The ODF writer serializes comments as native ODF annotations, including the author, date, formatted content, and comment range.

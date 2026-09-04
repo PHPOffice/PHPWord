@@ -1,6 +1,6 @@
 # Footnote & Endnote
 
-You can create footnotes with ``addFootnote`` and endnotes with``addEndnote`` in texts or textruns, but it's recommended to use textrun to have better layout. You can use ``addText``, ``addLink``,``addTextBreak``, ``addImage``, ``addOLEObject`` on footnotes and endnotes.
+You can create footnotes with ``addFootnote`` and endnotes with ``addEndnote`` in texts or textruns, but it's recommended to use textrun to have better layout. You can use ``addText``, ``addLink``, ``addTextBreak``, ``addImage``, ``addOLEObject`` on footnotes and endnotes. The ODText writer serializes both note types as native ODF notes.
 
 On textrun:
 

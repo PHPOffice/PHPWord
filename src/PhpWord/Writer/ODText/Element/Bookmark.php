@@ -5,7 +5,7 @@
  * word processing documents.
  *
  * PHPWord is free software distributed under the terms of the GNU Lesser
- * General Public License version 3 as published by the Free Software Foundation.
+ * General Public License as published by the Free Software Foundation.
  *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
@@ -19,33 +19,31 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
- * TextRun element writer.
- *
- * @since 0.10.0
+ * Bookmark element writer.
  */
-class TextRun extends Text
+class Bookmark extends AbstractElement
 {
     /**
-     * Write element.
+     * Write bookmark element.
      */
     public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-
-        $xmlWriter->startElement('text:p');
-        /** @scrutinizer ignore-call */
-        $pStyle = $element->getParagraphStyle();
-        if (!is_string($pStyle)) {
-            $pStyle = 'Normal';
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Bookmark) {
+            return;
         }
-        $xmlWriter->writeAttribute('text:style-name', $pStyle);
-        $this->writeCommentRangeStart();
 
-        $containerWriter = new Container($xmlWriter, $element);
-        $containerWriter->write();
+        if (!$this->withoutP) {
+            $xmlWriter->startElement('text:p');
+        }
 
-        $this->writeCommentRangeEnd();
+        $xmlWriter->startElement('text:bookmark');
+        $xmlWriter->writeAttribute('text:name', $element->getName());
         $xmlWriter->endElement();
+
+        if (!$this->withoutP) {
+            $xmlWriter->endElement();
+        }
     }
 }

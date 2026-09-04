@@ -16,14 +16,15 @@ Below are the matrix of element availability in each container. The column shows
 | 10    | [Image](image.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 11    | [Watermark](watermark.md) | :red_circle: | :white_check_mark: | :red_circle: | :red_circle: | :red_circle: | :red_circle: |
 | 12    | [OLEObject](oleobject.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| 13    | [TOC](toc.md) | :white_check_mark: | :red_circle: | :red_circle: | :red_circle: | :red_circle: | :red_circle: |
+| 13    | [TOC](toc.md) | :white_check_mark: | :material-check-decagram: | :red_circle: | :red_circle: | :red_circle: | :red_circle: |
 | 14    | [Footnote](note.md) | :white_check_mark: | :red_circle: | :red_circle: | :material-check-decagram: | :material-check-decagram: | :red_circle: |
 | 15    | [Endnote](note.md) | :white_check_mark: | :red_circle: | :red_circle: | :material-check-decagram: | :material-check-decagram: | :red_circle: |
 | 16    | [CheckBox](checkbox.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: |
-| 17    | [TextBox](textbox.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: | :red_circle: |
-| 18    | [Field](field.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| 19    | [Line](line.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| 20    | [Chart](chart.md) | :white_check_mark: | | | :white_check_mark: | | |
+| 17    | [Form fields](formfield.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: |
+| 18    | [TextBox](textbox.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: | :red_circle: |
+| 19    | [Field](field.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 20    | [Line](line.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 21    | [Chart](chart.md) | :white_check_mark: | | | :white_check_mark: | | |
 
 Legend:
 

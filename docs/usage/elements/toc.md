@@ -19,3 +19,13 @@ Options for ``$tocStyle``:
 - ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in ``\PhpOffice\PhpWord\Style\TOC``.
 - ``tabPos``. The position of the tab where the page number appears in *twip*.
 - ``indent``. The indent factor of the titles in *twip*.
+
+## ODText support
+
+The ODText writer serializes the TOC as a native, refreshable ODF
+`text:table-of-content`. The configured minimum and maximum title depths are
+represented by ODF outline-level source and entry-template settings. A named
+font style is preserved on the ODF table-of-content element. The consuming
+office application generates the entries and page numbers when the document is
+refreshed; PHPWord does not copy the DOCX TOC field instructions or write a
+static list of titles.

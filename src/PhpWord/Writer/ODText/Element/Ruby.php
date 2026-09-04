@@ -66,7 +66,12 @@ class Ruby extends AbstractElement
             }
         }
 
-        $this->replaceTabs($textRun->getText(), $xmlWriter);
+        $this->writeCommentRangeStart();
+        $this->replaceTabs($element->getBaseTextRun()->getText(), $xmlWriter);
+        $this->writeText(' (');
+        $this->replaceTabs($element->getRubyTextRun()->getText(), $xmlWriter);
+        $this->writeText(')');
+        $this->writeCommentRangeEnd();
 
         $xmlWriter->endElement(); // text:rubyBase or text:rubyText
     }

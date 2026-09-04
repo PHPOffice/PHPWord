@@ -51,14 +51,21 @@ class Image extends AbstractElement
             $xmlWriter->writeAttribute('text:style-name', 'IM' . $mediaIndex);
         }
 
+        $this->writeCommentRangeStart();
         $xmlWriter->startElement('draw:frame');
         $xmlWriter->writeAttribute('draw:style-name', 'fr' . $mediaIndex);
         $xmlWriter->writeAttributeIf($this->withoutP, 'draw:text-style-name', 'IM' . $mediaIndex);
         $xmlWriter->writeAttribute('draw:name', $element->getElementId());
-        $xmlWriter->writeAttribute('text:anchor-type', 'as-char');
+        $xmlWriter->writeAttribute('text:anchor-type', $element->isWatermark() ? 'at-page' : 'as-char');
         $xmlWriter->writeAttribute('svg:width', $width . 'cm');
         $xmlWriter->writeAttribute('svg:height', $height . 'cm');
-        $xmlWriter->writeAttribute('draw:z-index', $mediaIndex);
+        if ($element->isWatermark()) {
+            $xmlWriter->writeAttributeIf($style->getLeft() != 0, 'svg:x', Converter::pixelToCm($style->getLeft()) . 'cm');
+            $xmlWriter->writeAttributeIf($style->getTop() != 0, 'svg:y', Converter::pixelToCm($style->getTop()) . 'cm');
+            $xmlWriter->writeAttribute('draw:z-index', '-1');
+        } else {
+            $xmlWriter->writeAttribute('draw:z-index', $mediaIndex);
+        }
 
         $xmlWriter->startElement('draw:image');
         $xmlWriter->writeAttribute('xlink:href', $target);
@@ -68,6 +75,7 @@ class Image extends AbstractElement
         $xmlWriter->endElement(); // draw:image
 
         $xmlWriter->endElement(); // draw:frame
+        $this->writeCommentRangeEnd();
 
         if (!$this->withoutP) {
             $xmlWriter->endElement(); // text:p
