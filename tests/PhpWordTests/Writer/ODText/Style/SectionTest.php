@@ -144,6 +144,56 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($element));
     }
 
+    public function testHeaderFooterVariants(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $section->addHeader()->addText('Default header');
+        $section->addHeader(\PhpOffice\PhpWord\Element\Header::FIRST)->addText('First header');
+        $section->addHeader(\PhpOffice\PhpWord\Element\Header::EVEN)->addText('Even header');
+        $section->addFooter()->addText('Default footer');
+        $section->addFooter(\PhpOffice\PhpWord\Element\Footer::FIRST)->addText('First footer');
+        $section->addFooter(\PhpOffice\PhpWord\Element\Footer::EVEN)->addText('Even footer');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $doc->setDefaultFile('styles.xml');
+        $master = '/office:document-styles/office:master-styles/style:master-page';
+
+        foreach ([
+            'style:header' => 'Default header',
+            'style:header-first' => 'First header',
+            'style:header-left' => 'Even header',
+            'style:footer' => 'Default footer',
+            'style:footer-first' => 'First footer',
+            'style:footer-left' => 'Even footer',
+        ] as $variant => $expected) {
+            $path = "$master/$variant/text:p";
+            self::assertTrue($doc->elementExists($path));
+            self::assertEquals($expected, $doc->getElement($path)->nodeValue);
+        }
+    }
+
+    public function testHeaderFooterVariantsAreWrittenForEachSection(): void
+    {
+        $phpWord = new PhpWord();
+        $firstSection = $phpWord->addSection();
+        $firstSection->addHeader(\PhpOffice\PhpWord\Element\Header::FIRST)->addText('First section header');
+        $secondSection = $phpWord->addSection();
+        $secondSection->addFooter(\PhpOffice\PhpWord\Element\Footer::EVEN)->addText('Second section footer');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $doc->setDefaultFile('styles.xml');
+        $masters = '/office:document-styles/office:master-styles/style:master-page';
+
+        $firstHeader = "{$masters}[1]/style:header-first/text:p";
+        $secondFooter = "{$masters}[2]/style:footer-left/text:p";
+        self::assertTrue($doc->elementExists($firstHeader));
+        self::assertTrue($doc->elementExists($secondFooter));
+        self::assertEquals('First section header', $doc->getElement($firstHeader)->nodeValue);
+        self::assertEquals('Second section footer', $doc->getElement($secondFooter)->nodeValue);
+    }
+
     /**
      * Test HideErrors.
      */

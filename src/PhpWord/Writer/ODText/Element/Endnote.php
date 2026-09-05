@@ -5,7 +5,7 @@
  * word processing documents.
  *
  * PHPWord is free software distributed under the terms of the GNU Lesser
- * General Public License version 3 as published by the Free Software Foundation.
+ * General Public License as published by the Free Software Foundation.
  *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code. For the full list of
@@ -18,24 +18,22 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
-use PhpOffice\PhpWord\Writer\Word2007\Element\Container as Word2007Container;
-
 /**
- * Container element writer (section, textrun, header, footnote, cell, etc.).
- *
- * @since 0.11.0
+ * Endnote element writer.
  */
-class Container extends Word2007Container
+class Endnote extends Footnote
 {
     /**
-     * Namespace; Can't use __NAMESPACE__ in inherited class (ODText).
+     * ODF note class.
      *
      * @var string
      */
-    protected $namespace = 'PhpOffice\\PhpWord\\Writer\\ODText\\Element';
+    protected $noteClass = 'endnote';
 
     /**
-     * @var array<string>
+     * ODF note ID prefix.
+     *
+     * @var string
      */
-    protected $containerWithoutP = ['TextRun'];
+    protected $idPrefix = 'end';
 }

@@ -55,11 +55,12 @@ Below are the supported features for each file formats.
 |                           | List                 | :material-check: | :material-check: |       |        |       |
 |                           | Table                | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
 |                           | Image                | :material-check: | :material-check: | :material-check: | :material-check: |       |
+|                           | Line                 | :material-check: | :material-check: |       |        |       |
 |                           | Object               | :material-check: |       |       |        |       |
 |                           | Watermark            | :material-check: | :material-check: |       |        |       |
-|                           | Table of Contents    | :material-check: |       |       |        |       |
-|                           | Header               | :material-check: |       |       |        |       |
-|                           | Footer               | :material-check: |       |       |        |       |
+|                           | Table of Contents    | :material-check: | :material-check: |       |        |       |
+|                           | Header               | :material-check: | :material-check: |       |        |       |
+|                           | Footer               | :material-check: | :material-check: |       |        |       |
 |                           | Footnote             | :material-check: |       |       | :material-check: |       |
 |                           | Endnote              | :material-check: |       |       | :material-check: |       |
 |                           | Comments             | :material-check: | :material-check: |       |        |       |

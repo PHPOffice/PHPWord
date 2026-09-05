@@ -53,6 +53,7 @@ nav:
       - Chart: 'usage/elements/chart.md'
       - Checkbox: 'usage/elements/checkbox.md'
       - Comment: 'usage/elements/comment.md'
+      - Bookmark: 'usage/elements/bookmark.md'
       - Field: 'usage/elements/field.md'
       - Footnote & Endnote: 'usage/elements/note.md'
       - Formula: 'usage/elements/formula.md'
