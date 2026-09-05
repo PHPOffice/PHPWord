@@ -21,6 +21,23 @@ $section->addField($fieldType, [$properties], [$options], [$fieldText], [$fontSt
 See ``\PhpOffice\PhpWord\Element\Field`` for list of properties and options available for each field type.
 Options which are not specifically defined can be added. Those must start with a ``\``.
 
+## ODText support
+
+The ODText writer uses native ODF fields instead of copying Word field
+instruction strings into the ODT package:
+
+- `PAGE`, `NUMPAGES`, `DATE`, and `FILENAME` use the corresponding ODF fields.
+- `REF` is written as `text:reference-ref` and supports text references and the
+  page-reference option.
+- `XE` is written as `text:alphabetical-index-mark`.
+- `INDEX` is written as an ODF alphabetical-index field.
+- `MACROBUTTON` and `STYLEREF` have no meaningful portable ODF equivalent and
+  are omitted by the ODText writer.
+
+The ODF fields are dynamic and may be refreshed by the consuming application.
+Word-specific formatting and macro behavior that has no ODF equivalent is not
+preserved.
+
 For instance for the INDEX field, you can do the following (See `Index Field for list of available options <https://support.office.com/en-us/article/Field-codes-Index-field-adafcf4a-cb30-43f6-85c7-743da1635d9e?ui=en-US&rs=en-US&ad=US>`_ ):
 
 ``` php

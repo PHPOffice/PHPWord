@@ -15,11 +15,8 @@
  *
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-// Not fully implemented
-//     - supports only PAGE, NUMPAGES, DATE and FILENAME
-//     - supports only default formats and options
-//     - supports style only if specified by name
-//     - spaces before and after field may be dropped
+// Native ODF mappings are used where PHPWord fields have an equivalent. Fields
+// without a meaningful ODF equivalent are intentionally omitted.
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
@@ -49,19 +46,80 @@ class Field extends Text
                 $this->writeDefault($element, $type);
 
                 break;
+            case 'ref':
+                $this->writeReference($element);
+
+                break;
+            case 'xe':
+                $this->writeIndexMark($element);
+
+                break;
+            case 'index':
+                $this->writeIndex($element);
+
+                break;
         }
     }
 
-    private function writeDefault(\PhpOffice\PhpWord\Element\Field $element, $type): void
+    private function writeReference(\PhpOffice\PhpWord\Element\Field $element): void
+    {
+        $properties = $element->getProperties();
+        $options = $element->getOptions();
+
+        $this->startSpan($element);
+        $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startElement('text:reference-ref');
+        $xmlWriter->writeAttribute('text:ref-name', $properties['name'] ?? '');
+        $xmlWriter->writeAttribute('text:reference-format', in_array('p', $options) ? 'page' : 'text');
+        $xmlWriter->endElement();
+        $this->endSpan();
+    }
+
+    private function writeIndexMark(\PhpOffice\PhpWord\Element\Field $element): void
+    {
+        $this->startSpan($element);
+        $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startElement('text:alphabetical-index-mark');
+        $text = $element->getText();
+        if ($text instanceof \PhpOffice\PhpWord\Element\TextRun) {
+            $text = $text->getText();
+        }
+        $xmlWriter->writeAttribute('text:string-value', $text ?? '');
+        $xmlWriter->endElement();
+        $this->endSpan();
+    }
+
+    private function writeIndex(\PhpOffice\PhpWord\Element\Field $element): void
     {
         $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startElement('text:alphabetical-index');
+        $xmlWriter->writeAttribute('text:name', 'Alphabetical Index');
+        $xmlWriter->startElement('text:index-body');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+    }
 
+    private function startSpan(\PhpOffice\PhpWord\Element\Field $element): void
+    {
+        $xmlWriter = $this->getXmlWriter();
         $xmlWriter->startElement('text:span');
 
         $fstyle = $element->getFontStyle();
         if (is_string($fstyle)) {
             $xmlWriter->writeAttribute('text:style-name', $fstyle);
         }
+    }
+
+    private function endSpan(): void
+    {
+        $this->getXmlWriter()->endElement();
+    }
+
+    private function writeDefault(\PhpOffice\PhpWord\Element\Field $element, $type): void
+    {
+        $xmlWriter = $this->getXmlWriter();
+
+        $this->startSpan($element);
 
         switch ($type) {
             case 'date':
@@ -94,6 +152,6 @@ class Field extends Text
 
                 break;
         }
-        $xmlWriter->endElement(); // text:span
+        $this->endSpan();
     }
 }

@@ -62,4 +62,46 @@ class FieldTest extends TestCase
         self::assertEquals('false', $doc->getElementAttribute('/office:document-content/office:body/office:text/text:section/text:span/text:file-name', 'text:fixed'));
         self::assertEquals('full', $doc->getElementAttribute('/office:document-content/office:body/office:text/text:section/text:span/text:file-name', 'text:display'));
     }
+
+    public function testFieldReference(): void
+    {
+        $phpWord = new PhpWord();
+
+        $section = $phpWord->addSection();
+        $field = $section->addField('REF', ['name' => 'bookmark']);
+        $field->setFontStyle('ReferenceStyle');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        self::assertTrue($doc->elementExists('/office:document-content/office:body/office:text/text:section/text:span/text:reference-ref'));
+        self::assertEquals('bookmark', $doc->getElementAttribute('/office:document-content/office:body/office:text/text:section/text:span/text:reference-ref', 'text:ref-name'));
+        self::assertEquals('text', $doc->getElementAttribute('/office:document-content/office:body/office:text/text:section/text:span/text:reference-ref', 'text:reference-format'));
+        self::assertEquals('ReferenceStyle', $doc->getElementAttribute('/office:document-content/office:body/office:text/text:section/text:span', 'text:style-name'));
+    }
+
+    public function testFieldIndexEntry(): void
+    {
+        $phpWord = new PhpWord();
+
+        $section = $phpWord->addSection();
+        $section->addField('XE', [], [], 'Index entry');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        self::assertTrue($doc->elementExists('/office:document-content/office:body/office:text/text:section/text:span/text:alphabetical-index-mark'));
+        self::assertEquals('Index entry', $doc->getElementAttribute('/office:document-content/office:body/office:text/text:section/text:span/text:alphabetical-index-mark', 'text:string-value'));
+    }
+
+    public function testFieldIndex(): void
+    {
+        $phpWord = new PhpWord();
+
+        $section = $phpWord->addSection();
+        $section->addField('INDEX');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        self::assertTrue($doc->elementExists('/office:document-content/office:body/office:text/text:section/text:alphabetical-index'));
+        self::assertTrue($doc->elementExists('/office:document-content/office:body/office:text/text:section/text:alphabetical-index/text:index-body'));
+    }
 }
