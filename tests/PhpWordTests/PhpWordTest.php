@@ -32,6 +32,11 @@ use PhpOffice\PhpWord\Style;
  */
 class PhpWordTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::setDefaultFontSize(Settings::DEFAULT_FONT_SIZE);
+    }
+
     /**
      * Test object creation.
      */

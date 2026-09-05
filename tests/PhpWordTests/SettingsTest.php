@@ -34,7 +34,7 @@ class SettingsTest extends TestCase
     /** @var string */
     private $defaultFontColor;
 
-    private $defaultFontSize;
+    //private $defaultFontSize;
 
     private $defaultFontName;
 
@@ -64,7 +64,7 @@ class SettingsTest extends TestCase
     {
         $this->compatibility = Settings::hasCompatibility();
         $this->defaultFontColor = Settings::getDefaultFontColor();
-        $this->defaultFontSize = Settings::getDefaultFontSize();
+        //$this->defaultFontSize = Settings::getDefaultFontSize();
         $this->defaultFontName = Settings::getDefaultFontName();
         $this->defaultPaper = Settings::getDefaultPaper();
         $this->measurementUnit = Settings::getMeasurementUnit();
@@ -81,7 +81,7 @@ class SettingsTest extends TestCase
     {
         Settings::setCompatibility($this->compatibility);
         Settings::setDefaultFontColor($this->defaultFontColor);
-        Settings::setDefaultFontSize($this->defaultFontSize);
+        Settings::setDefaultFontSize(Settings::DEFAULT_FONT_SIZE);
         Settings::setDefaultFontName($this->defaultFontName);
         Settings::setDefaultPaper($this->defaultPaper);
         Settings::setMeasurementUnit($this->measurementUnit);
