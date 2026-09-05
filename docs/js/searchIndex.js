@@ -14441,6 +14441,11 @@ Search.appendIndex(
             "summary": "Write\u0020master\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html#method_writeMaster"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Part\\Styles\u003A\u003AwriteHeaderFooter\u0028\u0029",
+            "name": "writeHeaderFooter",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Part-Styles.html#method_writeHeaderFooter"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\AbstractStyle",
             "name": "AbstractStyle",
             "summary": "Style\u0020writer.",

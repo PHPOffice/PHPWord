@@ -2914,6 +2914,10 @@ or background pictures. See "Watermarks" section.</p>
 <li><code>Footer::FIRST</code> each first page of the section</li>
 <li><code>Footer::EVEN</code> each even page of the section. Will only be applied if the evenAndOddHeaders is set to true in phpWord-&gt;settings</li>
 </ul>
+<p>The ODText writer preserves these variants in the ODF master page: default
+containers use <code>style:header</code> or <code>style:footer</code>, first-page containers use
+<code>style:header-first</code> or <code>style:footer-first</code>, and even-page containers use
+<code>style:header-left</code> or <code>style:footer-left</code>.</p>
 <p>To change the evenAndOddHeaders use the <code>getSettings</code> method to return the Settings object, and then call the <code>setEvenAndOddHeaders</code> method:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
