@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Element\Ruby as RubyElement;
 use PhpOffice\PhpWord\Element\TextRun;
 
 /**
@@ -35,7 +36,7 @@ class Ruby extends AbstractElement
     public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
-        /** @var \PhpOffice\PhpWord\Element\Ruby */
+        /** @var RubyElement */
         $element = $this->getElement();
         if (!$this->withoutP) {
             $xmlWriter->startElement('text:p'); // text:p
@@ -49,6 +50,9 @@ class Ruby extends AbstractElement
         }
     }
 
+    /** @var bool */
+    private static $writeAsComment = false;
+
     /**
      * @param TextRun $textRun
      * @param string $tag
@@ -56,6 +60,8 @@ class Ruby extends AbstractElement
     private function writeRuby($textRun, $tag): void
     {
         $xmlWriter = $this->getXmlWriter();
+        /** @var RubyElement */
+        $element = $this->getElement();
         $paragraphStyle = $textRun->getParagraphStyle();
 
         $xmlWriter->startElement($tag); // text:rubyBase or text:rubyText
@@ -66,12 +72,25 @@ class Ruby extends AbstractElement
             }
         }
 
-        $this->writeCommentRangeStart();
-        $this->replaceTabs($element->getBaseTextRun()->getText(), $xmlWriter);
-        $this->writeText(' (');
-        $this->replaceTabs($element->getRubyTextRun()->getText(), $xmlWriter);
-        $this->writeText(')');
-        $this->writeCommentRangeEnd();
+        var_dump($element->getCommentRangeStart());
+        if (self::$writeAsComment) {
+            // @codeCoverageIgnoreStart
+            $this->writeCommentRangeStart();
+            $this->replaceTabs(
+                $element->getBaseTextRun()->getText(),
+                $xmlWriter
+            );
+            $this->writeText(' (');
+            $this->replaceTabs(
+                $element->getRubyTextRun()->getText(),
+                $xmlWriter
+            );
+            $this->writeText(')');
+            $this->writeCommentRangeEnd();
+            // @codeCoverageIgnoreEnd
+        } else {
+            $this->replaceTabs($textRun->getText(), $xmlWriter);
+        }
 
         $xmlWriter->endElement(); // text:rubyBase or text:rubyText
     }

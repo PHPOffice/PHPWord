@@ -82,7 +82,7 @@ class Document extends AbstractPart
                 $value = $this->escaper->escape($value);
             }
 
-            $value = in_array($property, $dateFields) ? $this->getDateValue($value) : $value;
+            $value = in_array($property, $dateFields) ? $this->getDateValue((int) $value) : $value;
             if ($value !== '') {
                 $content .= "{\\{$property} {$value}}";
             }
