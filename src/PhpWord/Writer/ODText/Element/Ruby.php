@@ -50,9 +50,6 @@ class Ruby extends AbstractElement
         }
     }
 
-    /** @var bool */
-    private static $writeAsComment = false;
-
     /**
      * @param TextRun $textRun
      * @param string $tag
@@ -72,22 +69,13 @@ class Ruby extends AbstractElement
             }
         }
 
-        var_dump($element->getCommentRangeStart());
-        if (self::$writeAsComment) {
-            // @codeCoverageIgnoreStart
+        if ($element->getCommentsRangeStart() !== null) {
             $this->writeCommentRangeStart();
             $this->replaceTabs(
-                $element->getBaseTextRun()->getText(),
+                $textRun->getText(),
                 $xmlWriter
             );
-            $this->writeText(' (');
-            $this->replaceTabs(
-                $element->getRubyTextRun()->getText(),
-                $xmlWriter
-            );
-            $this->writeText(')');
             $this->writeCommentRangeEnd();
-            // @codeCoverageIgnoreEnd
         } else {
             $this->replaceTabs($textRun->getText(), $xmlWriter);
         }

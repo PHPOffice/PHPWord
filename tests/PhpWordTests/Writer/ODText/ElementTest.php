@@ -304,7 +304,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * Test comments on ruby elements.
      */
-    public function xtestCommentOnRubyElement(): void
+    public function testCommentOnRubyElement(): void
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -318,7 +318,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $ruby->setCommentRangeStart($comment);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
-        $path = '/office:document-content/office:body/office:text/text:section/text:p[2]';
+        $path = '/office:document-content/office:body'
+            . '/office:text/text:section/text:p[2]'
+            . '/text:ruby/text:ruby-base';
         self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation', 'office:name'));
         self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation-end', 'office:name'));
     }
