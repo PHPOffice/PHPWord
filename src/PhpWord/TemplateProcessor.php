@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
@@ -189,7 +190,7 @@ class TemplateProcessor
     protected function transformSingleXml($xml, $xsltProcessor)
     {
         if (\PHP_VERSION_ID < 80000) {
-            $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+            $orignalLibEntityLoader = libxml_disable_entity_loader(true); // @codeCoverageIgnore
         }
         $domDocument = new DOMDocument();
         if (false === $domDocument->loadXML($xml)) {
@@ -201,7 +202,7 @@ class TemplateProcessor
             throw new Exception('Could not transform the given XML document.');
         }
         if (\PHP_VERSION_ID < 80000) {
-            libxml_disable_entity_loader($orignalLibEntityLoader);
+            libxml_disable_entity_loader($orignalLibEntityLoader); // @codeCoverageIgnore
         }
 
         return $transformedXml;
@@ -243,7 +244,7 @@ class TemplateProcessor
 
         $xsltProcessor->importStylesheet($xslDomDocument);
         if (false === $xsltProcessor->setParameter($xslOptionsUri, $xslOptions)) {
-            throw new Exception('Could not set values for the given XSL style sheet parameters.');
+            throw new Exception('Could not set values for the given XSL style sheet parameters.'); // @codeCoverageIgnore
         }
 
         $this->tempDocumentHeaders = $this->transformXml($this->tempDocumentHeaders, $xsltProcessor);
@@ -278,8 +279,9 @@ class TemplateProcessor
     /**
      * @param string $search
      */
-    public function setComplexValue($search, Element\AbstractElement $complexType): void
+    public function setComplexValue($search, Element\AbstractElement $complexType, bool $multiple = false): void
     {
+        $originalSearch = $search;
         $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
@@ -300,6 +302,9 @@ class TemplateProcessor
 
         $search = static::ensureMacroCompleted($search);
         $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:r');
+        if ($multiple === true) {
+            $this->setComplexValue($originalSearch, $complexType, true);
+        }
     }
 
     /**
@@ -308,6 +313,9 @@ class TemplateProcessor
     public function setComplexBlock($search, Element\AbstractElement $complexType): void
     {
         $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
+        if ($elementName === 'Section') {
+            $elementName = 'Container';
+        }
         $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
 
         $xmlWriter = new XMLWriter();
@@ -315,7 +323,11 @@ class TemplateProcessor
         $elementWriter = new $objectClass($xmlWriter, $complexType, false);
         $elementWriter->write();
 
-        $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:p');
+        $search = static::ensureMacroCompleted($search);
+        $block = $xmlWriter->getData();
+        while (is_array($this->findContainingXmlBlockForMacro($search, 'w:p'))) {
+            $this->replaceXmlBlock($search, $block, 'w:p');
+        }
     }
 
     /**
@@ -559,15 +571,33 @@ class TemplateProcessor
         } else {
             $imgPath = $replaceImage;
         }
+        PhpWord::noPhar($imgPath);
 
         $width = $this->chooseImageDimension($width, $varInlineArgs['width'] ?? null, 115);
         $height = $this->chooseImageDimension($height, $varInlineArgs['height'] ?? null, 70);
 
-        $imageData = @getimagesize($imgPath);
-        if (!is_array($imageData)) {
-            throw new Exception(sprintf('Invalid image: %s', $imgPath));
+        $mime = mime_content_type($imgPath);
+        if ($mime !== 'image/svg+xml') {
+            $imageData = @getimagesize($imgPath);
+            if (!is_array($imageData)) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
+            }
+            [$actualWidth, $actualHeight, $imageType] = $imageData;
+        } else {
+            $content = file_get_contents($imgPath);
+            if (!$content) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
+            }
+            $svgXml = simplexml_load_string($content);
+            if (!$svgXml) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
+            }
+            $svgAttributes = $svgXml->attributes();
+            $actualWidth = $svgAttributes->width;
+            $actualHeight = $svgAttributes->height;
+            $actualWidth = is_numeric($actualWidth) ? $actualWidth . 'px' : $actualWidth;
+            $actualHeight = is_numeric($actualHeight) ? $actualHeight . 'px' : $actualHeight;
         }
-        [$actualWidth, $actualHeight, $imageType] = $imageData;
 
         // fix aspect ratio (by default)
         if (null === $ratio && isset($varInlineArgs['ratio'])) {
@@ -579,9 +609,11 @@ class TemplateProcessor
 
         $imageAttrs = [
             'src' => $imgPath,
-            'mime' => image_type_to_mime_type($imageType),
+            'mime' => $mime,
             'width' => $width,
             'height' => $height,
+            'originalWidth' => $actualWidth,
+            'originalHeight' => $actualHeight,
         ];
 
         return $imageAttrs;
@@ -599,6 +631,7 @@ class TemplateProcessor
             'image/png' => 'png',
             'image/bmp' => 'bmp',
             'image/gif' => 'gif',
+            'image/svg+xml' => 'svg',
         ];
 
         // get image embed name
@@ -609,7 +642,7 @@ class TemplateProcessor
             if (isset($extTransform[$imageMimeType])) {
                 $imgExt = $extTransform[$imageMimeType];
             } else {
-                throw new Exception("Unsupported image type $imageMimeType");
+                throw new Exception("Unsupported image type $imageMimeType"); // @codeCoverageIgnore
             }
 
             // add image to document
@@ -674,6 +707,48 @@ class TemplateProcessor
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
         $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}" stroked="f" filled="f"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
+        // use drawing for svg, see https://www.datypic.com/sc/ooxml/e-w_drawing-1.html
+        $svgTpl = '<w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                      <wp:extent cx="{WIDTH}" cy="{HEIGHT}"/>
+                      <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                      <wp:docPr id="{ID}" name="{NAME}"/>
+                      <wp:cNvGraphicFramePr>
+                        <a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/>
+                      </wp:cNvGraphicFramePr>
+                      <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+                        <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                          <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                            <pic:nvPicPr>
+                              <pic:cNvPr id="{ID}" name="{NAME}"/>
+                              <pic:cNvPicPr/>
+                            </pic:nvPicPr>
+                            <pic:blipFill>
+                              <a:blip>
+                                <a:extLst>
+                                  <a:ext uri="{96DAC541-7B7A-43D3-8B79-37D633B846F1}">
+                                    <asvg:svgBlip xmlns:asvg="http://schemas.microsoft.com/office/drawing/2016/SVG/main" r:embed="{RID}"/>
+                                  </a:ext>
+                                </a:extLst>
+                              </a:blip>
+                              <a:stretch>
+                                <a:fillRect/>
+                              </a:stretch>
+                            </pic:blipFill>
+                            <pic:spPr>
+                              <a:xfrm>
+                                <a:off x="0" y="0"/>
+                                <a:ext cx="{WIDTH}" cy="{HEIGHT}"/>
+                              </a:xfrm>
+                              <a:prstGeom prst="rect">
+                                <a:avLst/>
+                              </a:prstGeom>
+                            </pic:spPr>
+                          </pic:pic>
+                        </a:graphicData>
+                      </a:graphic>
+                    </wp:inline>
+                </w:drawing>';
 
         $i = 0;
         foreach ($searchParts as $partFileName => &$partContent) {
@@ -695,7 +770,29 @@ class TemplateProcessor
 
                     // replace preparations
                     $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
-                    $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
+                    if ($preparedImageAttrs['mime'] !== 'image/svg+xml') {
+                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
+                    } else {
+                        $width = Converter::cssToEmu($preparedImageAttrs['width']);
+                        $height = Converter::cssToEmu($preparedImageAttrs['height']);
+                        if ($width === null) {
+                            $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']);
+                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['width'], $matches)) {
+                                $unit = $matches[2];
+                                $size = (float) ($matches[1]) * (($unit === 'ex') ? 2 : 1);
+                                $width = ($unit === '%') ? (Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size) : ($size * 152400);
+                            }
+                        }
+                        if ($height === null) {
+                            $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']);
+                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['height'], $matches)) {
+                                $unit = $matches[2];
+                                $size = (float) ($matches[1]) * (($unit === 'ex') ? 2 : 1);
+                                $height = ($unit === '%') ? (Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size) : ($size * 152400);
+                            }
+                        }
+                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, (string) $width, (string) $height, $imgIndex, 'graphic'], $svgTpl);
+                    }
 
                     // replace variable
                     $varNameWithArgsFixed = static::ensureMacroCompleted($varNameWithArgs);
@@ -1039,6 +1136,7 @@ class TemplateProcessor
      */
     public function saveAs($fileName): void
     {
+        PhpWord::noPhar($fileName);
         $tempFileName = $this->save();
 
         if (file_exists($fileName)) {

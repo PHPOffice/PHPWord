@@ -11,39 +11,9 @@ parameters:
 			path: src/PhpWord/Element/AbstractContainer.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, int\\<0, max\\> given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/AbstractElement.php
-
-		-
-			message: "#^Parameter \\#2 \\$styleValue of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:setNewStyle\\(\\) expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, array\\|PhpOffice\\\\PhpWord\\\\Style\\\\Cell\\|null given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Cell.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Field\\:\\:setOptions\\(\\) should return PhpOffice\\\\PhpWord\\\\Element\\\\Field but returns array\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Field.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Field\\:\\:setProperties\\(\\) should return PhpOffice\\\\PhpWord\\\\Element\\\\Field but returns array\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Field.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Element\\\\Field\\:\\:\\$fontStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Font\\|string\\) does not accept null\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Field.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Field.php
-
-		-
-			message: "#^Parameter \\#2 \\$styleValue of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:setNewStyle\\(\\) expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, array\\|PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\|string\\|null given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Footnote.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Element\\\\Image\\:\\:getArchiveImageSize\\(\\) should return array\\|null but returns array<int\\|string, int\\|string>\\|false\\|null\\.$#"
@@ -56,19 +26,9 @@ parameters:
 			path: src/PhpWord/Element/Image.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, string given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Image.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Element\\\\Image\\:\\:\\$source \\(string\\) does not accept string\\|false\\.$#"
 			count: 1
 			path: src/PhpWord/Element/Image.php
-
-		-
-			message: "#^Offset 'extension' does not exist on array\\{dirname\\?\\: string, basename\\: string, extension\\?\\: string, filename\\: string\\}\\.$#"
-			count: 2
-			path: src/PhpWord/Element/OLEObject.php
 
 		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Element\\\\OLEObject\\:\\:\\$icon \\(string\\) does not accept string\\|false\\.$#"
@@ -86,21 +46,6 @@ parameters:
 			path: src/PhpWord/Element/Section.php
 
 		-
-			message: "#^Parameter \\#2 \\$styleValue of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:setNewStyle\\(\\) expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, array\\|PhpOffice\\\\PhpWord\\\\Style\\|PhpOffice\\\\PhpWord\\\\Style\\\\Section\\|string given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Section.php
-
-		-
-			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\|false given\\.$#"
-			count: 1
-			path: src/PhpWord/Element/Section.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Escaper\\\\Rtf\\:\\:escapeAsciiCharacter\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Escaper/Rtf.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Escaper\\\\Rtf\\:\\:escapeAsciiCharacter\\(\\) has parameter \\$code with no type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Escaper/Rtf.php
@@ -114,11 +59,6 @@ parameters:
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Escaper\\\\Rtf\\:\\:escapeMultibyteCharacter\\(\\) has parameter \\$code with no type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Escaper/Rtf.php
-
-		-
-			message: "#^Cannot instantiate interface PhpOffice\\\\PhpWord\\\\Writer\\\\WriterInterface\\.$#"
-			count: 1
-			path: src/PhpWord/IOFactory.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\IOFactory\\:\\:createObject\\(\\) should return PhpOffice\\\\PhpWord\\\\Reader\\\\ReaderInterface\\|PhpOffice\\\\PhpWord\\\\Writer\\\\WriterInterface but returns object\\.$#"
@@ -141,16 +81,6 @@ parameters:
 			path: src/PhpWord/IOFactory.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\PhpWord\\:\\:getDefaultFontSize\\(\\) should return int but returns float\\|int\\.$#"
-			count: 1
-			path: src/PhpWord/PhpWord.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function forward_static_call_array expects callable\\(\\)\\: mixed, array\\{'PhpOffice\\\\\\\\PhpWord…', string\\} given\\.$#"
-			count: 1
-			path: src/PhpWord/PhpWord.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Reader\\\\AbstractReader\\:\\:openFile\\(\\) should return resource but return statement is missing\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/AbstractReader.php
@@ -161,11 +91,6 @@ parameters:
 			path: src/PhpWord/Reader/HTML.php
 
 		-
-			message: "#^Offset 'textNodes' on array\\{changed\\: PhpOffice\\\\PhpWord\\\\Element\\\\TrackChange, textNodes\\: DOMNodeList\\<DOMElement\\>\\} in isset\\(\\) always exists and is not nullable\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/ODText/Content.php
-
-		-
 			message: "#^Parameter \\#2 \\$contextNode of method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLReader\\:\\:getElements\\(\\) expects DOMElement\\|null, DOMNode\\|null given\\.$#"
 			count: 2
 			path: src/PhpWord/Reader/ODText/Content.php
@@ -174,41 +99,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$depth of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractContainer\\:\\:addTitle\\(\\) expects int, string\\|null given\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/ODText/Content.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Reader\\\\RTF\\\\Document\\:\\:\\$rtf \\(string\\) does not accept string\\|false\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/RTF.php
-
-		-
-			message: "#^Cannot call method setStyleByArray\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Font\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/RTF/Document.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Reader\\\\RTF\\\\Document\\:\\:\\$phpWord is never read, only written\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/RTF/Document.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Reader\\\\ReaderInterface\\:\\:load\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/ReaderInterface.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function substr expects string, string\\|false given\\.$#"
-			count: 2
-			path: src/PhpWord/Reader/Word2007.php
-
-		-
-			message: "#^Parameter \\#2 \\$xmlFile of method PhpOffice\\\\PhpWord\\\\Reader\\\\Word2007\\:\\:getRels\\(\\) expects string, string\\|false given\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/Word2007.php
-
-		-
-			message: "#^Parameter \\#3 \\$subject of function str_replace expects array\\|string, string\\|false given\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/Word2007.php
 
 		-
 			message: "#^Binary operation \"/\" between string\\|null and 2 results in an error\\.$#"
@@ -296,11 +186,6 @@ parameters:
 			path: src/PhpWord/Reader/Word2007/Settings.php
 
 		-
-			message: "#^Parameter \\#1 \\$filename of function parse_ini_file expects string, string\\|false given\\.$#"
-			count: 1
-			path: src/PhpWord/Settings.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\AbstractEnum\\:\\:getConstants\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/AbstractEnum.php
@@ -381,17 +266,7 @@ parameters:
 			path: src/PhpWord/Shared/Html.php
 
 		-
-			message: "#^Cannot call method setBorderSize\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Table\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/Html.php
-
-		-
 			message: "#^Cannot call method setStyleName\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Table\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/Html.php
-
-		-
-			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/Html.php
 
@@ -436,18 +311,8 @@ parameters:
 			path: src/PhpWord/Shared/Html.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\Html\\:\\:parseStyleDeclarations\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/Html.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\Html\\:\\:recursiveParseStylesInHierarchy\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: src/PhpWord/Shared/Html.php
-
-		-
-			message: "#^Parameter \\#1 \\$attribute of static method PhpOffice\\\\PhpWord\\\\Shared\\\\Html\\:\\:parseStyle\\(\\) expects DOMAttr, DOMNode given\\.$#"
-			count: 3
 			path: src/PhpWord/Shared/Html.php
 
 		-
@@ -471,21 +336,6 @@ parameters:
 			path: src/PhpWord/Shared/Html.php
 
 		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/Html.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/Html.php
-
-		-
-			message: "#^Variable \\$cNodes in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 2
-			path: src/PhpWord/Shared/Html.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Shared\\\\Microsoft\\\\PasswordEncoder\\:\\:\\$encryptionMatrix has no type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/Microsoft/PasswordEncoder.php
@@ -501,18 +351,8 @@ parameters:
 			path: src/PhpWord/Shared/Microsoft/PasswordEncoder.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLWriter\\:\\:getData\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/XMLWriter.php
-
-		-
 			message: "#^Call to method add\\(\\) on an unknown class PclZip\\.$#"
 			count: 2
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
-			message: "#^Call to method addFromString\\(\\) on an unknown class PclZip\\.$#"
-			count: 1
 			path: src/PhpWord/Shared/ZipArchive.php
 
 		-
@@ -546,11 +386,6 @@ parameters:
 			path: src/PhpWord/Shared/ZipArchive.php
 
 		-
-			message: "#^Comparison operation \"\\!\\=\" between array and 0 results in an error\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
 			message: "#^Constant PCLZIP_OPT_ADD_PATH not found\\.$#"
 			count: 2
 			path: src/PhpWord/Shared/ZipArchive.php
@@ -576,38 +411,13 @@ parameters:
 			path: src/PhpWord/Shared/ZipArchive.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\ZipArchive\\:\\:getFromName\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\ZipArchive\\:\\:open\\(\\) should return bool but returns int\\|true\\.$#"
 			count: 1
 			path: src/PhpWord/Shared/ZipArchive.php
 
 		-
-			message: "#^Offset 'dirname' does not exist on array\\{dirname\\?\\: string, basename\\: string, extension\\?\\: string, filename\\: string\\}\\.$#"
-			count: 3
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
 			message: "#^PHPDoc tag @var for variable \\$zip contains unknown class PclZip\\.$#"
 			count: 6
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(PhpOffice\\\\PhpWord\\\\Shared\\\\ZipArchive\\)\\|PclZip\\|ZipArchive, mixed\\} given\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function fwrite expects resource, resource\\|false given\\.$#"
-			count: 1
 			path: src/PhpWord/Shared/ZipArchive.php
 
 		-
@@ -661,21 +471,6 @@ parameters:
 			path: src/PhpWord/Style/AbstractStyle.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\|false given\\.$#"
-			count: 1
-			path: src/PhpWord/Style/AbstractStyle.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/PhpWord/Style/AbstractStyle.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\Border\\:\\:getBorderSize\\(\\) should return array\\<int\\> but returns array\\<int, float\\|int\\>\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Border.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\Cell\\:\\:getBgColor\\(\\) should return string but returns null\\.$#"
 			count: 1
 			path: src/PhpWord/Style/Cell.php
@@ -712,11 +507,6 @@ parameters:
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\Chart\\:\\:showGridY\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Chart.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 250$#"
 			count: 1
 			path: src/PhpWord/Style/Chart.php
 
@@ -772,11 +562,6 @@ parameters:
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\:\\:setStyleValue\\(\\) should return PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph but returns PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\.$#"
-			count: 1
-			path: src/PhpWord/Style/Paragraph.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: src/PhpWord/Style/Paragraph.php
 
@@ -966,11 +751,6 @@ parameters:
 			path: src/PhpWord/TemplateProcessor.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:indexClonedVariables\\(\\) should return string but returns array\\<int\\<0, max\\>, string\\|null\\>\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:prepareImageAttrs\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/TemplateProcessor.php
@@ -986,27 +766,7 @@ parameters:
 			path: src/PhpWord/TemplateProcessor.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:setValueForPart\\(\\) should return string but returns array\\<int, string\\>\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:setValueForPart\\(\\) should return string but returns array\\<int, string\\>\\|string\\|null\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
 			message: "#^Parameter \\#1 \\$element of method PhpOffice\\\\PhpWord\\\\Writer\\\\Word2007\\\\Part\\\\Chart\\:\\:setElement\\(\\) expects PhpOffice\\\\PhpWord\\\\Element\\\\Chart, PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement given\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, array\\<string\\>\\|string given\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, string given\\.$#"
 			count: 1
 			path: src/PhpWord/TemplateProcessor.php
 
@@ -1019,21 +779,6 @@ parameters:
 			message: "#^Property PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:\\$macroOpeningChars has no type specified\\.$#"
 			count: 1
 			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:\\$tempDocumentFooters \\(array\\<string\\>\\) does not accept string\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:\\$tempDocumentHeaders \\(array\\<string\\>\\) does not accept string\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/AbstractWriter.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\HTML\\\\Element\\\\AbstractElement\\:\\:write\\(\\) has no return type specified\\.$#"
@@ -1101,11 +846,6 @@ parameters:
 			path: src/PhpWord/Writer/ODText/Part/Styles.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\\\AbstractRenderer, string\\} given\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/PDF.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:\\$renderer \\(PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\\\AbstractRenderer\\) does not accept object\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/PDF.php
@@ -1139,41 +879,6 @@ parameters:
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\\\DomPDF\\:\\:createExternalWriterInstance\\(\\) should return PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\\\DomPDF but returns Dompdf\\\\Dompdf\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/PDF/DomPDF.php
-
-		-
-			message: "#^Binary operation \"\\+\" between int\\|string and 1 results in an error\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of method PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Style\\\\Font\\:\\:setNameIndex\\(\\) expects int, int\\|string given\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$fontStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Font\\) does not accept PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\|null\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$fontStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Font\\) does not accept PhpOffice\\\\PhpWord\\\\Style\\\\Font\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$paragraphStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\) does not accept PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\|null\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$paragraphStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\) does not accept PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\|string\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\AbstractElement\\:\\:\\$paragraphStyle \\(PhpOffice\\\\PhpWord\\\\Style\\\\Paragraph\\) does not accept null\\.$#"
-			count: 2
-			path: src/PhpWord/Writer/RTF/Element/AbstractElement.php
 
 		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\RTF\\\\Element\\\\Field\\:\\:write\\(\\) should return string but empty return statement found\\.$#"
@@ -1301,11 +1006,6 @@ parameters:
 			path: src/PhpWord/Writer/Word2007/Part/Chart.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, int\\<0, max\\> given\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/Word2007/Part/Numbering.php
-
-		-
 			message: "#^Parameter \\#1 \\$haystack of function strpos expects string, int given\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/Word2007/Part/Rels.php
@@ -1314,11 +1014,6 @@ parameters:
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Writer\\\\Word2007\\\\Style\\\\AbstractStyle\\:\\:write\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/Word2007/Style/AbstractStyle.php
-
-		-
-			message: "#^Parameter \\#1 \\$styleName of static method PhpOffice\\\\PhpWord\\\\Style\\:\\:getStyle\\(\\) expects string, PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\|string given\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/Word2007/Style/Font.php
 
 		-
 			message: "#^Call to an undefined method object\\:\\:read\\(\\)\\.$#"
@@ -1366,11 +1061,6 @@ parameters:
 			path: tests/PhpWordTests/Element/CellTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$text of method PhpOffice\\\\PhpWord\\\\Element\\\\Field\\:\\:setText\\(\\) expects PhpOffice\\\\PhpWord\\\\Element\\\\TextRun\\|string\\|null, array given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Element/FieldTest.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Element\\\\ImageTest\\:\\:testImages\\(\\) has parameter \\$createFunction with no type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Element/ImageTest.php
@@ -1406,24 +1096,9 @@ parameters:
 			path: tests/PhpWordTests/Element/ImageTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, string\\|false given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Element/ImageTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function ucfirst expects string, string\\|false given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Element/ImageTest.php
-
-		-
 			message: "#^Parameter \\#3 \\$watermark of class PhpOffice\\\\PhpWord\\\\Element\\\\Image constructor expects bool, null given\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Element/ImageTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$style of class PhpOffice\\\\PhpWord\\\\Element\\\\Section constructor expects array\\|PhpOffice\\\\PhpWord\\\\Style\\|string\\|null, PhpOffice\\\\PhpWord\\\\Style\\\\Section given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Element/SectionTest.php
 
 		-
 			message: "#^Parameter \\#1 \\$text of class PhpOffice\\\\PhpWord\\\\Element\\\\Title constructor expects PhpOffice\\\\PhpWord\\\\Element\\\\TextRun\\|string, PhpOffice\\\\PhpWord\\\\Element\\\\PageBreak given\\.$#"
@@ -1511,66 +1186,6 @@ parameters:
 			path: tests/PhpWordTests/Reader/Word2007/StyleTest.php
 
 		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$compatibility has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$defaultFontName has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$defaultFontSize has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$defaultPaper has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$measurementUnit has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$outputEscapingEnabled has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$pdfRendererName has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$pdfRendererPath has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$tempDir has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
-			message: "#^Property PhpOffice\\\\PhpWordTests\\\\SettingsTest\\:\\:\\$zipClass has no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/SettingsTest.php
-
-		-
 			message: "#^Cannot call method getStyleName\\(\\) on PhpOffice\\\\PhpWord\\\\Style\\\\Table\\|string\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Shared/HtmlTest.php
@@ -1591,16 +1206,6 @@ parameters:
 			path: tests/PhpWordTests/Shared/XMLWriterTest.php
 
 		-
-			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Shared/ZipArchiveTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Style\\\\AbstractStyleTest\\:\\:callProtectedMethod\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Style/AbstractStyleTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<object\\>\\|object, class\\-string\\|false given\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Style/AbstractStyleTest.php
@@ -1617,7 +1222,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$value of method PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\:\\:setStyleValue\\(\\) expects array\\|int\\|string, null given\\.$#"
-			count: 1
+			count: 2
 			path: tests/PhpWordTests/Style/FontTest.php
 
 		-
@@ -1638,11 +1243,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:getText\\(\\)\\.$#"
 			count: 2
-			path: tests/PhpWordTests/TemplateProcessorTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Shared\\\\ZipArchive\\:\\:AddFromString\\(\\)\\.$#"
-			count: 1
 			path: tests/PhpWordTests/TemplateProcessorTest.php
 
 		-
@@ -1676,11 +1276,6 @@ parameters:
 			path: tests/PhpWordTests/TemplateProcessorTest.php
 
 		-
-			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: tests/PhpWordTests/TestHelperDOCX.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\TestableTemplateProcesor\\:\\:__construct\\(\\) has parameter \\$mainPart with no type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/TestableTemplateProcesor.php
@@ -1689,21 +1284,6 @@ parameters:
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\TestableTemplateProcesor\\:\\:__construct\\(\\) has parameter \\$settingsPart with no type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/TestableTemplateProcesor.php
-
-		-
-			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
-			count: 9
-			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
-			
-		-
-			message: "#^Cannot access property \\$length on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/HTML/Element/RubyTest.php
-
-		-
-			message: "#^Cannot call method item\\(\\) on DOMNodeList\\<DOMNode\\>\\|false\\.$#"
-			count: 11
-			path: tests/PhpWordTests/Writer/HTML/ElementTest.php
 
 		-
 			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
@@ -1716,117 +1296,12 @@ parameters:
 			path: tests/PhpWordTests/Writer/ODText/Style/FontTest.php
 
 		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getFont\\(\\)\\.$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getOrientation\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getPaperSize\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getTempDir\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:setFont\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:setOrientation\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:setPaperSize\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:setTempDir\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 3
-			path: tests/PhpWordTests/Writer/PDF/DomPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getFont\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/MPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/PDF/TCPDFTest.php
-
-		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Writer\\\\PDF\\:\\:getFont\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDF/TCPDFTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$libraryBaseDir of static method PhpOffice\\\\PhpWord\\\\Settings\\:\\:setPdfRenderer\\(\\) expects string, string\\|false given\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/PDFTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\ElementTest\\:\\:removeCr\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/RTF/ElementTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\ElementTest\\:\\:removeCr\\(\\) has parameter \\$field with no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/RTF/ElementTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\StyleTest\\:\\:removeCr\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/RTF/StyleTest.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\Writer\\\\RTF\\\\StyleTest\\:\\:removeCr\\(\\) has parameter \\$field with no type specified\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/RTF/StyleTest.php
-
-		-
 			message: "#^Property PhpOffice\\\\PhpWordTests\\\\Writer\\\\Word2007\\\\Element\\\\ChartTest\\:\\:\\$outputEscapingEnabled has no type specified\\.$#"
 			count: 1
 			path: tests/PhpWordTests/Writer/Word2007/Element/ChartTest.php
 
 		-
-			message: "#^Call to an undefined method object\\:\\:write\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/Word2007/ElementTest.php
-
-		-
-			message: "#^Call to an undefined method object\\:\\:write\\(\\)\\.$#"
-			count: 1
-			path: tests/PhpWordTests/Writer/Word2007/StyleTest.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWordTests\\\\XmlDocument\\:\\:getElement\\(\\) should return DOMElement\\|null but returns DOMNode\\|null\\.$#"
-			count: 1
-			path: tests/PhpWordTests/XmlDocument.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWordTests\\\\XmlDocument\\:\\:getNodeList\\(\\) should return DOMNodeList\\<DOMNode\\> but returns DOMNodeList\\<DOMNode\\>\\|false\\.$#"
 			count: 1
 			path: tests/PhpWordTests/XmlDocument.php
 
@@ -1839,39 +1314,3 @@ parameters:
 			message: "#^Property PhpOffice\\\\PhpWordTests\\\\XmlDocument\\:\\:\\$xpath \\(DOMXPath\\) does not accept null\\.$#"
 			count: 1
 			path: tests/PhpWordTests/XmlDocument.php
-
-		# https://github.com/phpstan/phpstan/issues/8770
-		-
-			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Writer\\\\HTML\\\\Part\\\\AbstractPart is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:|]+$#"
-			count: 1
-			path: src/PhpWord/Writer/HTML.php
-
-		# https://github.com/phpstan/phpstan/issues/8770
-		-
-			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
-			count: 2
-			path: tests/PhpWordTests/Element/AbstractElementTest.php
-
-		# https://github.com/phpstan/phpstan/issues/8770
-		-
-			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
-			count: 4
-			path: tests/PhpWordTests/Style/AbstractStyleTest.php
-
-		# https://github.com/phpstan/phpstan/issues/8770
-		-
-			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Writer\\\\EPub3\\\\Style\\\\AbstractStyle is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/EPub3/Style/AbstractStyleTest.php
-
-		# https://github.com/phpstan/phpstan/issues/8770
-		-
-			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Writer\\\\ODText\\\\Part\\\\AbstractPart is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/ODText/Part/AbstractPartTest.php
-
-		# https://github.com/phpstan/phpstan/issues/8770
-		-
-			message: "#^PHPDoc tag @var with type PhpOffice\\\\PhpWord\\\\Writer\\\\Word2007\\\\Part\\\\AbstractPart is not subtype of native type[\\sA-Za-z\\@\\\\\\/0-9\\.:]+$#"
-			count: 2
-			path: tests/PhpWordTests/Writer/Word2007/Part/AbstractPartTest.php

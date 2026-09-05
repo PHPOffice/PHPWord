@@ -67,8 +67,13 @@ function utf8decode(string $value, string $toEncoding = 'ISO-8859-1'): string
     return $result === false ? '' : $result;
 }
 
-// @phpstan-ignore-next-line
-if (!method_exists(PHPUnit\Framework\TestCase::class, 'setOutputCallback')) {
+/** @param string $methodName */
+function methodFound($methodName): bool
+{
+    return method_exists(PHPUnit\Framework\TestCase::class, $methodName);
+}
+
+if (!methodFound('setOutputCallback')) {
     ini_set('error_reporting', (string) E_ALL);
     set_error_handler('phpunit10ErrorHandler');
 }

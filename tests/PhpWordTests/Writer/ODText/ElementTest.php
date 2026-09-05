@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\ComplexType\RubyProperties;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -31,11 +32,20 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  */
 class ElementTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var bool */
+    private $esc;
+
+    protected function setUp(): void
+    {
+        $this->esc = Settings::isOutputEscapingEnabled();
+    }
+
     /**
      * Executed after each method of the class.
      */
     protected function tearDown(): void
     {
+        Settings::setOutputEscapingEnabled($this->esc);
         TestHelperDOCX::clear();
     }
 
@@ -308,7 +318,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $ruby->setCommentRangeStart($comment);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
-        $path = '/office:document-content/office:body/office:text/text:section/text:p[2]';
+        $path = '/office:document-content/office:body'
+            . '/office:text/text:section/text:p[2]'
+            . '/text:ruby/text:ruby-base';
         self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation', 'office:name'));
         self::assertSame($comment->getElementId(), $doc->getElementAttribute($path . '/office:annotation-end', 'office:name'));
     }
@@ -479,15 +491,13 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testTextWithAmpersand(): void
     {
-        $esc = \PhpOffice\PhpWord\Settings::isOutputEscapingEnabled();
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        Settings::setOutputEscapingEnabled(true);
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $txt = 'this text contains an & (ampersand)';
         $section->addText($txt);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled($esc);
         $p2t = '/office:document-content/office:body/office:text/text:section';
         $element = "$p2t/text:p[2]";
         self::assertTrue($doc->elementExists($element));
@@ -578,8 +588,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testRubyText(): void
     {
-        $esc = \PhpOffice\PhpWord\Settings::isOutputEscapingEnabled();
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        Settings::setOutputEscapingEnabled(true);
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $properties = new RubyProperties();
@@ -589,17 +598,25 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $properties->setFontSizeForBaseText(18);
         $properties->setLanguageId('ja-JP');
 
-        $baseTextRun = new TextRun(null);
+        $phpWord->addParagraphStyle('lineHeight10', [
+            'lineHeight' => '10',
+        ]);
+        $baseTextRun = new TextRun('lineHeight10');
         $baseTextRun->addText('私');
-        $rubyTextRun = new TextRun(null);
+        $rubyTextRun = new TextRun(['lineHeight' => '4']);
         $rubyTextRun->addText('わたし');
         $section->addRuby($baseTextRun, $rubyTextRun, $properties);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled($esc);
         $p2t = '/office:document-content/office:body/office:text/text:section';
-        $element = "$p2t/text:p[2]";
-        self::assertTrue($doc->elementExists($element));
-        self::assertEquals('私 (わたし)', $doc->getElement($element)->nodeValue);
+        $textRuby = "$p2t/text:p[2]/text:ruby";
+        self::assertTrue($doc->elementExists($textRuby));
+        $textRubyBase = "$textRuby/text:ruby-base";
+        self::assertTrue($doc->elementExists($textRubyBase));
+        self::assertEquals('私', $doc->getElement($textRubyBase)->nodeValue);
+        self::assertEquals('lineHeight10', $doc->getElementAttribute($textRubyBase, 'text:style-name'));
+        $textRubyText = "$textRuby/text:ruby-text";
+        self::assertTrue($doc->elementExists($textRubyText));
+        self::assertEquals('わたし', $doc->getElement($textRubyText)->nodeValue);
     }
 }

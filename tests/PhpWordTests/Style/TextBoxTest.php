@@ -25,8 +25,6 @@ use PHPUnit\Framework\TestCase;
  * Test class for PhpOffice\PhpWord\Style\Image.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Image
- *
- * @runTestsInSeparateProcesses
  */
 class TextBoxTest extends TestCase
 {
@@ -64,10 +62,43 @@ class TextBoxTest extends TestCase
     public function testSetGetNormal(string $key, $value): void
     {
         $object = new TextBox();
-        $set = "set{$key}";
-        $get = "get{$key}";
-        $object->$set($value);
-        self::assertEquals($value, $object->$get());
+
+        $stringProperties = [
+            'alignment' => Jc::START,
+            'wrappingStyle' => 'inline',
+            'positioning' => 'absolute',
+            'posHorizontal' => 'center',
+            'posVertical' => 'top',
+            'posHorizontalRel' => 'margin',
+            'posVerticalRel' => 'page',
+            'borderColor' => 'red',
+            'bgColor' => 'blue',
+        ];
+        foreach ($stringProperties as $key => $value) {
+            $uckey = ucfirst($key);
+            $set = "set{$uckey}";
+            $get = "get{$uckey}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
+        $intProperties = [
+            'width' => 200,
+            'height' => 200,
+            'marginTop' => 240,
+            'marginLeft' => 240,
+            'innerMarginTop' => 5,
+            'innerMarginRight' => 5,
+            'innerMarginBottom' => 5,
+            'innerMarginLeft' => 5,
+            'borderSize' => 2,
+        ];
+        foreach ($intProperties as $key => $value) {
+            $uckey = ucfirst($key);
+            $set = "set{$uckey}";
+            $get = "get{$uckey}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
     }
 
     /**

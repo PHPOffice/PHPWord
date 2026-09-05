@@ -18,7 +18,7 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
-use Exception;
+use PhpOffice\PhpWord\Exception\Exception as WordException;
 
 /**
  * XMLWriter.
@@ -35,6 +35,8 @@ use Exception;
  * @method bool writeComment(string $content)
  * @method bool writeElement(string $name, string $content = null)
  * @method bool writeRaw(string $content)
+ *
+ * @codeCoverageIgnore
  */
 class XMLWriter extends \XMLWriter
 {
@@ -49,6 +51,9 @@ class XMLWriter extends \XMLWriter
      */
     private $tempFileName = '';
 
+    /** @var string */
+    private $hash;
+
     /**
      * Create a new \PhpOffice\PhpWord\Shared\XMLWriter instance.
      *
@@ -58,11 +63,12 @@ class XMLWriter extends \XMLWriter
      */
     public function __construct($pTemporaryStorage = self::STORAGE_MEMORY, $pTemporaryStorageDir = null, $compatibility = false)
     {
+        $this->hash = spl_object_hash($this);
         // Open temporary storage
         if ($pTemporaryStorage == self::STORAGE_MEMORY) {
             $this->openMemory();
         } else {
-            if (!$pTemporaryStorageDir || !is_dir($pTemporaryStorageDir)) {
+            if (!$pTemporaryStorageDir || realpath($pTemporaryStorageDir) === false || !is_dir($pTemporaryStorageDir)) {
                 $pTemporaryStorageDir = sys_get_temp_dir();
             }
             // Create temporary filename
@@ -86,13 +92,30 @@ class XMLWriter extends \XMLWriter
      */
     public function __destruct()
     {
+        if ($this->hash !== spl_object_hash($this)) {
+            throw new WordException('Unserialize not permitted1');
+        }
         // Unlink temporary files
         if (empty($this->tempFileName)) {
             return;
         }
-        if (PHP_OS != 'WINNT' && @unlink($this->tempFileName) === false) {
-            throw new Exception('The file ' . $this->tempFileName . ' could not be deleted.');
-        }
+        @unlink($this->tempFileName);
+    }
+
+    /** @codeCoverageIgnore */
+    public function __wakeup(): void
+    {
+        $this->tempFileName = '';
+
+        throw new WordException('Unserialize not permitted2');
+    }
+
+    /** @param mixed[] $data */
+    public function __unserialize(array $data): void
+    {
+        $this->tempFileName = '';
+
+        throw new WordException('Unserialize not permitted3');
     }
 
     /**
@@ -108,7 +131,7 @@ class XMLWriter extends \XMLWriter
 
         $this->flush();
 
-        return file_get_contents($this->tempFileName);
+        return (string) file_get_contents($this->tempFileName);
     }
 
     /**
@@ -176,7 +199,7 @@ class XMLWriter extends \XMLWriter
     public function writeAttribute($name, $value): bool
     {
         if (is_float($value)) {
-            $value = json_encode($value);
+            $value = (string) $value;
         }
 
         return parent::writeAttribute($name, $value ?? '');

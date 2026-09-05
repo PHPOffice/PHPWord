@@ -18,6 +18,10 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
+
 /**
  * Font style writer.
  *
@@ -25,19 +29,43 @@ namespace PhpOffice\PhpWord\Writer\ODText\Style;
  */
 class Font extends AbstractStyle
 {
+    private const UNDERLINES = [
+        FontStyle::UNDERLINE_DASH => 'dash',
+        FontStyle::UNDERLINE_DASHDOTDOTHEAVY => 'dot-dot-dash',
+        FontStyle::UNDERLINE_DASHDOTHEAVY => 'dot-dash',
+        FontStyle::UNDERLINE_DASHEDHEAVY => 'dash',
+        FontStyle::UNDERLINE_DASHLONG => 'long-dash',
+        FontStyle::UNDERLINE_DASHLONGHEAVY => 'long-dash',
+        FontStyle::UNDERLINE_DOTDASH => 'dot-dash',
+        FontStyle::UNDERLINE_DOTDOTDASH => 'dot-dot-dash',
+        FontStyle::UNDERLINE_DOTTED => 'dotted',
+        FontStyle::UNDERLINE_DOTTEDHEAVY => 'dotted',
+        FontStyle::UNDERLINE_DOUBLE => 'solid',
+        FontStyle::UNDERLINE_HEAVY => 'solid',
+        FontStyle::UNDERLINE_SINGLE => 'solid',
+        FontStyle::UNDERLINE_WAVY => 'wave',
+        FontStyle::UNDERLINE_WAVYDOUBLE => 'wave',
+        FontStyle::UNDERLINE_WAVYHEAVY => 'wave',
+        FontStyle::UNDERLINE_WORDS => 'solid',
+    ];
+
     /**
      * Write style.
      */
     public function write(): void
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
-            return;
+        if ($style instanceof FontStyle) {
+            $this->writeStyle($style);
         }
+    }
+
+    private function writeStyle(FontStyle $style): void
+    {
         $xmlWriter = $this->getXmlWriter();
 
         $stylep = $style->getParagraph();
-        if ($stylep instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+        if ($stylep instanceof Style\Paragraph) {
             $temp1 = clone $stylep;
             $temp1->setStyleName($style->getStyleName());
             $temp2 = new Paragraph($xmlWriter, $temp1);
@@ -45,7 +73,7 @@ class Font extends AbstractStyle
         }
 
         $xmlWriter->startElement('style:style');
-        $xmlWriter->writeAttribute('style:name', $style->getStyleName());
+        $xmlWriter->writeAttribute('style:name', Style::alternateName($style->getStyleName()));
         $xmlWriter->writeAttribute('style:family', 'text');
         $xmlWriter->startElement('style:text-properties');
 
@@ -61,8 +89,8 @@ class Font extends AbstractStyle
         $xmlWriter->writeAttributeIf(is_numeric($size), 'style:font-size-complex', $size . 'pt');
 
         // Color
-        $color = $style->getColor();
-        $xmlWriter->writeAttributeIf($color != '', 'fo:color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($color));
+        $color = (string) $style->getColor();
+        $xmlWriter->writeAttributeIf($color !== '', 'fo:color', '#' . Converter::stringToRgb($color));
 
         // Bold & italic
         $xmlWriter->writeAttributeIf($style->isBold(), 'fo:font-weight', 'bold');
@@ -72,9 +100,39 @@ class Font extends AbstractStyle
         $xmlWriter->writeAttributeIf($style->isItalic(), 'style:font-style-complex', 'italic');
 
         // Underline
-        // @todo Various mode of underline
         $underline = $style->getUnderline();
-        $xmlWriter->writeAttributeIf($underline != 'none', 'style:text-underline-style', 'solid');
+        if (isset(self::UNDERLINES[$underline])) {
+            $xmlWriter->writeAttribute(
+                'style:text-underline-style',
+                self::UNDERLINES[$underline]
+            );
+            $xmlWriter->writeAttributeIf(
+                strpos(strtolower($underline), 'heavy') !== false,
+                'style:text-underline-width',
+                'bold'
+            );
+            $xmlWriter->writeAttributeIf(
+                strpos(strtolower($underline), 'thick') !== false,
+                'style:text-underline-width',
+                'bold'
+            );
+            $xmlWriter->writeAttributeIf(
+                strpos(strtolower($underline), 'double') !== false,
+                'style:text-underline-type',
+                'double'
+            );
+            $xmlWriter->writeAttributeIf(
+                strpos(strtolower($underline), 'words') !== false,
+                'style:text-underline-mode',
+                'skip-white-space'
+            );
+            $underlineColor = $style->getunderlineColor();
+            $xmlWriter->writeAttributeIf(
+                $underlineColor !== '',
+                'style:text-underline-color',
+                '#' . Converter::stringToRgb($underlineColor)
+            );
+        }
 
         // Strikethrough, double strikethrough
         $xmlWriter->writeAttributeIf($style->isStrikethrough(), 'style:text-line-through-type', 'single');
@@ -100,9 +158,9 @@ class Font extends AbstractStyle
             $xmlWriter->writeAttribute('style:country-complex', 'none');
         }
 
-        // @todo Foreground-Color
-
-        // @todo Background color
+        // Foreground-Color (which is really background color)
+        $fgColor = (string) $style->getFgColor();
+        $xmlWriter->writeAttributeIf($fgColor !== '', 'fo:background-color', '#' . Converter::stringToRgb($fgColor));
 
         $xmlWriter->endElement(); // style:text-properties
         $xmlWriter->endElement(); // style:style

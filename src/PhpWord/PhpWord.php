@@ -21,6 +21,8 @@ namespace PhpOffice\PhpWord;
 use BadMethodCallException;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Section as StyleSection;
 
 /**
  * PHPWord main class.
@@ -212,7 +214,7 @@ class PhpWord
     /**
      * Create new section.
      *
-     * @param null|array|string $style
+     * @param null|array|string|StyleSection $style
      *
      * @return Section
      */
@@ -294,7 +296,7 @@ class PhpWord
     /**
      * Get default font size.
      *
-     * @return int
+     * @return float|int
      */
     public function getDefaultFontSize()
     {
@@ -318,9 +320,9 @@ class PhpWord
      *
      * @return Style\Paragraph
      */
-    public function setDefaultParagraphStyle($styles)
+    public function setDefaultParagraphStyle($styles, ?Font $fontStyles = null)
     {
-        return Style::setDefaultParagraphStyle($styles);
+        return Style::setDefaultParagraphStyle($styles, $fontStyles);
     }
 
     /**
@@ -359,6 +361,18 @@ class PhpWord
         $writer->save($filename);
 
         return true;
+    }
+
+    public static function noPhar(string $path): void
+    {
+        if (
+            preg_match('~^phar://~i', $path)
+            || (preg_match('/^([\w.\s\x00-\x1f]+):/', $path) && !preg_match('/^([\w.]+):/', $path))
+            || preg_match('~^php://.*phar:~is', $path)
+            || preg_match('~^[\w.]+://.*phar:~is', $path)
+        ) {
+            throw new Exception('Invalid protocol used in filename');
+        }
     }
 
     /**

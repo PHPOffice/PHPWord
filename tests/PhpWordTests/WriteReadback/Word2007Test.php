@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWordTests\WriteReadback;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Writer\Word2007;
 
@@ -28,11 +29,17 @@ use PhpOffice\PhpWord\Writer\Word2007;
  * Test class for PhpOffice\PhpWord\Reader\Word2007 and PhpOffice\PhpWord\Writer\Word2007.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\Word2007
- *
- * @runTestsInSeparateProcesses
  */
 class Word2007Test extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * Executed after each method of the class.
+     */
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test default font name.
      */
@@ -129,6 +136,8 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $phpWordWriter = new PhpWord();
         $zoomLevel = 75;
         $phpWordWriter->getSettings()->setZoom($zoomLevel);
+        $phpWordWriter->getSettings()->setConsecutiveHyphenLimit(3);
+        $phpWordWriter->getSettings()->setAutoHyphenation(true);
 
         $writer = new Word2007($phpWordWriter);
         $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
@@ -139,6 +148,8 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $phpWordReader = IOFactory::load($file, 'Word2007');
 
         self::assertEquals($zoomLevel, $phpWordReader->getSettings()->getZoom());
+        self::assertSame(3, $phpWordReader->getSettings()->getConsecutiveHyphenLimit());
+        self::assertTrue($phpWordReader->getSettings()->hasAutoHyphenation());
 
         unlink($file);
     }

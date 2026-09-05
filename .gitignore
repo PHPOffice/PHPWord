@@ -8,6 +8,7 @@
 Thumbs.db
 Desktop.ini
 .idea
+/analysis
 _build
 /build
 phpunit.xml
@@ -15,7 +16,6 @@ composer.phar
 composer.lock
 vendor
 /report
-/build
 /samples/results
 /.settings
 phpword.ini
@@ -25,5 +25,10 @@ phpword.ini
 /nbproject
 /.php_cs.cache
 /.phpunit.result.cache
+/.phpunit.cache
 /public
 tests/PhpWordTests/_files/tmp
+
+# used by mkdocs, zensical
+/site
+/public

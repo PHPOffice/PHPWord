@@ -25,8 +25,6 @@ use PhpOffice\PhpWord\Style\Cell;
  * Test class for PhpOffice\PhpWord\Style\Cell.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Cell
- *
- * @runTestsInSeparateProcesses
  */
 class CellTest extends \PHPUnit\Framework\TestCase
 {

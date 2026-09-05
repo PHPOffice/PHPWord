@@ -26,18 +26,19 @@ use ReflectionMethod;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF\MPDF.
- *
- * @runTestsInSeparateProcesses
  */
 class MPDFTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test construct.
      */
     public function testConstruct(): void
     {
-        $file = __DIR__ . '/../../_files/mpdf.pdf';
-
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test 1');
@@ -45,21 +46,19 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section->addText('Test 2');
         $oSettings = new \PhpOffice\PhpWord\Style\Section();
         $oSettings->setSettingValue('orientation', 'landscape');
-        $section = $phpWord->addSection($oSettings); // @phpstan-ignore-line
+        $section = $phpWord->addSection($oSettings);
         $section->addText('Section 2 - landscape');
 
         $writer = new MPDF($phpWord);
-        $writer->save($file);
-
-        self::assertFileExists($file);
-
-        unlink($file);
+        $writer->setFont('xyz');
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     public function testEditCallback(): void
     {
-        $file = __DIR__ . '/../../_files/mpdf.pdf';
-
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test 1');
@@ -67,18 +66,17 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $section->addText('Test 2');
         $oSettings = new \PhpOffice\PhpWord\Style\Section();
         $oSettings->setSettingValue('orientation', 'landscape');
-        $section = $phpWord->addSection($oSettings); // @phpstan-ignore-line
+        $section = $phpWord->addSection($oSettings);
         $section->addText('Section 2 - landscape');
 
         $writer = new MPDF($phpWord);
         /** @var callable */
         $callback = [self::class, 'cbEditContent'];
         $writer->setEditCallback($callback);
-        $writer->save($file);
-
-        self::assertFileExists($file);
-
-        unlink($file);
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     // add a footer
@@ -107,6 +105,7 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
     {
         $rendererName = Settings::PDF_RENDERER_MPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
+        self::assertNotFalse($rendererLibraryPath);
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         Settings::setPdfRendererOptions([
             'font' => 'Arial',

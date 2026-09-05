@@ -22,8 +22,6 @@ use PhpOffice\PhpWord\Element\Footnote;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Footnote.
- *
- * @runTestsInSeparateProcesses
  */
 class FootnoteTest extends \PHPUnit\Framework\TestCase
 {

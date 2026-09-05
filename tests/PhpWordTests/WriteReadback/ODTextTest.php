@@ -27,8 +27,6 @@ use PhpOffice\PhpWord\Writer\ODText;
  * Test class for PhpOffice\PhpWord\Reader\ODText and PhpOffice\PhpWord\Writer\ODText.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\ODText
- *
- * @runTestsInSeparateProcesses
  */
 class ODTextTest extends \PHPUnit\Framework\TestCase
 {

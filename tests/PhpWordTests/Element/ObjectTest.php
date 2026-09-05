@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Element\OLEObject;
  * Test class for PhpOffice\PhpWord\Element\OLEObject.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\OLEObject
- *
- * @runTestsInSeparateProcesses
  */
 class ObjectTest extends \PHPUnit\Framework\TestCase
 {

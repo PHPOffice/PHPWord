@@ -21,13 +21,12 @@ namespace PhpOffice\PhpWordTests\Writer;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\HTML.
- *
- * @runTestsInSeparateProcesses
  */
 class HTMLTest extends AbstractWebServerEmbedded
 {
@@ -95,6 +94,9 @@ class HTMLTest extends AbstractWebServerEmbedded
 
     /**
      * Save.
+     * Method getRemoteGifImageUrl seems to require separate process.
+     *
+     * @runInSeparateProcess
      */
     public function testSave(): void
     {
@@ -161,7 +163,7 @@ class HTMLTest extends AbstractWebServerEmbedded
         $cell = $table->addRow()->addCell();
         $cell->addText(
             htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'),
-            ['superscript' => true, 'underline' => 'dash', 'strikethrough' => true]
+            ['superscript' => true, 'underline' => Font::UNDERLINE_DASHDOTDOTHEAVY, 'strikethrough' => true]
         );
         $cell->addTextRun();
         $cell->addLink('https://github.com/PHPOffice/PHPWord');
@@ -175,6 +177,9 @@ class HTMLTest extends AbstractWebServerEmbedded
         $section->addLink('top', 'back to top', null, null, true);
 
         $writer = new HTML($phpWord);
+        $content = $writer->getContent();
+        $expected = '<p><span style="vertical-align: super; text-decoration: underline dotted 2px line-through ;">Test 1</span></p>';
+        self::assertStringContainsString($expected, $content);
 
         $writer->save($file);
         self::assertFileExists($file);

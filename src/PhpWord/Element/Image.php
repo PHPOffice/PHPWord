@@ -18,9 +18,11 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use DOMDocument;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
@@ -158,6 +160,7 @@ class Image extends AbstractElement
      */
     public function __construct($source, $style = null, $watermark = false, $name = null, $altText = null)
     {
+        PhpWord::noPhar($source);
         $this->source = $source;
         $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
         $this->setIsWatermark($watermark);
@@ -402,7 +405,9 @@ class Image extends AbstractElement
             if (!extension_loaded('gd')) {
                 throw new RuntimeException('The GD extension is required to process GD images.');
             }
-            $imageResource = call_user_func($this->imageCreateFunc, $actualSource);
+            /** @var callable */
+            $callable = $this->imageCreateFunc;
+            $imageResource = call_user_func($callable, $actualSource);
             if ($this->imageType === 'image/png') {
                 // PNG images need to preserve alpha channel information
                 imagesavealpha($imageResource, true);
@@ -461,6 +466,20 @@ class Image extends AbstractElement
     {
         $this->setSourceType();
 
+        $ext = strtolower(pathinfo($this->source, PATHINFO_EXTENSION));
+        if ($ext === 'svg') {
+            [$actualWidth, $actualHeight] = $this->getSvgDimensions($this->source);
+            $this->imageType = 'image/svg+xml';
+            $this->imageExtension = 'svg';
+            $this->imageFunc = null;
+            $this->imageQuality = null;
+            $this->memoryImage = false;
+            $this->sourceType = self::SOURCE_LOCAL;
+            $this->setProportionalSize($actualWidth, $actualHeight);
+
+            return;
+        }
+
         // Check image data
         if ($this->sourceType == self::SOURCE_ARCHIVE) {
             $imageData = $this->getArchiveImageSize($this->source);
@@ -480,7 +499,7 @@ class Image extends AbstractElement
             $supportedTypes = array_merge($supportedTypes, [IMAGETYPE_BMP, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM]);
         }
         if (!in_array($imageType, $supportedTypes)) {
-            throw new UnsupportedImageTypeException();
+            throw new UnsupportedImageTypeException("Unsupported image type $imageType");
         }
 
         // Define image functions
@@ -626,5 +645,39 @@ class Image extends AbstractElement
                 $this->style->setWidth($actualWidth * ($styleHeight / $actualHeight));
             }
         }
+    }
+
+    public function getSvgDimensions(string $file): array
+    {
+        $xml = @file_get_contents($file);
+        if ($xml === false) {
+            throw new InvalidImageException("Impossible de lire le fichier SVG: $file");
+        }
+        libxml_use_internal_errors(true);
+        $dom = new DOMDocument();
+        if (!$dom->loadXML($xml)) {
+            throw new InvalidImageException('SVG invalide ou mal formé');
+        }
+        $svg = $dom->documentElement;
+
+        $wAttr = round((float) $svg->getAttribute('width'));
+        $hAttr = round((float) $svg->getAttribute('height'));
+
+        $w = (int) filter_var($wAttr, FILTER_SANITIZE_NUMBER_INT);
+        $h = (int) filter_var($hAttr, FILTER_SANITIZE_NUMBER_INT);
+
+        if ($w <= 0 || $h <= 0) {
+            $vb = $svg->getAttribute('viewBox');
+            if (preg_match('/^\s*[\d.+-]+[\s,]+[\d.+-]+[\s,]+([\d.+-]+)[\s,]+([\d.+-]+)\s*$/', $vb, $m)) {
+                $w = (int) round((float) $m[1]);
+                $h = (int) round((float) $m[2]);
+            }
+        }
+
+        if ($w <= 0 || $h <= 0) {
+            throw new InvalidImageException('Impossible de déterminer width/height ou viewBox valides pour le SVG');
+        }
+
+        return [$w, $h];
     }
 }

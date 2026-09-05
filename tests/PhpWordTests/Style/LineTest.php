@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Style\Line;
  * Test class for PhpOffice\PhpWord\Style\Image.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Image
- *
- * @runTestsInSeparateProcesses
  */
 class LineTest extends \PHPUnit\Framework\TestCase
 {

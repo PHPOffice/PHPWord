@@ -22,6 +22,7 @@ use DOMDocument;
 use Exception;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Exception\Exception as PhpWordException;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
@@ -96,7 +97,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
 
         $embeddingText = 'The quick Brown Fox jumped over the lazy^H^H^H^Htired unitTester';
-        $templateProcessor->zip()->AddFromString('word/embeddings/fox.bin', $embeddingText);
+        $templateProcessor->zip()->addFromString('word/embeddings/fox.bin', $embeddingText);
         $documentFqfn = $templateProcessor->save();
 
         self::assertNotEmpty($documentFqfn, 'FQFN of the saved document is empty.');
@@ -177,7 +178,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $this->expectException(TypeError::class);
             $this->expectExceptionMessage('must contain only string keys');
         } else {
-            $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+            $this->expectException(PhpWordException::class);
             $this->expectExceptionMessage('Could not set values for the given XSL style sheet parameters.');
         }
 
@@ -200,7 +201,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
      */
     public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectException(PhpWordException::class);
         $this->expectExceptionMessage('Could not load the given XML document.');
         $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/corrupted_main_document_part.docx');
 
@@ -229,6 +230,29 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
 
         $docName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'delete-row-test-result.docx';
+        $templateProcessor->deleteRow('deleteMe');
+        self::assertEquals(
+            [],
+            $templateProcessor->getVariables()
+        );
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+        self::assertTrue($docFound);
+    }
+
+    public function testNoPhar(): void
+    {
+        $this->expectException(PhpWordException::class);
+        $this->expectExceptionMessage('Invalid protocol');
+        $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/delete-row.docx');
+
+        self::assertEquals(
+            ['deleteMe', 'deleteMeToo'],
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'Phar://poc.docx'; // should catch mixed case
         $templateProcessor->deleteRow('deleteMe');
         self::assertEquals(
             [],
@@ -855,18 +879,22 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @covers ::setImageValue
+     * @covers \PhpOffice\PhpWord\Shared\ZipArchive::pclzipAddFile
      */
     public function testSetImageValue(): void
     {
         $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
-        $imagePath = __DIR__ . '/_files/images/earth.jpg';
+        $imageJpg = __DIR__ . '/_files/images/earth.jpg';
+        $imageGif = __DIR__ . '/_files/images/mario.gif';
+        $imagePng = __DIR__ . '/_files/images/firefox.png';
+        $imageSvg = __DIR__ . '/_files/images/phpword.svg';
 
         $variablesReplace = [
-            'headerValue' => function () use ($imagePath) {
-                return $imagePath;
+            'headerValue' => function () use ($imageJpg) {
+                return $imageJpg;
             },
-            'documentContent' => ['path' => $imagePath, 'width' => 500, 'height' => 500],
-            'footerValue' => ['path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false],
+            'documentContent' => ['path' => $imageJpg, 'width' => 500, 'height' => 500],
+            'footerValue' => ['path' => $imageJpg, 'width' => 100, 'height' => 50, 'ratio' => false],
         ];
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 
@@ -906,7 +934,16 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $testFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-test-sample.docx';
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('${Test:width=100:ratio=true}');
+        $section->addText('${Test0:width=100:ratio=true}');
+        $section->addText('${Test1::50:true}');
+        $section->addText('${Test2}');
+        $section->addText('${Test3:size=10cmx7cm:ratio=false}');
+        $section->addText('${Test4:size=100mmx70mm:ratio=true}');
+        $section->addText('${Test5:4in::true}');
+        $section->addText('${Test6:300pt:200pt}');
+        $section->addText('${Test7:25pc:}');
+        $section->addText('${Test8:50%:50%}');
+        $section->addText('${Test9::5ex}');
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
@@ -914,9 +951,8 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $resultFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
-        $templateProcessor->setImageValue('Test', $imagePath);
-        $templateProcessor->setImageValue('Test1', $imagePath);
-        $templateProcessor->setImageValue('Test2', $imagePath);
+        $templateProcessor->setImageValue('Test0', $imageJpg);
+        $templateProcessor->setImageValue(['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6', 'Test7', 'Test8', 'Test9'], [$imageGif, $imagePng, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg]);
         $templateProcessor->saveAs($resultFileName);
         self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
 
@@ -928,7 +964,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
         unlink($resultFileName);
 
-        self::assertStringNotContainsString('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
+        self::assertStringNotContainsString('${Test', $expectedMainPartXml, 'word/document.xml has not inserted all images.');
     }
 
     /**
@@ -1777,5 +1813,44 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $templateProcessor->setValue('boolTrue', true);
         self::assertStringContainsString('<w:t t=8>1</w:t>', $templateProcessor->getMainPart());
+    }
+
+    public function testSetComplexBlockReplacesMultipleMatchingMacros(): void
+    {
+        $title = new TextRun();
+        $title->addText('This is my repeated title');
+
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">${document-title}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">${document-title}</w:t>
+            </w:r>
+        </w:p>';
+
+        $result = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:pPr/>
+            <w:r>
+                <w:rPr/>
+                <w:t xml:space="preserve">This is my repeated title</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:pPr/>
+            <w:r>
+                <w:rPr/>
+                <w:t xml:space="preserve">This is my repeated title</w:t>
+            </w:r>
+        </w:p>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setComplexBlock('document-title', $title);
+
+        self::assertSame(trim(preg_replace('/>\s+</', '><', $result)), trim(preg_replace('/>\s+</', '><', $templateProcessor->getMainPart())));
     }
 }

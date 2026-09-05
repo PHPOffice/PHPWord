@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests;
 
+use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use ZipArchive;
 
@@ -62,5 +63,16 @@ abstract class AbstractTestReader extends \PHPUnit\Framework\TestCase
         unlink($file);
 
         return $phpWord;
+    }
+
+    protected function writeAndReload(PhpWord $phpWord, string $name = 'Word2007'): PhpWord
+    {
+        $file = tempnam(sys_get_temp_dir(), 'PhpWord');
+        /** @string $file */
+        $phpWord->save($file, $name);
+        $newWord = IOFactory::load($file, $name);
+        @unlink($file);
+
+        return $newWord;
     }
 }

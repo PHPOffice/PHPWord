@@ -166,7 +166,7 @@ Customer: ${customer_name#3}
 Address: ${customer_address#3}
 ```
 
-It is also possible to pass an array with the values to replace the marcros with.
+It is also possible to pass an array with the values to replace the macros with.
 If an array with replacements is passed, the ``count`` argument is ignored, it is the size of the array that counts.
 
 ``` php

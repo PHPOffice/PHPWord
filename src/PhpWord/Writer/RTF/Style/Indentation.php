@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
+use PhpOffice\PhpWord\Style\Indentation as IndentationStyle;
+
 /**
  * RTF indentation style writer.
  *
@@ -33,13 +35,19 @@ class Indentation extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Indentation) {
-            return '';
-        }
 
-        $content = '\fi' . round($style->getFirstLine());
-        $content .= '\li' . round($style->getLeft());
-        $content .= '\ri' . round($style->getRight());
+        return ($style instanceof IndentationStyle) ? $this->writeStyle($style) : '';
+    }
+
+    private function writeStyle(IndentationStyle $style): string
+    {
+        $content = '';
+
+        $content .= $this->getValueIf($style->getFirstLine() != 0, '\fi' . round($style->getFirstLine()));
+        $content .= $this->getValueIf($style->getFirstLineChars() != 0, '\cufi' . round($style->getFirstLineChars()));
+        $content .= $this->getValueIf($style->getHanging() != 0, '\fi-' . round($style->getHanging()));
+        $content .= $this->getValueIf($style->getLeft() != 0, '\li' . round($style->getLeft()));
+        $content .= $this->getValueIf($style->getRight() != 0, '\ri' . round($style->getRight()));
 
         return $content . ' ';
     }

@@ -57,7 +57,7 @@ class XMLReader
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
-        if (file_exists($zipFile) === false) {
+        if (realpath($zipFile) === false) {
             throw new Exception('Cannot find archive file.');
         }
 
@@ -91,12 +91,12 @@ class XMLReader
     public function getDomFromString($content)
     {
         if (\PHP_VERSION_ID < 80000) {
-            $originalLibXMLEntityValue = libxml_disable_entity_loader(true);
+            $originalLibXMLEntityValue = libxml_disable_entity_loader(true); // @codeCoverageIgnore
         }
         $this->dom = new DOMDocument();
         $this->dom->loadXML($content);
         if (\PHP_VERSION_ID < 80000) {
-            libxml_disable_entity_loader($originalLibXMLEntityValue);
+            libxml_disable_entity_loader($originalLibXMLEntityValue); // @codeCoverageIgnore
         }
 
         return $this->dom;
@@ -111,16 +111,19 @@ class XMLReader
      */
     public function getElements($path, ?DOMElement $contextNode = null)
     {
+        /** @var DOMNodeList<DOMElement> */
+        $empty = new DOMNodeList();
         if ($this->dom === null) {
-            return new DOMNodeList(); // @phpstan-ignore-line
+            return $empty;
         }
         if ($this->xpath === null) {
             $this->xpath = new DOMXpath($this->dom);
         }
 
+        /** @var DOMNodeList<DOMElement> */
         $result = @$this->xpath->query($path, $contextNode);
 
-        return empty($result) ? new DOMNodeList() : $result; // @phpstan-ignore-line
+        return empty($result) ? $empty : $result;
     }
 
     /**

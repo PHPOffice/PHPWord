@@ -78,7 +78,7 @@ abstract class AbstractPart
     /**
      * Comment references.
      *
-     * @var array<string, array<string, AbstractElement>>
+     * @var array<int|string, array<int|string, AbstractElement>>
      */
     protected $commentRefs = [];
 
@@ -131,7 +131,7 @@ abstract class AbstractPart
     /**
      * Get comment references.
      *
-     * @return array<string, array<string, null|AbstractElement>>
+     * @return array<int|string, array<int|string, null|AbstractElement>>
      */
     public function getCommentReferences(): array
     {
@@ -141,7 +141,7 @@ abstract class AbstractPart
     /**
      * Set comment references.
      *
-     * @param array<string, array<string, null|AbstractElement>> $commentRefs
+     * @param array<int|string, array<int|string, null|AbstractElement>> $commentRefs
      */
     public function setCommentReferences(array $commentRefs): self
     {
@@ -173,7 +173,7 @@ abstract class AbstractPart
     /**
      * Get comment reference.
      *
-     * @return array<string, null|AbstractElement>
+     * @return array<int|string, null|AbstractElement>
      */
     protected function getCommentReference(string $id): array
     {
@@ -369,8 +369,11 @@ abstract class AbstractPart
                     }
                     $formField->setEntries($listEntries);
                     if (null !== $formField->getValue()) {
-                        /** @phpstan-ignore offsetAccess.notFound */
-                        $formField->setText($listEntries[$formField->getValue()]);
+                        /** @var int */
+                        $temp = $formField->getValue();
+                        $formField->setText(
+                            $listEntries[$temp]
+                        );
                     }
 
                     break;
@@ -483,8 +486,13 @@ abstract class AbstractPart
             if ($attributeIdentifier) {
                 $id = $attributeIdentifier->nodeValue;
 
-                $this->setCommentReference('start', $id, $parent->getElement($parent->countElements() - 1));
-                $this->setCommentReference('end', $id, $parent->getElement($parent->countElements() - 1));
+                if ($parent->countElements() > 0) {
+                    $this->setCommentReference('start', $id, $parent->getElement($parent->countElements() - 1));
+                    $this->setCommentReference('end', $id, $parent->getElement($parent->countElements() - 1));
+                } else {
+                    $this->setCommentReference('start', $id, $parent);
+                    $this->setCommentReference('end', $id, $parent);
+                }
             }
         }
     }
@@ -574,11 +582,7 @@ abstract class AbstractPart
             if ($runParent->nodeName == 'w:hyperlink') {
                 $rId = $xmlReader->getAttribute('r:id', $runParent);
                 $target = $this->getMediaTarget($docPart, $rId);
-                if (null !== $target) {
-                    $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
-                } else {
-                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
-                }
+                $parent->addLink($target ?? 'http://example.com', $textContent, $fontStyle, $paragraphStyle);
             } else {
                 /** @var AbstractElement $element */
                 $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);
@@ -764,6 +768,7 @@ abstract class AbstractPart
             'size' => [self::READ_SIZE,  ['w:sz', 'w:szCs']],
             'color' => [self::READ_VALUE, 'w:color'],
             'underline' => [self::READ_VALUE, 'w:u'],
+            'underlineColor' => [self::READ_VALUE, 'w:u', 'w:color'],
             'bold' => [self::READ_TRUE,  'w:b'],
             'italic' => [self::READ_TRUE,  'w:i'],
             'strikethrough' => [self::READ_TRUE,  'w:strike'],
@@ -777,6 +782,8 @@ abstract class AbstractPart
             'lang' => [self::READ_VALUE, 'w:lang'],
             'position' => [self::READ_VALUE, 'w:position'],
             'hidden' => [self::READ_TRUE,  'w:vanish'],
+            'numberSpacing' => [self::READ_VALUE, 'w14:numSpacing', 'w14:val'],
+            'numberForms' => [self::READ_VALUE, 'w14:numForm', 'w14:val'],
         ];
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -796,35 +803,46 @@ abstract class AbstractPart
         $borders = array_merge($margins, ['insideH', 'insideV']);
 
         if ($xmlReader->elementExists('w:tblPr', $domNode)) {
+            $tblStyleName = '';
             if ($xmlReader->elementExists('w:tblPr/w:tblStyle', $domNode)) {
-                $style = $xmlReader->getAttribute('w:val', $domNode, 'w:tblPr/w:tblStyle');
-            } else {
-                $styleNode = $xmlReader->getElement('w:tblPr', $domNode);
-                $styleDefs = [];
-                foreach ($margins as $side) {
-                    $ucfSide = ucfirst($side);
-                    $styleDefs["cellMargin$ucfSide"] = [self::READ_VALUE, "w:tblCellMar/w:$side", 'w:w'];
-                }
-                foreach ($borders as $side) {
-                    $ucfSide = ucfirst($side);
-                    $styleDefs["border{$ucfSide}Size"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz'];
-                    $styleDefs["border{$ucfSide}Color"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:color'];
-                    $styleDefs["border{$ucfSide}Style"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:val'];
-                }
-                $styleDefs['layout'] = [self::READ_VALUE, 'w:tblLayout', 'w:type'];
-                $styleDefs['bidiVisual'] = [self::READ_TRUE, 'w:bidiVisual'];
-                $styleDefs['cellSpacing'] = [self::READ_VALUE, 'w:tblCellSpacing', 'w:w'];
-                $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
+                $tblStyleName = $xmlReader->getAttribute('w:val', $domNode, 'w:tblPr/w:tblStyle');
+            }
+            $styleNode = $xmlReader->getElement('w:tblPr', $domNode);
+            $styleDefs = [];
 
-                $tablePositionNode = $xmlReader->getElement('w:tblpPr', $styleNode);
-                if ($tablePositionNode !== null) {
-                    $style['position'] = $this->readTablePosition($xmlReader, $tablePositionNode);
-                }
+            foreach ($margins as $side) {
+                $ucfSide = ucfirst($side);
+                $styleDefs["cellMargin$ucfSide"] = [self::READ_VALUE, "w:tblCellMar/w:$side", 'w:w'];
+            }
+            foreach ($borders as $side) {
+                $ucfSide = ucfirst($side);
+                $styleDefs["border{$ucfSide}Size"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz'];
+                $styleDefs["border{$ucfSide}Color"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:color'];
+                $styleDefs["border{$ucfSide}Style"] = [self::READ_VALUE, "w:tblBorders/w:$side", 'w:val'];
+            }
+            $styleDefs['layout'] = [self::READ_VALUE, 'w:tblLayout', 'w:type'];
+            $styleDefs['bidiVisual'] = [self::READ_TRUE, 'w:bidiVisual'];
+            $styleDefs['cellSpacing'] = [self::READ_VALUE, 'w:tblCellSpacing', 'w:w'];
+            $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
 
-                $indentNode = $xmlReader->getElement('w:tblInd', $styleNode);
-                if ($indentNode !== null) {
-                    $style['indent'] = $this->readTableIndent($xmlReader, $indentNode);
-                }
+            $tablePositionNode = $xmlReader->getElement('w:tblpPr', $styleNode);
+            if ($tablePositionNode !== null) {
+                $style['position'] = $this->readTablePosition($xmlReader, $tablePositionNode);
+            }
+
+            $indentNode = $xmlReader->getElement('w:tblInd', $styleNode);
+            if ($indentNode !== null) {
+                $style['indent'] = $this->readTableIndent($xmlReader, $indentNode);
+            }
+            if ($xmlReader->elementExists('w:basedOn', $domNode)) {
+                $style['basedOn'] = $xmlReader->getAttribute('w:val', $domNode, 'w:basedOn');
+            }
+            if ($tblStyleName !== '') {
+                $style['tblStyle'] = $tblStyleName;
+            }
+            // this may be unneeded
+            if ($xmlReader->elementExists('w:name', $domNode)) {
+                $style['styleName'] = $xmlReader->getAttribute('w:val', $domNode, 'w:name');
             }
         }
 
@@ -1038,7 +1056,7 @@ abstract class AbstractPart
      * Returns the target of image, object, or link as stored in ::readMainRels.
      *
      * @param string $docPart
-     * @param string $rId
+     * @param ?string $rId
      *
      * @return null|string
      */
@@ -1046,8 +1064,9 @@ abstract class AbstractPart
     {
         $target = null;
 
-        if (isset($this->rels[$docPart], $this->rels[$docPart][$rId])) {
+        if (isset($this->rels[$docPart], $this->rels[$docPart]["$rId"])) {
             $target = $this->rels[$docPart][$rId]['target'];
+            $target = preg_replace('~^word//~', '', $target) ?? $target;
         }
 
         return $target;

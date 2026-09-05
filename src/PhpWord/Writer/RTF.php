@@ -58,6 +58,7 @@ class RTF extends AbstractWriter implements WriterInterface
      */
     public function save(string $filename): void
     {
+        PhpWord::noPhar($filename);
         $this->writeFile($this->openFile($filename), $this->getContent());
     }
 
@@ -68,7 +69,7 @@ class RTF extends AbstractWriter implements WriterInterface
      *
      * @since 0.11.0
      */
-    private function getContent()
+    public function getContent()
     {
         $content = '';
 
@@ -99,6 +100,16 @@ class RTF extends AbstractWriter implements WriterInterface
     public function getColorTable()
     {
         return $this->getWriterPart('Header')->getColorTable();
+    }
+
+    /**
+     * Get list table.
+     *
+     * @return array
+     */
+    public function getListTable()
+    {
+        return $this->getWriterPart('Header')->getListTable();
     }
 
     /**

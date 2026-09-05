@@ -20,14 +20,11 @@ namespace PhpOffice\PhpWordTests\Style;
 
 use InvalidArgumentException;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\Style\AbstractStyle;
 use PhpOffice\PhpWord\Style\Paragraph;
 use ReflectionClass;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\AbstractStyle.
- *
- * @runTestsInSeparateProcesses
  */
 class AbstractStyleTest extends \PHPUnit\Framework\TestCase
 {
@@ -36,14 +33,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetStyleByArray(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractStyle::class);
-        } else {
-            /** @var AbstractStyle $stub */
-            $stub = new class() extends AbstractStyle {
-            };
-        }
+        $stub = new AbstractStyleClass();
         $stub->setStyleByArray(['index' => 1]);
 
         self::assertEquals(1, $stub->getIndex());
@@ -70,15 +60,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValNormal(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractStyle::class);
-        } else {
-            /** @var AbstractStyle $stub */
-            $stub = new class() extends AbstractStyle {
-            };
-        }
-
+        $stub = new AbstractStyleClass();
         self::assertTrue(self::callProtectedMethod($stub, 'setBoolVal', [true, false]));
         self::assertEquals(12, self::callProtectedMethod($stub, 'setIntVal', [12, 200]));
         self::assertEquals(871.1, self::callProtectedMethod($stub, 'setFloatVal', [871.1, 2.1]));
@@ -91,15 +73,7 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetValDefault(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractStyle::class);
-        } else {
-            /** @var AbstractStyle $stub */
-            $stub = new class() extends AbstractStyle {
-            };
-        }
-
+        $stub = new AbstractStyleClass();
         self::assertNotTrue(self::callProtectedMethod($stub, 'setBoolVal', ['a', false]));
         self::assertEquals(200, self::callProtectedMethod($stub, 'setIntVal', ['foo', 200]));
         self::assertEquals(2.1, self::callProtectedMethod($stub, 'setFloatVal', ['foo', 2.1]));
@@ -112,29 +86,26 @@ class AbstractStyleTest extends \PHPUnit\Framework\TestCase
     public function testSetValEnumException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractStyle::class);
-        } else {
-            /** @var AbstractStyle $stub */
-            $stub = new class() extends AbstractStyle {
-            };
-        }
-
+        $stub = new AbstractStyleClass();
         self::assertEquals('b', self::callProtectedMethod($stub, 'setEnumVal', ['z', ['a', 'b'], 'b']));
     }
+
+    /** @var int */
+    protected static $temporaryVersionCheck = 80500;
 
     /**
      * Helper function to call protected method.
      *
      * @param mixed $object
      * @param string $method
+     *
+     * @return mixed
      */
     public static function callProtectedMethod($object, $method, array $args = [])
     {
         $class = new ReflectionClass(get_class($object));
         $method = $class->getMethod($method);
-        if (PHP_VERSION_ID < 80100) {
+        if (PHP_VERSION_ID < self::$temporaryVersionCheck) {
             $method->setAccessible(true);
         }
 

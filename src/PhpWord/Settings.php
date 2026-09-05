@@ -16,6 +16,8 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\SimpleType\TextDirection;
+
 /**
  * PHPWord settings class.
  *
@@ -280,7 +282,7 @@ class Settings
      */
     public static function setPdfRendererPath(?string $libraryBaseDir): bool
     {
-        if (!$libraryBaseDir || false === file_exists($libraryBaseDir) || false === is_readable($libraryBaseDir)) {
+        if (!$libraryBaseDir || false === realpath($libraryBaseDir) || false === is_readable($libraryBaseDir)) {
             return false;
         }
         self::$pdfRendererPath = $libraryBaseDir;
@@ -453,6 +455,9 @@ class Settings
     public static function setDefaultRtl(?bool $defaultRtl): void
     {
         self::$defaultRtl = $defaultRtl;
+        if ($defaultRtl === true && Style::getStyle('Normal') === null) {
+            Style::setDefaultParagraphStyle(['bidi' => true, 'textDirection' => TextDirection::RLTB], ['rtl' => true]);
+        }
     }
 
     public static function isDefaultRtl(): ?bool
@@ -474,8 +479,9 @@ class Settings
             $files = ["{$configPath}phpword.ini", "{$configPath}phpword.ini.dist"];
         }
         foreach ($files as $file) {
-            if (file_exists($file)) {
-                $configFile = realpath($file);
+            $temp = realpath($file);
+            if ($temp !== false) {
+                $configFile = $temp;
 
                 break;
             }
@@ -523,5 +529,23 @@ class Settings
         }
 
         return false;
+    }
+
+    public static function restoreDefaults(): void
+    {
+        self::$defaultAsianFontName = self::DEFAULT_FONT_NAME;
+        self::$defaultFontColor = self::DEFAULT_FONT_COLOR;
+        self::$defaultFontName = self::DEFAULT_FONT_NAME;
+        self::$defaultFontSize = self::DEFAULT_FONT_SIZE;
+        self::$defaultPaper = self::DEFAULT_PAPER;
+        self::$defaultRtl = null;
+        self::$measurementUnit = self::UNIT_TWIP;
+        self::$outputEscapingEnabled = false;
+        self::$pdfRendererName = null;
+        self::$pdfRendererOptions = [];
+        self::$pdfRendererPath = null;
+        self::$tempDir = '';
+        self::$xmlWriterCompatibility = true;
+        self::$zipClass = self::ZIPARCHIVE;
     }
 }

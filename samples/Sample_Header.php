@@ -31,7 +31,14 @@ if (defined('DOMPDF_ENABLE_AUTOLOAD')) {
 }
 
 // Set writers
-$writers = ['Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf', 'EPub3' => 'epub'];
+$writers = [
+    'Word2007' => 'docx',
+    'RTF' => 'rtf',
+    'HTML' => 'html',
+    'PDF' => 'pdf',
+    'EPub3' => 'epub',
+    'ODText' => 'odt', // creates a lot of extra style - do it last
+];
 
 // Set PDF renderer
 if (null === Settings::getPdfRendererPath()) {

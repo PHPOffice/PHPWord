@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PclZip;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use Throwable;
 
@@ -88,7 +89,7 @@ class ZipArchive
             if (!defined('PCLZIP_TEMPORARY_DIR')) {
                 define('PCLZIP_TEMPORARY_DIR', Settings::getTempDir() . '/');
             }
-            require_once 'PCLZip/pclzip.lib.php';
+            require_once __DIR__ . '/PCLZip/pclzip.lib.php';
         }
     }
 
@@ -116,7 +117,9 @@ class ZipArchive
         // Run function
         $result = false;
         if (method_exists($zipObject, $zipFunction)) {
-            $result = @call_user_func_array([$zipObject, $zipFunction], $args);
+            /** @var callable */
+            $callable = [$zipObject, $zipFunction];
+            $result = @call_user_func_array($callable, $args);
         }
 
         return $result;
@@ -193,6 +196,7 @@ class ZipArchive
      */
     public function extractTo($destination, $entries = null)
     {
+        PhpWord::noPhar($destination);
         if (!is_dir($destination)) {
             return false;
         }
@@ -236,7 +240,7 @@ class ZipArchive
      */
     public function pclzipAddFile($filename, $localname = null)
     {
-        /** @var PclZip $zip Type hint */
+        PhpWord::noPhar($filename);
         $zip = $this->zip;
 
         // Bugfix GH-261 https://github.com/PHPOffice/PHPWord/pull/261
@@ -267,8 +271,10 @@ class ZipArchive
         if (!$this->usePclzip) {
             $pathAdded = $pathAdded . '/' . ltrim(str_replace('\\', '/', substr($filename, strlen($pathRemoved))), '/');
             //$res = $zip->addFile($filename, $pathAdded);
-            $res = $zip->addFromString($pathAdded, file_get_contents($filename));       // addFile can't use subfolders in some cases
+            /** @var \ZipArchive $zip */
+            $res = $zip->addFromString($pathAdded, (string) file_get_contents($filename));       // addFile can't use subfolders in some cases
         } else {
+            /** @var PclZip $zip */
             $res = $zip->add($filename, PCLZIP_OPT_REMOVE_PATH, $pathRemoved, PCLZIP_OPT_ADD_PATH, $pathAdded);
         }
 

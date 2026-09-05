@@ -21,7 +21,6 @@ namespace PhpOffice\PhpWord\Writer;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Validate;
-use PhpOffice\PhpWord\Writer\HTML\Part\AbstractPart;
 
 /**
  * HTML writer.
@@ -77,8 +76,7 @@ class HTML extends AbstractWriter implements WriterInterface
         $this->parts = ['Head', 'Body'];
         foreach ($this->parts as $partName) {
             $partClass = self::class . '\\Part\\' . $partName;
-            if (class_exists($partClass)) {
-                /** @var AbstractPart $part Type hint */
+            if (class_exists($partClass) && method_exists($partClass, 'setParentWriter')) {
                 $part = new $partClass();
                 $part->setParentWriter($this);
                 $this->writerParts[strtolower($partName)] = $part;
@@ -91,6 +89,7 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     public function save(string $filename): void
     {
+        PhpWord::noPhar($filename);
         $this->writeFile($this->openFile($filename), $this->getContent());
     }
 

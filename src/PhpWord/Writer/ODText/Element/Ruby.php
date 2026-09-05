@@ -18,6 +18,9 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Element\Ruby as RubyElement;
+use PhpOffice\PhpWord\Element\TextRun;
+
 /**
  * Ruby element writer.
  * NOTE: This class will write out a Ruby element in the format {baseText} ({rubyText})
@@ -33,34 +36,50 @@ class Ruby extends AbstractElement
     public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
+        /** @var RubyElement */
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Ruby) {
-            return;
-        }
-        $paragraphStyle = $element->getBaseTextRun()->getParagraphStyle();
-
         if (!$this->withoutP) {
             $xmlWriter->startElement('text:p'); // text:p
         }
-        if (empty($paragraphStyle)) {
-            if (!$this->withoutP) {
-                $xmlWriter->writeAttribute('text:style-name', 'Normal');
-            }
-        } elseif (is_string($paragraphStyle)) {
-            if (!$this->withoutP) {
+        $xmlWriter->startElement('text:ruby');
+        $this->writeRuby($element->getBaseTextRun(), 'text:ruby-base');
+        $this->writeRuby($element->getRubyTextRun(), 'text:ruby-text');
+        $xmlWriter->endElement(); // text:ruby
+        if (!$this->withoutP) {
+            $xmlWriter->endElement(); // text:p
+        }
+    }
+
+    /**
+     * @param TextRun $textRun
+     * @param string $tag
+     */
+    private function writeRuby($textRun, $tag): void
+    {
+        $xmlWriter = $this->getXmlWriter();
+        /** @var RubyElement */
+        $element = $this->getElement();
+        $paragraphStyle = $textRun->getParagraphStyle();
+
+        $xmlWriter->startElement($tag); // text:rubyBase or text:rubyText
+        if (is_string($paragraphStyle)) {
+            $paragraphStyle = trim($paragraphStyle);
+            if ($paragraphStyle !== '') {
                 $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
             }
         }
 
-        $this->writeCommentRangeStart();
-        $this->replaceTabs($element->getBaseTextRun()->getText(), $xmlWriter);
-        $this->writeText(' (');
-        $this->replaceTabs($element->getRubyTextRun()->getText(), $xmlWriter);
-        $this->writeText(')');
-        $this->writeCommentRangeEnd();
-
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // text:p
+        if ($element->getCommentsRangeStart() !== null) {
+            $this->writeCommentRangeStart();
+            $this->replaceTabs(
+                $textRun->getText(),
+                $xmlWriter
+            );
+            $this->writeCommentRangeEnd();
+        } else {
+            $this->replaceTabs($textRun->getText(), $xmlWriter);
         }
+
+        $xmlWriter->endElement(); // text:rubyBase or text:rubyText
     }
 }

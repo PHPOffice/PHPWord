@@ -28,8 +28,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Table.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Table
- *
- * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit\Framework\TestCase
 {

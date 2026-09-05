@@ -1094,6 +1094,7 @@ class PclZip
         $v_prop['status']  = 'not_exist';
 
         // ----- Look if file exists
+        self::noPhar($this->zipname);
         if (@is_file($this->zipname)) {
             // ----- Open the zip file
             if (($this->zip_fd = @fopen($this->zipname, 'rb')) == 0) {
@@ -1161,6 +1162,7 @@ class PclZip
 
             // ----- Check that $p_archive is a valid zip file
             // TBC : Should also check the archive format
+            self::noPhar($p_archive);
             if (!is_file($p_archive)) {
                 // ----- Error log
                 PclZip::privErrorLog(PCLZIP_ERR_MISSING_FILE, "No file with filename '" . $p_archive . "'");
@@ -1345,6 +1347,7 @@ class PclZip
         $this->privErrorReset();
 
         // ----- Look if the file exits
+        self::noPhar($this->zipname);
         if (!is_file($this->zipname)) {
             // ----- Error log
             PclZip::privErrorLog(PCLZIP_ERR_MISSING_FILE, "Missing archive file '" . $this->zipname . "'");
@@ -1976,6 +1979,7 @@ class PclZip
             $v_descr['filename'] = PclZipUtilPathReduction($v_descr['filename']);
 
             // ----- Look for real file or folder
+            self::noPhar($v_descr['filename']);
             if (file_exists($v_descr['filename'])) {
                 if (@is_file($v_descr['filename'])) {
                     $v_descr['type'] = 'file';
@@ -2013,6 +2017,7 @@ class PclZip
                 // ----- List of items in folder
                 $v_dirlist_descr = array();
                 $v_dirlist_nb    = 0;
+                self::noPhar($v_descr['filename']);
                 if ($v_folder_handler = @opendir($v_descr['filename'])) {
                     while (($v_item_handler = @readdir($v_folder_handler)) !== false) {
 
@@ -2114,6 +2119,7 @@ class PclZip
         $v_list_detail = array();
 
         // ----- Look if the archive exists or is empty
+        self::noPhar($this->zipname);
         if ((!is_file($this->zipname)) || (filesize($this->zipname) == 0)) {
 
             // ----- Do a create
@@ -2182,6 +2188,7 @@ class PclZip
         if (($v_result = $this->privAddFileList($p_filedescr_list, $v_header_list, $p_options)) != 1) {
             fclose($v_zip_temp_fd);
             $this->privCloseFd();
+            self::noPhar($v_zip_temp_name);
             @unlink($v_zip_temp_name);
             $this->privSwapBackMagicQuotes();
 
@@ -2208,6 +2215,7 @@ class PclZip
                 if (($v_result = $this->privWriteCentralFileHeader($v_header_list[$i])) != 1) {
                     fclose($v_zip_temp_fd);
                     $this->privCloseFd();
+                    self::noPhar($v_zip_temp_name);
                     @unlink($v_zip_temp_name);
                     $this->privSwapBackMagicQuotes();
 
@@ -2262,6 +2270,7 @@ class PclZip
 
         // ----- Delete the zip file
         // TBC : I should test the result ...
+        self::noPhar($this->zipname);
         @unlink($this->zipname);
 
         // ----- Rename the temporary file
@@ -2293,6 +2302,7 @@ class PclZip
         }
 
         // ----- Open the zip file
+        self::noPhar($this->zipname);
         if (($this->zip_fd = @fopen($this->zipname, $p_mode)) == 0) {
             // ----- Error log
             PclZip::privErrorLog(PCLZIP_ERR_READ_OPEN_FAIL, 'Unable to open archive \'' . $this->zipname . '\' in ' . $p_mode . ' mode');
@@ -2420,6 +2430,7 @@ class PclZip
             }
 
             // ----- Check the filename
+            self::noPhar($p_filedescr_list[$j]['filename']);
             if (($p_filedescr_list[$j]['type'] != 'virtual_file') && (!file_exists($p_filedescr_list[$j]['filename']))) {
                 PclZip::privErrorLog(PCLZIP_ERR_MISSING_FILE, "File '" . $p_filedescr_list[$j]['filename'] . "' does not exist");
 
@@ -2460,6 +2471,7 @@ class PclZip
 
         // ----- Working variable
         $p_filename = $p_filedescr['filename'];
+        self::noPhar($p_filename);
 
         // TBC : Already done in the fileAtt check ... ?
         if ($p_filename == "") {
@@ -2719,6 +2731,7 @@ class PclZip
 
         // ----- Working variable
         $p_filename = $p_filedescr['filename'];
+        self::noPhar($p_filename);
 
         // ----- Open the source file
         if (($v_file = @fopen($p_filename, "rb")) == 0) {
@@ -2751,6 +2764,7 @@ class PclZip
         @gzclose($v_file_compressed);
 
         // ----- Check the minimum file size
+        self::noPhar($v_gzip_temp_name);
         if (filesize($v_gzip_temp_name) < 18) {
             PclZip::privErrorLog(PCLZIP_ERR_BAD_FORMAT, 'gzip temporary file \'' . $v_gzip_temp_name . '\' has invalid filesize - should be minimum 18 bytes');
 
@@ -3041,6 +3055,7 @@ class PclZip
         $this->privDisableMagicQuotes();
 
         // ----- Open the zip file
+        self::noPhar($this->zipname);
         if (($this->zip_fd = @fopen($this->zipname, 'rb')) == 0) {
             // ----- Magic quotes trick
             $this->privSwapBackMagicQuotes();
@@ -3552,6 +3567,7 @@ class PclZip
         if ($p_entry['status'] == 'ok') {
 
             // ----- Look for specific actions while the file exist
+            self::noPhar($p_entry['filename']);
             if (file_exists($p_entry['filename'])) {
 
                 // ----- Look if file is a directory
@@ -3637,6 +3653,7 @@ class PclZip
                 if ($p_entry['compression'] == 0) {
 
                     // ----- Opening destination file
+                    self::noPhar($p_entry['filename']);
                     if (($v_dest_file = @fopen($p_entry['filename'], 'wb')) == 0) {
 
                         // ----- Change the file status
@@ -3700,6 +3717,7 @@ class PclZip
                         }
 
                         // ----- Opening destination file
+                        self::noPhar($p_entry['filename']);
                         if (($v_dest_file = @fopen($p_entry['filename'], 'wb')) == 0) {
 
                             // ----- Change the file status
@@ -3800,6 +3818,7 @@ class PclZip
         @fclose($v_dest_file);
 
         // ----- Opening destination file
+        self::noPhar($p_entry['filename']);
         if (($v_dest_file = @fopen($p_entry['filename'], 'wb')) == 0) {
             $p_entry['status'] = "write_error";
 
@@ -3828,6 +3847,7 @@ class PclZip
         @gzclose($v_src_file);
 
         // ----- Delete the temporary file
+        self::noPhar($v_gzip_temp_name);
         @unlink($v_gzip_temp_name);
 
         // ----- Return
@@ -4311,6 +4331,7 @@ class PclZip
         $v_result = 1;
 
         // ----- Go to the end of the zip file
+        self::noPhar($this->zipname);
         $v_size = filesize($this->zipname);
         @fseek($this->zip_fd, $v_size);
         if (@ftell($this->zip_fd) != $v_size) {
@@ -4692,6 +4713,7 @@ class PclZip
 
             // ----- Delete the zip file
             // TBC : I should test the result ...
+            self::noPhar($this->zipname);
             @unlink($this->zipname);
 
             // ----- Rename the temporary file
@@ -4741,6 +4763,7 @@ class PclZip
         if (($p_is_dir) && (substr($p_dir, -1) == '/')) {
             $p_dir = substr($p_dir, 0, strlen($p_dir) - 1);
         }
+        self::noPhar($p_dir);
 
         // ----- Check the directory availability
         if ((is_dir($p_dir)) || ($p_dir == "")) {
@@ -4786,6 +4809,7 @@ class PclZip
         $v_result = 1;
 
         // ----- Look if the archive_to_add exists
+        self::noPhar($p_archive_to_add->zipname);
         if (!is_file($p_archive_to_add->zipname)) {
 
             // ----- Nothing to merge, so merge is a success
@@ -4796,6 +4820,7 @@ class PclZip
         }
 
         // ----- Look if the archive exists
+        self::noPhar($this->zipname);
         if (!is_file($this->zipname)) {
 
             // ----- Do a duplicate
@@ -4937,6 +4962,7 @@ class PclZip
 
         // ----- Delete the zip file
         // TBC : I should test the result ...
+        self::noPhar($this->zipname);
         @unlink($this->zipname);
 
         // ----- Rename the temporary file
@@ -4960,6 +4986,7 @@ class PclZip
         $v_result = 1;
 
         // ----- Look if the $p_archive_filename exists
+        self::noPhar($p_archive_filename);
         if (!is_file($p_archive_filename)) {
 
             // ----- Nothing to duplicate, so duplicate is a success.
@@ -5100,6 +5127,17 @@ class PclZip
         return $v_result;
     }
     // --------------------------------------------------------------------------------
+    public static function noPhar(string $path): void
+    {
+        if (
+            preg_match('~^phar://~i', $path)
+            || (preg_match('/^([\w.\s\x00-\x1f]+):/u', $path) && !preg_match('/^([\w.]+):/u', $path))
+            || preg_match('~^php://.*phar:~is', $path)
+            || preg_match('~^[\w.]+://.*phar:~is', $path)
+        ) {
+            throw new Exception('Invalid protocol used in filename');
+        }
+    }
 }
 
 // End of class
@@ -5320,6 +5358,8 @@ function PclZipUtilCopyBlock($p_src, $p_dest, $p_size, $p_mode = 0)
 function PclZipUtilRename($p_src, $p_dest)
 {
     $v_result = 1;
+    PclZip::noPhar($p_src);
+    PclZip::noPhar($p_dest);
 
     // ----- Try to rename the files
     if (!@rename($p_src, $p_dest)) {

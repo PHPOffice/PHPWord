@@ -27,18 +27,14 @@ use TCPDF as TCPDFBase;
 /**
  * TCPDF writer.
  *
- * @deprecated 0.13.0 Use `DomPDF` or `MPDF` instead.
  * @see  http://www.tcpdf.org/
  * @since 0.11.0
  */
 class TCPDF extends AbstractRenderer implements WriterInterface
 {
-    /**
-     * Name of renderer include file.
-     *
-     * @var string
-     */
-    protected $includeFile = 'tcpdf.php';
+    protected function defines(): void
+    {
+    }
 
     /**
      * Gets the implementation of external PDF library that should be used.
@@ -51,6 +47,7 @@ class TCPDF extends AbstractRenderer implements WriterInterface
      */
     protected function createExternalWriterInstance($orientation, $unit, $paperSize)
     {
+        $this->defines();
         $instance = new TCPDFBase($orientation, $unit, $paperSize);
 
         if ($this->getFont()) {

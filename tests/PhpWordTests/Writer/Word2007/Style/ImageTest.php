@@ -25,8 +25,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Font.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Frame
- *
- * @runTestsInSeparateProcesses
  */
 class ImageTest extends \PHPUnit\Framework\TestCase
 {
