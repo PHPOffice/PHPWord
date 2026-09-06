@@ -14161,6 +14161,16 @@ Search.appendIndex(
             "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Ruby.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\SDT",
+            "name": "SDT",
+            "summary": "Structured\u0020document\u0020tag\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-SDT.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\SDT\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020an\u0020SDT\u0020as\u0020an\u0020inline\u0020ODF\u0020form\u0020control\u0020with\u0020visible\u0020fallback\u0020text.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-SDT.html#method_write"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Shape",
             "name": "Shape",
             "summary": "Basic\u0020ODF\u0020shape\u0020element\u0020writer.",
