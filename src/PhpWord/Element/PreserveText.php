@@ -78,12 +78,54 @@ class PreserveText extends AbstractElement
     }
 
     /**
+     * Set Font style.
+     *
+     * @param array|Font|string $style
+     *
+     * @return null|Font|string
+     */
+    public function setFontStyle($style = null)
+    {
+        if ($style instanceof Font) {
+            $this->fontStyle = $style;
+        } elseif (is_array($style)) {
+            $this->fontStyle = new Font('text');
+            $this->fontStyle->setStyleByArray($style);
+        } else {
+            $this->fontStyle = $style;
+        }
+
+        return $this->fontStyle;
+    }
+
+    /**
      * Get Paragraph style.
      *
      * @return null|Paragraph|string
      */
     public function getParagraphStyle()
     {
+        return $this->paragraphStyle;
+    }
+
+    /**
+     * Set Paragraph style.
+     *
+     * @param array|Paragraph|string $style
+     *
+     * @return null|Paragraph|string
+     */
+    public function setParagraphStyle($style = null)
+    {
+        if (is_array($style)) {
+            $this->paragraphStyle = new Paragraph();
+            $this->paragraphStyle->setStyleByArray($style);
+        } elseif ($style instanceof Paragraph) {
+            $this->paragraphStyle = $style;
+        } else {
+            $this->paragraphStyle = $style;
+        }
+
         return $this->paragraphStyle;
     }
 
