@@ -162,6 +162,34 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('Endnote text.', $doc->getElement("($path)[3]/text:note-body/text:p")->textContent);
     }
 
+    /**
+     * Test SDT elements are mapped to native ODF form controls.
+     */
+    public function testSDTElementsAreMappedToNativeFormControls(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addSDT('plainText')->setAlias('plain')->setValue('Plain text');
+        $section->addSDT('comboBox')->setListItems(['one' => 'First', 'two' => 'Second'])->setValue('Second');
+        $section->addSDT('dropDownList')->setListItems(['one' => 'First', 'two' => 'Second'])->setValue('First');
+        $section->addSDT('date')->setAlias('date')->setTag('ignored-tag')->setValue('2026-08-26');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $root = '/office:document-content/office:body/office:text';
+
+        self::assertTrue($doc->elementExists($root . '/office:forms/form:form/form:text'));
+        self::assertTrue($doc->elementExists($root . '/office:forms/form:form/form:combobox'));
+        self::assertTrue($doc->elementExists($root . '/office:forms/form:form/form:listbox'));
+        self::assertTrue($doc->elementExists($root . '/office:forms/form:form/form:date'));
+        self::assertSame('Plain text', $doc->getElementAttribute($root . '/office:forms/form:form/form:text', 'form:value'));
+        self::assertSame('plain', $doc->getElementAttribute($root . '/office:forms/form:form/form:text', 'form:name'));
+        self::assertSame('Second', $doc->getElementAttribute($root . '/office:forms/form:form/form:combobox', 'form:value'));
+        self::assertSame('First', $doc->getElementAttribute($root . '/office:forms/form:form/form:listbox/form:option[1]', 'form:label'));
+        self::assertSame('true', $doc->getElementAttribute($root . '/office:forms/form:form/form:listbox/form:option[1]', 'form:current-selected'));
+        self::assertSame('2026-08-26', $doc->getElementAttribute($root . '/office:forms/form:form/form:date', 'form:value'));
+        self::assertTrue($doc->elementExists($root . '/text:section/text:p[5]/draw:control'));
+    }
+
     // ODT Line Element not yet implemented
     // ODT Table with style name not yet implemented (Word test defective)
     // ODT Shape Elements not yet implemented
@@ -169,7 +197,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     // ODT List not yet implemented
     // ODT Macro Button not yet implemented
     // ODT Form Field not yet implemented
-    // ODT SDT not yet implemented
     // ODT Track Changes implemented, possibly not correctly
     // ODT List Item not yet implemented
 

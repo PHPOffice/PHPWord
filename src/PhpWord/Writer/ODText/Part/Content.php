@@ -26,6 +26,7 @@ use PhpOffice\PhpWord\Element\FormField;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Line;
 use PhpOffice\PhpWord\Element\Row as RowElement;
+use PhpOffice\PhpWord\Element\SDT as SDTElement;
 use PhpOffice\PhpWord\Element\Shape;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
@@ -542,12 +543,12 @@ class Content extends AbstractPart
     /**
      * Collect form controls from the document containers.
      *
-     * @param array<int, CheckBox|FormField> $controls
+     * @param array<int, CheckBox|FormField|SDTElement> $controls
      */
     private function collectFormControls(AbstractContainer $container, array &$controls): void
     {
         foreach ($container->getElements() as $element) {
-            if ($element instanceof CheckBox || $element instanceof FormField) {
+            if ($element instanceof CheckBox || $element instanceof FormField || $element instanceof SDTElement) {
                 if (!$element->getElementId()) {
                     $element->setElementId();
                 }
@@ -562,7 +563,7 @@ class Content extends AbstractPart
     /**
      * Write the document-level form controls referenced by draw:control.
      *
-     * @param array<int, CheckBox|FormField> $controls
+     * @param array<int, CheckBox|FormField|SDTElement> $controls
      */
     private function writeForms(XMLWriter $xmlWriter, array $controls): void
     {
@@ -575,6 +576,40 @@ class Content extends AbstractPart
         $xmlWriter->writeAttribute('form:name', 'Standard');
 
         foreach ($controls as $control) {
+            if ($control instanceof SDTElement) {
+                $id = 'sdt-' . $control->getElementId();
+                $type = $control->getType();
+                $controlType = $type === 'plainText' ? 'text' : ($type === 'dropDownList' ? 'listbox' : strtolower($type));
+                $xmlWriter->startElement('form:' . $controlType);
+                $xmlWriter->writeAttribute('xml:id', $id);
+                $xmlWriter->writeAttribute('form:name', $control->getAlias() ?: $id);
+                $value = $control->getValue();
+
+                if ($type === 'plainText' || $type === 'date') {
+                    $xmlWriter->writeAttributeIf($value !== null, 'form:value', (string) $value);
+                } elseif ($type === 'comboBox') {
+                    $xmlWriter->writeAttributeIf($value !== null, 'form:value', (string) $value);
+                    foreach ($control->getListItems() as $item) {
+                        $xmlWriter->startElement('form:item');
+                        $xmlWriter->writeAttribute('form:label', (string) $item);
+                        $xmlWriter->text((string) $item);
+                        $xmlWriter->endElement();
+                    }
+                } elseif ($type === 'dropDownList') {
+                    foreach ($control->getListItems() as $key => $item) {
+                        $xmlWriter->startElement('form:option');
+                        $xmlWriter->writeAttribute('form:value', (string) $key);
+                        $xmlWriter->writeAttribute('form:label', (string) $item);
+                        $xmlWriter->writeAttributeIf((string) $value === (string) $item, 'form:current-selected', 'true');
+                        $xmlWriter->text((string) $item);
+                        $xmlWriter->endElement();
+                    }
+                }
+
+                $xmlWriter->endElement();
+
+                continue;
+            }
             $id = 'control-' . $control->getElementId();
             $name = $control->getName();
             $name = $name ?: (($control instanceof CheckBox ? 'checkbox' : $control->getType()) . $id);
