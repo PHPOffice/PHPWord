@@ -589,6 +589,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="field.html" class="md-nav__link md-nav__link--active">
         
   
@@ -605,6 +623,36 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#odtext-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ODText support
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2596,6 +2644,25 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#odtext-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ODText support
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2634,6 +2701,21 @@
 </ul>
 <p>See <code>\PhpOffice\PhpWord\Element\Field</code> for list of properties and options available for each field type.
 Options which are not specifically defined can be added. Those must start with a <code>\</code>.</p>
+<h2 id="odtext-support">ODText support</h2>
+<p>The ODText writer uses native ODF fields instead of copying Word field
+instruction strings into the ODT package:</p>
+<ul>
+<li><code>PAGE</code>, <code>NUMPAGES</code>, <code>DATE</code>, and <code>FILENAME</code> use the corresponding ODF fields.</li>
+<li><code>REF</code> is written as <code>text:reference-ref</code> and supports text references and the
+  page-reference option.</li>
+<li><code>XE</code> is written as <code>text:alphabetical-index-mark</code>.</li>
+<li><code>INDEX</code> is written as an ODF alphabetical-index field.</li>
+<li><code>MACROBUTTON</code> and <code>STYLEREF</code> have no meaningful portable ODF equivalent and
+  are omitted by the ODText writer.</li>
+</ul>
+<p>The ODF fields are dynamic and may be refreshed by the consuming application.
+Word-specific formatting and macro behavior that has no ODF equivalent is not
+preserved.</p>
 <p>For instance for the INDEX field, you can do the following (See <code>Index Field for list of available options &lt;https://support.office.com/en-us/article/Field-codes-Index-field-adafcf4a-cb30-43f6-85c7-743da1635d9e?ui=en-US&amp;rs=en-US&amp;ad=US&gt;</code>_ ):</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 

@@ -127,7 +127,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Element/Field.php"><a href="files/src-phpword-writer-odtext-element-field.html"><abbr title="src/PhpWord/Writer/ODText/Element/Field.php">Field.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
@@ -297,7 +297,37 @@
 <dd>Write an XML text, this will call text() or writeRaw() depending on the value of Settings::isOutputEscapingEnabled().</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_endSpan">endSpan()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_startSpan">startSpan()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeDefault">writeDefault()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeIndex">writeIndex()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeIndexMark">writeIndexMark()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeReference">writeReference()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
@@ -557,7 +587,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Element/Field.php"><a href="files/src-phpword-writer-odtext-element-field.html"><abbr title="src/PhpWord/Writer/ODText/Element/Field.php">Field.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -1041,6 +1071,84 @@
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_endSpan">
+        endSpan()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_endSpan" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Element/Field.php"><a href="files/src-phpword-writer-odtext-element-field.html"><abbr title="src/PhpWord/Writer/ODText/Element/Field.php">Field.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">113</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">endSpan</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_startSpan">
+        startSpan()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_startSpan" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Element/Field.php"><a href="files/src-phpword-writer-odtext-element-field.html"><abbr title="src/PhpWord/Writer/ODText/Element/Field.php">Field.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">102</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">startSpan</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$element</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$element</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_writeDefault">
         writeDefault()
         <a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeDefault" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1049,7 +1157,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Element/Field.php"><a href="files/src-phpword-writer-odtext-element-field.html"><abbr title="src/PhpWord/Writer/ODText/Element/Field.php">Field.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">118</span>
 
     </aside>
 
@@ -1074,6 +1182,138 @@
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$type</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_writeIndex">
+        writeIndex()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeIndex" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Element/Field.php"><a href="files/src-phpword-writer-odtext-element-field.html"><abbr title="src/PhpWord/Writer/ODText/Element/Field.php">Field.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">92</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">writeIndex</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$element</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$element</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_writeIndexMark">
+        writeIndexMark()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeIndexMark" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Element/Field.php"><a href="files/src-phpword-writer-odtext-element-field.html"><abbr title="src/PhpWord/Writer/ODText/Element/Field.php">Field.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">78</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">writeIndexMark</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$element</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$element</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_writeReference">
+        writeReference()
+        <a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeReference" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/PhpWord/Writer/ODText/Element/Field.php"><a href="files/src-phpword-writer-odtext-element-field.html"><abbr title="src/PhpWord/Writer/ODText/Element/Field.php">Field.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">64</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">writeReference</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$element</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$element</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/PhpOffice-PhpWord-Element-Field.html"><abbr title="\PhpOffice\PhpWord\Element\Field">Field</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1131,7 +1371,12 @@
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_writeFontStyle">writeFontStyle()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_writeParagraphStyle">writeParagraphStyle()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-Word2007-Element-AbstractElement.html#method_writeText">writeText()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_endSpan">endSpan()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_startSpan">startSpan()</a></li>
                                             <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeDefault">writeDefault()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeIndex">writeIndex()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeIndexMark">writeIndexMark()</a></li>
+                                            <li class=""><a href="classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeReference">writeReference()</a></li>
                                     </ul>
             </li>
                     </ul>

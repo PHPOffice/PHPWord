@@ -14031,6 +14031,31 @@ Search.appendIndex(
             "summary": "Write\u0020field\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field\u003A\u003AwriteReference\u0028\u0029",
+            "name": "writeReference",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeReference"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field\u003A\u003AwriteIndexMark\u0028\u0029",
+            "name": "writeIndexMark",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeIndexMark"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field\u003A\u003AwriteIndex\u0028\u0029",
+            "name": "writeIndex",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_writeIndex"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field\u003A\u003AstartSpan\u0028\u0029",
+            "name": "startSpan",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_startSpan"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field\u003A\u003AendSpan\u0028\u0029",
+            "name": "endSpan",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Field.html#method_endSpan"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\Field\u003A\u003AwriteDefault\u0028\u0029",
             "name": "writeDefault",
             "summary": "",
