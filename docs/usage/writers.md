@@ -151,3 +151,45 @@ $writer = IOFactory::createWriter($oPhpWord, 'Word2007');
 $writer->setZipAdapter(new PclZipAdapter());
 $writer->save(__DIR__ . '/sample.docx');
 ```
+
+## Microsoft Works (WPS)
+
+The `WPS` writer produces a native Microsoft Works 7/8 compound document with
+an OLE `CONTENTS` stream. It does not rename an RTF or Word document to `.wps`.
+
+```php
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$section = $phpWord->addSection();
+$section->addText('Bonjour — café', ['bold' => true, 'size' => 12]);
+\PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'WPS')->save('example.wps');
+```
+
+This writer supports text, text runs, titles, empty paragraphs, inline line
+breaks, tabs, page breaks and sections sharing one page layout. It writes font
+names, sizes, colors, bold, italic, strikethrough, superscript, subscript and
+single/double underline. Paragraph alignment and indentation, page dimensions,
+orientation and margins are preserved. Named font, title and paragraph styles
+are resolved when saving. Text encoding requires either mbstring or iconv.
+
+Other elements, including tables, images, lists, links, headers and footers,
+raise an exception. Different page layouts between sections also raise an
+exception. The writer serializes the document before opening the destination,
+so unsupported elements do not overwrite an existing file. Advanced style
+properties such as paragraph spacing, tab stops, borders and highlighting are
+not yet exported. Review these limits before using WPS for complex documents.
+
+`php samples/Sample_46_WPS.php` generates a demonstration document. The
+integration tests can reopen output with the independent [libwps](https://libwps.sourceforge.net/)
+importer, including a 1,200-paragraph document that spans multiple formatting
+and chunk index pages:
+
+```sh
+PHPWORD_WPS2RAW=/path/to/wps2raw php vendor/bin/phpunit --no-coverage \
+  tests/PhpWordTests/Writer/WPSTest.php \
+  tests/PhpWordTests/Writer/WPS/CompoundFileTest.php
+```
+
+Without `PHPWORD_WPS2RAW`, independent import tests are skipped; the compound
+file and destination-preservation tests still run. Output has been checked
+with libwps 0.4.14. Native Microsoft Works and other application versions have
+not been tested, so this does not establish compatibility with every WPS reader.
