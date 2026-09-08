@@ -1,5 +1,17 @@
 # Writers
 
+## WPS
+The name of the writer is `WPS`. It writes Microsoft Works 7/8 word-processor documents as an OLE compound file.
+
+``` php
+<?php
+
+$writer = IOFactory::createWriter($oPhpWord, 'WPS');
+$writer->save(__DIR__ . '/sample.wps');
+```
+
+Text, titles, links, list items, text runs, table cell text, text breaks and page breaks are written. Character styles, images, headers, footers and a WPS reader are not included in this first iteration.
+
 ## HTML
 The name of the writer is `HTML`.
 
