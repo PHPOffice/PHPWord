@@ -45,7 +45,10 @@ final class CompoundFile
 
         $fatIds = range($baseCount, $baseCount + $fatCount - 1);
         $difatStart = $baseCount + $fatCount;
-        $fat = array_fill(0, $fatCount * 128, self::FREE);
+        $fat = [];
+        for ($index = 0; $index < $fatCount * 128; ++$index) {
+            $fat[] = self::FREE;
+        }
         for ($sector = 0; $sector < $dataCount; ++$sector) {
             $fat[$sector] = $sector + 1 < $dataCount ? $sector + 1 : self::END;
         }

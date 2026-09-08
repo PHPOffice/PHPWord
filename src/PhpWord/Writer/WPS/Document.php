@@ -22,7 +22,10 @@ final class Document
     public static function encodeText(string $text): string
     {
         if (function_exists('mb_convert_encoding')) {
-            return mb_convert_encoding($text, 'UTF-16LE', 'UTF-8');
+            $encoded = mb_convert_encoding($text, 'UTF-16LE', 'UTF-8');
+            if ($encoded !== false) {
+                return $encoded;
+            }
         }
         if (function_exists('iconv')) {
             $encoded = iconv('UTF-8', 'UTF-16LE', $text);
