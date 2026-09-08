@@ -84,7 +84,11 @@ class WPS extends AbstractReader implements ReaderInterface
         $text = $this->extractText($docFile);
 
         $section = $phpWord->addSection();
-        foreach (preg_split('/\r\n|\r|\n/u', $text) as $line) {
+        $lines = preg_split('/\r\n|\r|\n/u', $text);
+        if ($lines === false) {
+            throw new Exception('Invalid WPS file: failed to split text into paragraphs');
+        }
+        foreach ($lines as $line) {
             if ($line !== '') {
                 $section->addText($line);
             }
@@ -195,6 +199,9 @@ class WPS extends AbstractReader implements ReaderInterface
         }
 
         $value = unpack('v', substr($data, $offset, 2));
+        if ($value === false) {
+            throw new Exception('Invalid WPS file: failed to read 16-bit value');
+        }
 
         return $value[1];
     }
@@ -214,6 +221,9 @@ class WPS extends AbstractReader implements ReaderInterface
         }
 
         $value = unpack('V', substr($data, $offset, 4));
+        if ($value === false) {
+            throw new Exception('Invalid WPS file: failed to read 32-bit value');
+        }
 
         return $value[1];
     }
