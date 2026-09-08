@@ -8,7 +8,7 @@ Below are the matrix of element availability in each container. The column shows
 | 2     | Text Run | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: | :red_circle: |
 | 3     | [Link](link.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 4     | [Title](title.md) | :white_check_mark: | :question: | :question: | :question: | :question: | :question: |
-| 5     | [Preserve Text](preservetext.md) | :question: | :white_check_mark: | :white_check_mark: | :material-check-decagram-outline: | :red_circle: | :red_circle: |
+| 5     | [Preserve Text](preservetext.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :material-check-decagram-outline: | :red_circle: | :red_circle: |
 | 6     | [Text Break](textbreak.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 7     | [Page Break](pagebreak.md) | :white_check_mark: | :red_circle: | :red_circle: | :red_circle: | :red_circle: | :red_circle: |
 | 8     | [List](list.md) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :red_circle: | :red_circle: |
