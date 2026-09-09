@@ -128,7 +128,7 @@ class NumberingLevel extends AbstractStyle
     /**
      * Font size in points.
      *
-     * @var int|float
+     * @var float|int
      */
     private $size;
 
@@ -442,7 +442,7 @@ class NumberingLevel extends AbstractStyle
     /**
      * Get font size in points.
      *
-     * @return int|float
+     * @return float|int
      */
     public function getSize()
     {
@@ -452,7 +452,7 @@ class NumberingLevel extends AbstractStyle
     /**
      * Set font size in points.
      *
-     * @param int|float $value
+     * @param float|int $value
      *
      * @return self
      */
