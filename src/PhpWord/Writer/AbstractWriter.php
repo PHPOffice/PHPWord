@@ -373,7 +373,7 @@ abstract class AbstractWriter implements WriterInterface
 
             $zip = new ZipArchive();
             if ($zip->open($zipFilename) !== false) {
-                if ($zip->locateName($imageFilename)) {
+                if ($zip->locateName($imageFilename) !== false) {
                     $zip->extractTo($this->getTempDir(), $imageFilename);
                     $actualSource = $this->getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
                 }
