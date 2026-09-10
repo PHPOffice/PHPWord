@@ -307,7 +307,12 @@ class ZipArchive
         $pathRemoved = $this->tempDir;
         $pathAdded = $filenamePartsDirName;
 
-        $res = $zip->add($filename, PCLZIP_OPT_REMOVE_PATH, $pathRemoved, PCLZIP_OPT_ADD_PATH, $pathAdded);
+        if ( ! $this->usePclzip) {
+            $pathAdded = $pathAdded.'/'.ltrim(str_replace('\\', '/', substr($filename, strlen($pathRemoved))), '/');
+            $res = $zip->addFromString($pathAdded, $contents);
+        } else {
+            $res = $zip->add($filename, PCLZIP_OPT_REMOVE_PATH, $pathRemoved, PCLZIP_OPT_ADD_PATH, $pathAdded);
+        }
 
         // Remove temp file
         @unlink($this->tempDir . DIRECTORY_SEPARATOR . $filenamePartsBaseName);
