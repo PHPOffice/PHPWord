@@ -35,6 +35,13 @@ class CheckBox extends Text
     private $name;
 
     /**
+     * Default state.
+     *
+     * @var bool
+     */
+    private $defaultChecked = false;
+
+    /**
      * Create new instance.
      *
      * @param string $name
@@ -70,5 +77,23 @@ class CheckBox extends Text
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set default state.
+     */
+    public function setDefaultChecked(bool $default = true): self
+    {
+        $this->defaultChecked = $default;
+
+        return $this;
+    }
+
+    /**
+     * Is default state checked?
+     */
+    public function isDefaultChecked(): bool
+    {
+        return (bool) $this->defaultChecked;
     }
 }
