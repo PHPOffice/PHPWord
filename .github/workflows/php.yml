@@ -87,8 +87,17 @@ jobs:
           if: matrix.php != '7.3'
           run: ./vendor/bin/phpunit -c phpunit.xml.dist --no-coverage
 
+      -   name: Install independent Works reader
+          if: matrix.php == '7.3'
+          run: |
+            sudo apt-get update
+            sudo apt-get install --no-install-recommends -y libwps-tools
+            test -x /usr/bin/wps2raw
+
       -   name: Run phpunit
           if: matrix.php == '7.3'
+          env:
+            PHPWORD_WPS2RAW: /usr/bin/wps2raw
           run: ./vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/clover.xml
 
       -   name: Upload coverage results to Coveralls
