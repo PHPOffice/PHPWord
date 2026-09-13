@@ -18,8 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\Common\Microsoft\OLEWrite;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\OLEWrite;
 
 /**
  * WPS writer, Microsoft Works word processor.
