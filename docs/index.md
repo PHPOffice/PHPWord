@@ -47,6 +47,7 @@ Below are the supported features for each file formats.
 |                           | Custom               | :material-check: | :material-check: |       |        |       |
 | **Element Type**          | Text                 | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
 |                           | Text Run             | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
+|                           | Field (native subset) | :material-check: | :material-check: |       |        |       |
 |                           | Title                | :material-check: | :material-check: |       | :material-check: | :material-check: |
 |                           | Link                 | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
 |                           | Preserve Text        | :material-check: |       |       |        |       |
@@ -65,6 +66,7 @@ Below are the supported features for each file formats.
 |                           | Endnote              | :material-check: |       |       | :material-check: |       |
 |                           | Comments             | :material-check: | :material-check: |       |        |       |
 |                           | Form fields          | :material-check: | :material-check: |       |        |       |
+|                           | SDT/content controls | :material-check: | :material-check: |       |        |       |
 | **Graphs**                | 2D basic graphs      | :material-check: |       |       |        |       |
 |                           | 2D advanced graphs   |        |       |       |        |       |
 |                           | 3D graphs            | :material-check: |       |       |        |       |

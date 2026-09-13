@@ -302,7 +302,7 @@ abstract class AbstractPart
             $nodes = $xmlReader->getElements('w:r|w:hyperlink', $domNode);
             $hasRubyElement = $xmlReader->elementExists('w:r/w:ruby', $domNode);
             if ($nodes->length === 1 && !$hasRubyElement) {
-                $textContent = htmlspecialchars($xmlReader->getValue('w:t', $nodes->item(0)), ENT_QUOTES, 'UTF-8');
+                $textContent = htmlspecialchars($xmlReader->getValue('w:t', $nodes->item(0)) ?? '', ENT_QUOTES, 'UTF-8');
             } else {
                 $textContent = new TextRun($paragraphStyle);
                 foreach ($nodes as $node) {
@@ -562,14 +562,14 @@ abstract class AbstractPart
                 if ($fallbackElements->length) {
                     $fallback = $fallbackElements->item(0);
                     // TextRun
-                    $textContent = htmlspecialchars($fallback->nodeValue, ENT_QUOTES, 'UTF-8');
+                    $textContent = htmlspecialchars($fallback->nodeValue ?? '', ENT_QUOTES, 'UTF-8');
 
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
             }
         } elseif ($node->nodeName == 'w:t' || $node->nodeName == 'w:delText') {
             // TextRun
-            $textContent = htmlspecialchars($xmlReader->getValue('.', $node), ENT_QUOTES, 'UTF-8');
+            $textContent = htmlspecialchars($xmlReader->getValue('.', $node) ?? '', ENT_QUOTES, 'UTF-8');
 
             if ($runParent->nodeName == 'w:hyperlink') {
                 $rId = $xmlReader->getAttribute('r:id', $runParent);
