@@ -72,7 +72,7 @@ class Image extends AbstractElement
         if ($position && $style->getWrap() == FrameStyle::WRAP_INLINE) {
             $fontStyle = new FontStyle('text');
             $fontStyle->setPosition($position);
-            $fontStyleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
+            $fontStyleWriter = new FontStyleWriter($xmlWriter, $fontStyle, $element->getPhpWord());
             $fontStyleWriter->write();
         }
 
