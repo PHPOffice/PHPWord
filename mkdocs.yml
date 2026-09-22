@@ -2,7 +2,7 @@ site_name: PHPWord
 site_url: https://phpoffice.github.io/PHPWord
 repo_url: https://github.com/PHPOffice/PHPWord
 repo_name: PHPOffice/PHPWord
-edit_uri: edit/develop/docs/
+edit_uri: edit/master/docs/
 
 ## Theme
 theme:
@@ -30,6 +30,7 @@ theme:
     - search.highlight
     - search.suggest
     - content.code.copy
+    - content.action.edit
 
 ## Plugins
 plugins:
