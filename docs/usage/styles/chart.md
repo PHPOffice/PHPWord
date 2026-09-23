@@ -17,3 +17,4 @@ Available Chart style options:
 - ``showAxisLabels``. Show labels for axis, *true* or *false*.
 - ``gridX``. Show Gridlines for X-Axis, *true* or *false*.
 - ``gridY``. Show Gridlines for Y-Axis, *true* or *false*.
+- ``setDisplayBlanksAs``. How to display null values, *zero*, *span*, *gap* (default).
