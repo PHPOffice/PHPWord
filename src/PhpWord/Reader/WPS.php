@@ -32,7 +32,7 @@ use PhpOffice\PhpWord\Shared\OLERead;
  * one of which ("TEXT") points at the UTF-16LE document text.
  *
  * @see https://github.com/PHPOffice/PHPWord/issues/69
- * @since 0.19.0
+ * @since 1.5.0
  */
 class WPS extends AbstractReader implements ReaderInterface
 {
@@ -104,7 +104,7 @@ class WPS extends AbstractReader implements ReaderInterface
      *
      * @return string
      */
-    private function extractText($filename)
+    protected function extractText($filename)
     {
         $contents = $this->readContentsStream($filename);
 
@@ -116,25 +116,25 @@ class WPS extends AbstractReader implements ReaderInterface
             throw new Exception('WPS files prior to version 8 are not supported');
         }
 
-        $totalEntries = self::getUShort($contents, 12);
+        $totalEntries = $this->getUShort($contents, 12);
         $entriesPos = 24;
 
         while (true) {
-            $magic = self::getUShort($contents, $entriesPos);
+            $magic = $this->getUShort($contents, $entriesPos);
             if ($magic !== self::CHUNK_MAGIC) {
                 throw new Exception('Invalid WPS file: chunk tag mismatch');
             }
 
-            $localEntries = self::getUShort($contents, $entriesPos + 2);
-            $nextOffset = self::getULong($contents, $entriesPos + 4);
+            $localEntries = $this->getUShort($contents, $entriesPos + 2);
+            $nextOffset = $this->getULong($contents, $entriesPos + 4);
             $entryPos = $entriesPos + 8;
 
             for ($i = 0; $i < $localEntries; ++$i) {
-                $entrySize = self::getUShort($contents, $entryPos);
+                $entrySize = $this->getUShort($contents, $entryPos);
                 $name = substr($contents, $entryPos + 4, 4);
                 if ($name === 'TEXT') {
-                    $textOffset = self::getULong($contents, $entryPos + 18);
-                    $textSize = self::getULong($contents, $entryPos + 22);
+                    $textOffset = $this->getULong($contents, $entryPos + 18);
+                    $textSize = $this->getULong($contents, $entryPos + 22);
                     $raw = substr($contents, $textOffset, $textSize);
                     if ($raw === '') {
                         throw new Exception('Invalid WPS file: empty TEXT chunk');
@@ -165,7 +165,7 @@ class WPS extends AbstractReader implements ReaderInterface
      *
      * @return string
      */
-    private function readContentsStream($filename)
+    protected function readContentsStream($filename)
     {
         $ole = new OLERead();
         $ole->read($filename);
@@ -192,7 +192,7 @@ class WPS extends AbstractReader implements ReaderInterface
      *
      * @return int
      */
-    private static function getUShort($data, $offset)
+    protected function getUShort($data, $offset)
     {
         if ($offset + 2 > strlen($data)) {
             throw new Exception('Invalid WPS file: unexpected end of data');
@@ -214,7 +214,7 @@ class WPS extends AbstractReader implements ReaderInterface
      *
      * @return int
      */
-    private static function getULong($data, $offset)
+    protected function getULong($data, $offset)
     {
         if ($offset + 4 > strlen($data)) {
             throw new Exception('Invalid WPS file: unexpected end of data');
