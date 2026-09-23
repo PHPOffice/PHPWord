@@ -115,6 +115,7 @@
         "ext-xml": "*",
         "ext-zip": "*",
         "phpoffice/math": "^0.3",
+        "phpoffice/common": "^1.1",
         "symfony/polyfill-php72": "^1.30",
         "ext-zlib": "*",
         "ext-filter": "*",
