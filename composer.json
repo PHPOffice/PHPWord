@@ -111,6 +111,7 @@
         "ext-zip": "*",
         "ext-json": "*",
         "ext-xml": "*",
+        "phpoffice/common": "^1.1",
         "phpoffice/math": "^0.3"
     },
     "require-dev": {
