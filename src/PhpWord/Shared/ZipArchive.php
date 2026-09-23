@@ -160,7 +160,7 @@ class ZipArchive
         }
         $this->zip = $zip;
 
-        return $result;
+        return $result; // @phpstan-ignore-line
     }
 
     /**
@@ -171,8 +171,11 @@ class ZipArchive
     public function close()
     {
         if (!$this->usePclzip) {
+            /** @var ZipArchive */
+            $zip = $this->zip;
+
             try {
-                $result = @$this->zip->close();
+                $result = @$zip->close();
             } catch (Throwable $e) {
                 $result = false;
             }
@@ -202,7 +205,10 @@ class ZipArchive
         }
 
         if (!$this->usePclzip) {
-            return $this->zip->extractTo($destination, $entries);
+            /** @var ZipArchive */
+            $zip = $this->zip;
+
+            return $zip->extractTo($destination, $entries);
         }
 
         return $this->pclzipExtractTo($destination, $entries);
@@ -218,10 +224,12 @@ class ZipArchive
     public function getFromName($filename)
     {
         if (!$this->usePclzip) {
-            $contents = $this->zip->getFromName($filename);
+            /** @var ZipArchive */
+            $zip = $this->zip;
+            $contents = $zip->getFromName($filename);
             if ($contents === false) {
                 $filename = substr($filename, 1);
-                $contents = $this->zip->getFromName($filename);
+                $contents = $zip->getFromName($filename);
             }
         } else {
             $contents = $this->pclzipGetFromName($filename);
