@@ -1590,6 +1590,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#wps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WPS
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2849,6 +2860,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#wps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WPS
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2985,6 +3007,21 @@ Currently, three renderers are supported: </p>
 <span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">setZipAdapter</span><span class="p">(</span><span class="k">new</span> <span class="nx">PclZipAdapter</span><span class="p">());</span>
 <span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.docx'</span><span class="p">);</span>
 </code></pre></div>
+<h2 id="wps">WPS</h2>
+<p>The name of the writer is <code>WPS</code>. It writes documents for the word processor of
+Microsoft Works 7 and 8, ie an OLE compound file whose <code>CONTENTS</code> stream holds
+the chunks (<code>CHNKWKS</code>) of the document.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$writer</span> <span class="o">=</span> <span class="nx">IOFactory</span><span class="o">::</span><span class="na">createWriter</span><span class="p">(</span><span class="nv">$oPhpWord</span><span class="p">,</span> <span class="s1">'WPS'</span><span class="p">);</span>
+<span class="nv">$writer</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="no">__DIR__</span> <span class="o">.</span> <span class="s1">'/sample.wps'</span><span class="p">);</span>
+</code></pre></div>
+<p>The writer outputs the text of the document, one paragraph per element, and the
+page breaks. The text of the cells of a table is written as consecutive
+paragraphs. The following features are not supported yet: character and
+paragraph styles, tables and lists structure, images, objects, headers,
+footers, footnotes, endnotes, comments, table of contents, document properties
+and form fields. The elements which are not supported are ignored.</p>
 
 
 
