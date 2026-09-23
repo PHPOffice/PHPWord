@@ -341,11 +341,6 @@ parameters:
 			path: src/PhpWord/Shared/Microsoft/PasswordEncoder.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\Shared\\\\ZipArchive\\:\\:open\\(\\) should return bool but returns int\\|true\\.$#"
-			count: 1
-			path: src/PhpWord/Shared/ZipArchive.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\Style\\:\\:addFontStyle\\(\\) should return PhpOffice\\\\PhpWord\\\\Style\\\\Font but returns PhpOffice\\\\PhpWord\\\\Style\\\\AbstractStyle\\.$#"
 			count: 1
 			path: src/PhpWord/Style.php
