@@ -43,7 +43,24 @@ class Table extends AbstractStyle
         $xmlWriter->startElement('style:table-properties');
         //$xmlWriter->writeAttribute('style:width', 'table');
         $xmlWriter->writeAttribute('style:rel-width', 100);
-        $xmlWriter->writeAttribute('table:align', 'center');
+        $xmlWriter->writeAttribute('table:align', $style->getAlignment() ?: 'center');
+        if ($style->getBgColor() !== null) {
+            $xmlWriter->writeAttribute('fo:background-color', '#' . ltrim($style->getBgColor(), '#'));
+        }
+        if ($style->getWidth() > 0) {
+            $xmlWriter->writeAttribute('style:width', number_format($style->getWidth() / 1440, 3, '.', '') . 'in');
+        }
+        $margins = [
+            'top' => $style->getMarginTop(),
+            'bottom' => $style->getMarginBottom(),
+            'left' => $style->getMarginLeft(),
+            'right' => $style->getMarginRight(),
+        ];
+        foreach ($margins as $side => $value) {
+            if ($value !== null && $value !== \PhpOffice\PhpWord\Style\Border::DEFAULT_MARGIN) {
+                $xmlWriter->writeAttribute('fo:margin-' . $side, number_format($value / 1440, 3, '.', '') . 'in');
+            }
+        }
         $xmlWriter->writeAttributeIf($style->isBidiVisual(), 'style:writing-mode', 'rl-tb');
         $xmlWriter->endElement(); // style:table-properties
         $xmlWriter->endElement(); // style:style

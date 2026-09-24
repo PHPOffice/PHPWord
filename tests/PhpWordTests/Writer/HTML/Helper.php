@@ -41,6 +41,7 @@ class Helper extends \PHPUnit\Framework\TestCase
             if ($item2 === null) {
                 self::fail('Unexpected null return requesting item');
             } elseif ($namedItem !== '') {
+                /** @phpstan-ignore property.notFound */
                 $item3 = $item2->attributes->getNamedItem($namedItem);
                 if ($item3 === null) {
                     self::fail('Unexpected null return requesting namedItem');
@@ -48,6 +49,7 @@ class Helper extends \PHPUnit\Framework\TestCase
                     $returnVal = $item3->textContent;
                 }
             } else {
+                /** @phpstan-ignore property.notFound */
                 $returnVal = $item2->textContent;
             }
         }
@@ -67,7 +69,8 @@ class Helper extends \PHPUnit\Framework\TestCase
             if ($item2 === null) {
                 self::fail('Unexpected null return requesting item');
             } else {
-                $returnValue = $item2->attributes->getNamedItem($namedItem);
+                /** @phpstan-ignore property.notFound */
+                $returnVal = $item2->attributes->getNamedItem($namedItem);
             }
         }
 

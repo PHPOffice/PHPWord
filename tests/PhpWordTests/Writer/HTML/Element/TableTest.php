@@ -162,7 +162,7 @@ class TableTest extends TestCase
         self::assertEquals('tstyle', Helper::getTextContent($xpath, '/html/body/div/table[6]', 'class'));
         $style = Helper::getTextContent($xpath, '/html/head/style');
         self::assertNotFalse(preg_match('/^[.]tstyle[^\\r\\n]*/m', $style, $matches));
-        self::assertEquals(".tstyle {table-layout: auto; $cssnone}", $matches[0]);
+        self::assertEquals(".tstyle {table-layout: auto; $cssnone}", $matches[0] ?? '');
     }
 
     public function testWriteTableCellVAlign(): void
@@ -198,6 +198,7 @@ class TableTest extends TestCase
         self::assertNotFalse($cell3Query);
         self::assertCount(1, $cell3Query);
 
+        /** @phpstan-ignore property.notFound */
         $cell3Style = $cell3Query->item(0)->attributes->getNamedItem('style');
         self::assertNull($cell3Style);
     }
@@ -230,6 +231,7 @@ class TableTest extends TestCase
         $cell3Query = $xpath->query('//table/tr[3]/td[1]');
         self::assertNotFalse($cell3Query);
         self::assertCount(1, $cell3Query);
+        /** @phpstan-ignore property.notFound */
         self::assertNull($cell3Query->item(0)->attributes->getNamedItem('rowspan'));
     }
 }

@@ -52,10 +52,12 @@ class Ruby extends AbstractElement
             }
         }
 
+        $this->writeCommentRangeStart();
         $this->replaceTabs($element->getBaseTextRun()->getText(), $xmlWriter);
         $this->writeText(' (');
         $this->replaceTabs($element->getRubyTextRun()->getText(), $xmlWriter);
         $this->writeText(')');
+        $this->writeCommentRangeEnd();
 
         if (!$this->withoutP) {
             $xmlWriter->endElement(); // text:p

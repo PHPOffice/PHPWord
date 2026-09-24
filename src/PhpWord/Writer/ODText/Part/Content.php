@@ -19,16 +19,26 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\Cell as CellElement;
+use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Element\Field;
+use PhpOffice\PhpWord\Element\FormField;
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Line;
+use PhpOffice\PhpWord\Element\Row as RowElement;
+use PhpOffice\PhpWord\Element\SDT as SDTElement;
+use PhpOffice\PhpWord\Element\Shape;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextBox;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Cell as CellStyle;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Line as LineStyle;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\ODText\Element\Container;
@@ -36,6 +46,8 @@ use PhpOffice\PhpWord\Writer\ODText\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * ODText content part writer: content.xml.
+ *
+ * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
  */
 class Content extends AbstractPart
 {
@@ -48,7 +60,7 @@ class Content extends AbstractPart
      *
      * @var array
      */
-    private $autoStyles = ['Section' => [], 'Image' => [], 'Table' => []];
+    private $autoStyles = ['Section' => [], 'Image' => [], 'Line' => [], 'Table' => [], 'Row' => [], 'Cell' => [], 'Shape' => [], 'TextBox' => []];
 
     private $imageParagraphStyles = [];
 
@@ -80,6 +92,12 @@ class Content extends AbstractPart
         // Body
         $xmlWriter->startElement('office:body');
         $xmlWriter->startElement('office:text');
+
+        $formControls = [];
+        foreach ($phpWord->getSections() as $section) {
+            $this->collectFormControls($section, $formControls);
+        }
+        $this->writeForms($xmlWriter, $formControls);
 
         // Tracked changes declarations
         $trackedChanges = [];
@@ -284,6 +302,22 @@ class Content extends AbstractPart
                 $sty->setAuto();
                 $sty->setAlignment($style->getAlignment());
                 $this->imageParagraphStyles[] = $sty;
+            } elseif ($element instanceof Shape) {
+                $style = $element->getStyle();
+                $style->setStyleName('sh' . $element->getElementId());
+                $this->autoStyles['Shape'][] = $style;
+            } elseif ($element instanceof TextBox) {
+                $style = $element->getStyle();
+                $style->setStyleName('tb' . $element->getElementId());
+                $this->autoStyles['TextBox'][] = $style;
+                $this->getContainerStyle($element, $paragraphStyleCount, $fontStyleCount);
+            } elseif ($element instanceof Line) {
+                if (!$element->getElementId()) {
+                    $element->setElementId();
+                }
+                $style = $element->getStyle() ?: new LineStyle();
+                $style->setStyleName($element->getElementId());
+                $this->autoStyles['Line'][] = $style;
             } elseif ($element instanceof Table) {
                 $style = $element->getStyle();
                 if (is_string($style)) {
@@ -295,8 +329,95 @@ class Content extends AbstractPart
                 $style->setStyleName($element->getElementId());
                 $style->setColumnWidths($element->findFirstDefinedCellWidths());
                 $this->autoStyles['Table'][] = $style;
+                $rows = $element->getRows();
+                $rowCount = count($rows);
+                foreach ($rows as $rowIndex => $row) {
+                    if ($row instanceof RowElement && $row->getHeight() !== null) {
+                        if (!$row->getElementId()) {
+                            $row->setElementId();
+                        }
+                        $row->getStyle()->setStyleName($row->getElementId());
+                        $this->autoStyles['Row'][] = $row;
+                    }
+                    $cells = $row->getCells();
+                    $cellCount = count($cells);
+                    foreach ($cells as $cellIndex => $cell) {
+                        if ($cell instanceof CellElement) {
+                            if ($style instanceof TableStyle) {
+                                $this->applyTableStyleToCell($cell, $style, $rowIndex, $cellIndex, $rowCount, $cellCount);
+                            }
+                        }
+                        if ($cell instanceof CellElement && $this->hasCellStyle($cell)) {
+                            if (!$cell->getElementId()) {
+                                $cell->setElementId();
+                            }
+                            $cell->getStyle()->setStyleName($cell->getElementId());
+                            $this->autoStyles['Cell'][] = $cell->getStyle();
+                        }
+                        if ($cell instanceof CellElement) {
+                            $this->getContainerStyle($cell, $paragraphStyleCount, $fontStyleCount);
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private function hasCellStyle(CellElement $cell): bool
+    {
+        $style = $cell->getStyle();
+
+        return $style !== null && (
+            $style->hasBorder()
+            || $style->getBgColor() !== null
+            || $style->getVAlign() !== null
+            || $style->getTextDirection() !== null
+            || $style->getPaddingTop() !== null
+            || $style->getPaddingBottom() !== null
+            || $style->getPaddingLeft() !== null
+            || $style->getPaddingRight() !== null
+            || $style->getNoWrap() === false
+        );
+    }
+
+    private function applyTableStyleToCell(CellElement $cell, TableStyle $tableStyle, int $rowIndex, int $cellIndex, int $rowCount, int $cellCount): void
+    {
+        $style = $cell->getStyle();
+        if ($style === null) {
+            return;
+        }
+
+        $this->setCellBorderIfUnset($style, 'Top', $rowIndex === 0 ? $tableStyle->getBorderTopSize() : $tableStyle->getBorderInsideHSize(), $rowIndex === 0 ? $tableStyle->getBorderTopColor() : $tableStyle->getBorderInsideHColor());
+        $this->setCellBorderIfUnset($style, 'Bottom', $rowIndex === $rowCount - 1 ? $tableStyle->getBorderBottomSize() : null, $tableStyle->getBorderBottomColor());
+        $this->setCellBorderIfUnset($style, 'Left', $cellIndex === 0 ? $tableStyle->getBorderLeftSize() : $tableStyle->getBorderInsideVSize(), $cellIndex === 0 ? $tableStyle->getBorderLeftColor() : $tableStyle->getBorderInsideVColor());
+        $this->setCellBorderIfUnset($style, 'Right', $cellIndex === $cellCount - 1 ? $tableStyle->getBorderRightSize() : null, $tableStyle->getBorderRightColor());
+
+        if ($style->getPaddingTop() === null && $tableStyle->getCellMarginTop() !== null) {
+            $style->setPaddingTop($tableStyle->getCellMarginTop());
+        }
+        if ($style->getPaddingBottom() === null && $tableStyle->getCellMarginBottom() !== null) {
+            $style->setPaddingBottom($tableStyle->getCellMarginBottom());
+        }
+        if ($style->getPaddingLeft() === null && $tableStyle->getCellMarginLeft() !== null) {
+            $style->setPaddingLeft($tableStyle->getCellMarginLeft());
+        }
+        if ($style->getPaddingRight() === null && $tableStyle->getCellMarginRight() !== null) {
+            $style->setPaddingRight($tableStyle->getCellMarginRight());
+        }
+    }
+
+    /**
+     * @param null|float|int $size
+     */
+    private function setCellBorderIfUnset(CellStyle $style, string $side, $size, ?string $color): void
+    {
+        $getSize = 'getBorder' . $side . 'Size';
+        if ($style->$getSize() !== null || $size === null) {
+            return;
+        }
+
+        $style->{'setBorder' . $side . 'Size'}($size);
+        $style->{'setBorder' . $side . 'Color'}($color);
     }
 
     /**
@@ -417,5 +538,136 @@ class Content extends AbstractPart
                 $this->collectTrackedChanges($element, $trackedChanges);
             }
         }
+    }
+
+    /**
+     * Collect form controls from the document containers.
+     *
+     * @param array<int, CheckBox|FormField|SDTElement> $controls
+     */
+    private function collectFormControls(AbstractContainer $container, array &$controls): void
+    {
+        foreach ($container->getElements() as $element) {
+            if ($element instanceof CheckBox || $element instanceof FormField || $element instanceof SDTElement) {
+                if (!$element->getElementId()) {
+                    $element->setElementId();
+                }
+                $controls[] = $element;
+            }
+            if ($element instanceof AbstractContainer) {
+                $this->collectFormControls($element, $controls);
+            }
+        }
+    }
+
+    /**
+     * Write the document-level form controls referenced by draw:control.
+     *
+     * @param array<int, CheckBox|FormField|SDTElement> $controls
+     */
+    private function writeForms(XMLWriter $xmlWriter, array $controls): void
+    {
+        if ($controls === []) {
+            return;
+        }
+
+        $xmlWriter->startElement('office:forms');
+        $xmlWriter->startElement('form:form');
+        $xmlWriter->writeAttribute('form:name', 'Standard');
+
+        foreach ($controls as $control) {
+            if ($control instanceof SDTElement) {
+                $id = 'sdt-' . $control->getElementId();
+                $type = $control->getType();
+                $controlType = $type === 'plainText' ? 'text' : ($type === 'dropDownList' ? 'listbox' : strtolower($type));
+                $xmlWriter->startElement('form:' . $controlType);
+                $xmlWriter->writeAttribute('xml:id', $id);
+                $xmlWriter->writeAttribute('form:name', $control->getAlias() ?: $id);
+                $value = $control->getValue();
+
+                if ($type === 'plainText' || $type === 'date') {
+                    $xmlWriter->writeAttributeIf($value !== null, 'form:value', (string) $value);
+                } elseif ($type === 'comboBox') {
+                    $xmlWriter->writeAttributeIf($value !== null, 'form:value', (string) $value);
+                    foreach ($control->getListItems() as $item) {
+                        $xmlWriter->startElement('form:item');
+                        $xmlWriter->writeAttribute('form:label', (string) $item);
+                        $xmlWriter->text((string) $item);
+                        $xmlWriter->endElement();
+                    }
+                } elseif ($type === 'dropDownList') {
+                    foreach ($control->getListItems() as $key => $item) {
+                        $xmlWriter->startElement('form:option');
+                        $xmlWriter->writeAttribute('form:value', (string) $key);
+                        $xmlWriter->writeAttribute('form:label', (string) $item);
+                        $xmlWriter->writeAttributeIf((string) $value === (string) $item, 'form:current-selected', 'true');
+                        $xmlWriter->text((string) $item);
+                        $xmlWriter->endElement();
+                    }
+                }
+
+                $xmlWriter->endElement();
+
+                continue;
+            }
+            $id = 'control-' . $control->getElementId();
+            $name = $control->getName();
+            $name = $name ?: (($control instanceof CheckBox ? 'checkbox' : $control->getType()) . $id);
+
+            if ($control instanceof CheckBox) {
+                $xmlWriter->startElement('form:checkbox');
+                $xmlWriter->writeAttribute('xml:id', $id);
+                $xmlWriter->writeAttribute('form:name', $name);
+                $xmlWriter->writeAttribute('form:label', (string) $control->getText());
+                $xmlWriter->writeAttribute('form:current-state', 'unchecked');
+                $xmlWriter->endElement();
+
+                continue;
+            }
+
+            switch ($control->getType()) {
+                case 'textinput':
+                    $xmlWriter->startElement('form:text');
+                    $xmlWriter->writeAttribute('xml:id', $id);
+                    $xmlWriter->writeAttribute('form:name', $name);
+                    if ($control->getDefault() !== null) {
+                        $xmlWriter->writeAttribute('form:value', (string) $control->getDefault());
+                    }
+                    if ($control->getValue() !== null) {
+                        $xmlWriter->writeAttribute('form:current-value', (string) $control->getValue());
+                    }
+                    $xmlWriter->endElement();
+
+                    break;
+                case 'checkbox':
+                    $xmlWriter->startElement('form:checkbox');
+                    $xmlWriter->writeAttribute('xml:id', $id);
+                    $xmlWriter->writeAttribute('form:name', $name);
+                    $state = $control->getValue() ?? $control->getDefault();
+                    $xmlWriter->writeAttribute('form:current-state', $state ? 'checked' : 'unchecked');
+                    $xmlWriter->endElement();
+
+                    break;
+                case 'dropdown':
+                    $xmlWriter->startElement('form:listbox');
+                    $xmlWriter->writeAttribute('xml:id', $id);
+                    $xmlWriter->writeAttribute('form:name', $name);
+                    $selected = $control->getValue() ?? $control->getDefault();
+                    foreach ($control->getEntries() as $index => $entry) {
+                        $xmlWriter->startElement('form:option');
+                        $xmlWriter->writeAttribute('form:label', (string) $entry);
+                        $xmlWriter->writeAttribute('form:value', (string) $entry);
+                        $xmlWriter->writeAttributeIf((int) $selected === (int) $index, 'form:current-selected', 'true');
+                        $xmlWriter->text((string) $entry);
+                        $xmlWriter->endElement();
+                    }
+                    $xmlWriter->endElement();
+
+                    break;
+            }
+        }
+
+        $xmlWriter->endElement(); // form:form
+        $xmlWriter->endElement(); // office:forms
     }
 }
