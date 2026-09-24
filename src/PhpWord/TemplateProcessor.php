@@ -491,61 +491,64 @@ class TemplateProcessor
         return $value;
     }
 
-    private function getSvgImageSize($attributes)
+    private function getSvgImageSize(array $attributes): array
     {
-        $actualWidth = (string) $attributes->width;
-        $actualHeight = (string) $attributes->height;
+        $width = (string) $attributes->width;
+        $height = (string) $attributes->height;
         $unit = 'px';
-        if ($actualWidth === '') { // missing value equals to `auto`
-            $actualWidth = 'auto';
+        $vbRatio = 1;
+        if ($width === '') { // missing value equals to `auto`
+            $width = 'auto';
         }
-        if ($actualHeight === '') { // missing value equals to `auto`
-            $actualHeight = 'auto';
+        if ($height === '') { // missing value equals to `auto`
+            $height = 'auto';
         }
-        if ($actualWidth === 'auto' || $actualHeight === 'auto') { // get viewBox for ratio
+        if ($width === 'auto' || $height === 'auto') { // get viewBox for ratio
             $viewBox = preg_split('/[\s,]+/', $attributes->viewBox);
             if (!$viewBox || count($viewBox) < 4) {
                 // no (valid) viewbox
                 $vbWidth = -1;
                 $vbHeight = -1;
             } else {
-                $vbWidth = $viewBox[2] - $viewBox[0];
-                $vbHeight = $viewBox[3] - $viewBox[1];
+                $vbWidth = (float) ($viewBox[2]) - (float) ($viewBox[0]);
+                $vbHeight = (float) ($viewBox[3]) - (float) ($viewBox[1]);
             }
-                if ($vbWidth <= 0) {
-                    $vbWidth = 300; // default value, if no viewBox neither width is set
-                }
-                if ($vbHeight <= 0) {
-                    $vbHeight = 150; // default value, if no viewBox neither height is set
-                }
+            if ($vbWidth <= 0) {
+                $vbWidth = 300; // default value, if no viewBox neither width is set
+            }
+            if ($vbHeight <= 0) {
+                $vbHeight = 150; // default value, if no viewBox neither height is set
+            }
             $vbRatio = $vbWidth / $vbHeight;
-            if ($actualWidth === 'auto' && $actualHeight === 'auto') {
+            if ($width === 'auto' && $height === 'auto') {
                 $actualWidth = $vbWidth;
                 $actualHeight = $vbHeight;
             }
         }
-        if (!is_numeric($actualWidth)) {
-            if ($actualWidth !== 'auto') {
+        if (is_numeric($width)) {
+            $actualWidth = $width;
+        } else {
+            if ($width !== 'auto') {
                 $matches = [];
-                preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $actualWidth, $matches);
+                preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $width, $matches);
                 if (empty($matches)) {
                     return null;
-                } else {
-                    $actualWidth = $matches[1];
-                    $unit = $matches[2];
                 }
+                $actualWidth = (float) ($matches[1]);
+                $unit = $matches[2];
             }
         }
-        if (!is_numeric($actualHeight)) {
+        if (is_numeric($height)) {
+            $actualHeight = $height;
+        } else {
             if ($actualHeight !== 'auto') {
                 $matches = [];
                 preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $actualHeight, $matches);
                 if (empty($matches)) {
                     return null;
-                } else {
-                    $actualHeight = $matches[1];
-                    $unit = $matches[2];
                 }
+                $actualHeight = (float) ($matches[1]);
+                $unit = $matches[2];
             }
         }
         if ($actualWidth === 'auto') {

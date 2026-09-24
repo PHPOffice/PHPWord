@@ -275,7 +275,7 @@ class Converter
 
     /**
      * Convert relative font size (M height) to point.
-     * 
+     *
      * Assumes font size of 12.
      *
      * @param float $em
@@ -289,7 +289,7 @@ class Converter
 
     /**
      * Convert relative font size (x height) to point.
-     * 
+     *
      * Assumes font size of 12.
      *
      * @param float $ex
@@ -414,7 +414,7 @@ class Converter
         }
         $matches = [];
         if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(px|em|ex|%|in|cm|mm|pt|pc)$/i', $value, $matches)) {
-            $size = $matches[1];
+            $size = (float) ($matches[1]);
             $unit = $matches[2];
 
             switch ($unit) {

@@ -966,6 +966,11 @@ parameters:
 			path: src/PhpWord/TemplateProcessor.php
 
 		-
+			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:fixImageWidthHeightRatio\\(\\) has parameter \\$unit with no type specified\\.$#"
+			count: 1
+			path: src/PhpWord/TemplateProcessor.php
+
+		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:getImageArgs\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/TemplateProcessor.php
