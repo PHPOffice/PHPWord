@@ -165,6 +165,48 @@ class HtmlTest extends AbstractWebServerEmbedded
         self::assertEquals('text with entities <my text>', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
     }
 
+    /**
+     * Test that a bare ampersand coming from HTML is escaped in the output.
+     *
+     * @see https://github.com/PHPOffice/PHPWord/issues/2884
+     */
+    public function testParseAmpersandWithoutOutputEscaping(): void
+    {
+        $text = 'Prepared By / Record & Return To:';
+        $esc = \PhpOffice\PhpWord\Settings::isOutputEscapingEnabled();
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(false);
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $text);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled($esc);
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:t'));
+        self::assertEquals($text, $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
+    }
+
+    /**
+     * Test that output escaping does not escape the same ampersand twice.
+     *
+     * @see https://github.com/PHPOffice/PHPWord/issues/2884
+     */
+    public function testParseAmpersandWithOutputEscaping(): void
+    {
+        $text = 'Prepared By / Record & Return To:';
+        $esc = \PhpOffice\PhpWord\Settings::isOutputEscapingEnabled();
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $text);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled($esc);
+        $xml = (string) file_get_contents($doc->getPath() . '/word/document.xml');
+        self::assertStringNotContainsString('&amp;amp;', $xml);
+        self::assertSame(1, substr_count($xml, '&amp;'));
+        self::assertEquals($text, $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
+    }
+
     public function testParseStyle(): void
     {
         $html = '<style type="text/css">

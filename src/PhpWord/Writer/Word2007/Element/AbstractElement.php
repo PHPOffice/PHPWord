@@ -218,7 +218,26 @@ abstract class AbstractElement
             return $this->getXmlWriter()->text($content);
         }
 
-        return $this->getXmlWriter()->writeRaw($content);
+        return $this->getXmlWriter()->writeRaw($this->escapeAmpersands($content));
+    }
+
+    /**
+     * Escape the ampersands that do not open a valid XML entity reference.
+     *
+     * Written as is, such an ampersand makes the document invalid XML. Html::addHtml()
+     * produces one for every entity in the source, because DOM hands back the decoded
+     * value. Angle brackets and quotes are left alone: unlike an ampersand, they may be
+     * markup deliberately passed to addText().
+     *
+     * @param string $content
+     *
+     * @return string
+     */
+    private function escapeAmpersands($content)
+    {
+        $escaped = preg_replace('/&(?!(?:amp|lt|gt|quot|apos|#[0-9]+|#x[0-9a-fA-F]+);)/', '&amp;', $content);
+
+        return ($escaped === null) ? $content : $escaped;
     }
 
     public function setPart(?AbstractPart $part): self
