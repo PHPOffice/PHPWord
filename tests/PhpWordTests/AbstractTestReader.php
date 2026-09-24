@@ -41,7 +41,7 @@ abstract class AbstractTestReader extends \PHPUnit\Framework\TestCase
      */
     protected function getDocumentFromString(array $partXmls = [])
     {
-        $file = __DIR__ . '/_files/temp.docx';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
         $zip = new ZipArchive();
         $zip->open($file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
         foreach ($this->parts as $partName => $part) {

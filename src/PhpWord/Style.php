@@ -178,7 +178,7 @@ class Style
      */
     public static function getStyle($styleName)
     {
-        if (isset(self::$styles[$styleName])) {
+        if ($styleName !== null && isset(self::$styles[$styleName])) {
             return self::$styles[$styleName];
         }
 

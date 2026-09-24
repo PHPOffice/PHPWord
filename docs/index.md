@@ -47,6 +47,7 @@ Below are the supported features for each file formats.
 |                           | Custom               | :material-check: | :material-check: |       |        |       |
 | **Element Type**          | Text                 | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
 |                           | Text Run             | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
+|                           | Field (native subset) | :material-check: | :material-check: |       |        |       |
 |                           | Title                | :material-check: | :material-check: |       | :material-check: | :material-check: |
 |                           | Link                 | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
 |                           | Preserve Text        | :material-check: |       |       |        |       |
@@ -55,14 +56,17 @@ Below are the supported features for each file formats.
 |                           | List                 | :material-check: | :material-check: |       |        |       |
 |                           | Table                | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
 |                           | Image                | :material-check: | :material-check: | :material-check: | :material-check: |       |
+|                           | Line                 | :material-check: | :material-check: |       |        |       |
 |                           | Object               | :material-check: |       |       |        |       |
-|                           | Watermark            | :material-check: |       |       |        |       |
-|                           | Table of Contents    | :material-check: |       |       |        |       |
-|                           | Header               | :material-check: |       |       |        |       |
-|                           | Footer               | :material-check: |       |       |        |       |
+|                           | Watermark            | :material-check: | :material-check: |       |        |       |
+|                           | Table of Contents    | :material-check: | :material-check: |       |        |       |
+|                           | Header               | :material-check: | :material-check: |       |        |       |
+|                           | Footer               | :material-check: | :material-check: |       |        |       |
 |                           | Footnote             | :material-check: |       |       | :material-check: |       |
 |                           | Endnote              | :material-check: |       |       | :material-check: |       |
-|                           | Comments             | :material-check: |       |       |        |       |
+|                           | Comments             | :material-check: | :material-check: |       |        |       |
+|                           | Form fields          | :material-check: | :material-check: |       |        |       |
+|                           | SDT/content controls | :material-check: | :material-check: |       |        |       |
 | **Graphs**                | 2D basic graphs      | :material-check: |       |       |        |       |
 |                           | 2D advanced graphs   |        |       |       |        |       |
 |                           | 3D graphs            | :material-check: |       |       |        |       |

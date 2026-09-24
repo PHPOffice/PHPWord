@@ -68,7 +68,7 @@ class EPub3Test extends \PHPUnit\Framework\TestCase
     public function testSave(): void
     {
         $imageSrc = __DIR__ . '/../_files/images/PhpWord.png';
-        $file = __DIR__ . '/../_files/temp.epub';
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.epub';
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();

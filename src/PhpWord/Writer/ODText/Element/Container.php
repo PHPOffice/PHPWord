@@ -37,5 +37,5 @@ class Container extends Word2007Container
     /**
      * @var array<string>
      */
-    protected $containerWithoutP = ['TextRun', 'Footnote', 'Endnote'];
+    protected $containerWithoutP = ['TextRun'];
 }
