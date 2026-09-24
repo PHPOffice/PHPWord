@@ -831,45 +831,17 @@ class TemplateProcessor
                         $width = Converter::cssToEmu($preparedImageAttrs['width']);
                         $height = Converter::cssToEmu($preparedImageAttrs['height']);
                         if ($width === null) {
-                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['width'], $matches)) {
-                                $size = (float) ($matches[1]);
-                                $unit = $matches[2];
-                                switch ($unit) {
-                                    case 'ex':
-                                        $size = $size * 2;
-
-                                        // no break
-                                    case 'em':
-                                        $width = $size * 152400;
-
-                                        break;
-                                    case '%':
-                                        $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size;
-
-                                        break;
-                                }
+                            if (substr($preparedImageAttrs['width'], 1) === '%') {
+                                $size = (float) substr($preparedImageAttrs['width'], 0, -1);
+                                $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size;
                             } else {
                                 $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']);
                             }
                         }
                         if ($height === null) {
-                            if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['height'], $matches)) {
-                                $size = (float) ($matches[1]);
-                                $unit = $matches[2];
-                                switch ($unit) {
-                                    case 'ex':
-                                        $size *= 2;
-
-                                        // no break
-                                    case 'em':
-                                        $height = $size * 152400;
-
-                                        break;
-                                    case '%':
-                                        $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size;
-
-                                        break;
-                                }
+                            if (substr($preparedImageAttrs['height'], 1) === '%') {
+                                $size = (float) substr($preparedImageAttrs['height'], 0, -1);
+                                $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size;
                             } else {
                                 $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']);
                             }
