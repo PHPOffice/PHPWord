@@ -491,25 +491,92 @@ class TemplateProcessor
         return $value;
     }
 
-    private function fixImageWidthHeightRatio(&$width, &$height, $actualWidth, $actualHeight): void
+    private function getSvgImageSize($attributes)
+    {
+        $actualWidth = (string) $attributes->width;
+        $actualHeight = (string) $attributes->height;
+        $unit = 'px';
+        if ($actualWidth === '') { // missing value equals to `auto`
+            $actualWidth = 'auto';
+        }
+        if ($actualHeight === '') { // missing value equals to `auto`
+            $actualHeight = 'auto';
+        }
+        if ($actualWidth === 'auto' || $actualHeight === 'auto') { // get viewBox for ratio
+            $viewBox = preg_split('/[\s,]+/', $attributes->viewBox);
+            if (!$viewBox || count($viewBox) < 4) {
+                // no (valid) viewbox
+                $vbWidth = -1;
+                $vbHeight = -1;
+            } else {
+                $vbWidth = $viewBox[2] - $viewBox[0];
+                $vbHeight = $viewBox[3] - $viewBox[1];
+            }
+                if ($vbWidth <= 0) {
+                    $vbWidth = 300; // default value, if no viewBox neither width is set
+                }
+                if ($vbHeight <= 0) {
+                    $vbHeight = 150; // default value, if no viewBox neither height is set
+                }
+            $vbRatio = $vbWidth / $vbHeight;
+            if ($actualWidth === 'auto' && $actualHeight === 'auto') {
+                $actualWidth = $vbWidth;
+                $actualHeight = $vbHeight;
+            }
+        }
+        if (!is_numeric($actualWidth)) {
+            if ($actualWidth !== 'auto') {
+                $matches = [];
+                preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $actualWidth, $matches);
+                if (empty($matches)) {
+                    return null;
+                } else {
+                    $actualWidth = $matches[1];
+                    $unit = $matches[2];
+                }
+            }
+        }
+        if (!is_numeric($actualHeight)) {
+            if ($actualHeight !== 'auto') {
+                $matches = [];
+                preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $actualHeight, $matches);
+                if (empty($matches)) {
+                    return null;
+                } else {
+                    $actualHeight = $matches[1];
+                    $unit = $matches[2];
+                }
+            }
+        }
+        if ($actualWidth === 'auto') {
+            $actualWidth = $actualHeight * $vbRatio;
+        }
+        if ($actualHeight === 'auto') {
+            $actualHeight = $actualWidth / $vbRatio;
+        }
+
+        return [$actualWidth, $actualHeight, $unit];
+    }
+
+    private function fixImageWidthHeightRatio(&$width, &$height, $actualWidth, $actualHeight, $unit = 'px'): void
     {
         $imageRatio = $actualWidth / $actualHeight;
 
         if (($width === '') && ($height === '')) { // defined size are empty
-            $width = $actualWidth . 'px';
-            $height = $actualHeight . 'px';
+            $width = $actualWidth . $unit;
+            $height = $actualHeight . $unit;
         } elseif ($width === '') { // defined width is empty
             $heightFloat = (float) $height;
             $widthFloat = $heightFloat * $imageRatio;
             $matches = [];
             preg_match('/\\d([a-z%]+)$/', $height, $matches);
-            $width = $widthFloat . (!empty($matches) ? $matches[1] : 'px');
+            $width = $widthFloat . (!empty($matches) ? $matches[1] : $unit);
         } elseif ($height === '') { // defined height is empty
             $widthFloat = (float) $width;
             $heightFloat = $widthFloat / $imageRatio;
             $matches = [];
             preg_match('/\\d([a-z%]+)$/', $width, $matches);
-            $height = $heightFloat . (!empty($matches) ? $matches[1] : 'px');
+            $height = $heightFloat . (!empty($matches) ? $matches[1] : $unit);
         } else { // we have defined size, but we need also check it aspect ratio
             $widthMatches = [];
             preg_match('/\\d([a-z%]+)$/', $width, $widthMatches);
@@ -563,6 +630,7 @@ class TemplateProcessor
 
         $width = $this->chooseImageDimension($width, $varInlineArgs['width'] ?? null, 115);
         $height = $this->chooseImageDimension($height, $varInlineArgs['height'] ?? null, 70);
+        $unit = 'px';
 
         $mime = mime_content_type($imgPath);
         if ($mime === 'image/svg+xml') {
@@ -575,10 +643,11 @@ class TemplateProcessor
                 throw new Exception(sprintf('Invalid image: %s', $imgPath));
             }
             $svgAttributes = $svgXml->attributes();
-            $actualWidth = $svgAttributes->width;
-            $actualHeight = $svgAttributes->height;
-            $actualWidth = is_numeric($actualWidth) ? $actualWidth . 'px' : $actualWidth;
-            $actualHeight = is_numeric($actualHeight) ? $actualHeight . 'px' : $actualHeight;
+            $imageData = $this->getSvgImageSize($svgAttributes);
+            if (!is_array($imageData)) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath));
+            }
+            [$actualWidth, $actualHeight, $unit] = $imageData;
         } else {
             $imageData = @getimagesize($imgPath);
             if (!is_array($imageData)) {
@@ -592,7 +661,7 @@ class TemplateProcessor
             $ratio = $varInlineArgs['ratio'];
         }
         if (null === $ratio || !in_array(strtolower($ratio), ['', '-', 'f', 'false'])) {
-            $this->fixImageWidthHeightRatio($width, $height, $actualWidth, $actualHeight);
+            $this->fixImageWidthHeightRatio($width, $height, $actualWidth, $actualHeight, $unit);
         }
 
         $imageAttrs = [
