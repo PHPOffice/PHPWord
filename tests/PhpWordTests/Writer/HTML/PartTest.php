@@ -185,5 +185,9 @@ class PartTest extends \PHPUnit\Framework\TestCase
         self::assertNotFalse(strpos($style, 'h2 {margin-top: 0.25pt; margin-bottom: 0.25pt;}'));
         self::assertEquals(1, Helper::getLength($xpath, '/html/body/div/h1'));
         self::assertEquals(2, Helper::getLength($xpath, '/html/body/div/h2'));
+        $html = Helper::getHtmlString($phpWord);
+        self::assertStringContainsString('<h1 style="font-family: \'Calibri\'; font-weight: bold;">Header 1 #1</h1>', $html);
+        self::assertStringContainsString('<h2 style="font-family: \'Times New Roman\'; font-style: italic;">Header 2 #1</h2>', $html);
+        self::assertStringContainsString('<h2 style="font-family: \'Times New Roman\'; font-style: italic;">Header 2 #2</h2>', $html);
     }
 }
