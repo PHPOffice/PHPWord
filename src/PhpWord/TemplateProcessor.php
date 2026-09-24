@@ -491,7 +491,7 @@ class TemplateProcessor
         return $value;
     }
 
-    private function getSvgImageSize(array $attributes): array
+    private function getSvgImageSize(object $attributes): ?array
     {
         $width = (string) $attributes->width;
         $height = (string) $attributes->height;
@@ -536,6 +536,8 @@ class TemplateProcessor
                 }
                 $actualWidth = (float) ($matches[1]);
                 $unit = $matches[2];
+            } else {
+                $actualWidth = 0;
             }
         }
         if (is_numeric($height)) {
@@ -549,12 +551,14 @@ class TemplateProcessor
                 }
                 $actualHeight = (float) ($matches[1]);
                 $unit = $matches[2];
+            } else {
+                $actualHeight = 0;
             }
         }
-        if ($actualWidth === 'auto') {
+        if ($width === 'auto') {
             $actualWidth = $actualHeight * $vbRatio;
         }
-        if ($actualHeight === 'auto') {
+        if ($height === 'auto') {
             $actualHeight = $actualWidth / $vbRatio;
         }
 
