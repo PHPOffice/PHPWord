@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Element\Comment;
 use PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement as Word2007AbstractElement;
 
 /**
@@ -27,6 +28,53 @@ use PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement as Word2007Abstrac
  */
 abstract class AbstractElement extends Word2007AbstractElement
 {
+    protected function writeCommentRangeStart(): void
+    {
+        if ($this->getElement()->getCommentsRangeStart() === null) {
+            return;
+        }
+
+        foreach ($this->getElement()->getCommentsRangeStart()->getItems() as $comment) {
+            $this->getXmlWriter()->startElement('office:annotation');
+            $this->getXmlWriter()->writeAttribute('office:name', $comment->getElementId());
+            $this->getXmlWriter()->writeElement('dc:creator', $comment->getAuthor());
+            if ($comment->getDate() !== null) {
+                $this->getXmlWriter()->writeElement('dc:date', $comment->getDate()->format('Y-m-d\\TH:i:s\\Z'));
+            }
+
+            $containerWriter = new Container($this->getXmlWriter(), $comment);
+            $containerWriter->write();
+            $this->getXmlWriter()->endElement();
+        }
+    }
+
+    protected function writeCommentRangeEnd(): void
+    {
+        $element = $this->getElement();
+        $comments = $element->getCommentsRangeEnd();
+        if ($comments !== null) {
+            foreach ($comments->getItems() as $comment) {
+                $this->writeCommentRangeEndElement($comment);
+            }
+        }
+
+        $comments = $element->getCommentsRangeStart();
+        if ($comments !== null) {
+            foreach ($comments->getItems() as $comment) {
+                if ($comment->getEndElement() === null) {
+                    $this->writeCommentRangeEndElement($comment);
+                }
+            }
+        }
+    }
+
+    private function writeCommentRangeEndElement(Comment $comment): void
+    {
+        $this->getXmlWriter()->startElement('office:annotation-end');
+        $this->getXmlWriter()->writeAttribute('office:name', $comment->getElementId());
+        $this->getXmlWriter()->endElement();
+    }
+
     protected function replaceTabs($text, $xmlWriter): void
     {
         if (preg_match('/^ +/', $text, $matches)) {

@@ -93,8 +93,8 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         foreach ($attributes as $key => $value) {
             $get = $this->findGetter($key, $value, $object);
             $object->setStyleValue("$key", $value);
-            if (('indent' == $key || 'hanging' == $key) && is_numeric($value)) {
-                $value = $value * 720;
+            if (('indent' == $key || 'hanging' == $key)) {
+                $value = 720 * (int) $value;
             }
             self::assertEquals($value, $object->$get());
         }

@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
+use RuntimeException;
 
 /**
  * Image element.
@@ -398,6 +399,9 @@ class Image extends AbstractElement
 
         // Read image binary data and convert to hex/base64 string
         if ($this->sourceType == self::SOURCE_GD) {
+            if (!extension_loaded('gd')) {
+                throw new RuntimeException('The GD extension is required to process GD images.');
+            }
             $imageResource = call_user_func($this->imageCreateFunc, $actualSource);
             if ($this->imageType === 'image/png') {
                 // PNG images need to preserve alpha channel information

@@ -40,11 +40,13 @@ class Link extends AbstractElement
             $xmlWriter->startElement('text:p'); // text:p
         }
 
+        $this->writeCommentRangeStart();
         $xmlWriter->startElement('text:a');
         $xmlWriter->writeAttribute('xlink:type', 'simple');
         $xmlWriter->writeAttribute('xlink:href', ($element->isInternal() ? '#' : '') . $element->getSource());
         $this->writeText($element->getText());
         $xmlWriter->endElement(); // text:a
+        $this->writeCommentRangeEnd();
 
         if (!$this->withoutP) {
             $xmlWriter->endElement(); // text:p
