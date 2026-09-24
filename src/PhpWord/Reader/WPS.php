@@ -55,10 +55,8 @@ class WPS extends AbstractReader implements ReaderInterface
      * Can the current Reader read the file?
      *
      * @param string $filename
-     *
-     * @return bool
      */
-    public function canRead($filename)
+    public function canRead($filename): bool
     {
         try {
             $contents = $this->readContentsStream($filename);
@@ -75,10 +73,8 @@ class WPS extends AbstractReader implements ReaderInterface
      * Loads PhpWord from file.
      *
      * @param string $docFile
-     *
-     * @return PhpWord
      */
-    public function load($docFile)
+    public function load($docFile): PhpWord
     {
         $phpWord = new PhpWord();
         $text = $this->extractText($docFile);
@@ -99,12 +95,8 @@ class WPS extends AbstractReader implements ReaderInterface
 
     /**
      * Extract the UTF-16LE text from the CONTENTS stream of a WPS document.
-     *
-     * @param string $filename
-     *
-     * @return string
      */
-    protected function extractText($filename)
+    protected function extractText(string $filename): string
     {
         $contents = $this->readContentsStream($filename);
 
@@ -160,12 +152,8 @@ class WPS extends AbstractReader implements ReaderInterface
 
     /**
      * Read the OLE "CONTENTS" stream of a WPS document.
-     *
-     * @param string $filename
-     *
-     * @return string
      */
-    protected function readContentsStream($filename)
+    protected function readContentsStream(string $filename): string
     {
         $ole = new OLERead();
         $ole->read($filename);
@@ -186,13 +174,8 @@ class WPS extends AbstractReader implements ReaderInterface
 
     /**
      * Read a 16-bit unsigned integer (little endian).
-     *
-     * @param string $data
-     * @param int $offset
-     *
-     * @return int
      */
-    protected function getUShort($data, $offset)
+    protected function getUShort(string $data, int $offset): int
     {
         if ($offset + 2 > strlen($data)) {
             throw new Exception('Invalid WPS file: unexpected end of data');
@@ -208,13 +191,8 @@ class WPS extends AbstractReader implements ReaderInterface
 
     /**
      * Read a 32-bit unsigned integer (little endian).
-     *
-     * @param string $data
-     * @param int $offset
-     *
-     * @return int
      */
-    protected function getULong($data, $offset)
+    protected function getULong(string $data, int $offset): int
     {
         if ($offset + 4 > strlen($data)) {
             throw new Exception('Invalid WPS file: unexpected end of data');
