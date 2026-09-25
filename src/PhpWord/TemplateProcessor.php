@@ -28,6 +28,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use SimpleXMLElement;
 use Throwable;
 use XSLTProcessor;
 
@@ -491,12 +492,14 @@ class TemplateProcessor
         return $value;
     }
 
-    private function getSvgImageSize(\SimpleXMLElement $attributes): ?array
+    private function getSvgImageSize(SimpleXMLElement $attributes): ?array
     {
         $width = (string) $attributes->width;
         $height = (string) $attributes->height;
         $unit = 'px';
         $vbRatio = 1;
+        $actualWidth = 0;
+        $actualHeight = 0;
         if ($width === '') { // missing value equals to `auto`
             $width = 'auto';
         }
@@ -526,7 +529,7 @@ class TemplateProcessor
             }
         }
         if (is_numeric($width)) {
-            $actualWidth = $width;
+            $actualWidth = (float) $width;
         } else {
             if ($width !== 'auto') {
                 $matches = [];
@@ -536,12 +539,10 @@ class TemplateProcessor
                 }
                 $actualWidth = (float) ($matches[1]);
                 $unit = $matches[2];
-            } else {
-                $actualWidth = 0;
             }
         }
         if (is_numeric($height)) {
-            $actualHeight = $height;
+            $actualHeight = (float) $height;
         } else {
             if ($height !== 'auto') {
                 $matches = [];
@@ -551,14 +552,12 @@ class TemplateProcessor
                 }
                 $actualHeight = (float) ($matches[1]);
                 $unit = $matches[2];
-            } else {
-                $actualHeight = 0;
             }
         }
-        if ($width === 'auto') {
+        if ($actualWidth === 0) {
             $actualWidth = $actualHeight * $vbRatio;
         }
-        if ($height === 'auto') {
+        if ($actualHeight === 0) {
             $actualHeight = $actualWidth / $vbRatio;
         }
 
