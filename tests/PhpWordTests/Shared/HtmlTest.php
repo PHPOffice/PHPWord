@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Shared;
 
 use Exception;
 use PhpOffice\PhpWord\ComplexType\RubyProperties;
+use PhpOffice\PhpWord\Element\ListItemRun;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
@@ -31,6 +32,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Numbering;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
@@ -980,6 +982,103 @@ HTML;
         self::assertEquals('list item2', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r[3]/w:rPr/w:b'));
         self::assertEquals('bold', $doc->getElement('/w:document/w:body/w:p[1]/w:r[3]/w:t')->nodeValue);
+    }
+
+    /**
+     * Tests getListStyles being applied to ordered lists parsed from HTML.
+     */
+    public function testOrderedListStylesFromGetListStyleAreApplied(): void
+    {
+        $expectedStyles = Html::getListStyle(true);
+
+        $html = '<ol><li>Ordered item 1</li><li>Ordered item 2</li></ol>';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html, false, false);
+
+        $element = $section->getElement(0);
+
+        self::assertInstanceOf(ListItemRun::class, $element);
+
+        $style = \PhpOffice\PhpWord\Style::getStyle($element->getStyle()->getNumStyle());
+        self::assertInstanceOf(Numbering::class, $style);
+        self::assertEquals($expectedStyles['type'], $style->getType());
+
+        $levels = $style->getLevels();
+        self::assertCount(count($expectedStyles['levels']), $levels);
+        foreach ($expectedStyles['levels'] as $index => $expectedLevel) {
+            $level = $levels[$index];
+            self::assertEquals($index, $level->getLevel());
+            self::assertEquals($expectedLevel['format'], $level->getFormat());
+            self::assertEquals($expectedLevel['text'], $level->getText());
+            self::assertEquals($expectedLevel['alignment'], $level->getAlignment());
+            self::assertEquals($expectedLevel['tabPos'], $level->getTabPos());
+            self::assertEquals($expectedLevel['left'], $level->getLeft());
+            self::assertEquals($expectedLevel['hanging'], $level->getHanging());
+        }
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $xmlFile = 'word/numbering.xml';
+
+        $index = $style->getIndex();
+        $path = "/w:numbering/w:abstractNum[@w:abstractNumId='{$index}']";
+        self::assertTrue($doc->elementExists($path, $xmlFile));
+        self::assertEquals('multilevel', $doc->getElementAttribute("{$path}/w:multiLevelType", 'w:val', $xmlFile));
+        self::assertEquals('decimal', $doc->getElementAttribute("{$path}/w:lvl[@w:ilvl='0']/w:numFmt", 'w:val', $xmlFile));
+        self::assertEquals('%1.', $doc->getElementAttribute("{$path}/w:lvl[@w:ilvl='0']/w:lvlText", 'w:val', $xmlFile));
+        self::assertEquals('left', $doc->getElementAttribute("{$path}/w:lvl[@w:ilvl='0']/w:lvlJc", 'w:val', $xmlFile));
+        self::assertEquals('720', $doc->getElementAttribute("{$path}/w:lvl[@w:ilvl='0']/w:pPr/w:tabs/w:tab", 'w:pos', $xmlFile));
+        self::assertEquals('720', $doc->getElementAttribute("{$path}/w:lvl[@w:ilvl='0']/w:pPr/w:ind", 'w:left', $xmlFile));
+        self::assertEquals('360', $doc->getElementAttribute("{$path}/w:lvl[@w:ilvl='0']/w:pPr/w:ind", 'w:hanging', $xmlFile));
+    }
+
+    /**
+     * Tests getListStyles being applied to unordered lists parsed from HTML.
+     */
+    public function testUnorderedListStylesFromGetListStyleAreApplied(): void
+    {
+        $expectedStyles = Html::getListStyle(false);
+
+        $html = '<ul><li>Unordered item 1</li><li>Unordered item 2</li></ul>';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html, false, false);
+
+        $element = $section->getElement(0);
+
+        self::assertInstanceOf(ListItemRun::class, $element);
+
+        $style = \PhpOffice\PhpWord\Style::getStyle($element->getStyle()->getNumStyle());
+        self::assertInstanceOf(Numbering::class, $style);
+        self::assertEquals($expectedStyles['type'], $style->getType());
+
+        $unorderedLevels = $style->getLevels();
+        self::assertCount(count($expectedStyles['levels']), $unorderedLevels);
+        foreach ($expectedStyles['levels'] as $index => $expectedLevel) {
+            $level = $unorderedLevels[$index];
+            self::assertEquals($index, $level->getLevel());
+            self::assertEquals($expectedLevel['format'], $level->getFormat());
+            self::assertEquals($expectedLevel['text'], $level->getText());
+            self::assertEquals($expectedLevel['alignment'], $level->getAlignment());
+            self::assertEquals($expectedLevel['tabPos'], $level->getTabPos());
+            self::assertEquals($expectedLevel['left'], $level->getLeft());
+            self::assertEquals($expectedLevel['hanging'], $level->getHanging());
+            self::assertEquals($expectedLevel['font'], $level->getFont());
+            self::assertEquals($expectedLevel['hint'], $level->getHint());
+        }
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $xmlFile = 'word/numbering.xml';
+
+        $index = $style->getIndex();
+        $path = "/w:numbering/w:abstractNum[@w:abstractNumId='{$index}']";
+        self::assertTrue($doc->elementExists($path, $xmlFile));
+        self::assertEquals('hybridMultilevel', $doc->getElementAttribute("{$path}/w:multiLevelType", 'w:val', $xmlFile));
+        self::assertEquals('bullet', $doc->getElementAttribute("{$path}/w:lvl[@w:ilvl='0']/w:numFmt", 'w:val', $xmlFile));
+        self::assertEquals('Symbol', $doc->getElementAttribute("{$path}/w:lvl[@w:ilvl='0']/w:rPr/w:rFonts", 'w:ascii', $xmlFile));
+        self::assertEquals('default', $doc->getElementAttribute("{$path}/w:lvl[@w:ilvl='0']/w:rPr/w:rFonts", 'w:hint', $xmlFile));
     }
 
     /**
