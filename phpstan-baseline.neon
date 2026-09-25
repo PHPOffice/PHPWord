@@ -1682,12 +1682,12 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$haystack of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertStringContainsString\\(\\) expects string, string\\|false given\\.$#"
-			count: 6
+			count: 8
 			path: tests/PhpWordTests/TemplateProcessorTest.php
 
 		-
 			message: "#^Parameter \\#2 \\$haystack of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertStringNotContainsString\\(\\) expects string, string\\|false given\\.$#"
-			count: 4
+			count: 5
 			path: tests/PhpWordTests/TemplateProcessorTest.php
 
 		-

@@ -491,7 +491,7 @@ class TemplateProcessor
         return $value;
     }
 
-    private function getSvgImageSize(SimpleXMLElement $attributes): ?array
+    private function getSvgImageSize(\SimpleXMLElement $attributes): ?array
     {
         $width = (string) $attributes->width;
         $height = (string) $attributes->height;
@@ -543,7 +543,7 @@ class TemplateProcessor
         if (is_numeric($height)) {
             $actualHeight = $height;
         } else {
-            if ($actualHeight !== 'auto') {
+            if ($height !== 'auto') {
                 $matches = [];
                 preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $height, $matches);
                 if (empty($matches)) {
