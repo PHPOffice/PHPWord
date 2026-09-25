@@ -564,7 +564,7 @@ class TemplateProcessor
         return [$actualWidth, $actualHeight, $unit];
     }
 
-    private function fixImageWidthHeightRatio(&$width, &$height, $actualWidth, $actualHeight, $unit = 'px'): void
+    private function fixImageWidthHeightRatio(string &$width, string &$height, float $actualWidth, float $actualHeight, string $unit = 'px'): void
     {
         $imageRatio = $actualWidth / $actualHeight;
 

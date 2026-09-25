@@ -978,9 +978,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $expectedDocumentZip = new ZipArchive();
         $expectedDocumentZip->open($resultFileName);
         $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
-        if (false === $expectedDocumentZip->close()) {
-            throw new Exception("Could not close zip file \"{$resultFileName}\".");
-        }
+        self::assertNotFalse($expectedMainPartXml);
         unlink($resultFileName);
 
         self::assertStringNotContainsString('${Test', $expectedMainPartXml, 'word/document.xml has not inserted all images.');
