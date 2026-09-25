@@ -28,6 +28,7 @@ use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Border as BorderType;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -40,6 +41,31 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class Html
 {
     private const RGB_REGEXP = '/^\s*rgb\s*[(]\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*[)]\s*$/';
+
+    /**
+     * CSS border-style keywords mapped to their Word/OOXML equivalent.
+     *
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_Border.html
+     */
+    private const BORDER_STYLE_MAP = [
+        'none' => BorderType::NONE,
+        'hidden' => BorderType::NONE,
+        'dotted' => BorderType::DOTTED,
+        'dashed' => BorderType::DASHED,
+        'solid' => BorderType::SINGLE,
+        'double' => BorderType::DOUBLE,
+        'groove' => BorderType::THREE_D_ENGRAVE,
+        'ridge' => BorderType::THREE_D_EMBOSS,
+        'inset' => BorderType::INSET,
+        'outset' => BorderType::OUTSET,
+    ];
+
+    /**
+     * Default border width applied when a border-style/-color is set without one. CSS itself
+     * defaults an unset border-width to "medium" whenever a border-style/-color is present;
+     * browsers commonly render "medium" as 3px, so that's what's used here.
+     */
+    private const DEFAULT_BORDER_WIDTH = '3px';
 
     protected static $listIndex = 0;
 
@@ -178,6 +204,8 @@ class Html
             if ($attributeStyle) {
                 $styles = self::parseStyle($attributeStyle, $styles);
             }
+
+            $styles = self::fillMissingBorderSize($styles);
         }
 
         return $styles;
@@ -864,7 +892,7 @@ class Html
 
                     break;
                 case 'border-width':
-                    $styles['borderSize'] = Converter::cssToPoint($value);
+                    $styles['borderSize'] = self::mapBorderWidth($value);
 
                     break;
                 case 'border-style':
@@ -894,29 +922,7 @@ class Html
                 case 'border-bottom':
                 case 'border-right':
                 case 'border-left':
-                    // must have exact order [width color style], e.g. "1px #0011CC solid" or "2pt green solid"
-                    // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
-                    if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+|[a-zA-Z]+)\s+([a-z]+)/', $value, $matches)) {
-                        if (false !== strpos($property, '-')) {
-                            $tmp = explode('-', $property);
-                            $which = $tmp[1];
-                            $which = ucfirst($which); // e.g. bottom -> Bottom
-                        } else {
-                            $which = '';
-                        }
-                        // Note - border width normalization:
-                        // Width of border in Word is calculated differently than HTML borders, usually showing up too bold.
-                        // Smallest 1px (or 1pt) appears in Word like 2-3px/pt in HTML once converted to twips.
-                        // Therefore we need to normalize converted twip value to cca 1/2 of value.
-                        // This may be adjusted, if better ratio or formula found.
-                        // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
-                        $size = Converter::cssToTwip($matches[1]);
-                        $size = (int) ($size / 2);
-                        // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
-                        $styles["border{$which}Size"] = $size; // twips
-                        $styles["border{$which}Color"] = trim($matches[2], '#');
-                        $styles["border{$which}Style"] = self::mapBorderStyle($matches[3]);
-                    }
+                    self::mapBorderShorthand($styles, $property, $value);
 
                     break;
                 case 'vertical-align':
@@ -1060,33 +1066,113 @@ class Html
      *
      * @param string $cssBorderStyle
      *
-     * @return null|string
+     * @return string
      */
     protected static function mapBorderStyle($cssBorderStyle)
     {
-        switch ($cssBorderStyle) {
-            case 'none':
-            case 'dashed':
-            case 'dotted':
-            case 'double':
-                return $cssBorderStyle;
-            default:
-                return 'single';
-        }
+        return self::BORDER_STYLE_MAP[strtolower($cssBorderStyle)] ?? BorderType::SINGLE;
+    }
+
+    /**
+     * Transforms a CSS border-width into the border size unit used internally.
+     *
+     * Note - border width normalization:
+     * Width of border in Word is calculated differently than HTML borders, usually showing up too bold.
+     * Smallest 1px (or 1pt) appears in Word like 2-3px/pt in HTML once converted to twips.
+     * Therefore we need to normalize converted twip value to cca 1/2 of value.
+     * This may be adjusted, if better ratio or formula found.
+     *
+     * @param string $cssBorderWidth
+     *
+     * @return int
+     */
+    protected static function mapBorderWidth($cssBorderWidth)
+    {
+        return (int) (Converter::cssToTwip($cssBorderWidth) / 2);
     }
 
     protected static function mapBorderColor(&$styles, $cssBorderColor): void
     {
-        $numColors = substr_count($cssBorderColor, '#');
-        if ($numColors === 1) {
-            $styles['borderColor'] = trim($cssBorderColor, '#');
-        } elseif ($numColors > 1) {
-            $colors = explode(' ', $cssBorderColor);
+        $colors = preg_split('/\s+/', trim($cssBorderColor)) ?: [];
+        if (count($colors) === 1) {
+            $styles['borderColor'] = trim($colors[0], '#');
+        } else {
             $borders = ['borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor'];
-            for ($i = 0; $i < min(4, $numColors, count($colors)); ++$i) {
+            for ($i = 0; $i < min(4, count($colors)); ++$i) {
                 $styles[$borders[$i]] = trim($colors[$i], '#');
             }
         }
+    }
+
+    /**
+     * Parses the `border`/`border-top`/`border-right`/`border-bottom`/`border-left` shorthand.
+     *
+     * CSS does not fix a token order for this shorthand - width, style and color may appear in
+     * any order (e.g. "1px solid #0011CC" or "2pt green solid" are both valid CSS). Each
+     * whitespace-separated token is classified by shape instead of by position: a number with a
+     * unit is the width, a recognized border-style keyword is the style, and anything else is
+     * the color.
+     * Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC.
+     *
+     * @param array &$styles
+     * @param string $property
+     * @param string $value
+     */
+    protected static function mapBorderShorthand(&$styles, $property, $value): void
+    {
+        $which = false !== strpos($property, '-') ? ucfirst(explode('-', $property)[1]) : '';
+
+        $width = null;
+        $borderStyle = null;
+        $color = null;
+        foreach (preg_split('/\s+/', trim($value)) ?: [] as $token) {
+            if ($token === '') {
+                continue;
+            }
+            if ($width === null && preg_match('/^[0-9]+\.?[0-9]*(px|pt|em|ex|%|in|cm|mm|pc)$/i', $token)) {
+                $width = $token;
+            } elseif ($borderStyle === null && array_key_exists(strtolower($token), self::BORDER_STYLE_MAP)) {
+                $borderStyle = $token;
+            } elseif ($color === null) {
+                $color = $token;
+            }
+        }
+
+        if ($width !== null) {
+            // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
+            $styles["border{$which}Size"] = self::mapBorderWidth($width);
+        }
+        if ($borderStyle !== null) {
+            $styles["border{$which}Style"] = self::mapBorderStyle($borderStyle);
+        }
+        if ($color !== null) {
+            $styles["border{$which}Color"] = trim($color, '#');
+        }
+    }
+
+    /**
+     * Backfills a default border width for any side whose border-style or border-color was set
+     * but border-width was not.
+     *
+     * CSS itself defaults an unset border-width to "medium" whenever a border-style or
+     * border-color is present. PHPWord doesn't apply that default on its own -
+     * Style\Border::hasBorder(), which the writers check before emitting a border at all, gates
+     * purely on border size being set - so a bare `border-style`/`border-color` declaration
+     * would otherwise be silently dropped instead of rendering with a default width.
+     *
+     * @return array
+     */
+    protected static function fillMissingBorderSize(array $styles)
+    {
+        foreach (['', 'Top', 'Right', 'Bottom', 'Left'] as $side) {
+            $sizeKey = "border{$side}Size";
+            $hasStyleOrColor = isset($styles["border{$side}Style"]) || isset($styles["border{$side}Color"]);
+            if ($hasStyleOrColor && !isset($styles[$sizeKey])) {
+                $styles[$sizeKey] = self::mapBorderWidth(self::DEFAULT_BORDER_WIDTH);
+            }
+        }
+
+        return $styles;
     }
 
     /**
