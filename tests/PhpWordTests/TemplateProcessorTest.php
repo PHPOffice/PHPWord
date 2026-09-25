@@ -943,6 +943,52 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @covers ::setImageValue
+     */
+    public function testSetSvgImage(): void
+    {
+        $image0 = __DIR__ . '/_files/images/phpword.svg';
+        $image1 = __DIR__ . '/_files/images/no-size.svg';
+        $image2 = __DIR__ . '/_files/images/only-width.svg';
+        $image3 = __DIR__ . '/_files/images/only-height.svg';
+        $image4 = __DIR__ . '/_files/images/no-viewbox.svg';
+
+        $imageXml = '<w:drawing>';
+
+        // dynamic generated doc
+        $testFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'svg-test-sample.docx';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('${Test0:height=100:ratio=true}');
+        $section->addText('${Test1:50::true}');
+        $section->addText('${Test2}');
+        $section->addText('${Test3:size=10cmx7cm:ratio=false}');
+        $section->addText('${Test4:size=100mmx70mm:ratio=true}');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($testFileName);
+        self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
+
+        $resultFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'svg-test-result.docx';
+        $templateProcessor = new TemplateProcessor($testFileName);
+        unlink($testFileName);
+        $templateProcessor->setImageValue(['Test0', 'Test1', 'Test2', 'Test3', 'Test4'], [$image0, $image1, $image2, $image3, $image4]);
+        $templateProcessor->saveAs($resultFileName);
+        self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
+
+        $expectedDocumentZip = new ZipArchive();
+        $expectedDocumentZip->open($resultFileName);
+        $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+        if (false === $expectedDocumentZip->close()) {
+            throw new Exception("Could not close zip file \"{$resultFileName}\".");
+        }
+        unlink($resultFileName);
+
+        self::assertStringNotContainsString('${Test', $expectedMainPartXml, 'word/document.xml has not inserted all images.');
+        self::assertStringContainsString('<w:drawing>', $expectedMainPartXml);
+        self::assertStringContainsString('<asvg:svgBlip xmlns:asvg="http://schemas.microsoft.com/office/drawing/2016/SVG/main" r:embed="', $expectedMainPartXml);
+    }
+
+    /**
      * @covers ::cloneBlock
      * @covers ::deleteBlock
      * @covers ::saveAs

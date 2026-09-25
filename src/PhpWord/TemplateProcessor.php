@@ -491,7 +491,7 @@ class TemplateProcessor
         return $value;
     }
 
-    private function getSvgImageSize(object $attributes): ?array
+    private function getSvgImageSize(SimpleXMLElement $attributes): ?array
     {
         $width = (string) $attributes->width;
         $height = (string) $attributes->height;
@@ -519,7 +519,7 @@ class TemplateProcessor
             if ($vbHeight <= 0) {
                 $vbHeight = 150; // default value, if no viewBox neither height is set
             }
-            $vbRatio = $vbWidth / $vbHeight;
+            $vbRatio = $vbWidth / $vbHeight; // use ratio, if one dimension is set to auto (or empty)
             if ($width === 'auto' && $height === 'auto') {
                 $actualWidth = $vbWidth;
                 $actualHeight = $vbHeight;
@@ -545,7 +545,7 @@ class TemplateProcessor
         } else {
             if ($actualHeight !== 'auto') {
                 $matches = [];
-                preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $actualHeight, $matches);
+                preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $height, $matches);
                 if (empty($matches)) {
                     return null;
                 }
