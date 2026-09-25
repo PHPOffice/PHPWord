@@ -608,7 +608,7 @@ class Html
      *
      * @return array
      */
-    protected static function getListStyle($isOrderedList)
+    public static function getListStyle($isOrderedList)
     {
         if ($isOrderedList) {
             return [
