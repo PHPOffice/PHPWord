@@ -507,7 +507,7 @@ class TemplateProcessor
             $height = 'auto';
         }
         if ($width === 'auto' || $height === 'auto') { // get viewBox for ratio
-            $viewBox = preg_split('/[\s,]+/', $attributes->viewBox);
+            $viewBox = $attributes->viewBox ? preg_split('/[\s,]+/', $attributes->viewBox) : null;
             if (!$viewBox || count($viewBox) < 4) {
                 // no (valid) viewbox
                 $vbWidth = -1;
