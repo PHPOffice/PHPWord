@@ -29,6 +29,8 @@ class Converter
     const INCH_TO_POINT = 72;
     const INCH_TO_PICA = 6;
     const PIXEL_TO_EMU = 9525;
+    const EM_TO_POINT = 12;
+    const EX_TO_POINT = 24;
     const DEGREE_TO_ANGLE = 60000;
 
     /**
@@ -272,6 +274,34 @@ class Converter
     }
 
     /**
+     * Convert relative font size (M height) to point.
+     *
+     * Assumes font size of 12.
+     *
+     * @param float $em
+     *
+     * @return float
+     */
+    public static function emToPoint($em = 1)
+    {
+        return $em * self::EM_TO_POINT;
+    }
+
+    /**
+     * Convert relative font size (x height) to point.
+     *
+     * Assumes font size of 12.
+     *
+     * @param float $ex
+     *
+     * @return float
+     */
+    public static function exToPoint($ex = 1)
+    {
+        return $ex * self::EX_TO_POINT;
+    }
+
+    /**
      * Convert degree to angle.
      *
      * @param float $degree
@@ -384,7 +414,7 @@ class Converter
         }
         $matches = [];
         if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(px|em|ex|%|in|cm|mm|pt|pc)$/i', $value, $matches)) {
-            $size = $matches[1];
+            $size = (float) ($matches[1]);
             $unit = $matches[2];
 
             switch ($unit) {
@@ -400,6 +430,10 @@ class Converter
                     return self::inchToPoint($size);
                 case 'pc':
                     return self::picaToPoint($size);
+                case 'em':
+                    return self::emToPoint($size);
+                case 'ex':
+                    return self::exToPoint($size);
             }
         }
 
@@ -447,10 +481,15 @@ class Converter
      *
      * @param string $value
      *
-     * @return float
+     * @return ?float
      */
     public static function cssToEmu($value)
     {
-        return self::pointToEmu(self::cssToPoint($value));
+        $point = self::cssToPoint($value);
+        if ($point === null) {
+            return null;
+        }
+
+        return self::pointToEmu($point);
     }
 }

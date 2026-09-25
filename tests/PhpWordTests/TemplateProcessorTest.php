@@ -859,14 +859,17 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSetImageValue(): void
     {
         $templateProcessor = $this->getTemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
-        $imagePath = __DIR__ . '/_files/images/earth.jpg';
+        $imageJpg = __DIR__ . '/_files/images/earth.jpg';
+        $imageGif = __DIR__ . '/_files/images/mario.gif';
+        $imagePng = __DIR__ . '/_files/images/firefox.png';
+        $imageSvg = __DIR__ . '/_files/images/phpword.svg';
 
         $variablesReplace = [
-            'headerValue' => function () use ($imagePath) {
-                return $imagePath;
+            'headerValue' => function () use ($imageJpg) {
+                return $imageJpg;
             },
-            'documentContent' => ['path' => $imagePath, 'width' => 500, 'height' => 500],
-            'footerValue' => ['path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false],
+            'documentContent' => ['path' => $imageJpg, 'width' => 500, 'height' => 500],
+            'footerValue' => ['path' => $imageJpg, 'width' => 100, 'height' => 50, 'ratio' => false],
         ];
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 
@@ -906,7 +909,16 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $testFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-test-sample.docx';
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('${Test:width=100:ratio=true}');
+        $section->addText('${Test0:width=100:ratio=true}');
+        $section->addText('${Test1::50:true}');
+        $section->addText('${Test2}');
+        $section->addText('${Test3:size=10cmx7cm:ratio=false}');
+        $section->addText('${Test4:size=100mmx70mm:ratio=true}');
+        $section->addText('${Test5:4in::true}');
+        $section->addText('${Test6:300pt:200pt}');
+        $section->addText('${Test7:25pc:}');
+        $section->addText('${Test8:50%:50%}');
+        $section->addText('${Test9::5ex}');
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($testFileName);
         self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
@@ -914,9 +926,8 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $resultFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-test-result.docx';
         $templateProcessor = new TemplateProcessor($testFileName);
         unlink($testFileName);
-        $templateProcessor->setImageValue('Test', $imagePath);
-        $templateProcessor->setImageValue('Test1', $imagePath);
-        $templateProcessor->setImageValue('Test2', $imagePath);
+        $templateProcessor->setImageValue('Test0', $imageJpg);
+        $templateProcessor->setImageValue(['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6', 'Test7', 'Test8', 'Test9'], [$imageGif, $imagePng, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg, $imageSvg]);
         $templateProcessor->saveAs($resultFileName);
         self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
 
@@ -928,7 +939,51 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
         unlink($resultFileName);
 
-        self::assertStringNotContainsString('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
+        self::assertStringNotContainsString('${Test', $expectedMainPartXml, 'word/document.xml has not inserted all images.');
+    }
+
+    /**
+     * @covers ::setImageValue
+     */
+    public function testSetSvgImage(): void
+    {
+        $image0 = __DIR__ . '/_files/images/phpword.svg';
+        $image1 = __DIR__ . '/_files/images/no-size.svg';
+        $image2 = __DIR__ . '/_files/images/only-width.svg';
+        $image3 = __DIR__ . '/_files/images/only-height.svg';
+        $image4 = __DIR__ . '/_files/images/no-viewbox.svg';
+
+        $imageXml = '<w:drawing>';
+
+        // dynamic generated doc
+        $testFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'svg-test-sample.docx';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('${Test0:height=100:ratio=true}');
+        $section->addText('${Test1:50::true}');
+        $section->addText('${Test2}');
+        $section->addText('${Test3:size=10cmx7cm:ratio=false}');
+        $section->addText('${Test4:size=100mmx70mm:ratio=true}');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($testFileName);
+        self::assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
+
+        $resultFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'svg-test-result.docx';
+        $templateProcessor = new TemplateProcessor($testFileName);
+        unlink($testFileName);
+        $templateProcessor->setImageValue(['Test0', 'Test1', 'Test2', 'Test3', 'Test4'], [$image0, $image1, $image2, $image3, $image4]);
+        $templateProcessor->saveAs($resultFileName);
+        self::assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
+
+        $expectedDocumentZip = new ZipArchive();
+        $expectedDocumentZip->open($resultFileName);
+        $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+        self::assertNotFalse($expectedMainPartXml);
+        unlink($resultFileName);
+
+        self::assertStringNotContainsString('${Test', $expectedMainPartXml, 'word/document.xml has not inserted all images.');
+        self::assertStringContainsString('<w:drawing>', $expectedMainPartXml);
+        self::assertStringContainsString('<asvg:svgBlip xmlns:asvg="http://schemas.microsoft.com/office/drawing/2016/SVG/main" r:embed="', $expectedMainPartXml);
     }
 
     /**

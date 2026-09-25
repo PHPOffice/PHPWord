@@ -24,9 +24,11 @@ use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use SimpleXMLElement;
 use Throwable;
 use XSLTProcessor;
 
@@ -490,25 +492,97 @@ class TemplateProcessor
         return $value;
     }
 
-    private function fixImageWidthHeightRatio(&$width, &$height, $actualWidth, $actualHeight): void
+    private function getSvgImageSize(SimpleXMLElement $attributes): ?array
+    {
+        $width = (string) $attributes->width;
+        $height = (string) $attributes->height;
+        $unit = 'px';
+        $vbRatio = 1;
+        $actualWidth = 0;
+        $actualHeight = 0;
+        if ($width === '') { // missing value equals to `auto`
+            $width = 'auto';
+        }
+        if ($height === '') { // missing value equals to `auto`
+            $height = 'auto';
+        }
+        if ($width === 'auto' || $height === 'auto') { // get viewBox for ratio
+            $viewBox = $attributes->viewBox ? preg_split('/[\s,]+/', $attributes->viewBox) : null;
+            if (!$viewBox || count($viewBox) < 4) {
+                // no (valid) viewbox
+                $vbWidth = -1;
+                $vbHeight = -1;
+            } else {
+                $vbWidth = (float) ($viewBox[2]) - (float) ($viewBox[0]);
+                $vbHeight = (float) ($viewBox[3]) - (float) ($viewBox[1]);
+            }
+            if ($vbWidth <= 0) {
+                $vbWidth = 300; // default value, if no viewBox neither width is set
+            }
+            if ($vbHeight <= 0) {
+                $vbHeight = 150; // default value, if no viewBox neither height is set
+            }
+            $vbRatio = $vbWidth / $vbHeight; // use ratio, if one dimension is set to auto (or empty)
+            if ($width === 'auto' && $height === 'auto') {
+                $actualWidth = $vbWidth;
+                $actualHeight = $vbHeight;
+            }
+        }
+        if (is_numeric($width)) {
+            $actualWidth = (float) $width;
+        } else {
+            if ($width !== 'auto') {
+                $matches = [];
+                preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $width, $matches);
+                if (empty($matches)) {
+                    return null;
+                }
+                $actualWidth = (float) ($matches[1]);
+                $unit = $matches[2];
+            }
+        }
+        if (is_numeric($height)) {
+            $actualHeight = (float) $height;
+        } else {
+            if ($height !== 'auto') {
+                $matches = [];
+                preg_match('/^([0-9]+\.?[0-9]*)([a-z%]+)$/', $height, $matches);
+                if (empty($matches)) {
+                    return null;
+                }
+                $actualHeight = (float) ($matches[1]);
+                $unit = $matches[2];
+            }
+        }
+        if ($actualWidth === 0) {
+            $actualWidth = $actualHeight * $vbRatio;
+        }
+        if ($actualHeight === 0) {
+            $actualHeight = $actualWidth / $vbRatio;
+        }
+
+        return [$actualWidth, $actualHeight, $unit];
+    }
+
+    private function fixImageWidthHeightRatio(string &$width, string &$height, float $actualWidth, float $actualHeight, string $unit = 'px'): void
     {
         $imageRatio = $actualWidth / $actualHeight;
 
         if (($width === '') && ($height === '')) { // defined size are empty
-            $width = $actualWidth . 'px';
-            $height = $actualHeight . 'px';
+            $width = $actualWidth . $unit;
+            $height = $actualHeight . $unit;
         } elseif ($width === '') { // defined width is empty
             $heightFloat = (float) $height;
             $widthFloat = $heightFloat * $imageRatio;
             $matches = [];
             preg_match('/\\d([a-z%]+)$/', $height, $matches);
-            $width = $widthFloat . (!empty($matches) ? $matches[1] : 'px');
+            $width = $widthFloat . (!empty($matches) ? $matches[1] : $unit);
         } elseif ($height === '') { // defined height is empty
             $widthFloat = (float) $width;
             $heightFloat = $widthFloat / $imageRatio;
             $matches = [];
             preg_match('/\\d([a-z%]+)$/', $width, $matches);
-            $height = $heightFloat . (!empty($matches) ? $matches[1] : 'px');
+            $height = $heightFloat . (!empty($matches) ? $matches[1] : $unit);
         } else { // we have defined size, but we need also check it aspect ratio
             $widthMatches = [];
             preg_match('/\\d([a-z%]+)$/', $width, $widthMatches);
@@ -562,26 +636,47 @@ class TemplateProcessor
 
         $width = $this->chooseImageDimension($width, $varInlineArgs['width'] ?? null, 115);
         $height = $this->chooseImageDimension($height, $varInlineArgs['height'] ?? null, 70);
+        $unit = 'px';
 
-        $imageData = @getimagesize($imgPath);
-        if (!is_array($imageData)) {
-            throw new Exception(sprintf('Invalid image: %s', $imgPath));
+        $mime = mime_content_type($imgPath);
+        if ($mime === 'image/svg+xml') {
+            $content = file_get_contents($imgPath);
+            if (!$content) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath));
+            }
+            $svgXml = simplexml_load_string($content);
+            if (!$svgXml) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath));
+            }
+            $svgAttributes = $svgXml->attributes();
+            $imageData = $this->getSvgImageSize($svgAttributes);
+            if (!is_array($imageData)) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath));
+            }
+            [$actualWidth, $actualHeight, $unit] = $imageData;
+        } else {
+            $imageData = @getimagesize($imgPath);
+            if (!is_array($imageData)) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath));
+            }
+            [$actualWidth, $actualHeight] = $imageData;
         }
-        [$actualWidth, $actualHeight, $imageType] = $imageData;
 
         // fix aspect ratio (by default)
         if (null === $ratio && isset($varInlineArgs['ratio'])) {
             $ratio = $varInlineArgs['ratio'];
         }
         if (null === $ratio || !in_array(strtolower($ratio), ['', '-', 'f', 'false'])) {
-            $this->fixImageWidthHeightRatio($width, $height, $actualWidth, $actualHeight);
+            $this->fixImageWidthHeightRatio($width, $height, $actualWidth, $actualHeight, $unit);
         }
 
         $imageAttrs = [
             'src' => $imgPath,
-            'mime' => image_type_to_mime_type($imageType),
+            'mime' => $mime,
             'width' => $width,
             'height' => $height,
+            'originalWidth' => $actualWidth,
+            'originalHeight' => $actualHeight,
         ];
 
         return $imageAttrs;
@@ -599,6 +694,7 @@ class TemplateProcessor
             'image/png' => 'png',
             'image/bmp' => 'bmp',
             'image/gif' => 'gif',
+            'image/svg+xml' => 'svg',
         ];
 
         // get image embed name
@@ -674,6 +770,48 @@ class TemplateProcessor
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
         $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}" stroked="f" filled="f"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
+        // use drawing for svg, see https://www.datypic.com/sc/ooxml/e-w_drawing-1.html
+        $svgTpl = '<w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                      <wp:extent cx="{WIDTH}" cy="{HEIGHT}"/>
+                      <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                      <wp:docPr id="{ID}" name="{NAME}"/>
+                      <wp:cNvGraphicFramePr>
+                        <a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/>
+                      </wp:cNvGraphicFramePr>
+                      <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+                        <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                          <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                            <pic:nvPicPr>
+                              <pic:cNvPr id="{ID}" name="{NAME}"/>
+                              <pic:cNvPicPr/>
+                            </pic:nvPicPr>
+                            <pic:blipFill>
+                              <a:blip>
+                                <a:extLst>
+                                  <a:ext uri="{96DAC541-7B7A-43D3-8B79-37D633B846F1}">
+                                    <asvg:svgBlip xmlns:asvg="http://schemas.microsoft.com/office/drawing/2016/SVG/main" r:embed="{RID}"/>
+                                  </a:ext>
+                                </a:extLst>
+                              </a:blip>
+                              <a:stretch>
+                                <a:fillRect/>
+                              </a:stretch>
+                            </pic:blipFill>
+                            <pic:spPr>
+                              <a:xfrm>
+                                <a:off x="0" y="0"/>
+                                <a:ext cx="{WIDTH}" cy="{HEIGHT}"/>
+                              </a:xfrm>
+                              <a:prstGeom prst="rect">
+                                <a:avLst/>
+                              </a:prstGeom>
+                            </pic:spPr>
+                          </pic:pic>
+                        </a:graphicData>
+                      </a:graphic>
+                    </wp:inline>
+                </w:drawing>';
 
         $i = 0;
         foreach ($searchParts as $partFileName => &$partContent) {
@@ -695,7 +833,29 @@ class TemplateProcessor
 
                     // replace preparations
                     $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
-                    $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
+                    if ($preparedImageAttrs['mime'] === 'image/svg+xml') {
+                        $width = Converter::cssToEmu($preparedImageAttrs['width']);
+                        $height = Converter::cssToEmu($preparedImageAttrs['height']);
+                        if ($width === null) {
+                            if (substr($preparedImageAttrs['width'], 1) === '%') {
+                                $size = (float) substr($preparedImageAttrs['width'], 0, -1);
+                                $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size;
+                            } else {
+                                $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']);
+                            }
+                        }
+                        if ($height === null) {
+                            if (substr($preparedImageAttrs['height'], 1) === '%') {
+                                $size = (float) substr($preparedImageAttrs['height'], 0, -1);
+                                $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size;
+                            } else {
+                                $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']);
+                            }
+                        }
+                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, (string) $width, (string) $height, $imgIndex, 'graphic'], $svgTpl);
+                    } else {
+                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
+                    }
 
                     // replace variable
                     $varNameWithArgsFixed = static::ensureMacroCompleted($varNameWithArgs);
