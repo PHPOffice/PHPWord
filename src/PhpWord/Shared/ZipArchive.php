@@ -427,6 +427,9 @@ class ZipArchive
         /** @var PclZip $zip Type hint */
         $zip = $this->zip;
         $list = $zip->listContent();
+        if ($list === 0) {
+            $list = []; // @codeCoverageIgnore
+        }
         $listCount = count($list);
         $listIndex = -1;
         for ($i = 0; $i < $listCount; ++$i) {

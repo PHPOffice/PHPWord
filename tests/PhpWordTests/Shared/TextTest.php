@@ -51,7 +51,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     /** @dataProvider providerTestChr */
     public function testChr(string $expectedResult, int $ord): void
     {
-        self::assertSame($expectedResult, Text::chr($ord)); // @phpstan-ignore argument.type (we test with some nominally illegal negative numbers to verify run-time works with them)
+        self::assertSame($expectedResult, Text::chr($ord));
         if (PHP_VERSION_ID >= 70300) { // flaky results for mb_chr in 7.1/7.2
             if ($expectedResult === '') {
                 self::assertFalse(mb_chr($ord));

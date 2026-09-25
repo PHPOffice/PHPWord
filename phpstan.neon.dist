@@ -7,8 +7,6 @@ parameters:
     paths:
         - src/
         - tests/
-    excludePaths:
-        - */pclzip.lib.php
     bootstrapFiles:
         - tests/bootstrap.php
     treatPhpDocTypesAsCertain: false
