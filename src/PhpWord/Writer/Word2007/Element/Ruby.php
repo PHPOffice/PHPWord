@@ -29,11 +29,8 @@ class Ruby extends AbstractElement
     public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
+        /** @var \PhpOffice\PhpWord\Element\Ruby */
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Ruby) {
-            return;
-        }
-        /** @var \PhpOffice\PhpWord\Element\Ruby $element */
         $this->startElementP();
 
         $xmlWriter->startElement('w:r');

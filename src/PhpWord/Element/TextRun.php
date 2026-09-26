@@ -40,7 +40,7 @@ class TextRun extends AbstractContainer
     /**
      * Create new instance.
      *
-     * @param array|Paragraph|string $paragraphStyle
+     * @param null|array|Paragraph|string $paragraphStyle
      */
     public function __construct($paragraphStyle = null)
     {
@@ -60,7 +60,7 @@ class TextRun extends AbstractContainer
     /**
      * Set Paragraph style.
      *
-     * @param array|Paragraph|string $style
+     * @param null|array|Paragraph|string $style
      *
      * @return Paragraph|string
      */

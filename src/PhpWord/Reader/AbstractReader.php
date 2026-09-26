@@ -97,7 +97,7 @@ abstract class AbstractReader implements ReaderInterface
     protected function openFile($filename)
     {
         // Check if file exists
-        if (!file_exists($filename) || !is_readable($filename)) {
+        if (realpath($filename) === false || !is_readable($filename)) {
             throw new Exception("Could not open $filename for reading! File does not exist.");
         }
 

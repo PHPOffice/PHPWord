@@ -22,8 +22,6 @@ use PhpOffice\PhpWord\Element\ListItemRun;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\ListItemRun.
- *
- * @runTestsInSeparateProcesses
  */
 class ListItemRunTest extends \PHPUnit\Framework\TestCase
 {

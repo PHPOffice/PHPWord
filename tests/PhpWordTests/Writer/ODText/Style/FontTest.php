@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWordTests\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Color;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -31,6 +33,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
+        Settings::restoreDefaults();
         TestHelperDOCX::clear();
     }
 
@@ -77,7 +80,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $section->addText('This is red (800) in rtf/html, default in docx/odt', ['color' => '800']);
         $section->addText('This should be cyanish (008787)', ['color' => '008787']);
-        $section->addText('This should be dark green (FGCOLOR_DARKGREEN)', ['color' => Font::FGCOLOR_DARKGREEN]);
+        $section->addText('This should be dark green (Color::DARKGREEN)', ['color' => Color::DARKGREEN]);
         $section->addText('This color is default (unknow)', ['color' => 'unknow']);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
@@ -106,27 +109,27 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $span = "$s2t/text:p[4]/text:span";
         self::assertTrue($doc->elementExists($span));
         self::assertEquals($style, $doc->getElementAttribute($span, 'text:style-name'));
-        self::assertEquals('This should be dark green (FGCOLOR_DARKGREEN)', $doc->getElement($span)->nodeValue);
+        self::assertEquals('This should be dark green (Color::DARKGREEN)', $doc->getElement($span)->nodeValue);
     }
 
     public static function providerAllNamedColors()
     {
         return [
-            [Font::FGCOLOR_YELLOW, 'FFFF00'],
-            [Font::FGCOLOR_LIGHTGREEN, '90EE90'],
-            [Font::FGCOLOR_CYAN, '00FFFF'],
-            [Font::FGCOLOR_MAGENTA, 'FF00FF'],
-            [Font::FGCOLOR_BLUE, '0000FF'],
-            [Font::FGCOLOR_RED, 'FF0000'],
-            [Font::FGCOLOR_DARKBLUE, '00008B'],
-            [Font::FGCOLOR_DARKCYAN, '008B8B'],
-            [Font::FGCOLOR_DARKGREEN, '006400'],
-            [Font::FGCOLOR_DARKMAGENTA, '8B008B'],
-            [Font::FGCOLOR_DARKRED, '8B0000'],
-            [Font::FGCOLOR_DARKYELLOW, '8B8B00'],
-            [Font::FGCOLOR_DARKGRAY, 'A9A9A9'],
-            [Font::FGCOLOR_LIGHTGRAY, 'D3D3D3'],
-            [Font::FGCOLOR_BLACK, '000000'],
+            [Color::YELLOW, 'FFFF00'],
+            [Color::LIGHTGREEN, '90EE90'],
+            [Color::CYAN, '00FFFF'],
+            [Color::MAGENTA, 'FF00FF'],
+            [Color::BLUE, '0000FF'],
+            [Color::RED, 'FF0000'],
+            [Color::DARKBLUE, '00008B'],
+            [Color::DARKCYAN, '008B8B'],
+            [Color::DARKGREEN, '006400'],
+            [Color::DARKMAGENTA, '8B008B'],
+            [Color::DARKRED, '8B0000'],
+            [Color::DARKYELLOW, '808000'],
+            [Color::DARKGRAY, 'A9A9A9'],
+            [Color::LIGHTGRAY, 'D3D3D3'],
+            [Color::BLACK, '000000'],
             ['unknow', 'unknow'],
             ['unknown', 'unknown'],
         ];
@@ -283,5 +286,100 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists("$element/text:date"));
         $element = "$s2t/text:p[5]/text:span";
         self::assertEquals('namedstyle', $doc->getElementAttribute($element, 'text:style-name'));
+    }
+
+    public function testUnderline(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->addFontStyle('underlineStyle', [
+            'underline' => Font::UNDERLINE_DOTDOTDASH,
+        ]);
+        $section = $phpWord->addSection();
+        $section->addText('Sample text.', 'underlineStyle');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $doc->setDefaultFile('styles.xml');
+        $s2a = '/office:document-styles/office:styles';
+        self::assertTrue($doc->elementExists($s2a));
+        $style = "$s2a/style:style";
+        self::assertTrue($doc->elementExists($style));
+        self::assertSame('underlineStyle', $doc->getElementAttribute($style, 'style:name'));
+        $properties = "$style/style:text-properties";
+        self::assertTrue($doc->elementExists($properties));
+        self::assertSame('dot-dot-dash', $doc->getElementAttribute($properties, 'style:text-underline-style'));
+    }
+
+    /**
+     * Test underline color.
+     */
+    public function testUnderlineColor(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        // Test 1: Set underline color to red
+        $section->addText('Underline red', ['underline' => true, 'underlineColor' => 'FF0000']);
+
+        // Test 2: Set underline color to green
+        $section->addText('Underline green', ['underline' => true, 'underlineColor' => '00FF00']);
+
+        // Test 3: No underline color (should not output attribute)
+        $section->addText('No underline color', ['underline' => true, 'underlineColor' => '']);
+
+        // Test 4: Use named color constant
+        $section->addText('Underline darkblue', ['underline' => true, 'underlineColor' => Font::FGCOLOR_DARKBLUE]);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $s2a = '/office:document-content/office:automatic-styles';
+        self::assertTrue($doc->elementExists($s2a));
+
+        // Check first text with red underline
+        $element = "$s2a/style:style[3]";
+        self::assertTrue($doc->elementExists($element));
+        $styleName = $doc->getElementAttribute($element, 'style:name');
+        $element .= '/style:text-properties';
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('#FF0000', $doc->getElementAttribute($element, 'style:text-underline-color'));
+        $span = '/office:document-content/office:body/office:text/text:section/text:p[2]/text:span';
+        self::assertTrue($doc->elementExists($span));
+        self::assertEquals($styleName, $doc->getElementAttribute($span, 'text:style-name'));
+        self::assertEquals('Underline red', $doc->getElement($span)->nodeValue);
+
+        // Check second text with green underline
+        $element = "$s2a/style:style[5]";
+        self::assertTrue($doc->elementExists($element));
+        $styleName = $doc->getElementAttribute($element, 'style:name');
+        $element .= '/style:text-properties';
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('#00FF00', $doc->getElementAttribute($element, 'style:text-underline-color'));
+        $span = '/office:document-content/office:body/office:text/text:section/text:p[3]/text:span';
+        self::assertTrue($doc->elementExists($span));
+        self::assertEquals($styleName, $doc->getElementAttribute($span, 'text:style-name'));
+        self::assertEquals('Underline green', $doc->getElement($span)->nodeValue);
+
+        // Check third text: no underline color → attribute should not be present
+        $element = "$s2a/style:style[7]";
+        self::assertTrue($doc->elementExists($element));
+        $styleName = $doc->getElementAttribute($element, 'style:name');
+        $element .= '/style:text-properties';
+        self::assertTrue($doc->elementExists($element));
+        self::assertSame('', $doc->getElementAttribute($element, 'style:text-underline-color'), 'style:text-underline-color should not be present when empty');
+        $span = '/office:document-content/office:body/office:text/text:section/text:p[4]/text:span';
+        self::assertTrue($doc->elementExists($span));
+        self::assertEquals('No underline color', $doc->getElement($span)->nodeValue);
+        self::assertEquals($styleName, $doc->getElementAttribute($span, 'text:style-name'));
+
+        // Check fourth text: darkblue via constant
+        $element = "$s2a/style:style[9]";
+        self::assertTrue($doc->elementExists($element));
+        $styleName = $doc->getElementAttribute($element, 'style:name');
+        $element .= '/style:text-properties';
+        self::assertTrue($doc->elementExists($element));
+        self::assertEquals('#00008B', $doc->getElementAttribute($element, 'style:text-underline-color'));
+        $span = '/office:document-content/office:body/office:text/text:section/text:p[5]/text:span';
+        self::assertTrue($doc->elementExists($span));
+        self::assertEquals($styleName, $doc->getElementAttribute($span, 'text:style-name'));
+        self::assertEquals('Underline darkblue', $doc->getElement($span)->nodeValue);
     }
 }

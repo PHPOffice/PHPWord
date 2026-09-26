@@ -94,7 +94,12 @@ class Field extends AbstractElement
         ],
         'REF' => [
             'properties' => ['name' => ''],
-            'options' => ['f', 'h', 'n', 'p', 'r', 't', 'w'],
+            'options' => [
+                'f', 'h', 'n', 'p', 'r', 't', 'w',
+                'd' => [',', '.', ''],
+                'NumberSeperatorSequence' => [',', '.', ''], // grandfather typo
+                'NumberSeparatorSequence' => [',', '.', ''],
+            ],
         ],
     ];
 
@@ -249,7 +254,8 @@ class Field extends AbstractElement
     public function setOptions(array $options = [])
     {
         foreach (array_keys($options) as $optionkey) {
-            if (!(isset($this->fieldsArray[$this->type]['options'][$optionkey])) && substr($optionkey, 0, 1) !== '\\') {
+            $optionkey = preg_replace('/^[\\\\](.)$/', '$1', $optionkey) ?? $optionkey;
+            if (!(isset($this->fieldsArray[$this->type]['options'][$optionkey]))) {
                 throw new InvalidArgumentException("Invalid option '$optionkey', possible values are " . implode(', ', $this->fieldsArray[$this->type]['options']));
             }
         }

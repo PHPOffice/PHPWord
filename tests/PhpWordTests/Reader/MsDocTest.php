@@ -28,8 +28,6 @@ use PhpOffice\PhpWord\Reader\MsDoc;
  * Test class for PhpOffice\PhpWord\Reader\MsDoc.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\MsDoc
- *
- * @runTestsInSeparateProcesses
  */
 class MsDocTest extends \PHPUnit\Framework\TestCase
 {

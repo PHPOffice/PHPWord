@@ -116,6 +116,18 @@ class ListItem extends AbstractStyle
     }
 
     /**
+     * Get numbering style.
+     *
+     * @return ?Numbering
+     */
+    public function getNumbering()
+    {
+        $numStyleObject = Style::getStyle($this->numStyle);
+
+        return ($numStyleObject instanceof Numbering) ? $numStyleObject : null;
+    }
+
+    /**
      * Set numbering style name.
      *
      * @param string $value

@@ -23,8 +23,6 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\PreserveText.
- *
- * @runTestsInSeparateProcesses
  */
 class PreserveTextTest extends \PHPUnit\Framework\TestCase
 {

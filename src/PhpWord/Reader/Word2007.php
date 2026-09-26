@@ -99,7 +99,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read document part.
      *
-     * @param array<string, array<string, null|AbstractElement>> $commentRefs
+     * @param array<int|string, array<int|string, null|AbstractElement>> $commentRefs
      */
     private function readPart(PhpWord $phpWord, array $relationships, array $commentRefs, string $partName, string $docFile, string $xmlFile): AbstractPart
     {

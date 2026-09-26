@@ -51,7 +51,7 @@ abstract class AbstractWebServerEmbedded extends \PHPUnit\Framework\TestCase
             return self::getBaseUrl() . '/images/new-php-logo.png';
         }
 
-        return 'http://php.net/images/logos/new-php-logo.png';
+        return 'https://www.php.net/images/logos/new-php-logo.png';
     }
 
     protected static function getRemoteImageUrlWithoutExtension(): string
@@ -69,7 +69,7 @@ abstract class AbstractWebServerEmbedded extends \PHPUnit\Framework\TestCase
             return self::getBaseUrl() . '/images/mario.gif';
         }
 
-        return 'http://php.net/images/logos/php-med-trans-light.gif';
+        return 'https://www.php.net/images/logos/php-med-trans-light.gif';
     }
 
     protected static function getRemoteBmpImageUrl()
@@ -78,6 +78,6 @@ abstract class AbstractWebServerEmbedded extends \PHPUnit\Framework\TestCase
             return self::getBaseUrl() . '/images/duke_nukem.bmp';
         }
 
-        return 'https://samples.libav.org/image-samples/RACECAR.BMP';
+        return 'https://examplefiles.org/files/images/bmp-example-file-download-500x500.bmp';
     }
 }

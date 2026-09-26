@@ -34,18 +34,7 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetParentWriter(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $object = $this->getMockForAbstractClass(ODText\Part\AbstractPart::class);
-        } else {
-            /** @var ODText\Part\AbstractPart $object */
-            $object = new class() extends ODText\Part\AbstractPart {
-                public function write(): string
-                {
-                    return '';
-                }
-            };
-        }
+        $object = new AbstractPartClass();
         $object->setParentWriter(new ODText());
         self::assertEquals(new ODText(), $object->getParentWriter());
     }
@@ -57,18 +46,7 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('No parent WriterInterface assigned.');
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $object = $this->getMockForAbstractClass(ODText\Part\AbstractPart::class);
-        } else {
-            /** @var ODText\Part\AbstractPart $object */
-            $object = new class() extends ODText\Part\AbstractPart {
-                public function write(): string
-                {
-                    return '';
-                }
-            };
-        }
+        $object = new AbstractPartClass();
         $object->getParentWriter();
     }
 }

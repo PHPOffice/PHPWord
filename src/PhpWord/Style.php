@@ -145,18 +145,25 @@ class Style
     public static function resetStyles(): void
     {
         self::$styles = [];
+        self::setUsesOpenType(false);
     }
 
     /**
      * Set default paragraph style.
      *
      * @param AbstractStyle|array $styles Paragraph style definition
+     * @param null|AbstractStyle|array $fontStyles Font style definition
      *
      * @return Paragraph
      */
-    public static function setDefaultParagraphStyle($styles)
+    public static function setDefaultParagraphStyle($styles, $fontStyles = null)
     {
-        return self::addParagraphStyle('Normal', $styles);
+        if ($fontStyles === null) {
+            return self::addParagraphStyle('Normal', $styles);
+        }
+        $fontStyle = self::addFontStyle('Normal', $fontStyles, $styles);
+
+        return $fontStyle->getParagraph();
     }
 
     /**
@@ -172,14 +179,23 @@ class Style
     /**
      * Get style by name.
      *
-     * @param string $styleName
+     * @param ?string $styleName
      *
      * @return ?AbstractStyle Paragraph|Font|Table|Numbering
      */
     public static function getStyle($styleName)
     {
-        if ($styleName !== null && isset(self::$styles[$styleName])) {
+        if ($styleName === null) {
+            return null;
+        }
+        if (isset(self::$styles[$styleName])) {
             return self::$styles[$styleName];
+        }
+        foreach (self::$styles as $key => $value) {
+            $styleId = self::alternateName($key);
+            if ($styleId === $styleName) {
+                return $value;
+            }
         }
 
         return null;
@@ -214,5 +230,40 @@ class Style
         }
 
         return self::getStyle($name);
+    }
+
+    /**
+     * Get alternate name for style names with embedded spaces.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public static function alternateName($name)
+    {
+        $explode = explode(' ', $name);
+        if (count($explode) > 1) {
+            $name = '';
+            foreach ($explode as $explodeItem) {
+                $name .= ucfirst($explodeItem);
+            }
+        }
+
+        return $name;
+    }
+
+    /** @var bool */
+    private static $usesOpenType = false;
+
+    /** @internal */
+    public static function getUsesOpenType(): bool
+    {
+        return self::$usesOpenType;
+    }
+
+    /** @internal */
+    public static function setUsesOpenType(bool $usesOpenType): void
+    {
+        self::$usesOpenType = $usesOpenType;
     }
 }

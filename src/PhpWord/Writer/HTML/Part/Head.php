@@ -88,21 +88,19 @@ class Head extends AbstractPart
         $defaultFontColor = Settings::getDefaultFontColor();
         // Default styles
         $astarray = [
-            'font-family' => $this->getFontFamily(Settings::getDefaultFontName(), $this->getParentWriter()->getDefaultGenericFont()),
+            'font-family' => $this->getFontFamily(Settings::getDefaultFontName() ?: Settings::DEFAULT_FONT_NAME, $this->getParentWriter()->getDefaultGenericFont()),
             'font-size' => Settings::getDefaultFontSize() . 'pt',
             'color' => "#{$defaultFontColor}",
         ];
-        // Mpdf sometimes needs separate tag for body; doesn't harm others.
-        $bodyarray = $astarray;
 
         $defaultWhiteSpace = $this->getParentWriter()->getDefaultWhiteSpace();
         if ($defaultWhiteSpace) {
             $astarray['white-space'] = $defaultWhiteSpace;
         }
+        $bodyarray = $astarray;
 
         foreach ([
             'body' => $bodyarray,
-            '*' => $astarray,
             'a.NoteRef' => [
                 'text-decoration' => 'none',
             ],
@@ -121,6 +119,9 @@ class Head extends AbstractPart
             'td' => [
                 'border' => '1px solid black',
             ],
+            'th' => [
+                'border' => '1px solid black',
+            ],
         ] as $selector => $style) {
             $styleWriter = new GenericStyleWriter($style);
             $css .= $selector . ' {' . $styleWriter->write() . '}' . PHP_EOL;
@@ -129,18 +130,20 @@ class Head extends AbstractPart
         // Custom styles
         $customStyles = Style::getStyles();
         if (is_array($customStyles)) {
-            foreach ($customStyles as $name => $style) {
+            foreach ($customStyles as $namex => $style) {
+                $name = Style::alternateName($namex);
                 $styleParagraph = null;
                 if ($style instanceof Font) {
                     $styleWriter = new FontStyleWriter($style);
                     if ($style->getStyleType() == 'title') {
                         $name = str_replace('Heading_', 'h', $name);
+                        $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                         $styleParagraph = $style->getParagraph();
                         $style = $styleParagraph;
                     } else {
                         $name = '.' . $name;
+                        $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                     }
-                    $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                 }
                 if ($style instanceof Paragraph) {
                     $styleWriter = new ParagraphStyleWriter($style);
@@ -197,9 +200,6 @@ class Head extends AbstractPart
      */
     private function getFontFamily(string $font, string $genericFont): string
     {
-        if (empty($font)) {
-            return '';
-        }
         $fontfamily = "'" . htmlspecialchars($font, ENT_QUOTES, 'UTF-8') . "'";
         if (!empty($genericFont)) {
             $fontfamily .= ", $genericFont";

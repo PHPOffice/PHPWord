@@ -24,8 +24,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
  * @coversNothing
- *
- * @runTestsInSeparateProcesses
  */
 class FootnotesTest extends \PHPUnit\Framework\TestCase
 {

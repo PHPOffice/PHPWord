@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Style\Chart;
  * Test class for PhpOffice\PhpWord\Style\Chart.
  *
  * @coversDefaultClass          \PhpOffice\PhpWord\Style\Chart
- *
- * @runTestsInSeparateProcesses
  */
 class ChartTest extends \PHPUnit\Framework\TestCase
 {

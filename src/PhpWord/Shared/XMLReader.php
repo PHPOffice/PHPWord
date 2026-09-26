@@ -22,8 +22,8 @@ use DOMDocument;
 use DOMElement;
 use DOMNodeList;
 use DOMXpath;
-use Exception;
 use InvalidArgumentException;
+use PhpOffice\PhpWord\Exception\Exception as WordException;
 use ZipArchive;
 
 /**
@@ -57,8 +57,8 @@ class XMLReader
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
-        if (file_exists($zipFile) === false) {
-            throw new Exception('Cannot find archive file.');
+        if (realpath($zipFile) === false) {
+            throw new WordException('Cannot find archive file.');
         }
 
         $zip = new ZipArchive();
@@ -68,7 +68,7 @@ class XMLReader
              * Throw an exception since making further calls on the ZipArchive would cause a fatal error.
              * This prevents fatal errors on corrupt archives and attempts to open old "doc" files.
              */
-            throw new Exception("The archive failed to load with the following error code: $openStatus");
+            throw new WordException("The archive failed to load with the following error code: $openStatus");
         }
 
         $content = $zip->getFromName(ltrim($xmlFile, '/'));
@@ -78,25 +78,48 @@ class XMLReader
             return false;
         }
 
-        return $this->getDomFromString($content);
+        return $this->getDomFromString($content, true);
     }
 
     /**
      * Get DOMDocument from content string.
      *
      * @param string $content
+     * @param bool $throwOk
      *
-     * @return DOMDocument
+     * @return DOMDocument|false
      */
-    public function getDomFromString($content)
+    public function getDomFromString($content, $throwOk = false)
     {
         if (\PHP_VERSION_ID < 80000) {
-            $originalLibXMLEntityValue = libxml_disable_entity_loader(true);
+            $originalLibXMLEntityValue = libxml_disable_entity_loader(true); // @codeCoverageIgnore
         }
-        $this->dom = new DOMDocument();
-        $this->dom->loadXML($content);
-        if (\PHP_VERSION_ID < 80000) {
-            libxml_disable_entity_loader($originalLibXMLEntityValue);
+        $orig = false;
+
+        try {
+            if ($throwOk) {
+                $orig = libxml_use_internal_errors(true);
+            }
+            $this->dom = new DOMDocument();
+            $result = $this->dom->loadXML($content);
+            if ($result === false && $throwOk) {
+                foreach (libxml_get_errors() as $err) {
+                    if ($err->level === LIBXML_ERR_FATAL) {
+                        throw new WordException($err->message);
+                    }
+                }
+            }
+        } finally {
+            libxml_clear_errors();
+            if ($throwOk) {
+                libxml_use_internal_errors($orig);
+            }
+            if (\PHP_VERSION_ID < 80000) {
+                libxml_disable_entity_loader($originalLibXMLEntityValue); // @codeCoverageIgnore
+            }
+        }
+        if ($throwOk && $result === false) {
+            return false;
         }
 
         return $this->dom;
@@ -111,16 +134,19 @@ class XMLReader
      */
     public function getElements($path, ?DOMElement $contextNode = null)
     {
+        /** @var DOMNodeList<DOMElement> */
+        $empty = new DOMNodeList();
         if ($this->dom === null) {
-            return new DOMNodeList(); // @phpstan-ignore-line
+            return $empty;
         }
         if ($this->xpath === null) {
             $this->xpath = new DOMXpath($this->dom);
         }
 
+        /** @var DOMNodeList<DOMElement> */
         $result = @$this->xpath->query($path, $contextNode);
 
-        return empty($result) ? new DOMNodeList() : $result; // @phpstan-ignore-line
+        return empty($result) ? $empty : $result;
     }
 
     /**

@@ -25,8 +25,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph
- *
- * @runTestsInSeparateProcesses
  */
 class ParagraphTest extends \PHPUnit\Framework\TestCase
 {

@@ -20,8 +20,11 @@ namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Numbering;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
 
 /**
@@ -54,6 +57,13 @@ class Header extends AbstractPart
     private $colorTable = [];
 
     /**
+     * List table.
+     *
+     * @var array
+     */
+    private $listTable = [];
+
+    /**
      * Get font table.
      *
      * @return array
@@ -74,13 +84,23 @@ class Header extends AbstractPart
     }
 
     /**
+     * Get list table.
+     *
+     * @return array
+     */
+    public function getListTable()
+    {
+        return $this->listTable;
+    }
+
+    /**
      * Write part.
      *
      * @return string
      */
     public function write()
     {
-        $this->registerFont();
+        $this->registerHeader();
 
         $content = '';
 
@@ -88,6 +108,7 @@ class Header extends AbstractPart
         $content .= $this->writeDefaults();
         $content .= $this->writeFontTable();
         $content .= $this->writeColorTable();
+        $content .= $this->writeListTable();
         $content .= $this->writeGenerator();
         $content .= PHP_EOL;
 
@@ -157,11 +178,194 @@ class Header extends AbstractPart
         $content .= '{';
         $content .= '\colortbl;';
         foreach ($this->colorTable as $color) {
-            [$red, $green, $blue] = Converter::htmlToRgb($color);
+            $temp = Converter::htmlToRgb($color);
+            $red = $green = $blue = 0;
+            if (is_array($temp)) {
+                [$red, $green, $blue] = $temp;
+            }
             $content .= "\\red{$red}\\green{$green}\\blue{$blue};";
         }
         $content .= '}';
         $content .= PHP_EOL;
+
+        return $content;
+    }
+
+    /**
+     * Write list table.
+     *
+     * @return string
+     */
+    private function writeListTable()
+    {
+        $content = '';
+
+        $listType = [
+            'singleLevel' => '\listsimple1',
+            'multilevel' => '\listsimple0',
+            'hybridMultilevel' => '\listhybrid',
+        ];
+
+        $numberType = [
+            NumberFormat::DECIMAL => '0',
+            NumberFormat::UPPER_ROMAN => '1',
+            NumberFormat::LOWER_ROMAN => '2',
+            NumberFormat::UPPER_LETTER => '3',
+            NumberFormat::LOWER_LETTER => '4',
+            NumberFormat::ORDINAL => '5',
+            NumberFormat::CARDINAL_TEXT => '6',
+            NumberFormat::ORDINAL_TEXT => '7',
+            /* NumberFormat::HEX => 'hex',
+            NumberFormat::CHICAGO => 'chicago',
+            NumberFormat::IDEOGRAPH_DIGITAL => 'ideographDigital',
+            NumberFormat::JAPANESE_COUNTING => 'japaneseCounting', */
+            NumberFormat::AIUEO => '12',
+            NumberFormat::IROHA => '13',
+            /* NumberFormat::DECIMAL_FULL_WIDTH => 'decimalFullWidth',
+            NumberFormat::DECIMAL_HALF_WIDTH => 'decimalHalfWidth',
+            NumberFormat::JAPANESE_LEGAL => 'japaneseLegal',
+            NumberFormat::JAPANESE_DIGITAL_TEN_THOUSAND => 'japaneseDigitalTenThousand',
+            NumberFormat::DECIMAL_ENCLOSED_CIRCLE => 'decimalEnclosedCircle',
+            NumberFormat::DECIMAL_FULL_WIDTH2 => 'decimalFullWidth2', */
+            NumberFormat::AIUEO_FULL_WIDTH => '20',
+            NumberFormat::IROHA_FULL_WIDTH => '21',
+            // NumberFormat::DECIMAL_ZERO => 'decimalZero',
+            NumberFormat::BULLET => '23',
+            /* NumberFormat::GANADA => 'ganada',
+            NumberFormat::CHOSUNG => 'chosung',
+            NumberFormat::DECIMAL_ENCLOSED_FULL_STOP => 'decimalEnclosedFullstop',
+            NumberFormat::DECIMAL_ENCLOSED_PAREN => 'decimalEnclosedParen',
+            NumberFormat::DECIMAL_ENCLOSED_CIRCLE_CHINESE => 'decimalEnclosedCircleChinese',
+            NumberFormat::IDEOGRAPHENCLOSEDCIRCLE => 'ideographEnclosedCircle',
+            NumberFormat::IDEOGRAPH_TRADITIONAL => 'ideographTraditional',
+            NumberFormat::IDEOGRAPH_ZODIAC => 'ideographZodiac',
+            NumberFormat::IDEOGRAPH_ZODIAC_TRADITIONAL => 'ideographZodiacTraditional',
+            NumberFormat::TAIWANESE_COUNTING => 'taiwaneseCounting',
+            NumberFormat::IDEOGRAPH_LEGAL_TRADITIONAL => 'ideographLegalTraditional',
+            NumberFormat::TAIWANESE_COUNTING_THOUSAND => 'taiwaneseCountingThousand',
+            NumberFormat::TAIWANESE_DIGITAL => 'taiwaneseDigital',
+            NumberFormat::CHINESE_COUNTING => 'chineseCounting',
+            NumberFormat::CHINESE_LEGAL_SIMPLIFIED => 'chineseLegalSimplified',
+            NumberFormat::CHINESE_COUNTING_THOUSAND => 'chineseCountingThousand',
+            NumberFormat::KOREAN_DIGITAL => 'koreanDigital',
+            NumberFormat::KOREAN_COUNTING => 'koreanCounting',
+            NumberFormat::KOREAN_LEGAL => 'koreanLegal',
+            NumberFormat::KOREAN_DIGITAL2 => 'koreanDigital2', */
+            NumberFormat::VIETNAMESE_COUNTING => '56',
+            NumberFormat::RUSSIAN_LOWER => '58',
+            NumberFormat::RUSSIAN_UPPER => '59',
+            NumberFormat::NONE => '255',
+            /* NumberFormat::NUMBER_IN_DASH => 'numberInDash',
+            NumberFormat::HEBREW1 => 'hebrew1',
+            NumberFormat::HEBREW2 => 'hebrew2',
+            NumberFormat::ARABIC_ALPHA => 'arabicAlpha', */
+            NumberFormat::ARABIC_ABJAD => '48',
+            NumberFormat::HINDI_VOWELS => '49',
+            NumberFormat::HINDI_CONSONANTS => '50',
+            NumberFormat::HINDI_NUMBERS => '51',
+            NumberFormat::HINDI_COUNTING => '52',
+            NumberFormat::THAI_LETTERS => '53',
+            NumberFormat::THAI_NUMBERS => '54',
+            NumberFormat::THAI_COUNTING => '55',
+        ];
+
+        $listAlignment = [
+            'left' => '0',
+            'center' => '1',
+            'right' => '2',
+        ];
+
+        $content .= '{';
+        $content .= '\*\listtable' . PHP_EOL;
+
+        foreach ($this->listTable as $list) {
+            $content .= '{';
+            $content .= '\list\listtemplateid' . $list['numId'];
+            if (isset($listType[$list['type']])) {
+                $content .= $listType[$list['type']];
+            }
+            $content .= PHP_EOL;
+            foreach ($list['listItems'] as $listItem) {
+                $content .= '{';
+                $content .= '\listlevel';
+                if (isset($numberType[$listItem['format']])) {
+                    $content .= '\levelnfc' . $numberType[$listItem['format']];
+                    $content .= '\levelnfcn' . $numberType[$listItem['format']];
+                }
+                if (isset($listAlignment[$listItem['alignment']])) {
+                    $content .= '\leveljc' . $listAlignment[$listItem['alignment']];
+                    $content .= '\leveljcn' . $listAlignment[$listItem['alignment']];
+                }
+                $content .= '\levelstartat' . $listItem['start'];
+                if (isset($listItem['restart'])) {
+                    $content .= '\levelnorestart' . $listItem['restart'];
+                }
+
+                // Level Text and Numbers
+                $positions = [];
+                $level = '';
+                $strLength = '';
+                $listText = (string) $listItem['text'];
+                if (strpos($listText, '%') !== false) {
+                    $level = $this->lowerDigitsByOne(str_replace('%', '\\\'0', $listText));
+                    $levelNumbers = preg_replace('/\d/', 'X', str_replace('%', '', $listText));
+                    $offset = 0;
+                    while (($pos = strpos($levelNumbers, 'X', $offset)) !== false) {
+                        $positions[] = $pos;
+                        $offset = $pos + 1;
+                    }
+                    $strLength = (string) sprintf('%02d', strlen($levelNumbers));
+                } else {
+                    $level = $this->escaper->escape($listText);
+                    $strLength = (string) sprintf('%02d', mb_strlen($listText));
+                }
+
+                $content .= '{';
+                $content .= '\leveltext \\\'' . $strLength . $level;
+                $content .= ';}';
+                $content .= '{';
+                $content .= '\levelnumbers ';
+                foreach ($positions as $position) {
+                    ++$position;
+                    $content .= '\\\'0' . $position;
+                }
+                $content .= ';}';
+
+                // Font settings for Level Numbers
+                if (isset($listItem['font']) && !empty($listItem['font'])) {
+                    $fontKey = array_search($listItem['font'], $this->fontTable);
+                    if ($fontKey !== false) {
+                        $content .= '\f' . $fontKey;
+                    }
+                }
+
+                // Tabs, Hanging, and First Line
+                $content .= '\levelfollow' . '0';
+                $content .= '\jclisttab';
+                $content .= '\tx' . $listItem['tabPos'];
+                $content .= '\fi' . $listItem['hanging'] * -1;
+                $content .= '\li' . $listItem['left'];
+                $content .= '\lin' . $listItem['left'];
+                $content .= '}';
+                $content .= PHP_EOL;
+            }
+            $content .= '\listid' . $list['numId'] . '}';
+            $content .= PHP_EOL;
+        }
+        $content .= '}';
+        $content .= PHP_EOL . PHP_EOL;
+
+        $content .= '{';
+        $content .= '\*\listoverridetable' . PHP_EOL;
+        foreach ($this->listTable as $list) {
+            $content .= '{';
+            $content .= '\listoverride\listid' . $list['numId'];
+            $content .= '\listoverridecount0\ls' . $list['numId'];
+            $content .= '}';
+            $content .= PHP_EOL;
+        }
+        $content .= '}';
+        $content .= PHP_EOL . PHP_EOL;
 
         return $content;
     }
@@ -182,17 +386,18 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register all fonts and colors in both named and inline styles to appropriate header table.
+     * Register all fonts, colors, and lists in both named and inline styles to appropriate header table.
      */
-    private function registerFont(): void
+    private function registerHeader(): void
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
         $this->fontTable[] = Settings::getDefaultFontName();
+        $this->colorTable[] = Settings::getDefaultFontColor();
 
         // Search named styles
         $styles = Style::getStyles();
         foreach ($styles as $style) {
-            $this->registerFontItems($style);
+            $this->registerHeaderItems($style);
         }
 
         // Search inline styles
@@ -201,9 +406,22 @@ class Header extends AbstractPart
             $elements = $section->getElements();
             $this->registerBorderColor($section->getStyle());
             foreach ($elements as $element) {
-                if (method_exists($element, 'getFontStyle')) {
-                    $style = $element->getFontStyle();
-                    $this->registerFontItems($style);
+                $this->anythingToRegister($element);
+            }
+        }
+    }
+
+    /** @param mixed $element */
+    private function anythingToRegister($element): void
+    {
+        if (is_object($element)) {
+            if (method_exists($element, 'getFontStyle')) {
+                $style = $element->getFontStyle();
+                $this->registerHeaderItems($style);
+            }
+            if (method_exists($element, 'getElements')) {
+                foreach ($element->getElements() as $subElement) {
+                    $this->anythingToRegister($subElement);
                 }
             }
         }
@@ -225,11 +443,11 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register fonts and colors.
+     * Register both fonts and colors.
      *
      * @param Style\AbstractStyle $style
      */
-    private function registerFontItems($style): void
+    private function registerHeaderItems($style): void
     {
         $defaultFont = Settings::getDefaultFontName();
         $defaultColor = Settings::DEFAULT_FONT_COLOR;
@@ -238,6 +456,8 @@ class Header extends AbstractPart
             $this->registerTableItem($this->fontTable, $style->getName(), $defaultFont);
             $this->registerTableItem($this->colorTable, $style->getColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getFgColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getBgColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getUnderlineColor(), $defaultColor);
 
             return;
         }
@@ -246,6 +466,12 @@ class Header extends AbstractPart
             $this->registerTableItem($this->colorTable, $style->getBorderRightColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getBorderLeftColor(), $defaultColor);
             $this->registerTableItem($this->colorTable, $style->getBorderBottomColor(), $defaultColor);
+        }
+        if ($style instanceof Numbering) {
+            $this->registerList($this->listTable, $style, $defaultFont);
+        }
+        if ($style instanceof Paragraph) {
+            $this->registerBorderColor($style);
         }
     }
 
@@ -258,8 +484,64 @@ class Header extends AbstractPart
      */
     private function registerTableItem(&$table, $value, $default = null): void
     {
-        if (in_array($value, $table) === false && $value !== null && $value != $default) {
+        if (in_array($value, $table) === false && $value != '' && $value != $default) {
             $table[] = $value;
         }
+    }
+
+    /**
+     * Register lists and fonts within lists.
+     *
+     * @param array &$table
+     * @param Numbering $style
+     * @param string $defaultFont
+     */
+    private function registerList(&$table, $style, $defaultFont = null): void
+    {
+        $listItems = [];
+
+        $levels = $style->getLevels();
+        foreach ($levels as $level) {
+            $this->registerTableItem($this->fontTable, $level->getFont(), $defaultFont);
+
+            $listItem = [
+                'level' => $level->getLevel(),
+                'start' => $level->getStart(),
+                'restart' => $level->getRestart(),
+                'format' => $level->getFormat(),
+                'pStyle' => $level->getPStyle(),
+                'suffix' => $level->getSuffix(),
+                'text' => $level->getText(),
+                'alignment' => $level->getAlignment(),
+                'left' => $level->getLeft(),
+                'hanging' => $level->getHanging(),
+                'tabPos' => $level->getTabPos(),
+                'font' => $level->getFont(),
+                'hint' => $level->getHint(),
+            ];
+            array_push($listItems, $listItem);
+        }
+
+        $list = [
+            'numId' => $style->getNumId(),
+            'type' => $style->getType(),
+            'listItems' => $listItems,
+        ];
+        $table[] = $list;
+    }
+
+    /**
+     * NumberingLevel->getText() returns levels a step higher than expected in RTF \leveltext, (1-9) instead of (0-8).
+     * Thus all the digits need to be reduced by 1.
+     *
+     * @param string $string
+     */
+    private function lowerDigitsByOne($string): string
+    {
+        return preg_replace_callback('/\d/', function ($matches) {
+            $digit = (int) $matches[0];
+
+            return ($digit > 0) ? (string) ($digit - 1) : (string) $digit;
+        }, $string);
     }
 }

@@ -28,8 +28,6 @@ use PhpOffice\PhpWord\PhpWord;
  * Test class for PhpOffice\PhpWord\Reader\ODText.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\ODText
- *
- * @runTestsInSeparateProcesses
  */
 class ODTextTest extends \PHPUnit\Framework\TestCase
 {

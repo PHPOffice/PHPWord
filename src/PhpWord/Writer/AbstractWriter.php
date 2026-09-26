@@ -150,7 +150,7 @@ abstract class AbstractWriter implements WriterInterface
      * Set use disk caching status.
      *
      * @param bool $value
-     * @param string $directory
+     * @param ?string $directory
      *
      * @return self
      */
@@ -159,7 +159,7 @@ abstract class AbstractWriter implements WriterInterface
         $this->useDiskCaching = $value;
 
         if (null !== $directory) {
-            if (is_dir($directory)) {
+            if (realpath($directory) !== false && is_dir($directory)) {
                 $this->diskCachingDirectory = $directory;
             } else {
                 throw new Exception("Directory does not exist: $directory");
@@ -198,6 +198,7 @@ abstract class AbstractWriter implements WriterInterface
      */
     public function setTempDir($value)
     {
+        PhpWord::noPhar($value);
         if (!is_dir($value)) {
             mkdir($value);
         }
@@ -270,6 +271,7 @@ abstract class AbstractWriter implements WriterInterface
      */
     protected function getZipArchive($filename)
     {
+        PhpWord::noPhar($filename);
         // Remove any existing file
         if (file_exists($filename)) {
             unlink($filename);
@@ -395,6 +397,7 @@ abstract class AbstractWriter implements WriterInterface
      */
     private function deleteDir($dir): void
     {
+        PhpWord::noPhar($dir);
         foreach (scandir($dir) as $file) {
             if ($file === '.' || $file === '..') {
                 continue;

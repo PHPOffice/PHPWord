@@ -81,16 +81,19 @@ class Footnotes extends AbstractPart
      */
     private function getElement(PhpWord $phpWord, $relationId)
     {
+        $returnVal = null;
         $getMethod = "get{$this->collection}";
         $collection = $phpWord->$getMethod()->getItems();
 
         //not found by key, looping to search by relationId
         foreach ($collection as $collectionElement) {
             if ($collectionElement->getRelationId() == $relationId) {
-                return $collectionElement;
+                $returnVal = $collectionElement;
+
+                break;
             }
         }
 
-        return null;
+        return $returnVal;
     }
 }

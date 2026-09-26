@@ -1,18 +1,7 @@
 <?xml version="1.0"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="./tests/bootstrap.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" convertDeprecationsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage>
-    <include>
-      <directory suffix=".php">./src</directory>
-    </include>
-    <exclude>
-      <directory suffix=".php">./src/PhpWord/Shared/PCLZip</directory>
-    </exclude>
-    <report>
-      <clover outputFile="./build/logs/clover.xml"/>
-      <html outputDirectory="./build/coverage"/>
-    </report>
-  </coverage>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" bootstrap="./tests/bootstrap.php" colors="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
   <php>
+    <!--ini name="memory_limit" value="-1"/-->
     <ini name="error_reporting" value="E_ALL"/>
   </php>
   <testsuites>
@@ -21,4 +10,12 @@
     </testsuite>
   </testsuites>
   <logging/>
+  <source>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./src/PhpWord/Shared/PCLZip</directory>
+    </exclude>
+  </source>
 </phpunit>

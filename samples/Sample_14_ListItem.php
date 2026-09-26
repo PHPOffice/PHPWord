@@ -95,6 +95,34 @@ $section->addTitle('Heading 1', 1);
 $section->addTitle('Heading 2', 2);
 $section->addTitle('Heading 3', 3);
 
+$html = '
+<p>Loading from html, including type on nested list.</p>
+<ol>
+<li>Items in the first level of the list
+<ol type="i">
+<li>Sub-item 1 (lcroman)</li>
+</ol>
+</li>
+<li>&nbsp;Another item at the first level</li>
+<li>Yet another item at the first level</li>
+<ol>
+<li>Sub-item 1 (lcalpha)</li>
+<li>Sub-item 2</li>
+</ol>
+</ol>
+<p>End of html load.</p>
+';
+PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+$section->addText('Testing setNumId for new numbering start (there are better ways to do this).');
+$predefinedStyle = ['listType' => PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER];
+$section->addText('First List');
+$section->addListItem('First List Item 1', 0, null, $predefinedStyle);
+$section->addListItem('First List Item 2', 0, null, $predefinedStyle);
+$section->addText('Second List');
+$temp = $section->addListItem('Second List Item 1', 0, null, $predefinedStyle);
+$temp->getStyle()->setNumId(0);
+$section->addText('End of setNumId test.');
+
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
 if (!CLI) {
