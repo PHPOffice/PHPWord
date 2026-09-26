@@ -65,14 +65,12 @@ class MarginBorder extends AbstractStyle
         $sides = ['top', 'left', 'right', 'bottom', 'insideH', 'insideV'];
 
         foreach ($this->sizes as $i => $size) {
-            if ($size !== null) {
-                $color = null;
-                if (isset($this->colors[$i])) {
-                    $color = $this->colors[$i];
-                }
-                $style = $this->styles[$i] ?? 'single';
-                $this->writeSide($xmlWriter, $sides[$i], $this->sizes[$i], $color, $style);
+            $color = null;
+            if (isset($this->colors[$i])) {
+                $color = $this->colors[$i];
             }
+            $style = $this->styles[$i] ?? 'single';
+            $this->writeSide($xmlWriter, $sides[$i], $this->sizes[$i], $color, $style);
         }
     }
 
@@ -80,8 +78,8 @@ class MarginBorder extends AbstractStyle
      * Write side.
      *
      * @param string $side
-     * @param int $width
-     * @param string $color
+     * @param ?int $width
+     * @param ?string $color
      * @param string $borderStyle
      */
     private function writeSide(XMLWriter $xmlWriter, $side, $width, $color = null, $borderStyle = 'solid'): void
@@ -94,7 +92,7 @@ class MarginBorder extends AbstractStyle
                 }
             }
             $xmlWriter->writeAttribute('w:val', $borderStyle);
-            $xmlWriter->writeAttribute('w:sz', $width);
+            $xmlWriter->writeAttributeIf($width != null, 'w:sz', $width);
             $xmlWriter->writeAttributeIf($color != null, 'w:color', $color);
             if (!empty($this->attributes)) {
                 if (isset($this->attributes['space'])) {
