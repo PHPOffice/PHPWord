@@ -12,7 +12,7 @@ $section->addImage($src, [$style], [$isWatermark], [$name], [$altText]);
 - ``$style``. See [`Styles > Image`](../styles/image.md).
 - ``$isWatermark``. Used by [`Elements > Watermark`](./watermark.md).
 - ``$name``. Name of the image.
-- ``$altText``. Description of the image used by screen readers.
+- ``$altText``. Description of the image used by screen readers. The ODText writer writes it as the `svg:desc` of the frame.
 
 Examples:
 
