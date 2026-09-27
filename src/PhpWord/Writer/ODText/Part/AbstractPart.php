@@ -81,7 +81,7 @@ abstract class AbstractPart extends Word2007AbstractPart
     {
         $xmlWriter->startElement('office:font-face-decls');
         $fontTable = [];
-        $styles = Style::getStyles();
+        $styles = $this->getParentWriter()->getPhpWord()->getStyles();
         $numFonts = 0;
         if (count($styles) > 0) {
             foreach ($styles as $style) {

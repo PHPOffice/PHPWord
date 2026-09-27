@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWord;
 use BadMethodCallException;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Style\AbstractStyle;
 
 /**
  * PHPWord main class.
@@ -67,6 +68,13 @@ class PhpWord
      * @since 0.12.0
      */
     private $metadata = [];
+    
+    /**
+     * Style register.
+     *
+     * @var array
+     */
+    private $styles = [];
 
     /**
      * Create new instance.
@@ -77,7 +85,6 @@ class PhpWord
     {
         // Reset Media and styles
         Media::resetElements();
-        Style::resetStyles();
         Settings::setDefaultRtl(null);
 
         // Collection
@@ -111,17 +118,11 @@ class PhpWord
 
         $getCollection = [];
         $addCollection = [];
-        $addStyle = [];
 
         $collections = ['Bookmark', 'Title', 'Footnote', 'Endnote', 'Chart', 'Comment'];
         foreach ($collections as $collection) {
             $getCollection[] = strtolower("get{$collection}s");
             $addCollection[] = strtolower("add{$collection}");
-        }
-
-        $styles = ['Paragraph', 'Font', 'Table', 'Numbering', 'Link', 'Title'];
-        foreach ($styles as $style) {
-            $addStyle[] = strtolower("add{$style}Style");
         }
 
         // Run get collection method
@@ -138,11 +139,6 @@ class PhpWord
             $collectionObject = $this->collections[$key];
 
             return $collectionObject->addItem($args[0] ?? null);
-        }
-
-        // Run add style method
-        if (in_array($function, $addStyle)) {
-            return forward_static_call_array(['PhpOffice\\PhpWord\\Style', $function], $args);
         }
 
         // Exception
@@ -312,18 +308,6 @@ class PhpWord
     }
 
     /**
-     * Set default paragraph style definition to styles.xml.
-     *
-     * @param array $styles Paragraph style definition
-     *
-     * @return Style\Paragraph
-     */
-    public function setDefaultParagraphStyle($styles)
-    {
-        return Style::setDefaultParagraphStyle($styles);
-    }
-
-    /**
      * Save to file or download.
      *
      * All exceptions should already been handled by the writers
@@ -407,5 +391,169 @@ class PhpWord
         $this->metadata['Document'] = $documentProperties;
 
         return $this;
+    }
+    
+    /**
+     * Add paragraph style.
+     *
+     * @param string $styleName
+     * @param AbstractStyle|array $styles
+     *
+     * @return \PhpOffice\PhpWord\Style\Paragraph
+     */
+    public function addParagraphStyle($styleName, $styles)
+    {
+        return $this->setStyleValues($styleName, new Style\Paragraph(), $styles);
+    }
+
+    /**
+     * Add font style.
+     *
+     * @param string $styleName
+     * @param AbstractStyle|array $fontStyle
+     * @param AbstractStyle|array $paragraphStyle
+     *
+     * @return \PhpOffice\PhpWord\Style\Font
+     */
+    public function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
+    {
+        return $this->setStyleValues($styleName, new Style\Font('text', $paragraphStyle), $fontStyle);
+    }
+
+    /**
+     * Add link style.
+     *
+     * @param string $styleName
+     * @param AbstractStyle|array $styles
+     *
+     * @return \PhpOffice\PhpWord\Style\Font
+     */
+    public function addLinkStyle($styleName, $styles)
+    {
+        return $this->setStyleValues($styleName, new Style\Font('link'), $styles);
+    }
+
+    /**
+     * Add numbering style.
+     *
+     * @param string $styleName
+     * @param AbstractStyle|array $styleValues
+     *
+     * @return \PhpOffice\PhpWord\Style\Numbering
+     *
+     * @since 0.10.0
+     */
+    public function addNumberingStyle($styleName, $styleValues)
+    {
+        return $this->setStyleValues($styleName, new Style\Numbering(), $styleValues);
+    }
+
+    /**
+     * Add title style.
+     *
+     * @param null|int $depth Provide null to set title font
+     * @param AbstractStyle|array $fontStyle
+     * @param AbstractStyle|array $paragraphStyle
+     *
+     * @return \PhpOffice\PhpWord\Style\Font
+     */
+    public function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
+    {
+        if (empty($depth)) {
+            $styleName = 'Title';
+        } else {
+            $styleName = "Heading_{$depth}";
+        }
+
+        return $this->setStyleValues($styleName, new Style\Font('title', $paragraphStyle), $fontStyle);
+    }
+
+    /**
+     * Add table style.
+     *
+     * @param string $styleName
+     * @param array $styleTable
+     * @param null|array $styleFirstRow
+     *
+     * @return \PhpOffice\PhpWord\Style\Table
+     */
+    public function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
+    {
+        return $this->setStyleValues($styleName, new Style\Table($styleTable, $styleFirstRow), null);
+    }
+
+    /**
+     * Set default paragraph style.
+     *
+     * @param AbstractStyle|array $styles Paragraph style definition
+     *
+     * @return \PhpOffice\PhpWord\Style\Paragraph
+     */
+    public function setDefaultParagraphStyle($styles)
+    {
+        return $this->addParagraphStyle('Normal', $styles);
+    }
+
+    /**
+     * Get all styles.
+     *
+     * @return AbstractStyle[]
+     */
+    public function getStyles()
+    {
+        $styles = Style::getStyles();
+        $index = Style::countStyles() + 1;
+        foreach ($this->styles AS $name => $style) {
+            if (isset($styles[$name])) {
+                $style->setIndex($styles[$name]->getIndex());
+            } else {
+                $style->setIndex($index);
+                $index ++;
+            }
+            $styles[$name] = $style;
+        }
+        return $styles;
+    }
+
+    /**
+     * Get style by name.
+     *
+     * @param string $styleName
+     *
+     * @return ?AbstractStyle Paragraph|Font|Table|Numbering
+     */
+    public function getStyle($styleName)
+    {
+        return $this->styles[$styleName] ?? Style::getStyle($styleName);
+    }
+
+    /**
+     * Set style values and put it to style collection.
+     *
+     * The $styleValues could be an array or object
+     *
+     * @param string $name
+     * @param AbstractStyle $style
+     * @param AbstractStyle|array $value
+     *
+     * @return AbstractStyle
+     */
+    private function setStyleValues($name, $style, $value = null)
+    {
+        if (!isset($this->styles[$name])) {
+            if ($value !== null) {
+                if (is_array($value)) {
+                    $style->setStyleByArray($value);
+                } elseif ($value instanceof AbstractStyle) {
+                    if (get_class($style) == get_class($value)) {
+                        $style = $value;
+                    }
+                }
+            }
+            $style->setStyleName($name);
+            $this->styles[$name] = $style;
+        }
+
+        return $this->styles[$name];
     }
 }

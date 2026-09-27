@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -36,6 +37,13 @@ class ListItem extends AbstractStyle
     const TYPE_NUMBER_NESTED = 8;
     const TYPE_ALPHANUM = 9;
 
+    /**
+     * PhpWord object.
+     *
+     * @var ?PhpWord
+     */
+    private $phpWord;
+    
     /**
      * Legacy list type.
      *
@@ -73,6 +81,30 @@ class ListItem extends AbstractStyle
         } else {
             $this->setListType();
         }
+    }
+    
+    /**
+     * Set PhpWord as reference.
+     */
+    public function setPhpWord(?PhpWord $phpWord = null): void
+    {
+        $this->phpWord = $phpWord;
+    }
+    
+    /**
+     * Get style by name.
+     *
+     * @param string $styleName
+     *
+     * @return ?AbstractStyle Paragraph|Font|Table|Numbering
+     */
+    private function getGlobalStyle($styleName)
+    {
+        if (isset($this->phpWord)) {
+            return $this->phpWord->getStyle($styleName);
+        }
+
+        return Style::getStyle($styleName);
     }
 
     /**
@@ -125,7 +157,7 @@ class ListItem extends AbstractStyle
     public function setNumStyle($value)
     {
         $this->numStyle = $value;
-        $numStyleObject = Style::getStyle($this->numStyle);
+        $numStyleObject = $this->getGlobalStyle($this->numStyle);
         if ($numStyleObject instanceof Numbering) {
             $this->numId = $numStyleObject->getIndex();
             $numStyleObject->setNumId($this->numId);
@@ -171,7 +203,7 @@ class ListItem extends AbstractStyle
             $numStyle .= 'NumId' . $this->numId;
         }
 
-        if (Style::getStyle($numStyle) !== null) {
+        if ($this->getGlobalStyle($numStyle) !== null) {
             $this->setNumStyle($numStyle);
 
             return;
@@ -281,7 +313,11 @@ class ListItem extends AbstractStyle
             }
             $style['levels'][$key] = $level;
         }
-        Style::addNumberingStyle($numStyle, $style);
+        if (isset($this->phpWord)) {
+            $this->phpWord->addNumberingStyle($numStyle, $style);
+        } else {
+            Style::addNumberingStyle($numStyle, $style);
+        }
         $this->setNumStyle($numStyle);
     }
 }

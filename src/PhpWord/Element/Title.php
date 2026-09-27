@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWord\Element;
 
 use InvalidArgumentException;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Text as SharedText;
 use PhpOffice\PhpWord\Style;
 
@@ -79,13 +80,29 @@ class Title extends AbstractElement
         }
 
         $this->depth = $depth;
-        $styleName = $depth === 0 ? 'Title' : "Heading_{$this->depth}";
-        if (array_key_exists($styleName, Style::getStyles())) {
-            $this->style = str_replace('_', '', $styleName);
-        }
+        $this->setStyleByDepth(Style::getStyles());
 
         if ($pageNumber !== null) {
             $this->pageNumber = $pageNumber;
+        }
+    }
+
+    private function setStyleByDepth($styles)
+    {
+        $styleName = $this->depth === 0 ? 'Title' : "Heading_{$this->depth}";
+        if (array_key_exists($styleName, $styles)) {
+            $this->style = str_replace('_', '', $styleName);
+        }
+    }
+
+    /**
+     * Set PhpWord as reference.
+     */
+    public function setPhpWord(?PhpWord $phpWord = null): void
+    {
+        parent::setPhpWord($phpWord);
+        if ($phpWord instanceof PhpWord) {
+            $this->setStyleByDepth($phpWord->getStyles());
         }
     }
 

@@ -263,7 +263,7 @@ class Text extends AbstractElement
             $attributeStyle = ' class="' . $fontStyle . '"';
             // Attribute Lang
             /** @var Font $cssClassStyle */
-            $cssClassStyle = Style::getStyle($fontStyle);
+            $cssClassStyle = $this->parentWriter->getPhpWord()->getStyle($fontStyle);
             if ($cssClassStyle !== null && method_exists($cssClassStyle, 'getLang')) {
                 $lang = $cssClassStyle->getLang();
             }
