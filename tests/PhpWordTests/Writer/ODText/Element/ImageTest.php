@@ -125,4 +125,30 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->hasElementAttribute($path, 'draw:text-style-name'));
         self::assertEquals('IM1', $doc->getElementAttribute($path, 'draw:text-style-name'));
     }
+
+    /**
+     * Test writing the alternative text of an image.
+     */
+    public function testImageAltText(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addImage(__DIR__ . '/../../../_files/images/earth.jpg', null, false, null, 'The Earth & <the Moon>');
+        $section->addImage(__DIR__ . '/../../../_files/images/mario.gif');
+        $section->addImage(__DIR__ . '/../../../_files/images/mario.gif', null, false, null, '');
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[2]/draw:frame';
+        self::assertTrue($doc->elementExists("$path/draw:image"));
+        self::assertEquals('The Earth & <the Moon>', $doc->getElement("$path/svg:desc")->textContent);
+        self::assertFalse($doc->elementExists("$path/svg:title"));
+
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[3]/draw:frame';
+        self::assertTrue($doc->elementExists("$path/draw:image"));
+        self::assertFalse($doc->elementExists("$path/svg:desc"));
+
+        $path = '/office:document-content/office:body/office:text/text:section/text:p[4]/draw:frame';
+        self::assertTrue($doc->elementExists("$path/draw:image"));
+        self::assertFalse($doc->elementExists("$path/svg:desc"));
+    }
 }
