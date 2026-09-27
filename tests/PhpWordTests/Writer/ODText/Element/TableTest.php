@@ -192,4 +192,40 @@ class TableTest extends \PHPUnit\Framework\TestCase
             self::assertEquals('0.100in', $doc->getElementAttribute($properties, 'fo:padding-top'));
         }
     }
+
+    public function testWritesLeadingHeaderRowsAsTableHeaderRows(): void
+    {
+        $phpWord = new PhpWord();
+        $table = $phpWord->addSection()->addTable();
+        $table->addRow(null, ['tblHeader' => true])->addCell()->addText('header 1');
+        $table->addRow(null, ['tblHeader' => true])->addCell()->addText('header 2');
+        $table->addRow()->addCell()->addText('body 1');
+        // Word repeats only the leading header rows, so this one stays in the body
+        $table->addRow(null, ['tblHeader' => true])->addCell()->addText('body 2');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $path = '/office:document-content/office:body/office:text/text:section/table:table';
+        self::assertCount(1, $doc->getNodeList("$path/table:table-header-rows"));
+        self::assertCount(2, $doc->getNodeList("$path/table:table-header-rows/table:table-row"));
+        self::assertEquals('header 1', $doc->getElement("$path/table:table-header-rows/table:table-row[1]")->textContent);
+        self::assertEquals('header 2', $doc->getElement("$path/table:table-header-rows/table:table-row[2]")->textContent);
+        self::assertCount(2, $doc->getNodeList("$path/table:table-row"));
+        self::assertEquals('body 1', $doc->getElement("$path/table:table-row[1]")->textContent);
+        self::assertEquals('body 2', $doc->getElement("$path/table:table-row[2]")->textContent);
+    }
+
+    public function testWritesNoTableHeaderRowsWithoutLeadingHeaderRow(): void
+    {
+        $phpWord = new PhpWord();
+        $table = $phpWord->addSection()->addTable();
+        $table->addRow()->addCell()->addText('body 1');
+        $table->addRow(null, ['tblHeader' => true])->addCell()->addText('body 2');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $path = '/office:document-content/office:body/office:text/text:section/table:table';
+        self::assertFalse($doc->elementExists("$path/table:table-header-rows"));
+        self::assertCount(2, $doc->getNodeList("$path/table:table-row"));
+    }
 }
