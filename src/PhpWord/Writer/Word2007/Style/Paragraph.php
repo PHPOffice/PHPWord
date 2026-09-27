@@ -45,6 +45,13 @@ class Paragraph extends AbstractStyle
     private $isInline = false;
 
     /**
+     * Outline level of a heading style, written as w:outlineLvl.
+     *
+     * @var null|int
+     */
+    private $outlineLevel;
+
+    /**
      * Write style.
      */
     public function write(): void
@@ -140,6 +147,9 @@ class Paragraph extends AbstractStyle
             $xmlWriter->endElement();
         }
 
+        // Outline level
+        $xmlWriter->writeElementIf($this->outlineLevel !== null, 'w:outlineLvl', 'w:val', $this->outlineLevel);
+
         if (!$this->withoutPPR) {
             $xmlWriter->endElement(); // w:pPr
         }
@@ -184,10 +194,20 @@ class Paragraph extends AbstractStyle
             $xmlWriter->endElement(); // w:ilvl
             $xmlWriter->endElement(); // w:numPr
 
-            $xmlWriter->startElement('w:outlineLvl');
-            $xmlWriter->writeAttribute('w:val', $numLevel);
-            $xmlWriter->endElement(); // w:outlineLvl
+            if ($this->outlineLevel === null) {
+                $xmlWriter->startElement('w:outlineLvl');
+                $xmlWriter->writeAttribute('w:val', $numLevel);
+                $xmlWriter->endElement(); // w:outlineLvl
+            }
         }
+    }
+
+    /**
+     * Set the outline level of a heading style.
+     */
+    public function setOutlineLevel(?int $value): void
+    {
+        $this->outlineLevel = $value;
     }
 
     /**
