@@ -2631,7 +2631,8 @@ If <code>depth</code> is 0, a Title will be inserted, otherwise a Heading1, Head
 - <code>$text</code>. Text to be displayed in the document. This can be <code>string</code> or a <code>\PhpOffice\PhpWord\Element\TextRun</code>
 - <code>$depth</code>
 - <code>$pageNumber</code> : Number of the page</p>
-<p>It's necessary to add a title style to your document because otherwise the title won't be detected as a real title.</p>
+<p>Without a title style, the Word2007 writer still gives the title a <code>Title</code> or <code>HeadingN</code> style, with no formatting of its own.
+A heading style carries its outline level (<code>w:outlineLvl</code>), so the heading shows in the navigation pane and in the table of contents, and a tagged PDF made from the document tags it as a heading.</p>
 
 
 
