@@ -50,9 +50,20 @@ class Table extends AbstractElement
             // Write columns
             $this->writeColumns($xmlWriter, $element);
 
-            // Write rows
-            foreach ($rows as $row) {
-                $this->writeRow($xmlWriter, $row);
+            // Write rows: the leading rows marked as header rows, as Word repeats them, are the header rows
+            $headerRowCount = 0;
+            while ($headerRowCount < $rowCount && $rows[$headerRowCount]->getStyle()->isTblHeader()) {
+                ++$headerRowCount;
+            }
+            if ($headerRowCount > 0) {
+                $xmlWriter->startElement('table:table-header-rows');
+                for ($i = 0; $i < $headerRowCount; ++$i) {
+                    $this->writeRow($xmlWriter, $rows[$i]);
+                }
+                $xmlWriter->endElement(); // table:table-header-rows
+            }
+            for ($i = $headerRowCount; $i < $rowCount; ++$i) {
+                $this->writeRow($xmlWriter, $rows[$i]);
             }
             $xmlWriter->endElement(); // table:table
         }
