@@ -38,12 +38,24 @@ class Content extends AbstractPart
     private $section;
 
     /**
+     * Paragraph styles of a title: Title, and the automatic styles based on it.
+     *
+     * @var string[]
+     */
+    private $titleStyles = ['Title'];
+
+    /**
      * Read content.xml.
      */
     public function read(PhpWord $phpWord): void
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
+
+        // A title is a paragraph in the Title style, as LibreOffice writes it; ODF has no outline level 0
+        foreach ($xmlReader->getElements('office:automatic-styles/style:style[@style:family="paragraph"][@style:parent-style-name="Title"]') as $style) {
+            $this->titleStyles[] = $style->getAttribute('style:name');
+        }
 
         $nodes = $xmlReader->getElements('office:body/office:text/*');
         $this->section = null;
@@ -66,6 +78,11 @@ class Content extends AbstractPart
                     case 'text:p': // Paragraph
                         $styleName = $xmlReader->getAttribute('text:style-name', $node);
                         if (substr($styleName, 0, 2) === 'SB') {
+                            break;
+                        }
+                        if (in_array($styleName, $this->titleStyles, true)) {
+                            $this->getSection($phpWord)->addTitle($node->nodeValue, 0);
+
                             break;
                         }
                         $element = $xmlReader->getElement('draw:frame/draw:object', $node);

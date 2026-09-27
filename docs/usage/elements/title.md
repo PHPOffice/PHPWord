@@ -3,6 +3,7 @@
 If you want to structure your document or build table of contents, you need titles or headings.
 To add a title to the document, use the ``addTitleStyle`` and ``addTitle`` method.
 If `depth` is 0, a Title will be inserted, otherwise a Heading1, Heading2, ...
+The ODText writer writes a Title as a paragraph in the `Title` style, as LibreOffice does, because ODF has no heading of level 0.
 
 ``` php
 <?php
