@@ -419,16 +419,16 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
         $p2t = '/office:document-content/office:body/office:text/text:section';
-        $element = "$p2t/text:h[1]";
+        $element = "$p2t/text:p[2]";
         self::assertTrue($doc->elementExists($element));
-        self::assertEquals('HE0', $doc->getElementAttribute($element, 'text:style-name'));
-        self::assertEquals('0', $doc->getElementAttribute($element, 'text:outline-level'));
+        self::assertEquals('Title', $doc->getElementAttribute($element, 'text:style-name'));
+        self::assertFalse($doc->hasElementAttribute($element, 'text:outline-level'));
         $span = "$element/text:span";
         self::assertTrue($doc->elementExists($span));
         self::assertEquals('This is a title', $doc->getElement($span)->textContent);
         self::assertEquals('Title', $doc->getElementAttribute($span, 'text:style-name'));
 
-        $element = "$p2t/text:h[2]";
+        $element = "$p2t/text:h[1]";
         self::assertTrue($doc->elementExists($element));
         self::assertEquals('HD1', $doc->getElementAttribute($element, 'text:style-name'));
         self::assertEquals('1', $doc->getElementAttribute($element, 'text:outline-level'));
@@ -457,6 +457,45 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('', $doc->getElementAttribute($element, 'fo:font-style'));
         self::assertEquals('bold', $doc->getElementAttribute($element, 'fo:font-weight'));
         self::assertEquals('#333333', $doc->getElementAttribute($element, 'fo:color'));
+    }
+
+    /**
+     * A title is a paragraph in the Title style, as LibreOffice writes it: ODF has no outline level 0.
+     */
+    public function testTitleIsAParagraphInTheTitleStyle(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addTitle('This is a title', 0);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $p2t = '/office:document-content/office:body/office:text/text:section';
+        self::assertFalse($doc->elementExists("$p2t/text:h"));
+        self::assertEquals('Title', $doc->getElementAttribute("$p2t/text:p[2]", 'text:style-name'));
+        self::assertEquals('This is a title', $doc->getElement("$p2t/text:p[2]")->textContent);
+
+        $doc->setDefaultFile('styles.xml');
+        $element = '/office:document-styles/office:styles/style:style[@style:name="Title"][@style:family="paragraph"]';
+        self::assertCount(1, $doc->getNodeList($element));
+        self::assertEquals('chapter', $doc->getElementAttribute($element, 'style:class'));
+    }
+
+    /**
+     * The paragraph style of a title style is its Title style.
+     */
+    public function testTitleStyleWithParagraphStyle(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addTitleStyle(0, ['size' => 14], ['alignment' => 'center']);
+        $section = $phpWord->addSection();
+        $section->addTitle('This is a title', 0);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $doc->setDefaultFile('styles.xml');
+        $element = '/office:document-styles/office:styles/style:style[@style:name="Title"][@style:family="paragraph"]';
+        self::assertCount(1, $doc->getNodeList($element));
+        self::assertEquals('center', $doc->getElementAttribute("$element/style:paragraph-properties", 'fo:text-align'));
     }
 
     /**
