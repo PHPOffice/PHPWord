@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWordTests\Writer\HTML;
 use DOMXPath;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Language;
 
 /**
@@ -423,9 +424,10 @@ class FontTest extends \PHPUnit\Framework\TestCase
 		self::assertFalse($prg, 'underlineNoColor should not have text-decoration-color in CSS');
 	}
 
-	/**
-	 * Tests underline color with default font and no explicit underline.
-	 */
+    /**
+     * Tests underline color with default font and no explicit underline.
+     * @throws \Exception
+     */
 	public function testUnderlineColorWithoutUnderline(): void
 	{
 		$phpWord = new PhpWord();
@@ -454,9 +456,10 @@ class FontTest extends \PHPUnit\Framework\TestCase
 		self::assertFalse($prg, 'text-decoration-color should not be present when underline is not set');
 	}
 
-	/**
-	 * Tests underline color with invalid color format.
-	 */
+    /**
+     * Tests underline color with invalid color format.
+     * @throws \Exception
+     */
 	public function testUnderlineColorInvalidFormat(): void
 	{
 		$phpWord = new PhpWord();
@@ -469,7 +472,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 			'name' => 'Arial',
 			'size' => 10,
 			'color' => '000000',
-			'underline' => true,
+			'underline' => Font::UNDERLINE_SINGLE,
 			'underlineColor' => 'FF00' // Invalid: only 4 digits
 		]);
 

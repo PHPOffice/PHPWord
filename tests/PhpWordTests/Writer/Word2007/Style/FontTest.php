@@ -224,15 +224,12 @@ class FontTest extends \PHPUnit\Framework\TestCase
 		$element = '/w:document/w:body/w:p/w:r';
 		$styelem = $element . '/w:rPr';
 		$underlineElem = $styelem . '/w:u';
-		$colorElem = $styelem . '/w:u/w:color';
 
-		// Check that underline is present
 		self::assertTrue($doc->elementExists($underlineElem));
-		self::assertEquals('single', $doc->getElementAttribute($underlineElem, 'w:val'));
-
-		// Check that underline color is written
-		self::assertTrue($doc->elementExists($colorElem));
-		self::assertEquals('FF0000', $doc->getElementAttribute($colorElem, 'w:val'));
+        // Check that underline is present
+        self::assertEquals('single', $doc->getElementAttribute($underlineElem, 'w:val'));
+        // Check that underline color is written
+        self::assertEquals('FF0000', $doc->getElementAttribute($underlineElem, 'w:color'));
 	}
 
 	/**
@@ -257,13 +254,12 @@ class FontTest extends \PHPUnit\Framework\TestCase
 		$element = '/w:document/w:body/w:p/w:r';
 		$styelem = $element . '/w:rPr';
 		$underlineElem = $styelem . '/w:u';
-		$colorElem = $styelem . '/w:u/w:color';
 
 		// Check underline is present
 		self::assertTrue($doc->elementExists($underlineElem));
 		self::assertEquals('single', $doc->getElementAttribute($underlineElem, 'w:val'));
 
 		// Check that w:color is NOT present (because value is empty)
-		self::assertFalse($doc->elementExists($colorElem));
+        self::assertEquals('', $doc->getElementAttribute($underlineElem, 'w:color'));
 	}
 }
