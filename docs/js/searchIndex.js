@@ -14181,6 +14181,16 @@ Search.appendIndex(
             "summary": "Write\u0020element.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-Link.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\ListItem",
+            "name": "ListItem",
+            "summary": "ListItem\u0020element\u0020writer.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-ListItem.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\ListItem\u003A\u003Awrite\u0028\u0029",
+            "name": "write",
+            "summary": "Write\u0020list\u0020item\u0020element.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Element-ListItem.html#method_write"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Element\\ListItemRun",
             "name": "ListItemRun",
             "summary": "ListItemRun\u0020element\u0020writer.",
