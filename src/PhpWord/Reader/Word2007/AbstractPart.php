@@ -511,15 +511,17 @@ abstract class AbstractPart
             $endnote->setRelationId($wId);
         } elseif ($node->nodeName == 'w:pict') {
             // Image
-            $rId = $xmlReader->getAttribute('r:id', $node, 'v:shape/v:imagedata');
+            $xmlReader->registerNamespace('w10', 'urn:schemas-microsoft-com:office:word');
+            $shape = $xmlReader->getElement('v:shape', $node);
+            $rId = $xmlReader->getAttribute('r:id', $shape, 'v:imagedata');
             $target = $this->getMediaTarget($docPart, $rId);
-            if ($this->hasImageLoading() && null !== $target) {
+            if ($this->hasImageLoading() && null !== $shape && null !== $target) {
                 if ('External' == $this->getTargetMode($docPart, $rId)) {
                     $imageSource = $target;
                 } else {
                     $imageSource = "zip://{$this->docFile}#{$target}";
                 }
-                $parent->addImage($imageSource, null, false, null, $xmlReader->getAttribute('alt', $node, 'v:shape'));
+                $parent->addImage($imageSource, ImageStyle::readVml($xmlReader, $shape), false, null, $xmlReader->getAttribute('alt', $shape));
             }
         } elseif ($node->nodeName == 'w:drawing') {
             // Office 2011 Image
@@ -531,14 +533,14 @@ abstract class AbstractPart
             // An inline image, or a floating one
             $frame = $xmlReader->getElement('wp:inline', $node) ?? $xmlReader->getElement('wp:anchor', $node);
             $picture = 'a:graphic/a:graphicData/pic:pic';
-            // Word keeps the alternative text in wp:docPr only; pic:cNvPr may repeat it
+            // The alternative text is wp:docPr/@descr; pic:cNvPr may repeat it
             $name = $xmlReader->getAttribute('name', $frame, $picture . '/pic:nvPicPr/pic:cNvPr');
             $altText = $xmlReader->getAttribute('descr', $frame, 'wp:docPr') ?? $xmlReader->getAttribute('descr', $frame, $picture . '/pic:nvPicPr/pic:cNvPr');
             $embedId = $xmlReader->getAttribute('r:embed', $frame, $picture . '/pic:blipFill/a:blip');
             $target = $this->getMediaTarget($docPart, $embedId);
-            if ($this->hasImageLoading() && null !== $target) {
+            if ($this->hasImageLoading() && null !== $frame && null !== $target) {
                 $imageSource = "zip://{$this->docFile}#{$target}";
-                $parent->addImage($imageSource, null, false, $name, $altText);
+                $parent->addImage($imageSource, ImageStyle::readDrawing($xmlReader, $frame), false, $name, $altText);
             }
         } elseif ($node->nodeName == 'w:object') {
             // Object
