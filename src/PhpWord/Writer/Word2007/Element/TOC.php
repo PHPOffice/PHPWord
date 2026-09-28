@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Element\TOC as TOCElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
@@ -96,7 +97,7 @@ class TOC extends AbstractElement
         $xmlWriter->startElement('w:t');
 
         $titleText = $title->getText();
-        $this->writeText(is_string($titleText) ? $titleText : '');
+        $this->writeText($titleText instanceof TextRun ? $titleText->getText() : $titleText);
 
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
@@ -114,7 +115,7 @@ class TOC extends AbstractElement
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->text("PAGEREF $rId \\h");
+        $xmlWriter->text("PAGEREF _Toc{$rId} \\h");
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 
