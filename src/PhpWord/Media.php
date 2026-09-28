@@ -86,6 +86,11 @@ class Media
                     $target = "{$container}_oleObject{$mediaTypeCount}.bin";
 
                     break;
+                    // Embedded documents (altChunk)
+                case 'altchunk':
+                    $target = "{$container}_altChunk{$mediaTypeCount}.docx";
+
+                    break;
                     // Links
                 case 'link':
                     $target = $source;
