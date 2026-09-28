@@ -1459,4 +1459,27 @@ HTML;
             $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:ruby/w:rubyPr/w:lid', 'w:val')
         );
     }
+
+    /**
+     * `parseNode()` used to dispatch via a hardcoded class name, and `parseChildNodes()` called
+     * `self::parseNode()` instead of `static::parseNode()`, so a subclass overriding a single
+     * parse* method was never actually invoked - the parent always routed back to its own
+     * implementation, even several levels deep in the DOM tree.
+     */
+    public function testSubclassOverrideIsDispatchedViaLateStaticBinding(): void
+    {
+        $subclass = new class() extends Html {
+            protected static function parseText($node, $element, &$styles): void
+            {
+                $element->addText('overridden:' . $node->nodeValue, $styles['font'], $styles['paragraph']);
+            }
+        };
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $subclass::addHtml($section, '<p><span>nested text</span></p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        self::assertEquals('overridden:nested text', $doc->getElement('/w:document/w:body/w:p/w:r/w:t')->textContent);
+    }
 }
