@@ -65,6 +65,9 @@ class Image extends AbstractElement
         FrameStyle::WRAP_TOPBOTTOM => 'wp:wrapTopAndBottom',
     ];
 
+    /** Full width and height of the picture in the fixed coordinate space of wp:wrapPolygon, which Word scales to the picture */
+    private const WRAP_POLYGON_SIZE = 21600;
+
     /**
      * Write element.
      */
@@ -234,7 +237,8 @@ class Image extends AbstractElement
             $xmlWriter->startElement('wp:wrapPolygon');
             $xmlWriter->writeAttribute('edited', '0');
             $xmlWriter->writeElementBlock('wp:start', ['x' => 0, 'y' => 0]);
-            foreach ([[0, 21600], [21600, 21600], [21600, 0], [0, 0]] as [$x, $y]) {
+            $size = self::WRAP_POLYGON_SIZE;
+            foreach ([[0, $size], [$size, $size], [$size, 0], [0, 0]] as [$x, $y]) {
                 $xmlWriter->writeElementBlock('wp:lineTo', ['x' => $x, 'y' => $y]);
             }
             $xmlWriter->endElement(); // wp:wrapPolygon
