@@ -74,6 +74,14 @@ class Image extends AbstractElement
         $xmlWriter->writeAttribute('xlink:actuate', 'onLoad');
         $xmlWriter->endElement(); // draw:image
 
+        // Alternative text
+        $altText = $element->getAltText();
+        if ($altText !== null && $altText !== '') {
+            $xmlWriter->startElement('svg:desc');
+            $xmlWriter->text($altText);
+            $xmlWriter->endElement(); // svg:desc
+        }
+
         $xmlWriter->endElement(); // draw:frame
         $this->writeCommentRangeEnd();
 

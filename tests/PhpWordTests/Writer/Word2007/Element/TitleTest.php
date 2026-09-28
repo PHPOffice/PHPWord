@@ -62,7 +62,11 @@ class TitleTest extends \PHPUnit\Framework\TestCase
 
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:t'));
         self::assertEquals('Test Title0', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->textContent);
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr'));
+        self::assertEquals('Title', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:pStyle', 'w:val'));
+
+        $file = 'word/styles.xml';
+        self::assertEquals('Title', $doc->getElementAttribute('/w:styles/w:style[@w:styleId="Title"]/w:name', 'w:val', $file));
+        self::assertFalse($doc->elementExists('/w:styles/w:style[@w:styleId="Title"]/w:pPr/w:outlineLvl', $file));
     }
 
     public function testWriteHeadingWithStyle(): void
@@ -79,6 +83,10 @@ class TitleTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('TestHeading 1', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->textContent);
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:pStyle'));
         self::assertEquals('Heading1', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:pStyle', 'w:val'));
+
+        $file = 'word/styles.xml';
+        self::assertCount(1, $doc->getNodeList('/w:styles/w:style[@w:styleId="Heading1"]', $file));
+        self::assertEquals('0', $doc->getElementAttribute('/w:styles/w:style[@w:styleId="Heading1"]/w:pPr/w:outlineLvl', 'w:val', $file));
     }
 
     public function testWriteHeadingWithoutStyle(): void
@@ -92,6 +100,66 @@ class TitleTest extends \PHPUnit\Framework\TestCase
 
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:t'));
         self::assertEquals('TestHeading 1', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->textContent);
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr'));
+        self::assertEquals('Heading1', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:pStyle', 'w:val'));
+
+        $file = 'word/styles.xml';
+        self::assertCount(1, $doc->getNodeList('/w:styles/w:style[@w:styleId="Heading1"]', $file));
+        self::assertEquals('heading 1', $doc->getElementAttribute('/w:styles/w:style[@w:styleId="Heading1"]/w:name', 'w:val', $file));
+        self::assertEquals('0', $doc->getElementAttribute('/w:styles/w:style[@w:styleId="Heading1"]/w:pPr/w:outlineLvl', 'w:val', $file));
+    }
+
+    public function testWriteHeadingStyleAddedAfterTheHeading(): void
+    {
+        $phpWord = new PhpWord();
+
+        $section = $phpWord->addSection();
+        $section->addTitle('TestHeading 2', 2);
+        $phpWord->addTitleStyle(2, ['bold' => true]);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        self::assertEquals('Heading2', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:pStyle', 'w:val'));
+
+        $file = 'word/styles.xml';
+        self::assertCount(1, $doc->getNodeList('/w:styles/w:style[@w:styleId="Heading2"]', $file));
+        self::assertTrue($doc->elementExists('/w:styles/w:style[@w:styleId="Heading2"]/w:rPr/w:b', $file));
+        self::assertEquals('1', $doc->getElementAttribute('/w:styles/w:style[@w:styleId="Heading2"]/w:pPr/w:outlineLvl', 'w:val', $file));
+    }
+
+    public function testWriteHeadingStyleOutlineLevel(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addTitleStyle(0, ['size' => 20]);
+        $phpWord->addTitleStyle(1, ['bold' => true]);
+        $phpWord->addTitleStyle(3, ['bold' => true], ['spaceAfter' => 240]);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/styles.xml';
+        self::assertEquals('Title', $doc->getElementAttribute('/w:styles/w:style[@w:styleId="Title"]/w:name', 'w:val', $file));
+        self::assertFalse($doc->elementExists('/w:styles/w:style[@w:styleId="Title"]/w:pPr/w:outlineLvl', $file));
+        self::assertEquals('0', $doc->getElementAttribute('/w:styles/w:style[@w:styleId="Heading1"]/w:pPr/w:outlineLvl', 'w:val', $file));
+        self::assertEquals('2', $doc->getElementAttribute('/w:styles/w:style[@w:styleId="Heading3"]/w:pPr/w:outlineLvl', 'w:val', $file));
+        self::assertTrue($doc->elementExists('/w:styles/w:style[@w:styleId="Heading3"]/w:pPr/w:spacing', $file));
+    }
+
+    public function testWriteNumberedHeadingStyleOutlineLevelFollowsTheDepth(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addNumberingStyle('headingNumbering', [
+            'type' => 'multilevel',
+            'levels' => [
+                ['pStyle' => 'Heading1', 'format' => 'decimal', 'text' => '%1'],
+                ['pStyle' => 'Heading2', 'format' => 'decimal', 'text' => '%1.%2'],
+            ],
+        ]);
+        $phpWord->addTitleStyle(2, [], ['numStyle' => 'headingNumbering', 'numLevel' => 0]);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/styles.xml';
+        self::assertTrue($doc->elementExists('/w:styles/w:style[@w:styleId="Heading2"]/w:pPr/w:numPr', $file));
+        self::assertCount(1, $doc->getNodeList('/w:styles/w:style[@w:styleId="Heading2"]/w:pPr/w:outlineLvl', $file));
+        self::assertEquals('1', $doc->getElementAttribute('/w:styles/w:style[@w:styleId="Heading2"]/w:pPr/w:outlineLvl', 'w:val', $file));
     }
 }
