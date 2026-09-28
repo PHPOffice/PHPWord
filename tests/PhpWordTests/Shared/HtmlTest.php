@@ -975,12 +975,12 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
-        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
-        self::assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
-        self::assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
-        self::assertStringMatchesFormat('%Smso-position-horizontal:right%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
-        self::assertStringMatchesFormat('%Smso-position-horizontal:left%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
-        self::assertStringMatchesFormat('%SFirefox logo%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'alt'));
+        self::assertTrue($doc->elementExists($baseXpath . '/w:drawing'));
+        self::assertSame('1428750', $doc->getElementAttribute($baseXpath . '[1]/w:drawing/*/wp:extent', 'cx'));
+        self::assertSame('1905000', $doc->getElementAttribute($baseXpath . '[1]/w:drawing/*/wp:extent', 'cy'));
+        self::assertSame('right', $doc->getElement($baseXpath . '[1]/w:drawing/wp:anchor/wp:positionH/wp:align')->nodeValue);
+        self::assertSame('left', $doc->getElement($baseXpath . '[2]/w:drawing/wp:anchor/wp:positionH/wp:align')->nodeValue);
+        self::assertSame('Firefox logo', $doc->getElementAttribute($baseXpath . '[2]/w:drawing/wp:anchor/wp:docPr', 'descr'));
     }
 
     /**
@@ -998,9 +998,9 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
-        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
-        self::assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
-        self::assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        self::assertTrue($doc->elementExists($baseXpath . '/w:drawing'));
+        self::assertSame('1428750', $doc->getElementAttribute($baseXpath . '[1]/w:drawing/*/wp:extent', 'cx'));
+        self::assertSame('1905000', $doc->getElementAttribute($baseXpath . '[1]/w:drawing/*/wp:extent', 'cy'));
     }
 
     /**
@@ -1018,9 +1018,9 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
-        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
-        self::assertStringMatchesFormat('%Swidth:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
-        self::assertStringMatchesFormat('%Sheight:266.66666666667%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        self::assertTrue($doc->elementExists($baseXpath . '/w:drawing'));
+        self::assertSame('1905000', $doc->getElementAttribute($baseXpath . '[1]/w:drawing/*/wp:extent', 'cx'));
+        self::assertSame('2540000', $doc->getElementAttribute($baseXpath . '[1]/w:drawing/*/wp:extent', 'cy'));
     }
 
     /**
@@ -1038,9 +1038,9 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
-        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
-        self::assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
-        self::assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        self::assertTrue($doc->elementExists($baseXpath . '/w:drawing'));
+        self::assertSame('1428750', $doc->getElementAttribute($baseXpath . '[1]/w:drawing/*/wp:extent', 'cx'));
+        self::assertSame('1905000', $doc->getElementAttribute($baseXpath . '[1]/w:drawing/*/wp:extent', 'cy'));
     }
 
     /**
@@ -1058,7 +1058,7 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
-        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertTrue($doc->elementExists($baseXpath . '/w:drawing'));
     }
 
     /**
@@ -1076,7 +1076,7 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
-        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertTrue($doc->elementExists($baseXpath . '/w:drawing'));
     }
 
     /**
@@ -1092,7 +1092,7 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
-        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertTrue($doc->elementExists($baseXpath . '/w:drawing'));
     }
 
     /**
@@ -1115,7 +1115,7 @@ HTML;
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
-        self::assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        self::assertTrue($doc->elementExists($baseXpath . '/w:drawing'));
     }
 
     /**
