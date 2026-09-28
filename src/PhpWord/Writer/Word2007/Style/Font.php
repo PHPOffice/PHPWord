@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style;
+
 /**
  * Font style writer.
  *
@@ -39,14 +41,14 @@ class Font extends AbstractStyle
     {
         $xmlWriter = $this->getXmlWriter();
 
-        $isStyleName = $this->isInline && null !== $this->style && is_string($this->style);
+        $isStyleName = $this->isInline && is_string($this->style);
         if ($isStyleName) {
             $xmlWriter->startElement('w:rPr');
             $xmlWriter->startElement('w:rStyle');
             $xmlWriter->writeAttribute('w:val', $this->style);
             $xmlWriter->endElement();
-            $style = \PhpOffice\PhpWord\Style::getStyle($this->style);
-            if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
+            $style = Style::getStyle($this->style);
+            if ($style instanceof Style\Font) {
                 $xmlWriter->writeElementIf($style->isRTL(), 'w:rtl');
             }
             $xmlWriter->endElement();
@@ -61,7 +63,7 @@ class Font extends AbstractStyle
     private function writeStyle(): void
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
+        if (!$style instanceof Style\Font) {
             return;
         }
 
@@ -128,11 +130,14 @@ class Font extends AbstractStyle
         //Hidden text
         $xmlWriter->writeElementIf($style->isHidden(), 'w:vanish', 'w:val', $this->writeOnOf($style->isHidden()));
 
-        // Underline
-        $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
-
-		// UnderlineColor
-		$xmlWriter->writeElementIf($style->getUnderlineColor() !== null, 'w:u', 'w:color', $style->getUnderlineColor());
+        // Underline and UnderlineColor
+        $underline = $style->getUnderline();
+        if ($underline !== 'none') {
+            $xmlWriter->startElement('w:u');
+            $xmlWriter->writeAttribute('w:val', $underline);
+            $xmlWriter->writeAttributeIf($style->getUnderlineColor() !== '', 'w:color', $style->getUnderlineColor());
+            $xmlWriter->endElement();
+        }
 
         // Foreground-Color
         $xmlWriter->writeElementIf($style->getFgColor() !== null, 'w:highlight', 'w:val', $style->getFgColor());

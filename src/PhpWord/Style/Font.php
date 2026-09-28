@@ -133,8 +133,12 @@ class Font extends AbstractStyle
      * @var string
      */
     private $underline = self::UNDERLINE_NONE;
-
-	private $underlineColor;
+	/**
+	 * Underline color.
+	 *
+	 * @var string
+	 */
+	private $underlineColor = '';
 
     /**
      * Superscript.
@@ -534,11 +538,11 @@ class Font extends AbstractStyle
 	/**
 	 * Set underlineColor.
 	 *
-	 * @param string|null $value
+	 * @param string $value
 	 *
 	 * @return self
 	 */
-	public function setUnderlineColor(?string $value = ''):self
+	public function setUnderlineColor(string $value = ''): self
 	{
         $this->underlineColor = $value ?? '';
 

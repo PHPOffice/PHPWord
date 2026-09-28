@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Language;
 
@@ -65,7 +66,7 @@ class Font extends AbstractStyle
 
         // Color
         $color = $style->getColor();
-        $xmlWriter->writeAttributeIf($color != '', 'fo:color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($color));
+        $xmlWriter->writeAttributeIf($color != '', 'fo:color', '#' . Converter::stringToRgb($color));
 
         // Bold & italic
         $xmlWriter->writeAttributeIf($style->isBold(), 'fo:font-weight', 'bold');
@@ -79,8 +80,8 @@ class Font extends AbstractStyle
         $underline = $style->getUnderline();
         $xmlWriter->writeAttributeIf($underline != 'none', 'style:text-underline-style', 'solid');
 
-		$underlineColor = $style->getunderlineColor();
-		$xmlWriter->writeAttributeIf($underlineColor != '', 'style:text-underline-color', '#' . \PhpOffice\PhpWord\Shared\Converter::stringToRgb($underlineColor));
+		$underlineColor = $style->getUnderlineColor();
+		$xmlWriter->writeAttributeIf($underlineColor != '', 'style:text-underline-color', '#' . Converter::stringToRgb($underlineColor));
 
         // Strikethrough, double strikethrough
         $xmlWriter->writeAttributeIf($style->isStrikethrough(), 'style:text-line-through-type', 'single');
