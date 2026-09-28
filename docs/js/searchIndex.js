@@ -4361,6 +4361,61 @@ Search.appendIndex(
             "summary": "Element\u0020name\u0020footnote\u007Cendnote.",
             "url": "classes/PhpOffice-PhpWord-Reader-Word2007-Footnotes.html#property_element"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle",
+            "name": "ImageStyle",
+            "summary": "Size,\u0020position\u0020and\u0020wrapping\u0020of\u0020an\u0020image,\u0020read\u0020from\u0020VML\u0020or\u0020DrawingML,\u0020as\u0020an\u0020array\u0020for\u0020Style\\Image.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003AreadVml\u0028\u0029",
+            "name": "readVml",
+            "summary": "Read\u0020the\u0020style\u0020of\u0020a\u0020VML\u0020v\u003Ashape,\u0020as\u0020Word\u0020and\u0020the\u0020Word2007\u0020writer\u0020write\u0020it.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#method_readVml"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003AreadDrawing\u0028\u0029",
+            "name": "readDrawing",
+            "summary": "Read\u0020the\u0020style\u0020of\u0020a\u0020DrawingML\u0020wp\u003Ainline\u0020or\u0020wp\u003Aanchor.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#method_readDrawing"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003Aposition\u0028\u0029",
+            "name": "position",
+            "summary": "Alignment\u0020and\u0020reference\u0020of\u0020the\u0020position,\u0020left\u0020out\u0020when\u0020Style\\Frame\u0020does\u0020not\u0020know\u0020the\u0020value.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#method_position"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003AcssToPoint\u0028\u0029",
+            "name": "cssToPoint",
+            "summary": "A\u0020VML\u0020length\u0020in\u0020points\u003B\u0020a\u0020number\u0020without\u0020a\u0020unit\u0020is\u0020in\u0020pixels.",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#method_cssToPoint"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003AEMU_PER_POINT",
+            "name": "EMU_PER_POINT",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#constant_EMU_PER_POINT"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003AH_POS",
+            "name": "H_POS",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#constant_H_POS"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003AV_POS",
+            "name": "V_POS",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#constant_V_POS"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003AH_POS_REL_TO",
+            "name": "H_POS_REL_TO",
+            "summary": "mso\u002Dposition\u002Dhorizontal\u002Drelative,\u0020and\u0020relativeFrom\u0020of\u0020wp\u003ApositionH",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#constant_H_POS_REL_TO"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003AV_POS_REL_TO",
+            "name": "V_POS_REL_TO",
+            "summary": "mso\u002Dposition\u002Dvertical\u002Drelative,\u0020and\u0020relativeFrom\u0020of\u0020wp\u003ApositionV",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#constant_V_POS_REL_TO"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\ImageStyle\u003A\u003AWRAP",
+            "name": "WRAP",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Reader-Word2007-ImageStyle.html#constant_WRAP"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Reader\\Word2007\\Numbering",
             "name": "Numbering",
             "summary": "Numbering\u0020reader.",
