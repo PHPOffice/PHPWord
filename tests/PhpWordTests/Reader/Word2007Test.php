@@ -130,7 +130,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         self::assertInstanceOf(PhpWord::class, $phpWord);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[3]/w:r/w:pict/v:shape/v:imagedata'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[3]/w:r/w:drawing/wp:inline'));
     }
 
     /**

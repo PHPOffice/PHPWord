@@ -96,6 +96,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $filename = $this->getTempFile($filename);
         $zip = $this->getZipArchive($filename);
         $phpWord = $this->getPhpWord();
+        Word2007\Element\AbstractElement::resetDocPrId();
 
         // Content types
         $this->contentTypes['default'] = [
