@@ -1357,6 +1357,21 @@ class TemplateProcessor
     }
 
     /**
+     * Check whether a macro exists in the document.
+     *
+     * Useful to branch logic on the presence of a placeholder before
+     * setting or cloning it.
+     *
+     * @param string $macro Name of the macro
+     *
+     * @return bool True if the macro is present, false otherwise
+     */
+    public function macroExists($macro)
+    {
+        return $this->findMacro($macro) >= 0;
+    }
+
+    /**
      * Find start and end of XML block containing the given macro
      * e.g. <w:p>...${macro}...</w:p>.
      *
