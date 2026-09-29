@@ -192,7 +192,7 @@ class Styles extends AbstractPart
      *
      * @param string $styleName
      */
-    private function writeFontStyle(XMLWriter $xmlWriter, $styleName, FontStyle $style, string $name): void
+    private function writeFontStyle(XMLWriter $xmlWriter, $styleName, FontStyle $style): void
     {
         $paragraphStyle = $style->getParagraph();
         $styleType = $style->getStyleType();
