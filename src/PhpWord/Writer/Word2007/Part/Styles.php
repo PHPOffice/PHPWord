@@ -70,6 +70,7 @@ class Styles extends AbstractPart
                 }
             }
         }
+        $this->writeMissingTitleStyles($xmlWriter, $styles);
 
         $xmlWriter->endElement(); // w:styles
 
@@ -166,6 +167,27 @@ class Styles extends AbstractPart
     }
 
     /**
+     * Write a style for each title depth used without addTitleStyle(),
+     * so that the w:pStyle of the title resolves and a heading keeps its outline level.
+     *
+     * @param Style\AbstractStyle[] $styles
+     */
+    private function writeMissingTitleStyles(XMLWriter $xmlWriter, array $styles): void
+    {
+        $depths = [];
+        foreach ($this->getParentWriter()->getPhpWord()->getTitles()->getItems() as $title) {
+            $depths[(int) $title->getDepth()] = true;
+        }
+        ksort($depths);
+        foreach (array_keys($depths) as $depth) {
+            $styleName = $depth === 0 ? 'Title' : "Heading_{$depth}";
+            if (!isset($styles[$styleName])) {
+                $this->writeFontStyle($xmlWriter, $styleName, new FontStyle('title'));
+            }
+        }
+    }
+
+    /**
      * Write font style.
      *
      * @param string $styleName
@@ -183,15 +205,20 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('w:type', $type);
 
         // Heading style
+        $outlineLevel = null;
         if ($styleType == 'title') {
             $arrStyle = explode('_', $styleName);
             if (count($arrStyle) > 1) {
                 $styleId = 'Heading' . $arrStyle[1];
                 $styleName = 'heading ' . $arrStyle[1];
                 $styleLink = 'Heading' . $arrStyle[1] . 'Char';
+                // Heading 1 to 9 are outline levels 0 to 8; 9 would be body text
+                $depth = (int) $arrStyle[1];
+                if ($depth >= 1 && $depth <= 9) {
+                    $outlineLevel = $depth - 1;
+                }
             } else {
                 $styleId = $styleName;
-                $styleName = strtolower($styleName);
                 $styleLink = $styleName . 'Char';
             }
             $xmlWriter->writeAttribute('w:styleId', $styleId);
@@ -224,8 +251,9 @@ class Styles extends AbstractPart
         }
 
         // w:pPr
-        if (null !== $paragraphStyle) {
-            $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
+        if (null !== $paragraphStyle || null !== $outlineLevel) {
+            $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle ?? new ParagraphStyle());
+            $styleWriter->setOutlineLevel($outlineLevel);
             $styleWriter->write();
         }
 

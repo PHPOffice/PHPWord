@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWordTests\WriteReadback;
 
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
@@ -176,6 +177,34 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         self::assertCount(1, $phpWordReader->getSections()[0]->getElements());
         self::assertInstanceOf(TextRun::class, $phpWordReader->getSections()[0]->getElements()[0]);
         self::assertEquals($testText, $phpWordReader->getSections()[0]->getElements()[0]->getText());
+        unlink($file);
+    }
+
+    /**
+     * Test titles written without a title style.
+     */
+    public function testTitlesWithoutTitleStyle(): void
+    {
+        $phpWordWriter = new PhpWord();
+        $section = $phpWordWriter->addSection();
+        $section->addTitle('Document title', 0);
+        $section->addTitle('Chapter', 1);
+        $section->addTitle('Section', 2);
+
+        $writer = new Word2007($phpWordWriter);
+        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.docx';
+        $writer->save($file);
+
+        $phpWordReader = IOFactory::load($file, 'Word2007');
+        $elements = $phpWordReader->getSection(0)->getElements();
+
+        self::assertCount(3, $elements);
+        foreach ([0 => 'Document title', 1 => 'Chapter', 2 => 'Section'] as $depth => $text) {
+            self::assertInstanceOf(Title::class, $elements[$depth]);
+            self::assertEquals($depth, $elements[$depth]->getDepth());
+            self::assertEquals($text, $elements[$depth]->getText());
+        }
+
         unlink($file);
     }
 }

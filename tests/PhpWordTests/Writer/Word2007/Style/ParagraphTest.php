@@ -49,6 +49,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
 
         $path = '/w:document/w:body/w:p/w:pPr/w:numPr/w:ilvl';
         self::assertTrue($doc->elementExists($path));
+        self::assertEquals('1', $doc->getElementAttribute('/w:document/w:body/w:p/w:pPr/w:outlineLvl', 'w:val'));
     }
 
     public function testLineSpacingExact(): void
