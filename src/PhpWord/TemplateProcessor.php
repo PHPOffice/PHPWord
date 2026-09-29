@@ -872,19 +872,79 @@ class TemplateProcessor
     /**
      * Clones a table row and populates it's values from a two-dimensional array in a template document.
      *
+     * Values are applied to each row XML fragment before the document is updated,
+     * so complexity grows with the number of rows rather than with document size.
+     *
      * @param string $search
-     * @param array $values
+     * @param null|array $values
      */
     public function cloneRowAndSetValues($search, $values): void
     {
-        $this->cloneRow($search, count($values));
+        if ($values === [] || $values === null) {
+            $this->cloneRow($search, 0);
 
-        foreach ($values as $rowKey => $rowData) {
-            $rowNumber = $rowKey + 1;
-            foreach ($rowData as $macro => $replace) {
-                $this->setValue($macro . '#' . $rowNumber, $replace);
-            }
+            return;
         }
+
+        $search = static::ensureMacroCompleted($search);
+
+        $tagPos = strpos($this->tempDocumentMainPart, $search);
+        if (!$tagPos) {
+            throw new Exception('Can not clone row, template variable not found or variable contains markup.');
+        }
+
+        $rowStart = $this->findRowStart($tagPos);
+        $rowEnd = $this->findRowEnd($tagPos);
+        $xmlRow = $this->getSlice($rowStart, $rowEnd);
+
+        // Check if there's a cell spanning multiple rows.
+        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+            $extraRowEnd = $rowEnd;
+            while (true) {
+                $extraRowStart = $this->findRowStart($extraRowEnd + 1);
+                $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
+
+                // If extraRowEnd is lower then 7, there was no next row found.
+                if ($extraRowEnd < 7) {
+                    break;
+                }
+
+                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue"\s*/>#', $tmpXmlRow)
+                ) {
+                    break;
+                }
+                // This row was a spanned row, update $rowEnd and search for the next row.
+                $rowEnd = $extraRowEnd;
+            }
+            $xmlRow = $this->getSlice($rowStart, $rowEnd);
+        }
+
+        $xmlEscaper = null;
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlEscaper = new Xml();
+        }
+
+        $normalizedValues = [];
+        foreach ($values as $rowData) {
+            $normalizedRow = [];
+            foreach ($rowData as $macro => $replace) {
+                $replace = static::ensureUtf8Encoded(null === $replace ? null : (string) $replace);
+                if ($xmlEscaper !== null) {
+                    $replace = $xmlEscaper->escape($replace);
+                }
+                $normalizedRow[$macro] = $this->replaceCarriageReturns($replace);
+            }
+            $normalizedValues[] = $normalizedRow;
+        }
+
+        $result = $this->getSlice(0, $rowStart);
+        $result .= implode('', $this->replaceClonedVariables($normalizedValues, $xmlRow));
+        $result .= $this->getSlice($rowEnd);
+
+        $this->tempDocumentMainPart = $result;
     }
 
     /**

@@ -256,7 +256,8 @@ Will result in
 
 ## cloneRowAndSetValues
 
-Finds a row in a table row identified by `$search` param and clones it as many times as there are entries in `$values`.
+Finds a row in a table identified by `$search` and clones it as many times as there are entries in `$values`.
+Macro values are applied to each cloned row fragment before it is inserted into the document, which keeps the operation efficient for large `$values` arrays.
 
 ``` clean
 
