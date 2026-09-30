@@ -3421,7 +3421,8 @@ For big documents this can slow down the opening of the document. You can hide t
 <span class="nv">$phpWord</span><span class="o">-&gt;</span><span class="na">getSettings</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setThemeFontLang</span><span class="p">(</span><span class="k">new</span> <span class="nx">Language</span><span class="p">(</span><span class="nx">Language</span><span class="o">::</span><span class="na">FR_BE</span><span class="p">));</span>
 </code></pre></div>
 <p><code>Language</code> has 3 parameters, one for Latin languages, one for East Asian languages and one for Complex (Bi-Directional) languages.
-A couple of language codes are provided in the <code>PhpOffice\PhpWord\Style\Language</code> class but any valid code/ID can be used.</p>
+A couple of language codes are provided in the <code>PhpOffice\PhpWord\Style\Language</code> class but any valid code/ID can be used.
+Without a language, the Word2007 and ODText writers use en-US. The ODText writer takes any BCP 47 tag, such as <code>sr-Latn-RS</code>, and writes its language, script and country.</p>
 <p>In case you are generating an RTF document the language need to be set differently.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 

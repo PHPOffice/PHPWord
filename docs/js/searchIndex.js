@@ -14631,6 +14631,11 @@ Search.appendIndex(
             "summary": "Write\u0020style.",
             "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Font.html#method_write"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Font\u003A\u003AwriteLanguage\u0028\u0029",
+            "name": "writeLanguage",
+            "summary": "Write\u0020a\u0020BCP\u002047\u0020language\u0020tag,\u0020such\u0020as\u0020uk\u002DUA\u0020or\u0020sr\u002DLatn\u002DRS,\u0020as\u0020the\u0020language,\u0020script\u0020and\u0020country\u0020of\u0020ODF.",
+            "url": "classes/PhpOffice-PhpWord-Writer-ODText-Style-Font.html#method_writeLanguage"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Writer\\ODText\\Style\\Graphic",
             "name": "Graphic",
             "summary": "Shared\u0020ODF\u0020graphic\u0020property\u0020helpers.",
