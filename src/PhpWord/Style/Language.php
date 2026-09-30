@@ -188,7 +188,7 @@ final class Language extends AbstractStyle
     /**
      * Constructor.
      */
-    public function __construct(string $latin = '', string $eastAsia = '', string $bidirectional = '', int $langId = 0)
+    public function __construct(?string $latin = null, ?string $eastAsia = null, ?string $bidirectional = null, int $langId = 0)
     {
         $this->langId = $langId;
         if (!empty($latin)) {
