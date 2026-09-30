@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Writer\Word2007;
 
@@ -34,6 +35,11 @@ use PhpOffice\PhpWord\Writer\Word2007;
  */
 class Word2007Test extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::setDefaultFontSize(Settings::DEFAULT_FONT_SIZE);
+    }
+
     /**
      * Test default font name.
      */
