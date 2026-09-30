@@ -267,6 +267,7 @@ $phpWord->getSettings()->setThemeFontLang(new Language(Language::FR_BE));
 
 ``Language`` has 3 parameters, one for Latin languages, one for East Asian languages and one for Complex (Bi-Directional) languages.
 A couple of language codes are provided in the ``PhpOffice\PhpWord\Style\Language`` class but any valid code/ID can be used.
+Without a language, the Word2007 and ODText writers use en-US. The ODText writer takes any BCP 47 tag, such as `sr-Latn-RS`, and writes its language, script and country.
 
 In case you are generating an RTF document the language need to be set differently.
 

@@ -382,4 +382,69 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($styleName, $doc->getElementAttribute($span, 'text:style-name'));
         self::assertEquals('Underline darkblue', $doc->getElement($span)->nodeValue);
     }
+
+    /**
+     * The language of a run, as a BCP 47 tag.
+     */
+    public function testRunLanguage(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('Привіт', ['lang' => 'uk-UA']);
+        $section->addText('Zdravo', ['lang' => 'sr-Latn-RS']);
+        $section->addText('Hallo', ['lang' => 'de-CH-1996']);
+        $section->addText('你好', ['lang' => new \PhpOffice\PhpWord\Style\Language(null, 'zh-Hans-CN', 'ar-SA')]);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $s2t = '/office:document-content/office:body/office:text/text:section';
+        $properties = function (int $paragraph) use ($doc, $s2t): string {
+            $style = $doc->getElementAttribute("$s2t/text:p[$paragraph]/text:span", 'text:style-name');
+
+            return "/office:document-content/office:automatic-styles/style:style[@style:name='$style']/style:text-properties";
+        };
+
+        $element = $properties(2);
+        self::assertEquals('uk', $doc->getElementAttribute($element, 'fo:language'));
+        self::assertEquals('UA', $doc->getElementAttribute($element, 'fo:country'));
+        self::assertFalse($doc->hasElementAttribute($element, 'fo:script'));
+        self::assertFalse($doc->hasElementAttribute($element, 'style:rfc-language-tag'));
+
+        $element = $properties(3);
+        self::assertEquals('sr', $doc->getElementAttribute($element, 'fo:language'));
+        self::assertEquals('Latn', $doc->getElementAttribute($element, 'fo:script'));
+        self::assertEquals('RS', $doc->getElementAttribute($element, 'fo:country'));
+        self::assertEquals('sr-Latn-RS', $doc->getElementAttribute($element, 'style:rfc-language-tag'));
+
+        $element = $properties(4);
+        self::assertEquals('de', $doc->getElementAttribute($element, 'fo:language'));
+        self::assertEquals('CH', $doc->getElementAttribute($element, 'fo:country'));
+        self::assertEquals('de-CH-1996', $doc->getElementAttribute($element, 'style:rfc-language-tag'));
+
+        $element = $properties(5);
+        self::assertFalse($doc->hasElementAttribute($element, 'fo:language'));
+        self::assertEquals('zh', $doc->getElementAttribute($element, 'style:language-asian'));
+        self::assertEquals('Hans', $doc->getElementAttribute($element, 'style:script-asian'));
+        self::assertEquals('CN', $doc->getElementAttribute($element, 'style:country-asian'));
+        self::assertEquals('zh-Hans-CN', $doc->getElementAttribute($element, 'style:rfc-language-tag-asian'));
+        self::assertFalse($doc->hasElementAttribute($element, 'style:rfc-language-tag-complex'));
+        self::assertEquals('ar', $doc->getElementAttribute($element, 'style:language-complex'));
+        self::assertEquals('SA', $doc->getElementAttribute($element, 'style:country-complex'));
+    }
+
+    /**
+     * Without a language, the document is in English, as the Word2007 writer makes it.
+     */
+    public function testDefaultLanguage(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->addSection()->addText('Hello');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+        $doc->setDefaultFile('styles.xml');
+        $element = '/office:document-styles/office:styles/style:default-style/style:text-properties';
+        self::assertEquals('en', $doc->getElementAttribute($element, 'fo:language'));
+        self::assertEquals('US', $doc->getElementAttribute($element, 'fo:country'));
+        self::assertFalse($doc->hasElementAttribute($element, 'style:language-asian'));
+        self::assertFalse($doc->hasElementAttribute($element, 'style:language-complex'));
+    }
 }

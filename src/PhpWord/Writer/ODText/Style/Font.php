@@ -19,8 +19,10 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
+use PhpOffice\PhpWord\Style\Language;
 
 /**
  * Font style writer.
@@ -149,6 +151,7 @@ class Font extends AbstractStyle
         $xmlWriter->writeAttributeIf($style->isSuperScript(), 'style:text-position', 'super');
         $xmlWriter->writeAttributeIf($style->isSubScript(), 'style:text-position', 'sub');
 
+        $language = $style->getLang();
         if ($style->isNoProof()) {
             $xmlWriter->writeAttribute('fo:language', 'zxx');
             $xmlWriter->writeAttribute('style:language-asian', 'zxx');
@@ -156,6 +159,10 @@ class Font extends AbstractStyle
             $xmlWriter->writeAttribute('fo:country', 'none');
             $xmlWriter->writeAttribute('style:country-asian', 'none');
             $xmlWriter->writeAttribute('style:country-complex', 'none');
+        } elseif ($language instanceof Language) {
+            self::writeLanguage($xmlWriter, $language->getLatin());
+            self::writeLanguage($xmlWriter, $language->getEastAsia(), 'asian');
+            self::writeLanguage($xmlWriter, $language->getBidirectional(), 'complex');
         }
 
         // Foreground-Color (which is really background color)
@@ -164,5 +171,31 @@ class Font extends AbstractStyle
 
         $xmlWriter->endElement(); // style:text-properties
         $xmlWriter->endElement(); // style:style
+    }
+
+    /**
+     * Write a BCP 47 language tag, such as uk-UA or sr-Latn-RS, as the language, script and country of ODF.
+     *
+     * @param string $script '' for Western text, 'asian' or 'complex'
+     */
+    public static function writeLanguage(XMLWriter $xmlWriter, ?string $tag, string $script = ''): void
+    {
+        if ($tag === null || $tag === '') {
+            return;
+        }
+        $subtags = explode('-', $tag);
+        $language = array_shift($subtags);
+        // Not a language, such as x-none, which Word writes for no language
+        if (!preg_match('/^[A-Za-z]{2,3}$/', $language)) {
+            return;
+        }
+        $scriptCode = isset($subtags[0]) && preg_match('/^[A-Za-z]{4}$/', $subtags[0]) ? array_shift($subtags) : null;
+        $country = isset($subtags[0]) && preg_match('/^([A-Za-z]{2}|\\d{3})$/', $subtags[0]) ? array_shift($subtags) : null;
+        $suffix = $script === '' ? '' : '-' . $script;
+        $xmlWriter->writeAttribute($script === '' ? 'fo:language' : 'style:language' . $suffix, $language);
+        $xmlWriter->writeAttributeIf($scriptCode !== null, $script === '' ? 'fo:script' : 'style:script' . $suffix, (string) $scriptCode);
+        $xmlWriter->writeAttributeIf($country !== null, $script === '' ? 'fo:country' : 'style:country' . $suffix, (string) $country);
+        // As LibreOffice writes it: the whole tag when it has a script, a variant or an extension
+        $xmlWriter->writeAttributeIf($scriptCode !== null || count($subtags) > 0, 'style:rfc-language-tag' . $suffix, $tag);
     }
 }
