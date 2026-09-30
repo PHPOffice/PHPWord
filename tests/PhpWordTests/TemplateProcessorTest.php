@@ -292,9 +292,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers ::cloneRow
-     * @covers ::saveAs
-     * @covers ::setValue
+     * @covers ::cloneRowAndSetValues
      */
     public function testCloneRowAndSetValues(): void
     {
@@ -347,8 +345,59 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         ];
         $templateProcessor->setValue('tableHeader', 'My clonable table');
         $templateProcessor->cloneRowAndSetValues('userId', $values);
-        self::assertStringContainsString('<w:t>Superman</w:t>', $templateProcessor->getMainPart());
-        self::assertStringContainsString('<w:t>Metropolis</w:t>', $templateProcessor->getMainPart());
+        $mainPartResult = $templateProcessor->getMainPart();
+        self::assertStringContainsString('<w:t>1</w:t>', $mainPartResult);
+        self::assertStringContainsString('<w:t>Batman</w:t>', $mainPartResult);
+        self::assertStringContainsString('<w:t>Gotham City</w:t>', $mainPartResult);
+        self::assertStringContainsString('<w:t>Superman</w:t>', $mainPartResult);
+        self::assertStringContainsString('<w:t>Metropolis</w:t>', $mainPartResult);
+        self::assertStringNotContainsString('#1', $mainPartResult);
+        self::assertStringNotContainsString('#2', $mainPartResult);
+        self::assertStringNotContainsString('${userId}', $mainPartResult);
+        self::assertStringNotContainsString('${userName}', $mainPartResult);
+        self::assertStringNotContainsString('${userLocation}', $mainPartResult);
+    }
+
+    /**
+     * @covers ::cloneRowAndSetValues
+     */
+    public function testCloneRowAndSetValuesWithEmptyArrayRemovesRow(): void
+    {
+        $mainPart = '<w:tbl>
+            <w:tr>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t>Header</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+            <w:tr>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t>${userId}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t>${userName}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+        </w:tbl>';
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+
+        $templateProcessor->cloneRowAndSetValues('userId', []);
+        $mainPartResult = $templateProcessor->getMainPart();
+        self::assertStringContainsString('<w:t>Header</w:t>', $mainPartResult);
+        self::assertStringNotContainsString('${userId}', $mainPartResult);
+        self::assertStringNotContainsString('${userName}', $mainPartResult);
+        self::assertStringNotContainsString('#1', $mainPartResult);
     }
 
     public function testCloneNotExistingRowShouldThrowException(): void
@@ -361,9 +410,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers ::cloneRow
-     * @covers ::saveAs
-     * @covers ::setValue
+     * @covers ::cloneRowAndSetValues
      */
     public function testCloneRowAndSetValuesWithCustomMacro(): void
     {
@@ -418,8 +465,11 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         ];
         $templateProcessor->setValue('tableHeader', 'My clonable table');
         $templateProcessor->cloneRowAndSetValues('userId', $values);
-        self::assertStringContainsString('<w:t>Superman</w:t>', $templateProcessor->getMainPart());
-        self::assertStringContainsString('<w:t>Metropolis</w:t>', $templateProcessor->getMainPart());
+        $mainPartResult = $templateProcessor->getMainPart();
+        self::assertStringContainsString('<w:t>Superman</w:t>', $mainPartResult);
+        self::assertStringContainsString('<w:t>Metropolis</w:t>', $mainPartResult);
+        self::assertStringNotContainsString('#1', $mainPartResult);
+        self::assertStringNotContainsString('#2', $mainPartResult);
     }
 
     /**
