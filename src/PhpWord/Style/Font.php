@@ -538,11 +538,11 @@ class Font extends AbstractStyle
 	/**
 	 * Set underlineColor.
 	 *
-	 * @param string $value
+	 * @param ?string $value
 	 *
 	 * @return self
 	 */
-	public function setUnderlineColor(string $value = ''): self
+	public function setUnderlineColor(?string $value = ''): self
 	{
         $this->underlineColor = $value ?? '';
 
