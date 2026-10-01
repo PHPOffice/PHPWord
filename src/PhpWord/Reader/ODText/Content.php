@@ -232,7 +232,7 @@ class Content extends AbstractPart
         $columns = 'table:table-column|table:table-columns/table:table-column|table:table-header-columns/table:table-column|table:table-column-group//table:table-column';
         foreach ($xmlReader->getElements($columns, $node) as $column) {
             $width = $this->columnWidths[$column->getAttribute('table:style-name')] ?? null;
-            $widths = array_merge($widths, array_fill(0, $this->repeat($column, 'table:number-columns-repeated', self::MAX_COLUMNS), $width));
+            $widths = array_pad($widths, count($widths) + $this->repeat($column, 'table:number-columns-repeated', self::MAX_COLUMNS), $width);
         }
 
         $table = $this->getContainer($phpWord)->addTable();
