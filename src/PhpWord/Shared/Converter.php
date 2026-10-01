@@ -277,10 +277,6 @@ class Converter
      * Convert relative font size (M height) to point.
      *
      * Assumes font size of 12.
-     *
-     * @param float $em
-     *
-     * @return float
      */
     public static function emToPoint(float $em = 1): float
     {
@@ -291,10 +287,6 @@ class Converter
      * Convert relative font size (x height) to point.
      *
      * Assumes font size of 12.
-     *
-     * @param float $ex
-     *
-     * @return float
      */
     public static function exToPoint(float $ex = 1): float
     {
