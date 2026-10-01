@@ -673,7 +673,9 @@ class TemplateProcessor
 
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
-        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}" stroked="f" filled="f"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
+        // DrawingML emits inline pictures visible on all platforms (Desktop, Mobile, Online)
+        // VML (<w:pict>) is legacy and lacks editing UI on Word Mobile / Word Online
+        $imgTpl = '<w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"><wp:extent cx="{EMU_WIDTH}" cy="{EMU_HEIGHT}"/><wp:docPr id="{IMG_INDEX}" name="Picture {IMG_INDEX}" descr=""/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"/></wp:cNvGraphicFramePr><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="{IMG_INDEX}" name="Picture {IMG_INDEX}" descr=""/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="{RID}" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><a:stretch><a:fillRect/></a:stretch></a:blip></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="{EMU_WIDTH}" cy="{EMU_HEIGHT}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing>';
 
         $i = 0;
         foreach ($searchParts as $partFileName => &$partContent) {
@@ -695,7 +697,11 @@ class TemplateProcessor
 
                     // replace preparations
                     $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
-                    $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
+                    $pxWidth = (float) $preparedImageAttrs['width'];
+                    $pxHeight = (float) $preparedImageAttrs['height'];
+                    $emuWidth = (int) round($pxWidth * 9525);
+                    $emuHeight = (int) round($pxHeight * 9525);
+                    $xmlImage = str_replace(['{RID}', '{EMU_WIDTH}', '{EMU_HEIGHT}', '{IMG_INDEX}'], [$rid, $emuWidth, $emuHeight, $imgIndex], $imgTpl);
 
                     // replace variable
                     $varNameWithArgsFixed = static::ensureMacroCompleted($varNameWithArgs);
