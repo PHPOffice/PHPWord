@@ -371,6 +371,11 @@ abstract class AbstractPart
                     if (null !== $formField->getValue()) {
                         /** @phpstan-ignore offsetAccess.notFound */
                         $formField->setText($listEntries[$formField->getValue()]);
+                        $value = $formField->getValue();
+                        $index = is_numeric($value) ? (int) $value : null;
+                        if ($index !== null && array_key_exists($index, $listEntries)) {
+                            $formField->setText($listEntries[$index]);
+                        }
                     }
 
                     break;

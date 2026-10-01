@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWordTests\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -36,7 +38,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultDefaults(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
@@ -52,7 +54,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
     public function testSettingDefaults(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
 
         $defaultFontColor = '00FF00';
         $phpWord->setDefaultFontColor($defaultFontColor);
@@ -73,7 +75,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testColors(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('This is red (800) in rtf/html, default in docx/odt', ['color' => '800']);
         $section->addText('This should be cyanish (008787)', ['color' => '008787']);
@@ -140,7 +142,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testAllNamedColors($namedColor, $rgbColor): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('This is red (800) in rtf/html, default in docx/odt', ['color' => '800']);
         $section->addText('This should be cyanish (008787)', ['color' => '008787']);
@@ -169,7 +171,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testNoProof(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Noproof not specified', ['color' => 'black']);
         $section->addText('Noproof is true', ['color' => 'black', 'noproof' => true]);
@@ -225,7 +227,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testNamedStyleAsObject(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $named = $phpWord->addFontStyle('namedobject', ['color' => '008787']);
         $section = $phpWord->addSection();
         $section->addText('Let us see what color we wind up with', $named);
@@ -243,7 +245,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testFieldStyles(): void
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $namedstyle = $phpWord->addFontStyle('namedstyle', ['color' => '800000']);
         $section = $phpWord->addSection();
         $textrun = $section->addTextRun();
@@ -349,4 +351,79 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($doc->hasElementAttribute($element, 'style:language-asian'));
         self::assertFalse($doc->hasElementAttribute($element, 'style:language-complex'));
     }
+
+	/**
+	 * Test underline color.
+     * @throws CreateTemporaryFileException
+     */
+	public function testUnderlineColor(): void
+	{
+		$phpWord = new PhpWord();
+		$section = $phpWord->addSection();
+
+		// Test 1: Set underline color to red
+		$section->addText('Underline red', ['underline' => Font::UNDERLINE_SINGLE, 'underlineColor' => 'FF0000']);
+
+		// Test 2: Set underline color to green
+		$section->addText('Underline green', ['underline' => Font::UNDERLINE_SINGLE, 'underlineColor' => '00FF00']);
+
+		// Test 3: No underline color (should not output attribute)
+		$section->addText('No underline color', ['underline' => Font::UNDERLINE_SINGLE, 'underlineColor' => '']);
+
+		// Test 4: Use named color constant
+		$section->addText('Underline darkblue', ['underline' => Font::UNDERLINE_SINGLE, 'underlineColor' => Font::FGCOLOR_DARKBLUE]);
+
+		$doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+		$s2a = '/office:document-content/office:automatic-styles';
+		self::assertTrue($doc->elementExists($s2a));
+
+		// Check first text with red underline
+		$element = "$s2a/style:style[3]";
+		self::assertTrue($doc->elementExists($element));
+		$styleName = $doc->getElementAttribute($element, 'style:name');
+		$element .= '/style:text-properties';
+		self::assertTrue($doc->elementExists($element));
+		self::assertEquals('#FF0000', $doc->getElementAttribute($element, 'style:text-underline-color'));
+		$span = "/office:document-content/office:body/office:text/text:section/text:p[1]/text:span";
+		self::assertTrue($doc->elementExists($span));
+		self::assertEquals($styleName, $doc->getElementAttribute($span, 'text:style-name'));
+		self::assertEquals('Underline red', $doc->getElement($span)->nodeValue);
+
+		// Check second text with green underline
+		$element = "$s2a/style:style[5]";
+		self::assertTrue($doc->elementExists($element));
+		$styleName = $doc->getElementAttribute($element, 'style:name');
+		$element .= '/style:text-properties';
+		self::assertTrue($doc->elementExists($element));
+		self::assertEquals('#00FF00', $doc->getElementAttribute($element, 'style:text-underline-color'));
+		$span = "/office:document-content/office:body/office:text/text:section/text:p[2]/text:span";
+		self::assertTrue($doc->elementExists($span));
+		self::assertEquals($styleName, $doc->getElementAttribute($span, 'text:style-name'));
+		self::assertEquals('Underline green', $doc->getElement($span)->nodeValue);
+
+		// Check third text: no underline color → attribute should not be present
+		$element = "$s2a/style:style[7]";
+		self::assertTrue($doc->elementExists($element));
+        $styleName = $doc->getElementAttribute($element, 'style:name');
+        $element .= '/style:text-properties';
+		self::assertTrue($doc->elementExists($element));
+        self::assertEquals('', $doc->getElementAttribute($element, 'style:text-underline-color'), 'style:text-underline-color should not be present when empty');
+		$span = "/office:document-content/office:body/office:text/text:section/text:p[3]/text:span";
+		self::assertTrue($doc->elementExists($span));
+		self::assertEquals($styleName, $doc->getElementAttribute($span, 'text:style-name'));
+		self::assertEquals('No underline color', $doc->getElement($span)->nodeValue);
+
+		// Check fourth text: darkblue via constant
+		$element = "$s2a/style:style[9]";
+		self::assertTrue($doc->elementExists($element));
+        $styleName = $doc->getElementAttribute($element, 'style:name');
+        $element .= '/style:text-properties';
+		self::assertTrue($doc->elementExists($element));
+		self::assertEquals('#00008B', $doc->getElementAttribute($element, 'style:text-underline-color'));
+		$span = "/office:document-content/office:body/office:text/text:section/text:p[4]/text:span";
+		self::assertTrue($doc->elementExists($span));
+		self::assertEquals($styleName, $doc->getElementAttribute($span, 'text:style-name'));
+		self::assertEquals('Underline darkblue', $doc->getElement($span)->nodeValue);
+	}
 }
