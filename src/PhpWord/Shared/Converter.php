@@ -282,7 +282,7 @@ class Converter
      *
      * @return float
      */
-    public static function emToPoint($em = 1)
+    public static function emToPoint(float $em = 1): float
     {
         return $em * self::EM_TO_POINT;
     }
@@ -296,7 +296,7 @@ class Converter
      *
      * @return float
      */
-    public static function exToPoint($ex = 1)
+    public static function exToPoint(float $ex = 1): float
     {
         return $ex * self::EX_TO_POINT;
     }
