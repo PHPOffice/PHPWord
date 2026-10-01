@@ -946,26 +946,6 @@ parameters:
 			path: src/PhpWord/TemplateProcessor.php
 
 		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:fixImageWidthHeightRatio\\(\\) has parameter \\$actualHeight with no type specified\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:fixImageWidthHeightRatio\\(\\) has parameter \\$actualWidth with no type specified\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:fixImageWidthHeightRatio\\(\\) has parameter \\$height with no type specified\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
-			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:fixImageWidthHeightRatio\\(\\) has parameter \\$width with no type specified\\.$#"
-			count: 1
-			path: src/PhpWord/TemplateProcessor.php
-
-		-
 			message: "#^Method PhpOffice\\\\PhpWord\\\\TemplateProcessor\\:\\:getImageArgs\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/PhpWord/TemplateProcessor.php
@@ -1677,12 +1657,12 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$haystack of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertStringContainsString\\(\\) expects string, string\\|false given\\.$#"
-			count: 6
+			count: 8
 			path: tests/PhpWordTests/TemplateProcessorTest.php
 
 		-
 			message: "#^Parameter \\#2 \\$haystack of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertStringNotContainsString\\(\\) expects string, string\\|false given\\.$#"
-			count: 4
+			count: 5
 			path: tests/PhpWordTests/TemplateProcessorTest.php
 
 		-

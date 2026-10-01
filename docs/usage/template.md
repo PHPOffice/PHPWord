@@ -103,8 +103,12 @@ The search-pattern model for images can be like:
     - ``${search-image-pattern:width=[width]:height=[height]:ratio=false}``
 
 Where:
-    - [width] and [height] can be just numbers or numbers with measure, which supported by Word (cm, mm, in, pt, pc, px, %, em, ex)
+    - [width] and [height] can be just numbers or numbers with measure, which supported by Word (cm, mm, in, pt, pc, px, %, em, ex).
+      For SVG the relative measures (px, %, em, ex) might have different results than other images.
     - [ratio] uses only for ``false``, ``-`` or ``f`` to turn off respect aspect ration of image. By default template image size uses as 'container' size.
+
+You can use an array as first argument to replace all search patterns with the same file. If you use an indexed array as second argument, 
+the first item in the first argument will be replaced by the first item in the second argument.
 
 Example:
 
@@ -121,13 +125,22 @@ $templateProcessor = new TemplateProcessor('Template.docx');
 $templateProcessor->setValue('Name', 'John Doe');
 $templateProcessor->setValue(array('City', 'Street'), array('Detroit', '12th Street'));
 
-$templateProcessor->setImageValue('CompanyLogo', 'path/to/company/logo.png');
+$templateProcessor->setImageValue('CompanyLogo', 'path/to/company/logo.svg');
 $templateProcessor->setImageValue('UserLogo', array('path' => 'path/to/logo.png', 'width' => 100, 'height' => 100, 'ratio' => false));
 $templateProcessor->setImageValue('FeatureImage', function () {
     // Closure will only be executed if the replacement tag is found in the template
 
     return array('path' => SlowFeatureImageGenerator::make(), 'width' => 100, 'height' => 100, 'ratio' => false);
 });
+
+// use array to replace multiple values
+$templateProcessor->setImageValue(
+    array('CompanyLogo', 'UserLogo'),
+    array(
+        'path/to/company/logo.svg',
+        array('path' => 'path/to/logo.png', 'width' => '100mm', 'height' => '100mm', 'ratio' => false)
+    )
+);
 ```
 
 ## cloneBlock
