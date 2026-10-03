@@ -233,4 +233,66 @@ class PartTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $text);
         self::assertEquals(' but with parts not in bold', $text->getText());
     }
+
+    public function testReadSymbol(): void
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:t>Text before symbol </w:t>
+            </w:r>
+            <w:r>
+                <w:sym w:font="Wingdings 2" w:char="00A3"/>
+            </w:r>
+            <w:r>
+                <w:t> text after symbol</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t>Another symbol: </w:t>
+            </w:r>
+            <w:r>
+                <w:sym w:font="Wingdings 2" w:char="0052"/>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        
+        // Test first paragraph with symbol
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[0]);
+        /** @var \PhpOffice\PhpWord\Element\TextRun $textRun1 */
+        $textRun1 = $elements[0];
+        
+        /** @var \PhpOffice\PhpWord\Element\Text $text1 */
+        $text1 = $textRun1->getElement(0);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $text1);
+        self::assertEquals('Text before symbol ', $text1->getText());
+        
+        /** @var \PhpOffice\PhpWord\Element\Text $symbol1 */
+        $symbol1 = $textRun1->getElement(1);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $symbol1);
+        self::assertEquals('[Wingdings 2,00A3]', $symbol1->getText());
+        
+        /** @var \PhpOffice\PhpWord\Element\Text $text2 */
+        $text2 = $textRun1->getElement(2);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $text2);
+        self::assertEquals(' text after symbol', $text2->getText());
+        
+        // Test second paragraph with different symbol
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $elements[1]);
+        /** @var \PhpOffice\PhpWord\Element\TextRun $textRun2 */
+        $textRun2 = $elements[1];
+        
+        /** @var \PhpOffice\PhpWord\Element\Text $text3 */
+        $text3 = $textRun2->getElement(0);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $text3);
+        self::assertEquals('Another symbol: ', $text3->getText());
+        
+        /** @var \PhpOffice\PhpWord\Element\Text $symbol2 */
+        $symbol2 = $textRun2->getElement(1);
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $symbol2);
+        self::assertEquals('[Wingdings 2,0052]', $symbol2->getText());
+    }
 }
