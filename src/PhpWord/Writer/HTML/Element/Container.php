@@ -46,8 +46,11 @@ class Container extends AbstractElement
             return '';
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
-        $withoutP = in_array($containerClass, ['TextRun', 'Footnote', 'Endnote']) ? true : false;
+        $withoutP = in_array($containerClass, ['TextRun', 'Footnote', 'Endnote', 'ListItemRun']) ? true : false;
         $content = '';
+        if ($containerClass === 'ListItemRun') {
+            $content = '<p>';
+        }
 
         $elements = $container->getElements();
         foreach ($elements as $element) {
@@ -58,6 +61,9 @@ class Container extends AbstractElement
                 $writer = new $writerClass($this->parentWriter, $element, $withoutP);
                 $content .= $writer->write();
             }
+        }
+        if ($containerClass === 'ListItemRun') {
+            $content .= '</p>';
         }
 
         return $content;

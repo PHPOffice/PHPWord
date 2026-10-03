@@ -24,36 +24,62 @@ use PhpOffice\PhpWord\Writer\PDF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF.
- *
- * @runTestsInSeparateProcesses
  */
 class PDFTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp(): void
+    protected function tearDown(): void
     {
-        parent::setUp();
-        //Reset setting for default
-        Settings::setPdfRenderer('', '');
-        Settings::setPdfRendererOptions([]);
+        Settings::restoreDefaults();
     }
 
     /**
      * Test normal construct.
      */
-    public function testConstruct(): void
+    public function testConstructDompdf(): void
     {
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
-        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'temp.pdf';
-
+        Settings::restoreDefaults();
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
+        self::assertNotFalse($rendererLibraryPath);
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         $writer = new PDF(new PhpWord());
-        $writer->save($file);
+        $writer->setFont('xyz');
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
+    }
 
-        self::assertFileExists($file);
+    public function testConstructMpdf(): void
+    {
+        $file = __DIR__ . '/../_files/temp.pdf';
 
-        unlink($file);
+        $rendererName = Settings::PDF_RENDERER_MPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
+        self::assertNotFalse($rendererLibraryPath);
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+        $writer = new PDF(new PhpWord());
+        $writer->setFont('xyz');
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
+    }
+
+    public function testConstructTcpdf(): void
+    {
+        $file = __DIR__ . '/../_files/temp.pdf';
+
+        $rendererName = Settings::PDF_RENDERER_TCPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
+        self::assertNotFalse($rendererLibraryPath);
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+        $writer = new PDF(new PhpWord());
+        $writer->setFont('Helvetica');
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     /**
@@ -61,16 +87,10 @@ class PDFTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructException(): void
     {
-        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'unknown.file';
-
+        Settings::restoreDefaults();
         $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
         $this->expectExceptionMessage('PDF rendering library or library path has not been defined.');
         $writer = new PDF(new PhpWord());
-        $writer->save($file);
-
-        //If no exception and file created
-        if (file_exists($file)) {
-            unlink($file);
-        }
+        $writer->save('php://output');
     }
 }

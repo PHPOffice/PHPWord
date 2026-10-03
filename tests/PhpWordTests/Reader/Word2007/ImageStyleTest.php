@@ -58,7 +58,7 @@ class ImageStyleTest extends TestCase
         $zip->open($this->filename);
         $document = (string) $zip->getFromName('word/document.xml');
         self::assertSame(1, preg_match('/<v:imagedata[^>]* r:id="([^"]+)"/', $document, $matches));
-        $zip->addFromString('word/document.xml', (string) preg_replace('#<w:pict>.*</w:pict>#s', sprintf($markup, $matches[1] ?? ''), $document));
+        $zip->addFromString('word/document.xml', (string) preg_replace('#<w:pict>.*</w:pict>#s', sprintf($markup, $matches[1]), $document));
         $zip->close();
     }
 

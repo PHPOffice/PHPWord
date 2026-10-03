@@ -10,60 +10,43 @@ use PHPUnit\Framework\TestCase;
 
 class ImageTest extends TestCase
 {
-    /**
-     * @var XMLWriter
-     */
-    private $xmlWriter;
-
-    /**
-     * @var Image
-     */
-    private $element;
-
-    /**
-     * @var ImageWriter
-     */
-    private $writer;
-
-    protected function setUp(): void
+    public function testWrite(): void
     {
-        $this->xmlWriter = new XMLWriter();
+        $xmlWriter = new XMLWriter();
         $style = new ImageStyle();
         $style->setWidth(100);
         $style->setHeight(100);
-        $this->element = new Image('tests/PhpWordTests/_files/images/earth.jpg', $style);
-        $this->writer = new ImageWriter($this->xmlWriter, $this->element);
-    }
+        $element = new Image('tests/PhpWordTests/_files/images/earth.jpg', $style);
+        $writer = new ImageWriter($xmlWriter, $element);
+        $writer->write();
 
-    public function testWrite(): void
-    {
-        $this->writer->write();
-
-        $expected = '<p><img src="media/image.jpg" style="width:500px;height:500px;"/></p>';
-        self::assertEquals($expected, $this->xmlWriter->getData());
+        $expected = '<p><img src="media/image.jpg" style="width:100px;height:100px;"/></p>';
+        self::assertSame($expected, $xmlWriter->getData());
     }
 
     public function testWriteWithoutP(): void
     {
+        $xmlWriter = new XMLWriter();
         $style = new ImageStyle();
         $style->setWidth(100);
         $style->setHeight(100);
-        $this->element = new Image('tests/PhpWordTests/_files/images/earth.jpg', $style);
-        $this->writer = new ImageWriter($this->xmlWriter, $this->element, true);
+        $element = new Image('tests/PhpWordTests/_files/images/earth.jpg', $style);
+        $writer = new ImageWriter($xmlWriter, $element, true);
 
-        $this->writer->write();
+        $writer->write();
 
-        $expected = '<img src="media/image.jpg" style="width:500px;height:500px;"/>';
-        self::assertEquals($expected, $this->xmlWriter->getData());
+        $expected = '<img src="media/image.jpg" style="width:100px;height:100px;"/>';
+        self::assertSame($expected, $xmlWriter->getData());
     }
 
     public function testWriteWithInvalidElement(): void
     {
-        $invalidElement = $this->createMock(\PhpOffice\PhpWord\Element\AbstractElement::class);
-        $writer = new ImageWriter($this->xmlWriter, $invalidElement);
+        $xmlWriter = new XMLWriter();
+        $invalidElement = new FakeElement();
+        $writer = new ImageWriter($xmlWriter, $invalidElement);
 
         $writer->write();
 
-        self::assertEquals('', $this->xmlWriter->getData());
+        self::assertSame('', $xmlWriter->getData());
     }
 }

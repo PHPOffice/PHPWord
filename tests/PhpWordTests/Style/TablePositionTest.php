@@ -22,8 +22,6 @@ use PhpOffice\PhpWord\Style\TablePosition;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Table.
- *
- * @runTestsInSeparateProcesses
  */
 class TablePositionTest extends \PHPUnit\Framework\TestCase
 {

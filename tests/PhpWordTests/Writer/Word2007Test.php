@@ -28,8 +28,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007.
- *
- * @runTestsInSeparateProcesses
  */
 class Word2007Test extends AbstractWebServerEmbedded
 {
@@ -76,6 +74,9 @@ class Word2007Test extends AbstractWebServerEmbedded
 
     /**
      * Save.
+     * Method getRemoteGifImageUrl seems to require separate process.
+     *
+     * @runInSeparateProcess
      */
     public function testSave(): void
     {

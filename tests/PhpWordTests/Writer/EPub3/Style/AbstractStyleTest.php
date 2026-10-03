@@ -3,7 +3,6 @@
 namespace PhpOffice\PhpWordTests\Writer\EPub3\Style;
 
 use PhpOffice\PhpWord\Writer\EPub3;
-use PhpOffice\PhpWord\Writer\EPub3\Style\AbstractStyle;
 use PHPUnit\Framework\TestCase;
 
 class AbstractStyleTest extends TestCase
@@ -14,18 +13,8 @@ class AbstractStyleTest extends TestCase
     public function testParentWriter(): void
     {
         $parentWriter = new EPub3();
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $style = $this->getMockForAbstractClass(AbstractStyle::class);
-        } else {
-            /** @var AbstractStyle $style */
-            $style = new class() extends AbstractStyle {
-                public function write(): string
-                {
-                    return '';
-                }
-            };
-        }
+
+        $style = new AbstractStyleClass();
 
         $result = $style->setParentWriter($parentWriter);
 

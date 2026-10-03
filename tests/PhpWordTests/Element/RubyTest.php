@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Element\TextRun;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Text.
- *
- * @runTestsInSeparateProcesses
  */
 class RubyTest extends \PHPUnit\Framework\TestCase
 {

@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 
 /**
@@ -27,6 +28,26 @@ use PhpOffice\PhpWord\Style\Font as FontStyle;
  */
 class Font extends AbstractStyle
 {
+    private const UNDERLINES = [
+        FontStyle::UNDERLINE_DASH => 'underline dashed ',
+        FontStyle::UNDERLINE_DASHDOTDOTHEAVY => 'underline dotted 2px ',
+        FontStyle::UNDERLINE_DASHDOTHEAVY => 'underline dotted 2px ',
+        FontStyle::UNDERLINE_DASHEDHEAVY => 'underline dashed 2px ',
+        FontStyle::UNDERLINE_DASHLONG => 'underline dashed ',
+        FontStyle::UNDERLINE_DASHLONGHEAVY => 'underline dashed 2px ',
+        FontStyle::UNDERLINE_DOTDASH => 'underline dotted ',
+        FontStyle::UNDERLINE_DOTDOTDASH => 'underline dotted ',
+        FontStyle::UNDERLINE_DOTTED => 'underline dotted ',
+        FontStyle::UNDERLINE_DOTTEDHEAVY => 'underline dotted 2px ',
+        FontStyle::UNDERLINE_DOUBLE => 'underline double ',
+        FontStyle::UNDERLINE_HEAVY => 'underline solid 2px ',
+        FontStyle::UNDERLINE_SINGLE => 'underline solid ',
+        FontStyle::UNDERLINE_WAVY => 'underline wavy ',
+        FontStyle::UNDERLINE_WAVYDOUBLE => 'underline wavy ',
+        FontStyle::UNDERLINE_WAVYHEAVY => 'underline wavy 2px ',
+        FontStyle::UNDERLINE_WORDS => 'underline solid ',
+    ];
+
     /**
      * Write style.
      *
@@ -45,11 +66,14 @@ class Font extends AbstractStyle
         $color = $style->getColor();
         $fgColor = $style->getFgColor();
         $underline = $style->getUnderline() != FontStyle::UNDERLINE_NONE;
+        $underlineColor = $style->getUnderlineColor();
         $lineThrough = $style->isStrikethrough() || $style->isDoubleStrikethrough();
 
         $css['font-family'] = $this->getValueIf(!empty($font), $font);
         $css['font-size'] = $this->getValueIf($size !== null, "{$size}pt");
-        $css['color'] = $this->getValueIf($color !== null, "#{$color}");
+        if ($color !== null) {
+            $css['color'] = Converter::validStringColor($color) ? $color : "#$color";
+        }
         $css['background'] = $this->getValueIf($fgColor != '', $fgColor);
         $css['font-weight'] = $this->getValueIf($style->isBold(), 'bold');
         $css['font-style'] = $this->getValueIf($style->isItalic(), 'italic');
@@ -57,8 +81,18 @@ class Font extends AbstractStyle
         $css['vertical-align'] .= $this->getValueIf($style->isSuperScript(), 'super');
         $css['vertical-align'] .= $this->getValueIf($style->isSubScript(), 'sub');
         $css['text-decoration'] = '';
-        $css['text-decoration'] .= $this->getValueIf($underline, 'underline ');
+        if (isset(self::UNDERLINES[$style->getUnderline()])) {
+            $css['text-decoration'] .= self::UNDERLINES[$style->getUnderline()];
+            if ($underlineColor !== '') {
+                $ulColor = $underlineColor;
+                if (preg_match('/^[0-9a-fA-F]{6}$/', $ulColor)) {
+                    $ulColor = "#$ulColor";
+                }
+                $css['text-decoration-color'] = $ulColor;
+            }
+        }
         $css['text-decoration'] .= $this->getValueIf($lineThrough, 'line-through ');
+        $css['text-decoration-style'] = $this->getValueIf($style->isDoubleStrikethrough(), 'double');
         $css['text-transform'] = $this->getValueIf($style->isAllCaps(), 'uppercase');
         $css['font-variant'] = $this->getValueIf($style->isSmallCaps(), 'small-caps');
         $css['display'] = $this->getValueIf($style->isHidden(), 'none');
@@ -73,6 +107,33 @@ class Font extends AbstractStyle
             $css['direction'] = 'rtl';
         } elseif ($style->isRTL() === false) {
             $css['direction'] = 'ltr';
+        }
+        $shading = $style->getShading();
+        if ($shading !== null) {
+            $fill = $shading->getFill();
+            if (!empty($fill)) {
+                $css['background-color'] = preg_match('/^[0-9a-fA-F]{6}$/', $fill) ? "#$fill" : $fill;
+            }
+        }
+
+        $openType = '';
+        $space = '';
+        $numberSpacing = $style->getNumberSpacing();
+        if ($numberSpacing === FontStyle::NUMBER_SPACING_PROPORTIONAL) {
+            $openType = 'proportional-nums';
+            $space = ' ';
+        } elseif ($numberSpacing === FontStyle::NUMBER_SPACING_TABULAR) {
+            $openType = 'tabular-nums';
+            $space = ' ';
+        }
+        $numberForms = $style->getNumberForms();
+        if ($numberForms === FontStyle::NUMBER_FORMS_LINING) {
+            $openType .= $space . 'lining-nums';
+        } elseif ($numberForms === FontStyle::NUMBER_FORMS_OLDSTYLE) {
+            $openType .= $space . 'oldstyle-nums';
+        }
+        if ($openType !== '') {
+            $css['font-variant-numeric'] = $openType;
         }
 
         return $this->assembleCss($css);

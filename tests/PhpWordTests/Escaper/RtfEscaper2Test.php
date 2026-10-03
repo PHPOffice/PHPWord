@@ -23,12 +23,11 @@ namespace PhpOffice\PhpWordTests\Escaper;
  */
 class RtfEscaper2Test extends \PHPUnit\Framework\TestCase
 {
-    const HEADER = '\\pard\\nowidctlpar {\\cf0\\f0 ';
+    const HEADER = '\\pard\\widctlpar {';
     const TRAILER = '}\\par';
 
     public function escapestring($str)
     {
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
         $parentWriter = new \PhpOffice\PhpWord\Writer\RTF();
         $element = new \PhpOffice\PhpWord\Element\Text($str);
         $txt = new \PhpOffice\PhpWord\Writer\RTF\Element\Text($parentWriter, $element);
@@ -58,7 +57,7 @@ class RtfEscaper2Test extends \PHPUnit\Framework\TestCase
     public function testAccent(): void
     {
         $str = 'Voilà - string with accented char';
-        $expect = $this->expect('Voil\\uc0{\\u224} - string with accented char');
+        $expect = $this->expect('Voil\\uc0\\u224  - string with accented char');
         self::assertEquals($expect, $this->escapestring($str));
     }
 
@@ -68,7 +67,27 @@ class RtfEscaper2Test extends \PHPUnit\Framework\TestCase
     public function testHebrew(): void
     {
         $str = 'Hebrew - שלום';
-        $expect = $this->expect('Hebrew - \\uc0{\\u1513}\\uc0{\\u1500}\\uc0{\\u1493}\\uc0{\\u1501}');
+        $expect = $this->expect('Hebrew - \\uc0\\u1513 \\uc0\\u1500 \\uc0\\u1493 \\uc0\\u1501 ');
+        self::assertEquals($expect, $this->escapestring($str));
+    }
+
+    /**
+     * Test Chinese.
+     */
+    public function test3ByteCharacters(): void
+    {
+        $str = 'Chinese - 耀老耂';
+        $expect = $this->expect('Chinese - \\uc0\\u-32768 \\uc0\\u-32767 \\uc0\\u-32766 ');
+        self::assertEquals($expect, $this->escapestring($str));
+    }
+
+    /**
+     * Test Osmanya, not in BMP.
+     */
+    public function testBeyondBmp(): void
+    {
+        $str = 'Osmanya - 𐐀𐐁𐐂';
+        $expect = $this->expect('Osmanya - \uc0\u-10239 \uc0\u-9216 \uc0\u-10239 \uc0\u-9215 \uc0\u-10239 \uc0\u-9214 ');
         self::assertEquals($expect, $this->escapestring($str));
     }
 

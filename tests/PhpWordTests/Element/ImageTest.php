@@ -19,6 +19,9 @@
 namespace PhpOffice\PhpWordTests\Element;
 
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Exception\Exception as WordException;
+use PhpOffice\PhpWord\Exception\InvalidImageException;
+use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
@@ -128,7 +131,8 @@ class ImageTest extends AbstractWebServerEmbedded
      */
     public function testInvalidImageLocal(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+        $this->expectException(InvalidImageException::class);
+        $this->expectExceptionMessage('Invalid image');
         new Image(__DIR__ . '/../_files/images/thisisnotarealimage');
     }
 
@@ -137,7 +141,8 @@ class ImageTest extends AbstractWebServerEmbedded
      */
     public function testInvalidImagePhp(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+        $this->expectException(InvalidImageException::class);
+        $this->expectExceptionMessage('Invalid image');
         $object = new Image('test.php');
         $source = $object->getSource();
     }
@@ -147,7 +152,10 @@ class ImageTest extends AbstractWebServerEmbedded
      */
     public function testUnsupportedImage(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\UnsupportedImageTypeException::class);
+        $this->expectException(
+            UnsupportedImageTypeException::class
+        );
+        $this->expectExceptionMessage('Unsupported image type ' . IMAGETYPE_BMP);
         //disable ssl verification, never do this in real application, you should pass the certificiate instead!!!
         $arrContextOptions = [
             'ssl' => [
@@ -253,8 +261,38 @@ class ImageTest extends AbstractWebServerEmbedded
      */
     public function testInvalidImageString(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+        $this->expectException(InvalidImageException::class);
+        $this->expectExceptionMessage('Invalid image');
         $object = new Image('this_is-a_non_valid_image');
         $source = $object->getSource();
+    }
+
+    /**
+     * Valid image types.
+     *
+     * @dataProvider providerInvalidProtocol
+     */
+    public function testInvalidProtocol(string $url): void
+    {
+        $this->expectException(WordException::class);
+        $this->expectExceptionMessage('Invalid protocol');
+        $object = new Image($url);
+        $source = $object->getSource();
+    }
+
+    public static function providerInvalidProtocol(): array
+    {
+        return [
+            'normal phar' => ['phar://anything'],
+            'mixed case phar' => ['PHAR://anything'],
+            'phar with 3 slashes' => ['phar:///anything'],
+            'leading space' => [' phar:///anything'],
+            'embedded space' => ['ph ar:///anything'],
+            'control character' => ["ph\x14ar:///anything"],
+            'filter with phar' => ['php://filter/read=convert.base64-encode/resource=phar:///tmp/x.Phar'],
+            'filter with phar and newline' => ["php://filter/read=convert.base64-encode/\nresource=phar:///tmp/x.Phar"],
+            'protocol with period followed by phar' => ['compress.zlib://phar:///x.phar'],
+            'protocol with period and embedded space' => ['comp ress.zlib://anything'],
+        ];
     }
 }

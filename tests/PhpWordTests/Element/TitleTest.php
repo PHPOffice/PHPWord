@@ -28,8 +28,6 @@ use PhpOffice\PhpWord\Element\Title;
  * Test class for PhpOffice\PhpWord\Element\Title.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Title
- *
- * @runTestsInSeparateProcesses
  */
 class TitleTest extends \PHPUnit\Framework\TestCase
 {

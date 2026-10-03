@@ -37,8 +37,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Reader\Word2007.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\Word2007
- *
- * @runTestsInSeparateProcesses
  */
 class Word2007Test extends \PHPUnit\Framework\TestCase
 {

@@ -28,8 +28,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\Numbering
  *
- * @runTestsInSeparateProcesses
- *
  * @since 0.10.0
  */
 class NumberingTest extends \PHPUnit\Framework\TestCase

@@ -32,10 +32,8 @@ class ListItemRun extends AbstractElement
      */
     public function write(): void
     {
+        /** @var ListItemRunElement */
         $element = $this->getElement();
-        if (!$element instanceof ListItemRunElement) {
-            return;
-        }
         $depth = $element->getDepth() + 1;
 
         $xmlWriter = $this->getXmlWriter();

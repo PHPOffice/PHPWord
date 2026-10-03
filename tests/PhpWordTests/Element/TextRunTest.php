@@ -26,8 +26,6 @@ use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\TextRun.
- *
- * @runTestsInSeparateProcesses
  */
 class TextRunTest extends \PHPUnit\Framework\TestCase
 {

@@ -190,6 +190,7 @@ class ChartTest extends \PHPUnit\Framework\TestCase
             'showGridY' => true,
             'showLegend' => false,
             'valueAxisTitle' => 'Values',
+            'categoryAxisTitle' => 'Categories',
         ];
         $chartType = 'line';
         $categories = ['A', 'B', 'C', 'D', 'E'];
@@ -208,6 +209,10 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($element));
         $element .= '/c:title/c:tx/c:rich/a:p/a:r/a:t';
         self::assertEquals('Values', $doc->getElement($element)->nodeValue);
+        $element = "$path/c:catAx";
+        self::assertTrue($doc->elementExists($element));
+        $element .= '/c:title/c:tx/c:rich/a:p/a:r/a:t';
+        self::assertEquals('Categories', $doc->getElement($element)->nodeValue);
     }
 
     public function testNoAxisLabels(): void

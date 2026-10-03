@@ -25,8 +25,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Section.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Section
- *
- * @runTestsInSeparateProcesses
  */
 class SectionTest extends \PHPUnit\Framework\TestCase
 {
