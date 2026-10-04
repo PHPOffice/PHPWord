@@ -60,9 +60,17 @@ class Footnotes extends AbstractPart
                 if ((null === $type || $type === 'normal')) {
                     $element = $this->getElement($phpWord, $id);
                     if ($element !== null) {
-                        $pNodes = $xmlReader->getElements('w:p/*', $node);
+                        $pNodes = $xmlReader->getElements('w:p', $node);
+                        $isFirstParagraph = true;
                         foreach ($pNodes as $pNode) {
-                            $this->readRun($xmlReader, $pNode, $element, $this->collection);
+                            if ($isFirstParagraph && $xmlReader->elementExists('w:pPr', $pNode) && method_exists($element, 'setParagraphStyle')) {
+                                $element->setParagraphStyle($this->readParagraphStyle($xmlReader, $pNode));
+                            }
+                            $isFirstParagraph = false;
+
+                            foreach ($xmlReader->getElements('*', $pNode) as $runNode) {
+                                $this->readRun($xmlReader, $runNode, $element, $this->collection);
+                            }
                         }
                         $addMethod = "add{$this->element}";
                         $phpWord->$addMethod($element);

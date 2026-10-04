@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWordTests\Reader\Word2007;
 
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\AbstractTestReader;
 
 /**
@@ -140,6 +141,9 @@ class PartTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $footnote->getElement(0));
         self::assertEquals('footnote text', $footnote->getElement(0)->getText());
         self::assertEquals(1, $footnote->getRelationId());
+        $footnoteParagraphStyle = $footnote->getParagraphStyle();
+        self::assertInstanceOf(Paragraph::class, $footnoteParagraphStyle);
+        self::assertEquals('FootnoteText', $footnoteParagraphStyle->getStyleName());
 
         //test the text in the second paragraph
         /** @var \PhpOffice\PhpWord\Element\Text $text */
@@ -160,6 +164,9 @@ class PartTest extends AbstractTestReader
         self::assertEquals(2, $endnote->getRelationId());
         self::assertInstanceOf('PhpOffice\PhpWord\Element\Text', $endnote->getElement(0));
         self::assertEquals('This is an endnote', $endnote->getElement(0)->getText());
+        $endnoteParagraphStyle = $endnote->getParagraphStyle();
+        self::assertInstanceOf(Paragraph::class, $endnoteParagraphStyle);
+        self::assertEquals('EndnoteText', $endnoteParagraphStyle->getStyleName());
     }
 
     public function testReadHeadingWithOverriddenStyle(): void

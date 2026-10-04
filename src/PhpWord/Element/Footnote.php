@@ -61,4 +61,23 @@ class Footnote extends AbstractContainer
     {
         return $this->paragraphStyle;
     }
+
+    /**
+     * Set paragraph style.
+     *
+     * @param array|Paragraph|string $paragraphStyle
+     *
+     * @return null|Paragraph|string
+     */
+    public function setParagraphStyle($paragraphStyle = null)
+    {
+        if (is_array($paragraphStyle)) {
+            $this->paragraphStyle = new Paragraph();
+            $this->paragraphStyle->setStyleByArray($paragraphStyle);
+        } else {
+            $this->paragraphStyle = $paragraphStyle;
+        }
+
+        return $this->paragraphStyle;
+    }
 }
