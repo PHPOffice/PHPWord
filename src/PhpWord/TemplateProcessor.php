@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\Metafile;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
@@ -564,10 +565,16 @@ class TemplateProcessor
         $height = $this->chooseImageDimension($height, $varInlineArgs['height'] ?? null, 70);
 
         $imageData = @getimagesize($imgPath);
+        if (is_array($imageData)) {
+            $imageData[2] = image_type_to_mime_type($imageData[2]);
+        } elseif (is_file($imgPath)) {
+            // Windows metafiles (WMF, EMF, EMF+)
+            $imageData = Metafile::getImageSize((string) file_get_contents($imgPath));
+        }
         if (!is_array($imageData)) {
             throw new Exception(sprintf('Invalid image: %s', $imgPath));
         }
-        [$actualWidth, $actualHeight, $imageType] = $imageData;
+        [$actualWidth, $actualHeight, $imageMimeType] = $imageData;
 
         // fix aspect ratio (by default)
         if (null === $ratio && isset($varInlineArgs['ratio'])) {
@@ -579,7 +586,7 @@ class TemplateProcessor
 
         $imageAttrs = [
             'src' => $imgPath,
-            'mime' => image_type_to_mime_type($imageType),
+            'mime' => $imageMimeType,
             'width' => $width,
             'height' => $height,
         ];
@@ -590,7 +597,7 @@ class TemplateProcessor
     private function addImageToRelations($partFileName, $rid, $imgPath, $imageMimeType): void
     {
         // define templates
-        $typeTpl = '<Override PartName="/word/media/{IMG}" ContentType="image/{EXT}"/>';
+        $typeTpl = '<Override PartName="/word/media/{IMG}" ContentType="{MIME}"/>';
         $relationTpl = '<Relationship Id="{RID}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/{IMG}"/>';
         $newRelationsTpl = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
         $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
@@ -599,6 +606,8 @@ class TemplateProcessor
             'image/png' => 'png',
             'image/bmp' => 'bmp',
             'image/gif' => 'gif',
+            Metafile::MIME_WMF => 'wmf',
+            Metafile::MIME_EMF => 'emf',
         ];
 
         // get image embed name
@@ -618,7 +627,7 @@ class TemplateProcessor
             $this->tempDocumentNewImages[$imgPath] = $imgName;
 
             // setup type for image
-            $xmlImageType = str_replace(['{IMG}', '{EXT}'], [$imgName, $imgExt], $typeTpl);
+            $xmlImageType = str_replace(['{IMG}', '{MIME}'], [$imgName, $imageMimeType], $typeTpl);
             $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
         }
 
