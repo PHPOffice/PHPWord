@@ -118,11 +118,11 @@
         "ext-ctype": "*",
         "ext-fileinfo": "*",
         "ext-SimpleXML": "*",
-        "ext-libxml": "*",
         "ext-mbstring": "*",
         "phpoffice/math": "^0.3"
     },
     "require-dev": {
+        "ext-libxml": "*",
         "dompdf/dompdf": "^2.0 || ^3.0",
         "friendsofphp/php-cs-fixer": "^3.3",
         "mpdf/mpdf": "^7.0 || ^8.0",
