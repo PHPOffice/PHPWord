@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWordTests\Element;
 
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
@@ -96,6 +97,9 @@ class ImageTest extends AbstractWebServerEmbedded
             ['firefox.png', 'image/png', 'png', 'imagecreatefrompng', true, -1],
             ['duke_nukem.bmp', 'image/bmp', 'bmp', null, false, null],
             ['angela_merkel.tif', 'image/tiff', 'tif', null, false, null],
+            ['fish.wmf', 'image/x-wmf', 'wmf', null, false, null],
+            ['inkscape_shapes.emf', 'image/x-emf', 'emf', null, false, null],
+            ['inkscape_shapes_emfplus.emf', 'image/x-emf', 'emf', null, false, null],
         ];
     }
 
@@ -256,5 +260,93 @@ class ImageTest extends AbstractWebServerEmbedded
         $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
         $object = new Image('this_is-a_non_valid_image');
         $source = $object->getSource();
+    }
+
+    /**
+     * Test Windows metafiles (WMF, EMF, EMF+).
+     */
+    public function testMetafile(): void
+    {
+        $metafiles = [
+            ['fish.wmf', 'image/x-wmf', 'wmf', 217, 159],
+            ['inkscape_shapes.emf', 'image/x-emf', 'emf', 200, 151],
+            ['inkscape_shapes_emfplus.emf', 'image/x-emf', 'emf', 200, 151],
+        ];
+        foreach ($metafiles as [$source, $type, $extension, $width, $height]) {
+            $image = new Image(__DIR__ . "/../_files/images/{$source}");
+
+            self::assertTrue($image->isMetafile(), $source);
+            self::assertEquals($type, $image->getImageType(), $source);
+            self::assertEquals($extension, $image->getImageExtension(), $source);
+            self::assertEquals($width, $image->getStyle()->getWidth(), $source);
+            self::assertEquals($height, $image->getStyle()->getHeight(), $source);
+            self::assertEquals('image/png', $image->getImageTypeForRendering(), $source);
+            // The original image is kept, and converted to PNG for rendering
+            self::assertStringEqualsFile(__DIR__ . "/../_files/images/{$source}", (string) $image->getImageString(), $source);
+            $imageData = getimagesizefromstring((string) $image->getImageStringForRendering());
+            self::assertIsArray($imageData, $source);
+            self::assertEquals([$width, $height, IMAGETYPE_PNG], array_slice($imageData, 0, 3), $source);
+        }
+    }
+
+    /**
+     * Test Windows metafile from string.
+     */
+    public function testMetafileFromString(): void
+    {
+        $source = (string) file_get_contents(__DIR__ . '/../_files/images/fish.wmf');
+        $image = new Image($source, ['width' => 434]);
+
+        self::assertEquals(Image::SOURCE_STRING, $image->getSourceType());
+        self::assertTrue($image->isMemImage());
+        self::assertTrue($image->isMetafile());
+        self::assertEquals('image/x-wmf', $image->getImageType());
+        self::assertEquals('wmf', $image->getImageExtension());
+        self::assertEquals(434, $image->getStyle()->getWidth());
+        self::assertEquals(318, $image->getStyle()->getHeight());
+        self::assertEquals($source, $image->getImageString());
+    }
+
+    /**
+     * Test that the rendering of other images is not modified.
+     */
+    public function testNotMetafile(): void
+    {
+        $image = new Image(__DIR__ . '/../_files/images/earth.jpg');
+
+        self::assertFalse($image->isMetafile());
+        self::assertEquals('image/jpeg', $image->getImageTypeForRendering());
+        self::assertEquals($image->getImageString(), $image->getImageStringForRendering());
+    }
+
+    /**
+     * Test empty image file.
+     */
+    public function testEmptyImageFile(): void
+    {
+        $filename = (string) tempnam(Settings::getTempDir(), 'PHPWordImage');
+
+        try {
+            $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+            new Image($filename);
+        } finally {
+            unlink($filename);
+        }
+    }
+
+    /**
+     * Test image whose file is emptied after its creation.
+     */
+    public function testImageStringOfEmptiedFile(): void
+    {
+        $filename = (string) tempnam(Settings::getTempDir(), 'PHPWordImage');
+        copy(__DIR__ . '/../_files/images/earth.jpg', $filename);
+        $image = new Image($filename);
+        file_put_contents($filename, '');
+        clearstatcache();
+
+        self::assertNull($image->getImageStringData());
+        self::assertNull($image->getImageStringForRendering());
+        unlink($filename);
     }
 }

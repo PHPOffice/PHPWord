@@ -35,7 +35,8 @@ class Image extends AbstractElement
      */
     public function write()
     {
-        if (!$this->element instanceof ImageElement) {
+        $element = $this->element;
+        if (!$element instanceof ImageElement) {
             return '';
         }
 
@@ -49,7 +50,8 @@ class Image extends AbstractElement
         $content .= '\picwgoal' . round(Converter::pixelToTwip($style->getWidth()));
         $content .= '\pichgoal' . round(Converter::pixelToTwip($style->getHeight()));
         $content .= PHP_EOL;
-        $content .= $this->element->getImageStringData();
+        $imageData = $element->getImageStringForRendering();
+        $content .= $imageData === null ? '' : bin2hex($imageData);
         $content .= '}}';
         $content .= $this->writeClosing();
 

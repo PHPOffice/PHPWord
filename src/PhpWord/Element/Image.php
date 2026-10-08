@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\Metafile;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
 use RuntimeException;
@@ -432,6 +433,37 @@ class Image extends AbstractElement
     }
 
     /**
+     * Is a Windows metafile (WMF, EMF or EMF+).
+     */
+    public function isMetafile(): bool
+    {
+        return Metafile::isMimeType($this->imageType);
+    }
+
+    /**
+     * Get image string, converted to PNG if the image is a Windows metafile.
+     *
+     * Used by the writers whose output doesn't support metafiles (like HTML).
+     */
+    public function getImageStringForRendering(): ?string
+    {
+        $imageBinary = $this->getImageString();
+        if ($imageBinary === null || !$this->isMetafile()) {
+            return $imageBinary;
+        }
+
+        return Metafile::convertToPng($imageBinary);
+    }
+
+    /**
+     * Get image type of the image string returned by getImageStringForRendering().
+     */
+    public function getImageTypeForRendering(): string
+    {
+        return $this->isMetafile() ? 'image/png' : $this->imageType;
+    }
+
+    /**
      * Get image string data.
      *
      * @param bool $base64
@@ -469,10 +501,22 @@ class Image extends AbstractElement
         } else {
             $imageData = @getimagesize($this->source);
         }
+        if (!is_array($imageData) && $this->sourceType != self::SOURCE_GD) {
+            $imageData = $this->getMetafileImageSize();
+        }
         if (!is_array($imageData)) {
             throw new InvalidImageException(sprintf('Invalid image: %s', $this->source));
         }
         [$actualWidth, $actualHeight, $imageType] = $imageData;
+
+        // Windows metafiles (WMF, EMF, EMF+)
+        if (Metafile::isMimeType($imageType)) {
+            $this->imageType = $imageType;
+            $this->imageExtension = Metafile::getExtension($imageType);
+            $this->setProportionalSize($actualWidth, $actualHeight);
+
+            return;
+        }
 
         // Check image type support
         $supportedTypes = [IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG];
@@ -552,6 +596,21 @@ class Image extends AbstractElement
         }
 
         return $imageData;
+    }
+
+    /**
+     * Get size and mime type of a Windows metafile (WMF, EMF, EMF+) : [width, height, mimeType].
+     *
+     * @return null|array{0: int, 1: int, 2: string}
+     */
+    private function getMetafileImageSize(): ?array
+    {
+        $imageBinary = $this->getImageString();
+        if (empty($imageBinary)) {
+            return null;
+        }
+
+        return Metafile::getImageSize($imageBinary);
     }
 
     /**

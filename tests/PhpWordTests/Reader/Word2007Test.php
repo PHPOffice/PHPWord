@@ -29,6 +29,7 @@ use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Reader\Word2007;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
@@ -169,6 +170,46 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
             [true],
             [false],
         ];
+    }
+
+    /**
+     * Load a document with Windows metafiles (WMF, EMF, EMF+).
+     *
+     * @see https://github.com/PHPOffice/PHPWord/issues/1480
+     * @see https://github.com/PHPOffice/PHPWord/issues/1612
+     */
+    public function testLoadMetafiles(): void
+    {
+        $images = [
+            'fish.wmf' => 'image/x-wmf',
+            'inkscape_shapes.emf' => 'image/x-emf',
+            'inkscape_shapes_emfplus.emf' => 'image/x-emf',
+        ];
+        $phpWord = new PhpWord();
+        $textRun = $phpWord->addSection()->addTextRun();
+        foreach (array_keys($images) as $image) {
+            $textRun->addImage(dirname(__DIR__, 1) . '/_files/images/' . $image);
+        }
+        $filename = (string) tempnam(Settings::getTempDir(), 'PHPWordMetafile');
+        IOFactory::createWriter($phpWord, 'Word2007')->save($filename);
+
+        $reader = new Word2007();
+        $phpWord = $reader->load($filename);
+        $elements = $phpWord->getSections()[0]->getElements()[0];
+        self::assertInstanceOf(TextRun::class, $elements);
+        $elements = $elements->getElements();
+        self::assertCount(3, $elements);
+        foreach (array_values($images) as $index => $mimeType) {
+            $image = $elements[$index];
+            self::assertInstanceOf(Image::class, $image);
+            self::assertTrue($image->isMetafile());
+            self::assertEquals($mimeType, $image->getImageType());
+            self::assertStringEqualsFile(
+                dirname(__DIR__, 1) . '/_files/images/' . array_keys($images)[$index],
+                (string) $image->getImageString()
+            );
+        }
+        unlink($filename);
     }
 
     public function testLoadComments(): void

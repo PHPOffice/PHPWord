@@ -69,7 +69,7 @@ abstract class AbstractWebServerEmbedded extends \PHPUnit\Framework\TestCase
             return self::getBaseUrl() . '/images/mario.gif';
         }
 
-        return 'http://php.net/images/logos/php-med-trans-light.gif';
+        return 'https://www.php.net/images/logos/php-med-trans-light.gif';
     }
 
     protected static function getRemoteBmpImageUrl()

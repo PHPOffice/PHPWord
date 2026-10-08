@@ -145,6 +145,9 @@ class Word2007Test extends AbstractWebServerEmbedded
             'firefox.png' => '4.png',
             'duke_nukem.bmp' => '5.bmp',
             'angela_merkel.tif' => '6.tif',
+            'fish.wmf' => '7.wmf',
+            'inkscape_shapes.emf' => '8.emf',
+            'inkscape_shapes_emfplus.emf' => '9.emf',
         ];
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -161,6 +164,10 @@ class Word2007Test extends AbstractWebServerEmbedded
                 $mediaPath . "/section_image{$target}"
             );
         }
+
+        $contentTypes = (string) file_get_contents($doc->getPath() . '/[Content_Types].xml');
+        self::assertStringContainsString('<Default Extension="wmf" ContentType="image/x-wmf"/>', $contentTypes);
+        self::assertStringContainsString('<Default Extension="emf" ContentType="image/x-emf"/>', $contentTypes);
     }
 
     /**
