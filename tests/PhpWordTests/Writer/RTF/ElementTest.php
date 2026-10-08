@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\Writer\RTF;
 class ElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param RTF\Element\Field|RTF\Element\Table|RTF\Element\TextRun|RTF\Element\Title $field
+     * @param RTF\Element\Field|RTF\Element\Image|RTF\Element\Table|RTF\Element\TextRun|RTF\Element\Title $field
      *
      * @return string
      */

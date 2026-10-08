@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Metafile;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
@@ -761,22 +762,22 @@ class TemplateProcessor
                     $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
                     if ($preparedImageAttrs['mime'] !== 'image/svg+xml') {
                     } else {
-                        $width = \PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['width']);
-                        $height = \PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['height']);
+                        $width = Converter::cssToEmu($preparedImageAttrs['width']);
+                        $height = Converter::cssToEmu($preparedImageAttrs['height']);
                         if ($width === null) {
-                            $width = \PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['originalWidth']);
+                            $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']);
                             if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['width'], $matches)) {
                                 $unit = $matches[2];
                                 $size = (float) ($matches[1]) * (($unit === 'ex') ? 2 : 1);
-                                $width = ($unit === '%') ? (\PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size) : ($size * 152400);
+                                $width = ($unit === '%') ? (Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size) : ($size * 152400);
                             }
                         }
                         if ($height === null) {
-                            $height = \PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['originalHeight']);
+                            $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']);
                             if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['height'], $matches)) {
                                 $unit = $matches[2];
                                 $size = (float) ($matches[1]) * (($unit === 'ex') ? 2 : 1);
-                                $height = ($unit === '%') ? (\PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size) : ($size * 152400);
+                                $height = ($unit === '%') ? (Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size) : ($size * 152400);
                             }
                         }
                         $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, (string) $width, (string) $height, $imgIndex, 'graphic'], $svgTpl);

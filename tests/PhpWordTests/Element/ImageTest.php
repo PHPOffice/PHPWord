@@ -19,7 +19,6 @@
 namespace PhpOffice\PhpWordTests\Element;
 
 use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 

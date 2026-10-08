@@ -888,7 +888,8 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $imageJpg = __DIR__ . '/_files/images/earth.jpg';
         $imageGif = __DIR__ . '/_files/images/mario.gif';
         $imagePng = __DIR__ . '/_files/images/firefox.png';
-        $imageSvg = __DIR__ . '/_files/images/phpword.svg';
+        $imageSvg = $imagePng; // temporary
+        //$imageSvg = __DIR__ . '/_files/images/phpword.svg';
 
         $variablesReplace = [
             'headerValue' => function () use ($imageJpg) {
