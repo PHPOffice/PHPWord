@@ -293,4 +293,23 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         self::assertNotFalse($temp);
         self::assertSame($expected, $temp->length);
     }
+
+    /**
+     * Windows metafiles (WMF, EMF, EMF+) are written as PNG.
+     */
+    public function testWriteImageMetafile(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $image = $section->addImage(__DIR__ . '/../../_files/images/fish.wmf');
+
+        $htmlWriter = new HTML($phpWord);
+        $content = $htmlWriter->getContent();
+
+        self::assertStringContainsString(
+            'src="data:image/png;base64,' . base64_encode((string) $image->getImageStringForRendering()) . '"',
+            $content
+        );
+        self::assertStringNotContainsString('image/x-wmf', $content);
+    }
 }

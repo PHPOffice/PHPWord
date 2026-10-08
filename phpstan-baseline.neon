@@ -826,11 +826,6 @@ parameters:
 			path: src/PhpWord/Writer/RTF/Element/Field.php
 
 		-
-			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:getImageStringData\\(\\)\\.$#"
-			count: 1
-			path: src/PhpWord/Writer/RTF/Element/Image.php
-
-		-
 			message: "#^Call to an undefined method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractElement\\:\\:getStyle\\(\\)\\.$#"
 			count: 1
 			path: src/PhpWord/Writer/RTF/Element/Image.php

@@ -221,4 +221,19 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $expect = "\\pard\\sb0\\sa2\\widctlpar {\\outlinelevel0{\\cf0\\fs48\\b base text (ruby)}\\par\n}";
         self::assertSame($expect, $this->removeCr($elwrite));
     }
+
+    /**
+     * Windows metafiles (WMF, EMF, EMF+) are written as PNG.
+     */
+    public function testImageMetafile(): void
+    {
+        $parentWriter = new RTF();
+        $element = new \PhpOffice\PhpWord\Element\Image(__DIR__ . '/../../_files/images/inkscape_shapes.emf');
+        $elwrite = new RTF\Element\Image($parentWriter, $element);
+        $content = $this->removeCr($elwrite);
+
+        self::assertStringContainsString('\\pngblip', $content);
+        self::assertStringContainsString("\n" . bin2hex((string) $element->getImageStringForRendering()) . '}}', $content);
+        self::assertStringNotContainsString(bin2hex((string) $element->getImageString()), $content);
+    }
 }

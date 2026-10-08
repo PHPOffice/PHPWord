@@ -970,6 +970,93 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @covers ::setImageValue
+     */
+    public function testSetImageValueMetafile(): void
+    {
+        $testFileName = 'images-metafile-test-sample.docx';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('${WMF}');
+        $section->addText('${EMF}');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($testFileName);
+
+        $resultFileName = 'images-metafile-test-result.docx';
+        $templateProcessor = new TemplateProcessor($testFileName);
+        unlink($testFileName);
+        $templateProcessor->setImageValue('WMF', __DIR__ . '/_files/images/fish.wmf');
+        $templateProcessor->setImageValue('EMF', __DIR__ . '/_files/images/inkscape_shapes_emfplus.emf');
+        $templateProcessor->saveAs($resultFileName);
+
+        $resultZip = new ZipArchive();
+        $resultZip->open($resultFileName);
+        $contentTypesXml = (string) $resultZip->getFromName('[Content_Types].xml');
+        $relationsXml = (string) $resultZip->getFromName('word/_rels/document.xml.rels');
+        $mainPartXml = (string) $resultZip->getFromName('word/document.xml');
+        // The relation ids depend on the template : the images are found by their extension
+        $images = [];
+        for ($index = 0; $index < $resultZip->numFiles; ++$index) {
+            $name = (string) $resultZip->getNameIndex($index);
+            if (preg_match('#^word/media/(image_rId\d+_document\.(wmf|emf))$#', $name, $matches)) {
+                $images[$matches[2]] = [$matches[1], (string) $resultZip->getFromName($name)];
+            }
+        }
+        $resultZip->close();
+        unlink($resultFileName);
+
+        self::assertArrayHasKey('wmf', $images);
+        self::assertArrayHasKey('emf', $images);
+        self::assertStringEqualsFile(__DIR__ . '/_files/images/fish.wmf', $images['wmf'][1]);
+        self::assertStringEqualsFile(__DIR__ . '/_files/images/inkscape_shapes_emfplus.emf', $images['emf'][1]);
+        self::assertStringContainsString('<Override PartName="/word/media/' . $images['wmf'][0] . '" ContentType="image/x-wmf"/>', $contentTypesXml);
+        self::assertStringContainsString('<Override PartName="/word/media/' . $images['emf'][0] . '" ContentType="image/x-emf"/>', $contentTypesXml);
+        self::assertStringContainsString('media/' . $images['wmf'][0], $relationsXml);
+        self::assertStringContainsString('media/' . $images['emf'][0], $relationsXml);
+        self::assertStringNotContainsString('${WMF}', $mainPartXml);
+        self::assertStringNotContainsString('${EMF}', $mainPartXml);
+    }
+
+    /**
+     * @covers ::setImageValue
+     */
+    public function testSetImageValueInvalidImage(): void
+    {
+        $templateProcessor = $this->getImageTemplateProcessor();
+
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectExceptionMessage('Invalid image: ' . __FILE__);
+        $templateProcessor->setImageValue('Image', __FILE__);
+    }
+
+    /**
+     * @covers ::setImageValue
+     */
+    public function testSetImageValueUnsupportedImage(): void
+    {
+        $templateProcessor = $this->getImageTemplateProcessor();
+
+        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectExceptionMessage('Unsupported image type image/tiff');
+        $templateProcessor->setImageValue('Image', __DIR__ . '/_files/images/angela_merkel.tif');
+    }
+
+    /**
+     * Template processor of a document containing the variable ${Image}.
+     */
+    private function getImageTemplateProcessor(): TemplateProcessor
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addSection()->addText('${Image}');
+        $testFileName = (string) tempnam(Settings::getTempDir(), 'PHPWordTemplate');
+        IOFactory::createWriter($phpWord, 'Word2007')->save($testFileName);
+        $templateProcessor = new TemplateProcessor($testFileName);
+        unlink($testFileName);
+
+        return $templateProcessor;
+    }
+
+    /**
      * @covers ::cloneBlock
      * @covers ::deleteBlock
      * @covers ::saveAs

@@ -37,3 +37,23 @@ $textrun->addImage('http://php.net/logo.jpg', null, false, null, 'PHP logo');
 $source = file_get_contents('/path/to/my/images/earth.jpg');
 $image = $textrun->addImage($source);
 ```
+
+## Supported formats
+
+- JPEG, GIF, PNG
+- BMP, TIFF (only for local files and archives)
+- WMF, EMF & EMF+ (Windows metafiles), if the optional library [phpoffice/wmf](https://github.com/PHPOffice/WMF) and the GD extension are installed
+
+``` sh
+composer require phpoffice/wmf
+```
+
+Windows metafiles are stored as is in Word2007 and ODText documents.
+For the writers which don't support them (HTML, PDF, RTF), they are converted to PNG.
+
+``` php
+<?php
+
+$section->addImage('/path/to/my/images/drawing.wmf');
+$section->addImage('/path/to/my/images/chart.emf', ['width' => 300]);
+```
