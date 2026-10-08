@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Shared\Metafile;
 use PhpOffice\PhpWord\Shared\Text;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
@@ -576,28 +576,17 @@ class TemplateProcessor
         $width = $this->chooseImageDimension($width, $varInlineArgs['width'] ?? null, 115);
         $height = $this->chooseImageDimension($height, $varInlineArgs['height'] ?? null, 70);
 
-        $mime = mime_content_type($imgPath);
-        if ($mime !== 'image/svg+xml') {
-            $imageData = @getimagesize($imgPath);
-            if (!is_array($imageData)) {
-                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
-            }
-            [$actualWidth, $actualHeight, $imageType] = $imageData;
-        } else {
-            $content = file_get_contents($imgPath);
-            if (!$content) {
-                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
-            }
-            $svgXml = simplexml_load_string($content);
-            if (!$svgXml) {
-                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
-            }
-            $svgAttributes = $svgXml->attributes();
-            $actualWidth = $svgAttributes->width;
-            $actualHeight = $svgAttributes->height;
-            $actualWidth = is_numeric($actualWidth) ? $actualWidth . 'px' : $actualWidth;
-            $actualHeight = is_numeric($actualHeight) ? $actualHeight . 'px' : $actualHeight;
+        $imageData = @getimagesize($imgPath);
+        if (is_array($imageData)) {
+            $imageData[2] = image_type_to_mime_type($imageData[2]);
+        } elseif (is_file($imgPath)) {
+            // Windows metafiles (WMF, EMF, EMF+)
+            $imageData = Metafile::getImageSize((string) file_get_contents($imgPath));
         }
+        if (!is_array($imageData)) {
+            throw new Exception(sprintf('Invalid image: %s', $imgPath));
+        }
+        [$actualWidth, $actualHeight, $imageMimeType] = $imageData;
 
         // fix aspect ratio (by default)
         if (null === $ratio && isset($varInlineArgs['ratio'])) {
@@ -609,11 +598,9 @@ class TemplateProcessor
 
         $imageAttrs = [
             'src' => $imgPath,
-            'mime' => $mime,
+            'mime' => $imageMimeType,
             'width' => $width,
             'height' => $height,
-            'originalWidth' => $actualWidth,
-            'originalHeight' => $actualHeight,
         ];
 
         return $imageAttrs;
@@ -622,7 +609,7 @@ class TemplateProcessor
     private function addImageToRelations($partFileName, $rid, $imgPath, $imageMimeType): void
     {
         // define templates
-        $typeTpl = '<Override PartName="/word/media/{IMG}" ContentType="image/{EXT}"/>';
+        $typeTpl = '<Override PartName="/word/media/{IMG}" ContentType="{MIME}"/>';
         $relationTpl = '<Relationship Id="{RID}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/{IMG}"/>';
         $newRelationsTpl = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
         $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
@@ -631,7 +618,8 @@ class TemplateProcessor
             'image/png' => 'png',
             'image/bmp' => 'bmp',
             'image/gif' => 'gif',
-            'image/svg+xml' => 'svg',
+            Metafile::MIME_WMF => 'wmf',
+            Metafile::MIME_EMF => 'emf',
         ];
 
         // get image embed name
@@ -651,7 +639,7 @@ class TemplateProcessor
             $this->tempDocumentNewImages[$imgPath] = $imgName;
 
             // setup type for image
-            $xmlImageType = str_replace(['{IMG}', '{EXT}'], [$imgName, $imgExt], $typeTpl);
+            $xmlImageType = str_replace(['{IMG}', '{MIME}'], [$imgName, $imageMimeType], $typeTpl);
             $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
         }
 
@@ -770,25 +758,25 @@ class TemplateProcessor
 
                     // replace preparations
                     $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
+                    $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
                     if ($preparedImageAttrs['mime'] !== 'image/svg+xml') {
-                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
                     } else {
-                        $width = Converter::cssToEmu($preparedImageAttrs['width']);
-                        $height = Converter::cssToEmu($preparedImageAttrs['height']);
+                        $width = \PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['width']);
+                        $height = \PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['height']);
                         if ($width === null) {
-                            $width = Converter::cssToEmu($preparedImageAttrs['originalWidth']);
+                            $width = \PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['originalWidth']);
                             if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['width'], $matches)) {
                                 $unit = $matches[2];
                                 $size = (float) ($matches[1]) * (($unit === 'ex') ? 2 : 1);
-                                $width = ($unit === '%') ? (Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size) : ($size * 152400);
+                                $width = ($unit === '%') ? (\PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['originalWidth']) * $size) : ($size * 152400);
                             }
                         }
                         if ($height === null) {
-                            $height = Converter::cssToEmu($preparedImageAttrs['originalHeight']);
+                            $height = \PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['originalHeight']);
                             if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(em|ex|%)$/i', $preparedImageAttrs['height'], $matches)) {
                                 $unit = $matches[2];
                                 $size = (float) ($matches[1]) * (($unit === 'ex') ? 2 : 1);
-                                $height = ($unit === '%') ? (Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size) : ($size * 152400);
+                                $height = ($unit === '%') ? (\PhpOffice\PhpWord\Shared\Converter::cssToEmu($preparedImageAttrs['originalHeight']) * $size) : ($size * 152400);
                             }
                         }
                         $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}', '{ID}', '{NAME}'], [$rid, (string) $width, (string) $height, $imgIndex, 'graphic'], $svgTpl);
