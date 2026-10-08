@@ -577,17 +577,34 @@ class TemplateProcessor
         $width = $this->chooseImageDimension($width, $varInlineArgs['width'] ?? null, 115);
         $height = $this->chooseImageDimension($height, $varInlineArgs['height'] ?? null, 70);
 
-        $imageData = @getimagesize($imgPath);
-        if (is_array($imageData)) {
-            $imageData[2] = image_type_to_mime_type($imageData[2]);
-        } elseif (is_file($imgPath)) {
-            // Windows metafiles (WMF, EMF, EMF+)
-            $imageData = Metafile::getImageSize((string) file_get_contents($imgPath));
+        $imageMimeType = mime_content_type($imgPath);
+        if ($imageMimeType !== 'image/svg+xml') {
+            $imageData = @getimagesize($imgPath);
+            if (is_array($imageData)) {
+                $imageData[2] = image_type_to_mime_type($imageData[2]);
+            } elseif (is_file($imgPath)) {
+                // Windows metafiles (WMF, EMF, EMF+)
+                $imageData = Metafile::getImageSize((string) file_get_contents($imgPath));
+            }
+            if (!is_array($imageData)) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath));
+            }
+            [$actualWidth, $actualHeight, $imageMimeType] = $imageData;
+        } else {
+            $content = file_get_contents($imgPath);
+            if (!$content) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
+            }
+            $svgXml = simplexml_load_string($content);
+            if (!$svgXml) {
+                throw new Exception(sprintf('Invalid image: %s', $imgPath)); // @codeCoverageIgnore
+            }
+            $svgAttributes = $svgXml->attributes();
+            $actualWidth = $svgAttributes->width;
+            $actualHeight = $svgAttributes->height;
+            $actualWidth = is_numeric($actualWidth) ? $actualWidth . 'px' : $actualWidth;
+            $actualHeight = is_numeric($actualHeight) ? $actualHeight . 'px' : $actualHeight;
         }
-        if (!is_array($imageData)) {
-            throw new Exception(sprintf('Invalid image: %s', $imgPath));
-        }
-        [$actualWidth, $actualHeight, $imageMimeType] = $imageData;
 
         // fix aspect ratio (by default)
         if (null === $ratio && isset($varInlineArgs['ratio'])) {
@@ -602,6 +619,8 @@ class TemplateProcessor
             'mime' => $imageMimeType,
             'width' => $width,
             'height' => $height,
+            'originalWidth' => $actualWidth,
+            'originalHeight' => $actualHeight,
         ];
 
         return $imageAttrs;
@@ -619,6 +638,7 @@ class TemplateProcessor
             'image/png' => 'png',
             'image/bmp' => 'bmp',
             'image/gif' => 'gif',
+            'image/svg+xml' => 'svg',
             Metafile::MIME_WMF => 'wmf',
             Metafile::MIME_EMF => 'emf',
         ];
@@ -759,8 +779,8 @@ class TemplateProcessor
 
                     // replace preparations
                     $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
-                    $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
                     if ($preparedImageAttrs['mime'] !== 'image/svg+xml') {
+                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
                     } else {
                         $width = Converter::cssToEmu($preparedImageAttrs['width']);
                         $height = Converter::cssToEmu($preparedImageAttrs['height']);

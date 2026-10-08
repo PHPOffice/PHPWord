@@ -19,6 +19,8 @@
 namespace PhpOffice\PhpWordTests\Element;
 
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Exception\InvalidImageException;
+use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
@@ -132,7 +134,7 @@ class ImageTest extends AbstractWebServerEmbedded
      */
     public function testInvalidImageLocal(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+        $this->expectException(InvalidImageException::class);
         $this->expectExceptionMessage('Invalid image');
         new Image(__DIR__ . '/../_files/images/thisisnotarealimage');
     }
@@ -142,7 +144,7 @@ class ImageTest extends AbstractWebServerEmbedded
      */
     public function testInvalidImagePhp(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+        $this->expectException(InvalidImageException::class);
         $this->expectExceptionMessage('Invalid image');
         $object = new Image('test.php');
         $source = $object->getSource();
@@ -153,7 +155,7 @@ class ImageTest extends AbstractWebServerEmbedded
      */
     public function testUnsupportedImage(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\UnsupportedImageTypeException::class);
+        $this->expectException(UnsupportedImageTypeException::class);
         $this->expectExceptionMessage('Unsupported image type ' . IMAGETYPE_BMP);
         //disable ssl verification, never do this in real application, you should pass the certificiate instead!!!
         $arrContextOptions = [
@@ -260,7 +262,7 @@ class ImageTest extends AbstractWebServerEmbedded
      */
     public function testInvalidImageString(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+        $this->expectException(InvalidImageException::class);
         $this->expectExceptionMessage('Invalid image');
         $object = new Image('this_is-a_non_valid_image');
         $source = $object->getSource();
@@ -331,7 +333,7 @@ class ImageTest extends AbstractWebServerEmbedded
         $filename = (string) tempnam(Settings::getTempDir(), 'PHPWordImage');
 
         try {
-            $this->expectException(\PhpOffice\PhpWord\Exception\InvalidImageException::class);
+            $this->expectException(InvalidImageException::class);
             new Image($filename);
         } finally {
             unlink($filename);
