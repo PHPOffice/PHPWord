@@ -76,4 +76,69 @@ class NumberingTest extends \PHPUnit\Framework\TestCase
 
         self::assertTrue($doc->elementExists('/w:numbering/w:abstractNum', $xmlFile));
     }
+
+    /**
+     * Numbering level font size and color are applied to the numbering symbol.
+     *
+     * @see https://github.com/PHPOffice/PHPWord/issues/2672
+     */
+    public function testNumberingLevelFontAndSize(): void
+    {
+        $xmlFile = 'word/numbering.xml';
+
+        $phpWord = new PhpWord();
+        $phpWord->addNumberingStyle(
+            'numberStyle',
+            [
+                'type' => 'multilevel',
+                'levels' => [
+                    [
+                        'format' => NumberFormat::DECIMAL,
+                        'text' => '%1.',
+                        'font' => 'Times New Roman',
+                        'size' => 16,
+                        'color' => '996633',
+                    ],
+                ],
+            ]
+        );
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $parent = '/w:numbering/w:abstractNum/w:lvl/w:rPr';
+
+        self::assertTrue($doc->elementExists($parent . '/w:rFonts', $xmlFile));
+        self::assertEquals('Times New Roman', $doc->getElementAttribute("{$parent}/w:rFonts", 'w:ascii', $xmlFile));
+        self::assertTrue($doc->elementExists($parent . '/w:sz', $xmlFile));
+        self::assertEquals(32, $doc->getElement("{$parent}/w:sz", $xmlFile)->getAttribute('w:val'));
+        self::assertTrue($doc->elementExists($parent . '/w:szCs', $xmlFile));
+        self::assertEquals(32, $doc->getElement("{$parent}/w:szCs", $xmlFile)->getAttribute('w:val'));
+        self::assertTrue($doc->elementExists($parent . '/w:color', $xmlFile));
+        self::assertEquals('996633', $doc->getElement("{$parent}/w:color", $xmlFile)->getAttribute('w:val'));
+    }
+
+    /**
+     * Levels without size/color keep the previous output (no empty w:sz / w:color).
+     */
+    public function testNumberingLevelWithoutSizeKeepsCleanRpr(): void
+    {
+        $xmlFile = 'word/numbering.xml';
+
+        $phpWord = new PhpWord();
+        $phpWord->addNumberingStyle(
+            'plainStyle',
+            [
+                'type' => 'multilevel',
+                'levels' => [
+                    ['format' => NumberFormat::DECIMAL, 'text' => '%1.'],
+                ],
+            ]
+        );
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $parent = '/w:numbering/w:abstractNum/w:lvl/w:rPr';
+
+        self::assertTrue($doc->elementExists($parent, $xmlFile));
+        self::assertFalse($doc->elementExists($parent . '/w:sz', $xmlFile));
+        self::assertFalse($doc->elementExists($parent . '/w:color', $xmlFile));
+    }
 }
