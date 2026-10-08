@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\TOC.
- *
- * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit\Framework\TestCase
 {

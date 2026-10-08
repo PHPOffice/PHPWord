@@ -18,24 +18,14 @@
 
 namespace PhpOffice\PhpWordTests\Style;
 
+use InvalidArgumentException;
 use PhpOffice\PhpWord\Style\Paper;
-use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Paper.
- *
- * @runTestsInSeparateProcesses
  */
 class PaperTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tear down after each test.
-     */
-    protected function tearDown(): void
-    {
-        TestHelperDOCX::clear();
-    }
-
     /**
      * Test initiation for paper.
      */
@@ -69,5 +59,42 @@ class PaperTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('Folio', $object->getSize());
         self::assertEqualsWithDelta(12240, $object->getWidth(), 0.1);
         self::assertEqualsWithDelta(18720, $object->getHeight(), 0.1);
+    }
+
+    /**
+     * Test paper size for Folio format invoked with explicit values.
+     */
+    public function testFolioSizeExplicit(): void
+    {
+        $object = new Paper();
+        $object->setSize('XFolio', 8.5, 13, 'in');
+
+        self::assertEquals('XFolio', $object->getSize());
+        self::assertEqualsWithDelta(12240, $object->getWidth(), 0.1);
+        self::assertEqualsWithDelta(18720, $object->getHeight(), 0.1);
+    }
+
+    public function testBadUnit(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('unit must be mm or in');
+        $object = new Paper();
+        $object->setSize('XFolio', 8.5, 13, 'inx');
+    }
+
+    public function testBadWidthHeight(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('width and height must be positive');
+        $object = new Paper();
+        $object->setSize('XFolio', 0, 13, 'inx');
+    }
+
+    public function testUnknownSize(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid style value');
+        $object = new Paper();
+        $object->setSize('XFolio');
     }
 }

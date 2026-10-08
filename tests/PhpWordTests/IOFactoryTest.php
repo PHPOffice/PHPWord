@@ -31,8 +31,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for PhpOffice\PhpWord\IOFactory.
- *
- * @runTestsInSeparateProcesses
  */
 class IOFactoryTest extends TestCase
 {
@@ -41,6 +39,11 @@ class IOFactoryTest extends TestCase
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+    }
+
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
     }
 
     /**

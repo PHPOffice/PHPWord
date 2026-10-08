@@ -1,9 +1,12 @@
 # build config
-/.scrutinizer.yml export-ignore
+/.github_changelog_generator export-ignore
 /.github export-ignore
-/php_cs.dist export-ignore
+/.php-cs-fixer.dist.php export-ignore
 /phpmd.xml.dist export-ignore
-/phpstan.neon export-ignore
+/phpstan.neon.dist export-ignore
+/phpstan.neon.php73.dist export-ignore
+/phpstan-baseline.neon export-ignore
+/phpstan-baseline.php73.neon export-ignore
 
 /composer.lock export-ignore
 
@@ -18,4 +21,11 @@
 
 # tests
 /phpunit.xml.dist export-ignore
+/phpunit.7.8.xml.dist export-ignore
+/phpunit9.xml.dist export-ignore
+/phpunit10.xml.dist export-ignore
 /tests export-ignore
+
+# support modules
+/mkdocs.yml export-ignore
+/zensical.toml export-ignore

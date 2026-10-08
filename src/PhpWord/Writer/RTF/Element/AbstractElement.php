@@ -20,8 +20,6 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Escaper\Rtf;
-use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Shared\Text as SharedText;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
@@ -67,14 +65,14 @@ abstract class AbstractElement
     /**
      * Font style.
      *
-     * @var FontStyle
+     * @var null|FontStyle|string
      */
     protected $fontStyle;
 
     /**
      * Paragraph style.
      *
-     * @var ParagraphStyle
+     * @var null|ParagraphStyle|string
      */
     protected $paragraphStyle;
 
@@ -106,7 +104,14 @@ abstract class AbstractElement
         if (method_exists($element, 'getFontStyle')) {
             $this->fontStyle = $element->getFontStyle();
             if (is_string($this->fontStyle)) {
-                $this->fontStyle = Style::getStyle($this->fontStyle);
+                /** @var FontStyle */
+                $temp = Style::getStyle($this->fontStyle);
+                $this->fontStyle = $temp;
+            } elseif ($this->fontStyle !== null && is_string($this->fontStyle->getStyleName())) {
+                $temp = Style::getStyle($this->fontStyle->getStyleName());
+                if ($temp instanceof FontStyle) {
+                    $this->fontStyle = $temp;
+                }
             }
         }
 
@@ -114,7 +119,9 @@ abstract class AbstractElement
         if (method_exists($element, 'getParagraphStyle')) {
             $this->paragraphStyle = $element->getParagraphStyle();
             if (is_string($this->paragraphStyle)) {
-                $this->paragraphStyle = Style::getStyle($this->paragraphStyle);
+                /** @var null|ParagraphStyle */
+                $temp = Style::getStyle($this->paragraphStyle);
+                $this->paragraphStyle = $temp;
             }
 
             if ($this->paragraphStyle !== null && !$this->withoutP) {
@@ -143,6 +150,7 @@ abstract class AbstractElement
         }
 
         $styleWriter = new ParagraphStyleWriter($this->paragraphStyle);
+        $styleWriter->setParentWriter($this->parentWriter);
         $styleWriter->setNestedLevel($this->element->getNestedLevel());
 
         return $styleWriter->write();
@@ -157,11 +165,7 @@ abstract class AbstractElement
      */
     protected function writeText($text)
     {
-        if (Settings::isOutputEscapingEnabled()) {
-            return $this->escaper->escape($text);
-        }
-
-        return SharedText::toUnicode($text); // todo: replace with `return $text;` later.
+        return $this->escaper->escape($text);
     }
 
     /**
@@ -194,16 +198,35 @@ abstract class AbstractElement
 
         // Create style writer and set color/name index
         $styleWriter = new FontStyleWriter($this->fontStyle);
+        $styleWriter->setParentWriter($this->parentWriter);
         if ($this->fontStyle->getColor() != null) {
             $colorIndex = array_search($this->fontStyle->getColor(), $parentWriter->getColorTable());
             if ($colorIndex !== false) {
-                $styleWriter->setColorIndex($colorIndex + 1);
+                $styleWriter->setColorIndex((int) $colorIndex + 1);
+            }
+        }
+        if ($this->fontStyle->getFgColor() != null) {
+            $colorIndex = array_search($this->fontStyle->getFgColor(), $parentWriter->getColorTable());
+            if ($colorIndex !== false) {
+                $styleWriter->setFgColorIndex((int) $colorIndex + 1);
+            }
+        }
+        if ($this->fontStyle->getBgColor() != null) {
+            $colorIndex = array_search($this->fontStyle->getBgColor(), $parentWriter->getColorTable());
+            if ($colorIndex !== false) {
+                $styleWriter->setBgColorIndex((int) $colorIndex + 1);
+            }
+        }
+        if ($this->fontStyle->getUnderlineColor() != '') {
+            $colorIndex = array_search($this->fontStyle->getUnderlineColor(), $parentWriter->getColorTable());
+            if ($colorIndex !== false) {
+                $styleWriter->setUnderlineColorIndex((int) $colorIndex + 1);
             }
         }
         if ($this->fontStyle->getName() != null) {
             $fontIndex = array_search($this->fontStyle->getName(), $parentWriter->getFontTable());
             if ($fontIndex !== false) {
-                $styleWriter->setNameIndex($fontIndex);
+                $styleWriter->setNameIndex((int) $fontIndex);
             }
         }
 

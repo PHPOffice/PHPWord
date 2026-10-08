@@ -23,8 +23,6 @@ use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Footer.
- *
- * @runTestsInSeparateProcesses
  */
 class FooterTest extends AbstractWebServerEmbedded
 {
@@ -115,6 +113,9 @@ class FooterTest extends AbstractWebServerEmbedded
 
     /**
      * Add image by URL.
+     * Method getRemoteGifImageUrl seems to require separate process.
+     *
+     * @runInSeparateProcess
      */
     public function testAddImageByUrl(): void
     {

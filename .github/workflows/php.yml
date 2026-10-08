@@ -10,7 +10,7 @@ jobs:
         with:
           php-version: '8.3'
           extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
 
       -   name: Validate composer config
           run: composer validate --strict
@@ -33,7 +33,7 @@ jobs:
             with:
                 php-version: '8.4'
                 extensions: gd, xml, zip
-        -   uses: actions/checkout@v2
+        -   uses: actions/checkout@v7
 
         -   name: Composer Install
             run: composer install --ansi --prefer-dist --no-interaction --no-progress
@@ -55,70 +55,93 @@ jobs:
             with:
                 php-version: ${{ matrix.php }}
                 extensions: gd, xml, zip
-        -   uses: actions/checkout@v2
+        -   uses: actions/checkout@v7
 
         -   name: Composer Install
             run: composer install --ansi --prefer-dist --no-interaction --no-progress
 
-        -   name: Run phpstan
+        -   name: Run phpstan Php7.2/Php7.3
+            if: matrix.php == '7.2' || matrix.php == '7.3'
+            run: ./vendor/bin/phpstan analyse -c phpstan.neon.php73.dist
+
+        -   name: Run phpstan Php8/Php7.4
+            if: matrix.php == '7.4' || matrix.php == '8.0' || matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.3' || matrix.php == '8.4' || matrix.php == '8.5'
             run: ./vendor/bin/phpstan analyse -c phpstan.neon.dist
 
   phpunit:
-    name: PHPUnit ${{ matrix.php }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        experimental:
+          - false
+        php:
+          - '7.1'
+          - '7.2'
+          - '7.3'
+          - '7.4'
+          - '8.0'
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
+
+        include:
+          - php: 'nightly'
+            experimental: true
+
+    name: PHPUnit ${{ matrix.php }}
+
     steps:
       -   name: Setup PHP
           uses: shivammathur/setup-php@v2
           with:
               php-version: ${{ matrix.php }}
-              extensions: gd, xml, zip
-              coverage: ${{ (matrix.php == '7.3') && 'xdebug' || 'none' }}
+              extensions: ctype, dom, fileinfo, filter, gd, libxml, mbstring, SimpleXML, xml, xmlwriter, xsl, zip, zlib
+              coverage: ${{ (matrix.php == '8.3') && 'xdebug' || 'none' }}
 
-      -   uses: actions/checkout@v2
+      -   uses: actions/checkout@v7
+
+      -   name: Composer Config nightly
+          if: matrix.php == 'nightly'
+          run: composer config platform.php 8.5.99
 
       -   name: Composer Install
           run: composer install --ansi --prefer-dist --no-interaction --no-progress
 
-      -   name: Run phpunit
-          if: matrix.php != '7.3'
-          run: ./vendor/bin/phpunit -c phpunit.xml.dist --no-coverage
+      -   name: Run phpunit 7.1 7.2
+          if: matrix.php == '7.1' || matrix.php == '7.2'
+          run: ./vendor/bin/phpunit -c phpunit.7.8.xml.dist --no-coverage
 
-      -   name: Run phpunit
-          if: matrix.php == '7.3'
-          run: ./vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/clover.xml
+      -   name: Run phpunit 7.3 7.4 8.0
+          if: matrix.php == '7.3' || matrix.php == '7.4' || matrix.php == '8.0'
+          run: ./vendor/bin/phpunit -c phpunit9.xml.dist --no-coverage
+
+      -   name: Run phpunit 8.1 8.2 8.4 8.5
+          if: matrix.php == '8.1' || matrix.php == '8.2' || matrix.php == '8.4' || matrix.php == '8.5'
+          run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage
+
+      -   name: Run phpunit nightly experimental
+          if: matrix.php == 'nightly'
+          env:
+            FAILURE_ACTION: "${{ matrix.experimental == true }}"
+          run: ./vendor/bin/phpunit -c phpunit10.xml.dist --no-coverage || $FAILURE_ACTION
+
+      -   name: Test non-Composer Autoloader
+          env:
+            FAILURE_ACTION: "${{ matrix.experimental == true }}"
+          run: php samples/Sample_45_Autoloader.php
+
+      -   name: Run phpunit 8.3
+          if: matrix.php == '8.3'
+          run: ./vendor/bin/phpunit -c phpunit10.xml.dist --coverage-clover build/clover.xml
 
       -   name: Upload coverage results to Coveralls
-          if: matrix.php == '7.3'
-          env:
-            COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
-            chmod +x php-coveralls.phar
-            php php-coveralls.phar --coverage_clover=build/clover.xml --json_path=build/coveralls-upload.json -vvv
-
-  samples:
-    name: Check samples
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
-    steps:
-      -   name: Setup PHP
-          uses: shivammathur/setup-php@v2
+          if: matrix.php == '8.3'
+          uses: coverallsapp/github-action@v2
           with:
-              php-version: ${{ matrix.php }}
-              extensions: gd, xml, zip
-              coverage: xdebug
-
-      -   uses: actions/checkout@v2
-
-      -   name: Composer Install
-          run: composer install --ansi --prefer-dist --no-interaction --no-progress
-
-      -   name: Generate samples files
-          run: composer run samples
+              github-token: ${{ secrets.GITHUB_TOKEN }}
+              file: build/clover.xml
+              format: clover
+              fail-on-error: false

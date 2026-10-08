@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Element\TrackChange;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\TrackChange.
- *
- * @runTestsInSeparateProcesses
  */
 class TrackChangeTest extends \PHPUnit\Framework\TestCase
 {

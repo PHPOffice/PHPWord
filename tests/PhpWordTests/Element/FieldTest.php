@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Element\TextRun;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Field.
- *
- * @runTestsInSeparateProcesses
  */
 class FieldTest extends \PHPUnit\Framework\TestCase
 {

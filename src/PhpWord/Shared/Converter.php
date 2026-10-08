@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
+use PhpOffice\PhpWord\SimpleType\Color;
+
 /**
  * Common converter functions.
  */
@@ -40,7 +42,7 @@ class Converter
      */
     public static function cmToTwip($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM * self::INCH_TO_TWIP;
+        return $centimeter * self::INCH_TO_TWIP / self::INCH_TO_CM;
     }
 
     /**
@@ -64,7 +66,7 @@ class Converter
      */
     public static function cmToPixel($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM * self::INCH_TO_PIXEL;
+        return $centimeter * self::INCH_TO_PIXEL / self::INCH_TO_CM;
     }
 
     /**
@@ -76,7 +78,7 @@ class Converter
      */
     public static function cmToPoint($centimeter = 1)
     {
-        return $centimeter / self::INCH_TO_CM * self::INCH_TO_POINT;
+        return $centimeter * self::INCH_TO_POINT / self::INCH_TO_CM;
     }
 
     /**
@@ -88,7 +90,7 @@ class Converter
      */
     public static function cmToEmu($centimeter = 1)
     {
-        return round($centimeter / self::INCH_TO_CM * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+        return round($centimeter * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU / self::INCH_TO_CM);
     }
 
     /**
@@ -160,7 +162,7 @@ class Converter
      */
     public static function pixelToTwip($pixel = 1)
     {
-        return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_TWIP;
+        return $pixel * self::INCH_TO_TWIP / self::INCH_TO_PIXEL;
     }
 
     /**
@@ -172,7 +174,7 @@ class Converter
      */
     public static function pixelToCm($pixel = 1)
     {
-        return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_CM;
+        return $pixel * self::INCH_TO_CM / self::INCH_TO_PIXEL;
     }
 
     /**
@@ -184,7 +186,7 @@ class Converter
      */
     public static function pixelToPoint($pixel = 1)
     {
-        return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_POINT;
+        return $pixel * self::INCH_TO_POINT / self::INCH_TO_PIXEL;
     }
 
     /**
@@ -208,7 +210,7 @@ class Converter
      */
     public static function pointToTwip($point = 1)
     {
-        return $point / self::INCH_TO_POINT * self::INCH_TO_TWIP;
+        return $point * self::INCH_TO_TWIP / self::INCH_TO_POINT;
     }
 
     /**
@@ -220,7 +222,7 @@ class Converter
      */
     public static function pointToPixel($point = 1)
     {
-        return $point / self::INCH_TO_POINT * self::INCH_TO_PIXEL;
+        return $point * self::INCH_TO_PIXEL / self::INCH_TO_POINT;
     }
 
     /**
@@ -232,7 +234,7 @@ class Converter
      */
     public static function pointToEmu($point = 1)
     {
-        return round($point / self::INCH_TO_POINT * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+        return round($point * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU / self::INCH_TO_POINT);
     }
 
     /**
@@ -244,7 +246,7 @@ class Converter
      */
     public static function pointToCm($point = 1)
     {
-        return $point / self::INCH_TO_POINT * self::INCH_TO_CM;
+        return $point * self::INCH_TO_CM / self::INCH_TO_POINT;
     }
 
     /**
@@ -268,7 +270,7 @@ class Converter
      */
     public static function picaToPoint($pica = 1)
     {
-        return $pica / self::INCH_TO_PICA * self::INCH_TO_POINT;
+        return $pica * self::INCH_TO_POINT / self::INCH_TO_PICA;
     }
 
     /**
@@ -295,6 +297,54 @@ class Converter
         return round($angle / self::DEGREE_TO_ANGLE);
     }
 
+    private const STRING_TO_RGB = [
+        Color::AQUA => '00FFFF',
+        Color::BLACK => '000000',
+        Color::BLUE => '0000FF',
+        Color::BROWN => 'A52A2A',
+        Color::CYAN => '00FFFF',
+        Color::DARKBLUE => '00008B',
+        Color::DARKCYAN => '008B8B',
+        Color::DARKGRAY => 'A9A9A9',
+        Color::DARKGREEN => '006400',
+        Color::DARKMAGENTA => '8B008B',
+        Color::DARKORANGE => 'FF8C00',
+        Color::DARKRED => '8B0000',
+        Color::DARKVIOLET => '9400D3',
+        Color::DARKYELLOW => '808000',
+        Color::FUCHSIA => 'FF00FF',
+        Color::GOLD => 'FFD700',
+        Color::GRAY => '808080',
+        Color::GREEN => '008000',
+        Color::LIGHTBLUE => 'ADD8E6',
+        Color::LIGHTCYAN => 'E0FFFF',
+        Color::LIGHTGRAY => 'D3D3D3',
+        Color::LIGHTGREEN => '90EE90',
+        Color::LIGHTPINK => 'FFB6C1',
+        Color::LIGHTYELLOW => 'FFFFE0',
+        Color::LIME => '00FF00',
+        Color::MAGENTA => 'FF00FF',
+        Color::MAROON => '800000',
+        Color::NAVY => '000080',
+        Color::OLIVE => '808000',
+        Color::ORANGE => 'FFA500',
+        Color::PINK => 'FFC0CB',
+        Color::PURPLE => '800080',
+        Color::RED => 'FF0000',
+        Color::SILVER => 'C0C0C0',
+        Color::TAN => 'D2B48C',
+        Color::TEAL => '008080',
+        Color::TURQUOISE => '40E0D0',
+        Color::VIOLET => 'EE82EE',
+        Color::WHITE => 'FFFFFF',
+        Color::YELLOW => 'FFFF00',
+    ];
+
+    public static function validStringColor(string $value): bool
+    {
+        return (self::STRING_TO_RGB[$value] ?? null) !== null;
+    }
+
     /**
      * Convert colorname as string to RGB.
      *
@@ -304,40 +354,7 @@ class Converter
      */
     public static function stringToRgb($value)
     {
-        switch ($value) {
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_YELLOW:
-                return 'FFFF00';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_LIGHTGREEN:
-                return '90EE90';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_CYAN:
-                return '00FFFF';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_MAGENTA:
-                return 'FF00FF';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_BLUE:
-                return '0000FF';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_RED:
-                return 'FF0000';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKBLUE:
-                return '00008B';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKCYAN:
-                return '008B8B';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKGREEN:
-                return '006400';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKMAGENTA:
-                return '8B008B';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKRED:
-                return '8B0000';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKYELLOW:
-                return '8B8B00';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_DARKGRAY:
-                return 'A9A9A9';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_LIGHTGRAY:
-                return 'D3D3D3';
-            case \PhpOffice\PhpWord\Style\Font::FGCOLOR_BLACK:
-                return '000000';
-        }
-
-        return $value;
+        return self::STRING_TO_RGB[$value] ?? $value;
     }
 
     /**
@@ -447,10 +464,12 @@ class Converter
      *
      * @param string $value
      *
-     * @return float
+     * @return ?float
      */
     public static function cssToEmu($value)
     {
-        return self::pointToEmu(self::cssToPoint($value));
+        $point = self::cssToPoint($value);
+
+        return ($point === null) ? null : self::pointToEmu($point);
     }
 }

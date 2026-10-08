@@ -27,16 +27,24 @@ use PhpOffice\PhpWord\Style;
 
 /**
  * Test class for PhpOffice\PhpWord\PhpWord.
- *
- * @runTestsInSeparateProcesses
  */
 class PhpWordTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * Executed after each method of the class.
+     */
+    protected function tearDown(): void
+    {
+        Style::resetStyles();
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test object creation.
      */
     public function testConstruct(): void
     {
+        Settings::restoreDefaults();
         do {
             $dtStart = new DateTimeImmutable();
             $startSecond = $dtStart->format('s');
@@ -150,7 +158,14 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test save.
+     * Weird test - tries to save as if it were a browser even though that
+     * is not the case. This causes a problem for Phpunit 9 (Php 7.* or 8.0)
+     * if not run in separate process. So let it run separate. No harm
+     * for Php8.1+, except for a slight performance penalty.
+     *
+     * @runInSeparateProcess
+     *
+     * @preserveGlobalState disabled
      */
     public function testSave(): void
     {

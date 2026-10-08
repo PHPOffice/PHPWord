@@ -11,7 +11,7 @@ $section = $phpWord->addSection();
 
 $section->addText(
     'This is some text highlighted using fgColor (limited to 15 colors)',
-    ['fgColor' => PhpOffice\PhpWord\Style\Font::FGCOLOR_YELLOW]
+    ['fgColor' => PhpOffice\PhpWord\SimpleType\Color::YELLOW]
 );
 $section->addText('This one uses bgColor and is using hex value (0xfbbb10)', ['bgColor' => 'fbbb10']);
 $section->addText('Compatible with font colors', ['color' => '0000ff', 'bgColor' => 'fbbb10']);

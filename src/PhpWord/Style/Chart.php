@@ -150,6 +150,14 @@ class Chart extends AbstractStyle
     private $gridX = false;
 
     /**
+     * How to display blank values (nulls) in series data.
+     * Options: 'gap' (break line), 'span' (connect line), 'zero' (plot as zero).
+     *
+     * @var string
+     */
+    private $displayBlanksAs = 'gap'; // Default to gap
+
+    /**
      * Create a new instance.
      *
      * @param array $style
@@ -547,5 +555,32 @@ class Chart extends AbstractStyle
         $this->gridX = $this->setBoolVal($value, $this->gridX);
 
         return $this;
+    }
+
+    /**
+     * Set display blanks as option.
+     *
+     * @param string $value 'gap', 'span', or 'zero'
+     *
+     * @return self
+     */
+    public function setDisplayBlanksAs($value)
+    {
+        $validValues = ['gap', 'span', 'zero'];
+        if (in_array($value, $validValues, true)) {
+            $this->displayBlanksAs = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get display blanks as option.
+     *
+     * @return string
+     */
+    public function getDisplayBlanksAs()
+    {
+        return $this->displayBlanksAs;
     }
 }

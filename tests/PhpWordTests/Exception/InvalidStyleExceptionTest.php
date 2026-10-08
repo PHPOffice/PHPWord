@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Exception\InvalidStyleException;
  * Test class for PhpOffice\PhpWord\Exception\InvalidStyleException.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\InvalidStyleException
- *
- * @runTestsInSeparateProcesses
  */
 class InvalidStyleExceptionTest extends \PHPUnit\Framework\TestCase
 {

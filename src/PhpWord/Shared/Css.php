@@ -27,7 +27,7 @@ class Css
     private $cssContent;
 
     /**
-     * @var array<string, array<string, string>>
+     * @var array<int|string, array<int|string, string>>
      */
     private $styles = [];
 
@@ -41,19 +41,17 @@ class Css
         $cssContent = str_replace(["\r", "\n"], '', $this->cssContent);
         preg_match_all('/(.+?)\s?\{\s?(.+?)\s?\}/', $cssContent, $cssExtracted);
         // Check if there are x selectors and x rules
-        if (count($cssExtracted[1]) != count($cssExtracted[2])) {
-            return;
-        }
-
-        foreach ($cssExtracted[1] as $key => $selector) {
-            $rules = trim($cssExtracted[2][$key]);
-            $rules = explode(';', $rules);
-            foreach ($rules as $rule) {
-                if (empty($rule)) {
-                    continue;
+        if (count($cssExtracted[1]) === count($cssExtracted[2])) {
+            foreach ($cssExtracted[1] as $key => $selector) {
+                $rules = trim($cssExtracted[2][$key]);
+                $rules = explode(';', $rules);
+                foreach ($rules as $rule) {
+                    if (empty($rule)) {
+                        continue;
+                    }
+                    [$key, $value] = explode(':', trim($rule));
+                    $this->styles[$this->sanitize($selector)][$this->sanitize($key)] = $this->sanitize($value);
                 }
-                [$key, $value] = explode(':', trim($rule));
-                $this->styles[$this->sanitize($selector)][$this->sanitize($key)] = $this->sanitize($value);
             }
         }
     }

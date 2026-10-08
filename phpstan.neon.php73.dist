@@ -1,0 +1,53 @@
+includes:
+    - phpstan-baseline.php73.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+parameters:
+    level: 7
+    paths:
+        - src/
+        - tests/
+    excludePaths:
+        - */pclzip.lib.php
+    bootstrapFiles:
+        - tests/bootstrap.php
+    reportUnmatchedIgnoredErrors: true
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
+        
+        ## <=PHP7.4
+        -
+            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class-string<T of object>\|T of object, string given.#'
+            path: src/PhpWord/Element/AbstractContainer.php
+        -
+            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class-string<T of object>\|T of object, string given.#'
+            path: src/PhpWord/IOFactory.php
+        -
+            message: '#Cannot instantiate interface#'
+            path: src/PhpWord/IOFactory.php
+        -
+            message: '#only iterables are supported#'
+            path: src/PhpWord/Writer/AbstractWriter.php
+        -
+            message: '#Cannot call method getText#'
+            path: src/PhpWord/Writer/ODText/Part/Content.php 
+        -
+            message: '#only iterables are supported#'
+            path: tests/PhpWordTests/Shared/ZipArchiveTest.php
+        -
+            message: '#only iterables are supported#'
+            path: tests/PhpWordTests/TestHelperDOCX.php
+        -
+            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class-string<object>\|object, class-string\|false given.#'
+            path: tests/PhpWordTests/Style/AbstractStyleTest.php
+        -
+            message: '#always exists and is not nullable#'
+            path: tests/PhpWordTests/Writer/HTML/Element/TableTest.php
+        -
+            message: '#always exists and is not nullable#'
+            path: tests/PhpWordTests/Writer/HTML/FontTest.php
+        -
+            message: '#always exists and is not nullable#'
+            path: tests/PhpWordTests/Writer/HTML/ParagraphTest.php

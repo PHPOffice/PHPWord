@@ -27,11 +27,14 @@ use PhpOffice\PhpWord\Style\TablePosition;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Table.
- *
- * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test class construction.
      *
@@ -103,10 +106,45 @@ class TableTest extends \PHPUnit\Framework\TestCase
     {
         $object = new Table();
 
-        $set = "set{$key}";
-        $get = "get{$key}";
-        $object->$set($value);
-        self::assertEquals($value, $object->$get());
+        $stringAttributes = [
+            'bgColor' => 'FF0000',
+            'borderTopColor' => 'FF0000',
+            'borderLeftColor' => 'FF0000',
+            'borderRightColor' => 'FF0000',
+            'borderBottomColor' => 'FF0000',
+            'borderInsideHColor' => 'FF0000',
+            'borderInsideVColor' => 'FF0000',
+            'alignment' => JcTable::CENTER,
+            'unit' => 'pct',
+            'layout' => Table::LAYOUT_FIXED,
+        ];
+        $intAttributes = [
+            'borderTopSize' => 4,
+            'borderLeftSize' => 4,
+            'borderRightSize' => 4,
+            'borderBottomSize' => 4,
+            'borderInsideHSize' => 4,
+            'borderInsideVSize' => 4,
+            'cellMarginTop' => 240,
+            'cellMarginLeft' => 240,
+            'cellMarginRight' => 240,
+            'cellMarginBottom' => 240,
+            'width' => 100,
+        ];
+        foreach ($stringAttributes as $key => $value) {
+            $uckey = ucfirst($key);
+            $set = "set{$uckey}";
+            $get = "get{$uckey}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
+        foreach ($intAttributes as $key => $value) {
+            $uckey = ucfirst($key);
+            $set = "set{$uckey}";
+            $get = "get{$uckey}";
+            $object->$set($value);
+            self::assertEquals($value, $object->$get());
+        }
     }
 
     public function testBidiVisual(): void

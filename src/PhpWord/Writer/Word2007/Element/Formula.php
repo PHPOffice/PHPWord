@@ -31,10 +31,8 @@ class Formula extends AbstractElement
      */
     public function write(): void
     {
+        /** @var FormulaElement */
         $element = $this->getElement();
-        if (!$element instanceof FormulaElement) {
-            return;
-        }
 
         $this->startElementP();
 

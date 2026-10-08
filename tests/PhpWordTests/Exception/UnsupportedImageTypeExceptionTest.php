@@ -22,8 +22,6 @@ use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
 
 /**
  * Test class for PhpOffice\PhpWord\Exception\UnsupportedImageTypeExceptionTest.
- *
- * @runTestsInSeparateProcesses
  */
 class UnsupportedImageTypeExceptionTest extends \PHPUnit\Framework\TestCase
 {

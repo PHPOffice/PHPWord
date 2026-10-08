@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Element\TextBox;
  * Test class for PhpOffice\PhpWord\Element\TextBox.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\TextBox
- *
- * @runTestsInSeparateProcesses
  */
 class TextBoxTest extends \PHPUnit\Framework\TestCase
 {

@@ -224,6 +224,7 @@ class Field extends Text
 
                     break;
                 default:
+                    $option = preg_replace('/^(.)$/', '\\\\$1', $option) ?? $option;
                     $propertiesAndOptions .= $option . ' ';
             }
         }
@@ -262,6 +263,8 @@ class Field extends Text
         $xmlWriter->endElement(); // w:instrText
         $xmlWriter->endElement(); // w:r
 
+        // I do not believe that REF allows for a text component.
+        /*
         if ($element->getText() != null) {
             if ($element->getText() instanceof TextRun) {
                 $containerWriter = new Container($xmlWriter, $element->getText(), true);
@@ -281,6 +284,7 @@ class Field extends Text
                 $xmlWriter->endElement(); // w:r
             }
         }
+        */
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
@@ -305,29 +309,25 @@ class Field extends Text
         $this->endElementP(); // w:p
     }
 
+    private const OPTION_VALUES = [
+        'IncrementAndInsertText' => '\\f',
+        'CreateHyperLink' => '\\h',
+        'NoTrailingPeriod' => '\\n',
+        'IncludeAboveOrBelow' => '\\p',
+        'InsertParagraphNumberRelativeContext' => '\\r',
+        'SuppressNonDelimiterNonNumericalText' => '\\t',
+        'InsertParagraphNumberFullContext' => '\\w',
+    ];
+
+    private const NUMBER_SEPARATOR_SEQUENCE = ['NumberSeperatorSequence', 'NumberSeparatorSequence', '\\d', 'd'];
+
     private function convertRefOption(string $optionKey, string $optionValue): string
     {
-        if ($optionKey === 'NumberSeperatorSequence') {
-            return '\\d ' . $optionValue;
+        if (in_array($optionKey, self::NUMBER_SEPARATOR_SEQUENCE, true)) {
+            return ($optionValue === '') ? '' : ('\\d ' . $optionValue);
         }
+        $optionValue = preg_replace('/^(.)$/', '\\\\$1', $optionValue) ?? $optionValue;
 
-        switch ($optionValue) {
-            case 'IncrementAndInsertText':
-                return '\\f';
-            case 'CreateHyperLink':
-                return '\\h';
-            case 'NoTrailingPeriod':
-                return '\\n';
-            case 'IncludeAboveOrBelow':
-                return '\\p';
-            case 'InsertParagraphNumberRelativeContext':
-                return '\\r';
-            case 'SuppressNonDelimiterNonNumericalText':
-                return '\\t';
-            case 'InsertParagraphNumberFullContext':
-                return '\\w';
-            default:
-                return '';
-        }
+        return self::OPTION_VALUES[$optionValue] ?? (in_array($optionValue, self::OPTION_VALUES, true) ? $optionValue : '');
     }
 }

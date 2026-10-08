@@ -40,23 +40,31 @@ class MsDoc extends AbstractReader implements ReaderInterface
 
     /**
      * WordDocument Stream.
+     *
+     * @var mixed
      */
-    private $dataWorkDocument;
+    protected $dataWorkDocument;
 
     /**
      * 1Table Stream.
+     *
+     * @var mixed
      */
-    private $data1Table;
+    protected $data1Table;
 
     /**
      * Data Stream.
+     *
+     * @var mixed
      */
-    private $dataData;
+    protected $dataData;
 
     /**
      * Object Pool Stream.
+     *
+     * @var mixed
      */
-    private $dataObjectPool;
+    protected $dataObjectPool;
 
     /**
      * @var stdClass[]
@@ -69,7 +77,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
     private $arrayFib = [];
 
     /**
-     * @var string[]
+     * @var array<array<string, string>>
      */
     private $arrayFonts = [];
 
@@ -84,10 +92,10 @@ class MsDoc extends AbstractReader implements ReaderInterface
     private $arraySections = [];
 
     /** @var string */
-    private $summaryInformation;
+    protected $summaryInformation;
 
     /** @var string */
-    private $documentSummaryInformation;
+    protected $documentSummaryInformation;
 
     const VERSION_97 = '97';
     const VERSION_2000 = '2000';
@@ -162,11 +170,24 @@ class MsDoc extends AbstractReader implements ReaderInterface
         $this->documentSummaryInformation = $ole->getStream($ole->docSummaryInfos);
     }
 
+    /**
+     * @param int $lcb
+     * @param int $iSize
+     *
+     * @return int
+     */
     private function getNumInLcb($lcb, $iSize)
     {
         return ($lcb - 4) / (4 + $iSize);
     }
 
+    /**
+     * @param string $data
+     * @param int $posMem
+     * @param int $iNum
+     *
+     * @return array
+     */
     private function getArrayCP($data, $posMem, $iNum)
     {
         $arrayCP = [];
@@ -183,6 +204,8 @@ class MsDoc extends AbstractReader implements ReaderInterface
      * @see  https://igor.io/2012/09/24/binary-parsing.html
      *
      * @param string $data
+     *
+     * @return int
      */
     private function readFib($data)
     {
@@ -368,6 +391,13 @@ class MsDoc extends AbstractReader implements ReaderInterface
         return $pos;
     }
 
+    /**
+     * @param string $data
+     * @param int $pos
+     * @param string $version
+     *
+     * @return int
+     */
     private function readBlockFibRgFcLcb($data, $pos, $version)
     {
         if ($version == self::VERSION_97) {
@@ -1218,7 +1248,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                     $char = self::getInt2d($this->data1Table, $posMem);
                     $posMem += 2;
                     if ($char > 0) {
-                        $xszFfn .= chr($char & 0xFF);
+                        $xszFfn .= mb_chr($char, 'UTF-8');
                     }
                 } while ($char != 0);
                 // xszAlt
@@ -1230,7 +1260,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         if ($char == 0) {
                             break;
                         }
-                        $xszAlt .= chr($char & 0xFF);
+                        $xszAlt .= mb_chr($char, 'UTF-8');
                     } while ($char != 0);
                 }
                 $this->arrayFonts[] = [
@@ -1514,6 +1544,8 @@ class MsDoc extends AbstractReader implements ReaderInterface
     }
 
     /**
+     * @param int $sprm
+     *
      * @return stdClass
      */
     private function readSprm($sprm)
@@ -1598,9 +1630,9 @@ class MsDoc extends AbstractReader implements ReaderInterface
     }
 
     /**
-     * @param $data int
-     * @param $pos int
-     * @param $cbNum int
+     * @param string $data
+     * @param int $pos
+     * @param int $cbNum
      *
      * @return stdClass
      *

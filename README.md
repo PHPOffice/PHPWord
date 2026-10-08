@@ -54,7 +54,6 @@ PHPWord requires the following:
 
 - PHP 7.1+
 - [XML Parser extension](http://www.php.net/manual/en/xml.installation.php)
-- [Laminas Escaper component](https://docs.laminas.dev/laminas-escaper/intro/)
 - [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write OOXML and ODF)
 - [GD extension](http://php.net/manual/en/book.image.php) (optional, used to add images)
 - [XMLWriter extension](http://php.net/manual/en/book.xmlwriter.php) (optional, used to write OOXML and ODF)
@@ -129,7 +128,7 @@ $fontStyle = new \PhpOffice\PhpWord\Style\Font();
 $fontStyle->setBold(true);
 $fontStyle->setName('Tahoma');
 $fontStyle->setSize(13);
-$myTextElement = $section->addText('"Believe you can and you\'re halfway there." (Theodor Roosevelt)');
+$myTextElement = $section->addText('"Believe you can and you\'re halfway there." (Theodore Roosevelt)');
 $myTextElement->setFontStyle($fontStyle);
 
 // Saving the document as OOXML file...
