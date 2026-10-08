@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Exception\Exception as WordException;
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
