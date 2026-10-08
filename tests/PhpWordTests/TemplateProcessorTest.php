@@ -1024,7 +1024,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     {
         $templateProcessor = $this->getImageTemplateProcessor();
 
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectException(PhpWordException::class);
         $this->expectExceptionMessage('Invalid image: ' . __FILE__);
         $templateProcessor->setImageValue('Image', __FILE__);
     }
@@ -1036,7 +1036,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     {
         $templateProcessor = $this->getImageTemplateProcessor();
 
-        $this->expectException(\PhpOffice\PhpWord\Exception\Exception::class);
+        $this->expectException(PhpWordException::class);
         $this->expectExceptionMessage('Unsupported image type image/tiff');
         $templateProcessor->setImageValue('Image', __DIR__ . '/_files/images/angela_merkel.tif');
     }
