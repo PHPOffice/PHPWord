@@ -96,9 +96,7 @@
             "php samples/Sample_42_TemplateSetCheckbox.php",
             "php samples/Sample_43_RTLDefault.php",
             "php samples/Sample_44_ExtractVariablesFromReaderWord2007.php",
-            "php samples/Sample_45_Autoloader.php",
-            "php samples/Sample_46_RubyPhoneticGuide.php",
-            "php samples/Sample_47_RTLTitles.php"
+            "php samples/Sample_45_Autoloader.php"
         ]
     },
     "scripts-descriptions": {
@@ -110,11 +108,9 @@
     "require": {
         "php": "^7.1|^8.0",
         "ext-dom": "*",
-        "ext-mbstring": "*",
+        "ext-zip": "*",
         "ext-json": "*",
         "ext-xml": "*",
-        "ext-zip": "*",
-        "phpoffice/math": "^0.3",
         "phpoffice/common": "^1.1",
         "symfony/polyfill-php72": "^1.30",
         "ext-zlib": "*",
@@ -122,13 +118,16 @@
         "ext-ctype": "*",
         "ext-fileinfo": "*",
         "ext-SimpleXML": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "phpoffice/math": "^0.3"
     },
     "require-dev": {
         "dompdf/dompdf": "^2.0 || ^3.0",
         "friendsofphp/php-cs-fixer": "^3.3",
         "mpdf/mpdf": "^7.0 || ^8.0",
         "phpmd/phpmd": "^2.13",
+        "phpoffice/wmf": "^0.2",
         "phpstan/phpstan": "^0.12.88 || ^1.0.0 || >=2.0.0 <2.2.16",
         "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
         "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0 || ^10.0",
@@ -142,9 +141,10 @@
         "ext-gd": "Allows adding images from remote HTTP URLs and GD-generated images",
         "ext-xmlwriter": "Allows writing OOXML and ODF",
         "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
-        "dompdf/dompdf": "Allows writing PDF",
         "mpdf/mpdf": "Allows writing PDF",
-        "tecnickcom/tcpdf": "Allows writing PDF"
+        "tecnickcom/tcpdf": "Allows writing PDF",
+        "dompdf/dompdf": "Allows writing PDF",
+        "phpoffice/wmf": "Allows adding WMF, EMF and EMF+ images (requires ext-gd)"
     },
     "autoload": {
         "psr-4": {

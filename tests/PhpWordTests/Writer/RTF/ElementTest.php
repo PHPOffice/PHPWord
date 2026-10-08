@@ -16,7 +16,7 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWordTests\Writer\RTF\Element;
+namespace PhpOffice\PhpWordTests\Writer\RTF;
 
 use PhpOffice\PhpWord\Writer\RTF;
 

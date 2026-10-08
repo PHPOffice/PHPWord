@@ -39,16 +39,12 @@ class Image extends Text
             return '';
         }
         $content = '';
-        $imageData = $this->element->getImageStringData(true);
+        $imageData = $this->element->getImageStringForRendering();
         if ($imageData !== null) {
+            $imageData = base64_encode($imageData);
             $styleWriter = new ImageStyleWriter($this->element->getStyle());
             $style = $styleWriter->write();
-            $imageData = 'data:' . $this->element->getImageType() . ';base64,' . $imageData;
-            $altText = $this->element->getAltText();
-            $altAttribute = '';
-            if ($altText) {
-                $altAttribute = " alt=\"{$altText}\"";
-            }
+            $imageData = 'data:' . $this->element->getImageTypeForRendering() . ';base64,' . $imageData;
 
             $altText = $this->element->getAltText();
             $altAttribute = '';

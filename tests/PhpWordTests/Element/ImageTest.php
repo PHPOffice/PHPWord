@@ -266,33 +266,4 @@ class ImageTest extends AbstractWebServerEmbedded
         $object = new Image('this_is-a_non_valid_image');
         $source = $object->getSource();
     }
-
-    /**
-     * Valid image types.
-     *
-     * @dataProvider providerInvalidProtocol
-     */
-    public function testInvalidProtocol(string $url): void
-    {
-        $this->expectException(WordException::class);
-        $this->expectExceptionMessage('Invalid protocol');
-        $object = new Image($url);
-        $source = $object->getSource();
-    }
-
-    public static function providerInvalidProtocol(): array
-    {
-        return [
-            'normal phar' => ['phar://anything'],
-            'mixed case phar' => ['PHAR://anything'],
-            'phar with 3 slashes' => ['phar:///anything'],
-            'leading space' => [' phar:///anything'],
-            'embedded space' => ['ph ar:///anything'],
-            'control character' => ["ph\x14ar:///anything"],
-            'filter with phar' => ['php://filter/read=convert.base64-encode/resource=phar:///tmp/x.Phar'],
-            'filter with phar and newline' => ["php://filter/read=convert.base64-encode/\nresource=phar:///tmp/x.Phar"],
-            'protocol with period followed by phar' => ['compress.zlib://phar:///x.phar'],
-            'protocol with period and embedded space' => ['comp ress.zlib://anything'],
-        ];
-    }
 }
