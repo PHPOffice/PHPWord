@@ -673,6 +673,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="image.html" class="md-nav__link md-nav__link--active">
         
   
@@ -689,6 +707,36 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#supported-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported formats
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2596,6 +2644,25 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#supported-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported formats
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2647,6 +2714,21 @@
 <span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span><span class="s1">'http://php.net/logo.jpg'</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">'PHP logo'</span><span class="p">);</span>
 <span class="nv">$source</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'/path/to/my/images/earth.jpg'</span><span class="p">);</span>
 <span class="nv">$image</span> <span class="o">=</span> <span class="nv">$textrun</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span><span class="nv">$source</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="supported-formats">Supported formats</h2>
+<ul>
+<li>JPEG, GIF, PNG</li>
+<li>BMP, TIFF (only for local files and archives)</li>
+<li>WMF, EMF &amp; EMF+ (Windows metafiles), if the optional library <a href="https://github.com/PHPOffice/WMF">phpoffice/wmf</a> and the GD extension are installed</li>
+</ul>
+<div class="highlight"><pre><span></span><code>composer<span class="w"> </span>require<span class="w"> </span>phpoffice/wmf
+</code></pre></div>
+<p>Windows metafiles are stored as is in Word2007 and ODText documents.
+For the writers which don't support them (HTML, PDF, RTF), they are converted to PNG.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span><span class="s1">'/path/to/my/images/drawing.wmf'</span><span class="p">);</span>
+<span class="nv">$section</span><span class="o">-&gt;</span><span class="na">addImage</span><span class="p">(</span><span class="s1">'/path/to/my/images/chart.emf'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'width'</span> <span class="o">=&gt;</span> <span class="mi">300</span><span class="p">]);</span>
 </code></pre></div>
 
 

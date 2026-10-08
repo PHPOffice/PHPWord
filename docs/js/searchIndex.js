@@ -1366,6 +1366,21 @@ Search.appendIndex(
             "summary": "Get\u0020image\u0020string.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageString"
         },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AisMetafile\u0028\u0029",
+            "name": "isMetafile",
+            "summary": "Is\u0020a\u0020Windows\u0020metafile\u0020\u0028WMF,\u0020EMF\u0020or\u0020EMF\u002B\u0029.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_isMetafile"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageStringForRendering\u0028\u0029",
+            "name": "getImageStringForRendering",
+            "summary": "Get\u0020image\u0020string,\u0020converted\u0020to\u0020PNG\u0020if\u0020the\u0020image\u0020is\u0020a\u0020Windows\u0020metafile.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageStringForRendering"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageTypeForRendering\u0028\u0029",
+            "name": "getImageTypeForRendering",
+            "summary": "Get\u0020image\u0020type\u0020of\u0020the\u0020image\u0020string\u0020returned\u0020by\u0020getImageStringForRendering\u0028\u0029.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getImageTypeForRendering"
+        },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetImageStringData\u0028\u0029",
             "name": "getImageStringData",
             "summary": "Get\u0020image\u0020string\u0020data.",
@@ -1385,6 +1400,11 @@ Search.appendIndex(
             "name": "getArchiveImageSize",
             "summary": "Get\u0020image\u0020size\u0020from\u0020archive.",
             "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getArchiveImageSize"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AgetMetafileImageSize\u0028\u0029",
+            "name": "getMetafileImageSize",
+            "summary": "Get\u0020size\u0020and\u0020mime\u0020type\u0020of\u0020a\u0020Windows\u0020metafile\u0020\u0028WMF,\u0020EMF,\u0020EMF\u002B\u0029\u0020\u003A\u0020\u005Bwidth,\u0020height,\u0020mimeType\u005D.",
+            "url": "classes/PhpOffice-PhpWord-Element-Image.html#method_getMetafileImageSize"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Element\\Image\u003A\u003AsetFunctions\u0028\u0029",
             "name": "setFunctions",
@@ -5415,6 +5435,56 @@ Search.appendIndex(
             "name": "css",
             "summary": "",
             "url": "classes/PhpOffice-PhpWord-Shared-Html.html#property_css"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile",
+            "name": "Metafile",
+            "summary": "Windows\u0020metafiles\u0020\u0028WMF,\u0020EMF\u0020\u0026\u0020EMF\u002B\u0029\u0020helper,\u0020based\u0020on\u0020phpoffice\/wmf.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile\u003A\u003AisSupported\u0028\u0029",
+            "name": "isSupported",
+            "summary": "Returns\u0020if\u0020the\u0020metafiles\u0020are\u0020supported\u0020\u003A\u0020phpoffice\/wmf\u0020is\u0020installed\u0020and\u0020the\u0020GD\u0020extension\u0020is\u0020loaded.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html#method_isSupported"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile\u003A\u003AgetMimeType\u0028\u0029",
+            "name": "getMimeType",
+            "summary": "Returns\u0020the\u0020mime\u0020type\u0020of\u0020a\u0020metafile\u0020\u0028\u0060image\/x\u002Dwmf\u0060\u0020or\u0020\u0060image\/x\u002Demf\u0060\u0029.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html#method_getMimeType"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile\u003A\u003AisMimeType\u0028\u0029",
+            "name": "isMimeType",
+            "summary": "Returns\u0020if\u0020the\u0020mime\u0020type\u0020is\u0020the\u0020one\u0020of\u0020a\u0020metafile.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html#method_isMimeType"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile\u003A\u003AgetExtension\u0028\u0029",
+            "name": "getExtension",
+            "summary": "Returns\u0020the\u0020extension\u0020of\u0020a\u0020metafile\u0020mime\u0020type\u0020\u0028\u0060wmf\u0060\u0020or\u0020\u0060emf\u0060\u0029.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html#method_getExtension"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile\u003A\u003AgetImageSize\u0028\u0029",
+            "name": "getImageSize",
+            "summary": "Returns\u0020the\u0020size\u0020of\u0020a\u0020metafile\u0020and\u0020its\u0020mime\u0020type,\u0020like\u0020getimagesize\u0028\u0029\u0020\u003A\u0020\u005Bwidth,\u0020height,\u0020mimeType\u005D.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html#method_getImageSize"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile\u003A\u003AconvertToPng\u0028\u0029",
+            "name": "convertToPng",
+            "summary": "Converts\u0020a\u0020metafile\u0020to\u0020PNG.",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html#method_convertToPng"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile\u003A\u003Aload\u0028\u0029",
+            "name": "load",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html#method_load"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile\u003A\u003AMIME_WMF",
+            "name": "MIME_WMF",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html#constant_MIME_WMF"
+        },                {
+            "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Metafile\u003A\u003AMIME_EMF",
+            "name": "MIME_EMF",
+            "summary": "",
+            "url": "classes/PhpOffice-PhpWord-Shared-Metafile.html#constant_MIME_EMF"
         },                {
             "fqsen": "\\PhpOffice\\PhpWord\\Shared\\Microsoft\\PasswordEncoder",
             "name": "PasswordEncoder",
