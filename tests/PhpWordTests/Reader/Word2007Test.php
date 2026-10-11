@@ -173,6 +173,28 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * An image whose relationship Target is an absolute part name
+     * ("/word/media/image1.jpg") must load instead of throwing on the
+     * doubled "word//word/media/..." path.
+     *
+     * @see https://github.com/PHPOffice/PHPWord/issues/2880
+     */
+    public function testLoadImageWithAbsoluteRelationshipTarget(): void
+    {
+        $reader = new Word2007();
+        $reader->setImageLoading(true);
+        $phpWord = $reader->load(dirname(__DIR__, 1) . '/_files/documents/reader-absolute-image-target.docx');
+
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $elements = $phpWord->getSections()[0]->getElements();
+        $textRun = $elements[2];
+        self::assertInstanceOf(TextRun::class, $textRun);
+        $image = $textRun->getElements()[0];
+        self::assertInstanceOf(Image::class, $image);
+    }
+
+    /**
      * Load a document with Windows metafiles (WMF, EMF, EMF+).
      *
      * @see https://github.com/PHPOffice/PHPWord/issues/1480

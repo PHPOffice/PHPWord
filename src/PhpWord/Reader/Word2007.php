@@ -188,7 +188,14 @@ class Word2007 extends AbstractReader implements ReaderInterface
 
             // Do not add prefix to link source
             if ($type != 'hyperlink' && $mode != 'External') {
-                $target = $targetPrefix . $target;
+                // An absolute part name ("/word/media/image1.jpg") is resolved
+                // against the package root, not the source part, so it must not
+                // get the part's prefix prepended (which produced "word//word/media/...").
+                if (isset($target[0]) && '/' === $target[0]) {
+                    $target = ltrim($target, '/');
+                } else {
+                    $target = $targetPrefix . $target;
+                }
             }
 
             // Push to return array
