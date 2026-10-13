@@ -227,12 +227,12 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Escape string or not depending on setting.
      */
-    public function escapeHTML(string $txt): string
+    public function escapeHTML(?string $txt): string
     {
         if (Settings::isOutputEscapingEnabled()) {
-            return htmlspecialchars($txt, ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0), 'UTF-8');
+            return htmlspecialchars($txt ?? '', ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0), 'UTF-8');
         }
 
-        return $txt;
+        return $txt ?? '';
     }
 }
