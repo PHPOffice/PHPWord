@@ -195,6 +195,28 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * A header whose own relationship Target is an absolute part name
+     * ("/word/header1.xml") must still resolve the image it embeds: the
+     * header's relationships are keyed by "header1", not "/word/header1",
+     * so the image used to be dropped silently.
+     *
+     * @see https://github.com/PHPOffice/PHPWord/pull/2957#issuecomment-6122062746
+     */
+    public function testLoadHeaderImageWithAbsoluteRelationshipTarget(): void
+    {
+        $reader = new Word2007();
+        $reader->setImageLoading(true);
+        $phpWord = $reader->load(dirname(__DIR__, 1) . '/_files/documents/reader-absolute-header-target.docx');
+
+        $headers = $phpWord->getSections()[0]->getHeaders();
+        self::assertCount(1, $headers);
+        $textRun = reset($headers)->getElements()[0];
+        self::assertInstanceOf(TextRun::class, $textRun);
+        self::assertCount(1, $textRun->getElements(), 'The header image was dropped');
+        self::assertInstanceOf(Image::class, $textRun->getElements()[0]);
+    }
+
+    /**
      * Load a document with Windows metafiles (WMF, EMF, EMF+).
      *
      * @see https://github.com/PHPOffice/PHPWord/issues/1480
