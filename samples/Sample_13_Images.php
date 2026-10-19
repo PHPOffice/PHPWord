@@ -21,7 +21,7 @@ $section->addImage(__DIR__ . '/resources/_earth.jpg', ['width' => 210, 'height' 
 
 // Remote image
 printSeparator($section);
-$source = 'http://php.net/images/logos/php-med-trans-light.gif';
+$source = 'https://www.php.net/images/logos/php-med-trans-light.gif';
 $section->addText("Remote image from: {$source}");
 $section->addImage($source);
 

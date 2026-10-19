@@ -21,4 +21,5 @@ $section->addTitle($text, $depth, $pageNumber);
 - ``$depth``
 - ``$pageNumber`` : Number of the page
 
-It's necessary to add a title style to your document because otherwise the title won't be detected as a real title.
+Without a title style, the Word2007 writer still gives the title a `Title` or `HeadingN` style, with no formatting of its own.
+A heading style carries its outline level (`w:outlineLvl`), so the heading shows in the navigation pane and in the table of contents, and a tagged PDF made from the document tags it as a heading.

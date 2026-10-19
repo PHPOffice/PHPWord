@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace PhpOffice\PhpWordTests\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -83,7 +84,33 @@ class TOCTest extends \PHPUnit\Framework\TestCase
             self::assertEquals('Title ' . $i, $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[1]/w:t')->textContent);
             self::assertTrue($doc->elementExists('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText'));
             self::assertEquals('preserve', $doc->getElementAttribute('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText', 'xml:space'));
-            self::assertEquals('PAGEREF ' . ($i - 1) . ' \\h', $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText')->nodeValue);
+            self::assertEquals('PAGEREF _Toc' . ($i - 1) . ' \\h', $doc->getElement('/w:document/w:body/w:p[' . $i . ']/w:hyperlink/w:r[4]/w:instrText')->nodeValue);
+        }
+    }
+
+    public function testPageReferenceAndLinkPointAtTheBookmarkOfTheTitle(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addTOC();
+        $section->addTitle('Plain', 1);
+        $textRun = new TextRun();
+        $textRun->addText('Run ');
+        $textRun->addText('title', ['italic' => true]);
+        $section->addTitle($textRun, 2);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $bookmarks = [];
+        foreach ($doc->getNodeList('//w:bookmarkStart/@w:name') as $name) {
+            $bookmarks[] = $name->nodeValue;
+        }
+        foreach (['Plain', 'Run title'] as $i => $text) {
+            $link = '/w:document/w:body/w:p[' . ($i + 1) . ']/w:hyperlink';
+            self::assertEquals($text, $doc->getElement($link . '/w:r[1]/w:t')->textContent);
+            $anchor = $doc->getElementAttribute($link, 'w:anchor');
+            self::assertContains($anchor, $bookmarks);
+            self::assertEquals('PAGEREF ' . $anchor . ' \\h', $doc->getElement($link . '/w:r[4]/w:instrText')->nodeValue);
         }
     }
 }

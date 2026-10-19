@@ -319,6 +319,25 @@ class StyleTest extends AbstractTestReader
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($name));
     }
 
+    public function testReadTitle(): void
+    {
+        Style::resetStyles();
+
+        $stylesXml = '<w:style w:type="paragraph" w:styleId="Title">
+            <w:name w:val="Title"/>
+            <w:rPr>
+                <w:i/>
+            </w:rPr>
+        </w:style>';
+
+        $this->getDocumentFromString(['styles' => $stylesXml]);
+
+        $style = Style::getStyle('Title');
+        self::assertInstanceOf(Style\Font::class, $style);
+        self::assertEquals('title', $style->getStyleType());
+        self::assertTrue($style->isItalic());
+    }
+
     public function testPageVerticalAlign(): void
     {
         $documentXml = '<w:sectPr>

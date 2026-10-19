@@ -25,6 +25,7 @@ use PhpOffice\PhpWord\Element\Field;
 use PhpOffice\PhpWord\Element\FormField;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Line;
+use PhpOffice\PhpWord\Element\ListItem;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\SDT as SDTElement;
 use PhpOffice\PhpWord\Element\Shape;
@@ -291,6 +292,8 @@ class Content extends AbstractPart
                 $this->getContainerStyle($element, $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Text) {
                 $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
+            } elseif ($element instanceof ListItem) {
+                $this->getElementStyle($element->getTextObject(), $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Field) {
                 $this->getElementStyleField($element, $fontStyleCount);
             } elseif ($element instanceof Image) {

@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Writer\ODText\Style\Font as FontStyleWriter;
 
 /**
  * ODText styles part writer: styles.xml.
@@ -84,30 +85,38 @@ class Styles extends AbstractPart
         $xmlWriter->endElement(); // style:paragraph-properties
 
         $language = $this->getParentWriter()->getPhpWord()->getSettings()->getThemeFontLang();
-        $latinLang = $language != null && is_string($language->getLatin()) ? explode('-', $language->getLatin()) : ['fr', 'FR'];
-        $asianLang = $language != null && is_string($language->getEastAsia()) ? explode('-', $language->getEastAsia()) : ['zh', 'CN'];
-        $complexLang = $language != null && is_string($language->getBidirectional()) ? explode('-', $language->getBidirectional()) : ['hi', 'IN'];
-        if ($this->getParentWriter()->getPhpWord()->getSettings()->hasHideGrammaticalErrors()) {
-            $latinLang = $asianLang = $complexLang = ['zxx', 'none'];
-        }
+        $hideErrors = $this->getParentWriter()->getPhpWord()->getSettings()->hasHideGrammaticalErrors();
 
         // Font
         $xmlWriter->startElement('style:text-properties');
         $xmlWriter->writeAttribute('style:use-window-font-color', 'false');
         $xmlWriter->writeAttribute('style:font-name', Settings::getDefaultFontName());
         $xmlWriter->writeAttribute('fo:font-size', Settings::getDefaultFontSize() . 'pt');
-        $xmlWriter->writeAttribute('fo:language', $latinLang[0]);
-        $xmlWriter->writeAttribute('fo:country', $latinLang[1]);
+        if ($hideErrors) {
+            $xmlWriter->writeAttribute('fo:language', 'zxx');
+            $xmlWriter->writeAttribute('fo:country', 'none');
+        } else {
+            // The same default language as the Word2007 writer
+            FontStyleWriter::writeLanguage($xmlWriter, $language !== null && $language->getLatin() !== null ? $language->getLatin() : Style\Language::EN_US);
+        }
         $xmlWriter->writeAttribute('fo:color', '#' . Settings::getDefaultFontColor());
         $xmlWriter->writeAttribute('style:letter-kerning', 'true');
         $xmlWriter->writeAttribute('style:font-name-asian', Settings::getDefaultFontName() . '2');
         $xmlWriter->writeAttribute('style:font-size-asian', Settings::getDefaultFontSize() . 'pt');
-        $xmlWriter->writeAttribute('style:language-asian', $asianLang[0]);
-        $xmlWriter->writeAttribute('style:country-asian', $asianLang[1]);
+        if ($hideErrors) {
+            $xmlWriter->writeAttribute('style:language-asian', 'zxx');
+            $xmlWriter->writeAttribute('style:country-asian', 'none');
+        } elseif ($language !== null) {
+            FontStyleWriter::writeLanguage($xmlWriter, $language->getEastAsia(), 'asian');
+        }
         $xmlWriter->writeAttribute('style:font-name-complex', Settings::getDefaultFontName() . '2');
         $xmlWriter->writeAttribute('style:font-size-complex', Settings::getDefaultFontSize() . 'pt');
-        $xmlWriter->writeAttribute('style:language-complex', $complexLang[0]);
-        $xmlWriter->writeAttribute('style:country-complex', $complexLang[1]);
+        if ($hideErrors) {
+            $xmlWriter->writeAttribute('style:language-complex', 'zxx');
+            $xmlWriter->writeAttribute('style:country-complex', 'none');
+        } elseif ($language !== null) {
+            FontStyleWriter::writeLanguage($xmlWriter, $language->getBidirectional(), 'complex');
+        }
         $xmlWriter->writeAttribute('fo:hyphenate', 'false');
         $xmlWriter->writeAttribute('fo:hyphenation-remain-char-count', '2');
         $xmlWriter->writeAttribute('fo:hyphenation-push-char-count', '2');

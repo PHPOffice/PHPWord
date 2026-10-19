@@ -120,6 +120,7 @@
         "friendsofphp/php-cs-fixer": "^3.3",
         "mpdf/mpdf": "^7.0 || ^8.0",
         "phpmd/phpmd": "^2.13",
+        "phpoffice/wmf": "^0.2",
         "phpstan/phpstan": "^0.12.88 || ^1.0.0 || >=2.0.0 <2.2.11",
         "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
         "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
@@ -130,7 +131,8 @@
         "ext-gd": "Allows adding images from remote HTTP URLs and GD-generated images",
         "ext-xmlwriter": "Allows writing OOXML and ODF",
         "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
-        "dompdf/dompdf": "Allows writing PDF"
+        "dompdf/dompdf": "Allows writing PDF",
+        "phpoffice/wmf": "Allows adding WMF, EMF and EMF+ images (requires ext-gd)"
     },
     "autoload": {
         "psr-4": {

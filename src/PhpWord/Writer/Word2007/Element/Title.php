@@ -37,6 +37,11 @@ class Title extends AbstractElement
         }
 
         $style = $element->getStyle();
+        if (empty($style)) {
+            // Part\Styles writes a style for a depth that has none
+            $depth = (int) $element->getDepth();
+            $style = $depth === 0 ? 'Title' : 'Heading' . $depth;
+        }
 
         $xmlWriter->startElement('w:p');
 
