@@ -33,10 +33,11 @@ if (defined('DOMPDF_ENABLE_AUTOLOAD')) {
 // Set writers
 $writers = [
     'Word2007' => 'docx',
-    'RTF' => 'rtf',
+    'EPub3' => 'epub',
     'HTML' => 'html',
     'PDF' => 'pdf',
-    'EPub3' => 'epub',
+    'RTF' => 'rtf',
+    'WPS' => 'wps',
     'ODText' => 'odt', // creates a lot of extra style - do it last
 ];
 
@@ -72,7 +73,7 @@ if ($handle = opendir('.')) {
     foreach ($sampleFiles as $file) {
         if (preg_match('/^Sample_\d+_/', $file)) {
             $name = str_replace('_', ' ', preg_replace('/(Sample_|\.php)/', '', $file));
-            $files .= "<li><a href='{$file}'>{$name}</a></li>";
+            $files .= "<li><a href='{$file}' class='dropdown-item'>{$name}</a></li>";
         }
     }
 }
@@ -134,7 +135,22 @@ function getEndingNotes(array $writers, string $filename): string
 
             $result .= '<pre>';
             if (file_exists($filename . '.php')) {
-                $result .= highlight_file($filename . '.php', true);
+                $result1 = highlight_file($filename . '.php', true);
+                $search = [
+                    'style="color: #000000"',
+                    'style="color: #0000BB"',
+                    'style="color: #007700"',
+                    'style="color: #DD0000"',
+                    'style="color: #FF8000"',
+                ];
+                $replace = [
+                    'class="php-default"',
+                    'class="php-keyword"',
+                    'class="php-syntax"',
+                    'class="php-string"',
+                    'class="php-comment"',
+                ];
+                $result .= str_replace($search, $replace, $result1);
             }
             $result .= '</pre>';
         }
@@ -143,38 +159,43 @@ function getEndingNotes(array $writers, string $filename): string
     return $result;
 }
 ?>
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+<head>
 <title><?php echo $pageTitle; ?></title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" href="bootstrap/css/font-awesome.min.css" />
+<link rel="stylesheet" href="bootstrap/css/font-awesome.v4.used.phpword.css" />
 <link rel="stylesheet" href="bootstrap/css/phpword.css" />
+<script src="/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+<script src="/bootstrap/js/darklighttoggle.js"></script>
 </head>
 <body>
 <div class="container">
-<div class="navbar navbar-default" role="navigation">
+<div class="navbar navbar-expand-lg bg-body-tertiary" role="navigation">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+        <div>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="visually-hidden">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="./">PHPWord</a>
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="dropdown active">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-code fa-lg"></i>&nbsp;Samples<strong class="caret"></strong></a>
-                    <ul class="dropdown-menu"><?php echo $files; ?></ul>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-code fa-lg" style="margin-left: 3em;"></i>Samples</a>
+                    <ul class="dropdown-menu dropdown-menu-end text-wrap"><?php echo $files; ?></ul>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://github.com/PHPOffice/PHPWord"><i class="fa fa-github fa-lg" title="GitHub"></i>&nbsp;</a></li>
-                <li><a href="https://phpoffice.github.io/PHPWord/"><i class="fa fa-book fa-lg" title="Docs"></i>&nbsp;</a></li>
-                <li><a href="http://twitter.com/PHPOffice"><i class="fa fa-twitter fa-lg" title="Twitter"></i>&nbsp;</a></li>
+            <ul class="navbar-nav ms-auto">
+                <li><a href="https://github.com/PHPOffice/PHPWord" style="text-decoration:none;"><i class="fa fa-github fa-lg" title="GitHub"></i>&nbsp;</a></li>
+                <li><a href="https://phpoffice.github.io/PHPWord/" style="text-decoration:none;"><i class="fa fa-book fa-lg" title="Docs"></i>&nbsp;</a></li>
+<li><button class="btn btn-outline-primary btn-sm" id="themeToggler" type="button" title="Toggle dark/light mode" style="margin-left:1em; border:none">
+    <i class="fa fa-moon-o fa-lg" id="themeIcon"></i></li>
+</button>
             </ul>
         </div>
     </div>
