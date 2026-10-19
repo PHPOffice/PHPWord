@@ -371,7 +371,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 			'name' => 'Arial',
 			'size' => 10,
 			'color' => '000000',
-			'underline' => true,
+			'underline' => Font::UNDERLINE_SINGLE,
 			'underlineColor' => 'FF0000' // Red underline
 		]);
 
@@ -379,7 +379,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 			'name' => 'Arial',
 			'size' => 10,
 			'color' => '000000',
-			'underline' => true,
+			'underline' => Font::UNDERLINE_SINGLE,
 			'underlineColor' => '0000FF' // Blue underline
 		]);
 
@@ -387,7 +387,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 			'name' => 'Arial',
 			'size' => 10,
 			'color' => '000000',
-			'underline' => true,
+			'underline' => Font::UNDERLINE_SINGLE,
 			'underlineColor' => '' // Empty color (should not generate CSS)
 		]);
 
@@ -421,7 +421,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
 		// Check that underlineNoColor does NOT have text-decoration-color (because color is empty)
 		$prg = preg_match('/\.underlineNoColor[^\\r\\n]*{[^}]*text-decoration-color: #[^}]*}/m', $style, $matches);
-		self::assertFalse($prg, 'underlineNoColor should not have text-decoration-color in CSS');
+        self::assertEmpty($matches, 'underlineNoColor should not have text-decoration-color in CSS');
 	}
 
     /**
@@ -453,7 +453,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
 
 		// Check that text-decoration-color is NOT present (no underline)
 		$prg = preg_match('/\.noUnderlineColor[^\\r\\n]*{[^}]*text-decoration-color: #[^}]*}/m', $style, $matches);
-		self::assertFalse($prg, 'text-decoration-color should not be present when underline is not set');
+        self::assertEmpty($matches, 'text-decoration-color should not be present when underline is not set');
 	}
 
     /**
