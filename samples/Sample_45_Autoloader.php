@@ -90,9 +90,8 @@ $section->addTextBreak();
 $section->addImage(__DIR__ . '/resources/_earth.jpg', ['width' => 18, 'height' => 18]);
 
 // Save file
-$writers2 = $writers;
-unset($writers2['WPS']);
-echo write($phpWord, basename(__FILE__, '.php'), $writers2);
+$writers['WPS'] = null;
+echo write($phpWord, basename(__FILE__, '.php'), $writers);
 if (!CLI) {
     include_once 'Sample_Footer.php';
 }
