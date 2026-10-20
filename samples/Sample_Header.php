@@ -133,15 +133,20 @@ function getEndingNotes(array $writers, string $filename): string
             }
             $result .= '</p>';
 
-            $result .= '<pre>';
-            if (file_exists($filename . '.php')) {
-                $result1 = highlight_file($filename . '.php', true);
+            $result1 = highlight_file($filename . '.php', true);
+            if ($result1 !== false) {
+                $result .= '<pre>';
+                $default = ini_get('highlight.html') ?: '#000000';
+                $keyword = ini_get('highlight.default') ?: '#0000BB';
+                $syntax = ini_get('highlight.keyword') ?: '#007700';
+                $string = ini_get('highlight.string') ?: '#DD0000';
+                $comment = ini_get('highlight.comment') ?: '#FF8000';
                 $search = [
-                    'style="color: #000000"',
-                    'style="color: #0000BB"',
-                    'style="color: #007700"',
-                    'style="color: #DD0000"',
-                    'style="color: #FF8000"',
+                    "style=\"color: $default\"",
+                    "style=\"color: $keyword\"",
+                    "style=\"color: $syntax\"",
+                    "style=\"color: $string\"",
+                    "style=\"color: $comment\"",
                 ];
                 $replace = [
                     'class="php-default"',
@@ -151,8 +156,8 @@ function getEndingNotes(array $writers, string $filename): string
                     'class="php-comment"',
                 ];
                 $result .= str_replace($search, $replace, $result1);
+                $result .= '</pre>';
             }
-            $result .= '</pre>';
         }
     }
 

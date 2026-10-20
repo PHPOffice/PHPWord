@@ -92,6 +92,4 @@ $section->addImage(__DIR__ . '/resources/_earth.jpg', ['width' => 18, 'height' =
 // Save file
 $writers['WPS'] = null;
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
-if (!CLI) {
-    include_once 'Sample_Footer.php';
-}
+include_once 'Sample_Footer.php';
