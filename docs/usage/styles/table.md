@@ -33,7 +33,7 @@ Available Row style options:
 
 - ``cantSplit``. Table row cannot break across pages, *true* or *false*.
 - ``exactHeight``. Row height is exact or at least.
-- ``tblHeader``. Repeat table row on every new page, *true* or *false*.
+- ``tblHeader``. Repeat table row on every new page, *true* or *false*. The rows marked so at the top of the table are its header rows; the ODText writer writes them as `table:table-header-rows`.
 
 The ODText writer serializes row heights as native ODF table-row styles. An
 exact height uses ``style:row-height``; an at-least height uses
