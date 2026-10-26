@@ -38,6 +38,12 @@ class TextTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals('', Text::controlCharacterOOXML2PHP(''));
         self::assertEquals(chr(0x08), Text::controlCharacterOOXML2PHP('_x0008_'));
+
+        // All of C0 except tab, line feed and carriage return, which XML 1.0 allows
+        self::assertEquals('_x0014_', Text::controlCharacterPHP2OOXML(chr(0x14)));
+        self::assertEquals('_x001F_', Text::controlCharacterPHP2OOXML(chr(0x1F)));
+        self::assertEquals(chr(0x1F), Text::controlCharacterOOXML2PHP('_x001F_'));
+        self::assertEquals("\t\n\r", Text::controlCharacterPHP2OOXML("\t\n\r"));
     }
 
     public function testNumberFormat(): void
