@@ -70,6 +70,14 @@ class Link extends AbstractElement
     protected $internal = false;
 
     /**
+     * Tooltip, the text shown when the pointer rests on the link; screen readers and a tagged PDF
+     * take it as the description of the link.
+     *
+     * @var null|string
+     */
+    private $tooltip;
+
+    /**
      * Create a new Link Element.
      *
      * @param string $source
@@ -133,5 +141,23 @@ class Link extends AbstractElement
     public function isInternal()
     {
         return $this->internal;
+    }
+
+    /**
+     * Get the tooltip.
+     */
+    public function getTooltip(): ?string
+    {
+        return $this->tooltip;
+    }
+
+    /**
+     * Set the tooltip.
+     */
+    public function setTooltip(?string $tooltip): self
+    {
+        $this->tooltip = null === $tooltip ? null : SharedText::toUTF8($tooltip);
+
+        return $this;
     }
 }

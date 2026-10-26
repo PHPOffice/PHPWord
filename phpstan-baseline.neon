@@ -256,11 +256,6 @@ parameters:
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php
 
 		-
-			message: "#^Parameter \\#2 \\$contextNode of method PhpOffice\\\\PhpWord\\\\Shared\\\\XMLReader\\:\\:getAttribute\\(\\) expects DOMElement\\|null, DOMNode\\|null given\\.$#"
-			count: 1
-			path: src/PhpWord/Reader/Word2007/AbstractPart.php
-
-		-
 			message: "#^Parameter \\#2 \\$depth of method PhpOffice\\\\PhpWord\\\\Element\\\\AbstractContainer\\:\\:addTitle\\(\\) expects int, float\\|int given\\.$#"
 			count: 1
 			path: src/PhpWord/Reader/Word2007/AbstractPart.php

@@ -572,11 +572,12 @@ abstract class AbstractPart
             // TextRun
             $textContent = htmlspecialchars($xmlReader->getValue('.', $node) ?? '', ENT_QUOTES, 'UTF-8');
 
-            if ($runParent->nodeName == 'w:hyperlink') {
+            if ($runParent instanceof DOMElement && $runParent->nodeName == 'w:hyperlink') {
                 $rId = $xmlReader->getAttribute('r:id', $runParent);
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (null !== $target) {
-                    $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
+                    $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle)
+                        ->setTooltip($xmlReader->getAttribute('w:tooltip', $runParent));
                 } else {
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }

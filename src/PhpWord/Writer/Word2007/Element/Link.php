@@ -46,6 +46,7 @@ class Link extends Text
         } else {
             $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         }
+        $xmlWriter->writeAttributeIf(null !== $element->getTooltip(), 'w:tooltip', (string) $element->getTooltip());
         $xmlWriter->writeAttribute('w:history', '1');
         $xmlWriter->startElement('w:r');
 
