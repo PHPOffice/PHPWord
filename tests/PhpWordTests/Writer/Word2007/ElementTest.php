@@ -97,6 +97,19 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Control characters that XML 1.0 forbids are written escaped, so the part stays well-formed.
+     */
+    public function testTextElementWithControlCharacters(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('a' . chr(0x1E) . 'b' . chr(0x1F) . 'c');
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        self::assertEquals('a_x001E_b_x001F_c', $doc->getElement('/w:document/w:body/w:p/w:r/w:t')->nodeValue);
+    }
+
+    /**
      * Test link element.
      */
     public function testLinkElement(): void
