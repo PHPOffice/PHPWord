@@ -51,6 +51,7 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('office:styles');
         $this->writeDefault($xmlWriter);
         $this->writeNamed($xmlWriter);
+        $this->writeTitleParagraphStyle($xmlWriter);
         $xmlWriter->endElement();
 
         // Automatic styles
@@ -141,6 +142,28 @@ class Styles extends AbstractPart
                         $styleWriter->write();
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Write a Title paragraph style when a title has none, so that the title keeps the Title style of LibreOffice.
+     */
+    private function writeTitleParagraphStyle(XMLWriter $xmlWriter): void
+    {
+        $style = Style::getStyle('Title');
+        if ($style instanceof Style\Paragraph || ($style instanceof Style\Font && $style->getParagraph() instanceof Style\Paragraph)) {
+            return;
+        }
+        foreach ($this->getParentWriter()->getPhpWord()->getTitles()->getItems() as $title) {
+            if ((int) $title->getDepth() === 0) {
+                $xmlWriter->startElement('style:style');
+                $xmlWriter->writeAttribute('style:name', 'Title');
+                $xmlWriter->writeAttribute('style:family', 'paragraph');
+                $xmlWriter->writeAttribute('style:class', 'chapter');
+                $xmlWriter->endElement(); // style:style
+
+                return;
             }
         }
     }

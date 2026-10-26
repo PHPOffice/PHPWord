@@ -36,17 +36,23 @@ class Title extends AbstractElement
             return;
         }
 
-        $xmlWriter->startElement('text:h');
-        $hdname = 'HD';
-        $sect = $element->getParent();
-        if ($sect instanceof \PhpOffice\PhpWord\Element\Section) {
-            if (self::compareToFirstElement($element, $sect->getElements())) {
-                $hdname = 'HE';
+        $depth = (int) $element->getDepth();
+        if ($depth === 0) {
+            // ODF has no outline level 0: LibreOffice writes a title as a paragraph in its Title style
+            $xmlWriter->startElement('text:p');
+            $xmlWriter->writeAttribute('text:style-name', 'Title');
+        } else {
+            $xmlWriter->startElement('text:h');
+            $hdname = 'HD';
+            $sect = $element->getParent();
+            if ($sect instanceof \PhpOffice\PhpWord\Element\Section) {
+                if (self::compareToFirstElement($element, $sect->getElements())) {
+                    $hdname = 'HE';
+                }
             }
+            $xmlWriter->writeAttribute('text:style-name', "$hdname$depth");
+            $xmlWriter->writeAttribute('text:outline-level', $depth);
         }
-        $depth = $element->getDepth();
-        $xmlWriter->writeAttribute('text:style-name', "$hdname$depth");
-        $xmlWriter->writeAttribute('text:outline-level', $depth);
         $xmlWriter->startElement('text:span');
         if ($depth > 0) {
             $xmlWriter->writeAttribute('text:style-name', 'Heading_' . $depth);
@@ -64,7 +70,7 @@ class Title extends AbstractElement
         }
         $this->writeCommentRangeEnd();
         $xmlWriter->endElement(); // text:span
-        $xmlWriter->endElement(); // text:h
+        $xmlWriter->endElement(); // text:h or text:p
     }
 
     /**
