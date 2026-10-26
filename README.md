@@ -1,4 +1,4 @@
-# ![PHPWord](https://rawgit.com/PHPOffice/PHPWord/develop/docs/images/phpword.svg "PHPWord")
+# ![PHPWord](https://raw.githubusercontent.com/PHPOffice/PHPWord/master/docs/images/phpword.svg "PHPWord")
 
 [![Latest Stable Version](https://poser.pugx.org/phpoffice/phpword/v)](https://packagist.org/packages/phpoffice/phpword)
 [![Coverage Status](https://coveralls.io/repos/github/PHPOffice/PHPWord/badge.svg?branch=master)](https://coveralls.io/github/PHPOffice/PHPWord?branch=master)
