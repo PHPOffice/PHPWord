@@ -52,7 +52,7 @@ class Chart extends AbstractElement
 
         // EMU
         $xmlWriter->writeElementBlock('wp:extent', ['cx' => $style->getWidth(), 'cy' => $style->getHeight()]);
-        $xmlWriter->writeElementBlock('wp:docPr', ['id' => $rId, 'name' => "Chart{$rId}"]);
+        $xmlWriter->writeElementBlock('wp:docPr', ['id' => $this->getNextDocPrId(), 'name' => "Chart{$rId}"]);
 
         $xmlWriter->startElement('a:graphic');
         $xmlWriter->writeAttribute('xmlns:a', 'http://schemas.openxmlformats.org/drawingml/2006/main');

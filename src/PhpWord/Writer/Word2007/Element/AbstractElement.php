@@ -58,6 +58,13 @@ abstract class AbstractElement
     protected $part;
 
     /**
+     * Last id of a wp:docPr, which is unique in the package.
+     *
+     * @var int
+     */
+    private static $docPrId = 0;
+
+    /**
      * Write element.
      */
     abstract public function write();
@@ -231,5 +238,21 @@ abstract class AbstractElement
     public function getPart(): ?AbstractPart
     {
         return $this->part;
+    }
+
+    /**
+     * Start the ids of wp:docPr again, for a new package.
+     */
+    public static function resetDocPrId(): void
+    {
+        self::$docPrId = 0;
+    }
+
+    /**
+     * Id of the next wp:docPr.
+     */
+    protected function getNextDocPrId(): int
+    {
+        return ++self::$docPrId;
     }
 }

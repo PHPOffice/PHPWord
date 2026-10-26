@@ -42,7 +42,7 @@ class ImageStyleTest extends TestCase
     }
 
     /**
-     * Save a document with one image, and replace its w:pict with the given markup; %s is the relationship id of the image.
+     * Save a document with one image, and replace its w:drawing with the given markup; %s is the relationship id of the image.
      */
     private function saveImage(array $style = [], ?string $markup = null): void
     {
@@ -57,8 +57,8 @@ class ImageStyleTest extends TestCase
         $zip = new ZipArchive();
         $zip->open($this->filename);
         $document = (string) $zip->getFromName('word/document.xml');
-        self::assertSame(1, preg_match('/<v:imagedata[^>]* r:id="([^"]+)"/', $document, $matches));
-        $zip->addFromString('word/document.xml', (string) preg_replace('#<w:pict>.*</w:pict>#s', sprintf($markup, $matches[1] ?? ''), $document));
+        self::assertSame(1, preg_match('/<a:blip r:embed="([^"]+)"/', $document, $matches));
+        $zip->addFromString('word/document.xml', (string) preg_replace('#<w:drawing>.*</w:drawing>#s', sprintf($markup, $matches[1] ?? ''), $document));
         $zip->close();
     }
 
@@ -72,7 +72,7 @@ class ImageStyleTest extends TestCase
         return $image->getStyle();
     }
 
-    public function testReadWriterVml(): void
+    public function testReadWritten(): void
     {
         $this->saveImage([
             'width' => 120,
@@ -80,6 +80,7 @@ class ImageStyleTest extends TestCase
             'positioning' => Frame::POS_ABSOLUTE,
             'posHorizontal' => Frame::POS_CENTER,
             'posHorizontalRel' => Frame::POS_RELTO_PAGE,
+            'posVertical' => Frame::POS_ABSOLUTE,
             'posVerticalRel' => Frame::POS_RELTO_TEXT,
             'wrappingStyle' => Frame::WRAP_SQUARE,
             'marginTop' => 36,
@@ -92,15 +93,47 @@ class ImageStyleTest extends TestCase
         self::assertSame(Frame::POS_ABSOLUTE, $style->getPos());
         self::assertSame(Frame::POS_CENTER, $style->getHPos());
         self::assertSame(Frame::POS_RELTO_PAGE, $style->getHPosRelTo());
+        self::assertSame(Frame::POS_ABSOLUTE, $style->getVPos());
         self::assertSame(Frame::POS_RELTO_TEXT, $style->getVPosRelTo());
         self::assertSame(Frame::WRAP_SQUARE, $style->getWrap());
         self::assertEquals(36, $style->getTop());
         self::assertEquals(9, $style->getWrapDistanceLeft());
     }
 
-    public function testReadWriterVmlInline(): void
+    public function testReadWrittenInline(): void
     {
         $this->saveImage(['width' => 120, 'height' => 90]);
+
+        $style = $this->readStyle();
+        self::assertEquals(120, $style->getWidth());
+        self::assertEquals(90, $style->getHeight());
+        self::assertSame(Frame::WRAP_INLINE, $style->getWrap());
+    }
+
+    public function testReadVml(): void
+    {
+        // As PHPWord 1.4 writes it
+        $this->saveImage([], '<w:pict><v:shape type="#_x0000_t75" stroked="f" style="width:120pt; height:90pt; margin-left:0pt; margin-top:36pt; mso-wrap-distance-left:9pt; position:absolute; mso-position-horizontal:center; mso-position-vertical:top; mso-position-horizontal-relative:page; mso-position-vertical-relative:text;">'
+            . '<w10:wrap type="square" anchorx="page" anchory="page"/><v:imagedata r:id="%s" o:title=""/></v:shape></w:pict>');
+
+        $style = $this->readStyle();
+        self::assertEquals(120, $style->getWidth());
+        self::assertEquals(90, $style->getHeight());
+        self::assertSame(Frame::POS_ABSOLUTE, $style->getPos());
+        self::assertSame(Frame::POS_CENTER, $style->getHPos());
+        self::assertSame(Frame::POS_RELTO_PAGE, $style->getHPosRelTo());
+        self::assertSame(Frame::POS_TOP, $style->getVPos());
+        self::assertSame(Frame::POS_RELTO_TEXT, $style->getVPosRelTo());
+        self::assertSame(Frame::WRAP_SQUARE, $style->getWrap());
+        self::assertEquals(36, $style->getTop());
+        self::assertEquals(9, $style->getWrapDistanceLeft());
+    }
+
+    public function testReadVmlInline(): void
+    {
+        // As PHPWord 1.4 writes it
+        $this->saveImage([], '<w:pict><v:shape type="#_x0000_t75" stroked="f" style="width:120pt; height:90pt; margin-left:0pt; margin-top:0pt; mso-position-horizontal:left; mso-position-vertical:top; mso-position-horizontal-relative:char; mso-position-vertical-relative:line;">'
+            . '<w10:wrap type="inline"/><v:imagedata r:id="%s" o:title=""/></v:shape></w:pict>');
 
         $style = $this->readStyle();
         self::assertEquals(120, $style->getWidth());

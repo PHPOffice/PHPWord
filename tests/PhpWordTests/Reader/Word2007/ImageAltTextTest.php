@@ -40,7 +40,7 @@ class ImageAltTextTest extends TestCase
     }
 
     /**
-     * Save a document with one image, as VML, and give back the relationship id of the image.
+     * Save a document with one image, and give back the relationship id of the image.
      */
     private function saveImage(): string
     {
@@ -51,7 +51,7 @@ class ImageAltTextTest extends TestCase
 
         $zip = new ZipArchive();
         $zip->open($this->filename);
-        self::assertSame(1, preg_match('/<v:imagedata[^>]* r:id="([^"]+)"/', (string) $zip->getFromName('word/document.xml'), $matches));
+        self::assertSame(1, preg_match('/<a:blip r:embed="([^"]+)"/', (string) $zip->getFromName('word/document.xml'), $matches));
         $zip->close();
 
         return $matches[1] ?? '';
@@ -67,9 +67,30 @@ class ImageAltTextTest extends TestCase
         return $image;
     }
 
-    public function testReadVmlAltText(): void
+    /**
+     * Replace the w:drawing of the saved image with the given markup.
+     */
+    private function replaceDrawing(string $markup): void
+    {
+        $zip = new ZipArchive();
+        $zip->open($this->filename);
+        $document = (string) $zip->getFromName('word/document.xml');
+        $zip->addFromString('word/document.xml', (string) preg_replace('#<w:drawing>.*</w:drawing>#s', $markup, $document));
+        $zip->close();
+    }
+
+    public function testReadWrittenAltText(): void
     {
         $this->saveImage();
+
+        self::assertSame('The Earth seen from space', $this->readImage()->getAltText());
+    }
+
+    public function testReadVmlAltText(): void
+    {
+        // As PHPWord 1.4 writes it
+        $rId = $this->saveImage();
+        $this->replaceDrawing('<w:pict><v:shape type="#_x0000_t75" stroked="f" alt="The Earth seen from space" style="width:75pt;height:75pt;"><v:imagedata r:id="' . $rId . '" o:title=""/></v:shape></w:pict>');
 
         self::assertSame('The Earth seen from space', $this->readImage()->getAltText());
     }
@@ -102,13 +123,7 @@ class ImageAltTextTest extends TestCase
     public function testReadDrawingAltText(string $frame, string $docPrDescr, string $cNvPrDescr): void
     {
         $rId = $this->saveImage();
-        $drawing = '<w:drawing>' . sprintf($frame, $docPrDescr, $cNvPrDescr, $rId) . '</w:drawing>';
-
-        $zip = new ZipArchive();
-        $zip->open($this->filename);
-        $document = (string) $zip->getFromName('word/document.xml');
-        $zip->addFromString('word/document.xml', (string) preg_replace('#<w:pict>.*</w:pict>#s', $drawing, $document));
-        $zip->close();
+        $this->replaceDrawing('<w:drawing>' . sprintf($frame, $docPrDescr, $cNvPrDescr, $rId) . '</w:drawing>');
 
         $image = $this->readImage();
         self::assertSame('The Earth seen from space', $image->getAltText());
