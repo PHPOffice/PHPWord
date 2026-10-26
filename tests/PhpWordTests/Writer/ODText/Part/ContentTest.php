@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWordTests\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -29,11 +30,9 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
  */
 class ContentTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Executed before each method of the class.
-     */
     protected function tearDown(): void
     {
+        Settings::restoreDefaults();
         TestHelperDOCX::clear();
     }
 

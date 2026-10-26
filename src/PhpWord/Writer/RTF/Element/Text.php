@@ -45,6 +45,12 @@ class Text extends AbstractElement
         $content .= $this->writeOpening();
         $content .= '{';
         $content .= $this->writeFontStyle();
+        $change = $element->getTrackChange();
+        if ($change !== null) {
+            if ($change->getChangeType() === 'DELETED') {
+                $content .= '\strike ';
+            }
+        }
         $content .= $this->writeText($element->getText());
         $content .= '}';
         $content .= $this->writeClosing();

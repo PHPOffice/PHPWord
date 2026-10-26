@@ -18,6 +18,9 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
+use PhpOffice\PhpWord\Element\ListItem as Li;
+use PhpOffice\PhpWord\Style;
+
 /**
  * ListItem element RTF writer; extends from text.
  *
@@ -25,4 +28,74 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  */
 class ListItem extends Text
 {
+    /**
+     * Write list item element.
+     */
+    public function write()
+    {
+        $element = $this->element;
+
+        return ($element instanceof Li) ? $this->writeElement($element) : '';
+    }
+
+    /**
+     * @return string
+     */
+    private function writeElement(Li $element)
+    {
+        $this->getStyles();
+
+        $depth = (int) $element->getDepth();
+        $style = $element->getStyle();
+        $text = $element->getTextObject();
+
+        // Bullet List
+        $content = '';
+        $content .= $this->writeOpening();
+        if ($style instanceof Style\ListItem) {
+            $numStyle = $style->getNumbering();
+            if ($numStyle->getType() == 'singleLevel') {
+                $depth = 0;
+            }
+            $levels = $numStyle->getLevels();
+            $content .= '\ilvl' . $element->getDepth();
+            $content .= '\ls' . $style->getNumId();
+            $content .= '\tx' . $levels[$depth]->getTabPos();
+            $content .= '\fi' . $levels[$depth]->getHanging() * -1;
+            $content .= '\li' . $levels[$depth]->getLeft();
+            $content .= '\lin' . $levels[$depth]->getLeft();
+        }
+        $content .= $this->writeFontStyle(); // ListItem Text has its own font style applied later.
+        $content .= PHP_EOL;
+        /* $content .= '{\listtext\f2 \\\'b7\tab }'; // Not sure if needed for listItemRun
+        $content .= PHP_EOL; */
+        $content .= '{';
+
+        $textStart = $textStyle = $textEnd = '';
+        $textFontStyle = null;
+        $textObject = $element->getTextObject();
+        if ($textObject !== null) {
+            $textFontStyle = $textObject->getFontStyle();
+            if (is_string($textFontStyle)) {
+                $textFontStyle = Style::getStyle($textFontStyle);
+            }
+        }
+        if ($textFontStyle instanceof Style\Font) {
+            $this->fontStyle = $textFontStyle;
+            $textStyle = $this->writeFontStyle();
+            if ($textStyle !== '') {
+                $textStart = '{';
+                $textEnd = '}';
+            }
+        }
+
+        $content .= $textStart . $textStyle . $this->writeText($element->getText()) . $textEnd;
+
+        $content .= '}';
+
+        $content .= PHP_EOL;
+        $content .= $this->writeClosing();
+
+        return $content;
+    }
 }

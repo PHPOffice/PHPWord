@@ -25,8 +25,6 @@ use PhpOffice\PhpWord\Writer\EPub3;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Epub3.
- *
- * @runTestsInSeparateProcesses
  */
 class EPub3Test extends \PHPUnit\Framework\TestCase
 {

@@ -29,6 +29,7 @@ class ODTextSectionTest extends \PHPUnit\Framework\TestCase
 
     protected function tearDown(): void
     {
+        Settings::restoreDefaults();
         if ($this->filename !== '') {
             unlink($this->filename);
             $this->filename = '';

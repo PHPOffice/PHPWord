@@ -18,8 +18,6 @@
 
 namespace PhpOffice\PhpWordTests\Element;
 
-use PhpOffice\PhpWord\Element\AbstractElement;
-
 /**
  * Test class for PhpOffice\PhpWord\Element\AbstractElement.
  */
@@ -30,14 +28,7 @@ class AbstractElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementIndex(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractElement::class);
-        } else {
-            /** @var AbstractElement $stub */
-            $stub = new class() extends AbstractElement {
-            };
-        }
+        $stub = new AbstractElementClass();
         $ival = mt_rand(0, 100);
         $stub->setElementIndex($ival);
         self::assertEquals($ival, $stub->getElementIndex());
@@ -48,14 +39,7 @@ class AbstractElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementId(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(AbstractElement::class);
-        } else {
-            /** @var AbstractElement $stub */
-            $stub = new class() extends AbstractElement {
-            };
-        }
+        $stub = new AbstractElementClass();
         $stub->setElementId();
         self::assertEquals(6, strlen($stub->getElementId()));
     }

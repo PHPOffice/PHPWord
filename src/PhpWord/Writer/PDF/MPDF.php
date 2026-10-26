@@ -34,28 +34,12 @@ class MPDF extends AbstractRenderer implements WriterInterface
     private const BODY_TAG = '<body>';
 
     /**
-     * Overridden to set the correct includefile, only needed for MPDF 5.
-     *
-     * @codeCoverageIgnore
-     */
-    public function __construct(PhpWord $phpWord)
-    {
-        if (file_exists(Settings::getPdfRendererPath() . '/mpdf.php')) {
-            // MPDF version 5.* needs this file to be included, later versions not
-            $this->includeFile = 'mpdf.php';
-        }
-        parent::__construct($phpWord);
-    }
-
-    /**
      * Gets the implementation of external PDF library that should be used.
      *
      * @return \Mpdf\Mpdf implementation
      */
     protected function createExternalWriterInstance()
     {
-        $mPdfClass = $this->getMPdfClassName();
-
         $options = [];
         if ($this->getFont()) {
             $options['default_font'] = $this->getFont();
@@ -63,7 +47,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
 
         $options['tempDir'] = Settings::getPdfRendererOptions()['tempDir'] ?? sys_get_temp_dir() . '/mpdf';
 
-        return new $mPdfClass($options);
+        return new \Mpdf\Mpdf($options);
     }
 
     /**
@@ -78,6 +62,15 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $orientation = strtoupper('portrait');
 
         //  Create PDF
+        $restoreHandler = false;
+        if (PHP_VERSION_ID >= self::$temporaryVersionCheck) {
+            // @codeCoverageIgnoreStart
+            /** @var callable */
+            $callable = [$this, 'specialErrorHandler'];
+            set_error_handler($callable);
+            $restoreHandler = true;
+            // @codeCoverageIgnoreEnd
+        }
         $pdf = $this->createExternalWriterInstance();
         $pdf->_setPageSize($paperSize, $orientation);
         $pdf->addPage($orientation);
@@ -106,31 +99,50 @@ class MPDF extends AbstractRenderer implements WriterInterface
             $pdf->WriteHTML(substr($html, 0, $bodyLocation));
             $html = substr($html, $bodyLocation);
         }
-        foreach (explode("\n", $html) as $line) {
-            $pdf->WriteHTML("$line\n");
+        $pcreBacktrackLimitString = ini_get('pcre.backtrack_limit');
+        $pcreBacktrackLimit = (int) $pcreBacktrackLimitString;
+        $origLimit = $pcreBacktrackLimit;
+
+        try {
+            foreach (explode("\n", $html) as $line) {
+                $lineLen = strlen($line);
+                if ($lineLen > $pcreBacktrackLimit) {
+                    $pcreBacktrackLimit = $lineLen + 1;
+                    ini_set('pcre.backtrack_limit', (string) $pcreBacktrackLimit);
+                }
+                $pdf->WriteHTML("$line\n");
+            }
+        } finally {
+            if ($pcreBacktrackLimit !== $origLimit && is_string($pcreBacktrackLimitString)) {
+                ini_set('pcre.backtrack_limit', $pcreBacktrackLimitString);
+            }
         }
 
         //  Write to file
         fwrite($fileHandle, $pdf->output($filename, 'S'));
 
+        if ($restoreHandler) {
+            restore_error_handler(); // @codeCoverageIgnore
+        }
         parent::restoreStateAfterSave($fileHandle);
     }
 
+    /** @var int */
+    protected static $temporaryVersionCheck = 80600;
+
     /**
-     * Return classname of MPDF to instantiate.
+     * Temporary handler for Php8.6 mb_regex_encoding deprecation.
      *
      * @codeCoverageIgnore
-     *
-     * @return string
      */
-    private function getMPdfClassName()
+    public function specialErrorHandler(int $errno, string $errstr, string $filename, int $lineno): bool
     {
-        if ($this->includeFile != null) {
-            // MPDF version 5.*
-            return '\mpdf';
+        if ($errno === E_DEPRECATED) {
+            if (preg_match('/Function mb_\w+[(][)] is deprecated since 8[.]6/', $errstr) === 1) {
+                return true;
+            }
         }
 
-        // MPDF version > 6.*
-        return '\Mpdf\Mpdf';
+        return false; // continue error handling
     }
 }

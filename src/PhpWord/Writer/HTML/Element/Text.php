@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Element\PreserveText as PreserveTextElement;
+use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
@@ -52,14 +54,14 @@ class Text extends AbstractElement
      *
      * @var string
      */
-    private $openingTags = '';
+    protected $openingTags = '';
 
     /**
      * Closing tag.
      *
      * @var string
      */
-    private $closingTags = '';
+    protected $closingTags = '';
 
     /**
      * Write text.
@@ -70,7 +72,7 @@ class Text extends AbstractElement
     {
         $this->processFontStyle();
 
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        /** @var TextElement */
         $element = $this->element;
 
         $text = $this->parentWriter->escapeHTML($element->getText() ?? '');
@@ -163,20 +165,22 @@ class Text extends AbstractElement
 
         $content = '';
         if (($changed->getChangeType() == TrackChange::INSERTED)) {
-            $content .= '<ins data-phpword-prop=\'';
+            $content .= '<ins';
         } elseif ($changed->getChangeType() == TrackChange::DELETED) {
-            $content .= '<del data-phpword-prop=\'';
+            $content .= '<del';
         }
-
-        $changedProp = ['changed' => ['author' => $changed->getAuthor(), 'id' => $this->element->getElementId()]];
-        if ($changed->getDate() != null) {
-            $changedProp['changed']['date'] = $changed->getDate()->format('Y-m-d\TH:i:s\Z');
+        $author = htmlspecialchars($changed->getAuthor(), ENT_QUOTES);
+        $content .= " data-phpword-chg-author='$author'";
+        $elementId = htmlspecialchars($this->element->getElementId(), ENT_QUOTES);
+        $content .= " data-phpword-chg-id='$elementId'";
+        $date = $changed->getDate();
+        if ($date !== null) {
+            $dateout = $date->format('Y-m-d\TH:i:s\Z');
+            $content .= " data-phpword-chg-timestamp='$dateout'";
         }
-        $content .= json_encode($changedProp);
-        $content .= '\' ';
-        $content .= 'title="' . $changed->getAuthor();
-        if ($changed->getDate() != null) {
-            $dateUser = $changed->getDate()->format('Y-m-d H:i:s');
+        $content .= ' title="' . $author;
+        if ($date !== null) {
+            $dateUser = $date->format('Y-m-d H:i:s');
             $content .= ' - ' . $dateUser;
         }
         $content .= '">';
@@ -211,9 +215,9 @@ class Text extends AbstractElement
      *
      * @return string
      */
-    private function getParagraphStyle()
+    protected function getParagraphStyle()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        /** @var PreserveTextElement|TextElement */
         $element = $this->element;
         $style = '';
         if (!method_exists($element, 'getParagraphStyle')) {
@@ -240,9 +244,9 @@ class Text extends AbstractElement
     /**
      * Get font style.
      */
-    private function processFontStyle(): void
+    protected function processFontStyle(): void
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        /** @var PreserveTextElement|TextElement */
         $element = $this->element;
 
         $attributeStyle = $attributeLang = '';
@@ -255,6 +259,11 @@ class Text extends AbstractElement
             $fontCSS = $styleWriter->write();
             if ($fontCSS) {
                 $attributeStyle = ' style="' . $fontCSS . '"';
+            } else {
+                $className = $fontStyle->getStyleName();
+                if ($className) {
+                    $attributeStyle = ' class="' . $className . '"';
+                }
             }
             // Attribute Lang
             $lang = $fontStyle->getLang();

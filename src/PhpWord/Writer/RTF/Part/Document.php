@@ -78,12 +78,14 @@ class Document extends AbstractPart
             $method = 'get' . $propertyMethod;
 
             $value = $docProps->$method();
-            if (!in_array($property, $dateFields) && Settings::isOutputEscapingEnabled()) {
+            if (!in_array($property, $dateFields)) {
                 $value = $this->escaper->escape($value);
             }
 
-            $value = in_array($property, $dateFields) ? $this->getDateValue($value) : $value;
-            $content .= "{\\{$property} {$value}}";
+            $value = in_array($property, $dateFields) ? $this->getDateValue((int) $value) : $value;
+            if ($value !== '') {
+                $content .= "{\\{$property} {$value}}";
+            }
         }
         $content .= '}';
         $content .= PHP_EOL;
@@ -108,13 +110,20 @@ class Document extends AbstractPart
         $content .= '\viewkind1'; // Set the view mode of the document
 
         $content .= '\uc1'; // Set the numberof bytes that follows a unicode character
-        $content .= '\pard'; // Resets to default paragraph properties.
-        $content .= '\nowidctlpar'; // No widow/orphan control
+        if ($docSettings->hasRtfWidowControl()) {
+            $content .= '\widowctrl';
+        }
         $content .= '\lang' . $langId;
         $content .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
         $content .= '\fs' . (Settings::getDefaultFontSize() * 2); // Set the font size in half-points
-        if ($docSettings->hasEvenAndOddHeaders()) {
+        if ($docSettings->hasEvenAndOddHeaders() || $docSettings->hasMirrorMargins()) {
             $content .= '\\facingp';
+        }
+        if ($docSettings->hasMirrorMargins()) {
+            $content .= '\\margmirror';
+        }
+        if ($docSettings->hasBookFoldPrinting()) {
+            $content .= '\\bookfold\\landscape';
         }
         $content .= PHP_EOL;
 

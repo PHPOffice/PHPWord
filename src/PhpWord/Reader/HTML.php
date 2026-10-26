@@ -49,4 +49,21 @@ class HTML extends AbstractReader implements ReaderInterface
 
         return $phpWord;
     }
+
+    /**
+     * Loads PhpWord from string.
+     *
+     * @param string $content
+     *
+     * @return PhpWord
+     */
+    public function loadFromString($content)
+    {
+        $phpWord = new PhpWord();
+
+        $section = $phpWord->addSection();
+        HTMLParser::addHtml($section, $content, true);
+
+        return $phpWord;
+    }
 }

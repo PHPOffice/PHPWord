@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Exception\InvalidImageException;
  * Test class for PhpOffice\PhpWord\Exception\InvalidImageException.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\InvalidImageException
- *
- * @runTestsInSeparateProcesses
  */
 class InvalidImageExceptionTest extends \PHPUnit\Framework\TestCase
 {

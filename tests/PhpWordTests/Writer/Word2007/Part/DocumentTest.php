@@ -28,8 +28,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document.
- *
- * @runTestsInSeparateProcesses
  */
 class DocumentTest extends \PHPUnit\Framework\TestCase
 {
@@ -383,6 +381,9 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($pName, $element->getAttribute('w:val'));
     }
 
+    /** @var string[] */
+    protected static $possibleMethods = ['assertMatchesRegularExpression', 'assertRegExp'];
+
     /**
      * covers ::_writeImage.
      */
@@ -413,12 +414,16 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         // behind
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
         $style = $element->getAttribute('style');
-        // @phpstan-ignore-next-line
-        if (method_exists(self::class, 'assertMatchesRegularExpression')) {
-            self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
-        } elseif (method_exists(self::class, 'assertRegExp')) { // @phpstan-ignore-line
-            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
-        } else {
+        $found = false;
+        foreach (self::$possibleMethods as $method) {
+            if (method_exists(self::class, $method)) {
+                self::$method('/z\-index:\-[0-9]*/', $style);
+                $found = true;
+
+                break;
+            }
+        }
+        if (!$found) {
             self::fail('Unsure how to test regexp');
         }
 

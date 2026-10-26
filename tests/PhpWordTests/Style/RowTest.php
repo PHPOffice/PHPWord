@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Style\Row;
  * Test class for PhpOffice\PhpWord\Style\Row.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Row
- *
- * @runTestsInSeparateProcesses
  */
 class RowTest extends \PHPUnit\Framework\TestCase
 {

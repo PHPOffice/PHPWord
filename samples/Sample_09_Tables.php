@@ -125,8 +125,8 @@ $row->addCell(1000)->addText('2');
 
 $row = $table->addRow();
 $row->addCell(1000, ['vMerge' => 'continue']);
-$row->addCell(1000)->addText('C');
-$row->addCell(1000)->addText('D');
+$row->addCell(500)->addText('C');
+$row->addCell(500)->addText('D');
 $row->addCell(1000)->addText('3');
 
 // 5. Nested table

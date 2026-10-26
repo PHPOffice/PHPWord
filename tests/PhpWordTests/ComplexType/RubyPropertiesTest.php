@@ -23,8 +23,6 @@ use PhpOffice\PhpWord\ComplexType\RubyProperties;
 
 /**
  * Test class for PhpOffice\PhpWord\ComplexType\RubyProperties.
- *
- * @runTestsInSeparateProcesses
  */
 class RubyPropertiesTest extends \PHPUnit\Framework\TestCase
 {

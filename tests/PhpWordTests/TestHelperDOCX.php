@@ -47,13 +47,14 @@ class TestHelperDOCX
      */
     public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')
     {
+        $tempdir = self::getTempDirPhpunit();
         self::$file = tempnam(Settings::getTempDir(), 'PhpWord');
         if (false === self::$file) {
             throw new CreateTemporaryFileException();
         }
 
-        if (!is_dir(Settings::getTempDir() . '/PhpWord_Unit_Test/')) {
-            mkdir(Settings::getTempDir() . '/PhpWord_Unit_Test/');
+        if (!is_dir($tempdir)) {
+            mkdir($tempdir);
         }
 
         $xmlWriter = IOFactory::createWriter($phpWord, $writerName);
@@ -62,11 +63,11 @@ class TestHelperDOCX
         $zip = new ZipArchive();
         $res = $zip->open(self::$file);
         if (true === $res) {
-            $zip->extractTo(Settings::getTempDir() . '/PhpWord_Unit_Test/');
+            $zip->extractTo($tempdir);
             $zip->close();
         }
 
-        $doc = new XmlDocument(Settings::getTempDir() . '/PhpWord_Unit_Test/');
+        $doc = new XmlDocument($tempdir);
         if ($writerName === 'ODText') {
             $doc->setDefaultFile('content.xml');
         }
@@ -83,8 +84,9 @@ class TestHelperDOCX
             unlink(self::$file);
             self::$file = '';
         }
-        if (is_dir(Settings::getTempDir() . '/PhpWord_Unit_Test/')) {
-            self::deleteDir(Settings::getTempDir() . '/PhpWord_Unit_Test/');
+        $tempdir = self::getTempDirPhpunit();
+        if (is_dir($tempdir)) {
+            self::deleteDir($tempdir);
         }
     }
 
@@ -116,5 +118,15 @@ class TestHelperDOCX
     public static function getFile()
     {
         return self::$file;
+    }
+
+    /**
+     * Get temporary directory for PhpUnit.
+     *
+     * @return string
+     */
+    private static function getTempDirPhpunit()
+    {
+        return Settings::getTempDir() . '/PhpWord_Unit_Test';
     }
 }

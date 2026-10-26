@@ -26,8 +26,6 @@ use PhpOffice\PhpWord\SimpleType\Zoom;
 
 /**
  * Test class for PhpOffice\PhpWord\Metadata\Settings.
- *
- * @runTestsInSeparateProcesses
  */
 class SettingsTest extends \PHPUnit\Framework\TestCase
 {

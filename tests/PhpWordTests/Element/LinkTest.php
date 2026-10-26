@@ -25,8 +25,6 @@ use PhpOffice\PhpWord\Style\Font;
  * Test class for PhpOffice\PhpWord\Element\Link.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Link
- *
- * @runTestsInSeparateProcesses
  */
 class LinkTest extends \PHPUnit\Framework\TestCase
 {

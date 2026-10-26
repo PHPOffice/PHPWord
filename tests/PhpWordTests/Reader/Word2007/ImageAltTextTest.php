@@ -54,7 +54,7 @@ class ImageAltTextTest extends TestCase
         self::assertSame(1, preg_match('/<v:imagedata[^>]* r:id="([^"]+)"/', (string) $zip->getFromName('word/document.xml'), $matches));
         $zip->close();
 
-        return $matches[1] ?? '';
+        return $matches[1];
     }
 
     private function readImage(): Image

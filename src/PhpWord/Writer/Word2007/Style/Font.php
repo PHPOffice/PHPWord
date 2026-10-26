@@ -18,6 +18,9 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style as StyleStyle;
+use PhpOffice\PhpWord\Style\Font as StyleFont;
+
 /**
  * Font style writer.
  *
@@ -39,14 +42,13 @@ class Font extends AbstractStyle
     {
         $xmlWriter = $this->getXmlWriter();
 
-        $isStyleName = $this->isInline && null !== $this->style && is_string($this->style);
-        if ($isStyleName) {
+        if ($this->isInline && null !== $this->style && is_string($this->style)) {
             $xmlWriter->startElement('w:rPr');
             $xmlWriter->startElement('w:rStyle');
             $xmlWriter->writeAttribute('w:val', $this->style);
             $xmlWriter->endElement();
-            $style = \PhpOffice\PhpWord\Style::getStyle($this->style);
-            if ($style instanceof \PhpOffice\PhpWord\Style\Font) {
+            $style = StyleStyle::getStyle($this->style);
+            if ($style instanceof StyleFont) {
                 $xmlWriter->writeElementIf($style->isRTL(), 'w:rtl');
             }
             $xmlWriter->endElement();
@@ -61,7 +63,7 @@ class Font extends AbstractStyle
     private function writeStyle(): void
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
+        if (!$style instanceof StyleFont) {
             return;
         }
 
@@ -122,14 +124,22 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->isDoubleStrikethrough(), 'w:dstrike', 'w:val', $this->writeOnOf($style->isDoubleStrikethrough()));
 
         // Small caps, all caps
-        $xmlWriter->writeElementIf($style->isSmallCaps() !== null, 'w:smallCaps', 'w:val', $this->writeOnOf($style->isSmallCaps()));
-        $xmlWriter->writeElementIf($style->isAllCaps() !== null, 'w:caps', 'w:val', $this->writeOnOf($style->isAllCaps()));
+        $xmlWriter->writeElementIf($style->isSmallCaps(), 'w:smallCaps', 'w:val', $this->writeOnOf($style->isSmallCaps()));
+        $xmlWriter->writeElementIf($style->isAllCaps(), 'w:caps', 'w:val', $this->writeOnOf($style->isAllCaps()));
 
         //Hidden text
         $xmlWriter->writeElementIf($style->isHidden(), 'w:vanish', 'w:val', $this->writeOnOf($style->isHidden()));
 
         // Underline
-        $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
+        $underline = $style->getUnderline();
+        if ($underline !== StyleFont::UNDERLINE_NONE) {
+            $xmlWriter->startElement('w:u');
+            $xmlWriter->writeAttribute('w:val', $underline);
+            if ($style->getUnderlineColor() !== '') {
+                $xmlWriter->writeAttribute('w:color', $style->getUnderlineColor());
+            }
+            $xmlWriter->endElement(); // w:u
+        }
 
         // Foreground-Color
         $xmlWriter->writeElementIf($style->getFgColor() !== null, 'w:highlight', 'w:val', $style->getFgColor());
@@ -154,13 +164,18 @@ class Font extends AbstractStyle
         }
 
         // RTL
-        if ($this->isInline === true) {
-            $styleName = $style->getStyleName();
-            $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
-        }
+        $xmlWriter->writeElementIf($style->isRTL(), 'w:rtl');
 
         // Position
         $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
+
+        $numberSpacing = $style->getNumberSpacing();
+        $xmlWriter->writeElementIf($numberSpacing === StyleFont::NUMBER_SPACING_PROPORTIONAL, 'w14:numSpacing', 'w14:val', 'proportional');
+        $xmlWriter->writeElementIf($numberSpacing === StyleFont::NUMBER_SPACING_TABULAR, 'w14:numSpacing', 'w14:val', 'tabular');
+
+        $numberForms = $style->getNumberForms();
+        $xmlWriter->writeElementIf($numberForms === StyleFont::NUMBER_FORMS_LINING, 'w14:numForm', 'w14:val', 'lining');
+        $xmlWriter->writeElementIf($numberForms === StyleFont::NUMBER_FORMS_OLDSTYLE, 'w14:numForm', 'w14:val', 'oldStyle');
 
         $xmlWriter->endElement();
     }

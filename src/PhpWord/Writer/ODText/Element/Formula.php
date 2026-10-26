@@ -35,15 +35,11 @@ class Formula extends AbstractElement
     public function write(): void
     {
         $xmlWriter = $this->getXmlWriter();
+        /** @var ElementFormula */
         $element = $this->getElement();
-        if (!$element instanceof ElementFormula) {
-            return;
-        }
 
+        /** @var AbstractPart */
         $part = $this->getPart();
-        if (!$part instanceof AbstractPart) {
-            return;
-        }
 
         $objectIdx = $part->addObject($element);
 

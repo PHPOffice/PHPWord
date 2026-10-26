@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer\PDF;
 
 use Dompdf\Dompdf as DompdfLib;
 use Dompdf\Options;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
@@ -30,13 +31,6 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class DomPDF extends AbstractRenderer implements WriterInterface
 {
-    /**
-     * Name of renderer include file.
-     *
-     * @var string
-     */
-    protected $includeFile;
-
     /**
      * Gets the implementation of external PDF library that should be used.
      *

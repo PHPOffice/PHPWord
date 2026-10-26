@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Validate;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Font style.
@@ -33,43 +34,71 @@ class Font extends AbstractStyle
      */
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
-    const UNDERLINE_DASHHEAVY = 'dashHeavy';
+    const UNDERLINE_DASHDOTHEAVY = 'dashDotHeavy';
+    const UNDERLINE_DASHDOTDOTHEAVY = 'dashDotDotHeavy';
+    const UNDERLINE_DASHEDHEAVY = 'dashedHeavy';
     const UNDERLINE_DASHLONG = 'dashLong';
     const UNDERLINE_DASHLONGHEAVY = 'dashLongHeavy';
-    const UNDERLINE_DOUBLE = 'dbl';
+    const UNDERLINE_DOUBLE = 'double';
     const UNDERLINE_DOTDASH = 'dotDash';
-    const UNDERLINE_DOTDASHHEAVY = 'dotDashHeavy';
     const UNDERLINE_DOTDOTDASH = 'dotDotDash';
-    const UNDERLINE_DOTDOTDASHHEAVY = 'dotDotDashHeavy';
     const UNDERLINE_DOTTED = 'dotted';
     const UNDERLINE_DOTTEDHEAVY = 'dottedHeavy';
-    const UNDERLINE_HEAVY = 'heavy';
+    const UNDERLINE_HEAVY = 'thick';
     const UNDERLINE_SINGLE = 'single';
-    const UNDERLINE_WAVY = 'wavy';
-    const UNDERLINE_WAVYDOUBLE = 'wavyDbl';
+    const UNDERLINE_WAVY = 'wave';
+    const UNDERLINE_WAVYDOUBLE = 'wavyDouble';
     const UNDERLINE_WAVYHEAVY = 'wavyHeavy';
     const UNDERLINE_WORDS = 'words';
+    /** @deprecated 2.0 use UNDERLINE_DASHEDHEAVY */
+    const UNDERLINE_DASHHEAVY = self::UNDERLINE_DASHEDHEAVY;
+    /** @deprecated 2.0 use UNDERLINE_DASHDOTHEAVY */
+    const UNDERLINE_DOTDASHHEAVY = self::UNDERLINE_DASHDOTHEAVY;
+    /** @deprecated 2.0 use UNDERLINE_DASHDOTHEAVY */
+    const UNDERLINE_DOTDOTDASHHEAVY = self::UNDERLINE_DASHDOTDOTHEAVY;
 
-    /**
-     * Foreground colors.
-     *
-     * @const string
-     */
+    // Foreground colors.
+    /** @deprecated 2.0 use SimpleType\Color::YELLOW */
     const FGCOLOR_YELLOW = 'yellow';
-    const FGCOLOR_LIGHTGREEN = 'green';
+    /** @deprecated 2.0 use SimpleType\Color::LIGHTGREEN */
+    const FGCOLOR_LIGHTGREEN = 'lightGreen';
+    /** @deprecated 2.0 use SimpleType\Color::CYAN */
     const FGCOLOR_CYAN = 'cyan';
+    /** @deprecated 2.0 use SimpleType\Color::MAGENTA */
     const FGCOLOR_MAGENTA = 'magenta';
+    /** @deprecated 2.0 use SimpleType\Color::BLUE */
     const FGCOLOR_BLUE = 'blue';
+    /** @deprecated 2.0 use SimpleType\Color::RED */
     const FGCOLOR_RED = 'red';
+    /** @deprecated 2.0 use SimpleType\Color::DARKBLUE */
     const FGCOLOR_DARKBLUE = 'darkBlue';
+    /** @deprecated 2.0 use SimpleType\Color::DARKCYAN */
     const FGCOLOR_DARKCYAN = 'darkCyan';
+    /** @deprecated 2.0 use SimpleType\Color::DARKGREEN */
     const FGCOLOR_DARKGREEN = 'darkGreen';
+    /** @deprecated 2.0 use SimpleType\Color::DARKMAGENTA */
     const FGCOLOR_DARKMAGENTA = 'darkMagenta';
+    /** @deprecated 2.0 use SimpleType\Color::DARKRED */
     const FGCOLOR_DARKRED = 'darkRed';
+    /** @deprecated 2.0 use SimpleType\Color::DARKYELLOW */
     const FGCOLOR_DARKYELLOW = 'darkYellow';
+    /** @deprecated 2.0 use SimpleType\Color::DARKGRAY */
     const FGCOLOR_DARKGRAY = 'darkGray';
+    /** @deprecated 2.0 use SimpleType\Color::LIGHTGRAY */
     const FGCOLOR_LIGHTGRAY = 'lightGray';
+    /** @deprecated 2.0 use SimpleType\Color::BLACK */
     const FGCOLOR_BLACK = 'black';
+
+    const NUMBER_SPACING_PROPORTIONAL = 'proportional';
+    const NUMBER_SPACING_TABULAR = 'tabular';
+    const NUMBER_FORMS_LINING = 'lining';
+    const NUMBER_FORMS_OLDSTYLE = 'oldStyle';
+
+    /** @var string */
+    private $numberSpacing = '';
+
+    /** @var string */
+    private $numberForms = '';
 
     /**
      * Aliases.
@@ -116,14 +145,14 @@ class Font extends AbstractStyle
     /**
      * Bold.
      *
-     * @var bool
+     * @var ?bool
      */
     private $bold;
 
     /**
      * Italic.
      *
-     * @var bool
+     * @var ?bool
      */
     private $italic;
 
@@ -134,38 +163,41 @@ class Font extends AbstractStyle
      */
     private $underline = self::UNDERLINE_NONE;
 
+    /** @var string */
+    private $underlineColor = '';
+
     /**
      * Superscript.
      *
-     * @var bool
+     * @var ?bool
      */
-    private $superScript = false;
+    private $superScript;
 
     /**
      * Subscript.
      *
-     * @var bool
+     * @var ?bool
      */
-    private $subScript = false;
+    private $subScript;
 
     /**
      * Strikethrough.
      *
-     * @var bool
+     * @var ?bool
      */
     private $strikethrough;
 
     /**
      * Double strikethrough.
      *
-     * @var bool
+     * @var ?bool
      */
     private $doubleStrikethrough;
 
     /**
      * Small caps.
      *
-     * @var bool
+     * @var ?bool
      *
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
      */
@@ -174,7 +206,7 @@ class Font extends AbstractStyle
     /**
      * All caps.
      *
-     * @var bool
+     * @var ?bool
      *
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
      */
@@ -241,7 +273,7 @@ class Font extends AbstractStyle
     /**
      * noProof (disables AutoCorrect).
      *
-     * @var bool
+     * @var ?bool
      * http://www.datypic.com/sc/ooxml/e-w_noProof-1.html
      */
     private $noProof;
@@ -256,7 +288,7 @@ class Font extends AbstractStyle
     /**
      * Hidden text.
      *
-     * @var bool
+     * @var ?bool
      *
      * @see  http://www.datypic.com/sc/ooxml/e-w_vanish-1.html
      */
@@ -318,6 +350,7 @@ class Font extends AbstractStyle
                 'bold' => $this->isBold(),
                 'italic' => $this->isItalic(),
                 'underline' => $this->getUnderline(),
+                'underlineColor' => $this->getUnderlineColor(),
                 'strike' => $this->isStrikethrough(),
                 'dStrike' => $this->isDoubleStrikethrough(),
                 'super' => $this->isSuperScript(),
@@ -365,13 +398,13 @@ class Font extends AbstractStyle
     /**
      * Set font name.
      *
-     * @param string $value
+     * @param ?string $value
      *
      * @return self
      */
     public function setName($value = null)
     {
-        $this->name = $value;
+        $this->name = "$value";
 
         return $this;
     }
@@ -449,7 +482,7 @@ class Font extends AbstractStyle
     /**
      * Get bold.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isBold()
     {
@@ -473,7 +506,7 @@ class Font extends AbstractStyle
     /**
      * Get italic.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isItalic()
     {
@@ -507,13 +540,29 @@ class Font extends AbstractStyle
     /**
      * Set underline.
      *
-     * @param string $value
+     * @param bool|string $value
      *
      * @return self
      */
     public function setUnderline($value = self::UNDERLINE_NONE)
     {
+        if (is_bool($value)) {
+            $value = $value ? self::UNDERLINE_SINGLE : self::UNDERLINE_NONE;
+        }
         $this->underline = $this->setNonEmptyVal($value, self::UNDERLINE_NONE);
+
+        return $this;
+    }
+
+    public function getUnderlineColor(): string
+    {
+        return $this->underlineColor;
+    }
+
+    /** @return self */
+    public function setUnderlineColor(string $value = '')
+    {
+        $this->underlineColor = $value;
 
         return $this;
     }
@@ -521,7 +570,7 @@ class Font extends AbstractStyle
     /**
      * Get superscript.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isSuperScript()
     {
@@ -543,7 +592,7 @@ class Font extends AbstractStyle
     /**
      * Get subscript.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isSubScript()
     {
@@ -601,7 +650,7 @@ class Font extends AbstractStyle
     /**
      * Get small caps.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isSmallCaps()
     {
@@ -623,7 +672,7 @@ class Font extends AbstractStyle
     /**
      * Get all caps.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isAllCaps()
     {
@@ -763,7 +812,7 @@ class Font extends AbstractStyle
     /**
      * Get noProof (disables autocorrect).
      *
-     * @return bool
+     * @return ?bool
      */
     public function isNoProof()
     {
@@ -910,7 +959,7 @@ class Font extends AbstractStyle
     /**
      * Get hidden text.
      *
-     * @return bool
+     * @return ?bool
      */
     public function isHidden()
     {
@@ -993,5 +1042,31 @@ class Font extends AbstractStyle
     public function getFallbackFont(): string
     {
         return $this->fallbackFont;
+    }
+
+    public function setNumberSpacing(string $numberSpacing): self
+    {
+        Style::setUsesOpenType(true);
+        $this->numberSpacing = $numberSpacing;
+
+        return $this;
+    }
+
+    public function getNumberSpacing(): string
+    {
+        return $this->numberSpacing;
+    }
+
+    public function setNumberForms(string $numberForms): self
+    {
+        Style::setUsesOpenType(true);
+        $this->numberForms = $numberForms;
+
+        return $this;
+    }
+
+    public function getNumberForms(): string
+    {
+        return $this->numberForms;
     }
 }

@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\ODText\Style;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -32,6 +33,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
+        Style::resetStyles();
         TestHelperDOCX::clear();
     }
 

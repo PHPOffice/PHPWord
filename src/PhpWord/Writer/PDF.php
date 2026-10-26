@@ -26,6 +26,10 @@ use PhpOffice\PhpWord\Writer\PDF\AbstractRenderer;
 /**
  * PDF Writer.
  *
+ * @method string getFont()
+ * @method self setFont(string $font)
+ * @method string getContent()
+ *
  * @since 0.10.0
  */
 class PDF
@@ -72,12 +76,15 @@ class PDF
         // if ($this->renderer === null) {
         //     throw new Exception("PDF Rendering library has not been defined.");
         // }
+        /** @var callable */
+        $callable = [$this->getRenderer(), $name];
 
-        return call_user_func_array([$this->getRenderer(), $name], $arguments);
+        return call_user_func_array($callable, $arguments);
     }
 
     public function save(string $filename): void
     {
+        PhpWord::noPhar($filename);
         $this->getRenderer()->save($filename);
     }
 

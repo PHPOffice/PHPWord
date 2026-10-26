@@ -24,8 +24,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Comment.
- *
- * @runTestsInSeparateProcesses
  */
 class CommentsTest extends \PHPUnit\Framework\TestCase
 {

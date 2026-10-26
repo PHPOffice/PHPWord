@@ -22,8 +22,6 @@ use PhpOffice\PhpWord\Element\Bookmark;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Footer.
- *
- * @runTestsInSeparateProcesses
  */
 class BookmarkTest extends \PHPUnit\Framework\TestCase
 {

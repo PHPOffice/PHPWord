@@ -9,75 +9,63 @@ use PHPUnit\Framework\TestCase;
 
 class TextTest extends TestCase
 {
-    /**
-     * @var XMLWriter
-     */
-    private $xmlWriter;
-
-    /**
-     * @var Text
-     */
-    private $element;
-
-    /**
-     * @var TextWriter
-     */
-    private $writer;
-
-    protected function setUp(): void
-    {
-        $this->xmlWriter = new XMLWriter();
-        $this->element = new Text('Sample Text');
-        $this->writer = new TextWriter($this->xmlWriter, $this->element);
-    }
-
     public function testWrite(): void
     {
-        $this->writer->write();
+        $xmlWriter = new XMLWriter();
+        $element = new Text('Sample Text');
+        $writer = new TextWriter($xmlWriter, $element);
+        $writer->write();
 
         $expected = "<p>\n  <span>Sample Text</span>\n</p>\n";
-        self::assertEquals($expected, $this->xmlWriter->getData());
+        self::assertSame($expected, $xmlWriter->getData());
     }
 
     public function testWriteWithFontStyle(): void
     {
-        $this->element->setFontStyle('customStyle');
+        $xmlWriter = new XMLWriter();
+        $element = new Text('Sample Text');
+        $writer = new TextWriter($xmlWriter, $element);
+        $element->setFontStyle('customStyle');
 
-        $this->writer->write();
+        $writer->write();
 
         $expected = "<p>\n  <span class=\"customStyle\">Sample Text</span>\n</p>\n";
-        self::assertEquals($expected, $this->xmlWriter->getData());
+        self::assertSame($expected, $xmlWriter->getData());
     }
 
     public function testWriteWithParagraphStyle(): void
     {
-        $this->element->setParagraphStyle('paragraphStyle');
+        $xmlWriter = new XMLWriter();
+        $element = new Text('Sample Text');
+        $writer = new TextWriter($xmlWriter, $element);
+        $element->setParagraphStyle('paragraphStyle');
 
-        $this->writer->write();
+        $writer->write();
 
         $expected = "<p class=\"paragraphStyle\">\n  <span>Sample Text</span>\n</p>\n";
-        self::assertEquals($expected, $this->xmlWriter->getData());
+        self::assertSame($expected, $xmlWriter->getData());
     }
 
     public function testWriteWithoutP(): void
     {
         $text = new Text('Sample Text');
         $xmlWriter = new XMLWriter();
-        $this->writer = new TextWriter($xmlWriter, $text, true);
+        $writer = new TextWriter($xmlWriter, $text, true);
 
-        $this->writer->write();
+        $writer->write();
 
         $expected = "<span>Sample Text</span>\n";
-        self::assertEquals($expected, $xmlWriter->getData());
+        self::assertSame($expected, $xmlWriter->getData());
     }
 
     public function testWriteWithInvalidElement(): void
     {
-        $invalidElement = $this->createMock(\PhpOffice\PhpWord\Element\AbstractElement::class);
-        $writer = new TextWriter($this->xmlWriter, $invalidElement);
+        $xmlWriter = new XMLWriter();
+        $invalidElement = new FakeElement();
+        $writer = new TextWriter($xmlWriter, $invalidElement);
 
         $writer->write();
 
-        self::assertEquals('', $this->xmlWriter->getData());
+        self::assertSame('', $xmlWriter->getData());
     }
 }

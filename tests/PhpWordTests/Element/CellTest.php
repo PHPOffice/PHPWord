@@ -24,8 +24,6 @@ use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Cell.
- *
- * @runTestsInSeparateProcesses
  */
 class CellTest extends AbstractWebServerEmbedded
 {
@@ -48,6 +46,17 @@ class CellTest extends AbstractWebServerEmbedded
 
         self::assertInstanceOf('PhpOffice\\PhpWord\\Style\\Cell', $oCell->getStyle());
         self::assertNull($oCell->getWidth());
+    }
+
+    /**
+     * Test if the style object passed to the constructor is actually used.
+     */
+    public function testConstructWithStyleObject(): void
+    {
+        $style = new \PhpOffice\PhpWord\Style\Cell();
+        $oCell = new Cell(null, $style);
+
+        self::assertSame($style, $oCell->getStyle());
     }
 
     /**
@@ -165,6 +174,9 @@ class CellTest extends AbstractWebServerEmbedded
 
     /**
      * Add image section by URL.
+     * Method getRemoteGifImageUrl seems to require separate process.
+     *
+     * @runInSeparateProcess
      */
     public function testAddImageSectionByUrl(): void
     {

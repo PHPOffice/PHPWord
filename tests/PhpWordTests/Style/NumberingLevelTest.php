@@ -23,8 +23,6 @@ use PhpOffice\PhpWord\Style\NumberingLevel;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\NumberingLevel.
- *
- * @runTestsInSeparateProcesses
  */
 class NumberingLevelTest extends \PHPUnit\Framework\TestCase
 {

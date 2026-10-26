@@ -25,8 +25,6 @@ use PhpOffice\PhpWordTests\AbstractWebServerEmbedded;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Formula.
- *
- * @runTestsInSeparateProcesses
  */
 class FormulaTest extends AbstractWebServerEmbedded
 {
