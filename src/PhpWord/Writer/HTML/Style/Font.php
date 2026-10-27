@@ -45,20 +45,27 @@ class Font extends AbstractStyle
         $color = $style->getColor();
         $fgColor = $style->getFgColor();
         $underline = $style->getUnderline() != FontStyle::UNDERLINE_NONE;
+		$underlineColor = $style->getUnderlineColor();
         $lineThrough = $style->isStrikethrough() || $style->isDoubleStrikethrough();
 
         $css['font-family'] = $this->getValueIf(!empty($font), $font);
-        $css['font-size'] = $this->getValueIf($size !== null, "{$size}pt");
-        $css['color'] = $this->getValueIf($color !== null, "#{$color}");
+        $css['font-size'] = $this->getValueIf($size !== null, $size."pt");
+        $css['color'] = $this->getValueIf($color !== null, "#".$color);
         $css['background'] = $this->getValueIf($fgColor != '', $fgColor);
         $css['font-weight'] = $this->getValueIf($style->isBold(), 'bold');
         $css['font-style'] = $this->getValueIf($style->isItalic(), 'italic');
         $css['vertical-align'] = '';
         $css['vertical-align'] .= $this->getValueIf($style->isSuperScript(), 'super');
         $css['vertical-align'] .= $this->getValueIf($style->isSubScript(), 'sub');
-        $css['text-decoration'] = '';
-        $css['text-decoration'] .= $this->getValueIf($underline, 'underline ');
-        $css['text-decoration'] .= $this->getValueIf($lineThrough, 'line-through ');
+        $decorations = [];
+        if ($underline) {
+            $decorations[] = 'underline';
+        }
+        if ($lineThrough) {
+            $decorations[] = 'line-through';
+        }
+        $css['text-decoration'] = implode(' ', $decorations);
+        $css['text-decoration-color'] = $this->getValueIf($underline && $underlineColor !== '', '#'.$underlineColor );
         $css['text-transform'] = $this->getValueIf($style->isAllCaps(), 'uppercase');
         $css['font-variant'] = $this->getValueIf($style->isSmallCaps(), 'small-caps');
         $css['display'] = $this->getValueIf($style->isHidden(), 'none');
