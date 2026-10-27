@@ -698,18 +698,19 @@ class TemplateProcessor
                     $preparedImageAttrs = $this->prepareImageAttrs($replaceImage, $varInlineArgs);
                     $imgPath = $preparedImageAttrs['src'];
 
-                    // get image index
-                    $imgIndex = $this->getNextRelationsIndex($partFileName);
-                    $rid = 'rId' . $imgIndex;
-
-                    // replace preparations
-                    $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
-                    $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
-
                     // replace variable
                     $varNameWithArgsFixed = static::ensureMacroCompleted($varNameWithArgs);
                     $matches = [];
+                    // the occurrence may already be gone, replaced together with an identical one
                     if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed, '/') . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
+                        // get image index
+                        $imgIndex = $this->getNextRelationsIndex($partFileName);
+                        $rid = 'rId' . $imgIndex;
+
+                        // replace preparations
+                        $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
+                        $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']], $imgTpl);
+
                         $wholeTag = $matches[0];
                         array_shift($matches);
                         [$openTag, $prefix, , $postfix, $closeTag] = $matches;
@@ -718,7 +719,7 @@ class TemplateProcessor
                         $partContent = $this->setValueForPart($wholeTag, $replaceXml, $partContent, $limit);
                     }
 
-                    if (++$i >= $limit) {
+                    if (self::MAXIMUM_REPLACEMENTS_DEFAULT !== $limit && ++$i >= $limit) {
                         break;
                     }
                 }

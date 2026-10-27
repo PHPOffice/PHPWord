@@ -1004,12 +1004,77 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Template processor of a document containing the variable ${Image}.
+     * @covers ::setImageValue
      */
-    private function getImageTemplateProcessor(): TemplateProcessor
+    public function testSetImageValueReplacesAllOccurrencesByDefault(): void
+    {
+        $templateProcessor = $this->getImageTemplateProcessor(['${Image}', '${Image}', 'Signed: ${Image}']);
+        $templateProcessor->setImageValue('Image', __DIR__ . '/_files/images/earth.jpg');
+
+        [$mainPartXml, $relationsXml] = $this->saveAndReadMainPart($templateProcessor);
+
+        self::assertStringNotContainsString('${Image}', $mainPartXml);
+        self::assertStringContainsString('Signed: ', $mainPartXml);
+        self::assertSame(3, substr_count($mainPartXml, '<v:imagedata '));
+        self::assertImageRelationsMatchImages($mainPartXml, $relationsXml);
+    }
+
+    /**
+     * @covers ::setImageValue
+     */
+    public function testSetImageValueWithLimit(): void
+    {
+        $templateProcessor = $this->getImageTemplateProcessor(['${Image}', '${Image}', 'Signed: ${Image}']);
+        $templateProcessor->setImageValue('Image', __DIR__ . '/_files/images/earth.jpg', 1);
+
+        [$mainPartXml, $relationsXml] = $this->saveAndReadMainPart($templateProcessor);
+
+        self::assertSame(2, substr_count($mainPartXml, '${Image}'));
+        self::assertSame(1, substr_count($mainPartXml, '<v:imagedata '));
+        self::assertImageRelationsMatchImages($mainPartXml, $relationsXml);
+    }
+
+    /**
+     * @return array{string, string}
+     */
+    private function saveAndReadMainPart(TemplateProcessor $templateProcessor): array
+    {
+        $resultFileName = (string) tempnam(Settings::getTempDir(), 'PHPWordResult');
+        $templateProcessor->saveAs($resultFileName);
+
+        $resultZip = new ZipArchive();
+        $resultZip->open($resultFileName);
+        $mainPartXml = (string) $resultZip->getFromName('word/document.xml');
+        $relationsXml = (string) $resultZip->getFromName('word/_rels/document.xml.rels');
+        $resultZip->close();
+        unlink($resultFileName);
+
+        return [$mainPartXml, $relationsXml];
+    }
+
+    /**
+     * Every image relation declared for the main part is used by an image, and every image uses a declared relation.
+     */
+    private static function assertImageRelationsMatchImages(string $mainPartXml, string $relationsXml): void
+    {
+        preg_match_all('#<v:imagedata r:id="([^"]+)"#', $mainPartXml, $usedIds);
+        preg_match_all('#<Relationship Id="([^"]+)" Type="[^"]+/image"#', $relationsXml, $declaredIds);
+
+        self::assertEqualsCanonicalizing(array_values(array_unique($usedIds[1])), $declaredIds[1]);
+    }
+
+    /**
+     * Template processor of a document with a paragraph for each text, by default the variable ${Image}.
+     *
+     * @param string[] $texts
+     */
+    private function getImageTemplateProcessor(array $texts = ['${Image}']): TemplateProcessor
     {
         $phpWord = new PhpWord();
-        $phpWord->addSection()->addText('${Image}');
+        $section = $phpWord->addSection();
+        foreach ($texts as $text) {
+            $section->addText($text);
+        }
         $testFileName = (string) tempnam(Settings::getTempDir(), 'PHPWordTemplate');
         IOFactory::createWriter($phpWord, 'Word2007')->save($testFileName);
         $templateProcessor = new TemplateProcessor($testFileName);
