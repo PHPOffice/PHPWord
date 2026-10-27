@@ -173,6 +173,50 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * An image whose relationship Target is an absolute part name
+     * ("/word/media/image1.jpg") must load instead of throwing on the
+     * doubled "word//word/media/..." path.
+     *
+     * @see https://github.com/PHPOffice/PHPWord/issues/2880
+     */
+    public function testLoadImageWithAbsoluteRelationshipTarget(): void
+    {
+        $reader = new Word2007();
+        $reader->setImageLoading(true);
+        $phpWord = $reader->load(dirname(__DIR__, 1) . '/_files/documents/reader-absolute-image-target.docx');
+
+        self::assertInstanceOf(PhpWord::class, $phpWord);
+
+        $elements = $phpWord->getSections()[0]->getElements();
+        $textRun = $elements[2];
+        self::assertInstanceOf(TextRun::class, $textRun);
+        $image = $textRun->getElements()[0];
+        self::assertInstanceOf(Image::class, $image);
+    }
+
+    /**
+     * A header whose own relationship Target is an absolute part name
+     * ("/word/header1.xml") must still resolve the image it embeds: the
+     * header's relationships are keyed by "header1", not "/word/header1",
+     * so the image used to be dropped silently.
+     *
+     * @see https://github.com/PHPOffice/PHPWord/pull/2957#issuecomment-6122062746
+     */
+    public function testLoadHeaderImageWithAbsoluteRelationshipTarget(): void
+    {
+        $reader = new Word2007();
+        $reader->setImageLoading(true);
+        $phpWord = $reader->load(dirname(__DIR__, 1) . '/_files/documents/reader-absolute-header-target.docx');
+
+        $headers = $phpWord->getSections()[0]->getHeaders();
+        self::assertCount(1, $headers);
+        $textRun = reset($headers)->getElements()[0];
+        self::assertInstanceOf(TextRun::class, $textRun);
+        self::assertCount(1, $textRun->getElements(), 'The header image was dropped');
+        self::assertInstanceOf(Image::class, $textRun->getElements()[0]);
+    }
+
+    /**
      * Load a document with Windows metafiles (WMF, EMF, EMF+).
      *
      * @see https://github.com/PHPOffice/PHPWord/issues/1480
