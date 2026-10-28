@@ -48,7 +48,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $elements = [
             'CheckBox', 'Container', 'Footnote', 'Image', 'Link', 'ListItem', 'ListItemRun',
-            'OLEObject', 'PreserveText', 'Table', 'Text', 'TextBox', 'TextBreak', 'Title', 'TOC',
+            'OLEObject', 'PreserveText', 'Table', 'Text', 'TextBox', 'TextBreak', 'Title', 'TOC', 'AltChunk',
             'Field', 'Line', 'Shape', 'Chart', 'FormField', 'SDT', 'Bookmark',
         ];
         foreach ($elements as $element) {
