@@ -165,6 +165,33 @@ class TableTest extends TestCase
         self::assertEquals(".tstyle {table-layout: auto; $cssnone}", $matches[0] ?? '');
     }
 
+    /**
+     * Tests writing table borders with hex colors, as read from Word2007 (w:color="000066").
+     */
+    public function testWriteTableBordersWithHexColor(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $bstyle = ['borderStyle' => 'single', 'borderColor' => '000066'];
+        $table = $section->addTable($bstyle);
+        $table->addRow()->addCell(null, $bstyle)->addText('Row 1 Cell 1');
+
+        $dom = Helper::getAsHTML($phpWord);
+        $xpath = new DOMXPath($dom);
+
+        $css = 'border-top-style: solid;'
+            . ' border-top-color: #000066;'
+            . ' border-left-style: solid;'
+            . ' border-left-color: #000066;'
+            . ' border-bottom-style: solid;'
+            . ' border-bottom-color: #000066;'
+            . ' border-right-style: solid;'
+            . ' border-right-color: #000066;';
+        self::assertEquals("table-layout: auto; $css", Helper::getTextContent($xpath, '/html/body/div/table[1]', 'style'));
+        self::assertEquals($css, Helper::getTextContent($xpath, '/html/body/div/table[1]/tr[1]/td[1]', 'style'));
+    }
+
     public function testWriteTableCellVAlign(): void
     {
         $phpWord = new PhpWord();
