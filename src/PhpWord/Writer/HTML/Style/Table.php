@@ -68,6 +68,8 @@ class Table extends AbstractStyle
                 $outval = $style->{$method}();
                 if (is_string($outval) && 1 == preg_match('/^[a-z]+$/', $outval)) {
                     $css['border-' . lcfirst($direction) . '-color'] = $outval;
+                } elseif (is_string($outval) && 1 == preg_match('/^[0-9A-Fa-f]{6}$/', $outval)) {
+                    $css['border-' . lcfirst($direction) . '-color'] = '#' . $outval;
                 }
             }
 
