@@ -245,35 +245,37 @@ class Paragraph extends AbstractStyle
      */
     private function writeNumbering(XMLWriter $xmlWriter, $numbering = null): ?int
     {
+        $numStyle = null;
+        $numLevel = null;
+        $numberingStyle = null;
+
+        if ($numbering !== null) {
+            $numStyle = $numbering['style'];
+            $numLevel = $numbering['level'];
+
+            /** @var Style\Numbering $numberingStyle */
+            $numberingStyle = Style::getStyle($numStyle);
+        }
+
+        $hasNumbering = (null !== $numStyle && null !== $numberingStyle);
+
         if (isset($this->children['numPr'])) {
+            // The numbering of the caller replaces the one of the style, but the
+            // outline level the style implies is written all the same, because it
+            // is a property of the paragraph and not of the numbering.
             call_user_func($this->children['numPr']);
-
-            return null;
-        }
-
-        if ($numbering === null) {
-            return null;
-        }
-
-        $numStyle = $numbering['style'];
-        $numLevel = $numbering['level'];
-
-        /** @var Style\Numbering $numbering */
-        $numbering = Style::getStyle($numStyle);
-        if ($numStyle !== null && $numbering !== null) {
+        } elseif ($hasNumbering) {
             $xmlWriter->startElement('w:numPr');
             $xmlWriter->startElement('w:ilvl');
             $xmlWriter->writeAttribute('w:val', $numLevel);
             $xmlWriter->endElement(); // w:ilvl
             $xmlWriter->startElement('w:numId');
-            $xmlWriter->writeAttribute('w:val', $numbering->getIndex());
+            $xmlWriter->writeAttribute('w:val', $numberingStyle->getIndex());
             $xmlWriter->endElement(); // w:numId
             $xmlWriter->endElement(); // w:numPr
-
-            return $numLevel;
         }
 
-        return null;
+        return $hasNumbering ? $numLevel : null;
     }
 
     /**

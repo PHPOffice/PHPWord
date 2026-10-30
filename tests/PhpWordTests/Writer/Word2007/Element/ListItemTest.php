@@ -124,4 +124,43 @@ class ListItemTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(['pStyle', 'numPr'], $written);
     }
+
+    /**
+     * A list item keeps the outline level that the numbering of its paragraph style
+     * implies.
+     *
+     * The numbering of the list replaces the numbering of the style, but the outline
+     * level is a property of the paragraph and is written all the same.
+     */
+    public function testTheOutlineLevelOfTheNumberingOfTheStyleIsWritten(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addNumberingStyle('Numbering', [
+            'type' => 'multilevel',
+            'levels' => [
+                0 => ['text' => '%1.', 'left' => 360, 'hanging' => 360],
+            ],
+        ]);
+
+        $paragraphStyle = new ParagraphStyle();
+        $paragraphStyle->setNumStyle('Numbering');
+        $paragraphStyle->setNumLevel(0);
+
+        $section = $phpWord->addSection();
+        $section->addListItem('A list item.', 1, null, null, $paragraphStyle);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $pPr = $doc->getElement('/w:document/w:body/w:p/w:pPr', 'word/document.xml');
+        self::assertNotNull($pPr);
+
+        $written = [];
+        foreach ($pPr->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['numPr', 'outlineLvl'], $written);
+        self::assertSame('0', $doc->getElementAttribute('/w:document/w:body/w:p/w:pPr/w:outlineLvl', 'w:val'));
+    }
 }
