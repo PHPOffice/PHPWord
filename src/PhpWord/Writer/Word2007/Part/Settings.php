@@ -58,7 +58,7 @@ class Settings extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
 
-        foreach ($this->settings as $settingKey => $settingValue) {
+        foreach ($this->orderedSettings() as $settingKey => $settingValue) {
             $this->writeSetting($xmlWriter, $settingKey, $settingValue);
         }
 
@@ -96,6 +96,72 @@ class Settings extends AbstractPart
     }
 
     /**
+     * The order the schema names the settings this library writes in.
+     *
+     * `CT_Settings` is a sequence and not a set, so a reader that walks it stops at the
+     * first child it did not expect. The settings are gathered in two places — a literal
+     * for the ones that always carry a value, and a call for each of the on/off ones —
+     * and the two do not agree on an order, so the order is applied where the settings
+     * are written rather than at either of the two places that gather them.
+     *
+     * @var list<string>
+     */
+    private const ORDER = [
+        'w:zoom',
+        'w:mirrorMargins',
+        'w:hideSpellingErrors',
+        'w:hideGrammaticalErrors',
+        'w:proofState',
+        'w:revisionView',
+        'w:trackRevisions',
+        'w:doNotTrackMoves',
+        'w:doNotTrackFormatting',
+        'w:documentProtection',
+        'w:defaultTabStop',
+        'w:autoHyphenation',
+        'w:consecutiveHyphenLimit',
+        'w:hyphenationZone',
+        'w:doNotHyphenateCaps',
+        'w:evenAndOddHeaders',
+        'w:bookFoldPrinting',
+        'w:characterSpacingControl',
+        'w:updateFields',
+        'w:compat',
+        'm:mathPr',
+        'w:themeFontLang',
+        'w:clrSchemeMapping',
+        'w:decimalSymbol',
+        'w:listSeparator',
+    ];
+
+    /**
+     * The settings, in the order the schema names them in.
+     *
+     * A setting the order does not name is written after the ones that are named, rather
+     * than dropped.
+     *
+     * @return array<string, mixed>
+     */
+    private function orderedSettings(): array
+    {
+        $ordered = [];
+
+        foreach (self::ORDER as $name) {
+            if (array_key_exists($name, $this->settings)) {
+                $ordered[$name] = $this->settings[$name];
+            }
+        }
+
+        foreach ($this->settings as $name => $value) {
+            if (!array_key_exists($name, $ordered)) {
+                $ordered[$name] = $value;
+            }
+        }
+
+        return $ordered;
+    }
+
+    /**
      * Get settings.
      */
     private function getSettings(): void
@@ -108,8 +174,6 @@ class Settings extends AbstractPart
             'w:defaultTabStop' => ['@attributes' => ['w:val' => '708']],
             'w:hyphenationZone' => ['@attributes' => ['w:val' => '425']],
             'w:characterSpacingControl' => ['@attributes' => ['w:val' => 'doNotCompress']],
-            'w:decimalSymbol' => ['@attributes' => ['w:val' => $documentSettings->getDecimalSymbol()]],
-            'w:listSeparator' => ['@attributes' => ['w:val' => ';']],
             'w:compat' => [],
             'm:mathPr' => [
                 'm:mathFont' => ['@attributes' => ['m:val' => 'Cambria Math']],
@@ -140,6 +204,8 @@ class Settings extends AbstractPart
                     'w:followedHyperlink' => 'followedHyperlink',
                 ],
             ],
+            'w:decimalSymbol' => ['@attributes' => ['w:val' => $documentSettings->getDecimalSymbol()]],
+            'w:listSeparator' => ['@attributes' => ['w:val' => ';']],
         ];
 
         $this->setOnOffValue('w:mirrorMargins', $documentSettings->hasMirrorMargins());

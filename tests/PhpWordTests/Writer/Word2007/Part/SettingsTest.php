@@ -485,4 +485,56 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $element = $doc->getElement($path, $file);
         self::assertSame('true', $element->getAttribute('w:val'));
     }
+
+    /**
+     * The settings are written in the order the schema names them in.
+     *
+     * `CT_Settings` is a sequence and not a set, so a reader that walks it stops at the
+     * first child it did not expect. The order asserted below is the one in ECMA-376,
+     * in `CT_Settings`.
+     */
+    public function testSettingsAreWrittenInSchemaOrder(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setHideSpellingErrors(true);
+        $phpWord->getSettings()->setTrackRevisions(true);
+        $phpWord->getSettings()->setEvenAndOddHeaders(true);
+        $phpWord->getSettings()->setUpdateFields(true);
+        $phpWord->getSettings()->setAutoHyphenation(true);
+        $phpWord->getSettings()->setBookFoldPrinting(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $settings = $doc->getElement('/w:settings', 'word/settings.xml');
+        self::assertNotNull($settings);
+
+        $written = [];
+        foreach ($settings->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame([
+            'zoom',
+            'hideSpellingErrors',
+            'hideGrammaticalErrors',
+            'trackRevisions',
+            'doNotTrackMoves',
+            'doNotTrackFormatting',
+            'defaultTabStop',
+            'autoHyphenation',
+            'hyphenationZone',
+            'evenAndOddHeaders',
+            'bookFoldPrinting',
+            'characterSpacingControl',
+            'updateFields',
+            'compat',
+            'mathPr',
+            'themeFontLang',
+            'clrSchemeMapping',
+            'decimalSymbol',
+            'listSeparator',
+        ], $written);
+    }
 }
