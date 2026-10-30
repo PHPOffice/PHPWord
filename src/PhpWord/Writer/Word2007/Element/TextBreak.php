@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
+
 /**
  * TextBreak element writer.
  *
@@ -37,18 +39,44 @@ class TextBreak extends Text
         }
 
         if (!$this->withoutP) {
-            $hasStyle = $element->hasStyle();
             $this->startElementP();
-
-            if ($hasStyle) {
-                $xmlWriter->startElement('w:pPr');
-                $this->writeFontStyle();
-                $xmlWriter->endElement(); // w:pPr
-            }
 
             $this->endElementP(); // w:p
         } else {
+            // w:br is a run-level element; w:p only takes runs, hyperlinks and the like
+            $xmlWriter->startElement('w:r');
             $xmlWriter->writeElement('w:br');
+            $xmlWriter->endElement(); // w:r
         }
+    }
+
+    /**
+     * Write the properties of the paragraph.
+     *
+     * `CT_P` takes one `w:pPr`, and the run properties of the paragraph mark belong
+     * in it: `CT_PPr` names `w:rPr` after the children of `CT_PPrBase`, so they come
+     * after the properties of the paragraph.
+     */
+    protected function writeParagraphStyle(): void
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\TextBreak) {
+            return;
+        }
+        if (!$element->hasStyle()) {
+            return;
+        }
+
+        $xmlWriter->startElement('w:pPr');
+
+        $styleWriter = new ParagraphStyleWriter($xmlWriter, $element->getParagraphStyle());
+        $styleWriter->setIsInline(true);
+        $styleWriter->setWithoutPPR(true);
+        $styleWriter->write();
+
+        $this->writeFontStyle();
+
+        $xmlWriter->endElement(); // w:pPr
     }
 }

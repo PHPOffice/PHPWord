@@ -113,7 +113,9 @@ class FormField extends Text
         $default = $element->getDefault();
 
         $xmlWriter->startElement('w:textInput');
-        $xmlWriter->writeElementBlock('w:default', 'w:val', $default);
+        // w:default is optional, and the default of a text box is the empty
+        // string, so a text box without a default writes none
+        $xmlWriter->writeElementIf($default !== null, 'w:default', 'w:val', $default);
         $xmlWriter->endElement();
     }
 
@@ -132,7 +134,8 @@ class FormField extends Text
         $value = $value ? 1 : 0;
 
         $xmlWriter->startElement('w:checkBox');
-        $xmlWriter->writeElementBlock('w:sizeAuto', 'w:val', '');
+        // w:sizeAuto is a CT_OnOff; without a w:val it means true
+        $xmlWriter->writeElement('w:sizeAuto');
         $xmlWriter->writeElementBlock('w:default', 'w:val', $default);
         $xmlWriter->writeElementBlock('w:checked', 'w:val', $value);
         $xmlWriter->endElement();
@@ -153,8 +156,9 @@ class FormField extends Text
         $entries = $element->getEntries();
 
         $xmlWriter->startElement('w:ddList');
-        $xmlWriter->writeElementBlock('w:result', 'w:val', $value);
-        $xmlWriter->writeElementBlock('w:default', 'w:val', $default);
+        // w:result and w:default are optional; the w:val of their CT_DecimalNumber is required and is an integer
+        $xmlWriter->writeElementIf($value !== null, 'w:result', 'w:val', $value);
+        $xmlWriter->writeElementIf($default !== null, 'w:default', 'w:val', $default);
         foreach ($entries as $entry) {
             if ($entry == null || $entry == '') {
                 $entry = str_repeat(' ', self::FILLER_LENGTH);
