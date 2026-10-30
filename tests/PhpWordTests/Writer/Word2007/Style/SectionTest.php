@@ -96,4 +96,26 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         self::assertSame('11906', $doc->getElementAttribute($path, 'w:w'));
         self::assertSame('16838', $doc->getElementAttribute($path, 'w:h'));
     }
+
+    /**
+     * The children of w:sectPr are a sequence in the schema and not a set, so a reader
+     * that walks it stops at the first child it did not expect. The order asserted below
+     * is the one in ECMA-376, in `EG_SectPrContents`.
+     */
+    public function testVerticalAlignmentIsWrittenAfterTheColumns(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->getStyle()->setVAlign('center');
+        $section->addText('test');
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $children = [];
+        foreach ($doc->getNodeList('/w:document/w:body/w:sectPr/*') as $node) {
+            $children[] = $node->nodeName;
+        }
+
+        self::assertSame(['w:pgSz', 'w:pgMar', 'w:cols', 'w:vAlign'], $children);
+        self::assertEquals('center', $doc->getElementAttribute('/w:document/w:body/w:sectPr/w:vAlign', 'w:val'));
+    }
 }
