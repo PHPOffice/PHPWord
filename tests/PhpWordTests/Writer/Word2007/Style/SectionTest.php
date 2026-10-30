@@ -56,4 +56,25 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('576', $doc->getElementAttribute($path, 'w:bottom'));
         self::assertEquals('288', $doc->getElementAttribute($path, 'w:left'));
     }
+
+    /**
+     * The children of w:sectPr are only accepted in the order the schema
+     * names them, and w:vAlign comes after w:cols.
+     */
+    public function testVerticalAlignmentIsWrittenAfterTheColumns(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->getStyle()->setVAlign('center');
+        $section->addText('test');
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $children = [];
+        foreach ($doc->getNodeList('/w:document/w:body/w:sectPr/*') as $node) {
+            $children[] = $node->nodeName;
+        }
+
+        self::assertSame(['w:pgSz', 'w:pgMar', 'w:cols', 'w:vAlign'], $children);
+        self::assertEquals('center', $doc->getElementAttribute('/w:document/w:body/w:sectPr/w:vAlign', 'w:val'));
+    }
 }

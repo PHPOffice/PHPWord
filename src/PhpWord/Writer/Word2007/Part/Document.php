@@ -92,12 +92,15 @@ class Document extends AbstractPart
 
     /**
      * Write end section.
+     *
+     * The children of w:sectPr are a sequence in the schema and are only
+     * accepted in the order the schema names them: the header and footer
+     * references first, then the properties of the section, then w:titlePg.
      */
     private function writeSectionSettings(XMLWriter $xmlWriter, Section $section): void
     {
         $xmlWriter->startElement('w:sectPr');
 
-        // Header reference
         foreach ($section->getHeaders() as $header) {
             $rId = $header->getRelationId();
             $xmlWriter->startElement('w:headerReference');
@@ -106,7 +109,6 @@ class Document extends AbstractPart
             $xmlWriter->endElement();
         }
 
-        // Footer reference
         foreach ($section->getFooters() as $footer) {
             $rId = $footer->getRelationId();
             $xmlWriter->startElement('w:footerReference');
@@ -115,13 +117,6 @@ class Document extends AbstractPart
             $xmlWriter->endElement();
         }
 
-        // Different first page
-        if ($section->hasDifferentFirstPage()) {
-            $xmlWriter->startElement('w:titlePg');
-            $xmlWriter->endElement();
-        }
-
-        // Footnote properties
         if ($section->getFootnoteProperties() !== null) {
             $xmlWriter->startElement('w:footnotePr');
             if ($section->getFootnoteProperties()->getPos() != null) {
@@ -147,9 +142,13 @@ class Document extends AbstractPart
             $xmlWriter->endElement();
         }
 
-        // Section settings
         $styleWriter = new SectionStyleWriter($xmlWriter, $section->getStyle());
         $styleWriter->write();
+
+        if ($section->hasDifferentFirstPage()) {
+            $xmlWriter->startElement('w:titlePg');
+            $xmlWriter->endElement();
+        }
 
         $xmlWriter->endElement(); // w:sectPr
     }

@@ -29,6 +29,12 @@ class Section extends AbstractStyle
 {
     /**
      * Write style.
+     *
+     * The children of w:sectPr are a sequence in the schema and are only
+     * accepted in the order the schema names them, so the properties of the
+     * style are written in the order of `EG_SectPrContents`. The part that
+     * writes w:sectPr puts the children that are not properties of the style
+     * around them.
      */
     public function write(): void
     {
@@ -38,22 +44,15 @@ class Section extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        // Break type
         $breakType = $style->getBreakType();
         $xmlWriter->writeElementIf(null !== $breakType, 'w:type', 'w:val', $breakType);
 
-        // Page size & orientation
         $xmlWriter->startElement('w:pgSz');
         $xmlWriter->writeAttribute('w:orient', $style->getOrientation());
         $xmlWriter->writeAttribute('w:w', $style->getPageSizeW());
         $xmlWriter->writeAttribute('w:h', $style->getPageSizeH());
         $xmlWriter->endElement(); // w:pgSz
 
-        // Vertical alignment
-        $vAlign = $style->getVAlign();
-        $xmlWriter->writeElementIf(null !== $vAlign, 'w:vAlign', 'w:val', $vAlign);
-
-        // Margins
         $margins = [
             'w:top' => ['getMarginTop', SectionStyle::DEFAULT_MARGIN],
             'w:right' => ['getMarginRight', SectionStyle::DEFAULT_MARGIN],
@@ -70,7 +69,6 @@ class Section extends AbstractStyle
         }
         $xmlWriter->endElement();
 
-        // Borders
         if ($style->hasBorder()) {
             $xmlWriter->startElement('w:pgBorders');
             $xmlWriter->writeAttribute('w:offsetFrom', 'page');
@@ -84,19 +82,19 @@ class Section extends AbstractStyle
             $xmlWriter->endElement();
         }
 
-        // Columns
+        $styleWriter = new LineNumbering($xmlWriter, $style->getLineNumbering());
+        $styleWriter->write();
+
+        $pageNum = $style->getPageNumberingStart();
+        $xmlWriter->writeElementIf(null !== $pageNum, 'w:pgNumType', 'w:start', $pageNum);
+
         $colsSpace = $style->getColsSpace();
         $xmlWriter->startElement('w:cols');
         $xmlWriter->writeAttribute('w:num', $style->getColsNum());
         $xmlWriter->writeAttribute('w:space', $this->convertTwip($colsSpace, SectionStyle::DEFAULT_COLUMN_SPACING));
         $xmlWriter->endElement();
 
-        // Page numbering start
-        $pageNum = $style->getPageNumberingStart();
-        $xmlWriter->writeElementIf(null !== $pageNum, 'w:pgNumType', 'w:start', $pageNum);
-
-        // Line numbering
-        $styleWriter = new LineNumbering($xmlWriter, $style->getLineNumbering());
-        $styleWriter->write();
+        $vAlign = $style->getVAlign();
+        $xmlWriter->writeElementIf(null !== $vAlign, 'w:vAlign', 'w:val', $vAlign);
     }
 }

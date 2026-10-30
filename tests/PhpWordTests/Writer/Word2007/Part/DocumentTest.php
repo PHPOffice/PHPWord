@@ -18,6 +18,7 @@ namespace PhpOffice\PhpWordTests\Writer\Word2007\Part;
 
 use DateTime;
 use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
+use PhpOffice\PhpWord\Element\Header;
 use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -116,6 +117,56 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numRestart');
         self::assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Write the children of w:sectPr in the order the schema names them.
+     */
+    public function testSectionPropertiesAreWrittenInSchemaOrder(): void
+    {
+        $footnoteProperties = new FootnoteProperties();
+        $footnoteProperties->setPos(FootnoteProperties::POSITION_PAGE_BOTTOM);
+        $footnoteProperties->setNumFmt(NumberFormat::LOWER_ROMAN);
+        $footnoteProperties->setNumStart(1);
+        $footnoteProperties->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addHeader();
+        $section->addHeader(Header::FIRST);
+        $section->addFooter();
+        $section->setFootnoteProperties($footnoteProperties);
+
+        $style = $section->getStyle();
+        $style->setBreakType('nextPage');
+        $style->setBorderSize(240);
+        $style->setLineNumbering(['start' => 1, 'increment' => 1, 'distance' => 360, 'restart' => 'newPage']);
+        $style->setPageNumberingStart(2);
+        $style->setVAlign('center');
+        $section->addText('Test');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $children = [];
+        foreach ($doc->getNodeList('/w:document/w:body/w:sectPr/*') as $node) {
+            $children[] = $node->nodeName;
+        }
+
+        self::assertSame([
+            'w:headerReference',
+            'w:headerReference',
+            'w:footerReference',
+            'w:footnotePr',
+            'w:type',
+            'w:pgSz',
+            'w:pgMar',
+            'w:pgBorders',
+            'w:lnNumType',
+            'w:pgNumType',
+            'w:cols',
+            'w:vAlign',
+            'w:titlePg',
+        ], $children);
     }
 
     /**
