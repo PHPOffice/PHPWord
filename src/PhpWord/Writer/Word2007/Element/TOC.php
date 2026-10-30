@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Element\TOC as TOCElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Tab as TabStyleWriter;
@@ -172,13 +173,17 @@ class TOC extends AbstractElement
         $xmlWriter->startElement('w:pPr');
 
         // Paragraph
-        if ($isObject && null !== $fontStyle->getParagraph()) {
-            $styleWriter = new ParagraphStyleWriter($xmlWriter, $fontStyle->getParagraph());
+        $paragraph = $isObject ? $fontStyle->getParagraph() : null;
+        if ($paragraph instanceof ParagraphStyle) {
+            $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraph);
             $styleWriter->setWithoutPPR(true);
             $styleWriter->setChild('tabs', $writeTabs);
             $styleWriter->setChild('ind', $writeIndent);
             $styleWriter->write();
         } else {
+            // A paragraph style that is named rather than carried brings no
+            // properties of its own, so the entry writes the tab stop and the
+            // indent itself.
             $writeTabs();
             $writeIndent();
         }

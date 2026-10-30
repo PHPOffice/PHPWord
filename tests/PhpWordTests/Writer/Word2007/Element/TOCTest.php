@@ -176,4 +176,37 @@ class TOCTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(['tabs', 'spacing', 'ind', 'jc'], $written);
     }
+
+    /**
+     * An entry of a table of contents keeps its tab stop and its indent when the
+     * font style names a paragraph style.
+     *
+     * A paragraph style that is named rather than carried brings no properties of
+     * its own, so the entry writes the tab stop and the indent itself.
+     */
+    public function testTheTabStopAndTheIndentAreWrittenForANamedParagraphStyle(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addParagraphStyle('TocParagraph', ['alignment' => 'left']);
+
+        $section = $phpWord->addSection();
+        $section->addTOC(new Font('text', 'TocParagraph'));
+        $section->addTitle('Title 1', 2);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $pPr = $doc->getElement('/w:document/w:body/w:p[1]/w:pPr', 'word/document.xml');
+        self::assertNotNull($pPr);
+
+        $written = [];
+        foreach ($pPr->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['tabs', 'ind'], $written);
+        self::assertSame('right', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:tabs/w:tab', 'w:val'));
+        self::assertSame('9062', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:tabs/w:tab', 'w:pos'));
+        self::assertSame('200', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:ind', 'w:left'));
+    }
 }
