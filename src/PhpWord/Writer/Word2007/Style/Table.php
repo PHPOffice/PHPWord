@@ -89,6 +89,17 @@ class Table extends AbstractStyle
         $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getUnit(), $style->getWidth());
         $this->writeTblWidth($xmlWriter, 'w:tblCellSpacing', TblWidth::TWIP, $style->getCellSpacing());
         $this->writeIndent($xmlWriter, $style);
+
+        if ($this->isInline) {
+            // The shading of a table is the shading of the table, and the table's
+            // properties are where the schema names it: `w:shd` is a child of
+            // `w:tblPr`, and `w:tblPr` is a child of `w:tbl`. `CT_TblPrBase` names it
+            // between `w:tblBorders` and `w:tblLayout`, and the borders are written
+            // below — the order of the children of `w:tblPr` is the subject of
+            // #2965, which moves them.
+            $this->writeShading($xmlWriter, $style);
+        }
+
         $this->writeLayout($xmlWriter, $style->getLayout());
 
         // Position
@@ -102,13 +113,6 @@ class Table extends AbstractStyle
 
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
-
-        if ($this->isInline) {
-            // The shading of a table is the shading of the table, and the table's
-            // properties are where the schema names it: `w:shd` is a child of
-            // `w:tblPr`, and `w:tblPr` is a child of `w:tbl`.
-            $this->writeShading($xmlWriter, $style);
-        }
 
         $xmlWriter->endElement(); // w:tblPr
 
