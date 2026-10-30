@@ -130,18 +130,20 @@ class Table extends AbstractStyle
 
     /**
      * Write border.
+     *
+     * @param string $elementName w:tblBorders for a table, w:tcBorders for a cell
      */
-    private function writeBorder(XMLWriter $xmlWriter, TableStyle $style): void
+    private function writeBorder(XMLWriter $xmlWriter, TableStyle $style, $elementName = 'w:tblBorders'): void
     {
         if ($style->hasBorder()) {
-            $xmlWriter->startElement('w:tblBorders');
+            $xmlWriter->startElement($elementName);
 
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
             $styleWriter->write();
 
-            $xmlWriter->endElement(); // w:tblBorders
+            $xmlWriter->endElement(); // w:tblBorders or w:tcBorders
         }
     }
 
@@ -172,7 +174,7 @@ class Table extends AbstractStyle
         $xmlWriter->writeAttribute('w:type', 'firstRow');
         $xmlWriter->startElement('w:tcPr');
 
-        $this->writeBorder($xmlWriter, $style);
+        $this->writeBorder($xmlWriter, $style, 'w:tcBorders');
         $this->writeShading($xmlWriter, $style);
 
         $xmlWriter->endElement(); // w:tcPr

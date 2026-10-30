@@ -187,6 +187,28 @@ class TableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * The borders of the first row of a table are the borders of a cell.
+     *
+     * The properties of a cell take a `w:tcBorders`, and a `w:tblBorders` in them
+     * is not a thing the schema knows.
+     */
+    public function testBordersOfTheFirstRowAreWrittenAsTheBordersOfACell(): void
+    {
+        $tableStyle = new Table([], ['borderSize' => 10, 'borderColor' => '000000']);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblStylePr[@w:type="firstRow"]/w:tcPr/w:tcBorders';
+        self::assertTrue($doc->elementExists($path));
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tblStylePr/w:tcPr/w:tblBorders'));
+    }
+
+    /**
      * The shading of the first row of a table belongs in the properties of the cell.
      *
      * `CT_TcPr` takes a `w:shd` of its own, and a `w:tcPr` inside a `w:tcPr` is
