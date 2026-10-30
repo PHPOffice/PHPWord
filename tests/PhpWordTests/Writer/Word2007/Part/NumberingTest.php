@@ -76,4 +76,68 @@ class NumberingTest extends \PHPUnit\Framework\TestCase
 
         self::assertTrue($doc->elementExists('/w:numbering/w:abstractNum', $xmlFile));
     }
+
+    /**
+     * The tab stop of a level without one of its own is the left indent of the level.
+     *
+     * `CT_TabStop` requires a `w:pos`, and the tab stop of a level is where the
+     * text of the level begins, which is the left indent of the level.
+     */
+    public function testTabStopOfALevelWithoutOneIsTheLeftIndent(): void
+    {
+        $xmlFile = 'word/numbering.xml';
+
+        $phpWord = new PhpWord();
+        $phpWord->addNumberingStyle(
+            'numStyle',
+            [
+                'type' => 'multilevel',
+                'levels' => [
+                    [
+                        'start' => 1,
+                        'format' => NumberFormat::DECIMAL,
+                        'text' => '%1.',
+                        'left' => 360,
+                        'hanging' => 360,
+                    ],
+                ],
+            ]
+        );
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:numbering/w:abstractNum/w:lvl/w:pPr/w:tabs/w:tab[@w:val="num"]';
+        self::assertTrue($doc->elementExists($path, $xmlFile));
+        self::assertSame('360', $doc->getElementAttribute($path, 'w:pos', $xmlFile));
+    }
+
+    /**
+     * A level without a tab stop and without a left indent has no tab stop.
+     *
+     * `CT_TabStop` requires a `w:pos`, and a level without a left indent has no
+     * place where the text of the level would begin.
+     */
+    public function testLevelWithoutALeftIndentHasNoTabStop(): void
+    {
+        $xmlFile = 'word/numbering.xml';
+
+        $phpWord = new PhpWord();
+        $phpWord->addNumberingStyle(
+            'numStyle',
+            [
+                'type' => 'multilevel',
+                'levels' => [
+                    [
+                        'start' => 1,
+                        'format' => NumberFormat::DECIMAL,
+                        'text' => '%1.',
+                    ],
+                ],
+            ]
+        );
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        self::assertFalse($doc->elementExists('/w:numbering/w:abstractNum/w:lvl/w:pPr/w:tabs', $xmlFile));
+    }
 }
