@@ -241,8 +241,8 @@ class Styles extends AbstractPart
             }
         }
 
-        // Linked style; CT_Style is a sequence and names w:link after w:next,
-        // so it cannot be written next to the style id.
+        // Linked style. CT_Style is a sequence and names w:link after w:next,
+        // so the link is written after the name and the parent style.
         if (null !== $styleLink) {
             $xmlWriter->startElement('w:link');
             $xmlWriter->writeAttribute('w:val', $styleLink);
