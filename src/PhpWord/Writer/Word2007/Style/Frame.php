@@ -75,6 +75,11 @@ class Frame extends AbstractStyle
             $wrap = null;
         }
 
+        // An inline shape is in line with the text; only a floating shape is wrapped by it
+        if ($wrap === FrameStyle::WRAP_INLINE) {
+            $wrap = null;
+        }
+
         // Style attribute
         $xmlWriter->writeAttribute('style', $this->assembleStyle($styles));
 

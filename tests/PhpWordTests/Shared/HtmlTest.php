@@ -954,10 +954,10 @@ HTML;
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:br'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:br'));
         self::assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
         self::assertEquals('This is some text', $doc->getElement('/w:document/w:body/w:p/w:r[1]/w:t')->nodeValue);
-        self::assertEquals('with a linebreak.', $doc->getElement('/w:document/w:body/w:p/w:r[2]/w:t')->nodeValue);
+        self::assertEquals('with a linebreak.', $doc->getElement('/w:document/w:body/w:p/w:r[3]/w:t')->nodeValue);
     }
 
     /**

@@ -59,8 +59,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $path = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:position';
         self::assertFalse($doc->elementExists($path));
         $path = '/w:document/w:body/w:p[1]/w:r/w:pict/v:shape';
-        self::assertTrue($doc->elementExists($path . '/w10:wrap'));
-        self::assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));
+        self::assertFalse($doc->elementExists($path . '/w10:wrap'));
 
         self::assertTrue($doc->elementExists($path));
         $style = $doc->getElement($path)->getAttribute('style');
@@ -93,8 +92,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $path = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:position';
         self::assertEquals('10', $doc->getElement($path)->getAttribute('w:val'));
         $path = '/w:document/w:body/w:p[1]/w:r/w:pict/v:shape';
-        self::assertTrue($doc->elementExists($path . '/w10:wrap'));
-        self::assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));
+        self::assertFalse($doc->elementExists($path . '/w10:wrap'));
 
         self::assertTrue($doc->elementExists($path));
         $style = $doc->getElement($path)->getAttribute('style');

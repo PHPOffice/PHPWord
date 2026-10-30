@@ -48,7 +48,10 @@ class TextBreak extends Text
 
             $this->endElementP(); // w:p
         } else {
+            // w:br is a run-level element; w:p only takes runs, hyperlinks and the like
+            $xmlWriter->startElement('w:r');
             $xmlWriter->writeElement('w:br');
+            $xmlWriter->endElement(); // w:r
         }
     }
 }

@@ -36,7 +36,8 @@ class Fill extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $xmlWriter->writeAttribute('on', 't');
+        // A shape declares filled and fillcolor; on belongs to v:stroke, v:shadow and o:extrusion
+        $xmlWriter->writeAttribute('filled', 't');
         $xmlWriter->writeAttributeIf($style->getColor() !== null, 'fillcolor', $style->getColor());
     }
 }
