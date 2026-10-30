@@ -69,6 +69,13 @@ class Font extends AbstractStyle
 
         $xmlWriter->startElement('w:rPr');
 
+        // The children of `w:rPr` come in the order the schema names them. `CT_RPr` is a
+        // sequence and not a set, so a reader that walks it stops at the first child it
+        // did not expect, and a run whose properties are written in any other order is a
+        // run such a reader cannot read.
+        //
+        // The order below is the one in ECMA-376, in `EG_RPrBase`.
+
         // Style name
         if ($this->isInline === true) {
             $styleName = $style->getStyleName();
@@ -88,6 +95,66 @@ class Font extends AbstractStyle
             $xmlWriter->endElement();
         }
 
+        // Bold, italic
+        $xmlWriter->writeElementIf($style->isBold() !== null, 'w:b', 'w:val', $this->writeOnOf($style->isBold()));
+        $xmlWriter->writeElementIf($style->isBold() !== null, 'w:bCs', 'w:val', $this->writeOnOf($style->isBold()));
+        $xmlWriter->writeElementIf($style->isItalic() !== null, 'w:i', 'w:val', $this->writeOnOf($style->isItalic()));
+        $xmlWriter->writeElementIf($style->isItalic() !== null, 'w:iCs', 'w:val', $this->writeOnOf($style->isItalic()));
+
+        // All caps, small caps
+        $xmlWriter->writeElementIf($style->isAllCaps() !== null, 'w:caps', 'w:val', $this->writeOnOf($style->isAllCaps()));
+        $xmlWriter->writeElementIf($style->isSmallCaps() !== null, 'w:smallCaps', 'w:val', $this->writeOnOf($style->isSmallCaps()));
+
+        // Strikethrough, double strikethrough
+        $xmlWriter->writeElementIf($style->isStrikethrough(), 'w:strike', 'w:val', $this->writeOnOf($style->isStrikethrough()));
+        $xmlWriter->writeElementIf($style->isDoubleStrikethrough(), 'w:dstrike', 'w:val', $this->writeOnOf($style->isDoubleStrikethrough()));
+
+        // noProof
+        $xmlWriter->writeElementIf($style->isNoProof() !== null, 'w:noProof', 'w:val', $this->writeOnOf($style->isNoProof()));
+
+        //Hidden text
+        $xmlWriter->writeElementIf($style->isHidden(), 'w:vanish', 'w:val', $this->writeOnOf($style->isHidden()));
+
+        // Color
+        $color = $style->getColor();
+        $xmlWriter->writeElementIf($color !== null, 'w:color', 'w:val', $color);
+
+        // Spacing
+        $xmlWriter->writeElementIf($style->getSpacing() !== null, 'w:spacing', 'w:val', $style->getSpacing());
+        $xmlWriter->writeElementIf($style->getScale() !== null, 'w:w', 'w:val', $style->getScale());
+        $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning() * 2);
+
+        // Position
+        $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
+
+        // Size
+        $size = $style->getSize();
+        $xmlWriter->writeElementIf($size !== null, 'w:sz', 'w:val', $size * 2);
+        $xmlWriter->writeElementIf($size !== null, 'w:szCs', 'w:val', $size * 2);
+
+        // Foreground-Color
+        $xmlWriter->writeElementIf($style->getFgColor() !== null, 'w:highlight', 'w:val', $style->getFgColor());
+
+        // Underline
+        $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
+
+        // Background-Color
+        $shading = $style->getShading();
+        if (null !== $shading) {
+            $styleWriter = new Shading($xmlWriter, $shading);
+            $styleWriter->write();
+        }
+
+        // Superscript/subscript
+        $xmlWriter->writeElementIf($style->isSuperScript(), 'w:vertAlign', 'w:val', 'superscript');
+        $xmlWriter->writeElementIf($style->isSubScript(), 'w:vertAlign', 'w:val', 'subscript');
+
+        // RTL
+        if ($this->isInline === true) {
+            $styleName = $style->getStyleName();
+            $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
+        }
+
         //Language
         $language = $style->getLang();
         if ($language != null && ($language->getLatin() !== null || $language->getEastAsia() !== null || $language->getBidirectional() !== null)) {
@@ -101,66 +168,6 @@ class Font extends AbstractStyle
             }
             $xmlWriter->endElement();
         }
-
-        // Color
-        $color = $style->getColor();
-        $xmlWriter->writeElementIf($color !== null, 'w:color', 'w:val', $color);
-
-        // Size
-        $size = $style->getSize();
-        $xmlWriter->writeElementIf($size !== null, 'w:sz', 'w:val', $size * 2);
-        $xmlWriter->writeElementIf($size !== null, 'w:szCs', 'w:val', $size * 2);
-
-        // Bold, italic
-        $xmlWriter->writeElementIf($style->isBold() !== null, 'w:b', 'w:val', $this->writeOnOf($style->isBold()));
-        $xmlWriter->writeElementIf($style->isBold() !== null, 'w:bCs', 'w:val', $this->writeOnOf($style->isBold()));
-        $xmlWriter->writeElementIf($style->isItalic() !== null, 'w:i', 'w:val', $this->writeOnOf($style->isItalic()));
-        $xmlWriter->writeElementIf($style->isItalic() !== null, 'w:iCs', 'w:val', $this->writeOnOf($style->isItalic()));
-
-        // Strikethrough, double strikethrough
-        $xmlWriter->writeElementIf($style->isStrikethrough(), 'w:strike', 'w:val', $this->writeOnOf($style->isStrikethrough()));
-        $xmlWriter->writeElementIf($style->isDoubleStrikethrough(), 'w:dstrike', 'w:val', $this->writeOnOf($style->isDoubleStrikethrough()));
-
-        // Small caps, all caps
-        $xmlWriter->writeElementIf($style->isSmallCaps() !== null, 'w:smallCaps', 'w:val', $this->writeOnOf($style->isSmallCaps()));
-        $xmlWriter->writeElementIf($style->isAllCaps() !== null, 'w:caps', 'w:val', $this->writeOnOf($style->isAllCaps()));
-
-        //Hidden text
-        $xmlWriter->writeElementIf($style->isHidden(), 'w:vanish', 'w:val', $this->writeOnOf($style->isHidden()));
-
-        // Underline
-        $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
-
-        // Foreground-Color
-        $xmlWriter->writeElementIf($style->getFgColor() !== null, 'w:highlight', 'w:val', $style->getFgColor());
-
-        // Superscript/subscript
-        $xmlWriter->writeElementIf($style->isSuperScript(), 'w:vertAlign', 'w:val', 'superscript');
-        $xmlWriter->writeElementIf($style->isSubScript(), 'w:vertAlign', 'w:val', 'subscript');
-
-        // Spacing
-        $xmlWriter->writeElementIf($style->getScale() !== null, 'w:w', 'w:val', $style->getScale());
-        $xmlWriter->writeElementIf($style->getSpacing() !== null, 'w:spacing', 'w:val', $style->getSpacing());
-        $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning() * 2);
-
-        // noProof
-        $xmlWriter->writeElementIf($style->isNoProof() !== null, 'w:noProof', 'w:val', $this->writeOnOf($style->isNoProof()));
-
-        // Background-Color
-        $shading = $style->getShading();
-        if (null !== $shading) {
-            $styleWriter = new Shading($xmlWriter, $shading);
-            $styleWriter->write();
-        }
-
-        // RTL
-        if ($this->isInline === true) {
-            $styleName = $style->getStyleName();
-            $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
-        }
-
-        // Position
-        $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
 
         $xmlWriter->endElement();
     }
