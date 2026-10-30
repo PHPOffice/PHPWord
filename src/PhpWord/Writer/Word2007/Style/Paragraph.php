@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use InvalidArgumentException;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
@@ -30,6 +31,16 @@ use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment;
  */
 class Paragraph extends AbstractStyle
 {
+    /**
+     * The children of w:pPr that a caller may hand over to this writer.
+     *
+     * They are the children that a writer other than this one knows how to write,
+     * and the only ones a caller has a reason to write itself.
+     *
+     * @var string[]
+     */
+    private const HANDED_OVER_CHILDREN = ['numPr', 'tabs', 'ind'];
+
     /**
      * Without w:pPr.
      *
@@ -290,11 +301,24 @@ class Paragraph extends AbstractStyle
      * writer, which writes it where the schema names it. The two then agree on the
      * order, because there is only one order.
      *
+     * Only `numPr`, `tabs` and `ind` can be handed over; a writer that hands over
+     * any other child would have its part dropped, and a writer that is not told
+     * about a child writes the one of the style.
+     *
      * @param string $name The name of the element, as the schema names it
      * @param callable $writer Writes the element
      */
     public function setChild(string $name, callable $writer): void
     {
+        if (!in_array($name, self::HANDED_OVER_CHILDREN, true)) {
+            throw new InvalidArgumentException(sprintf(
+                'The child "%s" of w:pPr cannot be handed over to the paragraph style writer;'
+                    . ' only "%s" can.',
+                $name,
+                implode('", "', self::HANDED_OVER_CHILDREN)
+            ));
+        }
+
         $this->children[$name] = $writer;
     }
 

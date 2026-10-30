@@ -18,9 +18,12 @@
 
 namespace PhpOffice\PhpWordTests\Writer\Word2007\Style;
 
+use InvalidArgumentException;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 use PhpOffice\PhpWord\Style\Tab;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -206,5 +209,20 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         }
 
         self::assertSame(['ilvl', 'numId'], $written);
+    }
+
+    /**
+     * A child that the paragraph style writer cannot write for the caller is refused.
+     *
+     * Only `numPr`, `tabs` and `ind` can be handed over; a writer that handed over
+     * any other child would have its part dropped without a word.
+     */
+    public function testAChildThatCannotBeHandedOverIsRefused(): void
+    {
+        $styleWriter = new ParagraphStyleWriter(new XMLWriter(), new ParagraphStyle());
+
+        $this->expectException(InvalidArgumentException::class);
+        $styleWriter->setChild('spacing', function (): void {
+        });
     }
 }
