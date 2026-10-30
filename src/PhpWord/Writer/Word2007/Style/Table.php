@@ -89,10 +89,9 @@ class Table extends AbstractStyle
 
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
+        $this->writeShading($xmlWriter, $style);
 
         $xmlWriter->endElement(); // w:tblPr
-
-        $this->writeShading($xmlWriter, $style);
 
         // First row style
         $firstRow = $style->getFirstRow();

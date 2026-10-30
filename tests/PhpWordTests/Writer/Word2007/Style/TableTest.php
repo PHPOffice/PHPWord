@@ -162,6 +162,31 @@ class TableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * The shading of a table belongs in the properties of the table.
+     *
+     * `CT_TblPrBase` takes a `w:shd` of its own, and `CT_Tbl` has no `w:tcPr`:
+     * a shading written outside the properties of the table never reaches the
+     * document.
+     */
+    public function testShadingIsWrittenInThePropertiesOfTheTable(): void
+    {
+        $tableStyle = new Table();
+        $tableStyle->setShading(['fill' => '00FF00', 'type' => 'clear']);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblPr/w:shd';
+        self::assertTrue($doc->elementExists($path));
+        self::assertSame('00FF00', $doc->getElementAttribute($path, 'w:fill'));
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tcPr'));
+    }
+
+    /**
      * The shading of the first row of a table belongs in the properties of the cell.
      *
      * `CT_TcPr` takes a `w:shd` of its own, and a `w:tcPr` inside a `w:tcPr` is
