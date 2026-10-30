@@ -58,6 +58,7 @@ class Table extends AbstractElement
             // Write style
             $styleWriter = new TableStyleWriter($xmlWriter, $element->getStyle());
             $styleWriter->setWidth($element->getWidth());
+            $styleWriter->setIsInline(true);
             $styleWriter->write();
 
             // Write rows

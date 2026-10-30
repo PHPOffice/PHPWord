@@ -36,6 +36,17 @@ class Table extends AbstractStyle
     private $width;
 
     /**
+     * Whether the properties belong to a table in a document or to a table style.
+     *
+     * The two are written by the same writer and they are not the same thing.
+     * `CT_Tbl` is `tblPr, tblGrid, rows` and has room for the properties of the
+     * table alone, while `CT_Style` has a `w:tcPr` and a `w:tblStylePr` of its own.
+     *
+     * @var bool
+     */
+    private $isInline = false;
+
+    /**
      * Write style.
      */
     public function write(): void
@@ -91,11 +102,31 @@ class Table extends AbstractStyle
 
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
-        $this->writeShading($xmlWriter, $style);
+
+        if ($this->isInline) {
+            // The shading of a table is the shading of the table, and the table's
+            // properties are where the schema names it: `w:shd` is a child of
+            // `w:tblPr`, and `w:tblPr` is a child of `w:tbl`.
+            $this->writeShading($xmlWriter, $style);
+        }
 
         $xmlWriter->endElement(); // w:tblPr
 
-        // First row style
+        if ($this->isInline) {
+            // A table in a document has the grid and the rows after its
+            // properties and nothing else: `CT_Tbl` names no `w:tcPr` and no
+            // `w:tblStylePr`, and a reader that walks it stops at the first child
+            // it did not expect.
+            return;
+        }
+
+        // The cells of a table style, and the first row of it. The shading of a
+        // table style is the shading of its cells, which is where it was and
+        // where a reader looks for it.
+        $xmlWriter->startElement('w:tcPr');
+        $this->writeShading($xmlWriter, $style);
+        $xmlWriter->endElement(); // w:tcPr
+
         $firstRow = $style->getFirstRow();
         if ($firstRow instanceof TableStyle) {
             $this->writeFirstRow($xmlWriter, $firstRow);
@@ -128,6 +159,16 @@ class Table extends AbstractStyle
 
             $xmlWriter->endElement(); // w:tblCellMar
         }
+    }
+
+    /**
+     * Set whether the properties belong to a table in a document.
+     *
+     * @param bool $value
+     */
+    public function setIsInline($value): void
+    {
+        $this->isInline = $value;
     }
 
     /**
