@@ -205,6 +205,7 @@ class Styles extends AbstractPart
 
         // Heading style
         $outlineLevel = null;
+        $styleLink = null;
         if ($styleType == 'title') {
             $arrStyle = explode('_', $styleName);
             if (count($arrStyle) > 1) {
@@ -221,10 +222,6 @@ class Styles extends AbstractPart
                 $styleLink = $styleName . 'Char';
             }
             $xmlWriter->writeAttribute('w:styleId', $styleId);
-
-            $xmlWriter->startElement('w:link');
-            $xmlWriter->writeAttribute('w:val', $styleLink);
-            $xmlWriter->endElement();
         } elseif (null !== $paragraphStyle) {
             // if type is 'paragraph' it should have a styleId
             $xmlWriter->writeAttribute('w:styleId', $styleName);
@@ -242,6 +239,14 @@ class Styles extends AbstractPart
             } elseif ($paragraphStyle->getBasedOn() != null) {
                 $xmlWriter->writeElementBlock('w:basedOn', 'w:val', $paragraphStyle->getBasedOn());
             }
+        }
+
+        // Linked style; CT_Style is a sequence and names w:link after w:next,
+        // so it cannot be written next to the style id.
+        if (null !== $styleLink) {
+            $xmlWriter->startElement('w:link');
+            $xmlWriter->writeAttribute('w:val', $styleLink);
+            $xmlWriter->endElement();
         }
 
         // w:pPr

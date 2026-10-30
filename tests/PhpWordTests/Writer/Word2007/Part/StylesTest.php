@@ -147,6 +147,52 @@ class StylesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * The children of w:style are a sequence in the schema and not a set, so a reader
+     * that walks it stops at the first child it did not expect. The order asserted below
+     * is the one in ECMA-376, in CT_Style.
+     */
+    public function testStyleChildrenInSchemaOrder(): void
+    {
+        $phpWord = new PhpWord();
+
+        $phpWord->addTitleStyle(1, ['size' => 14], ['alignment' => Jc::LEFT]);
+        $phpWord->addParagraphStyle('New Style', ['basedOn' => 'Base Style', 'next' => 'Normal']);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/styles.xml';
+
+        // A heading has a name, a parent style, a linked character style and properties.
+        $children = [];
+        foreach ($doc->getNodeList('/w:styles/w:style[@w:styleId="Heading1"]/*', $file) as $node) {
+            $children[] = $node->nodeName;
+        }
+        self::assertSame(['w:name', 'w:basedOn', 'w:link', 'w:pPr', 'w:rPr'], $children);
+
+        // A paragraph style has a name, a parent style, the style to use next and properties.
+        $children = [];
+        foreach ($doc->getNodeList('/w:styles/w:style[@w:styleId="New Style"]/*', $file) as $node) {
+            $children[] = $node->nodeName;
+        }
+        self::assertSame(['w:name', 'w:basedOn', 'w:next', 'w:pPr'], $children);
+    }
+
+    /**
+     * Test that the linked style keeps the value it had.
+     */
+    public function testStyleLinkValue(): void
+    {
+        $phpWord = new PhpWord();
+
+        $phpWord->addTitleStyle(1, ['size' => 14], ['alignment' => Jc::LEFT]);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/styles.xml';
+
+        $path = '/w:styles/w:style[@w:styleId="Heading1"]/w:link';
+        self::assertSame('Heading1Char', $doc->getElementAttribute($path, 'w:val', $file));
+    }
+
+    /**
      * Test default font color.
      */
     public function testDefaultDefaultFontColor(): void
