@@ -57,4 +57,25 @@ class RowTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($path));
         self::assertSame('on', $doc->getElementAttribute($path, 'w:val'));
     }
+
+    /**
+     * A row that cannot be split says so in words.
+     *
+     * The SDK reads the value of `w:cantSplit` as an enumeration of `on` and
+     * `off` and refuses to read `1`, which the schema's `ST_OnOff` allows.
+     */
+    public function testCantSplitIsWrittenAsOn(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable();
+        $row = $table->addRow();
+        $row->getStyle()->setCantSplit(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tr/w:trPr/w:cantSplit';
+        self::assertTrue($doc->elementExists($path));
+        self::assertSame('on', $doc->getElementAttribute($path, 'w:val'));
+    }
 }
