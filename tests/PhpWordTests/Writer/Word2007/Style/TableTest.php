@@ -160,4 +160,27 @@ class TableTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($path));
         self::assertEquals('1', $doc->getElementAttribute($path, 'w:val'));
     }
+
+    /**
+     * The shading of the first row of a table belongs in the properties of the cell.
+     *
+     * `CT_TcPr` takes a `w:shd` of its own, and a `w:tcPr` inside a `w:tcPr` is
+     * not a thing the schema knows.
+     */
+    public function testShadingOfTheFirstRowIsWrittenInThePropertiesOfTheCell(): void
+    {
+        $tableStyle = new Table([], ['shading' => ['fill' => 'FF0000', 'type' => 'clear']]);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblStylePr[@w:type="firstRow"]/w:tcPr/w:shd';
+        self::assertTrue($doc->elementExists($path));
+        self::assertSame('FF0000', $doc->getElementAttribute($path, 'w:fill'));
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tblStylePr/w:tcPr/w:tcPr'));
+    }
 }

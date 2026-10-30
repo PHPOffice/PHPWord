@@ -182,16 +182,15 @@ class Table extends AbstractStyle
 
     /**
      * Write shading.
+     *
+     * The `w:shd` belongs to the properties of the table or of the cell, and the
+     * caller has opened them.
      */
     private function writeShading(XMLWriter $xmlWriter, TableStyle $style): void
     {
         if (null !== $style->getShading()) {
-            $xmlWriter->startElement('w:tcPr');
-
             $styleWriter = new Shading($xmlWriter, $style->getShading());
             $styleWriter->write();
-
-            $xmlWriter->endElement();
         }
     }
 
