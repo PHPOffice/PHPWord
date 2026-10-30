@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
@@ -210,25 +211,22 @@ class TableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * The borders of the first row of a table are the borders of a cell.
+     * The borders of the first row of a table style are the borders of a cell.
      *
      * The properties of a cell take a `w:tcBorders`, and a `w:tblBorders` in them
      * is not a thing the schema knows.
      */
     public function testBordersOfTheFirstRowAreWrittenAsTheBordersOfACell(): void
     {
-        $tableStyle = new Table([], ['borderSize' => 10, 'borderColor' => '000000']);
-
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection();
-        $table = $section->addTable($tableStyle);
-        $table->addRow();
+        Style::addTableStyle('Table Style', [], ['borderSize' => 10, 'borderColor' => '000000']);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $file = 'word/styles.xml';
 
-        $path = '/w:document/w:body/w:tbl/w:tblStylePr[@w:type="firstRow"]/w:tcPr/w:tcBorders';
-        self::assertTrue($doc->elementExists($path));
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tblStylePr/w:tcPr/w:tblBorders'));
+        $path = '/w:styles/w:style[@w:styleId="Table Style"]/w:tblStylePr[@w:type="firstRow"]/w:tcPr/w:tcBorders';
+        self::assertTrue($doc->elementExists($path, $file));
+        self::assertFalse($doc->elementExists('/w:styles/w:style[@w:styleId="Table Style"]/w:tblStylePr/w:tcPr/w:tblBorders', $file));
     }
 
     /**
@@ -239,6 +237,28 @@ class TableTest extends \PHPUnit\Framework\TestCase
      */
     public function testShadingOfTheFirstRowIsWrittenInThePropertiesOfTheCell(): void
     {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        Style::addTableStyle('Table Style', [], ['shading' => ['fill' => 'FF0000', 'type' => 'clear']]);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $file = 'word/styles.xml';
+
+        $path = '/w:styles/w:style[@w:styleId="Table Style"]/w:tblStylePr[@w:type="firstRow"]/w:tcPr/w:shd';
+        self::assertTrue($doc->elementExists($path, $file));
+        self::assertSame('FF0000', $doc->getElementAttribute($path, 'w:fill', $file));
+        self::assertFalse($doc->elementExists('/w:styles/w:style[@w:styleId="Table Style"]/w:tblStylePr/w:tcPr/w:tcPr', $file));
+    }
+
+    /**
+     * A table in a document has the properties of the table and nothing else.
+     *
+     * `CT_Tbl` is `tblPr, tblGrid, rows`: it names no `w:tcPr` and no
+     * `w:tblStylePr`, so a reader that walks it stops at the first child it did
+     * not expect. The first row of a table belongs to the table's style, and a
+     * table style has a `w:tblStylePr` of its own.
+     */
+    public function testATableInADocumentHasNoCellPropertiesAndNoFirstRowStyle(): void
+    {
         $tableStyle = new Table([], ['shading' => ['fill' => 'FF0000', 'type' => 'clear']]);
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -248,9 +268,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
-        $path = '/w:document/w:body/w:tbl/w:tblStylePr[@w:type="firstRow"]/w:tcPr/w:shd';
-        self::assertTrue($doc->elementExists($path));
-        self::assertSame('FF0000', $doc->getElementAttribute($path, 'w:fill'));
-        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tblStylePr/w:tcPr/w:tcPr'));
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tcPr'));
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tblStylePr'));
     }
 }
