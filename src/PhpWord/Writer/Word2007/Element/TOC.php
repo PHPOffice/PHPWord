@@ -175,7 +175,6 @@ class TOC extends AbstractElement
         if ($isObject && null !== $fontStyle->getParagraph()) {
             $styleWriter = new ParagraphStyleWriter($xmlWriter, $fontStyle->getParagraph());
             $styleWriter->setWithoutPPR(true);
-            $styleWriter->setIsInline(true);
             $styleWriter->setChild('tabs', $writeTabs);
             $styleWriter->setChild('ind', $writeIndent);
             $styleWriter->write();
