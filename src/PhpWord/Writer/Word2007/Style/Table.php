@@ -85,7 +85,9 @@ class Table extends AbstractStyle
         $styleWriter->write();
 
         //Right to left
-        $xmlWriter->writeElementIf($style->isBidiVisual() !== null, 'w:bidiVisual', 'w:val', $this->writeOnOf($style->isBidiVisual()));
+        // The SDK reads the value of `w:bidiVisual` as an enumeration of `on` and
+        // `off` and refuses to read `1`, which the schema's `ST_OnOff` allows.
+        $xmlWriter->writeElementIf($style->isBidiVisual() !== null, 'w:bidiVisual', 'w:val', $style->isBidiVisual() ? 'on' : 'off');
 
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);

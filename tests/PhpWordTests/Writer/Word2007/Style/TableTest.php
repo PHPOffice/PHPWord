@@ -158,7 +158,30 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $path = '/w:document/w:body/w:tbl/w:tblPr/w:bidiVisual';
         self::assertTrue($doc->elementExists($path));
-        self::assertEquals('1', $doc->getElementAttribute($path, 'w:val'));
+        self::assertSame('on', $doc->getElementAttribute($path, 'w:val'));
+    }
+
+    /**
+     * A table that is not right to left says so in words.
+     *
+     * The SDK reads the value of `w:bidiVisual` as an enumeration of `on` and
+     * `off` and refuses to read `0`, which the schema's `ST_OnOff` allows.
+     */
+    public function testNotRightToLeft(): void
+    {
+        $tableStyle = new Table();
+        $tableStyle->setBidiVisual(false);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblPr/w:bidiVisual';
+        self::assertTrue($doc->elementExists($path));
+        self::assertSame('off', $doc->getElementAttribute($path, 'w:val'));
     }
 
     /**
