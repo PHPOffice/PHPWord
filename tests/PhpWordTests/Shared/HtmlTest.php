@@ -636,7 +636,7 @@ HTML;
         $xpath = '/w:document/w:body/w:tbl/w:tblGrid/w:gridCol';
         self::assertTrue($doc->elementExists($xpath));
         self::assertEquals(25 * 50, $doc->getElement($xpath)->getAttribute('w:w'));
-        self::assertEquals(TblWidth::TWIP, $doc->getElement($xpath)->getAttribute('w:type'));
+        self::assertFalse($doc->getElement($xpath)->hasAttribute('w:type'));
 
         // <td style="width: 25%; ...
         $xpath = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcW';

@@ -81,7 +81,6 @@ class Table extends AbstractElement
             $xmlWriter->startElement('w:gridCol');
             if ($width !== null) {
                 $xmlWriter->writeAttribute('w:w', $width);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
             }
             $xmlWriter->endElement();
         }

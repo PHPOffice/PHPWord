@@ -145,4 +145,26 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl[1]'), 'no table should be written');
     }
+
+    /**
+     * A column of the grid of a table has a width and nothing else.
+     *
+     * `CT_TblGridCol` declares a `w:w` and no `w:type`, and the width of a
+     * column is in twips either way.
+     */
+    public static function testColumnOfTheGridHasNoType(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable(['width' => 5000, 'unit' => TblWidth::PERCENT]);
+        $row = $table->addRow();
+        $cell = $row->addCell(5000);
+        $cell->addText('R1C1');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $path = '/w:document/w:body/w:tbl/w:tblGrid/w:gridCol';
+        self::assertTrue($doc->elementExists($path));
+        self::assertFalse($doc->hasElementAttribute($path, 'w:type'));
+    }
 }
