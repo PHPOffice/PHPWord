@@ -120,7 +120,9 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Write the children of w:sectPr in the order the schema names them.
+     * The children of w:sectPr are a sequence in the schema and not a set, so a reader
+     * that walks it stops at the first child it did not expect. The order asserted below
+     * is the one in ECMA-376, in `EG_SectPrContents`.
      */
     public function testSectionPropertiesAreWrittenInSchemaOrder(): void
     {

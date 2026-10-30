@@ -95,7 +95,8 @@ class Document extends AbstractPart
      *
      * The children of w:sectPr are a sequence in the schema and are only
      * accepted in the order the schema names them: the header and footer
-     * references first, then the properties of the section, then w:titlePg.
+     * references first, then the footnote properties of the section, then
+     * the properties of the style, then w:titlePg.
      */
     private function writeSectionSettings(XMLWriter $xmlWriter, Section $section): void
     {

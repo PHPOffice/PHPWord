@@ -33,8 +33,8 @@ class Section extends AbstractStyle
      * The children of w:sectPr are a sequence in the schema and are only
      * accepted in the order the schema names them, so the properties of the
      * style are written in the order of `EG_SectPrContents`. The part that
-     * writes w:sectPr puts the children that are not properties of the style
-     * around them.
+     * writes w:sectPr puts the footnote properties of the section before them
+     * and w:titlePg after them.
      */
     public function write(): void
     {
