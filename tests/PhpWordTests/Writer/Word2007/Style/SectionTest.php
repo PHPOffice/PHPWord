@@ -56,4 +56,33 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('576', $doc->getElementAttribute($path, 'w:bottom'));
         self::assertEquals('288', $doc->getElementAttribute($path, 'w:left'));
     }
+
+    /**
+     * The borders of a page name the bottom before the right.
+     *
+     * `CT_PageBorders` is a sequence and not a set, so a reader that walks it stops at
+     * the first child it did not expect. The order asserted below is the one in
+     * ECMA-376, in `CT_PageBorders`.
+     */
+    public function testPageBordersAreWrittenInSchemaOrder(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->getStyle()->setBorderSize(10);
+        $section->getStyle()->setBorderColor('000000');
+        $section->addText('test');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $pgBorders = $doc->getElement('/w:document/w:body/w:sectPr/w:pgBorders', 'word/document.xml');
+        self::assertNotNull($pgBorders);
+
+        $written = [];
+        foreach ($pgBorders->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['top', 'left', 'bottom', 'right'], $written);
+    }
 }

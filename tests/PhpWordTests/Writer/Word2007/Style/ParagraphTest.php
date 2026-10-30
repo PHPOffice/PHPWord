@@ -225,4 +225,35 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $styleWriter->setChild('spacing', function (): void {
         });
     }
+
+    /**
+     * The borders of a paragraph name the bottom before the right.
+     *
+     * `CT_PBdr` is a sequence and not a set, so a reader that walks it stops at the
+     * first child it did not expect. The order asserted below is the one in
+     * ECMA-376, in `CT_PBdr`.
+     */
+    public function testParagraphBordersAreWrittenInSchemaOrder(): void
+    {
+        $paragraphStyle = new ParagraphStyle();
+        $paragraphStyle->setBorderSize(10);
+        $paragraphStyle->setBorderColor('000000');
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('A paragraph with a border.', null, $paragraphStyle);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $pBdr = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:pBdr', 'word/document.xml');
+        self::assertNotNull($pBdr);
+
+        $written = [];
+        foreach ($pBdr->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['top', 'left', 'bottom', 'right'], $written);
+    }
 }

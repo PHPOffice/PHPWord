@@ -83,4 +83,33 @@ class TableCellTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($testValRight, $doc->getElementAttribute($path, 'w:w'));
         self::assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
     }
+
+    /**
+     * The borders of a cell name the bottom before the right.
+     *
+     * `CT_TcBorders` is a sequence and not a set, so a reader that walks it stops at
+     * the first child it did not expect. The order asserted below is the one in
+     * ECMA-376, in `CT_TcBorders`.
+     */
+    public function testCellBordersAreWrittenInSchemaOrder(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable();
+        $row = $table->addRow();
+        $row->addCell(null, ['borderSize' => 10, 'borderColor' => '000000'])->addText('Some text');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $tcBorders = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders', 'word/document.xml');
+        self::assertNotNull($tcBorders);
+
+        $written = [];
+        foreach ($tcBorders->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['top', 'left', 'bottom', 'right'], $written);
+    }
 }

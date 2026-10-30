@@ -255,4 +255,35 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(['top', 'left', 'bottom', 'right', 'insideH', 'insideV'], $written);
     }
+
+    /**
+     * The margins of the cells of a table name the bottom before the right.
+     *
+     * `CT_TblCellMar` is a sequence and not a set, so a reader that walks it stops at
+     * the first child it did not expect. The order asserted below is the one in
+     * ECMA-376, in `CT_TblCellMar`.
+     */
+    public function testTableCellMarginsAreWrittenInSchemaOrder(): void
+    {
+        $tableStyle = new Table();
+        $tableStyle->setCellMargin(100);
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $tblCellMar = $doc->getElement('/w:document/w:body/w:tbl/w:tblPr/w:tblCellMar', 'word/document.xml');
+        self::assertNotNull($tblCellMar);
+
+        $written = [];
+        foreach ($tblCellMar->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['top', 'left', 'bottom', 'right'], $written);
+    }
 }
