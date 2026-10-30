@@ -56,4 +56,44 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('576', $doc->getElementAttribute($path, 'w:bottom'));
         self::assertEquals('288', $doc->getElementAttribute($path, 'w:left'));
     }
+
+    /**
+     * The size of a page is written in whole twips.
+     *
+     * The schema's `ST_TwipsMeasure` holds no fraction, so a page whose size is a
+     * fraction of a twip is a page whose size the format cannot write.
+     */
+    public function testPageSizeIsWrittenInWholeTwips(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->addSection();
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:sectPr/w:pgSz';
+        $width = $doc->getElementAttribute($path, 'w:w');
+        $height = $doc->getElementAttribute($path, 'w:h');
+
+        self::assertSame((string) (int) $width, $width);
+        self::assertSame((string) (int) $height, $height);
+    }
+
+    /**
+     * A page size that is a whole number of twips is written as it is, and a page size
+     * that is a fraction of a twip is written as the nearest whole number of twips.
+     *
+     * A page of 210 mm by 297 mm is 11905.511811 twips by 16837.795276 twips, and the
+     * nearest whole number of twips is 11906 by 16838.
+     */
+    public function testPageSizeIsRoundedToTheNearestTwip(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->getStyle()->setPageSizeW(11906);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:sectPr/w:pgSz';
+
+        self::assertSame('11906', $doc->getElementAttribute($path, 'w:w'));
+        self::assertSame('16838', $doc->getElementAttribute($path, 'w:h'));
+    }
 }

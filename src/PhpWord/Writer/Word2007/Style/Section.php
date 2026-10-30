@@ -43,10 +43,16 @@ class Section extends AbstractStyle
         $xmlWriter->writeElementIf(null !== $breakType, 'w:type', 'w:val', $breakType);
 
         // Page size & orientation
+        //
+        // The size of a page is a number of twips, and the schema's `ST_TwipsMeasure`
+        // holds no fraction. The size of a sheet of paper in millimetres does not divide
+        // into twips exactly, so the value a page size carries is a fraction, and writing
+        // it as it stands writes a number the format has no way to read. It is rounded to
+        // the nearest twip here, which is as close as the format can get.
         $xmlWriter->startElement('w:pgSz');
         $xmlWriter->writeAttribute('w:orient', $style->getOrientation());
-        $xmlWriter->writeAttribute('w:w', $style->getPageSizeW());
-        $xmlWriter->writeAttribute('w:h', $style->getPageSizeH());
+        $xmlWriter->writeAttribute('w:w', (int) round($style->getPageSizeW()));
+        $xmlWriter->writeAttribute('w:h', (int) round($style->getPageSizeH()));
         $xmlWriter->endElement(); // w:pgSz
 
         // Vertical alignment
