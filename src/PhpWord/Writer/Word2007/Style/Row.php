@@ -49,7 +49,9 @@ class Row extends AbstractStyle
             $xmlWriter->writeAttribute('w:hRule', ($style->isExactHeight() ? 'exact' : 'atLeast'));
             $xmlWriter->endElement();
         }
-        $xmlWriter->writeElementIf($style->isTblHeader(), 'w:tblHeader', 'w:val', '1');
+        // The SDK reads the value of `w:tblHeader` as an enumeration of `on` and
+        // `off` and refuses to read `1`, which the schema's `ST_OnOff` allows.
+        $xmlWriter->writeElementIf($style->isTblHeader(), 'w:tblHeader', 'w:val', 'on');
         $xmlWriter->writeElementIf($style->isCantSplit(), 'w:cantSplit', 'w:val', '1');
 
         $xmlWriter->endElement(); // w:trPr
