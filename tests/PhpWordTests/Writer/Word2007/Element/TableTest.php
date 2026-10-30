@@ -145,4 +145,32 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl[1]'), 'no table should be written');
     }
+
+    /**
+     * The grid of a table comes after the properties of the table.
+     *
+     * `CT_Tbl` is a sequence and not a set, so a reader that walks it stops at the first
+     * child it did not expect. The order asserted below is the one in ECMA-376, in
+     * `CT_Tbl`.
+     */
+    public static function testTheGridComesAfterThePropertiesOfTheTable(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable(['width' => 5000, 'unit' => TblWidth::PERCENT]);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $tbl = $doc->getElement('/w:document/w:body/w:tbl');
+        self::assertNotNull($tbl);
+
+        $written = [];
+        foreach ($tbl->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['tblPr', 'tblGrid', 'tr'], $written);
+    }
 }

@@ -65,6 +65,24 @@ class Table extends AbstractStyle
         // w:tblPr
         $xmlWriter->startElement('w:tblPr');
 
+        // The children of `w:tblPr` come in the order the schema names them. The
+        // schema names them in a sequence and not in a set, so a reader that walks
+        // the sequence stops at the first child it did not expect: `w:tblpPr`
+        // belongs before `w:tblW`, `w:bidiVisual` belongs before `w:jc`, and
+        // `w:tblBorders` belongs before `w:tblLayout`. A table whose properties
+        // are written in any other order is a table such a reader cannot read.
+        //
+        // The order below is the one in ECMA-376, in `CT_TblPrBase`.
+
+        // Position
+        $styleWriter = new TablePosition($xmlWriter, $style->getPosition());
+        $styleWriter->write();
+
+        //Right to left
+        $xmlWriter->writeElementIf($style->isBidiVisual() !== null, 'w:bidiVisual', 'w:val', $this->writeOnOf($style->isBidiVisual()));
+
+        $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getUnit(), $style->getWidth());
+
         // Table alignment
         if ('' !== $style->getAlignment()) {
             $tableAlignment = new TableAlignment($style->getAlignment());
@@ -75,20 +93,11 @@ class Table extends AbstractStyle
             $xmlWriter->endElement();
         }
 
-        $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getUnit(), $style->getWidth());
         $this->writeTblWidth($xmlWriter, 'w:tblCellSpacing', TblWidth::TWIP, $style->getCellSpacing());
         $this->writeIndent($xmlWriter, $style);
-        $this->writeLayout($xmlWriter, $style->getLayout());
-
-        // Position
-        $styleWriter = new TablePosition($xmlWriter, $style->getPosition());
-        $styleWriter->write();
-
-        //Right to left
-        $xmlWriter->writeElementIf($style->isBidiVisual() !== null, 'w:bidiVisual', 'w:val', $this->writeOnOf($style->isBidiVisual()));
-
-        $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
+        $this->writeLayout($xmlWriter, $style->getLayout());
+        $this->writeMargin($xmlWriter, $style);
 
         $xmlWriter->endElement(); // w:tblPr
 

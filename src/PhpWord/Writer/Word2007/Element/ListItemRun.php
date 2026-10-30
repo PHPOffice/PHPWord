@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\ListItemRun as ListItemRunElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
@@ -63,16 +64,20 @@ class ListItemRun extends AbstractElement
         $styleWriter = new ParagraphStyleWriter($xmlWriter, $element->getParagraphStyle());
         $styleWriter->setIsInline(true);
         $styleWriter->setWithoutPPR(true);
-        $styleWriter->write();
 
-        $this->writeParagraphPropertiesNumbering($element);
+        // The list item carries its own numbering. The paragraph style writer
+        // writes it where the schema names it, among the other properties.
+        $styleWriter->setChild('numPr', function () use ($xmlWriter, $element): void {
+            $this->writeParagraphPropertiesNumbering($xmlWriter, $element);
+        });
+
+        $styleWriter->write();
 
         $xmlWriter->endElement(); // w:pPr
     }
 
-    private function writeParagraphPropertiesNumbering(ListItemRunElement $element): void
+    private function writeParagraphPropertiesNumbering(XMLWriter $xmlWriter, ListItemRunElement $element): void
     {
-        $xmlWriter = $this->getXmlWriter();
         $xmlWriter->startElement('w:numPr');
 
         $xmlWriter->writeElementBlock('w:ilvl', [

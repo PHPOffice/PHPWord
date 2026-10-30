@@ -52,13 +52,13 @@ class Table extends AbstractElement
         if ($rowCount > 0) {
             $xmlWriter->startElement('w:tbl');
 
-            // Write columns
-            $this->writeColumns($xmlWriter, $element);
-
             // Write style
             $styleWriter = new TableStyleWriter($xmlWriter, $element->getStyle());
             $styleWriter->setWidth($element->getWidth());
             $styleWriter->write();
+
+            // Write columns
+            $this->writeColumns($xmlWriter, $element);
 
             // Write rows
             for ($i = 0; $i < $rowCount; ++$i) {

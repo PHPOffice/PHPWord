@@ -22,6 +22,7 @@ namespace PhpOffice\PhpWordTests\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
@@ -112,5 +113,67 @@ class TOCTest extends \PHPUnit\Framework\TestCase
             self::assertContains($anchor, $bookmarks);
             self::assertEquals('PAGEREF ' . $anchor . ' \\h', $doc->getElement($link . '/w:r[4]/w:instrText')->nodeValue);
         }
+    }
+
+    /**
+     * The properties of an entry of a table of contents are written in the order the
+     * schema names them.
+     *
+     * `CT_PPr` is a sequence and not a set, so a reader that walks it stops at the first
+     * child it did not expect. The order asserted below is the one in ECMA-376, in
+     * `CT_PPrBase`.
+     */
+    public function testParagraphPropertiesAreWrittenInSchemaOrder(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle('fStyle', ['color' => '333333']);
+
+        $section = $phpWord->addSection();
+        $section->addTOC('fStyle');
+        $section->addTitle('Title 1', 2);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $pPr = $doc->getElement('/w:document/w:body/w:p[1]/w:pPr', 'word/document.xml');
+        self::assertNotNull($pPr);
+
+        $written = [];
+        foreach ($pPr->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['tabs', 'ind', 'rPr'], $written);
+    }
+
+    /**
+     * The properties of the style of an entry of a table of contents are written among
+     * the properties of the entry, in the order the schema names them.
+     *
+     * `CT_PPr` is a sequence and not a set, so a reader that walks it stops at the first
+     * child it did not expect. The order asserted below is the one in ECMA-376, in
+     * `CT_PPrBase`.
+     */
+    public function testThePropertiesOfTheStyleAreWrittenInSchemaOrder(): void
+    {
+        $fontStyle = new Font('text', ['alignment' => 'left', 'spaceAfter' => 120]);
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addTOC($fontStyle);
+        $section->addTitle('Title 1', 2);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $pPr = $doc->getElement('/w:document/w:body/w:p[1]/w:pPr', 'word/document.xml');
+        self::assertNotNull($pPr);
+
+        $written = [];
+        foreach ($pPr->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['tabs', 'spacing', 'ind', 'jc'], $written);
     }
 }

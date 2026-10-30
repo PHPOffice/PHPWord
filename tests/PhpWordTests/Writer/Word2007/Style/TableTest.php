@@ -19,6 +19,7 @@
 namespace PhpOffice\PhpWordTests\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
@@ -49,7 +50,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $tableStyle = new Table();
         $tableStyle->setLayout(Table::LAYOUT_FIXED);
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $table = $section->addTable($tableStyle);
         $table->addRow();
@@ -69,7 +70,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $tableStyle = new Table();
         $tableStyle->setCellSpacing(10.3);
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $table = $section->addTable($tableStyle);
         $table->addRow();
@@ -102,7 +103,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $tableStyle = new Table();
         $tableStyle->setPosition($tablePosition);
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $table = $section->addTable($tableStyle);
         $table->addRow();
@@ -131,7 +132,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $tableStyle = new Table();
         $tableStyle->setIndent(new TblWidthComplexType($value, $type));
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $table = $section->addTable($tableStyle);
         $table->addRow();
@@ -149,7 +150,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $tableStyle = new Table();
         $tableStyle->setBidiVisual(true);
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $table = $section->addTable($tableStyle);
         $table->addRow();
@@ -159,5 +160,99 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $path = '/w:document/w:body/w:tbl/w:tblPr/w:bidiVisual';
         self::assertTrue($doc->elementExists($path));
         self::assertEquals('1', $doc->getElementAttribute($path, 'w:val'));
+    }
+
+    /**
+     * The properties of a table are written in the order the schema names them.
+     *
+     * `CT_TblPr` is a sequence and not a set, so a reader that walks it stops at the
+     * first child it did not expect. The order asserted below is the one in ECMA-376,
+     * in `CT_TblPrBase`.
+     */
+    public function testTablePropertiesAreWrittenInSchemaOrder(): void
+    {
+        $tableStyle = new Table();
+        $tableStyle->setPosition([
+            'leftFromText' => 10,
+            'rightFromText' => 20,
+            'topFromText' => 30,
+            'bottomFromText' => 40,
+            'vertAnchor' => TablePosition::VANCHOR_PAGE,
+            'horzAnchor' => TablePosition::HANCHOR_MARGIN,
+            'tblpXSpec' => TablePosition::XALIGN_CENTER,
+            'tblpX' => 50,
+            'tblpYSpec' => TablePosition::YALIGN_TOP,
+            'tblpY' => 60,
+        ]);
+        $tableStyle->setBidiVisual(true);
+        $tableStyle->setWidth(5000);
+        $tableStyle->setUnit(TblWidth::TWIP);
+        $tableStyle->setAlignment('center');
+        $tableStyle->setCellSpacing(10);
+        $tableStyle->setIndent(new TblWidthComplexType(100, TblWidth::TWIP));
+        $tableStyle->setBorderSize(10);
+        $tableStyle->setBorderColor('000000');
+        $tableStyle->setLayout(Table::LAYOUT_FIXED);
+        $tableStyle->setCellMargin(100);
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $tblPr = $doc->getElement('/w:document/w:body/w:tbl/w:tblPr', 'word/document.xml');
+        self::assertNotNull($tblPr);
+
+        $written = [];
+        foreach ($tblPr->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame([
+            'tblpPr',
+            'bidiVisual',
+            'tblW',
+            'jc',
+            'tblCellSpacing',
+            'tblInd',
+            'tblBorders',
+            'tblLayout',
+            'tblCellMar',
+        ], $written);
+    }
+
+    /**
+     * The borders of a table name the bottom before the right.
+     *
+     * `CT_TblBorders` is a sequence and not a set, so a reader that walks it stops at
+     * the first child it did not expect. The order asserted below is the one in
+     * ECMA-376, in `CT_TblBorders`.
+     */
+    public function testTableBordersAreWrittenInSchemaOrder(): void
+    {
+        $tableStyle = new Table();
+        $tableStyle->setBorderSize(10);
+        $tableStyle->setBorderColor('000000');
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $tblBorders = $doc->getElement('/w:document/w:body/w:tbl/w:tblPr/w:tblBorders', 'word/document.xml');
+        self::assertNotNull($tblBorders);
+
+        $written = [];
+        foreach ($tblBorders->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame(['top', 'left', 'bottom', 'right', 'insideH', 'insideV'], $written);
     }
 }

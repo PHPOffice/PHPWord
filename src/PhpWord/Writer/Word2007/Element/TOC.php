@@ -153,12 +153,35 @@ class TOC extends AbstractElement
         $fontStyle = $element->getStyleFont();
         $isObject = ($fontStyle instanceof Font) ? true : false;
 
+        // The tab stop and the indent of the entry, written where the schema names
+        // them, among the other properties of the paragraph.
+        $writeTabs = function () use ($xmlWriter, $tocStyle): void {
+            $xmlWriter->startElement('w:tabs');
+            $styleWriter = new TabStyleWriter($xmlWriter, $tocStyle);
+            $styleWriter->write();
+            $xmlWriter->endElement();
+        };
+        $writeIndent = function () use ($xmlWriter, $indent): void {
+            if ($indent > 0) {
+                $xmlWriter->startElement('w:ind');
+                $xmlWriter->writeAttribute('w:left', $indent);
+                $xmlWriter->endElement();
+            }
+        };
+
         $xmlWriter->startElement('w:pPr');
 
         // Paragraph
         if ($isObject && null !== $fontStyle->getParagraph()) {
             $styleWriter = new ParagraphStyleWriter($xmlWriter, $fontStyle->getParagraph());
+            $styleWriter->setWithoutPPR(true);
+            $styleWriter->setIsInline(true);
+            $styleWriter->setChild('tabs', $writeTabs);
+            $styleWriter->setChild('ind', $writeIndent);
             $styleWriter->write();
+        } else {
+            $writeTabs();
+            $writeIndent();
         }
 
         // Font
@@ -168,19 +191,6 @@ class TOC extends AbstractElement
             $xmlWriter->writeAttribute('w:val', $fontStyle);
             $xmlWriter->endElement();
             $xmlWriter->endElement(); // w:rPr
-        }
-
-        // Tab
-        $xmlWriter->startElement('w:tabs');
-        $styleWriter = new TabStyleWriter($xmlWriter, $tocStyle);
-        $styleWriter->write();
-        $xmlWriter->endElement();
-
-        // Indent
-        if ($indent > 0) {
-            $xmlWriter->startElement('w:ind');
-            $xmlWriter->writeAttribute('w:left', $indent);
-            $xmlWriter->endElement();
         }
 
         $xmlWriter->endElement(); // w:pPr

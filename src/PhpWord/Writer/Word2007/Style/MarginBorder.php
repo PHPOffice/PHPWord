@@ -62,16 +62,25 @@ class MarginBorder extends AbstractStyle
     {
         $xmlWriter = $this->getXmlWriter();
 
-        $sides = ['top', 'left', 'right', 'bottom', 'insideH', 'insideV'];
+        // The sides come in the order the schema names them, and `w:bottom` comes
+        // before `w:right`. The sizes, the colors and the styles come in the order
+        // the style keeps them in, which is top, left, right, bottom, so each side
+        // names the place it has in them.
+        $sides = [
+            'top' => 0,
+            'left' => 1,
+            'bottom' => 3,
+            'right' => 2,
+            'insideH' => 4,
+            'insideV' => 5,
+        ];
 
-        foreach ($this->sizes as $i => $size) {
+        foreach ($sides as $side => $index) {
+            $size = $this->sizes[$index] ?? null;
             if ($size !== null) {
-                $color = null;
-                if (isset($this->colors[$i])) {
-                    $color = $this->colors[$i];
-                }
-                $style = $this->styles[$i] ?? 'single';
-                $this->writeSide($xmlWriter, $sides[$i], $this->sizes[$i], $color, $style);
+                $color = $this->colors[$index] ?? null;
+                $style = $this->styles[$index] ?? 'single';
+                $this->writeSide($xmlWriter, $side, $size, $color, $style);
             }
         }
     }
