@@ -91,7 +91,7 @@ class Document extends AbstractPart
     }
 
     /**
-     * Write end section.
+     * Write the properties of the section.
      *
      * The children of w:sectPr are a sequence in the schema and are only
      * accepted in the order the schema names them: the header and footer
