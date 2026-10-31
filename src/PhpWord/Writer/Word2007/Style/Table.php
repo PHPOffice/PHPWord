@@ -62,7 +62,6 @@ class Table extends AbstractStyle
      */
     private function writeStyle(XMLWriter $xmlWriter, TableStyle $style): void
     {
-        // w:tblPr
         $xmlWriter->startElement('w:tblPr');
 
         // The children of `w:tblPr` come in the order the schema names them. The
@@ -74,16 +73,13 @@ class Table extends AbstractStyle
         //
         // The order below is the one in ECMA-376, in `CT_TblPrBase`.
 
-        // Position
         $styleWriter = new TablePosition($xmlWriter, $style->getPosition());
         $styleWriter->write();
 
-        //Right to left
         $xmlWriter->writeElementIf($style->isBidiVisual() !== null, 'w:bidiVisual', 'w:val', $this->writeOnOf($style->isBidiVisual()));
 
         $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getUnit(), $style->getWidth());
 
-        // Table alignment
         if ('' !== $style->getAlignment()) {
             $tableAlignment = new TableAlignment($style->getAlignment());
             $xmlWriter->startElement($tableAlignment->getName());

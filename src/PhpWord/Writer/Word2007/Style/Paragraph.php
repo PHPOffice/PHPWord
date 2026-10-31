@@ -125,21 +125,17 @@ class Paragraph extends AbstractStyle
         //
         // The order below is the one in ECMA-376, in `CT_PPrBase`.
 
-        // Style name
         if ($this->isInline === true) {
             $xmlWriter->writeElementIf($styles['name'] !== null, 'w:pStyle', 'w:val', $styles['name']);
         }
 
-        // Pagination
         $xmlWriter->writeElementIf($styles['pagination']['keepNext'] === true, 'w:keepNext', 'w:val', '1');
         $xmlWriter->writeElementIf($styles['pagination']['keepLines'] === true, 'w:keepLines', 'w:val', '1');
         $xmlWriter->writeElementIf($styles['pagination']['pageBreak'] === true, 'w:pageBreakBefore', 'w:val', '1');
         $xmlWriter->writeElementIf($styles['pagination']['widowControl'] === false, 'w:widowControl', 'w:val', '0');
 
-        // Numbering
         $outlineLevel = $this->writeNumbering($xmlWriter, $styles['numbering']);
 
-        // Border
         if ($style->hasBorder()) {
             $xmlWriter->startElement('w:pBdr');
 
@@ -152,28 +148,20 @@ class Paragraph extends AbstractStyle
             $xmlWriter->endElement();
         }
 
-        // Shading
         $this->writeChildStyle($xmlWriter, 'Shading', $styles['shading']);
 
-        // Tabs
         $this->writeTabs($xmlWriter, $styles['tabs']);
 
-        // Hyphenation
         $xmlWriter->writeElementIf($styles['suppressAutoHyphens'] === true, 'w:suppressAutoHyphens');
 
-        // Right to left
         $xmlWriter->writeElementIf($styles['bidi'] === true, 'w:bidi');
 
-        // Spacing
         $this->writeChildStyle($xmlWriter, 'Spacing', $styles['spacing']);
 
-        // Indentation
         $this->writeIndentation($xmlWriter, $styles['indentation']);
 
-        //Paragraph contextualSpacing
         $xmlWriter->writeElementIf($styles['contextualSpacing'] === true, 'w:contextualSpacing');
 
-        // Paragraph alignment
         if ('' !== $styles['alignment']) {
             $paragraphAlignment = new ParagraphAlignment($styles['alignment']);
             $xmlWriter->startElement($paragraphAlignment->getName());
@@ -183,10 +171,8 @@ class Paragraph extends AbstractStyle
             $xmlWriter->endElement();
         }
 
-        //Paragraph textAlignment
         $xmlWriter->writeElementIf($styles['textAlignment'] !== null, 'w:textAlignment', 'w:val', $styles['textAlignment']);
 
-        // Outline level
         if ($this->outlineLevel !== null) {
             $outlineLevel = $this->outlineLevel;
         }
@@ -297,7 +283,7 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Write a child of w:pPr in place of the one in the style.
+     * Set a child of w:pPr to be written in place of the one in the style.
      *
      * A writer that writes part of a w:pPr hands its part to the paragraph style
      * writer, which writes it where the schema names it. The two then agree on the
