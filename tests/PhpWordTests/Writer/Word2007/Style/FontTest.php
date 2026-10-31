@@ -198,4 +198,75 @@ class FontTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($styelem . '/w:color'));
         self::assertSame('A7D9C1', $doc->getElementAttribute($styelem . '/w:color', 'w:val'));
     }
+
+    /**
+     * The properties of a run are written in the order the schema names them in.
+     *
+     * `CT_RPr` is a sequence and not a set, so a reader that walks it stops at the first
+     * child it did not expect. The order asserted below is the one in ECMA-376, in
+     * `EG_RPrBase`.
+     */
+    public function testRunPropertiesAreWrittenInSchemaOrder(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $textrun = $section->addTextRun();
+        $textrun->addText('A run with every property set.', [
+            'name' => 'Courier New',
+            'bold' => true,
+            'italic' => true,
+            'underline' => 'single',
+            'doubleStrikethrough' => true,
+            'smallCaps' => true,
+            'allCaps' => true,
+            'color' => 'FF0000',
+            'size' => 12,
+            'fgColor' => 'yellow',
+            'hidden' => true,
+            'spacing' => 10,
+            'scale' => 100,
+            'kerning' => 2,
+            'position' => 5,
+            'noProof' => true,
+            'superScript' => true,
+            'rtl' => true,
+            'lang' => 'en-GB',
+        ]);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $rPr = $doc->getElement('/w:document/w:body/w:p/w:r/w:rPr', 'word/document.xml');
+        self::assertNotNull($rPr);
+
+        $written = [];
+        foreach ($rPr->childNodes as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                $written[] = $child->localName;
+            }
+        }
+
+        self::assertSame([
+            'rFonts',
+            'b',
+            'bCs',
+            'i',
+            'iCs',
+            'caps',
+            'smallCaps',
+            'dstrike',
+            'noProof',
+            'vanish',
+            'color',
+            'spacing',
+            'w',
+            'kern',
+            'position',
+            'sz',
+            'szCs',
+            'highlight',
+            'u',
+            'vertAlign',
+            'rtl',
+            'lang',
+        ], $written);
+    }
 }
