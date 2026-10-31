@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWordTests\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
@@ -158,6 +159,116 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $path = '/w:document/w:body/w:tbl/w:tblPr/w:bidiVisual';
         self::assertTrue($doc->elementExists($path));
-        self::assertEquals('1', $doc->getElementAttribute($path, 'w:val'));
+        self::assertSame('on', $doc->getElementAttribute($path, 'w:val'));
+    }
+
+    /**
+     * A table that is not right to left says so in words.
+     *
+     * The SDK reads the value of `w:bidiVisual` as an enumeration of `on` and
+     * `off` and refuses to read `0`, which the schema's `ST_OnOff` allows.
+     */
+    public function testNotRightToLeft(): void
+    {
+        $tableStyle = new Table();
+        $tableStyle->setBidiVisual(false);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblPr/w:bidiVisual';
+        self::assertTrue($doc->elementExists($path));
+        self::assertSame('off', $doc->getElementAttribute($path, 'w:val'));
+    }
+
+    /**
+     * The shading of a table belongs in the properties of the table.
+     *
+     * `CT_TblPrBase` takes a `w:shd` of its own, and `CT_Tbl` has no `w:tcPr`:
+     * a shading written outside the properties of the table never reaches the
+     * document.
+     */
+    public function testShadingIsWrittenInThePropertiesOfTheTable(): void
+    {
+        $tableStyle = new Table();
+        $tableStyle->setShading(['fill' => '00FF00', 'type' => 'clear']);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblPr/w:shd';
+        self::assertTrue($doc->elementExists($path));
+        self::assertSame('00FF00', $doc->getElementAttribute($path, 'w:fill'));
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tcPr'));
+    }
+
+    /**
+     * The borders of the first row of a table style are the borders of a cell.
+     *
+     * The properties of a cell take a `w:tcBorders`, and a `w:tblBorders` in them
+     * is not a thing the schema knows.
+     */
+    public function testBordersOfTheFirstRowAreWrittenAsTheBordersOfACell(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        Style::addTableStyle('Table Style', [], ['borderSize' => 10, 'borderColor' => '000000']);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $file = 'word/styles.xml';
+
+        $path = '/w:styles/w:style[@w:styleId="Table Style"]/w:tblStylePr[@w:type="firstRow"]/w:tcPr/w:tcBorders';
+        self::assertTrue($doc->elementExists($path, $file));
+        self::assertFalse($doc->elementExists('/w:styles/w:style[@w:styleId="Table Style"]/w:tblStylePr/w:tcPr/w:tblBorders', $file));
+    }
+
+    /**
+     * The shading of the first row of a table belongs in the properties of the cell.
+     *
+     * `CT_TcPr` takes a `w:shd` of its own, and a `w:tcPr` inside a `w:tcPr` is
+     * not a thing the schema knows.
+     */
+    public function testShadingOfTheFirstRowIsWrittenInThePropertiesOfTheCell(): void
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        Style::addTableStyle('Table Style', [], ['shading' => ['fill' => 'FF0000', 'type' => 'clear']]);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $file = 'word/styles.xml';
+
+        $path = '/w:styles/w:style[@w:styleId="Table Style"]/w:tblStylePr[@w:type="firstRow"]/w:tcPr/w:shd';
+        self::assertTrue($doc->elementExists($path, $file));
+        self::assertSame('FF0000', $doc->getElementAttribute($path, 'w:fill', $file));
+        self::assertFalse($doc->elementExists('/w:styles/w:style[@w:styleId="Table Style"]/w:tblStylePr/w:tcPr/w:tcPr', $file));
+    }
+
+    /**
+     * A table in a document has the properties of the table and nothing else.
+     *
+     * `CT_Tbl` is `tblPr, tblGrid, rows`: it names no `w:tcPr` and no
+     * `w:tblStylePr`, so a reader that walks it stops at the first child it did
+     * not expect. The first row of a table belongs to the table's style, and a
+     * table style has a `w:tblStylePr` of its own.
+     */
+    public function testATableInADocumentHasNoCellPropertiesAndNoFirstRowStyle(): void
+    {
+        $tableStyle = new Table([], ['shading' => ['fill' => 'FF0000', 'type' => 'clear']]);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tcPr'));
+        self::assertFalse($doc->elementExists('/w:document/w:body/w:tbl/w:tblStylePr'));
     }
 }

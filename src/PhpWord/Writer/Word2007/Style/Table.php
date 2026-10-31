@@ -36,6 +36,17 @@ class Table extends AbstractStyle
     private $width;
 
     /**
+     * Whether the properties belong to a table in a document or to a table style.
+     *
+     * The two are written by the same writer and they are not the same thing.
+     * `CT_Tbl` is `tblPr, tblGrid, rows` and has room for the properties of the
+     * table alone, while `CT_Style` has a `w:tcPr` and a `w:tblStylePr` of its own.
+     *
+     * @var bool
+     */
+    private $isInline = false;
+
+    /**
      * Write style.
      */
     public function write(): void
@@ -53,6 +64,13 @@ class Table extends AbstractStyle
             if (null !== $this->width) {
                 $this->writeTblWidth($xmlWriter, 'w:tblW', TblWidth::PERCENT, $this->width);
             }
+            $xmlWriter->endElement();
+        } elseif ($this->isInline) {
+            // A table in a document has properties of its own, and it has them
+            // whether it has any or not: `CT_Tbl` names `w:tblPr` before
+            // `w:tblGrid` and does not make it optional, so a table whose grid
+            // comes first is a table a reader that walks the sequence stops at.
+            $xmlWriter->startElement('w:tblPr');
             $xmlWriter->endElement();
         }
     }
@@ -78,6 +96,17 @@ class Table extends AbstractStyle
         $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getUnit(), $style->getWidth());
         $this->writeTblWidth($xmlWriter, 'w:tblCellSpacing', TblWidth::TWIP, $style->getCellSpacing());
         $this->writeIndent($xmlWriter, $style);
+
+        if ($this->isInline) {
+            // The shading of a table is the shading of the table, and the table's
+            // properties are where the schema names it: `w:shd` is a child of
+            // `w:tblPr`, and `w:tblPr` is a child of `w:tbl`. `CT_TblPrBase` names it
+            // between `w:tblBorders` and `w:tblLayout`, and the borders are written
+            // below — the order of the children of `w:tblPr` is the subject of
+            // #2965, which moves them.
+            $this->writeShading($xmlWriter, $style);
+        }
+
         $this->writeLayout($xmlWriter, $style->getLayout());
 
         // Position
@@ -85,16 +114,30 @@ class Table extends AbstractStyle
         $styleWriter->write();
 
         //Right to left
-        $xmlWriter->writeElementIf($style->isBidiVisual() !== null, 'w:bidiVisual', 'w:val', $this->writeOnOf($style->isBidiVisual()));
+        // The SDK reads the value of `w:bidiVisual` as an enumeration of `on` and
+        // `off` and refuses to read `1`, which the schema's `ST_OnOff` allows.
+        $xmlWriter->writeElementIf($style->isBidiVisual() !== null, 'w:bidiVisual', 'w:val', $style->isBidiVisual() ? 'on' : 'off');
 
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
 
         $xmlWriter->endElement(); // w:tblPr
 
-        $this->writeShading($xmlWriter, $style);
+        if ($this->isInline) {
+            // A table in a document has the grid and the rows after its
+            // properties and nothing else: `CT_Tbl` names no `w:tcPr` and no
+            // `w:tblStylePr`, and a reader that walks it stops at the first child
+            // it did not expect.
+            return;
+        }
 
-        // First row style
+        // The cells of a table style, and the first row of it. The shading of a
+        // table style is the shading of its cells, which is where it was and
+        // where a reader looks for it.
+        $xmlWriter->startElement('w:tcPr');
+        $this->writeShading($xmlWriter, $style);
+        $xmlWriter->endElement(); // w:tcPr
+
         $firstRow = $style->getFirstRow();
         if ($firstRow instanceof TableStyle) {
             $this->writeFirstRow($xmlWriter, $firstRow);
@@ -130,19 +173,31 @@ class Table extends AbstractStyle
     }
 
     /**
-     * Write border.
+     * Set whether the properties belong to a table in a document.
+     *
+     * @param bool $value
      */
-    private function writeBorder(XMLWriter $xmlWriter, TableStyle $style): void
+    public function setIsInline($value): void
+    {
+        $this->isInline = $value;
+    }
+
+    /**
+     * Write border.
+     *
+     * @param string $elementName w:tblBorders for a table, w:tcBorders for a cell
+     */
+    private function writeBorder(XMLWriter $xmlWriter, TableStyle $style, $elementName = 'w:tblBorders'): void
     {
         if ($style->hasBorder()) {
-            $xmlWriter->startElement('w:tblBorders');
+            $xmlWriter->startElement($elementName);
 
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
             $styleWriter->write();
 
-            $xmlWriter->endElement(); // w:tblBorders
+            $xmlWriter->endElement(); // w:tblBorders or w:tcBorders
         }
     }
 
@@ -173,7 +228,7 @@ class Table extends AbstractStyle
         $xmlWriter->writeAttribute('w:type', 'firstRow');
         $xmlWriter->startElement('w:tcPr');
 
-        $this->writeBorder($xmlWriter, $style);
+        $this->writeBorder($xmlWriter, $style, 'w:tcBorders');
         $this->writeShading($xmlWriter, $style);
 
         $xmlWriter->endElement(); // w:tcPr
@@ -182,16 +237,15 @@ class Table extends AbstractStyle
 
     /**
      * Write shading.
+     *
+     * The `w:shd` belongs to the properties of the table or of the cell, and the
+     * caller has opened them.
      */
     private function writeShading(XMLWriter $xmlWriter, TableStyle $style): void
     {
         if (null !== $style->getShading()) {
-            $xmlWriter->startElement('w:tcPr');
-
             $styleWriter = new Shading($xmlWriter, $style->getShading());
             $styleWriter->write();
-
-            $xmlWriter->endElement();
         }
     }
 

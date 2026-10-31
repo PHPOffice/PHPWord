@@ -58,6 +58,7 @@ class Table extends AbstractElement
             // Write style
             $styleWriter = new TableStyleWriter($xmlWriter, $element->getStyle());
             $styleWriter->setWidth($element->getWidth());
+            $styleWriter->setIsInline(true);
             $styleWriter->write();
 
             // Write rows
@@ -81,7 +82,6 @@ class Table extends AbstractElement
             $xmlWriter->startElement('w:gridCol');
             if ($width !== null) {
                 $xmlWriter->writeAttribute('w:w', $width);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
             }
             $xmlWriter->endElement();
         }

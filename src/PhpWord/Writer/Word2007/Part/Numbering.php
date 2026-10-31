@@ -143,12 +143,18 @@ class Numbering extends AbstractPart
 
         $xmlWriter->startElement('w:pPr');
 
-        $xmlWriter->startElement('w:tabs');
-        $xmlWriter->startElement('w:tab');
-        $xmlWriter->writeAttribute('w:val', 'num');
-        $xmlWriter->writeAttributeIf($tabPos !== null, 'w:pos', $tabPos);
-        $xmlWriter->endElement(); // w:tab
-        $xmlWriter->endElement(); // w:tabs
+        // `w:tab` requires a position. The tab stop of a level is where the text
+        // of the level begins, which is the left indent of the level; the number
+        // hangs into it.
+        $pos = $tabPos ?? $left;
+        if ($pos !== null) {
+            $xmlWriter->startElement('w:tabs');
+            $xmlWriter->startElement('w:tab');
+            $xmlWriter->writeAttribute('w:val', 'num');
+            $xmlWriter->writeAttribute('w:pos', $pos);
+            $xmlWriter->endElement(); // w:tab
+            $xmlWriter->endElement(); // w:tabs
+        }
 
         $xmlWriter->startElement('w:ind');
         $xmlWriter->writeAttributeIf($left !== null, 'w:left', $left);
