@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Element\TOC as TOCElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Tab as TabStyleWriter;
@@ -153,12 +154,38 @@ class TOC extends AbstractElement
         $fontStyle = $element->getStyleFont();
         $isObject = ($fontStyle instanceof Font) ? true : false;
 
+        // The tab stop and the indent of the entry, written where the schema names
+        // them, among the other properties of the paragraph.
+        $writeTabs = function () use ($xmlWriter, $tocStyle): void {
+            $xmlWriter->startElement('w:tabs');
+            $styleWriter = new TabStyleWriter($xmlWriter, $tocStyle);
+            $styleWriter->write();
+            $xmlWriter->endElement();
+        };
+        $writeIndent = function () use ($xmlWriter, $indent): void {
+            if ($indent > 0) {
+                $xmlWriter->startElement('w:ind');
+                $xmlWriter->writeAttribute('w:left', $indent);
+                $xmlWriter->endElement();
+            }
+        };
+
         $xmlWriter->startElement('w:pPr');
 
         // Paragraph
-        if ($isObject && null !== $fontStyle->getParagraph()) {
-            $styleWriter = new ParagraphStyleWriter($xmlWriter, $fontStyle->getParagraph());
+        $paragraph = $isObject ? $fontStyle->getParagraph() : null;
+        if ($paragraph instanceof ParagraphStyle) {
+            $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraph);
+            $styleWriter->setWithoutPPR(true);
+            $styleWriter->setChild('tabs', $writeTabs);
+            $styleWriter->setChild('ind', $writeIndent);
             $styleWriter->write();
+        } else {
+            // A paragraph style that is named rather than carried brings no
+            // properties of its own, so the entry writes the tab stop and the
+            // indent itself.
+            $writeTabs();
+            $writeIndent();
         }
 
         // Font
@@ -168,19 +195,6 @@ class TOC extends AbstractElement
             $xmlWriter->writeAttribute('w:val', $fontStyle);
             $xmlWriter->endElement();
             $xmlWriter->endElement(); // w:rPr
-        }
-
-        // Tab
-        $xmlWriter->startElement('w:tabs');
-        $styleWriter = new TabStyleWriter($xmlWriter, $tocStyle);
-        $styleWriter->write();
-        $xmlWriter->endElement();
-
-        // Indent
-        if ($indent > 0) {
-            $xmlWriter->startElement('w:ind');
-            $xmlWriter->writeAttribute('w:left', $indent);
-            $xmlWriter->endElement();
         }
 
         $xmlWriter->endElement(); // w:pPr

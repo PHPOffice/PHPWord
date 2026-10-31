@@ -47,16 +47,21 @@ class ListItem extends AbstractElement
         $xmlWriter->startElement('w:p');
 
         $xmlWriter->startElement('w:pPr');
-        $styleWriter->write();
 
-        $xmlWriter->startElement('w:numPr');
-        $xmlWriter->startElement('w:ilvl');
-        $xmlWriter->writeAttribute('w:val', $element->getDepth());
-        $xmlWriter->endElement(); // w:ilvl
-        $xmlWriter->startElement('w:numId');
-        $xmlWriter->writeAttribute('w:val', $element->getStyle()->getNumId());
-        $xmlWriter->endElement(); // w:numId
-        $xmlWriter->endElement(); // w:numPr
+        // The list item carries its own numbering. The paragraph style writer
+        // writes it where the schema names it, among the other properties.
+        $styleWriter->setChild('numPr', function () use ($xmlWriter, $element): void {
+            $xmlWriter->startElement('w:numPr');
+            $xmlWriter->startElement('w:ilvl');
+            $xmlWriter->writeAttribute('w:val', $element->getDepth());
+            $xmlWriter->endElement(); // w:ilvl
+            $xmlWriter->startElement('w:numId');
+            $xmlWriter->writeAttribute('w:val', $element->getStyle()->getNumId());
+            $xmlWriter->endElement(); // w:numId
+            $xmlWriter->endElement(); // w:numPr
+        });
+
+        $styleWriter->write();
 
         $xmlWriter->endElement(); // w:pPr
 
