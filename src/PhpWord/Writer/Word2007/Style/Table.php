@@ -65,6 +65,13 @@ class Table extends AbstractStyle
                 $this->writeTblWidth($xmlWriter, 'w:tblW', TblWidth::PERCENT, $this->width);
             }
             $xmlWriter->endElement();
+        } elseif ($this->isInline) {
+            // A table in a document has properties of its own, and it has them
+            // whether it has any or not: `CT_Tbl` names `w:tblPr` before
+            // `w:tblGrid` and does not make it optional, so a table whose grid
+            // comes first is a table a reader that walks the sequence stops at.
+            $xmlWriter->startElement('w:tblPr');
+            $xmlWriter->endElement();
         }
     }
 

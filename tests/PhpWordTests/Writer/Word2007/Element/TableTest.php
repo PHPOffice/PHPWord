@@ -167,4 +167,23 @@ class TableTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($doc->elementExists($path));
         self::assertFalse($doc->hasElementAttribute($path, 'w:type'));
     }
+
+    /**
+     * A table has properties of its own, whether it was given any or not.
+     *
+     * `CT_Tbl` names `w:tblPr` before `w:tblGrid` and does not make it
+     * optional, so a table without properties is a table whose grid a reader
+     * that walks the sequence stops at.
+     */
+    public static function testATableWithoutAStyleStillHasProperties(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable();
+        $table->addRow()->addCell()->addText('R1C1');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tblPr'));
+    }
 }
