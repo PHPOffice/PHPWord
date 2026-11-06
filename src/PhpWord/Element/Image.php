@@ -536,6 +536,52 @@ class Image extends AbstractElement
     /**
      * Set source type.
      */
+    /**
+     * Fetch a remote image URL safely, blocking SSRF to non-public hosts.
+     *
+     * @throws InvalidImageException
+     */
+    private static function fetchRemoteImage(string $url): string
+    {
+        $parts = parse_url($url);
+        $scheme = isset($parts['scheme']) ? strtolower($parts['scheme']) : '';
+        if ($scheme !== 'http' && $scheme !== 'https') {
+            throw new InvalidImageException(sprintf('Refused to load image from unsupported scheme: %s', $url));
+        }
+        $host = isset($parts['host']) ? $parts['host'] : '';
+        if ($host === '') {
+            throw new InvalidImageException(sprintf('Refused to load image from invalid URL: %s', $url));
+        }
+        if (0 === strpos($host, '[') && substr($host, -1) === ']') {
+            $host = substr($host, 1, -1);
+        }
+        $ips = filter_var($host, FILTER_VALIDATE_IP) ? [$host] : (gethostbynamel($host) ?: []);
+        if ($ips === []) {
+            throw new InvalidImageException(sprintf('Refused to load image, host did not resolve: %s', $url));
+        }
+        foreach ($ips as $ip) {
+            if (
+                filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
+                || 0 === strpos($ip, '127.')
+                || 0 === strpos($ip, '169.254.')
+                || $ip === '::1'
+                || $ip === '0.0.0.0'
+            ) {
+                throw new InvalidImageException(sprintf('Refused to load image from non-public address: %s', $url));
+            }
+        }
+        $context = stream_context_create([
+            'http' => ['follow_location' => 0, 'timeout' => 10],
+            'https' => ['follow_location' => 0, 'timeout' => 10],
+        ]);
+        $content = @file_get_contents($url, false, $context);
+        if ($content === false) {
+            throw new InvalidImageException(sprintf('Could not load image: %s', $url));
+        }
+
+        return $content;
+    }
+
     private function setSourceType(): void
     {
         if (stripos(strrev($this->source), strrev('.php')) === 0) {
@@ -545,14 +591,14 @@ class Image extends AbstractElement
             $this->memoryImage = false;
             $this->sourceType = self::SOURCE_ARCHIVE;
         } elseif (filter_var($this->source, FILTER_VALIDATE_URL) !== false) {
+            // Reading an untrusted document must not turn an embedded image URL
+            // into a server-side request to arbitrary hosts (SSRF). Restrict the
+            // scheme, block private/loopback/link-local/metadata targets and do
+            // not follow redirects, so getimagesize() is never pointed at the
+            // network (both http and https now go through the guarded fetch).
             $this->memoryImage = true;
-            if (strpos($this->source, 'https') === 0) {
-                $fileContent = file_get_contents($this->source);
-                $this->source = $fileContent;
-                $this->sourceType = self::SOURCE_STRING;
-            } else {
-                $this->sourceType = self::SOURCE_GD;
-            }
+            $this->source = self::fetchRemoteImage($this->source);
+            $this->sourceType = self::SOURCE_STRING;
         } elseif ((strpos($this->source, chr(0)) === false) && @file_exists($this->source)) {
             $this->memoryImage = false;
             $this->sourceType = self::SOURCE_LOCAL;
