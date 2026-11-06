@@ -491,11 +491,43 @@ abstract class AbstractPart
 
     /**
      * Parses nodes under w:r.
-     *
-     * @param string $docPart
-     * @param mixed $paragraphStyle
-     * @param mixed $fontStyle
      */
+    /**
+     * Whether an external-relationship image URL is safe to fetch while reading.
+     *
+     * Reading an untrusted document must not turn an embedded External image
+     * relationship into a server-side request to an internal host (SSRF). Allow
+     * only http/https to a host that does not resolve to a private, loopback,
+     * link-local or cloud-metadata address.
+     */
+    private static function isSafeRemoteImageUrl(string $url): bool
+    {
+        if (!preg_match('#^https?://#i', $url)) {
+            return false;
+        }
+        $host = parse_url($url, PHP_URL_HOST);
+        if (!is_string($host) || $host === '') {
+            return false;
+        }
+        if (0 === strpos($host, '[') && substr($host, -1) === ']') {
+            $host = substr($host, 1, -1);
+        }
+        $ips = filter_var($host, FILTER_VALIDATE_IP) ? [$host] : (gethostbynamel($host) ?: []);
+        foreach ($ips as $ip) {
+            if (
+                filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
+                || 0 === strpos($ip, '127.')
+                || 0 === strpos($ip, '169.254.')
+                || $ip === '::1'
+                || $ip === '0.0.0.0'
+            ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     protected function readRunChild(XMLReader $xmlReader, DOMElement $node, AbstractContainer $parent, $docPart, $paragraphStyle = null, $fontStyle = null): void
     {
         $runParent = $node->parentNode->parentNode;
@@ -516,12 +548,20 @@ abstract class AbstractPart
             $rId = $xmlReader->getAttribute('r:id', $shape, 'v:imagedata');
             $target = $this->getMediaTarget($docPart, $rId);
             if ($this->hasImageLoading() && null !== $shape && null !== $target) {
+                $imageSource = null;
                 if ('External' == $this->getTargetMode($docPart, $rId)) {
-                    $imageSource = $target;
+                    // Reading an untrusted document must not fetch an attacker
+                    // chosen internal URL (SSRF). Skip external images whose host
+                    // resolves to a private/loopback/link-local/metadata address.
+                    if (self::isSafeRemoteImageUrl($target)) {
+                        $imageSource = $target;
+                    }
                 } else {
                     $imageSource = "zip://{$this->docFile}#{$target}";
                 }
-                $parent->addImage($imageSource, ImageStyle::readVml($xmlReader, $shape), false, null, $xmlReader->getAttribute('alt', $shape));
+                if (null !== $imageSource) {
+                    $parent->addImage($imageSource, ImageStyle::readVml($xmlReader, $shape), false, null, $xmlReader->getAttribute('alt', $shape));
+                }
             }
         } elseif ($node->nodeName == 'w:drawing') {
             // Office 2011 Image
