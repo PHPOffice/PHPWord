@@ -534,12 +534,7 @@ class Image extends AbstractElement
     }
 
     /**
-     * Set source type.
-     */
-    /**
      * Fetch a remote image URL safely, blocking SSRF to non-public hosts.
-     *
-     * @throws InvalidImageException
      */
     private static function fetchRemoteImage(string $url): string
     {
@@ -548,7 +543,7 @@ class Image extends AbstractElement
         if ($scheme !== 'http' && $scheme !== 'https') {
             throw new InvalidImageException(sprintf('Refused to load image from unsupported scheme: %s', $url));
         }
-        $host = isset($parts['host']) ? $parts['host'] : '';
+        $host = $parts['host'] ?? '';
         if ($host === '') {
             throw new InvalidImageException(sprintf('Refused to load image from invalid URL: %s', $url));
         }
@@ -582,6 +577,9 @@ class Image extends AbstractElement
         return $content;
     }
 
+    /**
+     * Set source type.
+     */
     private function setSourceType(): void
     {
         if (stripos(strrev($this->source), strrev('.php')) === 0) {
