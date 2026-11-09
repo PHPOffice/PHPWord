@@ -82,7 +82,7 @@ class Rels extends AbstractPart
     private function writeMediaRel(XMLWriter $xmlWriter, $relId, $mediaRel): void
     {
         $typePrefix = 'officeDocument/2006/relationships/';
-        $typeMapping = ['image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink'];
+        $typeMapping = ['image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink', 'altchunk' => 'aFChunk'];
         $targetMapping = ['image' => 'media/', 'object' => 'embeddings/'];
 
         $mediaType = $mediaRel['type'];

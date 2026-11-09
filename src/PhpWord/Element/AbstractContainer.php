@@ -42,6 +42,7 @@ use ReflectionClass;
  * @method Table addTable(mixed $style = null)
  * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false, $name = null, $altText = null)
  * @method OLEObject addOLEObject(string $source, mixed $style = null)
+ * @method AltChunk addAltChunk(string $source)
  * @method TextBox addTextBox(mixed $style = null)
  * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
  * @method Line addLine(mixed $lineStyle = null)
@@ -92,7 +93,7 @@ abstract class AbstractContainer extends AbstractElement
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
             'Chart', 'FormField', 'SDT', 'Comment',
-            'Formula', 'Ruby',
+            'Formula', 'Ruby', 'AltChunk',
         ];
         $functions = [];
         foreach ($elements as $element) {
@@ -259,6 +260,7 @@ abstract class AbstractContainer extends AbstractElement
             'TOC' => ['Section'],
             'PageBreak' => ['Section'],
             'Chart' => ['Section', 'Cell'],
+            'AltChunk' => ['Section'],
         ];
 
         // Special condition, e.g. preservetext can only exists in cell when

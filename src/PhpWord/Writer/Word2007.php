@@ -85,7 +85,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         }
 
         // Set package paths
-        $this->mediaPaths = ['image' => 'word/media/', 'object' => 'word/embeddings/'];
+        $this->mediaPaths = ['image' => 'word/media/', 'object' => 'word/embeddings/', 'altchunk' => 'word/'];
     }
 
     /**
@@ -317,6 +317,12 @@ class Word2007 extends AbstractWriter implements WriterInterface
             } elseif ($mediumType == 'object') {
                 if (!isset($this->contentTypes['default']['bin'])) {
                     $this->contentTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
+                }
+            } elseif ($mediumType == 'altchunk') {
+                // The embedded part is a whole package, not document.xml:
+                // no ".main+xml" suffix (ISO/IEC 29500-1, 17.17.2.1).
+                if (!isset($this->contentTypes['default']['docx'])) {
+                    $this->contentTypes['default']['docx'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
                 }
             }
         }
