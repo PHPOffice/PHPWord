@@ -188,7 +188,22 @@ class Word2007 extends AbstractReader implements ReaderInterface
 
             // Do not add prefix to link source
             if ($type != 'hyperlink' && $mode != 'External') {
-                $target = $targetPrefix . $target;
+                // An absolute part name ("/word/media/image1.jpg") is resolved
+                // against the package root, not the source part, so it must not
+                // get the part's prefix prepended (which produced "word//word/media/...").
+                if (isset($target[0]) && '/' === $target[0]) {
+                    $target = ltrim($target, '/');
+                    // The relationship map is keyed relative to the source part's
+                    // folder (see readRelationships), so "/word/header1.xml" must
+                    // look up "header1", not "/word/header1".
+                    $docPart = $target;
+                    if ('' !== $targetPrefix && 0 === strpos($docPart, $targetPrefix)) {
+                        $docPart = substr($docPart, strlen($targetPrefix));
+                    }
+                    $docPart = str_replace('.xml', '', $docPart);
+                } else {
+                    $target = $targetPrefix . $target;
+                }
             }
 
             // Push to return array
