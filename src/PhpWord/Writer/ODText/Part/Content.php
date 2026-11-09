@@ -25,6 +25,7 @@ use PhpOffice\PhpWord\Element\Field;
 use PhpOffice\PhpWord\Element\FormField;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Line;
+use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\ListItem;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\SDT as SDTElement;
@@ -296,6 +297,8 @@ class Content extends AbstractPart
                 $this->getElementStyle($element->getTextObject(), $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Field) {
                 $this->getElementStyleField($element, $fontStyleCount);
+            } elseif ($element instanceof Link) {
+                $this->getElementStyleLink($element, $fontStyleCount);
             } elseif ($element instanceof Image) {
                 $style = $element->getStyle();
                 $style->setStyleName('fr' . $element->getMediaIndex());
@@ -491,6 +494,22 @@ class Content extends AbstractPart
             } else {
                 $element->setFontStyle($name);
             }
+        }
+    }
+
+    /**
+     * Get font style of individual link element.
+     *
+     * The font style object gets the name of its automatic style, which the link writer reads back.
+     */
+    private function getElementStyleLink(Link $element, int &$fontStyleCount): void
+    {
+        $fontStyle = $element->getFontStyle();
+        if ($fontStyle instanceof Font && !$fontStyle->getStyleName()) {
+            ++$fontStyleCount;
+            $style = $this->getParentWriter()->getPhpWord()->addFontStyle("T{$fontStyleCount}", $fontStyle, null);
+            $style->setAuto();
+            $style->setParagraph(null);
         }
     }
 
