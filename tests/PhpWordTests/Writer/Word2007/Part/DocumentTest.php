@@ -406,25 +406,25 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
+        // inline
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:drawing/wp:inline'));
+
         // alt text
-        $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
-        self::assertEquals($altText, $element->getAttribute('alt'));
+        $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:drawing/wp:anchor/wp:docPr');
+        self::assertEquals($altText, $element->getAttribute('descr'));
 
         // behind
-        $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
-        $style = $element->getAttribute('style');
-        // @phpstan-ignore-next-line
-        if (method_exists(self::class, 'assertMatchesRegularExpression')) {
-            self::assertMatchesRegularExpression('/z\-index:\-[0-9]*/', $style);
-        } elseif (method_exists(self::class, 'assertRegExp')) { // @phpstan-ignore-line
-            self::assertRegExp('/z\-index:\-[0-9]*/', $style);
-        } else {
-            self::fail('Unsure how to test regexp');
-        }
+        self::assertEquals('1', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:r/w:drawing/wp:anchor', 'behindDoc'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:drawing/wp:anchor/wp:wrapNone'));
+
+        // infront
+        self::assertEquals('0', $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:r/w:drawing/wp:anchor', 'behindDoc'));
 
         // square
-        $element = $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:pict/v:shape/w10:wrap');
-        self::assertEquals('square', $element->getAttribute('type'));
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[4]/w:r/w:drawing/wp:anchor/wp:wrapSquare'));
+
+        // tight
+        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[5]/w:r/w:drawing/wp:anchor/wp:wrapTight/wp:wrapPolygon'));
     }
 
     /**

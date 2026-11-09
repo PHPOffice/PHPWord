@@ -58,17 +58,12 @@ class ImageTest extends \PHPUnit\Framework\TestCase
 
         $path = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:position';
         self::assertFalse($doc->elementExists($path));
-        $path = '/w:document/w:body/w:p[1]/w:r/w:pict/v:shape';
-        self::assertTrue($doc->elementExists($path . '/w10:wrap'));
-        self::assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));
-
+        $path = '/w:document/w:body/w:p[1]/w:r/w:drawing/wp:inline';
         self::assertTrue($doc->elementExists($path));
-        $style = $doc->getElement($path)->getAttribute('style');
-        self::assertNotNull($style);
-        self::assertStringContainsString('mso-wrap-distance-left:10pt;', $style);
-        self::assertStringContainsString('mso-wrap-distance-right:20pt;', $style);
-        self::assertStringContainsString('mso-wrap-distance-top:30pt;', $style);
-        self::assertStringContainsString('mso-wrap-distance-bottom:40pt;', $style);
+        self::assertEquals('127000', $doc->getElementAttribute($path, 'distL'));
+        self::assertEquals('254000', $doc->getElementAttribute($path, 'distR'));
+        self::assertEquals('381000', $doc->getElementAttribute($path, 'distT'));
+        self::assertEquals('508000', $doc->getElementAttribute($path, 'distB'));
     }
 
     /**
@@ -92,16 +87,11 @@ class ImageTest extends \PHPUnit\Framework\TestCase
 
         $path = '/w:document/w:body/w:p[1]/w:r/w:rPr/w:position';
         self::assertEquals('10', $doc->getElement($path)->getAttribute('w:val'));
-        $path = '/w:document/w:body/w:p[1]/w:r/w:pict/v:shape';
-        self::assertTrue($doc->elementExists($path . '/w10:wrap'));
-        self::assertEquals('inline', $doc->getElementAttribute($path . '/w10:wrap', 'type'));
-
+        $path = '/w:document/w:body/w:p[1]/w:r/w:drawing/wp:inline';
         self::assertTrue($doc->elementExists($path));
-        $style = $doc->getElement($path)->getAttribute('style');
-        self::assertNotNull($style);
-        self::assertStringContainsString('mso-wrap-distance-left:10pt;', $style);
-        self::assertStringContainsString('mso-wrap-distance-right:20pt;', $style);
-        self::assertStringContainsString('mso-wrap-distance-top:30pt;', $style);
-        self::assertStringContainsString('mso-wrap-distance-bottom:40pt;', $style);
+        self::assertEquals('127000', $doc->getElementAttribute($path, 'distL'));
+        self::assertEquals('254000', $doc->getElementAttribute($path, 'distR'));
+        self::assertEquals('381000', $doc->getElementAttribute($path, 'distT'));
+        self::assertEquals('508000', $doc->getElementAttribute($path, 'distB'));
     }
 }
