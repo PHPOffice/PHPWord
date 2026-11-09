@@ -37,7 +37,7 @@ class Text
      */
     private static function buildControlCharacters(): void
     {
-        for ($i = 0; $i <= 19; ++$i) {
+        for ($i = 0; $i <= 0x1F; ++$i) {
             if ($i != 9 && $i != 10 && $i != 13) {
                 $find = '_x' . sprintf('%04s', strtoupper(dechex($i))) . '_';
                 $replace = chr($i);
