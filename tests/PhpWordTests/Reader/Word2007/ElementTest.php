@@ -699,4 +699,32 @@ class ElementTest extends AbstractTestReader
         $title = $elements[0];
         self::assertSame('', $title->getText());
     }
+
+    /**
+     * Test reading of a heading whose single run contains tabs.
+     */
+    public function testReadHeadingWithTabs(): void
+    {
+        $documentXml = '<w:p>
+            <w:pPr>
+                <w:pStyle w:val="Heading1" />
+            </w:pPr>
+            <w:r>
+                <w:t>One</w:t>
+                <w:tab/>
+                <w:t>Two</w:t>
+                <w:tab/>
+                <w:t>Three</w:t>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(['document' => $documentXml]);
+
+        $elements = $phpWord->getSection(0)->getElements();
+        self::assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[0]);
+        /** @var \PhpOffice\PhpWord\Element\Title $title */
+        $title = $elements[0];
+        self::assertInstanceOf(\PhpOffice\PhpWord\Element\TextRun::class, $title->getText());
+        self::assertEquals("One\tTwo\tThree", $title->getText()->getText());
+    }
 }

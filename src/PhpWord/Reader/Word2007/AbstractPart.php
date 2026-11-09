@@ -301,7 +301,7 @@ abstract class AbstractPart
             $textContent = null;
             $nodes = $xmlReader->getElements('w:r|w:hyperlink', $domNode);
             $hasRubyElement = $xmlReader->elementExists('w:r/w:ruby', $domNode);
-            if ($nodes->length === 1 && !$hasRubyElement) {
+            if ($nodes->length === 1 && !$hasRubyElement && $xmlReader->countElements('w:t|w:tab', $nodes->item(0)) <= 1) {
                 $textContent = htmlspecialchars($xmlReader->getValue('w:t', $nodes->item(0)) ?? '', ENT_QUOTES, 'UTF-8');
             } else {
                 $textContent = new TextRun($paragraphStyle);
