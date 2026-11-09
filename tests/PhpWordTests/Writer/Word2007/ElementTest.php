@@ -114,6 +114,22 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element = '/w:document/w:body/w:p[2]/w:hyperlink/w:r/w:t';
         self::assertTrue($doc->elementExists($element));
         self::assertEquals('internal_link', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:hyperlink', 'w:anchor'));
+        self::assertFalse($doc->hasElementAttribute('/w:document/w:body/w:p[1]/w:hyperlink', 'w:tooltip'));
+    }
+
+    /**
+     * The tooltip of a link, which LibreOffice exports as the description of the link in a tagged PDF.
+     */
+    public function testLinkTooltip(): void
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord')->setTooltip('The PHPWord repository');
+        $section->addLink('internal_link', 'Back to the top', null, null, true)->setTooltip('The first page');
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        self::assertEquals('The PHPWord repository', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:hyperlink', 'w:tooltip'));
+        self::assertEquals('The first page', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:hyperlink', 'w:tooltip'));
     }
 
     /**
