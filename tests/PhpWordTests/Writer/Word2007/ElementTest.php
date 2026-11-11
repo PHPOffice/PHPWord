@@ -25,6 +25,7 @@ use PhpOffice\PhpWord\Element\Ruby;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
 
@@ -38,6 +39,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
+        Settings::restoreDefaults();
         TestHelperDOCX::clear();
     }
 
@@ -502,11 +504,11 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test correct writing of text with ampersant in it.
+     * Test correct writing of text with ampersand in it.
      */
-    public function testTextWithAmpersant(): void
+    public function testTextWithAmpersand(): void
     {
-        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        Settings::setOutputEscapingEnabled(true);
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('this text contains an & (ampersant)');

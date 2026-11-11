@@ -26,8 +26,6 @@ use PhpOffice\PhpWord\Style\Paragraph;
  * Test class for PhpOffice\PhpWord\Element\TextBreak.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\TextBreak
- *
- * @runTestsInSeparateProcesses
  */
 class TextBreakTest extends \PHPUnit\Framework\TestCase
 {

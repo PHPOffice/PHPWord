@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Element\Table;
  * Test class for PhpOffice\PhpWord\Element\Table.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Table
- *
- * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit\Framework\TestCase
 {
@@ -93,6 +91,8 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $oTable->addRow();
         $element = $oTable->addCell();
         self::assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
+        $element->getStyle()->setWidth(1236);
+        self::assertSame(1236, $element->getStyle()->getWidth());
     }
 
     /**

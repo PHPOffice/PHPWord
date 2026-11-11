@@ -205,6 +205,16 @@ class Chart extends AbstractPart
         }
 
         $xmlWriter->endElement(); // c:plotArea
+
+        $xmlWriter->startElement('c:plotVisOnly');
+        $xmlWriter->writeAttribute('val', '1');
+        $xmlWriter->endElement();
+
+        $displayBlanksAs = method_exists($style, 'getDisplayBlanksAs') ? $style->getDisplayBlanksAs() : 'gap';
+
+        $xmlWriter->startElement('c:dispBlanksAs');
+        $xmlWriter->writeAttribute('val', $displayBlanksAs);
+        $xmlWriter->endElement();
     }
 
     /**
@@ -314,13 +324,17 @@ class Chart extends AbstractPart
         foreach ($values as $value) {
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
-            if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
-                $xmlWriter->writeElement('c:v', $value);
-            } else {
-                $xmlWriter->startElement('c:v');
-                $xmlWriter->writeRaw($value);
-                $xmlWriter->endElement(); // c:v
+
+            if ($value !== null) {
+                if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
+                    $xmlWriter->writeElement('c:v', $value);
+                } else {
+                    $xmlWriter->startElement('c:v');
+                    $xmlWriter->writeRaw($value);
+                    $xmlWriter->endElement(); // c:v
+                }
             }
+
             $xmlWriter->endElement(); // c:pt
             ++$index;
         }

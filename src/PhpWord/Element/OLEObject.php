@@ -72,7 +72,7 @@ class OLEObject extends AbstractElement
         $supportedTypes = ['xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx'];
         $pathInfoExtension = pathinfo($source, PATHINFO_EXTENSION);
 
-        if (file_exists($source) && in_array($pathInfoExtension, $supportedTypes)) {
+        if (realpath($source) !== false && in_array($pathInfoExtension, $supportedTypes)) {
             if (strlen($pathInfoExtension) == 4 && strtolower(substr($pathInfoExtension, -1)) == 'x') {
                 $pathInfoExtension = substr($pathInfoExtension, 0, -1);
             }

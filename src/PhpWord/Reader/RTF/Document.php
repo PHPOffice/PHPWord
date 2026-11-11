@@ -20,6 +20,8 @@ namespace PhpOffice\PhpWord\Reader\RTF;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Language;
 
 /**
  * RTF document reader.
@@ -35,10 +37,12 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  */
 class Document
 {
-    /** @const int */
     const PARA = 'readParagraph';
     const STYL = 'readStyle';
     const SKIP = 'readSkip';
+    const COLOR = 'readColor';
+    const APPLY_COLOR = 'applyColor';
+    const APPLY_FONTNAME = 'applyFontName';
 
     /**
      * PhpWord object.
@@ -124,6 +128,18 @@ class Document
      */
     private $flags = [];
 
+    /** @var array<int, array{'blue'?: int, 'green'?: int, 'red'?: int}> */
+    private $colorTable = [['blue' => 0, 'green' => 0, 'red' => 0]];
+
+    /** @var int */
+    private $colorIndex = 0;
+
+    /** @var bool */
+    private $readingFontTable = false;
+
+    /** @var string[] */
+    private $fontTable = [];
+
     /**
      * Parse RTF content.
      *
@@ -198,6 +214,9 @@ class Document
     {
         $this->flush(true);
         $this->flags = array_pop($this->groups);
+        if ($this->readingFontTable && !isset($this->flags['skipped'])) {
+            $this->readingFontTable = false;
+        }
     }
 
     /**
@@ -272,6 +291,10 @@ class Document
             }
 
             // Add text if it's not flagged as skipped
+            if ($this->readingFontTable) {
+                $fontName = substr($this->text, 0, -1); // remove semicolon
+                $this->fontTable[] = $fontName;
+            }
             if (!isset($this->flags['skipped'])) {
                 $this->readText();
             }
@@ -319,7 +342,24 @@ class Document
             'par' => [self::PARA,    'paragraph',    true],
             'b' => [self::STYL,    'font',         'bold',          true],
             'i' => [self::STYL,    'font',         'italic',        true],
-            'u' => [self::STYL,    'font',         'underline',     true],
+            'uldashdd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTDOTDASH],
+            'uldashd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTDASH],
+            'uldash' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASH],
+            'uldb' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOUBLE],
+            'uld' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTTED],
+            'ulhwave' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_WAVYHEAVY],
+            'ulldash' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASHLONG],
+            'ultdashd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASHHEAVY],
+            'ulthdashdd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTDOTDASHHEAVY],
+            'ulthdashd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTDASHHEAVY],
+            'ulthdash' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASHHEAVY],
+            'ulthd' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DOTTEDHEAVY],
+            'ulthldash' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_DASHLONGHEAVY],
+            'ulth' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_HEAVY],
+            'ululdbwave' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_WAVYDOUBLE],
+            'ulwave' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_WAVY],
+            'ulw' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_WORDS],
+            'ul' => [self::STYL,    'font',         'underline',     Font::UNDERLINE_SINGLE],
             'strike' => [self::STYL,    'font',         'strikethrough', true],
             'fs' => [self::STYL,    'font',         'size',          $parameter],
             'qc' => [self::STYL,    'paragraph',    'alignment',     Jc::CENTER],
@@ -335,6 +375,13 @@ class Document
             'comment' => [self::SKIP,    'comment',      null],
             'shppict' => [self::SKIP,    'pic',          null],
             'fldinst' => [self::SKIP,    'link',         null],
+            'red' => [self::COLOR, 'red', $parameter],
+            'green' => [self::COLOR, 'green', $parameter],
+            'blue' => [self::COLOR, 'blue', $parameter],
+            'cf' => [self::APPLY_COLOR, 'font', 'color', $parameter],
+            'ulc' => [self::APPLY_COLOR, 'font', 'underlineColor', $parameter],
+            'highlight' => [self::APPLY_COLOR, 'font', 'fgColor', $parameter],
+            'f' => [self::APPLY_FONTNAME, $parameter],
         ];
 
         if (isset($controls[$control])) {
@@ -344,6 +391,13 @@ class Document
                 array_shift($directives); // remove the function variable; we won't need it
                 $this->$function($directives);
             }
+        } elseif ($control === 'widowctrl') {
+            $this->phpWord->getSettings()->setRtfWidowControl(true);
+        } elseif ($control === 'lang') {
+            $langId = (int) $parameter;
+            $lang = Language::idToLang($langId);
+            $this->phpWord->getSettings()
+                ->setThemeFontLang(new Language($lang, '', '', $langId));
         }
     }
 
@@ -367,7 +421,50 @@ class Document
     private function readStyle($directives): void
     {
         [$style, $property, $value] = $directives;
+        if ($style === 'font' && $property === 'size' && is_numeric($value)) {
+            $value /= 2;
+        }
         $this->flags['styles'][$style][$property] = $value;
+    }
+
+    /**
+     * Read style.
+     *
+     * @param list<null|bool|string> $directives
+     */
+    private function readColor($directives): void
+    {
+        /** @var 'blue'|'green'|'red' */
+        $color = (string) $directives[0];
+        $value = (int) $directives[1];
+        if (isset($this->colorTable[$this->colorIndex][$color])) {
+            ++$this->colorIndex;
+        }
+        $this->colorTable[$this->colorIndex][$color] = $value;
+    }
+
+    /** @param list<null|bool|string> $directives */
+    private function applyColor($directives): void
+    {
+        $style = (string) $directives[0];
+        $property = (string) $directives[1];
+        $index = (int) $directives[2];
+        $red = $this->colorTable[$index]['red'] ?? 0;
+        $green = $this->colorTable[$index]['green'] ?? 0;
+        $blue = $this->colorTable[$index]['blue'] ?? 0;
+        $value = sprintf('%02X%02X%02X', $red, $green, $blue);
+        $this->flags['styles'][$style][$property] = $value;
+    }
+
+    /** @param list<null|bool|string> $directives */
+    private function applyFontName($directives): void
+    {
+        if (!$this->readingFontTable) {
+            $index = (int) $directives[0];
+            if (isset($this->fontTable[$index])) {
+                $this->flags['styles']['font']['name'] = $this->fontTable[$index];
+            }
+        }
     }
 
     /**
@@ -380,6 +477,9 @@ class Document
         [$property] = $directives;
         $this->flags['property'] = $property;
         $this->flags['skipped'] = true;
+        if ($property === 'fonttbl') {
+            $this->readingFontTable = true;
+        }
     }
 
     /**
@@ -389,7 +489,9 @@ class Document
     {
         $text = $this->textrun->addText($this->text);
         if (isset($this->flags['styles']['font'])) {
-            $text->getFontStyle()->setStyleByArray($this->flags['styles']['font']);
+            /** @var Font */
+            $temp = $text->getFontStyle();
+            $temp->setStyleByArray($this->flags['styles']['font']);
         }
     }
 }

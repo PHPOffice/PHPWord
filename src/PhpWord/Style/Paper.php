@@ -18,6 +18,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use InvalidArgumentException;
 use PhpOffice\PhpWord\Shared\Converter;
 
 /**
@@ -97,16 +98,21 @@ class Paper extends AbstractStyle
     /**
      * Paper sizes.
      *
-     * @var array
+     * @var array<string, array{0: float|int, 1: float|int, 2: string}>
      */
     private $sizes = [
         'A3' => [297, 420, 'mm'],
         'A4' => [210, 297, 'mm'],
         'A5' => [148, 210, 'mm'],
+        'B4' => [250, 353, 'mm'],
         'B5' => [176, 250, 'mm'],
+        'Executive' => [7.25, 10.5, 'in'],
         'Folio' => [8.5, 13, 'in'],
+        'Ledger' => [17, 11, 'in'],
         'Legal' => [8.5, 14, 'in'],
         'Letter' => [8.5, 11, 'in'],
+        'Statement' => [5.5, 8.5, 'in'],
+        'Tabloid' => [11, 17, 'in'],
     ];
 
     /**
@@ -151,24 +157,37 @@ class Paper extends AbstractStyle
     }
 
     /**
-     * Set size.
+     * Set size. Normally called with 1 parameter, corresponding to a key
+     * in the $sizes array. However, for sizes not in that table,
+     * it can be called with explicit width, height, and unit.
      *
      * @param string $size
+     * @param float|int $width
+     * @param float|int $height
+     * @param string $unit
      *
      * @return self
      */
-    public function setSize($size)
+    public function setSize($size, $width = 0, $height = 0, $unit = '')
     {
-        $this->size = $this->setEnumVal($size, array_keys($this->sizes), $this->size);
+        if ($width != 0 || $height != 0 || $unit !== '') {
+            $this->size = $size;
+        } else {
+            $this->size = $this->setEnumVal($size, array_keys($this->sizes), $this->size);
+            [$width, $height, $unit] = $this->sizes[$this->size];
+        }
 
-        [$width, $height, $unit] = $this->sizes[$this->size];
-
-        if ($unit == 'mm') {
+        if ($width <= 0 || $height <= 0) {
+            throw new InvalidArgumentException('width and height must be positive');
+        }
+        if ($unit === 'mm') {
             $this->width = Converter::cmToTwip($width / 10);
             $this->height = Converter::cmToTwip($height / 10);
-        } else {
+        } elseif ($unit === 'in') {
             $this->width = Converter::inchToTwip($width);
             $this->height = Converter::inchToTwip($height);
+        } else {
+            throw new InvalidArgumentException('unit must be mm or in');
         }
 
         return $this;

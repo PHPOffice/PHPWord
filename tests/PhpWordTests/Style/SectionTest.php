@@ -25,8 +25,6 @@ use PhpOffice\PhpWord\Style\Section;
  * Test class for PhpOffice\PhpWord\Style\Section.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Section
- *
- * @runTestsInSeparateProcesses
  */
 class SectionTest extends \PHPUnit\Framework\TestCase
 {

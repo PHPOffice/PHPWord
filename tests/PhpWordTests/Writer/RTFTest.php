@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Writer\RTF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\RTF.
- *
- * @runTestsInSeparateProcesses
  */
 class RTFTest extends \PHPUnit\Framework\TestCase
 {

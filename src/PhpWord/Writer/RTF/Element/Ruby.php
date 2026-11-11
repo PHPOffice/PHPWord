@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
+use PhpOffice\PhpWord\Element\Ruby as RubyElement;
+
 /**
  * Ruby element RTF writer. Writes {baseText} ({rubyText}) in current paragraph style
  * because RTF does not natively support ruby text.
@@ -31,13 +33,16 @@ class Ruby extends AbstractElement
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Element\Ruby $element */
         $element = $this->element;
-        $elementClass = str_replace('\\Writer\\RTF', '', static::class);
-        if (!$element instanceof $elementClass || !is_string($element->getBaseTextRun()->getText())) {
-            return '';
-        }
 
+        return ($element instanceof RubyElement) ? $this->writeElement($element) : '';
+    }
+
+    /**
+     * @return string
+     */
+    private function writeElement(RubyElement $element)
+    {
         $this->getStyles();
 
         $content = '';

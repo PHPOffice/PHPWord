@@ -25,10 +25,14 @@ namespace PhpOffice\PhpWord\Escaper;
  */
 class Rtf extends AbstractEscaper
 {
+    /** @return string */
     protected function escapeAsciiCharacter($code)
     {
         if ($code == 9) {
             return '{\\tab}';
+        }
+        if ($code === 10) {
+            return ''; // or maybe '\par'
         }
         if (0x20 > $code || $code >= 0x80) {
             return '{\\u' . $code . '}';
@@ -42,55 +46,27 @@ class Rtf extends AbstractEscaper
 
     protected function escapeMultibyteCharacter($code)
     {
-        return '\\uc0{\\u' . $code . '}';
+        if ($code > 32767) {
+            return '\\uc0\\u' . ((int) $code - 65536) . ' ';
+        }
+
+        return '\\uc0\\u' . $code . ' ';
     }
 
     /**
-     * @see http://www.randomchaos.com/documents/?source=php_and_unicode
-     *
      * @param ?string $input
      */
     protected function escapeSingleValue($input)
     {
         $escapedValue = '';
-
-        $numberOfBytes = 1;
-        $bytes = [];
-        for ($i = 0; $i < strlen($input); ++$i) {
-            $character = $input[$i];
-            $asciiCode = ord($character);
-
-            if ($asciiCode < 128) {
-                $escapedValue .= $this->escapeAsciiCharacter($asciiCode);
+        $utf16 = (string) mb_convert_encoding($input, 'UTF-16BE', 'UTF-8');
+        $utf16len = strlen($utf16);
+        for ($i = 0; $i < $utf16len; $i += 2) {
+            $code = (ord($utf16[$i]) << 8) | ord($utf16[$i + 1]);
+            if ($code <= 0x7f) {
+                $escapedValue .= $this->escapeAsciiCharacter($code);
             } else {
-                if (0 == count($bytes)) {
-                    if ($asciiCode < 224) {
-                        $numberOfBytes = 2;
-                    } elseif ($asciiCode < 240) {
-                        $numberOfBytes = 3;
-                    } elseif ($asciiCode < 248) {
-                        $numberOfBytes = 4;
-                    }
-                }
-
-                $bytes[] = $asciiCode;
-
-                if ($numberOfBytes == count($bytes)) {
-                    if (4 == $numberOfBytes) {
-                        $multibyteCode = ($bytes[0] % 8) * 262144 + ($bytes[1] % 64) * 4096 + ($bytes[2] % 64) * 64 + ($bytes[3] % 64);
-                    } elseif (3 == $numberOfBytes) {
-                        $multibyteCode = ($bytes[0] % 16) * 4096 + ($bytes[1] % 64) * 64 + ($bytes[2] % 64);
-                    } else {
-                        $multibyteCode = ($bytes[0] % 32) * 64 + ($bytes[1] % 64);
-                    }
-
-                    if (65279 != $multibyteCode) {
-                        $escapedValue .= $multibyteCode < 128 ? $this->escapeAsciiCharacter($multibyteCode) : $this->escapeMultibyteCharacter($multibyteCode);
-                    }
-
-                    $numberOfBytes = 1;
-                    $bytes = [];
-                }
+                $escapedValue .= $this->escapeMultibyteCharacter($code);
             }
         }
 

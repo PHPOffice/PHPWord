@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Media;
 
 /**
  * Test class for PhpOffice\PhpWord\Media.
- *
- * @runTestsInSeparateProcesses
  */
 class MediaTest extends AbstractWebServerEmbedded
 {

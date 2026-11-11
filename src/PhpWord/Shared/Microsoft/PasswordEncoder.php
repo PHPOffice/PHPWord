@@ -100,6 +100,18 @@ class PasswordEncoder
     private static $passwordMaxLength = 15;
 
     /**
+     * @param string $password
+     * @param string $to
+     * @param string $from
+     *
+     * @return false|string
+     */
+    protected static function mbConvertEncoding($password, $to, $from)
+    {
+        return mb_convert_encoding($password, $to, $from);
+    }
+
+    /**
      * Create a hashed password that MS Word will be able to work with.
      *
      * @see https://blogs.msdn.microsoft.com/vsod/2010/04/05/how-to-set-the-editing-restrictions-in-word-using-open-xml-sdk-2-0/
@@ -120,7 +132,7 @@ class PasswordEncoder
 
         //   Get the single-byte values by iterating through the Unicode characters of the truncated password.
         //   For each character, if the low byte is not equal to 0, take it. Otherwise, take the high byte.
-        $passUtf8 = mb_convert_encoding($password, 'UCS-2LE', 'UTF-8');
+        $passUtf8 = static::mbConvertEncoding($password, 'UCS-2LE', 'UTF-8');
         if (!is_string($passUtf8)) {
             throw new Exception('Failed to convert password to UCS-2LE');
         }

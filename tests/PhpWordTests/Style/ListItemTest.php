@@ -24,8 +24,6 @@ use PhpOffice\PhpWord\Style\ListItem;
  * Test class for PhpOffice\PhpWord\Style\ListItem.
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\ListItem
- *
- * @runTestsInSeparateProcesses
  */
 class ListItemTest extends \PHPUnit\Framework\TestCase
 {

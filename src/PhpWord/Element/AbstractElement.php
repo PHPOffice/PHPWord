@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Collection\Comments;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\AbstractStyle;
 
 /**
  * Element abstract class.
@@ -298,6 +299,10 @@ abstract class AbstractElement
 
     /**
      * Get comment start.
+     * This code just plain doesn't work, but it's not clear what is should do.
+     * Unsurprisingly untested.
+     *
+     * @codeCoverageIgnore
      */
     public function getCommentRangeStart(): ?Comment
     {
@@ -342,6 +347,10 @@ abstract class AbstractElement
 
     /**
      * Get comment end.
+     * This code just plain doesn't work, but it's not clear what is should do.
+     * Unsurprisingly untested.
+     *
+     * @codeCoverageIgnore
      */
     public function getCommentRangeEnd(): ?Comment
     {
@@ -470,24 +479,26 @@ abstract class AbstractElement
     }
 
     /**
-     * Set new style value.
+     * Set new style value. PR #2685.
      *
      * @param mixed $styleObject Style object
-     * @param null|array|string|Style $styleValue Style value
+     * @param null|AbstractStyle|array|string $styleValue Style value
      * @param bool $returnObject Always return object
      *
      * @return mixed
      */
     protected function setNewStyle($styleObject, $styleValue = null, $returnObject = false)
     {
-        if (null !== $styleValue && is_array($styleValue)) {
+        if ($styleValue instanceof AbstractStyle && get_class($styleValue) === get_class($styleObject)) {
+            return $styleValue;
+        }
+        if (is_array($styleValue)) {
             $styleObject->setStyleByArray($styleValue);
-            $style = $styleObject;
-        } else {
-            $style = $returnObject ? $styleObject : $styleValue;
+
+            return $styleObject;
         }
 
-        return $style;
+        return $returnObject ? $styleObject : $styleValue;
     }
 
     /**

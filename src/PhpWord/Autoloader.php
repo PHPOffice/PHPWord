@@ -38,10 +38,14 @@ class Autoloader
             if (!$file) {
                 return;
             }
+            // We can't get here testing with Phpunit, which has
+            // already autoloaded everything relevant.
+            // @codeCoverageIgnoreStart
             if (file_exists($file)) {
                 /** @noinspection PhpIncludeInspection Dynamic includes */
                 require_once $file;
             }
+            // @codeCoverageIgnoreEnd
         }
     }
 }

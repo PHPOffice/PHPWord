@@ -36,6 +36,10 @@ class TextBreak extends AbstractElement
         $parentWriter = $this->parentWriter;
         $parentWriter->setLastParagraphStyle();
 
+        if ($this->withoutP) {
+            return '\line' . PHP_EOL;
+        }
+
         return '\pard\par' . PHP_EOL;
     }
 }

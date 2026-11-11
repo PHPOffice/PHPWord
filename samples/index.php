@@ -14,13 +14,12 @@ $requirements = [
 ];
 if (!CLI) {
     ?>
-<div class="jumbotron">
-<p>Welcome to PHPWord, a library written in pure PHP that provides a set of classes to write to and read from different document file formats, i.e. Office Open XML (.docx), Open Document Format (.odt), and Rich Text Format (.rtf).</p>
-<p>&nbsp;</p>
-<p>
+<div class="p-5 mb-4 bg-body-tertiary rounded-3">
+<p class="fs-5">Welcome to PHPWord, a library written in pure PHP that provides a set of classes to write to and read from different document file formats, i.e. Office Open XML (.docx), Open Document Format (.odt), and Rich Text Format (.rtf).</p>
+<div class="d-flex flex-wrap gap-2 mt-4">
     <a class="btn btn-lg btn-primary" href="https://github.com/PHPOffice/PHPWord" role="button"><i class="fa fa-github fa-lg" title="GitHub"></i>  Fork us on Github!</a>
     <a class="btn btn-lg btn-primary" href="https://phpoffice.github.io/PHPWord/" role="button"><i class="fa fa-book fa-lg" title="Docs"></i>  Read the Docs</a>
-</p>
+</div>
 </div>
     <?php
 }

@@ -21,9 +21,6 @@ namespace PhpOffice\PhpWordTests\Writer\Word2007\Part;
 use Exception;
 use PhpOffice\PhpWord\Writer\Word2007;
 
-/**
- * @runTestsInSeparateProcesses
- */
 class AbstractPartTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -32,18 +29,7 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetParentWriter(): void
     {
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
-        } else {
-            /** @var Word2007\Part\AbstractPart $stub */
-            $stub = new class() extends Word2007\Part\AbstractPart {
-                public function write(): string
-                {
-                    return '';
-                }
-            };
-        }
+        $stub = new AbstractPartClass();
         $stub->setParentWriter(new Word2007());
         self::assertEquals(new Word2007(), $stub->getParentWriter());
     }
@@ -55,18 +41,7 @@ class AbstractPartTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('No parent WriterInterface assigned.');
-        // @phpstan-ignore-next-line
-        if (method_exists($this, 'getMockForAbstractClass')) {
-            $stub = $this->getMockForAbstractClass(Word2007\Part\AbstractPart::class);
-        } else {
-            /** @var Word2007\Part\AbstractPart $stub */
-            $stub = new class() extends Word2007\Part\AbstractPart {
-                public function write(): string
-                {
-                    return '';
-                }
-            };
-        }
+        $stub = new AbstractPartClass();
         $stub->getParentWriter();
     }
 }

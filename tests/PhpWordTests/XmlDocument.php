@@ -23,6 +23,7 @@ use DOMElement;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
+use Exception;
 
 /**
  * DOM wrapper class.
@@ -157,8 +158,13 @@ class XmlDocument
             $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 
-        /** @phpstan-ignore return.type */
-        return $this->xpath->query($path);
+        $temp = $this->xpath->query($path);
+        if ($temp === false) {
+            throw new Exception('xpath query returned false');
+        }
+
+        /** @var DOMNodeList<DOMNode> $temp */
+        return $temp;
     }
 
     /**

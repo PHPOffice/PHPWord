@@ -12,3 +12,62 @@ body {
 .failed {
     color: #ff0000;
 }
+.dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    max-height: 350px !important;
+    overflow-y: auto !important;
+}
+[data-bs-theme="light"] pre pre {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+}
+[data-bs-theme="dark"] pre pre {
+    background-color: #2b3035;
+    border: 1px solid #ccc;
+}
+/* Base structural reset */
+pre code span {
+    display: inline;
+}
+
+/* ==========================================
+   1. LIGHT MODE PALETTE (Default)
+   ========================================== */
+:root, [data-bs-theme="light"] {
+    --php-default: #212529;   /* Deep near-black */
+    --php-keyword: #0d6efd;   /* Classic Bootstrap blue */
+    --php-syntax:  #198754;   /* Forest green */
+    --php-string:  #dc3545;   /* Crimson red */
+    --php-comment: #6c757d;   /* Slate gray */
+}
+/* ==========================================
+   1. highlight_file palette, in case you don't like palette above
+   ========================================== */
+[data-bs-theme="xlight"] { /* change to "light" to override above */
+    --php-default: #000000;   /* black */
+    --php-keyword: #0000bb;   /* blue */
+    --php-syntax:  #007700;   /* green */
+    --php-string:  #dd0000;   /* red */
+    --php-comment: #ff8000;   /* orange */
+}
+
+/* ==========================================
+   2. DARK MODE PALETTE
+   ========================================== */
+[data-bs-theme="dark"] {
+    --php-default: #f8f9fa;   /* Crisp near-white */
+    --php-keyword: #6ea8fe;   /* Vibrant light blue */
+    --php-syntax:  #4dd0e1;   /* Bright neon cyan/teal */
+    --php-string:  #f28b82;   /* Soft pastel coral red */
+    --php-comment: #aac0c5;   /* Light muted slate */
+}
+
+/* ==========================================
+   3. CLASS MAPPING (Applies variables cleanly)
+   ========================================== */
+.php-default { color: var(--php-default); }
+.php-keyword { color: var(--php-keyword); font-weight: bold; }
+.php-syntax  { color: var(--php-syntax); }
+.php-string  { color: var(--php-string); }
+.php-comment { color: var(--php-comment); font-style: italic; }

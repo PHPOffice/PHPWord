@@ -72,6 +72,7 @@ class ODText extends AbstractWriter implements WriterInterface
      */
     public function save(string $filename): void
     {
+        PhpWord::noPhar($filename);
         $filename = $this->getTempFile($filename);
         $zip = $this->getZipArchive($filename);
 
@@ -83,19 +84,14 @@ class ODText extends AbstractWriter implements WriterInterface
 
         // Write parts
         foreach ($this->parts as $partName => $fileName) {
-            if ($fileName === '') {
-                continue;
+            if ($fileName !== '') {
+                $part = $this->getWriterPart($partName);
+                if ($part instanceof AbstractPart) {
+                    $part->setObjects($this->objects);
+                    $zip->addFromString($fileName, $part->write());
+                    $this->objects = $part->getObjects();
+                }
             }
-            $part = $this->getWriterPart($partName);
-            if (!$part instanceof AbstractPart) {
-                continue;
-            }
-
-            $part->setObjects($this->objects);
-
-            $zip->addFromString($fileName, $part->write());
-
-            $this->objects = $part->getObjects();
         }
 
         // Write objects charts

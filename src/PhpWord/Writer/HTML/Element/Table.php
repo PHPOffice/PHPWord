@@ -42,7 +42,8 @@ class Table extends AbstractElement
         $rows = $this->element->getRows();
         $rowCount = count($rows);
         if ($rowCount > 0) {
-            $content .= '<table' . $this->getTableStyle($this->element->getStyle()) . '>' . PHP_EOL;
+            $tableCss = $this->getTableStyle($this->element->getStyle());
+            $content .= '<table' . $tableCss . '>' . PHP_EOL;
 
             for ($i = 0; $i < $rowCount; ++$i) {
                 /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
@@ -54,10 +55,13 @@ class Table extends AbstractElement
                 $rowCellCount = count($rowCells);
                 for ($j = 0; $j < $rowCellCount; ++$j) {
                     $cellStyle = $rowCells[$j]->getStyle();
-                    $cellStyleCss = $this->getTableStyle($cellStyle);
+                    $cellStyleCss = $this->getTableStyle($cellStyle) ?: $tableCss;
                     $cellBgColor = $cellStyle->getBgColor();
+                    if ($cellBgColor === 'auto') {
+                        $cellBgColor = null;
+                    }
                     $cellFgColor = null;
-                    if ($cellBgColor && $cellBgColor !== 'auto') {
+                    if ($cellBgColor) {
                         $red = hexdec(substr($cellBgColor, 0, 2));
                         $green = hexdec(substr($cellBgColor, 2, 2));
                         $blue = hexdec(substr($cellBgColor, 4, 2));

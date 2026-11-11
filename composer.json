@@ -96,7 +96,10 @@
             "php samples/Sample_42_TemplateSetCheckbox.php",
             "php samples/Sample_43_RTLDefault.php",
             "php samples/Sample_44_ExtractVariablesFromReaderWord2007.php",
-            "php samples/Sample_45_Autoloader.php"
+            "php samples/Sample_45_Autoloader.php",
+            "php samples/Sample_46_RubyPhoneticGuide.php",
+            "php samples/Sample_47_SVG.php",
+            "php samples/Sample_97_RTLTitles.php"
         ]
     },
     "scripts-descriptions": {
@@ -111,11 +114,18 @@
         "ext-zip": "*",
         "ext-json": "*",
         "ext-xml": "*",
+        "phpoffice/math": "^0.3",
         "phpoffice/common": "^1.1",
-        "phpoffice/math": "^0.3"
+        "symfony/polyfill-php72": "^1.30",
+        "ext-zlib": "*",
+        "ext-filter": "*",
+        "ext-ctype": "*",
+        "ext-fileinfo": "*",
+        "ext-mbstring": "*",
+        "ext-SimpleXML": "*",
+        "ext-libxml": "*"
     },
     "require-dev": {
-        "ext-libxml": "*",
         "dompdf/dompdf": "^2.0 || ^3.0",
         "friendsofphp/php-cs-fixer": "^3.3",
         "mpdf/mpdf": "^7.0 || ^8.0",
@@ -123,15 +133,20 @@
         "phpoffice/wmf": "^0.2",
         "phpstan/phpstan": "^0.12.88 || ^1.0.0 || >=2.0.0 <2.2.11",
         "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
-        "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+        "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0 || ^10.0",
         "symfony/process": "^4.4 || ^5.0",
-        "tecnickcom/tcpdf": "^6.5"
+        "tecnickcom/tcpdf": ">=6.8.0 <7.0.0",
+        "ext-xmlwriter": "*",
+        "ext-xsl": "*",
+        "ext-gd": "*"
     },
     "suggest": {
         "ext-gd": "Allows adding images from remote HTTP URLs and GD-generated images",
         "ext-xmlwriter": "Allows writing OOXML and ODF",
         "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
         "dompdf/dompdf": "Allows writing PDF",
+        "mpdf/mpdf": "Allows writing PDF",
+        "tecnickcom/tcpdf": "Allows writing PDF",
         "phpoffice/wmf": "Allows adding WMF, EMF and EMF+ images (requires ext-gd)"
     },
     "autoload": {

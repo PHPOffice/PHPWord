@@ -47,6 +47,13 @@ class Border extends AbstractStyle
     protected $borderTopStyle;
 
     /**
+     * Border Top Space. For section and paragraph borders only.
+     *
+     * @var float|int
+     */
+    protected $borderTopSpace;
+
+    /**
      * Border Left Size.
      *
      * @var float|int
@@ -66,6 +73,13 @@ class Border extends AbstractStyle
      * @var string
      */
     protected $borderLeftStyle;
+
+    /**
+     * Border Left Space. For section and paragraph borders only.
+     *
+     * @var float|int
+     */
+    protected $borderLeftSpace;
 
     /**
      * Border Right Size.
@@ -89,6 +103,13 @@ class Border extends AbstractStyle
     protected $borderRightStyle;
 
     /**
+     * Border Right Space. For section and paragraph borders only.
+     *
+     * @var float|int
+     */
+    protected $borderRightSpace;
+
+    /**
      * Border Bottom Size.
      *
      * @var float|int
@@ -108,6 +129,13 @@ class Border extends AbstractStyle
      * @var string
      */
     protected $borderBottomStyle;
+
+    /**
+     * Border Bottom Space. For section and paragraph borders only.
+     *
+     * @var float|int
+     */
+    protected $borderBottomSpace;
 
     /**
      * Top margin spacing.
@@ -140,7 +168,7 @@ class Border extends AbstractStyle
     /**
      * Get border size.
      *
-     * @return int[]
+     * @return array<float|int>
      */
     public function getBorderSize()
     {
@@ -234,6 +262,38 @@ class Border extends AbstractStyle
     }
 
     /**
+     * Get border space.
+     *
+     * @return array<float|int>
+     */
+    public function getBorderSpace()
+    {
+        return [
+            $this->getBorderTopSpace(),
+            $this->getBorderLeftSpace(),
+            $this->getBorderRightSpace(),
+            $this->getBorderBottomSpace(),
+        ];
+    }
+
+    /**
+     * Set border space.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setBorderSpace($value = null)
+    {
+        $this->setBorderTopSpace($value);
+        $this->setBorderLeftSpace($value);
+        $this->setBorderRightSpace($value);
+        $this->setBorderBottomSpace($value);
+
+        return $this;
+    }
+
+    /**
      * Get border top size.
      *
      * @return float|int
@@ -292,7 +352,7 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Set border top Style.
+     * Set border top style.
      *
      * @param string $value
      *
@@ -301,6 +361,30 @@ class Border extends AbstractStyle
     public function setBorderTopStyle($value = null)
     {
         $this->borderTopStyle = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get border top space.
+     *
+     * @return float|int
+     */
+    public function getBorderTopSpace()
+    {
+        return $this->borderTopSpace;
+    }
+
+    /**
+     * Set border top space.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setBorderTopSpace($value = null)
+    {
+        $this->borderTopSpace = $value;
 
         return $this;
     }
@@ -378,6 +462,30 @@ class Border extends AbstractStyle
     }
 
     /**
+     * Get border left space.
+     *
+     * @return float|int
+     */
+    public function getBorderLeftSpace()
+    {
+        return $this->borderLeftSpace;
+    }
+
+    /**
+     * Set border left space.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setBorderLeftSpace($value = null)
+    {
+        $this->borderLeftSpace = $value;
+
+        return $this;
+    }
+
+    /**
      * Get border right size.
      *
      * @return float|int
@@ -445,6 +553,30 @@ class Border extends AbstractStyle
     public function setBorderRightStyle($value = null)
     {
         $this->borderRightStyle = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get border right space.
+     *
+     * @return float|int
+     */
+    public function getBorderRightSpace()
+    {
+        return $this->borderRightSpace;
+    }
+
+    /**
+     * Set border right space.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setBorderRightSpace($value = null)
+    {
+        $this->borderRightSpace = $value;
 
         return $this;
     }
@@ -522,13 +654,37 @@ class Border extends AbstractStyle
     }
 
     /**
+     * Get border bottom space.
+     *
+     * @return float|int
+     */
+    public function getBorderBottomSpace()
+    {
+        return $this->borderBottomSpace;
+    }
+
+    /**
+     * Set border bottom space.
+     *
+     * @param float|int $value
+     *
+     * @return self
+     */
+    public function setBorderBottomSpace($value = null)
+    {
+        $this->borderBottomSpace = $value;
+
+        return $this;
+    }
+
+    /**
      * Check if any of the border is not null.
      *
      * @return bool
      */
     public function hasBorder()
     {
-        $borders = $this->getBorderSize();
+        $borders = array_merge($this->getBorderSize(), $this->getBorderColor(), $this->getBorderStyle(), $this->getBorderSpace());
 
         return $borders !== array_filter($borders, 'is_null');
     }

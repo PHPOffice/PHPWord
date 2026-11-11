@@ -2,7 +2,10 @@
 
 use PhpOffice\PhpWord\Style\Font;
 
-define('USE_AUTOLOADER', true);
+// When following define is TRUE,
+// this script will use PhpWord autoloader rather than Composer,
+// and will not be able to find Pdf renderer.
+define('USE_AUTOLOADER', getenv('DONTUSEAUTOLOADER') !== '1');
 
 include_once 'Sample_Header.php';
 
@@ -87,7 +90,6 @@ $section->addTextBreak();
 $section->addImage(__DIR__ . '/resources/_earth.jpg', ['width' => 18, 'height' => 18]);
 
 // Save file
+$writers['WPS'] = null;
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
-if (!CLI) {
-    include_once 'Sample_Footer.php';
-}
+include_once 'Sample_Footer.php';

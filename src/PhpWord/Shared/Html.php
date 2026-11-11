@@ -27,19 +27,47 @@ use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Metadata\DocInfo;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Border;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\SimpleType\TextDirection;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph;
+use Throwable;
 
 /**
  * Common Html functions.
  *
- * @SuppressWarnings("PHPMD.UnusedPrivateMethod") For readWPNode
+ * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
  */
 class Html
 {
+    private const SPECIAL_BORDER_WIDTHS = ['thin' => '0.5pt', 'thick' => '3.5pt', 'medium' => '2.0pt'];
+
     private const RGB_REGEXP = '/^\s*rgb\s*[(]\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*[)]\s*$/';
+
+    private const DECLARES_CHARSET = '/ charset=/i';
+
+    /**
+     * CSS border-style keywords mapped to their Word/OOXML equivalent.
+     *
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_Border.html
+     */
+    private const BORDER_STYLE_MAP = [
+        'none' => Border::NONE,
+        'hidden' => Border::NONE,
+        'dotted' => Border::DOTTED,
+        'dashed' => Border::DASHED,
+        'solid' => Border::SINGLE,
+        'double' => Border::DOUBLE,
+        'groove' => Border::THREE_D_ENGRAVE,
+        'ridge' => Border::THREE_D_EMBOSS,
+        'inset' => Border::INSET,
+        'outset' => Border::OUTSET,
+    ];
 
     protected static $listIndex = 0;
 
@@ -47,10 +75,37 @@ class Html
 
     protected static $options;
 
+    /** @var ?DocInfo */
+    protected static $docInfo;
+
+    /** @var bool */
+    private static $addbody = false;
+
     /**
      * @var Css
      */
     protected static $css;
+
+    private const UNDERLINES = [ // defaults to UNDERLINE_SINGLE if not in this list
+        'none' => FontStyle::UNDERLINE_NONE,
+        'dashed' => FontStyle::UNDERLINE_DASH,
+        //'dotted 2px' => FontStyle::UNDERLINE_DASHDOTDOTHEAVY,
+        //'dotted 2px' => FontStyle::UNDERLINE_DASHDOTHEAVY,
+        'dashed 2px' => FontStyle::UNDERLINE_DASHEDHEAVY,
+        //'dashed 2px' => FontStyle::UNDERLINE_DASHLONGHEAVY,
+        //'dashed' => FontStyle::UNDERLINE_DASHLONG,
+        //'dotted' => FontStyle::UNDERLINE_DOTDASH,
+        //'dotted' => FontStyle::UNDERLINE_DOTDOTDASH,
+        'dotted' => FontStyle::UNDERLINE_DOTTED,
+        'dotted 2px' => FontStyle::UNDERLINE_DOTTEDHEAVY,
+        'double' => FontStyle::UNDERLINE_DOUBLE,
+        'solid 2px' => FontStyle::UNDERLINE_HEAVY,
+        'wavy' => FontStyle::UNDERLINE_WAVY,
+        //'wavy' => FontStyle::UNDERLINE_WAVYDOUBLE,
+        'wavy 2px' => FontStyle::UNDERLINE_WAVYHEAVY,
+        //'solid' => FontStyle::UNDERLINE_SINGLE,
+        //'solid' => FontStyle::UNDERLINE_WORDS,
+    ];
 
     /**
      * Add HTML parts.
@@ -71,51 +126,111 @@ class Html
          * which could be applied when such an element occurs in the parseNode function.
          */
         static::$options = $options;
+        static::$docInfo = null;
+        if (method_exists($element, 'getPhpWord')) {
+            /** @var ?PhpWord */
+            $phpWord = $element->getPhpWord();
+            if ($phpWord !== null) {
+                static::$docInfo = $phpWord->getDocInfo();
+            }
+        }
 
-        // Preprocess: remove all line ends, decode HTML entity,
-        // fix ampersand and angle brackets and add body tag for HTML fragments
-        $html = str_replace(["\n", "\r"], '', $html);
-        $html = str_replace(['&lt;', '&gt;', '&amp;', '&quot;'], ['_lt_', '_gt_', '_amp_', '_quot_'], $html);
-        $html = html_entity_decode($html, ENT_QUOTES, 'UTF-8');
-        $html = str_replace('&', '&amp;', $html);
-        $html = str_replace(['_lt_', '_gt_', '_amp_', '_quot_'], ['&lt;', '&gt;', '&amp;', '&quot;'], $html);
-
-        if (false === $fullHTML) {
-            $html = '<body>' . $html . '</body>';
+        if (substr($html, 0, 2) === "\xfe\xff" || substr($html, 0, 2) === "\xff\xfe") {
+            $html = (string) mb_convert_encoding($html, 'UTF-8', 'UTF-16');
+        }
+        if (substr($html, 0, 3) === "\xEF\xBB\xBF") {
+            $html = substr($html, 3);
+        }
+        if (self::$addbody && false === $fullHTML) {
+            $html = '<body>' . $html . '</body>'; // @codeCoverageIgnore
         }
 
         // Load DOM
         if (\PHP_VERSION_ID < 80000) {
-            $orignalLibEntityLoader = libxml_disable_entity_loader(true);
+            $orignalLibEntityLoader = libxml_disable_entity_loader(true); // @codeCoverageIgnore
         }
         $dom = new DOMDocument();
+        $html = self::replaceNonAsciiIfNeeded($html);
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
-        $dom->loadXML($html);
+
+        try {
+            $result = @$dom->loadHTML($html);
+            $exceptionMessage = 'DOM loadHTML failed';
+        } catch (Throwable $e) {
+            $result = false;
+            $exceptionMessage = $e->getMessage();
+        }
+        if ($result === false) {
+            throw new Exception($exceptionMessage);
+        }
+        self::removeAnnoyingWhitespaceTextNodes($dom);
         static::$xpath = new DOMXPath($dom);
-        $node = $dom->getElementsByTagName('body');
+        $node = $dom->getElementsByTagName('html');
+        if (count($node) === 0 || $node->item(0) === null) {
+            $node = $dom->getElementsByTagName('body'); // @codeCoverageIgnore
+        }
 
         static::parseNode($node->item(0), $element);
         if (\PHP_VERSION_ID < 80000) {
-            libxml_disable_entity_loader($orignalLibEntityLoader);
+            libxml_disable_entity_loader($orignalLibEntityLoader); // @codeCoverageIgnore
         }
+    }
+
+    // https://www.php.net/manual/en/domdocument.loadhtml.php
+    private static function removeAnnoyingWhitespaceTextNodes(DOMNode $node): void
+    {
+        if ($node->hasChildNodes()) {
+            for ($i = $node->childNodes->length - 1; $i >= 0; --$i) {
+                self::removeAnnoyingWhitespaceTextNodes($node->childNodes->item($i));
+            }
+        }
+        if ($node->nodeType === XML_TEXT_NODE && !$node->hasChildNodes() && !$node->hasAttributes() && empty(trim($node->textContent))) {
+            $node->parentNode->removeChild($node);
+        }
+    }
+
+    private static function replaceNonAscii(array $matches): string
+    {
+        return '&#' . mb_ord($matches[0], 'UTF-8') . ';';
+    }
+
+    private static function replaceNonAsciiIfNeeded(string $convert): ?string
+    {
+        if (preg_match(self::DECLARES_CHARSET, $convert) !== 1) {
+            $lowend = "\u{80}";
+            $highend = "\u{10ffff}";
+            $regexp = "/[$lowend-$highend]/u";
+            /** @var callable $callback */
+            $callback = [self::class, 'replaceNonAscii'];
+            $convert = preg_replace_callback($regexp, $callback, $convert);
+        }
+
+        return $convert;
     }
 
     /**
      * parse Inline style of a node.
      *
      * @param DOMNode $node Node to check on attributes and to compile a style array
-     * @param array<string, mixed> $styles is supplied, the inline style attributes are added to the already existing style
+     * @param array $styles is supplied, the inline style attributes are added to the already existing style
      *
      * @return array
      */
-    protected static function parseInlineStyle($node, $styles = [])
+    protected static function parseInlineStyle($node, &$styles)
     {
         if (XML_ELEMENT_NODE == $node->nodeType) {
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
 
-            $attributeDir = $attributes->getNamedItem('dir');
-            $attributeDirValue = $attributeDir ? $attributeDir->nodeValue : '';
-            $bidi = $attributeDirValue === 'rtl';
+            $bidi = false;
+            $attrDir = $attributes->getNamedItem('dir');
+            $direction = isset($attrDir) ? $attrDir->nodeValue : '';
+            if ($direction === 'rtl') {
+                $bidi = $styles['bidi'] = $styles['rtl'] = true;
+                $styles['textDirection'] = TextDirection::RLTB;
+            } elseif ($direction === 'ltr') {
+                $bidi = $styles['bidi'] = $styles['rtl'] = false;
+                $styles['textDirection'] = TextDirection::LRTB;
+            }
             foreach ($attributes as $attribute) {
                 $val = $attribute->value;
                 switch (strtolower($attribute->name)) {
@@ -148,7 +263,7 @@ class Html
                         break;
                     case 'bgcolor':
                         // tables, rows, cells e.g. <tr bgColor="#FF0000">
-                        $styles['bgColor'] = self::convertRgb($val);
+                        HtmlColours::setArrayColour($styles, 'bgColor', self::convertRgb($val));
 
                         break;
                     case 'valign':
@@ -197,6 +312,46 @@ class Html
             self::$css = new Css($node->textContent);
             self::$css->process();
 
+            return;
+        }
+        if ($node->nodeName === 'title') {
+            if (self::$docInfo !== null) {
+                $docTitle = $node->nodeValue;
+                if ($docTitle !== 'PHPWord' && trim($docTitle) !== '') { // default
+                    self::$docInfo->setTitle($node->nodeValue);
+                }
+            }
+
+            return;
+        }
+        if ($node->nodeName === 'meta') {
+            if (self::$docInfo !== null) {
+                $attributes = $node->attributes;
+                $name = $attributes->getNamedItem('name');
+                $content = $attributes->getNamedItem('content');
+                if ($name !== null && $content !== null) {
+                    $mapArray = ['author' => 'creator'];
+                    $others = [
+                        'title',
+                        'description',
+                        'subject',
+                        'keywords',
+                        'category',
+                        'company',
+                        'manager',
+                    ];
+                    $nameValue = $name->nodeValue;
+                    $propertyName = $mapArray[$nameValue] ?? (in_array($nameValue, $others, true) ? $nameValue : '');
+                    $method = 'set' . ucfirst($propertyName);
+                    if (method_exists(self::$docInfo, $method)) {
+                        self::$docInfo->$method($content->nodeValue);
+                    }
+                }
+            }
+
+            return;
+        }
+        if ($node->nodeName === 'script') {
             return;
         }
 
@@ -316,7 +471,12 @@ class Html
             return $element->addPageBreak();
         }
 
-        return $element->addTextRun($styles['paragraph']);
+        $newElement = $element->addTextRun($styles['paragraph']);
+        if (isset($styles['paragraph']['className']) && $newElement->getParagraphStyle() instanceof Paragraph) {
+            $newElement->getParagraphStyle()->setStyleName($styles['paragraph']['className']);
+        }
+
+        return $newElement;
     }
 
     /**
@@ -347,18 +507,22 @@ class Html
     /**
      * Parse heading node.
      *
-     * @param string $argument1 Name of heading style
-     *
      * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
      * Heading1 - Heading6 are already defined somewhere
      */
-    protected static function parseHeading(DOMNode $node, AbstractContainer $element, array &$styles, string $argument1): TextRun
+    protected static function parseHeading(DOMNode $node, AbstractContainer $element, array &$styles, string $headingStyle): TextRun
     {
         $style = new Paragraph();
-        $style->setStyleName($argument1);
+        $style->setStyleName($headingStyle);
         $style->setStyleByArray(self::parseInlineStyle($node, $styles['paragraph']));
+        $textRun = new TextRun($style);
 
-        return $element->addTextRun($style);
+        // Create a title with level corresponding to number in heading style
+        // (Eg, Heading1 = 1)
+        $element->addTitle($textRun, (int) ltrim($headingStyle, 'Heading'));
+
+        // Return TextRun so children are parsed
+        return $textRun;
     }
 
     /**
@@ -378,7 +542,11 @@ class Html
         }
 
         if (is_callable([$element, 'addText'])) {
-            $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
+            $font = $styles['font'];
+            if (isset($font['className']) && count($font) === 1) {
+                $font = $styles['font']['className'];
+            }
+            $element->addText($node->nodeValue, $font, $styles['paragraph']);
         }
     }
 
@@ -428,9 +596,10 @@ class Html
         }
 
         $attributes = $node->attributes;
-        if ($attributes->getNamedItem('border')) {
+        if ($attributes->getNamedItem('border') !== null && is_object($newElement->getStyle())) {
             $border = (int) $attributes->getNamedItem('border')->nodeValue;
-            $newElement->getStyle()->setBorderSize(Converter::pixelToTwip($border));
+            $newElement->getStyle()->setBorderSize((int) Converter::pixelToTwip($border));
+            $newElement->getStyle()->setBorderStyle(($border === 0) ? 'none' : 'single');
         }
 
         return $newElement;
@@ -568,35 +737,35 @@ class Html
             ++$data['listdepth'];
         } else {
             $data['listdepth'] = 0;
-            $styles['list'] = 'listStyle_' . self::$listIndex++;
-            $style = $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
+        }
+        $styles['list'] = 'listStyle_' . self::$listIndex++;
+        $style = $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
 
-            // extract attributes start & type e.g. <ol type="A" start="3">
-            $start = 0;
-            $type = '';
-            foreach ($node->attributes as $attribute) {
-                switch ($attribute->name) {
-                    case 'start':
-                        $start = (int) $attribute->value;
+        // extract attributes start & type e.g. <ol type="A" start="3">
+        $start = 0;
+        $type = '';
+        foreach ($node->attributes as $attribute) {
+            switch ($attribute->name) {
+                case 'start':
+                    $start = (int) $attribute->value;
 
-                        break;
-                    case 'type':
-                        $type = $attribute->value;
+                    break;
+                case 'type':
+                    $type = $attribute->value;
 
-                        break;
-                }
+                    break;
             }
+        }
 
-            $levels = $style->getLevels();
-            /** @var \PhpOffice\PhpWord\Style\NumberingLevel */
-            $level = $levels[0];
-            if ($start > 0) {
-                $level->setStart($start);
-            }
-            $type = $type ? self::mapListType($type) : null;
-            if ($type) {
-                $level->setFormat($type);
-            }
+        $levels = $style->getLevels();
+        /** @var \PhpOffice\PhpWord\Style\NumberingLevel */
+        $level = $levels[$data['listdepth']];
+        if ($start > 0) {
+            $level->setStart($start);
+        }
+        $type = $type ? self::mapListType($type) : null;
+        if ($type) {
+            $level->setFormat($type);
         }
         if ($node->parentNode->nodeName === 'li') {
             return $element->getParent();
@@ -627,18 +796,25 @@ class Html
             ];
         }
 
+        $l3bullet = "\u{f0a7}"; // note Private Use Area character requiring specific font
+        $l3font = 'Wingdings';
+        $l2bullet = "\x6f"; // note "Latin small letter o" in all fonts
+        $l2font = 'Courier New';
+        $l1bullet = "\u{f0b7}"; // note Private Use Area character requiring specific font
+        $l1font = 'Symbol';
+
         return [
             'type' => 'hybridMultilevel',
             'levels' => [
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '◦',  'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '◦',  'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '◦',  'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'],
-                ['format' => NumberFormat::BULLET, 'text' => '•', 'alignment' => 'left', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l1bullet, 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => $l1font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l2bullet, 'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => $l2font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l3bullet, 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => $l3font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l1bullet, 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360, 'font' => $l1font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l2bullet,  'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360, 'font' => $l2font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l3bullet, 'alignment' => 'left', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 360, 'font' => $l3font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l1bullet, 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360, 'font' => $l1font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l2bullet,  'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360, 'font' => $l2font, 'hint' => 'default'],
+                ['format' => NumberFormat::BULLET, 'text' => $l3bullet, 'alignment' => 'left', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 360, 'font' => $l3font, 'hint' => 'default'],
             ],
         ];
     }
@@ -689,16 +865,16 @@ class Html
         foreach ($selectors as $property => $value) {
             switch ($property) {
                 case 'text-decoration':
-                    switch ($value) {
-                        case 'underline':
-                            $styles['underline'] = 'single';
-
-                            break;
-                        case 'line-through':
-                            $styles['strikethrough'] = true;
-
-                            break;
+                    if ($value === 'line-through') {
+                        $styles['strikethrough'] = true;
+                    } elseif (preg_match('/^underline(.*)$/', $value, $matches) === 1) {
+                        $underlineStyle = trim($matches[1]);
+                        $styles['underline'] = self::UNDERLINES[$underlineStyle] ?? FontStyle::UNDERLINE_SINGLE;
                     }
+
+                    break;
+                case 'text-decoration-color':
+                    HtmlColours::setArrayColour($styles, 'underlineColor', self::convertRgb($value));
 
                     break;
                 case 'text-align':
@@ -716,6 +892,7 @@ class Html
                 case 'direction':
                     $styles['rtl'] = $value === 'rtl';
                     $styles['bidi'] = $value === 'rtl';
+                    $styles['textDirection'] = ($value === 'rtl') ? TextDirection::RLTB : TextDirection::LRTB;
 
                     break;
                 case 'font-size':
@@ -723,16 +900,23 @@ class Html
 
                     break;
                 case 'font-family':
-                    $value = array_map('trim', explode(',', $value));
-                    $styles['name'] = ucwords($value[0]);
+                    $valueArray = array_map('trim', explode(',', $value));
+                    $value0 = trim($valueArray[0], '\'"');
+                    $styles['name'] = ucwords($value0);
+                    if (count($valueArray) > 1) {
+                        $genericFont = $valueArray[count($valueArray) - 1];
+                        if (in_array($genericFont, ['serif', 'sans-serif', 'monospace'], true)) {
+                            $styles['fallbackFont'] = $genericFont;
+                        }
+                    }
 
                     break;
                 case 'color':
-                    $styles['color'] = self::convertRgb($value);
+                    HtmlColours::setArrayColour($styles, 'color', self::convertRgb($value));
 
                     break;
                 case 'background-color':
-                    $styles['bgColor'] = self::convertRgb($value);
+                    HtmlColours::setArrayColour($styles, 'bgColor', self::convertRgb($value));
 
                     break;
                 case 'line-height':
@@ -864,7 +1048,14 @@ class Html
 
                     break;
                 case 'border-width':
-                    $styles['borderSize'] = Converter::cssToPoint($value);
+                    //$styles['borderSize'] = Converter::cssToPoint(self::SPECIAL_BORDER_WIDTHS[$value] ?? $value);
+                    $borderSize = self::SPECIAL_BORDER_WIDTHS[$value] ?? $value;
+                    if ($borderSize !== null) {
+                        $size = Converter::cssToTwip($borderSize);
+                        $size = (int) ($size / 2);
+                        // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
+                        $styles['borderSize'] = $size; // twips
+                    }
 
                     break;
                 case 'border-style':
@@ -894,29 +1085,46 @@ class Html
                 case 'border-bottom':
                 case 'border-right':
                 case 'border-left':
-                    // must have exact order [width color style], e.g. "1px #0011CC solid" or "2pt green solid"
-                    // Word does not accept shortened hex colors e.g. #CCC, only full e.g. #CCCCCC
-                    if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+|[a-zA-Z]+)\s+([a-z]+)/', $value, $matches)) {
-                        if (false !== strpos($property, '-')) {
-                            $tmp = explode('-', $property);
-                            $which = $tmp[1];
-                            $which = ucfirst($which); // e.g. bottom -> Bottom
-                        } else {
-                            $which = '';
-                        }
-                        // Note - border width normalization:
-                        // Width of border in Word is calculated differently than HTML borders, usually showing up too bold.
-                        // Smallest 1px (or 1pt) appears in Word like 2-3px/pt in HTML once converted to twips.
-                        // Therefore we need to normalize converted twip value to cca 1/2 of value.
-                        // This may be adjusted, if better ratio or formula found.
-                        // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
-                        $size = Converter::cssToTwip($matches[1]);
+                    $stylePattern = '/(^|\\s)(none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset)(\\s|$)/';
+                    if (!preg_match($stylePattern, $value, $matches)) {
+                        break;
+                    }
+                    $borderStyle = $matches[2];
+                    $value = preg_replace($stylePattern, ' ', $value) ?? '';
+                    $borderSize = $borderColor = null;
+                    $sizePattern = '/(^|\\s)([0-9]+([.][0-9]+)?+(%|[a-z]*)|thick|thin|medium)(\\s|$)/';
+                    if (preg_match($sizePattern, $value, $matches)) {
+                        $borderSize = $matches[2];
+                        $borderSize = self::SPECIAL_BORDER_WIDTHS[$borderSize] ?? $borderSize;
+                        $value = preg_replace($sizePattern, ' ', $value) ?? '';
+                    }
+                    $colorPattern = '/(^|\\s)([#][a-fA-F0-9]{6}|[#][a-fA-F0-9]{3}|[a-z][a-z0-9]+)(\\s|$)/';
+                    if (preg_match($colorPattern, $value, $matches)) {
+                        $borderColor = HtmlColours::convertColour($matches[2]);
+                    }
+                    if (false !== strpos($property, '-')) {
+                        $tmp = explode('-', $property);
+                        $which = $tmp[1];
+                        $which = ucfirst($which); // e.g. bottom -> Bottom
+                    } else {
+                        $which = '';
+                    }
+                    // Note - border width normalization:
+                    // Width of border in Word is calculated differently than HTML borders, usually showing up too bold.
+                    // Smallest 1px (or 1pt) appears in Word like 2-3px/pt in HTML once converted to twips.
+                    // Therefore we need to normalize converted twip value to cca 1/2 of value.
+                    // This may be adjusted, if better ratio or formula found.
+                    // BC change: up to ver. 0.17.0 was $size converted to points - Converter::cssToPoint($size)
+                    if ($borderSize !== null) {
+                        $size = Converter::cssToTwip($borderSize);
                         $size = (int) ($size / 2);
                         // valid variants may be e.g. borderSize, borderTopSize, borderLeftColor, etc ..
                         $styles["border{$which}Size"] = $size; // twips
-                        $styles["border{$which}Color"] = trim($matches[2], '#');
-                        $styles["border{$which}Style"] = self::mapBorderStyle($matches[3]);
                     }
+                    if (!empty($borderColor)) {
+                        $styles["border{$which}Color"] = $borderColor;
+                    }
+                    $styles["border{$which}Style"] = self::mapBorderStyle($borderStyle);
 
                     break;
                 case 'vertical-align':
@@ -929,6 +1137,34 @@ class Html
                 case 'page-break-after':
                     if ($value == 'always') {
                         $styles['isPageBreak'] = true;
+                    }
+
+                    break;
+
+                case 'break-inside':
+                    if ($value == 'avoid' || $value == 'avoid-page') {
+                        $styles['keepLines'] = true;
+                    }
+
+                    break;
+                case 'break-after':
+                    if ($value == 'avoid' || $value == 'avoid-page') {
+                        $styles['keepNext'] = true;
+                    } elseif ($value == 'always') {
+                        $styles['isPageBreak'] = true;
+                    }
+
+                    break;
+                case 'font-variant-numeric':
+                    if (preg_match('/\blining-nums\b/', $value) === 1) {
+                        $styles['numberForms'] = FontStyle::NUMBER_FORMS_LINING;
+                    } elseif (preg_match('/\boldstyle-nums\b/', $value) === 1) {
+                        $styles['numberForms'] = FontStyle::NUMBER_FORMS_OLDSTYLE;
+                    }
+                    if (preg_match('/\bproportional-nums\b/', $value) === 1) {
+                        $styles['numberSpacing'] = FontStyle::NUMBER_SPACING_PROPORTIONAL;
+                    } elseif (preg_match('/\btabular-nums\b/', $value) === 1) {
+                        $styles['numberSpacing'] = FontStyle::NUMBER_SPACING_TABULAR;
                     }
 
                     break;
@@ -1020,13 +1256,14 @@ class Html
         }
         $src = urldecode($src);
 
-        if (!is_file($src)
+        if ((realpath($src) === false || !is_file($src))
             && null !== self::$options
             && isset(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'])
         ) {
             $src = str_replace(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'], $src);
         }
 
+        PhpWord::noPhar($src);
         if (!is_file($src)) {
             if ($imgBlob = @file_get_contents($src)) {
                 $tmpDir = Settings::getTempDir() . '/';
@@ -1046,7 +1283,7 @@ class Html
             }
         }
 
-        if (is_file($src)) {
+        if (realpath($src) !== false && is_file($src)) {
             $newElement = $element->addImage($src, $style, false, null, $altText);
         } else {
             throw new Exception("Could not load image $originSrc");
@@ -1064,27 +1301,19 @@ class Html
      */
     protected static function mapBorderStyle($cssBorderStyle)
     {
-        switch ($cssBorderStyle) {
-            case 'none':
-            case 'dashed':
-            case 'dotted':
-            case 'double':
-                return $cssBorderStyle;
-            default:
-                return 'single';
-        }
+        return self::BORDER_STYLE_MAP[strtolower($cssBorderStyle)] ?? Border::SINGLE;
     }
 
     protected static function mapBorderColor(&$styles, $cssBorderColor): void
     {
-        $numColors = substr_count($cssBorderColor, '#');
+        $colors = explode(' ', $cssBorderColor);
+        $numColors = count($colors);
         if ($numColors === 1) {
-            $styles['borderColor'] = trim($cssBorderColor, '#');
-        } elseif ($numColors > 1) {
-            $colors = explode(' ', $cssBorderColor);
+            HtmlColours::setArrayColour($styles, 'borderColor', $cssBorderColor);
+        } else {
             $borders = ['borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor'];
             for ($i = 0; $i < min(4, $numColors, count($colors)); ++$i) {
-                $styles[$borders[$i]] = trim($colors[$i], '#');
+                HtmlColours::setArrayColour($styles, $borders[$i], $colors[$i]);
             }
         }
     }
@@ -1175,7 +1404,6 @@ class Html
                 return NumberFormat::LOWER_ROMAN; // i, ii, iii, iv, ..
             case 'I':
                 return NumberFormat::UPPER_ROMAN; // I, II, III, IV, ..
-            case '1':
             default:
                 return NumberFormat::DECIMAL; // 1, 2, 3, ..
         }
@@ -1231,7 +1459,8 @@ class Html
      */
     protected static function parseHorizRule($node, $element): void
     {
-        $styles = self::parseInlineStyle($node);
+        $unusedStyle = [];
+        $styles = self::parseInlineStyle($node, $unusedStyle);
 
         // <hr> is implemented as an empty paragraph - extending 100% inside the section
         // Some properties may be controlled, e.g. <hr style="border-bottom: 3px #DDDDDD solid; margin-bottom: 0;">
@@ -1331,6 +1560,12 @@ class Html
         // px
         if (false !== strpos($size, 'px')) {
             return (float) str_replace('px', '', $size);
+        }
+        if (false !== strpos($size, 'cm')) {
+            return Converter::cmToPixel((float) str_replace('cm', '', $size));
+        }
+        if (false !== strpos($size, 'in')) {
+            return Converter::inchToPixel((float) str_replace('in', '', $size));
         }
 
         return (float) $size;

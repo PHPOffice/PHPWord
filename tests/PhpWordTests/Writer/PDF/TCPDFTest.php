@@ -18,23 +18,21 @@
 
 namespace PhpOffice\PhpWordTests\Writer\PDF;
 
+use Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\PDF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF\TCPDF.
- *
- * @runTestsInSeparateProcesses
  */
 class TCPDFTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp(): void
+    protected function tearDown(): void
     {
-        parent::setUp();
-        //Reset setting for default
-        Settings::setPdfRenderer('', '');
-        Settings::setPdfRendererOptions([]);
+        Settings::restoreDefaults();
+        Style::resetStyles();
     }
 
     /**
@@ -42,22 +40,17 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstruct(): void
     {
-        $file = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'tcpdf.pdf';
-
         $phpWord = new PhpWord();
         $phpWord->setDefaultParagraphStyle(['spaceBefore' => 0, 'spaceAfter' => 0]);
         $section = $phpWord->addSection();
         $section->addText('Test 1');
 
-        $rendererName = Settings::PDF_RENDERER_TCPDF;
-        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
-        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
-        $writer = new PDF($phpWord);
-        $writer->save($file);
-
-        self::assertFileExists($file);
-
-        unlink($file);
+        $writer = new PDF\TCPDF($phpWord);
+        $writer->setFont('Helvetica');
+        ob_start();
+        $writer->save('php://output');
+        $contents = (string) ob_get_clean();
+        self::assertSame('%PDF', substr($contents, 0, 4));
     }
 
     /**
@@ -67,11 +60,48 @@ class TCPDFTest extends \PHPUnit\Framework\TestCase
     {
         $rendererName = Settings::PDF_RENDERER_TCPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
+        self::assertNotFalse($rendererLibraryPath);
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         Settings::setPdfRendererOptions([
             'font' => 'Arial',
         ]);
         $writer = new PDF(new PhpWord());
         self::assertEquals('Arial', $writer->getFont());
+    }
+
+    public function testSectionPageBreak(): void
+    {
+        $rendererName = Settings::PDF_RENDERER_TCPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
+        self::assertNotFalse($rendererLibraryPath);
+        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+        $phpWord = new PhpWord();
+        $section1 = $phpWord->addSection();
+        $section1->addText('This is section 1.');
+        $section2 = $phpWord->addSection();
+        $section2->addText('This is section 2.');
+        $writer = new PDF($phpWord);
+        $content = $writer->getContent();
+        self::assertStringContainsString("<div style='page: page1'>", $content);
+        self::assertStringContainsString('<div style="page: page2; page-break-before:always;">', $content);
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @preserveGlobalState disabled
+     */
+    public function testExceptionRatherThanDie(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Could not include font definition file');
+        $phpWord = new PhpWord();
+        $section1 = $phpWord->addSection();
+        $section1->addText('This is section 1.');
+        $section2 = $phpWord->addSection();
+        $section2->addText('This is section 2.');
+        $writer = new PDF\TcpdfNoDie($phpWord);
+        $writer->setFont('xyz');
+        $writer->save('php://memory');
     }
 }

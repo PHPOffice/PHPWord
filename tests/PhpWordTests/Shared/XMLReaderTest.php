@@ -137,19 +137,12 @@ class XMLReaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Test that xpath fails if custom namespace is not registered.
      */
-    public function testShouldThrowExceptionIfNamespaceIsNotKnown(): void
+    public function testShouldReturnFalseIfNamespaceIsNotKnown(): void
     {
-        try {
-            $reader = new XMLReader();
-            $reader->getDomFromString('<element><test:child xmlns:test="http://phpword.com/my/custom/namespace">AAA</test:child></element>');
+        $reader = new XMLReader();
+        $reader->getDomFromString('<element><test:child xmlns:test="http://phpword.com/my/custom/namespace">AAA</test:child></element>');
 
-            self::assertTrue($reader->elementExists('/element/test:child'));
-            self::assertEquals('AAA', $reader->getElement('/element/test:child')->textContent);
-            self::fail();
-        } catch (Exception $e) {
-            // @phpstan-ignore-next-line
-            self::assertTrue(true);
-        }
+        self::assertFalse($reader->elementExists('/element/test:child'));
     }
 
     /**

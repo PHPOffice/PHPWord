@@ -27,8 +27,6 @@ use PhpOffice\PhpWordTests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Paragraph.
- *
- * @runTestsInSeparateProcesses
  */
 class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
@@ -37,6 +35,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
+        Settings::restoreDefaults();
         TestHelperDOCX::clear();
     }
 
@@ -63,6 +62,9 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /** @var mixed */
+    private $indentHangingKey = 1;
+
     /**
      * Test setting style values with normal value.
      */
@@ -73,8 +75,8 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $attributes = [
             'spaceAfter' => 240,
             'spaceBefore' => 240,
-            'indent' => 1,
-            'hanging' => 1,
+            'indent' => $this->indentHangingKey,
+            'hanging' => $this->indentHangingKey,
             'spacing' => 120,
             'spacingLineRule' => LineSpacingRule::AT_LEAST,
             'basedOn' => 'Normal',
@@ -379,7 +381,5 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         Settings::setDefaultRtl(false);
         $object = new Paragraph();
         self::assertFalse($object->isBidi());
-
-        Settings::setDefaultRtl(null);
     }
 }

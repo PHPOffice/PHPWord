@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Reader;
 
+use PhpOffice\PhpWord\PhpWord;
+
 /**
  * Reader interface.
  *
@@ -38,6 +40,8 @@ interface ReaderInterface
      * Loads PhpWord from file.
      *
      * @param string $filename
+     *
+     * @return PhpWord
      */
     public function load($filename);
 }

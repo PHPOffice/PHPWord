@@ -169,6 +169,14 @@ class Settings
     private $bookFoldPrinting = false;
 
     /**
+     * RTF, unlike other formats, sets widow/orphan control to off by default.
+     * This setting allows changing that default for a whole document.
+     *
+     * @var bool
+     */
+    private $rtfWidowControl = false;
+
+    /**
      * @return Protection
      */
     public function getDocumentProtection()
@@ -494,6 +502,18 @@ class Settings
     public function setBookFoldPrinting(bool $bookFoldPrinting): self
     {
         $this->bookFoldPrinting = $bookFoldPrinting;
+
+        return $this;
+    }
+
+    public function hasRtfWidowControl(): bool
+    {
+        return $this->rtfWidowControl;
+    }
+
+    public function setRtfWidowControl(bool $rtfWidowControl): self
+    {
+        $this->rtfWidowControl = $rtfWidowControl;
 
         return $this;
     }

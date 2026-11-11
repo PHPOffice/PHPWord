@@ -30,8 +30,7 @@ class AutoloaderTest extends TestCase
     {
         Autoloader::register();
         $splFunctions = spl_autoload_functions();
-        // @phpstan-ignore-next-line spl_autoload_functions return false < PHP 8.0
-        if ($splFunctions === false) {
+        if (empty($splFunctions)) {
             $splFunctions = [];
         }
 

@@ -25,8 +25,8 @@ use PhpOffice\PhpWord\Settings;
  */
 class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
 {
-    const HEADER = '\\pard\\nowidctlpar \ql{\\cf0\\f0 ';
-    const HEADER_RTL = '\\pard\\nowidctlpar \qr{\\rtlch\\cf0\\f0 ';
+    const HEADER = '\\pard\\ql\\widctlpar {\\ltrch ';
+    const HEADER_RTL = '\\pard\\qr\\rtlpar\\widctlpar {\\rtlch ';
     const TRAILER = '}\\par';
 
     protected function tearDown(): void
@@ -36,7 +36,6 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
 
     public function escapestring(string $str): string
     {
-        Settings::setOutputEscapingEnabled(true);
         $parentWriter = new \PhpOffice\PhpWord\Writer\RTF();
         $element = new \PhpOffice\PhpWord\Element\Text($str);
         $txt = new \PhpOffice\PhpWord\Writer\RTF\Element\Text($parentWriter, $element);
@@ -68,7 +67,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
     {
         Settings::setDefaultRtl(false);
         $str = 'Voilà - string with accented char';
-        $expect = $this->expect('Voil\\uc0{\\u224} - string with accented char');
+        $expect = $this->expect('Voil\\uc0\\u224  - string with accented char');
         self::assertEquals($expect, $this->escapestring($str));
     }
 
@@ -79,7 +78,7 @@ class RtfEscaper3Test extends \PHPUnit\Framework\TestCase
     {
         Settings::setDefaultRtl(true);
         $str = 'Hebrew - שלום';
-        $expect = $this->expect('Hebrew - \\uc0{\\u1513}\\uc0{\\u1500}\\uc0{\\u1493}\\uc0{\\u1501}', true);
+        $expect = $this->expect('Hebrew - \\uc0\\u1513 \\uc0\\u1500 \\uc0\\u1493 \\uc0\\u1501 ', true);
         self::assertEquals($expect, $this->escapestring($str));
     }
 

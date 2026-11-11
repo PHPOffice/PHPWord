@@ -31,11 +31,8 @@ class Numbering extends AbstractStyle
      */
     public function write(): void
     {
-        /** @var StyleNumbering $style Type hint */
+        /** @var StyleNumbering */
         $style = $this->getStyle();
-        if (!$style instanceof StyleNumbering) {
-            return;
-        }
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('text:list-style');

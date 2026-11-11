@@ -24,27 +24,26 @@ use PhpOffice\PhpWord\Writer\PDF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\PDF\DomPDF.
- *
- * @runTestsInSeparateProcesses
  */
 class DomPDFTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        Settings::restoreDefaults();
+    }
+
     /**
      * Test construct.
      */
     public function testConstruct(): void
     {
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
         $file = __DIR__ . '/../../_files/dompdf.pdf';
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test 1');
 
-        $rendererName = Settings::PDF_RENDERER_DOMPDF;
-        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
-        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
-        $writer = new PDF($phpWord);
+        $writer = new PDF\DomPDF($phpWord);
         $writer->save($file);
 
         self::assertFileExists($file);
@@ -57,12 +56,7 @@ class DomPDFTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetAbstractRendererProperties(): void
     {
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
-
-        $rendererName = Settings::PDF_RENDERER_DOMPDF;
-        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
-        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
-        $writer = new PDF(new PhpWord());
+        $writer = new PDF\DomPDF(new PhpWord());
 
         $writer->setFont('arial');
         self::assertEquals('arial', $writer->getFont());
@@ -82,10 +76,9 @@ class DomPDFTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetAbstractRendererOptions(): void
     {
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
-
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
+        self::assertNotFalse($rendererLibraryPath);
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         Settings::setPdfRendererOptions([
             'font' => 'Arial',
