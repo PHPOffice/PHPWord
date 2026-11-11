@@ -18,19 +18,24 @@
 
 namespace PhpOffice\PhpWordTests\Style;
 
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
+use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Language;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWordTests\TestHelperDOCX;
+
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Font.
  *
  * @runTestsInSeparateProcesses
  */
-class FontTest extends \PHPUnit\Framework\TestCase
+class FontTest extends TestCase
 {
     /**
      * Tear down after each test.
@@ -48,7 +53,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $object = new Font('text', ['alignment' => Jc::BOTH]);
 
         self::assertEquals('text', $object->getStyleType());
-        self::assertInstanceOf(\PhpOffice\PhpWord\Style\Paragraph::class, $object->getParagraph());
+        self::assertInstanceOf(Paragraph::class, $object->getParagraph());
         self::assertIsArray($object->getStyleValues());
     }
 
@@ -62,6 +67,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             ['bold', false],
             ['italic', false],
             ['underline', Font::UNDERLINE_NONE],
+            ['underlineColor', ''],
             ['superScript', false],
             ['subScript', false],
             ['strikethrough', false],
@@ -109,6 +115,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             ['bold', true],
             ['italic', true],
             ['underline', Font::UNDERLINE_HEAVY],
+            ['underlineColor', '000000'],
             ['superScript', true],
             ['subScript', false],
             ['strikethrough', true],
@@ -141,12 +148,14 @@ class FontTest extends \PHPUnit\Framework\TestCase
     {
         $object = new Font();
         $object->setStyleValue($key, $value);
+        $key = ucfirst($key);  // correction for CamelCase isAllCaps or getAllCaps
         $get = is_bool($value) ? "is{$key}" : "get{$key}";
         self::assertEquals($value, $object->$get());
     }
 
     /**
      * Test set line height.
+     * @throws CreateTemporaryFileException
      */
     public function testLineHeight(): void
     {
@@ -193,7 +202,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
      */
     public function testLineHeightException(): void
     {
-        $this->expectException(\PhpOffice\PhpWord\Exception\InvalidStyleException::class);
+        $this->expectException(InvalidStyleException::class);
         $object = new Font();
         $object->setLineHeight('a');
     }
