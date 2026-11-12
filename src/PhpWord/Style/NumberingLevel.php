@@ -126,6 +126,20 @@ class NumberingLevel extends AbstractStyle
     private $font;
 
     /**
+     * Font size in points.
+     *
+     * @var null|float
+     */
+    private $size;
+
+    /**
+     * Font color, as a hex RGB value (e.g. FF0000) or `auto`.
+     *
+     * @var null|string
+     */
+    private $color;
+
+    /**
      * Hint default|eastAsia|cs.
      *
      * @var string
@@ -421,6 +435,50 @@ class NumberingLevel extends AbstractStyle
     public function setFont($value)
     {
         $this->font = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get font size.
+     *
+     * @return null|float Size in points, null if not set
+     */
+    public function getSize(): ?float
+    {
+        return $this->size;
+    }
+
+    /**
+     * Set font size.
+     *
+     * @param null|float $value Size in points
+     */
+    public function setSize(?float $value = null): self
+    {
+        $this->size = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get font color.
+     *
+     * @return null|string Hex RGB value or `auto`, null if not set
+     */
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set font color.
+     *
+     * @param null|string $value Hex RGB value (e.g. FF0000) or `auto`
+     */
+    public function setColor(?string $value = null): self
+    {
+        $this->color = $value;
 
         return $this;
     }
