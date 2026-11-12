@@ -39,6 +39,7 @@ class NumberingLevelTest extends \PHPUnit\Framework\TestCase
             'left' => 360,
             'hanging' => 360,
             'tabPos' => 360,
+            'size' => 16,
         ];
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
@@ -59,6 +60,7 @@ class NumberingLevelTest extends \PHPUnit\Framework\TestCase
             'text' => '%1.',
             'alignment' => Jc::START,
             'font' => 'Arial',
+            'color' => 'FF0000',
             'hint' => 'default',
         ];
         foreach ($attributes as $key => $value) {

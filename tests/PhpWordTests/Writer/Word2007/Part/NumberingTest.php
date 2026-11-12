@@ -76,4 +76,63 @@ class NumberingTest extends \PHPUnit\Framework\TestCase
 
         self::assertTrue($doc->elementExists('/w:numbering/w:abstractNum', $xmlFile));
     }
+
+    /**
+     * The size and color of a numbering level are written to the run properties of its number.
+     */
+    public function testWriteNumberingLevelFontSizeAndColor(): void
+    {
+        $xmlFile = 'word/numbering.xml';
+        $path = '/w:numbering/w:abstractNum/w:lvl/w:rPr';
+
+        $phpWord = new PhpWord();
+        $phpWord->addNumberingStyle(
+            'numStyle',
+            [
+                'type' => 'multilevel',
+                'levels' => [
+                    [
+                        'format' => NumberFormat::DECIMAL,
+                        'text' => '%1.',
+                        'font' => 'Times New Roman',
+                        'size' => 16,
+                        'color' => 'FF0000',
+                    ],
+                ],
+            ]
+        );
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        self::assertEquals('Times New Roman', $doc->getElementAttribute($path . '/w:rFonts', 'w:ascii', $xmlFile));
+        self::assertEquals('FF0000', $doc->getElementAttribute($path . '/w:color', 'w:val', $xmlFile));
+        self::assertEquals('32', $doc->getElementAttribute($path . '/w:sz', 'w:val', $xmlFile));
+        self::assertEquals('32', $doc->getElementAttribute($path . '/w:szCs', 'w:val', $xmlFile));
+    }
+
+    /**
+     * Without a size or a color, no size or color is written for the number.
+     */
+    public function testWriteNumberingLevelWithoutSizeAndColor(): void
+    {
+        $xmlFile = 'word/numbering.xml';
+        $path = '/w:numbering/w:abstractNum/w:lvl/w:rPr';
+
+        $phpWord = new PhpWord();
+        $phpWord->addNumberingStyle(
+            'numStyle',
+            [
+                'type' => 'multilevel',
+                'levels' => [
+                    ['format' => NumberFormat::DECIMAL, 'text' => '%1.', 'font' => 'Arial'],
+                ],
+            ]
+        );
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        self::assertFalse($doc->elementExists($path . '/w:color', $xmlFile));
+        self::assertFalse($doc->elementExists($path . '/w:sz', $xmlFile));
+        self::assertFalse($doc->elementExists($path . '/w:szCs', $xmlFile));
+    }
 }
