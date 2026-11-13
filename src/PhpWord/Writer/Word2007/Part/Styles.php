@@ -246,7 +246,8 @@ class Styles extends AbstractPart
 
         // w:pPr
         if (null !== $paragraphStyle || null !== $outlineLevel) {
-            $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
+            // @phpstan-ignore-next-line
+            $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle ?? new ParagraphStyle());
             $styleWriter->setOutlineLevel($outlineLevel);
             $styleWriter->write();
         }
