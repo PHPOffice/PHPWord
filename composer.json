@@ -41,11 +41,14 @@
         "test-no-coverage": [
             "@php vendor/bin/phpunit --color=always --no-coverage"
         ],
+        "analyse":[
+            "@php vendor/bin/phpstan analyse --ansi"
+        ],
         "check": [
             "@php vendor/bin/php-cs-fixer fix --ansi --dry-run --diff",
             "@php vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
             "@test-no-coverage",
-            "@php vendor/bin/phpstan analyse --ansi"
+            "@analyse"
         ],
         "fix": [
             "@php vendor/bin/php-cs-fixer fix --ansi"
