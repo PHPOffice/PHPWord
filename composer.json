@@ -41,11 +41,14 @@
         "test-no-coverage": [
             "@php vendor/bin/phpunit --color=always --no-coverage"
         ],
+        "analyse":[
+            "@php vendor/bin/phpstan analyse --ansi"
+        ],
         "check": [
             "@php vendor/bin/php-cs-fixer fix --ansi --dry-run --diff",
             "@php vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
             "@test-no-coverage",
-            "@php vendor/bin/phpstan analyse --ansi"
+            "@analyse"
         ],
         "fix": [
             "@php vendor/bin/php-cs-fixer fix --ansi"
@@ -121,7 +124,7 @@
         "mpdf/mpdf": "^7.0 || ^8.0",
         "phpmd/phpmd": "^2.13",
         "phpoffice/wmf": "^0.2",
-        "phpstan/phpstan": "^0.12.88 || ^1.0.0 || >=2.0.0 <2.2.11",
+        "phpstan/phpstan": "^0.12.88 || ^1.0.0 || ^2.0.0",
         "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
         "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
         "symfony/process": "^4.4 || ^5.0",

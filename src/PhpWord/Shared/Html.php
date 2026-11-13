@@ -274,7 +274,7 @@ class Html
         if ($newElement === null) {
             $newElement = $element;
         }
-
+        // @phpstan-ignore-next-line
         static::parseChildNodes($node, $newElement, $styles, $data);
     }
 
