@@ -934,6 +934,70 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers ::setImageValue
      */
+    public function testSetImageValueDrawingML(): void
+    {
+        $testFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-drawingml-test-sample.docx';
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('${Pixel:width=200px:height=100px:ratio=false}');
+        $section->addText('${Centimeter:width=3cm:height=2cm:ratio=false}');
+        $section->addText('${Millimeter:width=30MM:height=20MM:ratio=false}');
+        $section->addText('${Inch:width=1in:height=0.5in:ratio=false}');
+        $section->addText('${Point:width=72pt:height=36pt:ratio=false}');
+        $section->addText('${Percent:width=50%:height=25%:ratio=false}');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($testFileName);
+
+        $resultFileName = PHPWORD_TEST_TEMP_DIR . DIRECTORY_SEPARATOR . 'images-drawingml-test-result.docx';
+        $templateProcessor = new TemplateProcessor($testFileName);
+        unlink($testFileName);
+        $imagePath = __DIR__ . '/_files/images/earth.jpg';
+        foreach (['Pixel', 'Centimeter', 'Millimeter', 'Inch', 'Point', 'Percent'] as $variable) {
+            $templateProcessor->setImageValue($variable, $imagePath);
+        }
+        $templateProcessor->saveAs($resultFileName);
+
+        $resultZip = new ZipArchive();
+        $resultZip->open($resultFileName);
+        $mainPartXml = (string) $resultZip->getFromName('word/document.xml');
+        $resultZip->close();
+        unlink($resultFileName);
+
+        // The images are written in DrawingML, and not in VML
+        self::assertStringNotContainsString('<w:pict>', $mainPartXml);
+        self::assertSame(6, substr_count($mainPartXml, '<w:drawing><wp:inline '));
+        // The stretch is a child of the blipFill, and not of the blip
+        self::assertSame(6, substr_count($mainPartXml, '/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>'));
+        self::assertStringNotContainsString('</a:blip>', $mainPartXml);
+
+        // The dimensions are converted to EMU (1 inch = 914400 EMU = 96 pixels)
+        $matches = [];
+        preg_match_all('#<wp:extent cx="(\d+)" cy="(\d+)"/>#', $mainPartXml, $matches, PREG_SET_ORDER);
+        $extents = [];
+        foreach ($matches as $match) {
+            $extents[] = [(int) $match[1], (int) $match[2]];
+        }
+        self::assertSame(
+            [
+                [1905000, 952500],
+                [1080000, 720000],
+                [1080000, 720000],
+                [914400, 457200],
+                [914400, 457200],
+                // A percentage has no absolute size: the number is read as pixels
+                [476250, 238125],
+            ],
+            $extents
+        );
+
+        // The document is still a well-formed XML
+        $dom = new DOMDocument();
+        self::assertTrue($dom->loadXML($mainPartXml));
+    }
+
+    /**
+     * @covers ::setImageValue
+     */
     public function testSetImageValueMetafile(): void
     {
         $testFileName = 'images-metafile-test-sample.docx';
