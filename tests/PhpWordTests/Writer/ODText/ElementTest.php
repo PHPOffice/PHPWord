@@ -225,6 +225,39 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test link element with a font style.
+     */
+    public function testLinkElementFontStyle(): void
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle('linkStyle', ['color' => '0000FF']);
+        $section = $phpWord->addSection();
+        $section->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord', ['color' => 'FF0000', 'underline' => 'double']);
+        $section->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord', 'linkStyle');
+        $section->addTextRun()->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord', ['bold' => true]);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $p2t = '/office:document-content/office:body/office:text/text:section';
+        $auto = '/office:document-content/office:automatic-styles';
+
+        $span = "$p2t/text:p[2]/text:a/text:span";
+        self::assertTrue($doc->elementExists($span));
+        self::assertEquals('PHPWord', $doc->getElement($span)->nodeValue);
+        $style = $auto . "/style:style[@style:name='" . $doc->getElementAttribute($span, 'text:style-name') . "']";
+        self::assertEquals('text', $doc->getElementAttribute($style, 'style:family'));
+        self::assertEquals('#FF0000', $doc->getElementAttribute("$style/style:text-properties", 'fo:color'));
+        self::assertEquals('solid', $doc->getElementAttribute("$style/style:text-properties", 'style:text-underline-style'));
+
+        $span = "$p2t/text:p[3]/text:a/text:span";
+        self::assertEquals('linkStyle', $doc->getElementAttribute($span, 'text:style-name'));
+
+        $span = "$p2t/text:p[4]/text:a/text:span";
+        self::assertTrue($doc->elementExists($span));
+        $style = $auto . "/style:style[@style:name='" . $doc->getElementAttribute($span, 'text:style-name') . "']";
+        self::assertEquals('bold', $doc->getElementAttribute("$style/style:text-properties", 'fo:font-weight'));
+    }
+
+    /**
      * Test comments as native ODF annotations.
      */
     public function testCommentElement(): void

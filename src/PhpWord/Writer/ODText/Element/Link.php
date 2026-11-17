@@ -18,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Style\Font;
+
 /**
  * Text element writer.
  *
@@ -36,6 +38,11 @@ class Link extends AbstractElement
             return;
         }
 
+        $fontStyle = $element->getFontStyle();
+        if ($fontStyle instanceof Font) {
+            $fontStyle = $fontStyle->getStyleName();
+        }
+
         if (!$this->withoutP) {
             $xmlWriter->startElement('text:p'); // text:p
         }
@@ -44,7 +51,14 @@ class Link extends AbstractElement
         $xmlWriter->startElement('text:a');
         $xmlWriter->writeAttribute('xlink:type', 'simple');
         $xmlWriter->writeAttribute('xlink:href', ($element->isInternal() ? '#' : '') . $element->getSource());
+        if (!empty($fontStyle)) {
+            $xmlWriter->startElement('text:span');
+            $xmlWriter->writeAttribute('text:style-name', $fontStyle);
+        }
         $this->writeText($element->getText());
+        if (!empty($fontStyle)) {
+            $xmlWriter->endElement(); // text:span
+        }
         $xmlWriter->endElement(); // text:a
         $this->writeCommentRangeEnd();
 
