@@ -53,7 +53,10 @@ class Document extends AbstractPart
         if ($nodes->length > 0) {
             $section = $this->phpWord->addSection();
             foreach ($nodes as $node) {
-                if (isset($readMethods[$node->nodeName])) {
+                if ($node->nodeName == 'w:bookmarkStart') {
+                    $name = $xmlReader->getAttribute('w:name', $node);
+                    $section->addBookmark($name);
+                } elseif (isset($readMethods[$node->nodeName])) {
                     $readMethod = $readMethods[$node->nodeName];
                     $this->$readMethod($xmlReader, $node, $section);
                 }

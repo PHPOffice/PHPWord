@@ -315,7 +315,7 @@ abstract class AbstractPart
         }
 
         // Text and TextRun
-        $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag|w:commentReference|w:commentRangeStart|w:commentRangeEnd', $domNode);
+        $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag|w:commentReference|w:commentRangeStart|w:commentRangeEnd|w:bookmarkStart', $domNode);
         if (0 === $textRunContainers) {
             $parent->addTextBreak(1, $paragraphStyle);
         } else {
@@ -469,6 +469,9 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
             }
+        } elseif ($domNode->nodeName == 'w:bookmarkStart') {
+            $name = $xmlReader->getAttribute('w:name', $domNode);
+            $parent->addBookmark($name);
         } elseif ($domNode->nodeName == 'w:r') {
             $fontStyle = $this->readFontStyle($xmlReader, $domNode);
             $nodes = $xmlReader->getElements('*', $domNode);
