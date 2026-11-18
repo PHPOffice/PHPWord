@@ -66,7 +66,10 @@ class Table extends AbstractStyle
             $method = 'getBorder' . $direction . 'Color';
             if (method_exists($style, $method)) {
                 $outval = $style->{$method}();
-                if (is_string($outval) && 1 == preg_match('/^[a-z]+$/', $outval)) {
+                if (is_string($outval) && 1 == preg_match('/^(#[0-9a-fA-F]{3,6}|[0-9a-fA-F]{3,6}|[a-z]+)$/', $outval)) {
+                    if (0 !== strpos($outval, '#') && preg_match('/^[0-9a-fA-F]{3,6}$/', $outval)) {
+                        $outval = '#' . $outval;
+                    }
                     $css['border-' . lcfirst($direction) . '-color'] = $outval;
                 }
             }
